@@ -181,13 +181,16 @@ export default function VoiceAssistant() {
         conversationId: conversationId
       });
 
-      const aiResponse = response.data.response;
+      const aiResponse = response.data.response || response.response;
+      if (!aiResponse) {
+        throw new Error('No response from AI');
+      }
       setMessages(prev => [...prev, { role: 'assistant', content: aiResponse, timestamp: new Date().toISOString() }]);
-      speakText(aiResponse);
+      await speakText(aiResponse);
     } catch (err) {
       console.error('Error getting response:', err);
       const errorMsg = "Sorry, I couldn't process that. Please try again.";
-      speakText(errorMsg);
+      await speakText(errorMsg);
     } finally {
       setIsLoading(false);
     }
