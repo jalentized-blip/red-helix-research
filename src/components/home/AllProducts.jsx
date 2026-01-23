@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
 
@@ -15,10 +17,15 @@ const categories = [
 
 export default function AllProducts({ products }) {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredProducts = activeCategory === "all" 
-    ? products 
-    : products.filter(p => p.category === activeCategory);
+  const filteredProducts = products.filter(product => {
+    const matchesCategory = activeCategory === "all" || product.category === activeCategory;
+    const matchesSearch = searchQuery === "" || 
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <section id="products" className="py-20 px-4">
@@ -35,9 +42,23 @@ export default function AllProducts({ products }) {
               All Products
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+          <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-6">
             Browse our complete catalog of research-grade peptides
           </p>
+          
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500" />
+              <Input
+                type="text"
+                placeholder="Search peptides..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500 focus:border-yellow-500/50"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Category Tabs */}
