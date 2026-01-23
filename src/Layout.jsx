@@ -142,17 +142,17 @@ const navLinks = [
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6">
-            <Link to={createPageUrl('Home')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
+          <nav className="hidden lg:flex items-center gap-1">
+            <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
               Home
             </Link>
-            <Link to={createPageUrl('About')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
+            <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
               About
             </Link>
-            <Link to={createPageUrl('Contact')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
+            <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
               Contact
             </Link>
-            <Link to={createPageUrl('Account')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
+            <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
               Account
             </Link>
             {navLinks.map((link) => 
@@ -160,7 +160,7 @@ const navLinks = [
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide"
+                  className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm"
                 >
                   {link.label}
                 </Link>
@@ -168,7 +168,7 @@ const navLinks = [
                 <button
                   key={link.label}
                   onClick={() => scrollTo(link.href)}
-                  className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide"
+                  className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm"
                 >
                   {link.label}
                 </button>
