@@ -243,16 +243,57 @@ export default function CryptoCheckout() {
               <p className="text-xs text-stone-500">Provide your wallet to track the order</p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 group">
               <label className="text-sm font-semibold text-stone-300 block">Transaction ID <span className="text-red-600">*</span></label>
-              <Input
-                type="text"
-                value={transactionId}
-                onChange={(e) => setTransactionId(e.target.value)}
-                placeholder="Enter transaction ID"
-                className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                required
-              />
+              <div className="relative">
+                <Input
+                  type="text"
+                  value={transactionId}
+                  onChange={(e) => setTransactionId(e.target.value)}
+                  placeholder="Enter transaction ID"
+                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                  required
+                />
+                <Button
+                  onClick={() => {
+                    if (transactionId.trim()) {
+                      const pollPayment = async () => {
+                        try {
+                          const result = await base44.integrations.Core.InvokeLLM({
+                            prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed on the blockchain. Return a JSON object with "exists" (boolean) and "confirmed" (boolean).`,
+                            add_context_from_internet: true,
+                            response_json_schema: {
+                              type: 'object',
+                              properties: {
+                                exists: { type: 'boolean' },
+                                confirmed: { type: 'boolean' },
+                              },
+                              required: ['exists', 'confirmed'],
+                            },
+                          });
+
+                          if (result.exists && result.confirmed) {
+                            setPaymentCleared(true);
+                            setPaymentDetected(true);
+                            setTimeout(() => {
+                              window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
+                            }, 1500);
+                          } else if (result.exists) {
+                            setPaymentDetected(true);
+                          }
+                        } catch (error) {
+                          console.error('Error checking payment:', error);
+                        }
+                      };
+                      pollPayment();
+                    }
+                  }}
+                  size="sm"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-red-700 hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  Check
+                </Button>
+              </div>
               <p className="text-xs text-stone-500">Required for order confirmation</p>
             </div>
 
