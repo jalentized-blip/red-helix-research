@@ -162,13 +162,7 @@ const navLinks = [
           
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-stone-300 hover:text-red-600 hover:bg-red-600/10"
-            >
-              <Search className="w-5 h-5" />
-            </Button>
+
 
             <Link to={createPageUrl('Cart')}>
               <Button 
