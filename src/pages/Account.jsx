@@ -124,52 +124,17 @@ export default function Account() {
           </div>
         </div>
 
-        {/* Orders Section */}
-        <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-            <ShoppingBag className="w-6 h-6 text-red-600" />
-            Order History
-          </h2>
-
-          {orders.length === 0 ? (
-            <div className="text-center py-12">
-              <ShoppingBag className="w-12 h-12 text-stone-600 mx-auto mb-4" />
-              <p className="text-stone-400 mb-4">No orders yet</p>
-              <Link to={createPageUrl('Home')}>
-                <Button className="bg-red-600 hover:bg-red-700 text-amber-50">
-                  Start Shopping
-                </Button>
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Order ID</p>
-                      <p className="text-amber-50 font-semibold text-sm">{order.id}</p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Date</p>
-                      <p className="text-amber-50 font-semibold text-sm">
-                        {new Date(order.created_date).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Status</p>
-                      <p className="text-green-400 font-semibold text-sm">Completed</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-stone-400 text-sm mb-1">Amount</p>
-                      <p className="text-red-600 font-bold text-sm">View Details</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Orders Info */}
+         <div className="bg-blue-900/20 border border-blue-600/30 rounded-lg p-6 text-center">
+           <Package className="w-8 h-8 text-blue-400 mx-auto mb-3" />
+           <h3 className="text-lg font-semibold text-blue-300 mb-2">View Your Orders</h3>
+           <p className="text-blue-200 text-sm mb-4">Track shipments and manage your orders in real-time</p>
+           <Link to={createPageUrl('OrderTracking')}>
+             <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+               Go to Order Tracking
+             </Button>
+           </Link>
+         </div>
       </div>
     </div>
   );
