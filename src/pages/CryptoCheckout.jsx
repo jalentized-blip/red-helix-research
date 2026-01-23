@@ -407,12 +407,61 @@ export default function CryptoCheckout() {
           </div>
           </div>
 
-          {/* Progress Bar */}
-          <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-12 bg-stone-900/50 border border-stone-700 rounded-lg p-6"
-          >
+          {/* Blockchain Confirmation Disclaimer Modal */}
+          <Dialog open={disclaimerOpen} onOpenChange={setDisclaimerOpen}>
+            <DialogContent className="max-w-lg bg-stone-900 border-stone-700">
+              <DialogHeader>
+                <DialogTitle className="text-amber-50">Blockchain Confirmation Times</DialogTitle>
+                <DialogDescription className="text-stone-400 mt-4 space-y-3">
+                  <p>
+                    When you send a cryptocurrency payment, the blockchain network needs to verify and confirm your transaction. Here's what to expect:
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <p className="font-semibold text-amber-50">Bitcoin (BTC)</p>
+                      <p className="text-stone-400">Typically 10-60 minutes per confirmation. Average: 1-3 confirmations required (30 min - 3 hours)</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-amber-50">Ethereum (ETH)</p>
+                      <p className="text-stone-400">Typically 15-30 seconds per block. Usually confirmed within 1-5 minutes</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-amber-50">USDT / USDC</p>
+                      <p className="text-stone-400">Depends on blockchain. Ethereum-based: 1-5 minutes. Polygon/Solana: seconds to minutes</p>
+                    </div>
+                  </div>
+                  <div className="bg-amber-900/20 border border-amber-700/50 rounded p-3 mt-4">
+                    <p className="text-amber-600 text-xs font-semibold">
+                      ⚠️ Your payment will be automatically detected once the blockchain confirms the transaction. Network congestion or gas prices may affect confirmation times. Please be patient.
+                    </p>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex gap-3 mt-6">
+                <Button
+                  onClick={() => setDisclaimerOpen(false)}
+                  variant="outline"
+                  className="flex-1 border-stone-700 text-stone-300 hover:text-stone-100"
+                >
+                  Back
+                </Button>
+                <Button
+                  onClick={handleConfirmDisclaimer}
+                  className="flex-1 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
+                >
+                  I Understand, Continue
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+                    {/* Progress Bar */}
+                    <motion.div
+                    ref={progressRef}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-12 bg-stone-900/50 border border-stone-700 rounded-lg p-6"
+                    >
           <div className="mb-4">
           <p className="text-sm font-semibold text-stone-300 mb-2">Transaction Progress</p>
           <div className="w-full bg-stone-800 rounded-full h-3 overflow-hidden">
