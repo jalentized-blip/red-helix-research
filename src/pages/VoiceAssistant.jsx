@@ -1,18 +1,45 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Mic } from 'lucide-react';
+import { ArrowLeft, Mic, Save, Download, Trash2, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const ELEVENLABS_VOICES = [
+  { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel' },
+  { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella' },
+  { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Aria' },
+  { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam' },
+  { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam' },
+];
 
 export default function VoiceAssistant() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState('');
-  const [responses, setResponses] = useState([]);
-  const [recordingAmplitude, setRecordingAmplitude] = useState(0);
+  const [messages, setMessages] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(ELEVENLABS_VOICES[0].id);
+  const [conversationId, setConversationId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [conversationTitle, setConversationTitle] = useState('');
+  const [savedConversations, setSavedConversations] = useState([]);
   const audioRef = useRef(null);
   const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    loadSavedConversations();
+  }, []);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -67,7 +94,8 @@ export default function VoiceAssistant() {
     try {
       setIsSpeaking(true);
       const response = await base44.functions.invoke('textToSpeech', {
-        text: textToSpeak
+        text: textToSpeak,
+        voice_id: selectedVoice
       });
 
       const audioUrl = response.data.audioUrl;
@@ -83,13 +111,93 @@ export default function VoiceAssistant() {
     }
   };
 
+  const loadSavedConversations = async () => {
+    try {
+      const conversations = await base44.entities.ConversationHistory.list();
+      setSavedConversations(conversations.reverse());
+    } catch (err) {
+      console.error('Error loading conversations:', err);
+    }
+  };
+
+  const loadConversation = async (conv) => {
+    setConversationId(conv.id);
+    setMessages(conv.messages || []);
+    setSelectedVoice(conv.voice_id || ELEVENLABS_VOICES[0].id);
+  };
+
+  const newConversation = () => {
+    setConversationId(null);
+    setMessages([]);
+    setConversationTitle('');
+  };
+
+  const saveConversation = async () => {
+    if (!conversationTitle.trim()) return;
+
+    try {
+      if (conversationId) {
+        await base44.entities.ConversationHistory.update(conversationId, {
+          title: conversationTitle,
+          messages,
+          voice_id: selectedVoice,
+          last_message_at: new Date().toISOString()
+        });
+      } else {
+        const newConv = await base44.entities.ConversationHistory.create({
+          conversation_id: `conv_${Date.now()}`,
+          title: conversationTitle,
+          messages,
+          voice_id: selectedVoice,
+          last_message_at: new Date().toISOString()
+        });
+        setConversationId(newConv.id);
+      }
+      setShowSaveDialog(false);
+      loadSavedConversations();
+    } catch (err) {
+      console.error('Error saving conversation:', err);
+    }
+  };
+
+  const deleteConversation = async (convId) => {
+    try {
+      await base44.entities.ConversationHistory.delete(convId);
+      if (conversationId === convId) newConversation();
+      loadSavedConversations();
+    } catch (err) {
+      console.error('Error deleting conversation:', err);
+    }
+  };
+
+  const handleProcessTranscript = async (finalTranscript) => {
+    setMessages(prev => [...prev, { role: 'user', content: finalTranscript, timestamp: new Date().toISOString() }]);
+    setTranscript('');
+    setIsLoading(true);
+
+    try {
+      const response = await base44.functions.invoke('aiVoiceResponse', {
+        userMessage: finalTranscript,
+        conversationId: conversationId
+      });
+
+      const aiResponse = response.data.response;
+      setMessages(prev => [...prev, { role: 'assistant', content: aiResponse, timestamp: new Date().toISOString() }]);
+      speakText(aiResponse);
+    } catch (err) {
+      console.error('Error getting response:', err);
+      const errorMsg = "Sorry, I couldn't process that. Please try again.";
+      speakText(errorMsg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!isRecording && transcript && !transcript.includes('(interim)')) {
       const finalTranscript = transcript.replace('(interim)', '').trim();
       if (finalTranscript) {
-        setResponses(prev => [...prev, { id: Date.now(), text: finalTranscript }]);
-        setTranscript('');
-        speakText(finalTranscript);
+        handleProcessTranscript(finalTranscript);
       }
     }
   }, [isRecording]);
