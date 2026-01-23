@@ -77,11 +77,19 @@ export default function PeptideAI() {
       recognition.onend = () => {
         setIsListening(false);
         setTranscript('');
-        // Auto-continue listening if in voice call mode
+        // Auto-send if in voice call mode and there's input
         if (voiceCallActive && autoRecordNext) {
           setTimeout(() => {
-            recognition.start();
-          }, 500);
+            // Access input directly from state - we'll need to handle this differently
+            const inputField = document.querySelector('input[placeholder*="Ask about peptides"]');
+            if (inputField && inputField.value.trim()) {
+              // Trigger the form submission
+              inputField.form.dispatchEvent(new Event('submit', { bubbles: true }));
+            } else {
+              // If no input, continue listening
+              recognition.start();
+            }
+          }, 300);
         }
       };
 
