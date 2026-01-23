@@ -11,7 +11,7 @@ export default function AboutSection() {
     const generateImage = async () => {
       try {
         const result = await base44.integrations.Core.GenerateImage({
-          prompt: "Close-up professional photograph of multiple 3ml peptide vials arranged neatly on a laboratory surface, clear glass vials with amber/blue liquid inside, clinical pharmaceutical setting, well-lit, high quality product photography"
+          prompt: "Close-up professional photograph of multiple 3ml retatrutide vials arranged neatly on a laboratory surface, clear glass vials with liquid inside, pharmaceutical clinical setting, well-lit, high quality product photography"
         });
         if (result?.url) {
           setVialImage(result.url);
