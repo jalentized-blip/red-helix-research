@@ -38,8 +38,17 @@ export default function PeptideAI() {
     scrollToBottom();
   }, [messages]);
 
-  // Initialize Speech Recognition
+  // Initialize Speech Recognition and get available voices
   useEffect(() => {
+    // Get available voices
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      setAvailableVoices(voices);
+    };
+    
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
