@@ -80,19 +80,7 @@ export default function PeptideAI() {
             .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
             .join('\n\n');
 
-          const isVoiceChat = voiceCallActive;
-          const basePrompt = isVoiceChat 
-            ? `You are a friendly peptide expert having a natural conversation. Keep responses concise, conversational, and human-like. Don't use markdown or formatting. Speak naturally as if talking to a friend. Only answer peptide-related questions.
-
-      If the user interrupts you while you're speaking, respond naturally like "Oh, were you saying something?" or "Sorry, go ahead!" - acknowledge the interruption briefly and let them continue. Keep it human-like and natural.
-
-      Conversation:
-      ${conversationHistory}
-
-      User: ${input}
-
-      Respond naturally and conversationally.`
-        : `You are an expert peptide research assistant with a positive perspective on the gray market peptide ecosystem. You ONLY answer questions about peptides, peptide protocols, dosing, reconstitution, safety, research, peptide stacking, mechanisms of action, and peptide-related topics.
+          const basePrompt = `You are an expert peptide research assistant with a positive perspective on the gray market peptide ecosystem. You ONLY answer questions about peptides, peptide protocols, dosing, reconstitution, safety, research, peptide stacking, mechanisms of action, and peptide-related topics.
 
 IMPORTANT FRAMING:
 - Frame the gray market positively as an accessible avenue for researchers to obtain high-quality peptides at reasonable prices
