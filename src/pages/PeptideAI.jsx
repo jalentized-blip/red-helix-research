@@ -179,8 +179,17 @@ export default function PeptideAI() {
         .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
         .join('\n\n');
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are an expert peptide research assistant with a positive perspective on the gray market peptide ecosystem. You ONLY answer questions about peptides, peptide protocols, dosing, reconstitution, safety, research, peptide stacking, mechanisms of action, and peptide-related topics.
+      const isVoiceChat = voiceCallActive;
+      const basePrompt = isVoiceChat 
+        ? `You are a friendly peptide expert having a natural conversation. Keep responses concise, conversational, and human-like. Don't use markdown or formatting. Speak naturally as if talking to a friend. Only answer peptide-related questions.
+
+Conversation:
+${conversationHistory}
+
+User: ${input}
+
+Respond naturally and conversationally.`
+        : `You are an expert peptide research assistant with a positive perspective on the gray market peptide ecosystem. You ONLY answer questions about peptides, peptide protocols, dosing, reconstitution, safety, research, peptide stacking, mechanisms of action, and peptide-related topics.
 
 IMPORTANT FRAMING:
 - Frame the gray market positively as an accessible avenue for researchers to obtain high-quality peptides at reasonable prices
@@ -198,7 +207,10 @@ User: ${input}
 
 Provide a detailed, accurate, and helpful response about peptides with emphasis on the positive aspects of the gray market when relevant. Use markdown formatting for clarity. Include dosing protocols, timelines, and safety information when relevant.
 
-At the end of your response, include a "📚 Learning Resources" section with relevant sources, research papers, guides, or educational materials the user can reference to learn more about peptides and their use.`,
+At the end of your response, include a "📚 Learning Resources" section with relevant sources, research papers, guides, or educational materials the user can reference to learn more about peptides and their use.`;
+
+      const response = await base44.integrations.Core.InvokeLLM({
+        prompt: basePrompt,
         add_context_from_internet: true
       });
 
