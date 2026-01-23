@@ -315,7 +315,7 @@ export default function PeptideCalculator() {
                       ))}
                     </svg>
                   </div>
-                  <p className="text-stone-400 text-sm text-center">Draw {drawAmount} mL from 3mL vial using 1mL syringe</p>
+                  <p className="text-stone-400 text-sm text-center">Draw to {drawAmount} mL mark</p>
                 </div>
 
                 {/* Result Cards */}
