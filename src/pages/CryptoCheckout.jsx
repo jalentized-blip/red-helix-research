@@ -315,15 +315,16 @@ export default function CryptoCheckout() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-stone-300 block">Transaction ID (Optional)</label>
+              <label className="text-sm font-semibold text-stone-300 block">Transaction ID <span className="text-red-600">*</span></label>
               <Input
                 type="text"
                 value={transactionId}
                 onChange={(e) => setTransactionId(e.target.value)}
-                placeholder="Paste transaction ID for faster confirmation"
+                placeholder="Paste your transaction ID"
                 className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                required
               />
-              <p className="text-xs text-stone-500">Auto-verified for instant confirmation</p>
+              <p className="text-xs text-stone-500">Auto-verified against blockchain</p>
             </div>
 
             <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
