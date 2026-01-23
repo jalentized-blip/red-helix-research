@@ -173,13 +173,16 @@ import React, { useState, useRef, useEffect } from 'react';
   };
 
   useEffect(() => {
-    if (!isRecording && transcript && !transcript.includes('(interim)')) {
+    if (isRecording === false && transcript && !transcript.includes('(interim)')) {
       const finalTranscript = transcript.replace('(interim)', '').trim();
       if (finalTranscript) {
-        handleSendMessage(null, finalTranscript);
+        // Capture transcript before it gets cleared
+        const messageToSend = finalTranscript;
+        setTranscript(''); // Clear for next recording
+        handleSendMessage(null, messageToSend);
       }
     }
-  }, [isRecording, transcript]);
+  }, [isRecording]);
 
   return (
     <div className="min-h-screen bg-stone-950 pt-24 pb-20 flex flex-col">
