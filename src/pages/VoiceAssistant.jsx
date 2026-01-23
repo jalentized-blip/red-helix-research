@@ -1,18 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ArrowLeft, Send, Loader2, Volume2, Mic, Square } from 'lucide-react';
+import { ArrowLeft, Mic } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 
 export default function VoiceAssistant() {
-  const [text, setText] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [responses, setResponses] = useState([]);
+  const [recordingAmplitude, setRecordingAmplitude] = useState(0);
   const audioRef = useRef(null);
   const recognitionRef = useRef(null);
 
