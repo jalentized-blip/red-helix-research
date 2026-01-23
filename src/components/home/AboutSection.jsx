@@ -67,8 +67,8 @@ export default function AboutSection() {
           >
             <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-stone-700">
               <img 
-                src="https://images.unsplash.com/photo-1584308666744-24d5f18f8f5e?w=800&q=80"
-                alt="Pharmaceutical vials production line"
+                src="https://images.unsplash.com/photo-1530836369250-ef72a3f26da8?w=800&q=80"
+                alt="Peptide vials"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 to-transparent" />
