@@ -22,18 +22,38 @@ const navLinks = [
         const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
         const [logoScale, setLogoScale] = useState(1);
         const [logoModalOpen, setLogoModalOpen] = useState(false);
+        const [magnifyingGlassOpacity, setMagnifyingGlassOpacity] = useState(0.25);
+        const [magnifyingGlassBlur, setMagnifyingGlassBlur] = useState(0);
+        const [magnifyingGlassScale, setMagnifyingGlassScale] = useState(1);
+        const [lastScrollY, setLastScrollY] = useState(0);
 
         useEffect(() => {
           const handleScroll = () => {
             setScrolled(window.scrollY > 50);
-            
+
+            // Calculate scroll speed and update magnifying glass
+            const scrollSpeed = Math.abs(window.scrollY - lastScrollY);
+            setLastScrollY(window.scrollY);
+
+            if (window.scrollY === 0) {
+              // At top - show magnifying glass
+              setMagnifyingGlassOpacity(0.25);
+              setMagnifyingGlassBlur(0);
+              setMagnifyingGlassScale(1);
+            } else {
+              // Scrolling - scale down and blur based on speed
+              setMagnifyingGlassScale(Math.max(0, 1 - window.scrollY * 0.01));
+              setMagnifyingGlassBlur(Math.min(20, scrollSpeed * 0.5));
+              setMagnifyingGlassOpacity(0);
+            }
+
             // Find the DollarSign icons in ValueProposition
             const dollarSigns = document.querySelectorAll('[data-testid="dollar-icon"]');
             if (dollarSigns.length > 0) {
               const firstDollar = dollarSigns[0];
               const rect = firstDollar.getBoundingClientRect();
               const dollarTop = window.scrollY + rect.top;
-              
+
               if (window.scrollY > dollarTop) {
                 // Past the dollar signs - minimize and fade
                 setLogoScale(0.3);
@@ -47,7 +67,7 @@ const navLinks = [
           };
           window.addEventListener('scroll', handleScroll);
           return () => window.removeEventListener('scroll', handleScroll);
-        }, []);
+        }, [lastScrollY]);
 
         useEffect(() => {
           setCartCount(getCartCount());
