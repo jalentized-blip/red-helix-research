@@ -28,8 +28,20 @@ export default function AllProducts({ products, onSelectStrength }) {
   });
 
   return (
-    <section id="products" className="py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+    <section id="products" className="py-20 px-4 relative">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          className="absolute bottom-20 left-20 text-red-600/20 text-5xl"
+          animate={{ y: [-10, 10, -10], x: [0, 10, 0] }}
+          transition={{ duration: 10, repeat: Infinity }}
+        >
+          <svg width="80" height="80" viewBox="0 0 100 100">
+            <path d="M 50 10 Q 90 50 50 90 Q 10 50 50 10 Z" fill="none" stroke="currentColor" strokeWidth="2" />
+            <circle cx="50" cy="50" r="8" fill="currentColor" />
+          </svg>
+        </motion.div>
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
