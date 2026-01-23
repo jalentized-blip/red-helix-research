@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, getCartTotal, clearCart } from '@/components/utils/cart';
-import { Trash2, ShoppingBag, ArrowLeft } from 'lucide-react';
+import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode } from '@/components/utils/cart';
+import { Trash2, ShoppingBag, ArrowLeft, X, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
+  const [promoCode, setPromoCode] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState(getPromoCode());
+  const [promoError, setPromoError] = useState('');
 
   useEffect(() => {
     setCartItems(getCart());
+    setAppliedPromo(getPromoCode());
     const handleCartUpdate = () => setCartItems(getCart());
+    const handlePromoUpdate = () => setAppliedPromo(getPromoCode());
     window.addEventListener('cartUpdated', handleCartUpdate);
-    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
+    window.addEventListener('promoUpdated', handlePromoUpdate);
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdate);
+      window.removeEventListener('promoUpdated', handlePromoUpdate);
+    };
   }, []);
 
   const handleRemoveItem = (itemId) => {
@@ -25,7 +34,25 @@ export default function Cart() {
     setCartItems([]);
   };
 
+  const handleApplyPromo = () => {
+    if (addPromoCode(promoCode)) {
+      setAppliedPromo(promoCode.toUpperCase());
+      setPromoCode('');
+      setPromoError('');
+    } else {
+      setPromoError('Invalid promo code');
+    }
+  };
+
+  const handleRemovePromo = () => {
+    removePromoCode();
+    setAppliedPromo(null);
+    setPromoError('');
+  };
+
   const total = getCartTotal();
+  const discount = appliedPromo ? getDiscountAmount(appliedPromo, total) : 0;
+  const finalTotal = total - discount;
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
@@ -84,18 +111,69 @@ export default function Cart() {
             <div className="lg:col-span-1">
               <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-32">
                 <h2 className="text-xl font-bold text-amber-50 mb-6">Order Summary</h2>
+
+                {/* Promo Code Section */}
+                <div className="mb-6 p-4 bg-stone-800/50 rounded-lg">
+                  {appliedPromo ? (
+                    <div className="flex items-center justify-between bg-green-600/20 border border-green-600/50 rounded p-3">
+                      <div className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        <span className="text-sm font-semibold text-green-600">{appliedPromo}</span>
+                      </div>
+                      <button
+                        onClick={handleRemovePromo}
+                        className="text-green-600 hover:text-green-500"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-stone-300 block">Promo Code</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={promoCode}
+                          onChange={(e) => {
+                            setPromoCode(e.target.value.toUpperCase());
+                            setPromoError('');
+                          }}
+                          placeholder="Enter code"
+                          className="flex-1 bg-stone-700 border border-stone-600 rounded px-3 py-2 text-sm text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
+                        />
+                        <Button
+                          onClick={handleApplyPromo}
+                          size="sm"
+                          className="bg-red-700 hover:bg-red-600 text-amber-50"
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                      {promoError && (
+                        <p className="text-xs text-red-500">{promoError}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-stone-300">
                     <span>Subtotal</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
+                  {discount > 0 && (
+                    <div className="flex justify-between text-green-600">
+                      <span>Discount</span>
+                      <span>-${discount.toFixed(2)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-stone-300">
                     <span>Shipping</span>
                     <span className="text-green-600">Free</span>
                   </div>
                   <div className="border-t border-stone-700 pt-3 flex justify-between text-amber-50 font-bold text-lg">
                     <span>Total</span>
-                    <span className="text-red-600">${total.toFixed(2)}</span>
+                    <span className="text-red-600">${finalTotal.toFixed(2)}</span>
                   </div>
                 </div>
 
