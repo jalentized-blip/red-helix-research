@@ -70,14 +70,14 @@ export default function CryptoCheckout() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Poll for payment detection
+  // Poll for payment detection and auto-redirect
   useEffect(() => {
     if (!transactionId || paymentCleared) return;
 
     const pollPayment = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed. Return a JSON object with "exists" (boolean) and "confirmed" (boolean) indicating if the transaction is confirmed on the blockchain.`,
+          prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed on the blockchain. Return a JSON object with "exists" (boolean) and "confirmed" (boolean).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -93,6 +93,10 @@ export default function CryptoCheckout() {
           setPaymentDetected(true);
           if (result.confirmed) {
             setPaymentCleared(true);
+            // Auto-redirect to payment completed page
+            setTimeout(() => {
+              window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
+            }, 2000);
           }
         }
       } catch (error) {
@@ -100,7 +104,9 @@ export default function CryptoCheckout() {
       }
     };
 
-    const interval = setInterval(pollPayment, 10000); // Poll every 10 seconds
+    // Check immediately on first load, then every 10 seconds
+    pollPayment();
+    const interval = setInterval(pollPayment, 10000);
     return () => clearInterval(interval);
   }, [transactionId, paymentCleared]);
 
