@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Send, Loader2, AlertCircle, Mic, Square } from 'lucide-react';
+import { ArrowLeft, Send, Loader2, AlertCircle, Mic, Square, Phone, PhoneOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
