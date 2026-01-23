@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,35 @@ export default function AgeGate() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is already logged in and verified
+    const checkExistingUser = async () => {
+      try {
+        const user = await base44.auth.me();
+        if (user && user.age_verified) {
+          navigate(createPageUrl('Home'));
+        }
+      } catch {
+        // Not logged in, show age gate
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkExistingUser();
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex items-center justify-center">
+        <p className="text-stone-400">Loading...</p>
+      </div>
+    );
+  }
 
   const handleAgeConfirm = (confirmed) => {
     if (!confirmed) {
