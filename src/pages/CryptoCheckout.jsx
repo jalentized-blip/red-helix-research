@@ -70,45 +70,86 @@ export default function CryptoCheckout() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Poll for payment detection and auto-redirect
+  // Auto-detect payment by monitoring wallet address for incoming transactions
+  useEffect(() => {
+    if (!walletAddress || paymentCleared) return;
+
+    const pollWalletPayment = async () => {
+      try {
+        const result = await base44.integrations.Core.InvokeLLM({
+          prompt: `Monitor the ${selectedCrypto} wallet address "${walletAddress}" for incoming transactions. Check if any transaction has been received in the last 30 minutes with an amount equal to or greater than ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD). Return a JSON object with "paymentDetected" (boolean), "transactionId" (string or null), "amount" (number or null), "confirmed" (boolean), and "confirmations" (number or null). Only return true if amount matches and has at least 1 confirmation.`,
+          add_context_from_internet: true,
+          response_json_schema: {
+            type: 'object',
+            properties: {
+              paymentDetected: { type: 'boolean' },
+              transactionId: { type: ['string', 'null'] },
+              amount: { type: ['number', 'null'] },
+              confirmed: { type: 'boolean' },
+              confirmations: { type: ['number', 'null'] },
+            },
+            required: ['paymentDetected', 'transactionId', 'amount', 'confirmed', 'confirmations'],
+          },
+        });
+
+        if (result.paymentDetected && result.transactionId) {
+          setTransactionId(result.transactionId);
+          setPaymentDetected(true);
+          if (result.confirmed && result.confirmations >= 1) {
+            setPaymentCleared(true);
+            setTimeout(() => {
+              window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(result.transactionId)}`;
+            }, 1500);
+          }
+        }
+      } catch (error) {
+        console.error('Error monitoring wallet:', error);
+      }
+    };
+
+    pollWalletPayment();
+    const interval = setInterval(pollWalletPayment, 8000);
+    return () => clearInterval(interval);
+  }, [walletAddress, selectedCrypto, cryptoAmount, finalTotal, paymentCleared]);
+
+  // Poll for manual transaction ID verification
   useEffect(() => {
     if (!transactionId || paymentCleared) return;
 
     const pollPayment = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed on the blockchain. Return a JSON object with "exists" (boolean) and "confirmed" (boolean).`,
+          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount is ${cryptoAmount} ${selectedCrypto}, 3) Destination matches payment address, 4) Has at least 1 confirmation. Return JSON with "valid" (boolean - true only if all 4 criteria met), "confirmed" (boolean), and "error" (string or null).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
             properties: {
-              exists: { type: 'boolean' },
+              valid: { type: 'boolean' },
               confirmed: { type: 'boolean' },
+              error: { type: ['string', 'null'] },
             },
-            required: ['exists', 'confirmed'],
+            required: ['valid', 'confirmed', 'error'],
           },
         });
-        
-        if (result.exists) {
+
+        if (result.valid && result.confirmed) {
+          setPaymentCleared(true);
           setPaymentDetected(true);
-          if (result.confirmed) {
-            setPaymentCleared(true);
-            // Auto-redirect to payment completed page
-            setTimeout(() => {
-              window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
-            }, 2000);
-          }
+          setTimeout(() => {
+            window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
+          }, 1500);
+        } else if (result.error) {
+          console.error('Transaction validation error:', result.error);
         }
       } catch (error) {
         console.error('Error checking payment:', error);
       }
     };
 
-    // Check immediately on first load, then every 10 seconds
     pollPayment();
     const interval = setInterval(pollPayment, 10000);
     return () => clearInterval(interval);
-  }, [transactionId, paymentCleared]);
+  }, [transactionId, selectedCrypto, cryptoAmount, paymentCleared]);
 
 
 
