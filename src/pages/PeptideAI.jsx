@@ -315,6 +315,24 @@ At the end of your response, include a "📚 Learning Resources" section with re
           <div ref={messagesEndRef} />
         </div>
 
+        {/* Voice Selection */}
+        {availableVoices.length > 0 && (
+          <div className="flex items-center gap-3 bg-stone-800/50 border border-stone-700 rounded-lg p-3">
+            <label className="text-xs font-semibold text-stone-400 whitespace-nowrap">AI Voice:</label>
+            <select
+              value={selectedVoice}
+              onChange={(e) => setSelectedVoice(Number(e.target.value))}
+              className="flex-1 bg-stone-700 border border-stone-600 rounded px-3 py-2 text-sm text-amber-50 focus:outline-none focus:border-red-600"
+            >
+              {availableVoices.map((voice, idx) => (
+                <option key={idx} value={idx}>
+                  {voice.name} {voice.lang && `(${voice.lang})`}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {/* Input Area */}
         <form onSubmit={handleSendMessage} className="space-y-2">
           <div className="relative">
@@ -323,27 +341,29 @@ At the end of your response, include a "📚 Learning Resources" section with re
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={isListening ? `Listening...${transcript && ` "${transcript}"`}` : "Ask about peptides, protocols, dosing, safety..."}
-              className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500 pr-24"
-              disabled={loading}
+              className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500 pr-40"
+              disabled={loading || voiceCallActive}
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-              {isListening ? (
-                <Button
+              {voiceCallActive ? (
+                <motion.button
                   type="button"
-                  onClick={stopListening}
-                  className="bg-red-600 hover:bg-red-700 text-amber-50 px-3 gap-2"
+                  onClick={endVoiceCall}
+                  className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-amber-50 px-3 py-2 rounded text-sm font-semibold"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ repeat: Infinity, duration: 1 }}
                 >
-                  <Square className="w-4 h-4" />
-                  Stop
-                </Button>
+                  <PhoneOff className="w-4 h-4" />
+                  End
+                </motion.button>
               ) : (
                 <Button
                   type="button"
-                  onClick={startListening}
-                  className="bg-blue-600 hover:bg-blue-700 text-amber-50 px-3 gap-2"
+                  onClick={startVoiceCall}
+                  className="bg-green-600 hover:bg-green-700 text-amber-50 px-3 gap-2"
                   disabled={loading}
                 >
-                  <Mic className="w-4 h-4" />
+                  <Phone className="w-4 h-4" />
                 </Button>
               )}
               <Button
