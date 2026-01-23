@@ -46,12 +46,19 @@ export default function PeptideCalculator() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       {/* Header */}
-      <div className="max-w-6xl mx-auto px-4 mb-12">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-black text-amber-50 mb-3">Peptide Reconstitution Calculator</h1>
-          <p className="text-stone-400 text-lg">Calculate your peptide dosage with precision</p>
-        </div>
-      </div>
+            <div className="max-w-6xl mx-auto px-4 mb-12">
+              <div className="text-center mb-8">
+                <h1 className="text-5xl font-black text-amber-50 mb-3">Peptide Reconstitution Calculator</h1>
+                <p className="text-stone-400 text-lg">Calculate your peptide dosage with precision</p>
+              </div>
+
+              {/* Disclaimer */}
+              <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg p-4 mb-8">
+                <p className="text-yellow-100 text-sm text-center">
+                  <span className="font-semibold">⚠️ Disclaimer:</span> This calculator is strictly for research purposes only. All peptides are sold for research use only and are not intended for human consumption. Always follow local laws and regulations.
+                </p>
+              </div>
+            </div>
 
       {/* Main Calculator Grid */}
       <div className="max-w-6xl mx-auto px-4">
