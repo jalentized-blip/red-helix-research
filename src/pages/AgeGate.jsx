@@ -310,9 +310,10 @@ export default function AgeGate() {
 
             <Button
               type="submit"
+              disabled={authLoading}
               className="w-full bg-red-600 hover:bg-red-700 text-amber-50 text-lg py-6"
             >
-              {isSignIn ? 'Sign In & Continue' : 'Sign Up & Continue'}
+              {authLoading ? 'Processing...' : (isSignIn ? 'Sign In & Continue' : 'Sign Up & Continue')}
             </Button>
           </form>
 
