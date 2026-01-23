@@ -29,7 +29,7 @@ export default function VoiceAssistant() {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [messages, setMessages] = useState([]);
-  const [selectedVoice, setSelectedVoice] = useState(ELEVENLABS_VOICES[0].id);
+  const [selectedVoice, setSelectedVoice] = useState('default');
   const [conversationId, setConversationId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
