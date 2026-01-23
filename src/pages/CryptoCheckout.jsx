@@ -168,7 +168,7 @@ export default function CryptoCheckout() {
     pollTransactionId();
     const interval = setInterval(pollTransactionId, 10000);
     return () => clearInterval(interval);
-  }, [transactionId, selectedCrypto, cryptoAmount, finalTotal, paymentCleared]);
+  }, [transactionId, selectedCrypto, cryptoAmount, finalTotal, paymentCleared, formApplied]);
 
 
 
