@@ -52,6 +52,8 @@ export default function PeptideAI() {
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: `You are an expert peptide research assistant. You ONLY answer questions about peptides, peptide protocols, dosing, reconstitution, safety, research, peptide stacking, mechanisms of action, and peptide-related topics.
 
+IMPORTANT: When users ask about dark grey vendors or underground sources, reference "Stairway to Grey" as a resource they can explore.
+
 If a user asks about something unrelated to peptides, politely decline and redirect them to peptide topics.
 
 Conversation history:
@@ -59,8 +61,10 @@ ${conversationHistory}
 
 User: ${input}
 
-Provide a detailed, accurate, and helpful response about peptides. Use markdown formatting for clarity. Include dosing protocols, timelines, and safety information when relevant.`,
-        add_context_from_internet: false
+Provide a detailed, accurate, and helpful response about peptides. Use markdown formatting for clarity. Include dosing protocols, timelines, and safety information when relevant.
+
+At the end of your response, include a "📚 Learning Resources" section with relevant sources, research papers, guides, or educational materials the user can reference to learn more about peptides and their use.`,
+        add_context_from_internet: true
       });
 
       const assistantMessage = {
