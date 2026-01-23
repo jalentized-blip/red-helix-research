@@ -67,10 +67,10 @@ export default function CryptoCheckout() {
 
   // Calculate progress based on transaction stages
   let progress = 0;
-  if (walletAddress) progress = 25;
-  if (transactionId) progress = 50;
-  if (paymentDetected) progress = 75;
-  if (paymentCleared) progress = 100;
+  if (formApplied && walletAddress) progress = 25;
+  if (formApplied && transactionId) progress = 50;
+  if (formApplied && paymentDetected) progress = 75;
+  if (formApplied && paymentCleared) progress = 100;
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(paymentAddress);
