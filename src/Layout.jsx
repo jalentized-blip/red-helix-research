@@ -96,9 +96,11 @@ const navLinks = [
 
           window.addEventListener('mousemove', handleMouseMove);
           return () => window.removeEventListener('mousemove', handleMouseMove);
-        }, []);
+                }, []);
 
-  const scrollTo = (id) => {
+          const whatsappLink = 'https://wa.me/14056936072';
+
+          const scrollTo = (id) => {
     const element = document.getElementById(id.replace('#', ''));
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
