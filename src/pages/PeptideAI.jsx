@@ -59,6 +59,12 @@ export default function PeptideAI() {
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcriptSegment = event.results[i][0].transcript;
           if (event.results[i].isFinal) {
+            // If user interrupts while AI is speaking
+            if (isSpeaking && audioRef.current) {
+              audioRef.current.pause();
+              audioRef.current.currentTime = 0;
+              setIsSpeaking(false);
+            }
             setInput(prev => prev + transcriptSegment);
           } else {
             interim += transcriptSegment;
