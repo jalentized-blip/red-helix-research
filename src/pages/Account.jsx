@@ -42,9 +42,16 @@ export default function Account() {
 
   const handleLogout = async () => {
     try {
-      await base44.auth.logout(createPageUrl('Home'));
+      // Clear any cached auth data
+      localStorage.clear();
+      sessionStorage.clear();
+      await base44.auth.logout();
+      // Force full page reload to clear all session data
+      window.location.href = createPageUrl('Home');
     } catch (error) {
       console.error('Logout error:', error);
+      localStorage.clear();
+      sessionStorage.clear();
       window.location.href = createPageUrl('Home');
     }
   };
