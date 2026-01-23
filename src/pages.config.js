@@ -11,6 +11,7 @@ import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import GroupBuy from './pages/GroupBuy';
+import Forums from './pages/Forums';
 import __Layout from './Layout.jsx';
 
 
@@ -28,6 +29,7 @@ export const PAGES = {
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "GroupBuy": GroupBuy,
+    "Forums": Forums,
 }
 
 export const pagesConfig = {
