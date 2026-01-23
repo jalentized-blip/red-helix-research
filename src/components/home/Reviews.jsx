@@ -88,7 +88,10 @@ export default function Reviews() {
           className="text-center"
         >
           <p className="text-neutral-400 mb-4">Want to see more reviews? Join our community!</p>
-          <Button className="bg-[#5865F2] hover:bg-[#4752C4] text-white">
+          <Button 
+            className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+            onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}
+          >
             <ExternalLink className="w-4 h-4 mr-2" />
             Join Discord for 500+ Reviews
           </Button>
