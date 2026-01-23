@@ -98,7 +98,7 @@ const navLinks = [
           return () => window.removeEventListener('mousemove', handleMouseMove);
                 }, []);
 
-          const whatsappLink = 'https://wa.me/14056936072';
+          const telegramLink = 'https://t.me/+14056936072';
 
           const scrollTo = (id) => {
     const element = document.getElementById(id.replace('#', ''));
