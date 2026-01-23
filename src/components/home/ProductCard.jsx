@@ -3,7 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell } from "lucide-react";
+import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell, Lock } from "lucide-react";
+import { base44 } from '@/api/base44Client';
+import { createPageUrl } from '@/utils';
 
 const badgeConfig = {
   bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-500/20 text-red-400 border-red-500/30" },
