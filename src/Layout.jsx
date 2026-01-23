@@ -8,12 +8,11 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const navLinks = [
-              { label: "Peptides", href: "#products" },
-              { label: "Peptide Blends", href: "#goals" },
-              { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
-              { label: "Certificates", href: "#certificates" },
-              { label: "FAQ", href: "#faq" },
-            ];
+                    { label: "Peptides", href: "#products" },
+                    { label: "Peptide Blends", href: "#goals" },
+                    { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
+                    { label: "Certificates", href: "#certificates" },
+                  ];
 
       export default function Layout({ children }) {
         const [scrolled, setScrolled] = useState(false);
