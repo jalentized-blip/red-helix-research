@@ -32,20 +32,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const checkAgeVerification = async () => {
-      try {
-        const user = await base44.auth.me();
-        if (!user.age_verified) {
-          navigate(createPageUrl('AgeGate'));
-        }
-      } catch {
-        // Not logged in, redirect to age gate
-        navigate(createPageUrl('AgeGate'));
-      }
-    };
-
-    checkAgeVerification();
-  }, [navigate]);
+    // Age verification is now optional, users can browse freely
+  }, []);
 
   const handleSelectStrength = (product) => {
     setSelectedProduct(product);

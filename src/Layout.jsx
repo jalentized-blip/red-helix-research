@@ -195,29 +195,23 @@ const navLinks = [
             </Link>
 
             {/* User Menu */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-stone-300 hover:text-amber-50">
-                  <Menu className="w-6 h-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
-                <nav className="flex flex-col gap-4 mt-8">
-                  <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                    My Account
-                  </Link>
-                  <Link to={createPageUrl('OrderTracking')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                    Orders
-                  </Link>
-                  <button
-                    onClick={() => base44.auth.redirectToLogin(createPageUrl('AgeGate'))}
-                    className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50"
-                  >
-                    Sign In
-                  </button>
-                </nav>
-              </SheetContent>
-            </Sheet>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-stone-300 hover:text-amber-50">
+                    <Menu className="w-6 h-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
+                  <nav className="flex flex-col gap-4 mt-8">
+                    <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
+                      My Account
+                    </Link>
+                    <Link to={createPageUrl('Login')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
+                      Sign In / Sign Up
+                    </Link>
+                  </nav>
+                </SheetContent>
+              </Sheet>
           </div>
         </div>
       </header>
