@@ -94,6 +94,45 @@ export default function PeptideCalculator() {
           </p>
         </motion.div>
 
+        {/* Peptide Selector */}
+        <motion.div variants={item} className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8">
+          <h2 className="text-2xl font-bold text-amber-50 mb-4">Select a Peptide</h2>
+          <p className="text-stone-400 text-sm mb-4">Choose a peptide to view dosing information sourced from peptidedosages.com</p>
+          <Select value={selectedPeptide || ''} onValueChange={handlePeptideSelect}>
+            <SelectTrigger className="bg-stone-800 border border-stone-700 text-amber-50">
+              <SelectValue placeholder="Select a peptide..." />
+            </SelectTrigger>
+            <SelectContent className="bg-stone-800 border border-stone-700 max-h-80">
+              {products.map((product) => (
+                <SelectItem key={product.id} value={product.name} className="text-amber-50">
+                  {product.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </motion.div>
+
+        {/* Dosing Info Section */}
+        {selectedPeptide && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-6">{selectedPeptide} - Dosing Information</h2>
+            {dosingLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-6 h-6 text-red-600 animate-spin mr-2" />
+                <p className="text-stone-400">Loading dosing information...</p>
+              </div>
+            ) : dosingInfo ? (
+              <div className="prose prose-invert max-w-none">
+                <div className="text-stone-300 whitespace-pre-wrap text-sm leading-relaxed">{dosingInfo}</div>
+              </div>
+            ) : null}
+          </motion.div>
+        )}
+
         <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Calculator Section */}
           <motion.div variants={item} className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
