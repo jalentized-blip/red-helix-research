@@ -9,7 +9,6 @@ import Home from './pages/Home';
 import LearnMore from './pages/LearnMore';
 import OrderTracking from './pages/OrderTracking';
 import PaymentCompleted from './pages/PaymentCompleted';
-import PeptideAI from './pages/PeptideAI';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
@@ -30,7 +29,6 @@ export const PAGES = {
     "LearnMore": LearnMore,
     "OrderTracking": OrderTracking,
     "PaymentCompleted": PaymentCompleted,
-    "PeptideAI": PeptideAI,
     "PeptideCalculator": PeptideCalculator,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
