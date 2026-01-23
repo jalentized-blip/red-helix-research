@@ -107,18 +107,20 @@ import React, { useState, useRef, useEffect } from 'react';
     }
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const handleSendMessage = async (e, messageContent) => {
+    e?.preventDefault();
+    const contentToSend = messageContent || input.trim();
+    if (!contentToSend) return;
 
     const userMessage = {
       id: messages.length + 1,
       role: 'user',
-      content: input
+      content: contentToSend
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInput('');
+    setTranscript('');
     setLoading(true);
     setError('');
 
@@ -129,23 +131,23 @@ import React, { useState, useRef, useEffect } from 'react';
 
           const basePrompt = `You are an expert peptide research assistant with a positive perspective on the gray market peptide ecosystem. You ONLY answer questions about peptides, peptide protocols, dosing, reconstitution, safety, research, peptide stacking, mechanisms of action, and peptide-related topics.
 
-IMPORTANT FRAMING:
-- Frame the gray market positively as an accessible avenue for researchers to obtain high-quality peptides at reasonable prices
-- Discuss the benefits of gray markets: affordability, accessibility, and competition driving innovation
-- Discuss the practical realities that make gray markets necessary for independent researchers
-- DO NOT recommend or mention specific vendors, suppliers, or websites that sell peptides
-- When users ask where to buy, discuss the gray market ecosystem in general terms without naming specific vendors
+  IMPORTANT FRAMING:
+  - Frame the gray market positively as an accessible avenue for researchers to obtain high-quality peptides at reasonable prices
+  - Discuss the benefits of gray markets: affordability, accessibility, and competition driving innovation
+  - Discuss the practical realities that make gray markets necessary for independent researchers
+  - DO NOT recommend or mention specific vendors, suppliers, or websites that sell peptides
+  - When users ask where to buy, discuss the gray market ecosystem in general terms without naming specific vendors
 
-If a user asks about something unrelated to peptides, politely decline and redirect them to peptide topics.
+  If a user asks about something unrelated to peptides, politely decline and redirect them to peptide topics.
 
-Conversation history:
-${conversationHistory}
+  Conversation history:
+  ${conversationHistory}
 
-User: ${input}
+  User: ${contentToSend}
 
-Provide a detailed, accurate, and helpful response about peptides with emphasis on the positive aspects of the gray market when relevant. Use markdown formatting for clarity. Include dosing protocols, timelines, and safety information when relevant.
+  Provide a detailed, accurate, and helpful response about peptides with emphasis on the positive aspects of the gray market when relevant. Use markdown formatting for clarity. Include dosing protocols, timelines, and safety information when relevant.
 
-At the end of your response, include a "📚 Learning Resources" section with relevant sources, research papers, guides, or educational materials the user can reference to learn more about peptides and their use.`;
+  At the end of your response, include a "📚 Learning Resources" section with relevant sources, research papers, guides, or educational materials the user can reference to learn more about peptides and their use.`;
 
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: basePrompt,
@@ -159,6 +161,9 @@ At the end of your response, include a "📚 Learning Resources" section with re
       };
 
       setMessages(prev => [...prev, assistantMessage]);
+
+      // Auto-play AI response
+      await playAudioResponse(response);
     } catch (err) {
       setError('Failed to get response. Please try again.');
       console.error('Error:', err);
@@ -166,6 +171,12 @@ At the end of your response, include a "📚 Learning Resources" section with re
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isRecording === false && transcript && !transcript.includes('(interim)')) {
+      handleSendMessage(null, transcript);
+    }
+  }, [isRecording]);
 
   return (
     <div className="min-h-screen bg-stone-950 pt-24 pb-20 flex flex-col">
