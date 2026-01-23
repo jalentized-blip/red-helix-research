@@ -233,22 +233,7 @@ const navLinks = [
         </div>
       </header>
       
-      {/* Logo Zoom Modal */}
-      <Dialog open={logoModalOpen} onOpenChange={setLogoModalOpen}>
-        <DialogContent className="w-11/12 max-w-4xl bg-transparent border-0 shadow-none backdrop-blur-none p-0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
-          <button
-            onClick={() => setLogoModalOpen(false)}
-            className="absolute top-4 right-4 p-1 bg-red-700 rounded-full hover:bg-red-600 transition-colors z-50"
-          >
-            <X className="w-5 h-5 text-amber-50" />
-          </button>
-          <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
-            alt="Red Dirt Research" 
-            className="w-full h-auto object-contain"
-          />
-        </DialogContent>
-      </Dialog>
+
       
       {/* Main Content */}
       <main>
