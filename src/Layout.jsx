@@ -110,7 +110,12 @@ const navLinks = [
 
   const scrollTo = (id) => {
     const element = document.getElementById(id.replace('#', ''));
-    element?.scrollIntoView({ behavior: 'smooth' });
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // If element doesn't exist on current page, navigate to home with section param
+      window.location.href = `${createPageUrl('Home')}?section=${id.replace('#', '')}`;
+    }
   };
 
   return (
