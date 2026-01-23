@@ -112,11 +112,6 @@ At the end of your response, include a "📚 Learning Resources" section with re
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-      
-      // Speak the response if in voice call mode
-      if (voiceCallActive && 'speechSynthesis' in window) {
-        speakResponse(response);
-      }
     } catch (err) {
       setError('Failed to get response. Please try again.');
       console.error('Error:', err);
