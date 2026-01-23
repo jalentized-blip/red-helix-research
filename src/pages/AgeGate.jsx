@@ -63,7 +63,8 @@ export default function AgeGate() {
       // Store age verification in user profile
       await base44.auth.updateMe({
         age_verified: true,
-        age_verified_date: new Date().toISOString()
+        age_verified_date: new Date().toISOString(),
+        stay_logged_in: stayLoggedIn
       });
 
       navigate(createPageUrl('Home'));
