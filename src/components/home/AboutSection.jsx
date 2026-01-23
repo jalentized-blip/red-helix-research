@@ -67,7 +67,7 @@ export default function AboutSection() {
           >
             <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-stone-700">
               <img 
-                src="https://images.unsplash.com/photo-1517134191720-7746039d84b7?w=800&q=80"
+                src="https://images.unsplash.com/photo-1584308666744-24d5f18f8f5e?w=800&q=80"
                 alt="Pharmaceutical vials production line"
                 className="w-full h-full object-cover"
               />
