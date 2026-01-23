@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Globe, Truck } from "lucide-react";
+import { FileText, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Hero() {
@@ -9,89 +9,77 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 pt-20 pb-12 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/5 via-transparent to-transparent" />
+    <section className="relative min-h-[100vh] flex items-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&q=80')`,
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/95 to-neutral-950/70" />
       
-      {/* Animated glow */}
+      {/* Animated accent line */}
       <motion.div 
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-yellow-500/10 rounded-full blur-[120px]"
-        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 6, repeat: Infinity }}
+        className="absolute left-0 top-1/4 w-1 h-32 bg-gradient-to-b from-yellow-500 to-transparent"
+        initial={{ height: 0 }}
+        animate={{ height: 128 }}
+        transition={{ duration: 1, delay: 0.5 }}
       />
 
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 text-center max-w-4xl mx-auto"
-      >
-        {/* Logo */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-32">
         <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 inline-flex items-center justify-center w-28 h-28 rounded-2xl bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 border border-yellow-500/30"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-2xl"
         >
-          <span className="text-4xl font-black text-yellow-400">CP</span>
+          {/* Main Title */}
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
+            <span className="text-white">PREMIUM QUALITY,</span>
+            <br />
+            <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">
+              LAB VERIFIED.
+            </span>
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-xl md:text-2xl font-semibold text-neutral-200 mb-3 tracking-wide">
+            Every Batch Tested. Every Result Trusted.
+          </p>
+          <p className="text-sm md:text-base text-yellow-500/90 font-medium uppercase tracking-widest mb-10">
+            For Research and Laboratory Use Only
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button 
+              variant="outline"
+              onClick={() => scrollTo('certificates')}
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-neutral-900 px-8 py-6 text-base font-semibold uppercase tracking-wide transition-all"
+            >
+              <FileText className="w-5 h-5 mr-2" />
+              View Test Reports
+            </Button>
+            <Button 
+              onClick={() => scrollTo('products')}
+              className="bg-yellow-500 hover:bg-yellow-400 text-neutral-900 px-8 py-6 text-base font-semibold uppercase tracking-wide"
+            >
+              <ShoppingBag className="w-5 h-5 mr-2" />
+              Shop Peptides
+            </Button>
+          </div>
         </motion.div>
+      </div>
 
-        {/* Title */}
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">
-          <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">
-            CHIMERA PEPTIDES
-          </span>
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-lg md:text-xl text-neutral-400 mb-2">
-          Research-grade peptides. Lab tested. Third-party verified.
-        </p>
-        <p className="text-base md:text-lg text-neutral-300 font-medium mb-10">
-          Trusted by <span className="text-yellow-400">2,000+</span> researchers worldwide.
-        </p>
-
-        {/* Shipping Options */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-          <Button 
-            variant="outline" 
-            className="bg-yellow-500/10 border-yellow-500/50 text-yellow-400 hover:bg-yellow-500/20 hover:border-yellow-400 px-6 py-6 text-base"
-          >
-            <Globe className="w-5 h-5 mr-2" />
-            International (7–14 days)
-          </Button>
-          <Button 
-            variant="outline" 
-            className="bg-neutral-800/50 border-neutral-700 text-neutral-300 hover:bg-neutral-700/50 hover:border-neutral-600 px-6 py-6 text-base"
-          >
-            <Truck className="w-5 h-5 mr-2" />
-            US Domestic (3–5 days)
-          </Button>
-        </div>
-
-        {/* Navigation Pills */}
-        <div className="flex flex-wrap gap-3 justify-center">
-          <Button 
-            variant="outline" 
-            onClick={() => scrollTo('bestsellers')}
-            className="border-neutral-700 text-neutral-300 hover:border-yellow-500/50 hover:text-yellow-400 hover:bg-yellow-500/5"
-          >
-            Best Sellers
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => scrollTo('goals')}
-            className="border-neutral-700 text-neutral-300 hover:border-yellow-500/50 hover:text-yellow-400 hover:bg-yellow-500/5"
-          >
-            Shop by Goal
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => scrollTo('products')}
-            className="border-neutral-700 text-neutral-300 hover:border-yellow-500/50 hover:text-yellow-400 hover:bg-yellow-500/5"
-          >
-            Browse All Products
-          </Button>
+      {/* Scroll indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="w-6 h-10 rounded-full border-2 border-yellow-500/50 flex items-start justify-center p-2">
+          <div className="w-1.5 h-3 bg-yellow-500 rounded-full" />
         </div>
       </motion.div>
     </section>

@@ -2,11 +2,17 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
+import AnnouncementBar from '@/components/home/AnnouncementBar';
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
+import ValueProposition from '@/components/home/ValueProposition';
+import NumberedFeatures from '@/components/home/NumberedFeatures';
+import AboutSection from '@/components/home/AboutSection';
 import BestSellers from '@/components/home/BestSellers';
 import ShopByGoal from '@/components/home/ShopByGoal';
 import AllProducts from '@/components/home/AllProducts';
+import WhyTrustUs from '@/components/home/WhyTrustUs';
+import Certificates from '@/components/home/Certificates';
 import HowItWorks from '@/components/home/HowItWorks';
 import Reviews from '@/components/home/Reviews';
 import FAQ from '@/components/home/FAQ';
@@ -21,11 +27,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
+      <AnnouncementBar />
       <Hero />
       <TrustBar />
+      <ValueProposition />
+      <NumberedFeatures />
+      <AboutSection />
       <BestSellers products={products} />
       <ShopByGoal />
       <AllProducts products={products} />
+      <WhyTrustUs />
+      <Certificates />
       <HowItWorks />
       <Reviews />
       <FAQ />
