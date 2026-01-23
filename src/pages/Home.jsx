@@ -22,18 +22,36 @@ import Contact from '@/components/home/Contact';
 import Footer from '@/components/home/Footer';
 
 export default function Home() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showAgeVerification, setShowAgeVerification] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [ageVerified, setAgeVerified] = useState(false);
+    const navigate = useNavigate();
 
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => base44.entities.Product.list(),
-  });
+    const { data: products = [], isLoading } = useQuery({
+      queryKey: ['products'],
+      queryFn: () => base44.entities.Product.list(),
+    });
 
-  useEffect(() => {
-    // Age verification is now optional, users can browse freely
-  }, []);
+    useEffect(() => {
+      const checkAuth = async () => {
+        try {
+          const verified = localStorage.getItem('ageVerified') === 'true';
+          setAgeVerified(verified);
+
+          const isAuth = await base44.auth.isAuthenticated();
+          setIsAuthenticated(isAuth);
+
+          if (!isAuth || !verified) {
+            setShowAgeVerification(true);
+          }
+        } catch (error) {
+          setShowAgeVerification(true);
+        }
+      };
+      checkAuth();
+    }, []);
 
   const handleSelectStrength = (product) => {
     setSelectedProduct(product);
