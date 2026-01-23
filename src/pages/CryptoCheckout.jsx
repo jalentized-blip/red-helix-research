@@ -117,7 +117,8 @@ export default function CryptoCheckout() {
               <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4">
                 <p className="text-sm text-stone-400 mb-1">Pay exactly:</p>
                 <p className="text-3xl font-black text-red-600 font-mono">{cryptoAmount}</p>
-                <p className="text-xs text-stone-500 mt-1">{selectedCrypto}</p>
+                <p className="text-xs text-stone-500 mt-2">{selectedCrypto}</p>
+                <p className="text-xs text-stone-400 mt-1">≈ ${finalTotal.toFixed(2)} USD</p>
               </div>
             </div>
 
