@@ -43,7 +43,7 @@ export default function Home() {
       <NumberedFeatures />
       <AboutSection />
       <BestSellers products={products} onSelectStrength={handleSelectStrength} />
-      <ShopByGoal />
+      <ShopByGoal products={products} onSelectStrength={handleSelectStrength} />
       <AllProducts products={products} onSelectStrength={handleSelectStrength} />
       <WhyTrustUs />
       <ProductModal 

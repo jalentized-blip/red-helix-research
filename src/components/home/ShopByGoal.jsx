@@ -42,7 +42,7 @@ const goals = [
   }
 ];
 
-export default function ShopByGoal() {
+export default function ShopByGoal({ products = [], onSelectStrength }) {
   return (
     <section id="goals" className="py-20 px-4 bg-stone-950/50">
       <div className="max-w-7xl mx-auto">
@@ -93,33 +93,22 @@ export default function ShopByGoal() {
                   </div>
 
                   <div className="flex flex-wrap gap-2">
-                    {goal.products.map((product) => (
-                      <button
-                        key={product}
-                        onClick={() => {
-                          const productsSection = document.getElementById('products');
-                          if (productsSection) {
-                            productsSection.scrollIntoView({ behavior: 'smooth' });
-                            setTimeout(() => {
-                              const productCards = Array.from(document.querySelectorAll('h3')).filter(
-                                el => el.textContent?.trim() === product
-                              );
-                              if (productCards.length > 0) {
-                                const card = productCards[0].closest('div[class*="Card"]');
-                                const selectButton = card?.querySelector('button');
-                                if (selectButton) {
-                                  selectButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                  setTimeout(() => selectButton.click(), 300);
-                                }
-                              }
-                            }, 800);
-                          }
-                        }}
-                        className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all"
-                      >
-                        {product}
-                      </button>
-                    ))}
+                    {goal.products.map((productName) => {
+                      const matchedProduct = products.find(p => p.name === productName);
+                      return (
+                        <button
+                          key={productName}
+                          onClick={() => {
+                            if (matchedProduct && onSelectStrength) {
+                              onSelectStrength(matchedProduct);
+                            }
+                          }}
+                          className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all"
+                        >
+                          {productName}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </Card>
