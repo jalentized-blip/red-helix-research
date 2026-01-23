@@ -390,8 +390,8 @@ export default function PeptideCalculator() {
             </div>
 
             <div className="bg-stone-800/50 rounded-lg p-4">
-              <h3 className="text-red-600 font-bold mb-2">Step 3: Add Water Volume</h3>
-              <p className="text-stone-400 text-sm">Decide on the volume of bacteriostatic water in milliliters (mL). This affects the concentration of your solution.</p>
+              <h3 className="text-red-600 font-bold mb-2">Step 3: Water Volume</h3>
+              <p className="text-stone-400 text-sm">Select the amount of bacteriostatic water you'll use for reconstitution in milliliters (mL).</p>
             </div>
 
             <div className="bg-stone-800/50 rounded-lg p-4">
