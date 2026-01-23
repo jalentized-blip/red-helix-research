@@ -277,46 +277,125 @@ export default function PeptideCalculator() {
             ) : (
               <div className="space-y-6">
                 {/* Visual Meter */}
-                <div className="bg-stone-800/50 rounded-lg p-6 mb-8">
-                  <div className="text-center mb-4">
-                    <svg
-                      viewBox="0 0 200 100"
-                      className="w-full h-24 text-red-600"
-                      style={{ filter: 'drop-shadow(0 0 10px rgba(220, 38, 38, 0.3))' }}
-                    >
-                      {/* Syringe barrel */}
-                      <rect x="30" y="30" width="120" height="40" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
+                <div className="bg-stone-800/50 rounded-lg p-8 mb-8 flex justify-center">
+                  <svg
+                    viewBox="0 0 400 350"
+                    className="w-full h-auto max-w-md"
+                    style={{ filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))' }}
+                  >
+                    {/* Plunger handle (large circle at top) */}
+                    <circle cx="60" cy="50" r="22" fill="#d4d4d8" stroke="#a1a1a6" strokeWidth="1" />
+                    <circle cx="60" cy="50" r="19" fill="#e4e4e7" />
+                    <circle cx="55" cy="45" r="6" fill="#f4f4f5" opacity="0.6" />
 
-                      {/* Syringe plunger */}
-                      <rect
-                        x="30"
-                        y="30"
-                        width={Math.min(120, (drawAmount / currentWater) * 120)}
-                        height="40"
-                        rx="5"
-                        fill="currentColor"
-                        opacity="0.3"
+                    {/* Plunger rod */}
+                    <rect x="53" y="70" width="14" height="180" fill="#a1a1a6" rx="7" />
+                    <rect x="55" y="72" width="10" height="176" fill="#d4d4d8" rx="5" />
+
+                    {/* Plunger rod ridges */}
+                    {[0, 20, 40, 60, 80, 100, 120, 140, 160].map((offset) => (
+                      <line
+                        key={`plunger-ridge-${offset}`}
+                        x1="55"
+                        y1={72 + offset}
+                        x2="65"
+                        y2={72 + offset}
+                        stroke="#9ca3af"
+                        strokeWidth="1"
+                        opacity="0.5"
                       />
+                    ))}
 
-                      {/* Markings */}
-                      {[0, 0.25, 0.5, 0.75, 1].map((mark) => (
-                        <g key={mark}>
-                          <line x1={30 + mark * 120} y1="25" x2={30 + mark * 120} y2="30" stroke="currentColor" strokeWidth="1" />
-                          <text
-                            x={30 + mark * 120}
-                            y="20"
-                            textAnchor="middle"
-                            fontSize="10"
-                            fill="currentColor"
-                            className="text-stone-400"
-                          >
-                            {(mark * currentWater).toFixed(2)}mL
-                          </text>
+                    {/* Syringe barrel - outer */}
+                    <path
+                      d="M 75 80 L 280 180 L 280 220 L 75 120 Z"
+                      fill="none"
+                      stroke="#9ca3af"
+                      strokeWidth="2"
+                    />
+
+                    {/* Barrel tip (cone shape) */}
+                    <path
+                      d="M 280 200 L 295 205 L 280 210 Z"
+                      fill="#d4d4d8"
+                      stroke="#9ca3af"
+                      strokeWidth="1"
+                    />
+
+                    {/* Needle */}
+                    <line x1="295" y1="205" x2="340" y2="215" stroke="#c0c0c0" strokeWidth="1.5" />
+
+                    {/* Barrel interior highlight */}
+                    <path
+                      d="M 78 82 L 278 182 L 278 188 L 78 88 Z"
+                      fill="#ffffff"
+                      opacity="0.15"
+                    />
+
+                    {/* Liquid fill (orange) */}
+                    <path
+                      d={`M ${75 + (drawAmount / currentWater) * 205} ${80 + (drawAmount / currentWater) * 100}
+                         L 280 180
+                         L 280 200
+                         L ${280 - (drawAmount / currentWater) * 205} ${200 - (drawAmount / currentWater) * 100}
+                         Z`}
+                      fill="#fb923c"
+                      opacity="0.85"
+                    />
+
+                    {/* Measurement scale - markings and numbers */}
+                    {Array.from({ length: 11 }).map((_, i) => {
+                      const ratio = i / 10;
+                      const x = 75 + ratio * 205;
+                      const y = 80 + ratio * 100;
+                      const markLength = i % 5 === 0 ? 12 : 6;
+
+                      // Calculate angle for perpendicular marks
+                      const angle = Math.atan2(100, 205);
+                      const perpX = Math.cos(angle + Math.PI / 2) * markLength;
+                      const perpY = Math.sin(angle + Math.PI / 2) * markLength;
+
+                      return (
+                        <g key={`mark-${i}`}>
+                          {/* Measurement mark */}
+                          <line
+                            x1={x}
+                            y1={y}
+                            x2={x + perpX}
+                            y2={y + perpY}
+                            stroke="#4b5563"
+                            strokeWidth={i % 5 === 0 ? 1.5 : 1}
+                          />
+
+                          {/* Numbers */}
+                          {i % 5 === 0 && (
+                            <text
+                              x={x + perpX * 2}
+                              y={y + perpY * 2 + 4}
+                              textAnchor="middle"
+                              fontSize="11"
+                              fontWeight="600"
+                              fill="#6b7280"
+                            >
+                              {i * 10}
+                            </text>
+                          )}
                         </g>
-                      ))}
-                    </svg>
-                  </div>
-                  <p className="text-stone-400 text-sm text-center">Draw to {drawAmount} mL mark</p>
+                      );
+                    })}
+
+                    {/* Target indicator line */}
+                    <line
+                      x1={75 + (drawAmount / currentWater) * 205}
+                      y1={80 + (drawAmount / currentWater) * 100 - 15}
+                      x2={75 + (drawAmount / currentWater) * 205}
+                      y2={80 + (drawAmount / currentWater) * 100 + 15}
+                      stroke="#fbbf24"
+                      strokeWidth="2"
+                      strokeDasharray="3,3"
+                      opacity="0.9"
+                    />
+                  </svg>
                 </div>
 
                 {/* Result Cards */}
