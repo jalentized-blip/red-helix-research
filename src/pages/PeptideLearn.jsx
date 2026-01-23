@@ -305,15 +305,13 @@ export default function PeptideLearn() {
                 </div>
               )}
 
-              {peptideData.dosage && (
-                <div className="bg-stone-900/50 border border-blue-600/30 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-blue-600" />
-                    Recommended Dosage
-                  </h3>
-                  <p className="text-stone-300">{peptideData.dosage}</p>
-                </div>
-              )}
+              <div className="bg-amber-900/30 border border-amber-600/50 rounded-lg p-6">
+                <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5 text-amber-600" />
+                  Research Use Only
+                </h3>
+                <p className="text-amber-100 font-semibold">This peptide is intended for research purposes only. Not for human consumption. Always consult with qualified healthcare professionals before use.</p>
+              </div>
             </motion.div>
           </>
         )}
