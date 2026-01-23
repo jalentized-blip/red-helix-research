@@ -14,6 +14,8 @@ export default function PeptideCalculator() {
     const [doseCustom, setDoseCustom] = useState('');
     const [strength, setStrength] = useState('10');
     const [strengthCustom, setStrengthCustom] = useState('');
+    const [water, setWater] = useState('1.0');
+    const [waterCustom, setWaterCustom] = useState('');
 
   // Fetch products from database
   const { data: products = [] } = useQuery({
