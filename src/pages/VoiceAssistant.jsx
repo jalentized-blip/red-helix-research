@@ -219,11 +219,8 @@ export default function VoiceAssistant() {
   };
 
   useEffect(() => {
-    if (!isRecording && transcript && !transcript.includes('(interim)')) {
-      const finalTranscript = transcript.replace('(interim)', '').trim();
-      if (finalTranscript) {
-        handleProcessTranscript(finalTranscript);
-      }
+    if (!isRecording && transcript.trim()) {
+      handleProcessTranscript(transcript.trim());
     }
   }, [isRecording]);
 
