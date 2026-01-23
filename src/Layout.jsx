@@ -40,9 +40,10 @@ export default function Layout({ children }) {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/1facab62f_image1.jpg" 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/18e048c9e_image.png" 
               alt="Red Dirt Research" 
-              className="h-16 md:h-20 w-auto object-contain"
+              className="h-12 w-auto object-contain"
+              style={{ mixBlendMode: 'screen' }}
             />
           </div>
 
