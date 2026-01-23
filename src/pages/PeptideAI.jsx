@@ -246,25 +246,59 @@ At the end of your response, include a "📚 Learning Resources" section with re
 
         {/* Input Area */}
         <form onSubmit={handleSendMessage} className="space-y-2">
-          <div className="flex gap-2">
+          <div className="relative">
             <Input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about peptides, protocols, dosing, safety..."
-              className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+              placeholder={isListening ? `Listening...${transcript && ` "${transcript}"`}` : "Ask about peptides, protocols, dosing, safety..."}
+              className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500 pr-24"
               disabled={loading}
             />
-            <Button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="bg-red-700 hover:bg-red-600 text-amber-50 px-6 gap-2"
-            >
-              <Send className="w-4 h-4" />
-              Send
-            </Button>
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+              {isListening ? (
+                <Button
+                  type="button"
+                  onClick={stopListening}
+                  className="bg-red-600 hover:bg-red-700 text-amber-50 px-3 gap-2"
+                >
+                  <Square className="w-4 h-4" />
+                  Stop
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={startListening}
+                  className="bg-blue-600 hover:bg-blue-700 text-amber-50 px-3 gap-2"
+                  disabled={loading}
+                >
+                  <Mic className="w-4 h-4" />
+                </Button>
+              )}
+              <Button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className="bg-red-700 hover:bg-red-600 text-amber-50 px-6 gap-2"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
-          <p className="text-xs text-stone-500 text-center">This AI only answers peptide-related questions</p>
+          
+          {isSpeaking && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center gap-2 text-amber-500 text-xs"
+            >
+              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
+                <Mic className="w-3 h-3" />
+              </motion.div>
+              <span>AI is speaking...</span>
+            </motion.div>
+          )}
+          
+          <p className="text-xs text-stone-500 text-center">This AI only answers peptide-related questions • Click mic to use voice</p>
         </form>
       </div>
     </div>
