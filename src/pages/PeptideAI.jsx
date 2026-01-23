@@ -277,11 +277,15 @@ import React, { useState, useRef, useEffect } from 'react';
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
               <Button
                 type="button"
-                onClick={speakLastMessage}
-                className="bg-blue-600 hover:bg-blue-700 text-amber-50 px-3 gap-2"
-                disabled={loading || isSpeaking || messages.every(m => m.role === 'user')}
+                onClick={toggleVoiceRecording}
+                className={`px-3 gap-2 transition-colors ${
+                  isRecording
+                    ? 'bg-red-600 hover:bg-red-700 text-amber-50'
+                    : 'bg-blue-600 hover:bg-blue-700 text-amber-50'
+                }`}
+                disabled={loading || isSpeaking}
               >
-                <Volume2 className="w-4 h-4" />
+                <Mic className="w-4 h-4" />
               </Button>
               <Button
                 type="submit"
