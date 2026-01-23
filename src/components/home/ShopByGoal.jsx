@@ -94,12 +94,23 @@ export default function ShopByGoal() {
 
                   <div className="flex flex-wrap gap-2">
                     {goal.products.map((product) => (
-                      <span
+                      <button
                         key={product}
-                        className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700"
+                        onClick={() => {
+                          const productsSection = document.getElementById('products');
+                          const searchInput = document.querySelector('input[type="text"]');
+                          if (productsSection && searchInput) {
+                            productsSection.scrollIntoView({ behavior: 'smooth' });
+                            setTimeout(() => {
+                              searchInput.value = product;
+                              searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            }, 800);
+                          }
+                        }}
+                        className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all"
                       >
                         {product}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 </div>
