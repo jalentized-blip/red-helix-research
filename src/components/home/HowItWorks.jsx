@@ -17,8 +17,8 @@ const steps = [
   },
   {
     number: "3",
-    title: "Order Ships",
-    description: "Ships within 24–48h after payment confirms",
+    title: "Await Confirmation",
+    description: "You will receive detailed instructions via email",
     icon: Truck
   }
 ];
