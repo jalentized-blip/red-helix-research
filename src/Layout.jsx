@@ -220,8 +220,13 @@ const navLinks = [
                           onClick={() => {
                             localStorage.clear();
                             sessionStorage.clear();
+                            document.cookie.split(";").forEach((c) => {
+                              document.cookie = c
+                                .replace(/^ +/, "")
+                                .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+                            });
                             base44.auth.logout();
-                            window.location.href = createPageUrl('Home');
+                            window.location.href = createPageUrl('Home') + '?logout=true';
                           }}
                           className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
                         >
