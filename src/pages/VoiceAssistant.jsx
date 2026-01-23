@@ -91,24 +91,40 @@ export default function VoiceAssistant() {
   };
 
   const speakText = async (textToSpeak) => {
-    try {
-      setIsSpeaking(true);
-      const response = await base44.functions.invoke('textToSpeech', {
-        text: textToSpeak,
-        voice_id: selectedVoice
-      });
-
-      const audioUrl = response.data.audioUrl;
-
-      if (audioRef.current) {
-        audioRef.current.src = audioUrl;
-        audioRef.current.play();
-        audioRef.current.onended = () => setIsSpeaking(false);
+    return new Promise((resolve) => {
+      try {
+        setIsSpeaking(true);
+        base44.functions.invoke('textToSpeech', {
+          text: textToSpeak,
+          voice_id: selectedVoice
+        }).then(response => {
+          const audioUrl = response.data.audioUrl;
+          if (audioRef.current) {
+            audioRef.current.src = audioUrl;
+            audioRef.current.onended = () => {
+              setIsSpeaking(false);
+              resolve();
+            };
+            audioRef.current.play().catch(err => {
+              console.error('Error playing audio:', err);
+              setIsSpeaking(false);
+              resolve();
+            });
+          } else {
+            setIsSpeaking(false);
+            resolve();
+          }
+        }).catch(err => {
+          console.error('Error getting audio:', err);
+          setIsSpeaking(false);
+          resolve();
+        });
+      } catch (err) {
+        console.error('Error in speakText:', err);
+        setIsSpeaking(false);
+        resolve();
       }
-    } catch (err) {
-      console.error('Error playing audio:', err);
-      setIsSpeaking(false);
-    }
+    });
   };
 
   const loadSavedConversations = async () => {
