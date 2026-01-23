@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Menu, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { getCartCount } from '@/components/utils/cart.js';
+import { getCartCount } from '@/components/utils/cart';
 
 const navLinks = [
   { label: "Peptides", href: "#products" },
