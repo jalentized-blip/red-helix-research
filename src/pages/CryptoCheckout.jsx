@@ -110,31 +110,12 @@ export default function CryptoCheckout() {
     return () => clearInterval(interval);
   }, [transactionId, paymentCleared]);
 
-  const handleSubmitOrder = async () => {
-    if (!transactionId || !productName) {
-      alert('Please fill in all required fields');
+  const handleCheckTransaction = () => {
+    if (!transactionId.trim()) {
+      alert('Please enter a transaction ID');
       return;
     }
-
-    setSubmitting(true);
-    try {
-      await base44.integrations.Core.SendEmail({
-        to: 'jakehboen95@gmail.com',
-        subject: 'New Crypto Checkout Order',
-        body: `New order submitted:\n\nProduct Name: ${productName}\nTransaction ID: ${transactionId}\nWallet Address: ${walletAddress || 'Not provided'}\nCryptocurrency: ${selectedCrypto}\nAmount: ${cryptoAmount} ${selectedCrypto}\nUSD Total: $${finalTotal.toFixed(2)}\n\nPlease verify the transaction and process the order.`,
-      });
-      
-      // Clear cart and show success
-      localStorage.removeItem('rdr_cart');
-      window.dispatchEvent(new Event('cartUpdated'));
-      alert('Order submitted successfully! Check your email for confirmation.');
-      window.location.href = createPageUrl('Home');
-    } catch (error) {
-      console.error('Error submitting order:', error);
-      alert('Error submitting order. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    // Payment detection will automatically trigger and redirect when confirmed
   };
 
   return (
