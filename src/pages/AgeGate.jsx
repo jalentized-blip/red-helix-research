@@ -163,6 +163,69 @@ export default function AgeGate() {
     );
   }
 
+  if (isForgotPassword) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4">
+        <div className="max-w-md w-full">
+          <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 space-y-6">
+            <div>
+              <h1 className="text-3xl font-black text-amber-50 mb-2">Reset Password</h1>
+              <p className="text-stone-400">Enter your email to receive a reset link</p>
+            </div>
+
+            {resetSuccess ? (
+              <div className="bg-green-600/20 border border-green-600/50 rounded-lg p-4 text-center space-y-3">
+                <p className="text-green-300 font-semibold">Check your email</p>
+                <p className="text-stone-300 text-sm">We've sent a password reset link to {email}. Check your inbox and follow the link to reset your password.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <div>
+                  <label className="block text-amber-50 text-sm font-semibold mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    className="w-full bg-stone-800 border border-stone-600 rounded px-4 py-2 text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
+                  />
+                </div>
+
+                {error && (
+                  <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-3 text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
+
+                <Button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="w-full bg-red-600 hover:bg-red-700 text-amber-50 text-lg py-6"
+                >
+                  {resetLoading ? 'Sending...' : 'Send Reset Link'}
+                </Button>
+              </form>
+            )}
+
+            <div className="text-center">
+              <button
+                onClick={() => {
+                  setIsForgotPassword(false);
+                  setResetSuccess(false);
+                  setError('');
+                  setEmail('');
+                }}
+                className="text-stone-400 hover:text-amber-50 text-sm underline transition-colors"
+              >
+                Back to Sign In
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
@@ -198,6 +261,22 @@ export default function AgeGate() {
                 className="w-full bg-stone-800 border border-stone-600 rounded px-4 py-2 text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
               />
             </div>
+
+            {isSignIn && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsForgotPassword(true);
+                    setError('');
+                    setPassword('');
+                  }}
+                  className="text-stone-400 hover:text-amber-50 text-xs underline transition-colors"
+                >
+                  Forgot password?
+                </button>
+              </div>
+            )}
 
             <label className="flex items-center gap-2 cursor-pointer">
               <input
