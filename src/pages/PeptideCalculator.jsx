@@ -381,16 +381,25 @@ www.reddirtresearch.com`;
                       {/* Syringe barrel */}
                       <rect x="50" y="30" width="1000" height="60" rx="8" fill="none" stroke="currentColor" strokeWidth="3" className="text-red-600" />
 
-                      {/* Syringe plunger */}
-                      <rect
+                      {/* Fluid fill animation */}
+                      <defs>
+                        <linearGradient id="fluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="rgba(220, 38, 38, 0.4)" />
+                          <stop offset="100%" stopColor="rgba(220, 38, 38, 0.6)" />
+                        </linearGradient>
+                      </defs>
+
+                      {/* Syringe plunger with animation */}
+                      <motion.rect
                         x="50"
                         y="30"
                         width={Math.min(1000, (drawUnits / 100) * 1000)}
                         height="60"
                         rx="8"
-                        fill="currentColor"
-                        opacity="0.25"
-                        className="text-red-600"
+                        fill="url(#fluidGradient)"
+                        initial={{ width: 0 }}
+                        animate={{ width: Math.min(1000, (drawUnits / 100) * 1000) }}
+                        transition={{ type: 'spring', stiffness: 60, damping: 15, duration: 0.8 }}
                       />
 
                       {/* Major markings (every 10 units) */}
