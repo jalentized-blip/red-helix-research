@@ -3,6 +3,7 @@ import Account from './pages/Account';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import CryptoCheckout from './pages/CryptoCheckout';
+import GroupBuy from './pages/GroupBuy';
 import Home from './pages/Home';
 import LearnMore from './pages/LearnMore';
 import OrderTracking from './pages/OrderTracking';
@@ -10,7 +11,7 @@ import PaymentCompleted from './pages/PaymentCompleted';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
-import GroupBuy from './pages/GroupBuy';
+import CustomerInfo from './pages/CustomerInfo';
 import __Layout from './Layout.jsx';
 
 
@@ -20,6 +21,7 @@ export const PAGES = {
     "Cart": Cart,
     "Contact": Contact,
     "CryptoCheckout": CryptoCheckout,
+    "GroupBuy": GroupBuy,
     "Home": Home,
     "LearnMore": LearnMore,
     "OrderTracking": OrderTracking,
@@ -27,7 +29,7 @@ export const PAGES = {
     "PeptideCalculator": PeptideCalculator,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
-    "GroupBuy": GroupBuy,
+    "CustomerInfo": CustomerInfo,
 }
 
 export const pagesConfig = {

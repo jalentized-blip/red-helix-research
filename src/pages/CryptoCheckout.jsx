@@ -23,6 +23,10 @@ export default function CryptoCheckout() {
   const [submitting, setSubmitting] = useState(false);
   const [formApplied, setFormApplied] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [customerInfo] = useState(() => {
+    const saved = localStorage.getItem('customerInfo');
+    return saved ? JSON.parse(saved) : null;
+  });
   const progressRef = useRef(null);
 
   const SHIPPING_COST = 15.00;
@@ -297,14 +301,23 @@ export default function CryptoCheckout() {
 
           {/* Order Summary */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-32 h-fit"
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 0.1 }}
+           className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-32 h-fit"
           >
-            <h2 className="text-xl font-bold text-amber-50 mb-6">Order Summary</h2>
+           {customerInfo && (
+             <div className="bg-green-900/20 border border-green-700/50 rounded-lg p-4 mb-6">
+               <p className="text-xs font-semibold text-green-400 mb-2">✓ Shipping to:</p>
+               <p className="text-xs text-stone-300">{customerInfo.firstName} {customerInfo.lastName}</p>
+               <p className="text-xs text-stone-300">{customerInfo.shippingAddress}</p>
+               <p className="text-xs text-stone-300">{customerInfo.shippingCity}, {customerInfo.shippingState} {customerInfo.shippingZip}</p>
+             </div>
+           )}
 
-            <div className="space-y-3 mb-6">
+           <h2 className="text-xl font-bold text-amber-50 mb-6">Order Summary</h2>
+
+           <div className="space-y-3 mb-6">
               <div className="flex justify-between text-stone-300">
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
