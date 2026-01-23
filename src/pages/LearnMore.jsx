@@ -19,24 +19,28 @@ const SourcesBubble = ({ productName }) => {
       setLoadingSource(true);
       try {
         const response = await base44.integrations.Core.InvokeLLM({
-          prompt: `Find 3 real YouTube video URLs and sources that explain "${productName}" in detail. Return a JSON array with objects containing "title" and "url" fields. Only include real, verified video links.`,
+          prompt: `Find the 4 most significant and well-cited peer-reviewed research studies on "${productName}". Return a JSON object with a "studies" array containing objects with: "title", "authors", "year", "journal", and "pmid" (PubMed ID if available, or null). Focus on actual published research with real citations.`,
+          add_context_from_internet: true,
           response_json_schema: {
             type: "object",
             properties: {
-              sources: {
+              studies: {
                 type: "array",
                 items: {
                   type: "object",
                   properties: {
                     title: { type: "string" },
-                    url: { type: "string" }
+                    authors: { type: "string" },
+                    year: { type: "string" },
+                    journal: { type: "string" },
+                    pmid: { type: "string" }
                   }
                 }
               }
             }
           }
         });
-        setSources(response.sources || []);
+        setSources(response.studies || []);
       } catch (error) {
         console.error('Error fetching sources:', error);
       }
@@ -51,8 +55,8 @@ const SourcesBubble = ({ productName }) => {
         onClick={handleExpand}
         className="inline-flex items-center gap-2 px-3 py-2 bg-black/40 hover:bg-black/60 rounded-full transition-all"
       >
-        <Youtube className="w-4 h-4 text-red-500" />
-        <span className="text-xs font-semibold text-amber-50">Sources</span>
+        <Beaker className="w-4 h-4 text-blue-400" />
+        <span className="text-xs font-semibold text-amber-50">Research</span>
         <ChevronDown className={`w-3 h-3 text-amber-50 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
       </button>
 
@@ -60,24 +64,30 @@ const SourcesBubble = ({ productName }) => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-3 space-y-2 bg-black/40 rounded-lg p-3"
+          className="mt-3 space-y-3 bg-black/40 rounded-lg p-3 max-w-xs"
         >
           {loadingSource ? (
-            <p className="text-xs text-stone-400">Loading sources...</p>
+            <p className="text-xs text-stone-400">Loading research...</p>
           ) : sources.length > 0 ? (
-            sources.map((source, idx) => (
-              <a
-                key={idx}
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-xs text-blue-300 hover:text-blue-100 underline truncate"
-              >
-                {source.title}
-              </a>
+            sources.map((study, idx) => (
+              <div key={idx} className="border-l-2 border-blue-500 pl-2">
+                <p className="text-xs font-semibold text-blue-300 line-clamp-2">{study.title}</p>
+                <p className="text-xs text-stone-400 mt-1">{study.authors}</p>
+                <p className="text-xs text-stone-500">{study.journal} ({study.year})</p>
+                {study.pmid && (
+                  <a
+                    href={`https://pubmed.ncbi.nlm.nih.gov/${study.pmid}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block underline"
+                  >
+                    View on PubMed
+                  </a>
+                )}
+              </div>
             ))
           ) : (
-            <p className="text-xs text-stone-400">No sources available</p>
+            <p className="text-xs text-stone-400">No research available</p>
           )}
         </motion.div>
       )}
