@@ -44,8 +44,22 @@ const goals = [
 
 export default function ShopByGoal({ products = [], onSelectStrength }) {
   return (
-    <section id="goals" className="py-20 px-4 bg-stone-950/50">
-      <div className="max-w-7xl mx-auto">
+    <section id="goals" className="py-20 px-4 bg-stone-950/50 relative">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          className="absolute top-10 right-1/4 text-red-600/15 text-8xl"
+          animate={{ y: [20, -20, 20], rotate: [360, 0, 360] }}
+          transition={{ duration: 15, repeat: Infinity }}
+        >
+          <svg width="120" height="120" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+            <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
+            <circle cx="50" cy="25" r="4" fill="currentColor" />
+          </svg>
+        </motion.div>
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
