@@ -27,6 +27,19 @@ const navLinks = [
         const [logoScale, setLogoScale] = useState(1);
         const [lastScrollY, setLastScrollY] = useState(0);
         const [headerVisible, setHeaderVisible] = useState(true);
+        const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+        useEffect(() => {
+          const checkAuth = async () => {
+            try {
+              const isAuth = await base44.auth.isAuthenticated();
+              setIsAuthenticated(isAuth);
+            } catch (error) {
+              setIsAuthenticated(false);
+            }
+          };
+          checkAuth();
+        }, []);
 
         useEffect(() => {
           const handleScroll = () => {
