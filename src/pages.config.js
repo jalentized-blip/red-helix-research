@@ -1,9 +1,10 @@
 import About from './pages/About';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
-import Home from './pages/Home';
 import CryptoCheckout from './pages/CryptoCheckout';
+import Home from './pages/Home';
 import PaymentCompleted from './pages/PaymentCompleted';
+import PeptideCalculator from './pages/PeptideCalculator';
 import __Layout from './Layout.jsx';
 
 
@@ -11,9 +12,10 @@ export const PAGES = {
     "About": About,
     "Cart": Cart,
     "Contact": Contact,
-    "Home": Home,
     "CryptoCheckout": CryptoCheckout,
+    "Home": Home,
     "PaymentCompleted": PaymentCompleted,
+    "PeptideCalculator": PeptideCalculator,
 }
 
 export const pagesConfig = {
