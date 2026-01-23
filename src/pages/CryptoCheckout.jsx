@@ -16,6 +16,9 @@ export default function CryptoCheckout() {
   const [copied, setCopied] = useState(false);
   const [exchangeRates, setExchangeRates] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [paymentDetected, setPaymentDetected] = useState(false);
+  const [paymentCleared, setPaymentCleared] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const SHIPPING_COST = 15.00;
   const subtotal = getCartTotal();
