@@ -125,7 +125,6 @@ export default function PeptideAI() {
         
         audioRef.current.onended = () => {
           setIsSpeaking(false);
-          URL.revokeObjectURL(audioUrl);
           // Auto-listen after AI finishes speaking in voice call mode
           if (voiceCallActive) {
             setAutoRecordNext(true);
