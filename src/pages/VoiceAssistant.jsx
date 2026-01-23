@@ -21,6 +21,7 @@ const ELEVENLABS_VOICES = [
   { id: 'MF3mGyEYCl7XYWbV9V6O', name: 'Aria' },
   { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam' },
   { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam' },
+  { id: 'default', name: 'My Voice Bot' },
 ];
 
 export default function VoiceAssistant() {
