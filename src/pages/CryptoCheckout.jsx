@@ -260,29 +260,35 @@ export default function CryptoCheckout() {
                       const pollPayment = async () => {
                         try {
                           const result = await base44.integrations.Core.InvokeLLM({
-                            prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed on the blockchain. Return a JSON object with "exists" (boolean) and "confirmed" (boolean).`,
+                            prompt: `Validate this cryptocurrency transaction ID: "${transactionId}". Check if it exists on the blockchain AND verify the transaction amount matches exactly ${finalTotal.toFixed(2)} USD (or equivalent in ${selectedCrypto}). Return a JSON object with "valid" (boolean - true only if both transaction exists AND amount matches), "exists" (boolean), "amountMatches" (boolean), and "actualAmount" (number or null).`,
                             add_context_from_internet: true,
                             response_json_schema: {
                               type: 'object',
                               properties: {
+                                valid: { type: 'boolean' },
                                 exists: { type: 'boolean' },
-                                confirmed: { type: 'boolean' },
+                                amountMatches: { type: 'boolean' },
+                                actualAmount: { type: ['number', 'null'] },
                               },
-                              required: ['exists', 'confirmed'],
+                              required: ['valid', 'exists', 'amountMatches', 'actualAmount'],
                             },
                           });
 
-                          if (result.exists && result.confirmed) {
+                          if (result.valid) {
                             setPaymentCleared(true);
                             setPaymentDetected(true);
                             setTimeout(() => {
                               window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
                             }, 1500);
-                          } else if (result.exists) {
+                          } else if (result.exists && !result.amountMatches) {
                             setPaymentDetected(true);
+                            alert(`Transaction found but amount mismatch. Expected: $${finalTotal.toFixed(2)}, Actual: $${result.actualAmount || 'unknown'}`);
+                          } else if (!result.exists) {
+                            alert('Transaction ID not found on blockchain');
                           }
                         } catch (error) {
                           console.error('Error checking payment:', error);
+                          alert('Failed to validate transaction. Please try again.');
                         }
                       };
                       pollPayment();
