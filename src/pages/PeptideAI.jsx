@@ -33,63 +33,7 @@ export default function PeptideAI() {
     scrollToBottom();
   }, [messages]);
 
-  // Initialize Speech Recognition
-  useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
 
-      recognition.onstart = () => {
-        setIsListening(true);
-        setTranscript('');
-      };
-
-      recognition.onresult = (event) => {
-        let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcriptSegment = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            // If user interrupts while AI is speaking
-            if (isSpeaking && audioRef.current) {
-              audioRef.current.pause();
-              audioRef.current.currentTime = 0;
-              setIsSpeaking(false);
-            }
-            setInput(prev => prev + transcriptSegment);
-          } else {
-            interim += transcriptSegment;
-          }
-        }
-        setTranscript(interim);
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-        setTranscript('');
-        // Auto-send if in voice call mode and there's input
-        if (voiceCallActive && autoRecordNext && !isSpeaking) {
-          setTimeout(() => {
-            const inputField = document.querySelector('input[placeholder*="Ask about peptides"]');
-            if (inputField && inputField.value.trim()) {
-              inputField.form.dispatchEvent(new Event('submit', { bubbles: true }));
-            } else if (!isSpeaking) {
-              recognition.start();
-            }
-          }, 300);
-        }
-      };
-
-      recognition.onerror = () => {
-        setIsListening(false);
-        setError('Failed to recognize speech. Please try again.');
-      };
-
-      recognitionRef.current = recognition;
-    }
-  }, []);
 
   const startListening = () => {
     if (recognitionRef.current) {
