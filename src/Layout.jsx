@@ -8,6 +8,7 @@ import { getCartCount } from '@/components/utils/cart';
       import { createPageUrl } from '@/utils';
       import { base44 } from '@/api/base44Client';
       import MolecularBackground from '@/components/MolecularBackground';
+import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
 
 const navLinks = [
                     { label: "Peptides", href: "#products" },
