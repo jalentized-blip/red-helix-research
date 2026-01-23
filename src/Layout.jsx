@@ -202,7 +202,7 @@ const navLinks = [
       
       {/* Logo Zoom Modal */}
       <Dialog open={logoModalOpen} onOpenChange={setLogoModalOpen}>
-        <DialogContent className="w-11/12 max-w-4xl bg-stone-950 border-stone-700">
+        <DialogContent className="w-11/12 max-w-4xl bg-transparent border-0 shadow-none">
           <img 
             src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
             alt="Red Dirt Research" 
