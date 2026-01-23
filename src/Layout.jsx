@@ -26,6 +26,7 @@ const navLinks = [
         const [magnifyingGlassBlur, setMagnifyingGlassBlur] = useState(0);
         const [magnifyingGlassScale, setMagnifyingGlassScale] = useState(1);
         const [lastScrollY, setLastScrollY] = useState(0);
+        const [headerVisible, setHeaderVisible] = useState(true);
 
         useEffect(() => {
           const handleScroll = () => {
