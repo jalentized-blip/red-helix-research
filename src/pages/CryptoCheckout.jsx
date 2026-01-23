@@ -340,45 +340,25 @@ export default function CryptoCheckout() {
             </div>
 
             {/* Payment Status */}
-            {walletAddress && (
+            {walletAddress && transactionId && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`mt-6 rounded-lg p-4 border ${
+                className={`mt-6 rounded-lg p-4 border flex items-center justify-between ${
                   paymentCleared
                     ? 'bg-green-600/20 border-green-600/50'
-                    : paymentDetected
-                    ? 'bg-amber-600/20 border-amber-600/50'
-                    : 'bg-stone-800/50 border-stone-700'
+                    : 'bg-amber-600/20 border-amber-600/50'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  {paymentCleared ? (
-                    <>
-                      <Check className="w-5 h-5 text-green-600" />
-                      <div>
-                        <p className="font-semibold text-green-600">Payment Confirmed!</p>
-                        <p className="text-xs text-green-600/80">Transaction verified on blockchain</p>
-                      </div>
-                    </>
-                  ) : paymentDetected ? (
-                    <>
-                      <Loader2 className="w-5 h-5 text-amber-600 animate-spin" />
-                      <div>
-                        <p className="font-semibold text-amber-600">Payment Received</p>
-                        <p className="text-xs text-amber-600/80">Waiting for blockchain confirmation...</p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <Loader2 className="w-5 h-5 text-stone-400 animate-spin" />
-                      <div>
-                        <p className="font-semibold text-stone-400">Monitoring wallet...</p>
-                        <p className="text-xs text-stone-500">Auto-detecting payment</p>
-                      </div>
-                    </>
-                  )}
+                <div>
+                  <p className={`font-semibold flex items-center gap-2 ${paymentCleared ? 'text-green-600' : 'text-amber-600'}`}>
+                    {paymentCleared ? 'Completed' : 'Confirming...'}
+                  </p>
+                  <p className={`text-xs ${paymentCleared ? 'text-green-600/80' : 'text-amber-600/80'}`}>
+                    {paymentCleared ? 'Transaction verified on blockchain' : 'Verifying payment details'}
+                  </p>
                 </div>
+                <Loader2 className={`w-6 h-6 animate-spin ${paymentCleared ? 'text-green-600' : 'text-amber-600'}`} />
               </motion.div>
             )}
 
