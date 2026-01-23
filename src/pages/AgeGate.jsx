@@ -74,6 +74,31 @@ export default function AgeGate() {
     }
   };
 
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    try {
+      await base44.auth.login(email, password);
+      
+      // Store age verification in user profile
+      await base44.auth.updateMe({
+        age_verified: true,
+        age_verified_date: new Date().toISOString(),
+        stay_logged_in: stayLoggedIn
+      });
+
+      navigate(createPageUrl('Home'));
+    } catch (err) {
+      setError('Invalid email or password. Please try again.');
+    }
+  };
+
   if (!isVerified) {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4">
