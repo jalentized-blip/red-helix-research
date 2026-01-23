@@ -55,6 +55,7 @@ export default function AgeGate() {
       return;
     }
     
+    setAgeConfirmLoading(true);
     try {
       // Update user with age verification
       await base44.auth.updateMe({
@@ -64,6 +65,7 @@ export default function AgeGate() {
       navigate(createPageUrl('Home'));
     } catch {
       setError('Unable to verify age. Please try again.');
+      setAgeConfirmLoading(false);
     }
   };
 
