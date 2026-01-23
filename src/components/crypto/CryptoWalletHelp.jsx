@@ -146,15 +146,14 @@ export default function CryptoWalletHelp() {
 
   return (
     <>
-      <Button
+      <button
         onClick={() => setIsOpen(true)}
-        variant="outline"
-        size="icon"
-        className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600"
+        className="p-3 bg-red-600 rounded-full shadow-lg hover:bg-red-500 transition-all hover:scale-125 hover:brightness-125"
+        style={{ opacity: 0.2 }}
         title="Crypto wallet help"
       >
-        <HelpCircle className="w-5 h-5" />
-      </Button>
+        <HelpCircle className="w-5 h-5 text-white" />
+      </button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-stone-900 border border-stone-700">
