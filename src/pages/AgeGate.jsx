@@ -145,11 +145,15 @@ export default function AgeGate() {
       <div className="max-w-md w-full">
         <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 space-y-6">
           <div>
-            <h1 className="text-3xl font-black text-amber-50 mb-2">Create Account</h1>
-            <p className="text-stone-400">Sign up to access our peptide catalog</p>
+            <h1 className="text-3xl font-black text-amber-50 mb-2">
+              {isSignIn ? 'Sign In' : 'Create Account'}
+            </h1>
+            <p className="text-stone-400">
+              {isSignIn ? 'Welcome back' : 'Sign up to access our peptide catalog'}
+            </p>
           </div>
 
-          <form onSubmit={handleSignUp} className="space-y-4">
+          <form onSubmit={isSignIn ? handleSignIn : handleSignUp} className="space-y-4">
             <div>
               <label className="block text-amber-50 text-sm font-semibold mb-2">Email</label>
               <input
