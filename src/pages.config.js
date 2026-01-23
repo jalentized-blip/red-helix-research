@@ -9,6 +9,7 @@ import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import AgeGate from './pages/AgeGate';
 import Account from './pages/Account';
 import OrderTracking from './pages/OrderTracking';
+import LearnMore from './pages/LearnMore';
 import __Layout from './Layout.jsx';
 
 
@@ -24,6 +25,7 @@ export const PAGES = {
     "AgeGate": AgeGate,
     "Account": Account,
     "OrderTracking": OrderTracking,
+    "LearnMore": LearnMore,
 }
 
 export const pagesConfig = {
