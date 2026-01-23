@@ -222,6 +222,13 @@ export default function VoiceAssistant() {
     }
   }, [isRecording]);
 
+  const handleSendMessage = async () => {
+    if (!textInput.trim()) return;
+    const messageText = textInput;
+    setTextInput('');
+    await handleProcessTranscript(messageText);
+  };
+
   return (
     <div className="min-h-screen bg-stone-950 pt-24 pb-20 flex flex-col">
       <div className="max-w-2xl mx-auto w-full px-4 flex flex-col h-[calc(100vh-120px)]">
