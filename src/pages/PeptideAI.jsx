@@ -268,11 +268,11 @@ import React, { useState, useRef, useEffect } from 'react';
           <div className="relative">
             <Input
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={isRecording ? transcript.replace('(interim)', '') : input}
+              onChange={(e) => !isRecording && setInput(e.target.value)}
               placeholder="Ask about peptides, protocols, dosing, safety..."
               className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500 pr-40"
-              disabled={loading}
+              disabled={loading || isRecording}
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
               <Button
