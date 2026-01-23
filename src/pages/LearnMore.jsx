@@ -141,6 +141,31 @@ export default function LearnMore() {
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      {/* Disclaimer Modal */}
+      <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>
+        <DialogContent className="bg-stone-900 border border-stone-700 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-amber-50 text-xl">Important Disclaimer</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <DialogDescription className="text-stone-300 text-base leading-relaxed">
+              The information on this page is for <span className="font-semibold">educational and research purposes only</span>. It is <span className="font-semibold">not medical advice</span> and should not be taken as a substitute for professional medical consultation.
+            </DialogDescription>
+            <p className="text-stone-400 text-sm">
+              Always consult with a qualified healthcare provider before using any research chemicals or peptides.
+            </p>
+          </div>
+          <div className="flex gap-3 mt-6">
+            <Button
+              onClick={() => setDisclaimerAccepted(true)}
+              className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
+            >
+              I Understand
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-12">
