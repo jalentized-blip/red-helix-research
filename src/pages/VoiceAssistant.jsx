@@ -35,6 +35,7 @@ export default function VoiceAssistant() {
   const [conversationTitle, setConversationTitle] = useState('');
   const [savedConversations, setSavedConversations] = useState([]);
   const [textInput, setTextInput] = useState('');
+  const [inputMethod, setInputMethod] = useState(null); // 'voice' or 'text'
   const audioRef = useRef(null);
   const recognitionRef = useRef(null);
 
