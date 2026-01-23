@@ -73,9 +73,6 @@ export default function Home() {
   const handleAgeVerification = () => {
     setShowAgeVerification(false);
     setAgeVerified(true);
-    if (!isAuthenticated) {
-      base44.auth.redirectToLogin(createPageUrl('Home'));
-    }
   };
 
   if (showAgeVerification && (!isAuthenticated || !ageVerified)) {
