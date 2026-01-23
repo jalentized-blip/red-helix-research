@@ -505,8 +505,8 @@ export default function CryptoCheckout() {
                 </Button>
               </div>
             </DialogContent>
-          </Dialog>
-
-                    );
-                    }
-          }
+            </Dialog>
+            </div>
+            </div>
+            );
+            }
