@@ -143,13 +143,13 @@ const navLinks = [
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-6">
-            <Link to={createPageUrl('Home')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all uppercase tracking-wide">
+            <Link to={createPageUrl('Home')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
               Home
             </Link>
-            <Link to={createPageUrl('About')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all uppercase tracking-wide">
+            <Link to={createPageUrl('About')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
               About
             </Link>
-            <Link to={createPageUrl('Contact')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all uppercase tracking-wide">
+            <Link to={createPageUrl('Contact')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
               Contact
             </Link>
             {navLinks.map((link) => 
