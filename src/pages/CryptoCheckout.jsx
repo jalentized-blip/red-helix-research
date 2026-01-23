@@ -128,7 +128,7 @@ export default function CryptoCheckout() {
     pollWalletPayment();
     const interval = setInterval(pollWalletPayment, 8000);
     return () => clearInterval(interval);
-  }, [walletAddress, selectedCrypto, cryptoAmount, finalTotal, paymentCleared]);
+  }, [walletAddress, selectedCrypto, cryptoAmount, finalTotal, paymentCleared, formApplied]);
 
   // Auto-verify transaction ID when entered
   useEffect(() => {
