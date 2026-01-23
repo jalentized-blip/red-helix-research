@@ -48,12 +48,22 @@ export default function AgeGate() {
     );
   }
 
-  const handleAgeConfirm = (confirmed) => {
+  const handleAgeConfirm = async (confirmed) => {
     if (!confirmed) {
       window.location.href = 'https://www.google.com';
       return;
     }
-    setIsVerified(true);
+    
+    try {
+      // Update user with age verification
+      await base44.auth.updateMe({
+        age_verified: true,
+        age_verified_date: new Date().toISOString()
+      });
+      navigate(createPageUrl('Home'));
+    } catch {
+      setError('Unable to verify age. Please try again.');
+    }
   };
 
   const handleSignUp = async (e) => {
