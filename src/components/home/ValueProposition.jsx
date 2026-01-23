@@ -17,11 +17,7 @@ export default function ValueProposition() {
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-4xl mx-auto leading-relaxed">
-            At Red Dirt Research, our commitment is simple: quality, consistency, and transparency. 
-            Every compound we provide is produced in cGMP-certified, FDA audited facilities, 
-            independently tested by American third-party labs, and backed by Certificates of Analysis. 
-            With rigorous testing for identity, purity, net content, endotoxins, and sterility, 
-            we deliver research-use materials you can trust — with consistency in every batch.
+            At Red Dirt Research, we're committed to transforming the peptide industry with radical transparency and fair pricing. For years, US vendors have tripled peptide prices with little difference from the big pharma they're supposedly rebelling against—hiding costs, supply chains, and quality to prioritize profits over progress. We're different: We pledge full openness, empowering researchers with accessible, high-quality peptides.
           </p>
         </motion.div>
 
