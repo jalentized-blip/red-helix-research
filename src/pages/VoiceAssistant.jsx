@@ -404,6 +404,26 @@ export default function VoiceAssistant() {
           </div>
         </div>
 
+        {/* Text Input Box */}
+        <div className="mt-8 flex gap-2">
+          <input
+            type="text"
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            placeholder="Type your message..."
+            className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
+            disabled={isLoading || isSpeaking}
+          />
+          <button
+            onClick={handleSendMessage}
+            disabled={isLoading || isSpeaking || !textInput.trim()}
+            className="bg-red-700 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded-lg transition-colors"
+          >
+            <Send className="w-4 h-4 text-amber-50" />
+          </button>
+        </div>
+
         {/* Saved Conversations Sidebar */}
         {savedConversations.length > 0 && (
           <div className="mt-8 pt-8 border-t border-stone-700">
@@ -428,7 +448,7 @@ export default function VoiceAssistant() {
             </div>
           </div>
         )}
-      </div>
-    </div>
-  );
-}
+        </div>
+        </div>
+        );
+        }
