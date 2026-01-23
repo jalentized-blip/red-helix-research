@@ -102,6 +102,26 @@ export default function AgeGate() {
     }
   };
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+
+    setResetLoading(true);
+    try {
+      await base44.auth.requestPasswordReset(email);
+      setResetSuccess(true);
+    } catch (err) {
+      setError('Unable to send reset email. Please try again.');
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   if (!isVerified) {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4">
