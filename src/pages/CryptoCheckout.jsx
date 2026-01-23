@@ -463,7 +463,7 @@ export default function CryptoCheckout() {
                     ref={progressRef}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-12 bg-stone-900/50 border border-stone-700 rounded-lg p-6"
+                    className="mt-32 bg-stone-900/50 border border-stone-700 rounded-lg p-6"
                     >
           <div className="mb-4">
           <p className="text-sm font-semibold text-stone-300 mb-2">Transaction Progress</p>
