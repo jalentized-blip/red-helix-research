@@ -70,8 +70,31 @@ export default function Home() {
     }
   }, []);
 
+  const handleAgeVerification = () => {
+    setShowAgeVerification(false);
+    setAgeVerified(true);
+    if (!isAuthenticated) {
+      base44.auth.redirectToLogin(createPageUrl('Home'));
+    }
+  };
+
+  if (showAgeVerification && (!isAuthenticated || !ageVerified)) {
+    return (
+      <div className="min-h-screen bg-stone-950 text-amber-50 flex items-center justify-center">
+        <AgeVerification 
+          isOpen={true} 
+          onVerify={handleAgeVerification} 
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50">
+      <AgeVerification 
+        isOpen={showAgeVerification} 
+        onVerify={handleAgeVerification} 
+      />
       <Hero />
       <TrustBar />
       <ValueProposition />
