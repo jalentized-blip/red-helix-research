@@ -1,17 +1,19 @@
-import Cart from './pages/Cart';
-import Home from './pages/Home';
 import About from './pages/About';
+import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import CryptoCheckout from './pages/CryptoCheckout';
+import Home from './pages/Home';
+import PaymentCompleted from './pages/PaymentCompleted';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Cart": Cart,
-    "Home": Home,
     "About": About,
+    "Cart": Cart,
     "Contact": Contact,
     "CryptoCheckout": CryptoCheckout,
+    "Home": Home,
+    "PaymentCompleted": PaymentCompleted,
 }
 
 export const pagesConfig = {
