@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode } from '@/components/utils/cart';
-import { Trash2, ShoppingBag, ArrowLeft, X, Check } from 'lucide-react';
+import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
@@ -193,10 +193,11 @@ export default function Cart() {
                 </div>
 
                 <Button 
-                  onClick={() => navigate(createPageUrl('CryptoCheckout'))}
-                  className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3"
+                  onClick={() => navigate(createPageUrl('CustomerInfo'))}
+                  className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3 gap-2"
                 >
-                  Checkout with Crypto
+                  Proceed to Checkout
+                  <ArrowRight className="w-4 h-4" />
                 </Button>
 
                 <Button
