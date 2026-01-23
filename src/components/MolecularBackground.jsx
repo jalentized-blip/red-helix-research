@@ -54,14 +54,20 @@ export default function MolecularBackground() {
 function SVGMolecule({ size }) {
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" className="text-red-600">
-      <circle cx="50" cy="30" r="6" fill="currentColor" opacity="0.7" />
-      <circle cx="30" cy="60" r="5" fill="currentColor" opacity="0.6" />
-      <circle cx="70" cy="60" r="5" fill="currentColor" opacity="0.6" />
-      <circle cx="50" cy="80" r="4" fill="currentColor" opacity="0.5" />
-      <line x1="50" y1="36" x2="35" y2="55" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-      <line x1="50" y1="36" x2="65" y2="55" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-      <line x1="30" y1="65" x2="50" y2="76" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-      <line x1="70" y1="65" x2="50" y2="76" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+      <defs>
+        <linearGradient id="vialGradient" x1="0%" y1="0%" x2="100%">
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0.4" />
+        </linearGradient>
+      </defs>
+      {/* Vial cap */}
+      <rect x="40" y="15" width="20" height="8" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
+      {/* Vial body */}
+      <path d="M 35 23 L 30 35 Q 28 50 30 65 Q 32 75 50 78 Q 68 75 70 65 Q 72 50 70 35 L 65 23 Z" 
+            fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.7" />
+      {/* Vial shine/highlight */}
+      <path d="M 38 28 Q 37 45 38 60" 
+            fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.3" />
     </svg>
   );
 }
