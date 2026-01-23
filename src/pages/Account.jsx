@@ -41,7 +41,8 @@ export default function Account() {
   }, [navigate]);
 
   const handleLogout = async () => {
-    await base44.auth.logout(createPageUrl('Home'));
+    await base44.auth.logout();
+    navigate(createPageUrl('Home'));
   };
 
   if (loading) {
