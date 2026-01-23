@@ -3,6 +3,8 @@ import { ShoppingCart, Menu, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { getCartCount } from '@/components/utils/cart';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 
 const navLinks = [
   { label: "Peptides", href: "#products" },
@@ -78,18 +80,20 @@ export default function Layout({ children }) {
               <Search className="w-5 h-5" />
             </Button>
 
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="border-stone-700 text-stone-300 hover:text-red-600 hover:border-red-600/50 hover:bg-red-600/10 relative"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </Button>
+            <Link to={createPageUrl('Cart')}>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="border-stone-700 text-stone-300 hover:text-red-600 hover:border-red-600/50 hover:bg-red-600/10 relative"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
 
             {/* Mobile Menu */}
             <Sheet>
