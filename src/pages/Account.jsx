@@ -30,7 +30,8 @@ export default function Account() {
         }
         setUser(currentUser);
       } catch (err) {
-        navigate(createPageUrl('Home'));
+        base44.auth.redirectToLogin(createPageUrl('Account'));
+        return;
       } finally {
         setLoading(false);
       }
