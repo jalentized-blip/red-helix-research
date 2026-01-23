@@ -95,7 +95,7 @@ export default function CryptoCheckout() {
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-stone-300 block">Select Cryptocurrency</label>
                 <div className="grid grid-cols-2 gap-2">
-                  {Object.keys(exchangeRates).map((crypto) => (
+                  {exchangeRates && Object.keys(exchangeRates).map((crypto) => (
                     <button
                       key={crypto}
                       onClick={() => setSelectedCrypto(crypto)}
