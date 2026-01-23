@@ -3,7 +3,7 @@ import { TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
 
-export default function BestSellers({ products }) {
+export default function BestSellers({ products, onSelectStrength }) {
   const featuredProducts = products.filter(p => p.is_featured).slice(0, 7);
 
   return (
@@ -34,7 +34,7 @@ export default function BestSellers({ products }) {
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {featuredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
+            <ProductCard key={product.id} product={product} index={index} onSelectStrength={onSelectStrength} />
           ))}
         </div>
       </div>

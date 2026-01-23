@@ -24,7 +24,7 @@ const categoryLabels = {
   general_health: "General Health"
 };
 
-export default function ProductCard({ product, index = 0 }) {
+export default function ProductCard({ product, index = 0, onSelectStrength }) {
   const badge = product.badge ? badgeConfig[product.badge] : null;
 
   return (
@@ -83,6 +83,7 @@ export default function ProductCard({ product, index = 0 }) {
           </div>
 
           <Button 
+            onClick={() => onSelectStrength?.(product)}
             className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
           >
             Select strength

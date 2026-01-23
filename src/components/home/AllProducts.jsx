@@ -15,7 +15,7 @@ const categories = [
   { id: "general_health", label: "General Health" },
 ];
 
-export default function AllProducts({ products }) {
+export default function AllProducts({ products, onSelectStrength }) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -81,7 +81,7 @@ export default function AllProducts({ products }) {
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
+            <ProductCard key={product.id} product={product} index={index} onSelectStrength={onSelectStrength} />
           ))}
         </div>
 
