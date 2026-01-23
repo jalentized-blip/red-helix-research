@@ -54,3 +54,37 @@ export const getCartCount = () => {
 export const getCartTotal = () => {
   return getCart().reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
+
+// Promo codes - manage from here
+const PROMO_CODES = {
+  'SAVE10': { discount: 0.10, label: '10% off' },
+  'SAVE20': { discount: 0.20, label: '20% off' },
+  'WELCOME': { discount: 0.15, label: '15% off first order' },
+};
+
+export const validatePromoCode = (code) => {
+  return PROMO_CODES[code.toUpperCase()] || null;
+};
+
+export const getDiscountAmount = (code, total) => {
+  const promo = validatePromoCode(code);
+  return promo ? total * promo.discount : 0;
+};
+
+export const addPromoCode = (code) => {
+  if (validatePromoCode(code)) {
+    localStorage.setItem('rdr_promo', code.toUpperCase());
+    window.dispatchEvent(new Event('promoUpdated'));
+    return true;
+  }
+  return false;
+};
+
+export const getPromoCode = () => {
+  return localStorage.getItem('rdr_promo');
+};
+
+export const removePromoCode = () => {
+  localStorage.removeItem('rdr_promo');
+  window.dispatchEvent(new Event('promoUpdated'));
+};
