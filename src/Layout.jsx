@@ -210,7 +210,7 @@ const navLinks = [
                     Orders
                   </Link>
                   <button
-                    onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
+                    onClick={() => base44.auth.redirectToLogin(createPageUrl('AgeGate'))}
                     className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50"
                   >
                     Sign In
