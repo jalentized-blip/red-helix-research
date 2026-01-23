@@ -193,7 +193,7 @@ export default function VoiceAssistant() {
     }
   };
 
-  const handleProcessTranscript = async (finalTranscript) => {
+  const handleProcessTranscript = async (finalTranscript, method = 'voice') => {
     setMessages(prev => [...prev, { role: 'user', content: finalTranscript, timestamp: new Date().toISOString() }]);
     setTranscript('');
     setIsLoading(true);
@@ -209,11 +209,16 @@ export default function VoiceAssistant() {
         throw new Error('No response from AI');
       }
       setMessages(prev => [...prev, { role: 'assistant', content: aiResponse, timestamp: new Date().toISOString() }]);
-      await speakText(aiResponse);
+      
+      if (method === 'voice') {
+        await speakText(aiResponse);
+      }
     } catch (err) {
       console.error('Error getting response:', err);
-      const errorMsg = "Sorry, I couldn't process that. Please try again.";
-      await speakText(errorMsg);
+      if (method === 'voice') {
+        const errorMsg = "Sorry, I couldn't process that. Please try again.";
+        await speakText(errorMsg);
+      }
     } finally {
       setIsLoading(false);
     }
