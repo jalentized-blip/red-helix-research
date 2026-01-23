@@ -25,18 +25,19 @@ const navLinks = [
           const handleScroll = () => {
             setScrolled(window.scrollY > 50);
             
-            // Get ValueProposition section position
-            const valueSection = document.querySelector('section');
-            if (valueSection) {
-              const rect = valueSection.getBoundingClientRect();
-              const sectionTop = window.scrollY + rect.top;
+            // Find the DollarSign icons in ValueProposition
+            const dollarSigns = document.querySelectorAll('[data-testid="dollar-icon"]');
+            if (dollarSigns.length > 0) {
+              const firstDollar = dollarSigns[0];
+              const rect = firstDollar.getBoundingClientRect();
+              const dollarTop = window.scrollY + rect.top;
               
-              if (window.scrollY > sectionTop) {
-                // Past the section - minimize and fade
+              if (window.scrollY > dollarTop) {
+                // Past the dollar signs - minimize and fade
                 setLogoScale(0.3);
                 setLogoOpacity(0);
               } else {
-                // Before section - normal
+                // Before dollar signs - normal
                 setLogoScale(1);
                 setLogoOpacity(1);
               }
