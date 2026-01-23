@@ -279,88 +279,196 @@ export default function PeptideCalculator() {
                 {/* Visual Meter */}
                 <div className="bg-stone-800/50 rounded-lg p-8 mb-8">
                   <div className="text-center">
-                    <svg viewBox="0 0 300 250" className="w-full h-auto max-w-md mx-auto">
-                      {/* Syringe plunger */}
-                      <g>
-                        <circle cx="20" cy="125" r="12" fill="none" stroke="#e7e5e4" strokeWidth="2" />
-                        <rect x="12" y="110" width="16" height="30" fill="#d97706" rx="2" />
-                      </g>
+                    <svg viewBox="0 0 400 280" className="w-full h-auto max-w-2xl mx-auto" style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5))' }}>
+                      <defs>
+                        <linearGradient id="barrelGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#e2e8f0" />
+                          <stop offset="50%" stopColor="#cbd5e1" />
+                          <stop offset="100%" stopColor="#94a3b8" />
+                        </linearGradient>
+                        <linearGradient id="plungerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#fbbf24" />
+                          <stop offset="50%" stopColor="#f59e0b" />
+                          <stop offset="100%" stopColor="#d97706" />
+                        </linearGradient>
+                        <linearGradient id="fillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#ef4444" />
+                          <stop offset="100%" stopColor="#dc2626" />
+                        </linearGradient>
+                      </defs>
 
-                      {/* Syringe barrel */}
-                      <g>
-                        {/* Barrel body */}
-                        <path
-                          d="M 40 85 L 260 85 Q 270 85 270 95 L 270 155 Q 270 165 260 165 L 40 165 Q 30 165 30 155 L 30 95 Q 30 85 40 85 Z"
-                          fill="none"
-                          stroke="#78716c"
-                          strokeWidth="2"
-                        />
+                      {/* Syringe barrel - outer barrel */}
+                      <rect
+                        x="70"
+                        y="90"
+                        width="240"
+                        height="70"
+                        rx="35"
+                        fill="url(#barrelGradient)"
+                        stroke="#64748b"
+                        strokeWidth="1.5"
+                      />
 
-                        {/* Fill */}
-                        <path
-                          d={`M 40 85 L ${40 + Math.min(220, (drawUnits / 100) * 220)} 85 Q ${Math.min(270, 50 + (drawUnits / 100) * 220)} 85 ${Math.min(270, 50 + (drawUnits / 100) * 220)} 95 L ${Math.min(270, 50 + (drawUnits / 100) * 220)} 155 Q ${Math.min(270, 50 + (drawUnits / 100) * 220)} 165 ${40 + Math.min(220, (drawUnits / 100) * 220)} 165 L 40 165 Q 30 165 30 155 L 30 95 Q 30 85 40 85 Z`}
-                          fill="#dc2626"
-                          opacity="0.5"
-                        />
+                      {/* Barrel inner highlight */}
+                      <rect
+                        x="72"
+                        y="92"
+                        width="236"
+                        height="20"
+                        rx="10"
+                        fill="white"
+                        opacity="0.3"
+                      />
 
-                        {/* Grid lines for units (10, 20, 30... 100) */}
-                        {Array.from({ length: 11 }).map((_, i) => {
-                          const x = 40 + (i * 220) / 10;
-                          return (
-                            <g key={`unit-${i}`}>
-                              <line
-                                x1={x}
-                                y1="80"
-                                x2={x}
-                                y2="170"
-                                stroke="#64748b"
-                                strokeWidth={i % 5 === 0 ? 1.5 : 0.5}
-                                strokeDasharray={i % 5 === 0 ? '0' : '2,2'}
-                              />
-                              {i % 5 === 0 && (
-                                <text
-                                  x={x}
-                                  y="185"
-                                  textAnchor="middle"
-                                  fontSize="12"
-                                  fill="#cbd5e1"
-                                  fontWeight="500"
-                                >
-                                  {i * 10}
-                                </text>
-                              )}
-                            </g>
-                          );
-                        })}
+                      {/* Liquid fill */}
+                      <path
+                        d={`M 75 105 L ${75 + Math.min(234, (drawUnits / 100) * 234)} 105 Q ${Math.min(310, 75 + (drawUnits / 100) * 234)} 105 ${Math.min(310, 75 + (drawUnits / 100) * 234)} 125 L ${Math.min(310, 75 + (drawUnits / 100) * 234)} 145 Q ${Math.min(310, 75 + (drawUnits / 100) * 234)} 155 ${75 + Math.min(234, (drawUnits / 100) * 234)} 155 L 75 155 Q 70 155 70 150 L 70 110 Q 70 105 75 105 Z`}
+                        fill="url(#fillGradient)"
+                        opacity="0.8"
+                      />
 
-                        {/* Fill indicator line */}
-                        <line
-                          x1={40 + (drawUnits / 100) * 220}
-                          y1="75"
-                          x2={40 + (drawUnits / 100) * 220}
-                          y2="175"
-                          stroke="#fbbf24"
-                          strokeWidth="3"
-                          strokeDasharray="5,5"
-                        />
-                      </g>
+                      {/* Measurement markings */}
+                      {Array.from({ length: 21 }).map((_, i) => {
+                        const x = 75 + (i * 234) / 20;
+                        const isMainMark = i % 5 === 0;
+                        return (
+                          <g key={`mark-${i}`}>
+                            <line
+                              x1={x}
+                              y1={isMainMark ? 80 : 85}
+                              x2={x}
+                              y2={isMainMark ? 85 : 86}
+                              stroke="#64748b"
+                              strokeWidth={isMainMark ? 2 : 1}
+                            />
+                            {isMainMark && (
+                              <text
+                                x={x}
+                                y="75"
+                                textAnchor="middle"
+                                fontSize="13"
+                                fontWeight="600"
+                                fill="#cbd5e1"
+                                fontFamily="monospace"
+                              >
+                                {i * 5}
+                              </text>
+                            )}
+                          </g>
+                        );
+                      })}
+
+                      {/* Plunger rod */}
+                      <rect
+                        x={20 + (drawUnits / 100) * 234}
+                        y="110"
+                        width="45"
+                        height="50"
+                        rx="4"
+                        fill="url(#plungerGradient)"
+                        stroke="#92400e"
+                        strokeWidth="1.5"
+                      />
+
+                      {/* Plunger handle grooves */}
+                      <rect
+                        x={22 + (drawUnits / 100) * 234}
+                        y="112"
+                        width="41"
+                        height="6"
+                        rx="2"
+                        fill="none"
+                        stroke="#92400e"
+                        strokeWidth="0.5"
+                      />
+                      <rect
+                        x={22 + (drawUnits / 100) * 234}
+                        y="125"
+                        width="41"
+                        height="6"
+                        rx="2"
+                        fill="none"
+                        stroke="#92400e"
+                        strokeWidth="0.5"
+                      />
+                      <rect
+                        x={22 + (drawUnits / 100) * 234}
+                        y="138"
+                        width="41"
+                        height="6"
+                        rx="2"
+                        fill="none"
+                        stroke="#92400e"
+                        strokeWidth="0.5"
+                      />
+
+                      {/* Needle hub */}
+                      <ellipse cx="315" cy="130" rx="10" ry="14" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" />
 
                       {/* Needle */}
-                      <g>
-                        <circle cx="270" cy="125" r="4" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-                        <path d="M 273 125 L 285 125" stroke="#94a3b8" strokeWidth="1.5" />
-                      </g>
+                      <path
+                        d="M 323 130 L 360 128 L 360 132 Z"
+                        fill="#cbd5e1"
+                        stroke="#64748b"
+                        strokeWidth="1"
+                      />
 
-                      {/* Label */}
+                      {/* Needle shadow */}
+                      <line
+                        x1="323"
+                        y1="132"
+                        x2="360"
+                        y2="134"
+                        stroke="#475569"
+                        strokeWidth="1"
+                        opacity="0.5"
+                      />
+
+                      {/* Target line (yellow dashed) */}
+                      <line
+                        x1={75 + (drawUnits / 100) * 234}
+                        y1="60"
+                        x2={75 + (drawUnits / 100) * 234}
+                        y2="170"
+                        stroke="#fbbf24"
+                        strokeWidth="2.5"
+                        strokeDasharray="4,4"
+                        opacity="0.9"
+                      />
+
+                      {/* Target text */}
                       <text
-                        x="150"
-                        y="220"
+                        x={75 + (drawUnits / 100) * 234}
+                        y="50"
                         textAnchor="middle"
-                        fontSize="16"
+                        fontSize="14"
+                        fontWeight="700"
+                        fill="#fbbf24"
+                      >
+                        {drawUnits}U
+                      </text>
+
+                      {/* Bottom label */}
+                      <text
+                        x="200"
+                        y="225"
+                        textAnchor="middle"
+                        fontSize="18"
                         fontWeight="700"
                         fill="#fed7aa"
                       >
                         Draw to {drawUnits} units ({drawAmount} mL)
+                      </text>
+
+                      {/* 1mL indicator */}
+                      <text
+                        x="200"
+                        y="250"
+                        textAnchor="middle"
+                        fontSize="12"
+                        fill="#94a3b8"
+                      >
+                        1mL Syringe
                       </text>
                     </svg>
                   </div>
