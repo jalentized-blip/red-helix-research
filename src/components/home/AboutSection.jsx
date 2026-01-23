@@ -67,18 +67,12 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-stone-700 bg-stone-800">
-              {vialImage ? (
-                <img 
-                  src={vialImage}
-                  alt="Peptide vials"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-stone-500">Loading image...</div>
-                </div>
-              )}
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-stone-700 bg-stone-100 flex items-center justify-center p-4">
+              <img 
+                src={vialImage}
+                alt="Retatrutide vial"
+                className="h-full object-contain"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 to-transparent" />
             </div>
             
