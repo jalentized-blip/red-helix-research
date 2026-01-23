@@ -1,15 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 export default function PeptideCalculator() {
+  const [selectedPeptide, setSelectedPeptide] = useState(null);
+  const [dosingInfo, setDosingInfo] = useState(null);
+  const [dosingLoading, setDosingLoading] = useState(false);
   const [dose, setDose] = useState('0.5');
   const [doseCustom, setDoseCustom] = useState('');
   const [strength, setStrength] = useState('10');
   const [strengthCustom, setStrengthCustom] = useState('');
   const [water, setWater] = useState('3.0');
   const [waterCustom, setWaterCustom] = useState('');
+
+  // Fetch products from database
+  const { data: products = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => base44.entities.Product.list(),
+  });
+
+  // Fetch dosing info when peptide is selected
+  const fetchDosingInfo = async (peptideName) => {
+    if (!peptideName) return;
+    setDosingLoading(true);
+    try {
+      const info = await base44.integrations.Core.InvokeLLM({
+        prompt: `Find detailed dosing information for ${peptideName} from peptidedosages.com. Include:
+        1. Typical dosage range
+        2. Reconstitution recommendations
+        3. Common injection protocols
+        4. Frequency of administration
+        5. Any special notes or precautions
+        
+        Format the response in a clear, structured way suitable for a dosing guide.`,
+        add_context_from_internet: true,
+      });
+      setDosingInfo(info);
+    } catch (error) {
+      console.error('Error fetching dosing info:', error);
+    } finally {
+      setDosingLoading(false);
+    }
+  };
+
+  const handlePeptideSelect = (peptideName) => {
+    setSelectedPeptide(peptideName);
+    fetchDosingInfo(peptideName);
+  };
 
   const doseOptions = ['0.1', '0.25', '0.5', '1', '2.5', '5', '7.5', '10', '12.5', '15', '50'];
   const strengthOptions = ['1', '5', '10', '15', '20', '30', '50', '1000'];
