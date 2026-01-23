@@ -83,21 +83,11 @@ export default function VoiceAssistant() {
     }
   };
 
-  const handleSpeak = () => {
-    if (text.trim()) {
-      const finalText = text.trim();
-      setResponses(prev => [...prev, { id: Date.now(), text: finalText }]);
-      speakText(finalText);
-      setText('');
-    }
-  };
-
   useEffect(() => {
     if (!isRecording && transcript && !transcript.includes('(interim)')) {
       const finalTranscript = transcript.replace('(interim)', '').trim();
       if (finalTranscript) {
-        const messageId = Date.now();
-        setResponses(prev => [...prev, { id: messageId, text: finalTranscript }]);
+        setResponses(prev => [...prev, { id: Date.now(), text: finalTranscript }]);
         setTranscript('');
         speakText(finalTranscript);
       }
