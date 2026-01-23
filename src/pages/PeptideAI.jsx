@@ -66,6 +66,12 @@ export default function PeptideAI() {
       recognition.onend = () => {
         setIsListening(false);
         setTranscript('');
+        // Auto-continue listening if in voice call mode
+        if (voiceCallActive && autoRecordNext) {
+          setTimeout(() => {
+            recognition.start();
+          }, 500);
+        }
       };
 
       recognition.onerror = () => {
