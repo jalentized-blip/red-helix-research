@@ -182,7 +182,7 @@ export default function LearnMore() {
                       {product.description}
                     </p>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2 text-white/80 text-sm">
                         <Beaker className="w-4 h-4" />
                         <span>View Research</span>
@@ -191,6 +191,8 @@ export default function LearnMore() {
                         ${product.price_from}+
                       </span>
                     </div>
+
+                    <SourcesBubble productName={product.name} />
                   </div>
 
                   {/* Hover effect */}
