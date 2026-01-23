@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, ShoppingCart, CheckCircle } from "lucide-react";
+import { addToCart } from '@/utils/cart';
 
 export default function ProductModal({ product, isOpen, onClose }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
@@ -11,12 +12,14 @@ export default function ProductModal({ product, isOpen, onClose }) {
   if (!product) return null;
 
   const handleAddToCart = () => {
-    // Add to cart logic here
-    setAddedToCart(true);
-    setTimeout(() => {
-      setAddedToCart(false);
-      onClose();
-    }, 1500);
+    if (selectedSpec) {
+      addToCart(product, selectedSpec);
+      setAddedToCart(true);
+      setTimeout(() => {
+        setAddedToCart(false);
+        onClose();
+      }, 1500);
+    }
   };
 
   return (
