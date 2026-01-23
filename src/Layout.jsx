@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { getCartCount } from '@/components/utils/cart';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
-import { base44 } from '@/api/base44Client';
+      import { Link } from 'react-router-dom';
+      import { createPageUrl } from '@/utils';
+      import { base44 } from '@/api/base44Client';
+      import MolecularBackground from '@/components/MolecularBackground';
 
 const navLinks = [
                     { label: "Peptides", href: "#products" },
