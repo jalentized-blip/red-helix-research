@@ -142,7 +142,11 @@ export default function AgeGate() {
 
     setResetLoading(true);
     try {
-      await base44.auth.requestPasswordReset(email);
+      await base44.integrations.Core.SendEmail({
+        to: email,
+        subject: 'Password Reset Request - Red Dirt Research',
+        body: `Hello,\n\nWe received a request to reset your password. Please click the link below to reset your password:\n\n${window.location.origin}/reset-password\n\nIf you didn't request this, please ignore this email.\n\nBest regards,\nRed Dirt Research Team`
+      });
       setResetSuccess(true);
     } catch (err) {
       setError('Unable to send reset email. Please try again.');
