@@ -4,6 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ProductModal from '@/components/product/ProductModal';
+import AgeVerification from '@/components/AgeVerification';
 
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
