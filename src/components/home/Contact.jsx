@@ -8,7 +8,7 @@ const contactMethods = [
   {
     icon: Mail,
     label: "Email",
-    value: "support@chimerapeptides.com",
+    value: "support@reddirtresearch.com",
     color: "bg-red-500/20 text-red-400 hover:bg-red-500/30"
   },
   {
