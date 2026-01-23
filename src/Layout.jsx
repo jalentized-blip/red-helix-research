@@ -217,7 +217,9 @@ const navLinks = [
                           My Account
                         </Link>
                         <button
-                          onClick={() => base44.auth.logout()}
+                          onClick={() => {
+                            base44.auth.logout(createPageUrl('Home'));
+                          }}
                           className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
                         >
                           Sign Out
