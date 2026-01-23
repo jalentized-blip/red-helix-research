@@ -86,20 +86,8 @@ export default function AgeGate() {
       return;
     }
 
-    try {
-      await base44.auth.login(email, password);
-      
-      // Store age verification in user profile
-      await base44.auth.updateMe({
-        age_verified: true,
-        age_verified_date: new Date().toISOString(),
-        stay_logged_in: stayLoggedIn
-      });
-
-      navigate(createPageUrl('Home'));
-    } catch (err) {
-      setError('Invalid email or password. Please try again.');
-    }
+    // Redirect to login with age verification callback
+    base44.auth.redirectToLogin(createPageUrl('Home'));
   };
 
   const handleForgotPassword = async (e) => {
