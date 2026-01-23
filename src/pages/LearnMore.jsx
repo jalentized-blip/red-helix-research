@@ -7,6 +7,84 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 
+const SourcesBubble = ({ productName }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [sources, setSources] = useState([]);
+  const [loadingSource, setLoadingSource] = useState(false);
+
+  const handleExpand = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isExpanded && sources.length === 0) {
+      setLoadingSource(true);
+      try {
+        const response = await base44.integrations.Core.InvokeLLM({
+          prompt: `Find 3 real YouTube video URLs and sources that explain "${productName}" in detail. Return a JSON array with objects containing "title" and "url" fields. Only include real, verified video links.`,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              sources: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    title: { type: "string" },
+                    url: { type: "string" }
+                  }
+                }
+              }
+            }
+          }
+        });
+        setSources(response.sources || []);
+      } catch (error) {
+        console.error('Error fetching sources:', error);
+      }
+      setLoadingSource(false);
+    }
+    setIsExpanded(!isExpanded);
+  };
+
+  return (
+    <div className="mt-4">
+      <button
+        onClick={handleExpand}
+        className="inline-flex items-center gap-2 px-3 py-2 bg-black/40 hover:bg-black/60 rounded-full transition-all"
+      >
+        <Youtube className="w-4 h-4 text-red-500" />
+        <span className="text-xs font-semibold text-amber-50">Sources</span>
+        <ChevronDown className={`w-3 h-3 text-amber-50 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isExpanded && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-3 space-y-2 bg-black/40 rounded-lg p-3"
+        >
+          {loadingSource ? (
+            <p className="text-xs text-stone-400">Loading sources...</p>
+          ) : sources.length > 0 ? (
+            sources.map((source, idx) => (
+              <a
+                key={idx}
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-xs text-blue-300 hover:text-blue-100 underline truncate"
+              >
+                {source.title}
+              </a>
+            ))
+          ) : (
+            <p className="text-xs text-stone-400">No sources available</p>
+          )}
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
 export default function LearnMore() {
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['products'],
