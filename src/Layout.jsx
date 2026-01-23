@@ -11,13 +11,14 @@ import { getCartCount } from '@/components/utils/cart';
 import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
 
 const navLinks = [
-                    { label: "Peptides", href: "#products" },
-                    { label: "Peptide Blends", href: "#goals" },
-                    { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
-                    { label: "Peptide AI", href: createPageUrl('PeptideAI'), isPage: true },
-                    { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
-                    { label: "COAs", href: "#certificates" },
-                  ];
+                          { label: "Peptides", href: "#products" },
+                          { label: "Peptide Blends", href: "#goals" },
+                          { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
+                          { label: "Peptide AI", href: createPageUrl('PeptideAI'), isPage: true },
+                          { label: "Voice Assistant", href: createPageUrl('VoiceAssistantNav'), isPage: true },
+                          { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
+                          { label: "COAs", href: "#certificates" },
+                        ];
 
       export default function Layout({ children }) {
         const [scrolled, setScrolled] = useState(false);
