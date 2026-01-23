@@ -41,7 +41,7 @@ export default function WhyTrustUs() {
             <span className="text-white">Why Researchers Trust</span>
             <br />
             <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
-              Chimera Peptides
+              Red Dirt Research
             </span>
           </h2>
           <p className="text-neutral-400 text-lg">

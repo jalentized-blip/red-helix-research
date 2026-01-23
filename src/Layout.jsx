@@ -40,11 +40,11 @@ export default function Layout({ children }) {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 border border-yellow-500/30 flex items-center justify-center">
-              <span className="text-lg font-black text-yellow-400">CP</span>
+              <span className="text-lg font-black text-yellow-400">RD</span>
             </div>
             <div className="hidden sm:block">
-              <span className="text-lg font-bold text-white">CHIMERA</span>
-              <span className="text-lg font-bold text-yellow-400 ml-1">PEPTIDES</span>
+              <span className="text-lg font-bold text-white">RED DIRT</span>
+              <span className="text-lg font-bold text-yellow-400 ml-1">RESEARCH</span>
             </div>
           </div>
 

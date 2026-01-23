@@ -17,7 +17,7 @@ export default function ValueProposition() {
             </span>
           </h2>
           <p className="text-neutral-400 text-lg max-w-4xl mx-auto leading-relaxed">
-            At Chimera Peptides, our commitment is simple: quality, consistency, and transparency. 
+            At Red Dirt Research, our commitment is simple: quality, consistency, and transparency. 
             Every compound we provide is produced in cGMP-certified, FDA audited facilities, 
             independently tested by American third-party labs, and backed by Certificates of Analysis. 
             With rigorous testing for identity, purity, net content, endotoxins, and sterility, 

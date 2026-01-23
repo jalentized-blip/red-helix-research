@@ -33,7 +33,7 @@ export default function Footer() {
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 border border-yellow-500/30 flex items-center justify-center">
               <span className="text-lg font-black text-yellow-400">CP</span>
             </div>
-            <span className="text-lg font-bold text-white">Chimera Peptides</span>
+            <span className="text-lg font-bold text-white">Red Dirt Research</span>
           </div>
 
           {/* Contact Links */}
@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-neutral-500">
-            © 2024 Chimera Peptides. All rights reserved.
+            © 2024 Red Dirt Research. All rights reserved.
           </p>
         </div>
       </div>

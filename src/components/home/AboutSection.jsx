@@ -27,13 +27,13 @@ export default function AboutSection() {
               <span className="text-white">About</span>
               <br />
               <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
-                Chimera Peptides
+                Red Dirt Research
               </span>
             </h2>
 
             <div className="space-y-4 text-neutral-300 leading-relaxed">
               <p>
-                Chimera Peptides is a trusted supplier of premium research-use compounds, 
+                Red Dirt Research is a trusted supplier of premium research-use compounds, 
                 dedicated to unmatched quality, safety, and transparency. We proudly serve 
                 laboratories, academic institutions, and professional researchers across the 
                 world with fast, reliable service.
@@ -45,7 +45,7 @@ export default function AboutSection() {
                 the confidence and clarity they need for consistent results.
               </p>
               <p>
-                With same-day shipping and a commitment to precision, Chimera Peptides is 
+                With same-day shipping and a commitment to precision, Red Dirt Research is 
                 your dependable partner for research excellence.
               </p>
             </div>
