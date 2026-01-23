@@ -353,6 +353,17 @@ export default function VoiceAssistant() {
             )}
           </div>
 
+          {/* Real-time Transcription Display */}
+          {isRecording && transcript && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 bg-stone-800/50 border border-red-600/30 rounded-lg px-4 py-3 max-w-md"
+            >
+              <p className="text-amber-50 text-sm leading-relaxed">{transcript}</p>
+            </motion.div>
+          )}
+
           {/* Circular Button */}
           <div className="flex flex-col items-center gap-4">
             <audio ref={audioRef} className="hidden" />
@@ -404,12 +415,6 @@ export default function VoiceAssistant() {
                 </motion.p>
               )}
             </div>
-
-            {isRecording && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-stone-400 text-center text-sm max-w-xs">
-                {transcript.replace('(interim)', '') || 'Waiting for speech...'}
-              </motion.p>
-            )}
           </div>
         </div>
 
