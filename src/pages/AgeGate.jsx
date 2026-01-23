@@ -114,8 +114,8 @@ export default function AgeGate() {
 
     setAuthLoading(true);
     try {
-      // Redirect to login - user will be redirected back to this page after auth
-      base44.auth.redirectToLogin(createPageUrl('AgeGate'));
+      // Just redirect to login page - Base44 will handle authentication
+      await base44.auth.redirectToLogin();
     } catch (err) {
       setError('Sign in failed. Please try again.');
       setAuthLoading(false);
