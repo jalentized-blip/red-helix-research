@@ -128,30 +128,29 @@ const navLinks = [
       <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-3 transition-transform duration-300" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3 relative">
+          <Link to={createPageUrl('Home')} className="flex items-center gap-2 relative group">
             <div className="relative">
-              <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
-                alt="Red Dirt Research" 
-                className="h-40 w-auto object-contain transition-all duration-300"
+              <div 
+                className="h-12 w-12 bg-red-700 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all"
                 style={{ 
                   opacity: logoOpacity,
                   transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
                 }}
-              />
-              <button
-                onClick={() => setLogoModalOpen(true)}
-                className="absolute bottom-0 right-0 p-1 bg-red-700 rounded-full hover:bg-red-600 transition-all"
-                style={{
-                  opacity: magnifyingGlassOpacity,
-                  transform: `scale(${magnifyingGlassScale})`,
-                  filter: `blur(${magnifyingGlassBlur}px)`,
-                }}
               >
-                <ZoomIn className="w-4 h-4 text-amber-50" />
-              </button>
+                <span className="text-amber-50 font-black text-lg">RDR</span>
+              </div>
             </div>
-          </div>
+            <div 
+              className="hidden sm:flex flex-col"
+              style={{ 
+                opacity: logoOpacity,
+                transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
+              }}
+            >
+              <span className="text-amber-50 font-black text-sm">RED DIRT</span>
+              <span className="text-red-600 font-semibold text-xs">RESEARCH</span>
+            </div>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-6">
