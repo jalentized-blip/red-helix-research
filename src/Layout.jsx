@@ -64,6 +64,9 @@ export default function Layout({ children }) {
             <Link to={createPageUrl('About')} className="text-sm font-medium text-stone-300 hover:text-red-600 transition-colors uppercase tracking-wide">
               About
             </Link>
+            <Link to={createPageUrl('Contact')} className="text-sm font-medium text-stone-300 hover:text-red-600 transition-colors uppercase tracking-wide">
+              Contact
+            </Link>
             {navLinks.map((link) => (
               <button
                 key={link.label}
