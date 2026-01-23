@@ -132,7 +132,12 @@ const navLinks = [
               />
               <button
                 onClick={() => setLogoModalOpen(true)}
-                className="absolute bottom-0 right-0 p-1 bg-red-700 rounded-full hover:bg-red-600 transition-colors"
+                className="absolute bottom-0 right-0 p-1 bg-red-700 rounded-full hover:bg-red-600 transition-all"
+                style={{
+                  opacity: magnifyingGlassOpacity,
+                  transform: `scale(${magnifyingGlassScale})`,
+                  filter: `blur(${magnifyingGlassBlur}px)`,
+                }}
               >
                 <ZoomIn className="w-4 h-4 text-amber-50" />
               </button>
