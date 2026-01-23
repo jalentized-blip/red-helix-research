@@ -255,8 +255,8 @@ export default function PeptideCalculator() {
                         opacity="0.3"
                       />
 
-                      {/* Markings */}
-                      {Array.from({ length: Math.floor(currentWater) + 1 }, (_, i) => i / currentWater).map((mark) => (
+                      {/* Markings for 1ml syringe */}
+                      {Array.from({ length: 11 }, (_, i) => i * 0.1).map((mark) => (
                         <g key={mark}>
                           <line x1={80 + mark * 1050} y1="35" x2={80 + mark * 1050} y2="50" stroke="currentColor" strokeWidth="2" />
                           <text
@@ -268,7 +268,7 @@ export default function PeptideCalculator() {
                             fill="currentColor"
                             className="text-stone-400"
                           >
-                            {(mark * currentWater).toFixed(2)}mL
+                            {(mark * syringeCapacity).toFixed(2)}mL
                           </text>
                         </g>
                       ))}
