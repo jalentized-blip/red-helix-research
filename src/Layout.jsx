@@ -215,7 +215,7 @@ const navLinks = [
                       <Link
                         key={link.label}
                         to={link.href}
-                        className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all block"
+                        className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 transition-all block"
                       >
                         {link.label}
                       </Link>
@@ -223,7 +223,7 @@ const navLinks = [
                       <button
                         key={link.label}
                         onClick={() => scrollTo(link.href)}
-                        className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all"
+                        className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 transition-all"
                       >
                         {link.label}
                       </button>
