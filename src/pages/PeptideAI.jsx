@@ -37,49 +37,27 @@ export default function PeptideAI() {
 
 
 
-  const speakResponse = async (text) => {
+  const speakLastMessage = async () => {
+    const lastAssistantMessage = [...messages].reverse().find(m => m.role === 'assistant');
+    if (!lastAssistantMessage || isSpeaking) return;
+
     try {
       setIsSpeaking(true);
       const response = await base44.functions.invoke('textToSpeech', {
-        text: text
+        text: lastAssistantMessage.content
       });
 
       const audioUrl = response.data.audioUrl;
-      
+
       if (audioRef.current) {
         audioRef.current.src = audioUrl;
         audioRef.current.play();
-        
-        audioRef.current.onended = () => {
-          setIsSpeaking(false);
-          // Auto-listen after AI finishes speaking in voice call mode
-          if (voiceCallActive) {
-            setAutoRecordNext(true);
-            setTimeout(() => {
-              if (recognitionRef.current) {
-                recognitionRef.current.start();
-              }
-            }, 800);
-          }
-        };
+        audioRef.current.onended = () => setIsSpeaking(false);
       }
     } catch (err) {
       console.error('Error playing audio:', err);
       setIsSpeaking(false);
     }
-  };
-
-  const startVoiceCall = () => {
-    setVoiceCallActive(true);
-    setAutoRecordNext(true);
-    startListening();
-  };
-
-  const endVoiceCall = () => {
-    setVoiceCallActive(false);
-    setAutoRecordNext(false);
-    stopListening();
-    window.speechSynthesis.cancel();
   };
 
   const handleSendMessage = async (e) => {
