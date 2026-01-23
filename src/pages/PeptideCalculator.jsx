@@ -277,46 +277,93 @@ export default function PeptideCalculator() {
             ) : (
               <div className="space-y-6">
                 {/* Visual Meter */}
-                <div className="bg-stone-800/50 rounded-lg p-6 mb-8">
-                  <div className="text-center mb-4">
-                    <svg
-                      viewBox="0 0 200 100"
-                      className="w-full h-24 text-red-600"
-                      style={{ filter: 'drop-shadow(0 0 10px rgba(220, 38, 38, 0.3))' }}
-                    >
-                      {/* Syringe barrel */}
-                      <rect x="30" y="30" width="120" height="40" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
-
+                <div className="bg-stone-800/50 rounded-lg p-8 mb-8">
+                  <div className="text-center">
+                    <svg viewBox="0 0 300 250" className="w-full h-auto max-w-md mx-auto">
                       {/* Syringe plunger */}
-                      <rect
-                        x="30"
-                        y="30"
-                        width={Math.min(120, (drawAmount / currentWater) * 120)}
-                        height="40"
-                        rx="5"
-                        fill="currentColor"
-                        opacity="0.3"
-                      />
+                      <g>
+                        <circle cx="20" cy="125" r="12" fill="none" stroke="#e7e5e4" strokeWidth="2" />
+                        <rect x="12" y="110" width="16" height="30" fill="#d97706" rx="2" />
+                      </g>
 
-                      {/* Markings */}
-                      {[0, 0.25, 0.5, 0.75, 1].map((mark) => (
-                        <g key={mark}>
-                          <line x1={30 + mark * 120} y1="25" x2={30 + mark * 120} y2="30" stroke="currentColor" strokeWidth="1" />
-                          <text
-                            x={30 + mark * 120}
-                            y="20"
-                            textAnchor="middle"
-                            fontSize="10"
-                            fill="currentColor"
-                            className="text-stone-400"
-                          >
-                            {(mark * currentWater).toFixed(2)}mL
-                          </text>
-                        </g>
-                      ))}
+                      {/* Syringe barrel */}
+                      <g>
+                        {/* Barrel body */}
+                        <path
+                          d="M 40 85 L 260 85 Q 270 85 270 95 L 270 155 Q 270 165 260 165 L 40 165 Q 30 165 30 155 L 30 95 Q 30 85 40 85 Z"
+                          fill="none"
+                          stroke="#78716c"
+                          strokeWidth="2"
+                        />
+
+                        {/* Fill */}
+                        <path
+                          d={`M 40 85 L ${40 + Math.min(220, (drawUnits / 100) * 220)} 85 Q ${Math.min(270, 50 + (drawUnits / 100) * 220)} 85 ${Math.min(270, 50 + (drawUnits / 100) * 220)} 95 L ${Math.min(270, 50 + (drawUnits / 100) * 220)} 155 Q ${Math.min(270, 50 + (drawUnits / 100) * 220)} 165 ${40 + Math.min(220, (drawUnits / 100) * 220)} 165 L 40 165 Q 30 165 30 155 L 30 95 Q 30 85 40 85 Z`}
+                          fill="#dc2626"
+                          opacity="0.5"
+                        />
+
+                        {/* Grid lines for units (10, 20, 30... 100) */}
+                        {Array.from({ length: 11 }).map((_, i) => {
+                          const x = 40 + (i * 220) / 10;
+                          return (
+                            <g key={`unit-${i}`}>
+                              <line
+                                x1={x}
+                                y1="80"
+                                x2={x}
+                                y2="170"
+                                stroke="#64748b"
+                                strokeWidth={i % 5 === 0 ? 1.5 : 0.5}
+                                strokeDasharray={i % 5 === 0 ? '0' : '2,2'}
+                              />
+                              {i % 5 === 0 && (
+                                <text
+                                  x={x}
+                                  y="185"
+                                  textAnchor="middle"
+                                  fontSize="12"
+                                  fill="#cbd5e1"
+                                  fontWeight="500"
+                                >
+                                  {i * 10}
+                                </text>
+                              )}
+                            </g>
+                          );
+                        })}
+
+                        {/* Fill indicator line */}
+                        <line
+                          x1={40 + (drawUnits / 100) * 220}
+                          y1="75"
+                          x2={40 + (drawUnits / 100) * 220}
+                          y2="175"
+                          stroke="#fbbf24"
+                          strokeWidth="3"
+                          strokeDasharray="5,5"
+                        />
+                      </g>
+
+                      {/* Needle */}
+                      <g>
+                        <circle cx="270" cy="125" r="4" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
+                        <path d="M 273 125 L 285 125" stroke="#94a3b8" strokeWidth="1.5" />
+                      </g>
+
+                      {/* Label */}
+                      <text
+                        x="150"
+                        y="220"
+                        textAnchor="middle"
+                        fontSize="16"
+                        fontWeight="700"
+                        fill="#fed7aa"
+                      >
+                        Draw to {drawUnits} units ({drawAmount} mL)
+                      </text>
                     </svg>
                   </div>
-                  <p className="text-stone-400 text-sm text-center">Draw to {drawAmount} mL mark</p>
                 </div>
 
                 {/* Result Cards */}
