@@ -34,6 +34,17 @@ export default function Home() {
     setIsModalOpen(true);
   };
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get('section');
+    if (section) {
+      setTimeout(() => {
+        const element = document.getElementById(section);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50">
       <AnnouncementBar />
