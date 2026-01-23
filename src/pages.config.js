@@ -3,7 +3,6 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import CryptoCheckout from './pages/CryptoCheckout';
-import PaymentCompleted from './pages/PaymentCompleted';
 import __Layout from './Layout.jsx';
 
 
@@ -13,7 +12,6 @@ export const PAGES = {
     "About": About,
     "Contact": Contact,
     "CryptoCheckout": CryptoCheckout,
-    "PaymentCompleted": PaymentCompleted,
 }
 
 export const pagesConfig = {

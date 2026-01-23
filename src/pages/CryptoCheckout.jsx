@@ -70,14 +70,14 @@ export default function CryptoCheckout() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Poll for payment detection and auto-redirect
+  // Poll for payment detection
   useEffect(() => {
     if (!transactionId || paymentCleared) return;
 
     const pollPayment = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed on the blockchain. Return a JSON object with "exists" (boolean) and "confirmed" (boolean).`,
+          prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed. Return a JSON object with "exists" (boolean) and "confirmed" (boolean) indicating if the transaction is confirmed on the blockchain.`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -93,10 +93,6 @@ export default function CryptoCheckout() {
           setPaymentDetected(true);
           if (result.confirmed) {
             setPaymentCleared(true);
-            // Auto-redirect to payment completed page
-            setTimeout(() => {
-              window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
-            }, 2000);
           }
         }
       } catch (error) {
@@ -104,18 +100,35 @@ export default function CryptoCheckout() {
       }
     };
 
-    // Check immediately on first load, then every 10 seconds
-    pollPayment();
-    const interval = setInterval(pollPayment, 10000);
+    const interval = setInterval(pollPayment, 10000); // Poll every 10 seconds
     return () => clearInterval(interval);
   }, [transactionId, paymentCleared]);
 
-  const handleCheckTransaction = () => {
-    if (!transactionId.trim()) {
-      alert('Please enter a transaction ID');
+  const handleSubmitOrder = async () => {
+    if (!transactionId || !productName) {
+      alert('Please fill in all required fields');
       return;
     }
-    // Payment detection will automatically trigger and redirect when confirmed
+
+    setSubmitting(true);
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: 'jakehboen95@gmail.com',
+        subject: 'New Crypto Checkout Order',
+        body: `New order submitted:\n\nProduct Name: ${productName}\nTransaction ID: ${transactionId}\nWallet Address: ${walletAddress || 'Not provided'}\nCryptocurrency: ${selectedCrypto}\nAmount: ${cryptoAmount} ${selectedCrypto}\nUSD Total: $${finalTotal.toFixed(2)}\n\nPlease verify the transaction and process the order.`,
+      });
+      
+      // Clear cart and show success
+      localStorage.removeItem('rdr_cart');
+      window.dispatchEvent(new Event('cartUpdated'));
+      alert('Order submitted successfully! Check your email for confirmation.');
+      window.location.href = createPageUrl('Home');
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('Error submitting order. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
