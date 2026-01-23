@@ -348,8 +348,51 @@ export default function CryptoCheckout() {
 
 
           </motion.div>
-        </div>
-      </div>
-    </div>
-  );
-}
+          </div>
+          </div>
+
+          {/* Progress Bar */}
+          <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-12 bg-stone-900/50 border border-stone-700 rounded-lg p-6"
+          >
+          <div className="mb-4">
+          <p className="text-sm font-semibold text-stone-300 mb-2">Transaction Progress</p>
+          <div className="w-full bg-stone-800 rounded-full h-3 overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className={`h-full transition-colors ${
+                paymentCleared
+                  ? 'bg-green-600'
+                  : paymentDetected
+                  ? 'bg-amber-600'
+                  : 'bg-red-600'
+              }`}
+            />
+          </div>
+          </div>
+          <div className="grid grid-cols-4 gap-2 text-xs">
+          <div className={`text-center ${walletAddress ? 'text-amber-50' : 'text-stone-500'}`}>
+            <p className="font-semibold">Wallet</p>
+            <p>25%</p>
+          </div>
+          <div className={`text-center ${transactionId ? 'text-amber-50' : 'text-stone-500'}`}>
+            <p className="font-semibold">TX ID</p>
+            <p>50%</p>
+          </div>
+          <div className={`text-center ${paymentDetected ? 'text-amber-50' : 'text-stone-500'}`}>
+            <p className="font-semibold">Detected</p>
+            <p>75%</p>
+          </div>
+          <div className={`text-center ${paymentCleared ? 'text-green-600' : 'text-stone-500'}`}>
+            <p className="font-semibold">Confirmed</p>
+            <p>100%</p>
+          </div>
+          </div>
+          </motion.div>
+          </div>
+          );
+          }
