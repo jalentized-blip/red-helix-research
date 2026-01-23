@@ -78,9 +78,19 @@ export default function CryptoCheckout() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleApplyForm = () => {
+    setFormApplied(true);
+  };
+
+  const handleCancelForm = () => {
+    setFormApplied(false);
+    setPaymentDetected(false);
+    setPaymentCleared(false);
+  };
+
   // Auto-detect payment by monitoring wallet address for incoming transactions
   useEffect(() => {
-    if (!walletAddress || paymentCleared) return;
+    if (!walletAddress || !formApplied || paymentCleared) return;
 
     const pollWalletPayment = async () => {
       try {
