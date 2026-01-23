@@ -99,6 +99,12 @@ export default function Account() {
           <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
             <h3 className="text-xl font-bold text-amber-50 mb-4">Actions</h3>
             <div className="space-y-3">
+              <Link to={createPageUrl('OrderTracking')} className="block">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-amber-50 flex items-center justify-center gap-2">
+                  <Package className="w-4 h-4" />
+                  Track Orders
+                </Button>
+              </Link>
               <Button
                 onClick={handleLogout}
                 className="w-full bg-red-600 hover:bg-red-700 text-amber-50 flex items-center justify-center gap-2"
