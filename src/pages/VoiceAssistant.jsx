@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Mic, Save, Download, Trash2, Plus } from 'lucide-react';
+import { ArrowLeft, Mic, Save, Download, Trash2, Plus, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
