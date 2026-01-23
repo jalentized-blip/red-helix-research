@@ -114,7 +114,7 @@ const navLinks = [
   return (
     <div className="min-h-screen bg-stone-950">
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-3 transition-transform duration-300" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 py-3 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center gap-2 relative group">
