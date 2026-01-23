@@ -98,12 +98,20 @@ export default function ShopByGoal() {
                         key={product}
                         onClick={() => {
                           const productsSection = document.getElementById('products');
-                          const searchInput = document.querySelector('input[type="text"]');
-                          if (productsSection && searchInput) {
+                          if (productsSection) {
                             productsSection.scrollIntoView({ behavior: 'smooth' });
                             setTimeout(() => {
-                              searchInput.value = product;
-                              searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                              const productCards = Array.from(document.querySelectorAll('h3')).filter(
+                                el => el.textContent?.trim() === product
+                              );
+                              if (productCards.length > 0) {
+                                const card = productCards[0].closest('div[class*="Card"]');
+                                const selectButton = card?.querySelector('button');
+                                if (selectButton) {
+                                  selectButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                  setTimeout(() => selectButton.click(), 300);
+                                }
+                              }
                             }, 800);
                           }
                         }}
