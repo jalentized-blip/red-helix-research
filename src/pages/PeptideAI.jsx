@@ -332,22 +332,23 @@ At the end of your response, include a "📚 Learning Resources" section with re
         </div>
 
         {/* Voice Selection */}
-        {availableVoices.length > 0 && (
-          <div className="flex items-center gap-3 bg-stone-800/50 border border-stone-700 rounded-lg p-3">
-            <label className="text-xs font-semibold text-stone-400 whitespace-nowrap">AI Voice:</label>
-            <select
-              value={selectedVoice}
-              onChange={(e) => setSelectedVoice(Number(e.target.value))}
-              className="flex-1 bg-stone-700 border border-stone-600 rounded px-3 py-2 text-sm text-amber-50 focus:outline-none focus:border-red-600"
-            >
-              {availableVoices.map((voice, idx) => (
-                <option key={idx} value={idx}>
-                  {voice.name} {voice.lang && `(${voice.lang})`}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        <div className="flex items-center gap-3 bg-stone-800/50 border border-stone-700 rounded-lg p-3">
+          <label className="text-xs font-semibold text-stone-400 whitespace-nowrap">AI Voice:</label>
+          <select
+            value={selectedVoice}
+            onChange={(e) => setSelectedVoice(e.target.value)}
+            className="flex-1 bg-stone-700 border border-stone-600 rounded px-3 py-2 text-sm text-amber-50 focus:outline-none focus:border-red-600"
+          >
+            {VOICE_OPTIONS.map((voice) => (
+              <option key={voice} value={voice}>
+                {voice}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Hidden audio element */}
+        <audio ref={audioRef} className="hidden" />
 
         {/* Input Area */}
         <form onSubmit={handleSendMessage} className="space-y-2">
