@@ -79,17 +79,19 @@ export default function AgeGate() {
       return;
     }
 
+    setAuthLoading(true);
     try {
       // Invite user (they'll get signup email with link)
       await base44.users.inviteUser(email, 'user');
-      
       setError('');
-      // Show success message and redirect to login
-      setTimeout(() => {
-        base44.auth.redirectToLogin(createPageUrl('Home'));
-      }, 2000);
+      setEmail('');
+      setPassword('');
+      setIsSignIn(true);
+      alert('Signup successful! Please check your email to complete your registration, then sign in here.');
     } catch (err) {
-      setError('Unable to send invite. Please try again or contact support.');
+      setError('Email already exists or invalid. Try signing in instead.');
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -102,8 +104,14 @@ export default function AgeGate() {
       return;
     }
 
-    // Redirect to login with age verification callback
-    base44.auth.redirectToLogin(createPageUrl('Home'));
+    setAuthLoading(true);
+    try {
+      // Redirect to login - user will be redirected back to this page after auth
+      base44.auth.redirectToLogin(createPageUrl('AgeGate'));
+    } catch (err) {
+      setError('Sign in failed. Please try again.');
+      setAuthLoading(false);
+    }
   };
 
   const handleForgotPassword = async (e) => {
