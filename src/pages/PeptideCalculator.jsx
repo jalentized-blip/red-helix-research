@@ -316,15 +316,13 @@ export default function PeptideCalculator() {
                 {/* Draw Amount */}
                 <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
                   <p className="text-stone-400 text-sm mb-2">Draw to</p>
-                  <p className="text-4xl font-bold text-red-600">{drawAmount}</p>
-                  <p className="text-stone-500 text-sm mt-1">mL</p>
+                  <p className="text-3xl font-bold text-red-600">{drawAmount} mL</p>
                 </div>
 
                 {/* Draw Units */}
                 <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
-                  <p className="text-stone-400 text-sm mb-2">Or</p>
-                  <p className="text-4xl font-bold text-red-600">{drawUnits}</p>
-                  <p className="text-stone-500 text-sm mt-1">units (100 units = 1 mL)</p>
+                  <p className="text-stone-400 text-sm mb-2">Or draw to</p>
+                  <p className="text-3xl font-bold text-red-600">{drawUnits} units</p>
                 </div>
 
                 {/* Concentration */}
