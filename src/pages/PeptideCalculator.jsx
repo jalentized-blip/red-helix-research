@@ -277,201 +277,46 @@ export default function PeptideCalculator() {
             ) : (
               <div className="space-y-6">
                 {/* Visual Meter */}
-                <div className="bg-stone-800/50 rounded-lg p-8 mb-8">
-                  <div className="text-center">
-                    <svg viewBox="0 0 400 280" className="w-full h-auto max-w-2xl mx-auto" style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5))' }}>
-                      <defs>
-                        <linearGradient id="barrelGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#e2e8f0" />
-                          <stop offset="50%" stopColor="#cbd5e1" />
-                          <stop offset="100%" stopColor="#94a3b8" />
-                        </linearGradient>
-                        <linearGradient id="plungerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#fbbf24" />
-                          <stop offset="50%" stopColor="#f59e0b" />
-                          <stop offset="100%" stopColor="#d97706" />
-                        </linearGradient>
-                        <linearGradient id="fillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#ef4444" />
-                          <stop offset="100%" stopColor="#dc2626" />
-                        </linearGradient>
-                      </defs>
+                <div className="bg-stone-800/50 rounded-lg p-6 mb-8">
+                  <div className="text-center mb-4">
+                    <svg
+                      viewBox="0 0 200 100"
+                      className="w-full h-24 text-red-600"
+                      style={{ filter: 'drop-shadow(0 0 10px rgba(220, 38, 38, 0.3))' }}
+                    >
+                      {/* Syringe barrel */}
+                      <rect x="30" y="30" width="120" height="40" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
 
-                      {/* Syringe barrel - outer barrel */}
+                      {/* Syringe plunger */}
                       <rect
-                        x="70"
-                        y="90"
-                        width="240"
-                        height="70"
-                        rx="35"
-                        fill="url(#barrelGradient)"
-                        stroke="#64748b"
-                        strokeWidth="1.5"
-                      />
-
-                      {/* Barrel inner highlight */}
-                      <rect
-                        x="72"
-                        y="92"
-                        width="236"
-                        height="20"
-                        rx="10"
-                        fill="white"
+                        x="30"
+                        y="30"
+                        width={Math.min(120, (drawAmount / currentWater) * 120)}
+                        height="40"
+                        rx="5"
+                        fill="currentColor"
                         opacity="0.3"
                       />
 
-                      {/* Liquid fill */}
-                      <path
-                        d={`M 75 105 L ${75 + Math.min(234, (drawUnits / 100) * 234)} 105 Q ${Math.min(310, 75 + (drawUnits / 100) * 234)} 105 ${Math.min(310, 75 + (drawUnits / 100) * 234)} 125 L ${Math.min(310, 75 + (drawUnits / 100) * 234)} 145 Q ${Math.min(310, 75 + (drawUnits / 100) * 234)} 155 ${75 + Math.min(234, (drawUnits / 100) * 234)} 155 L 75 155 Q 70 155 70 150 L 70 110 Q 70 105 75 105 Z`}
-                        fill="url(#fillGradient)"
-                        opacity="0.8"
-                      />
-
-                      {/* Measurement markings */}
-                      {Array.from({ length: 21 }).map((_, i) => {
-                        const x = 75 + (i * 234) / 20;
-                        const isMainMark = i % 5 === 0;
-                        return (
-                          <g key={`mark-${i}`}>
-                            <line
-                              x1={x}
-                              y1={isMainMark ? 80 : 85}
-                              x2={x}
-                              y2={isMainMark ? 85 : 86}
-                              stroke="#64748b"
-                              strokeWidth={isMainMark ? 2 : 1}
-                            />
-                            {isMainMark && (
-                              <text
-                                x={x}
-                                y="75"
-                                textAnchor="middle"
-                                fontSize="13"
-                                fontWeight="600"
-                                fill="#cbd5e1"
-                                fontFamily="monospace"
-                              >
-                                {i * 5}
-                              </text>
-                            )}
-                          </g>
-                        );
-                      })}
-
-                      {/* Plunger rod */}
-                      <rect
-                        x={20 + (drawUnits / 100) * 234}
-                        y="110"
-                        width="45"
-                        height="50"
-                        rx="4"
-                        fill="url(#plungerGradient)"
-                        stroke="#92400e"
-                        strokeWidth="1.5"
-                      />
-
-                      {/* Plunger handle grooves */}
-                      <rect
-                        x={22 + (drawUnits / 100) * 234}
-                        y="112"
-                        width="41"
-                        height="6"
-                        rx="2"
-                        fill="none"
-                        stroke="#92400e"
-                        strokeWidth="0.5"
-                      />
-                      <rect
-                        x={22 + (drawUnits / 100) * 234}
-                        y="125"
-                        width="41"
-                        height="6"
-                        rx="2"
-                        fill="none"
-                        stroke="#92400e"
-                        strokeWidth="0.5"
-                      />
-                      <rect
-                        x={22 + (drawUnits / 100) * 234}
-                        y="138"
-                        width="41"
-                        height="6"
-                        rx="2"
-                        fill="none"
-                        stroke="#92400e"
-                        strokeWidth="0.5"
-                      />
-
-                      {/* Needle hub */}
-                      <ellipse cx="315" cy="130" rx="10" ry="14" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" />
-
-                      {/* Needle */}
-                      <path
-                        d="M 323 130 L 360 128 L 360 132 Z"
-                        fill="#cbd5e1"
-                        stroke="#64748b"
-                        strokeWidth="1"
-                      />
-
-                      {/* Needle shadow */}
-                      <line
-                        x1="323"
-                        y1="132"
-                        x2="360"
-                        y2="134"
-                        stroke="#475569"
-                        strokeWidth="1"
-                        opacity="0.5"
-                      />
-
-                      {/* Target line (yellow dashed) */}
-                      <line
-                        x1={75 + (drawUnits / 100) * 234}
-                        y1="60"
-                        x2={75 + (drawUnits / 100) * 234}
-                        y2="170"
-                        stroke="#fbbf24"
-                        strokeWidth="2.5"
-                        strokeDasharray="4,4"
-                        opacity="0.9"
-                      />
-
-                      {/* Target text */}
-                      <text
-                        x={75 + (drawUnits / 100) * 234}
-                        y="50"
-                        textAnchor="middle"
-                        fontSize="14"
-                        fontWeight="700"
-                        fill="#fbbf24"
-                      >
-                        {drawUnits}U
-                      </text>
-
-                      {/* Bottom label */}
-                      <text
-                        x="200"
-                        y="225"
-                        textAnchor="middle"
-                        fontSize="18"
-                        fontWeight="700"
-                        fill="#fed7aa"
-                      >
-                        Draw to {drawUnits} units ({drawAmount} mL)
-                      </text>
-
-                      {/* 1mL indicator */}
-                      <text
-                        x="200"
-                        y="250"
-                        textAnchor="middle"
-                        fontSize="12"
-                        fill="#94a3b8"
-                      >
-                        1mL Syringe
-                      </text>
+                      {/* Markings */}
+                      {[0, 0.25, 0.5, 0.75, 1].map((mark) => (
+                        <g key={mark}>
+                          <line x1={30 + mark * 120} y1="25" x2={30 + mark * 120} y2="30" stroke="currentColor" strokeWidth="1" />
+                          <text
+                            x={30 + mark * 120}
+                            y="20"
+                            textAnchor="middle"
+                            fontSize="10"
+                            fill="currentColor"
+                            className="text-stone-400"
+                          >
+                            {(mark * currentWater).toFixed(2)}mL
+                          </text>
+                        </g>
+                      ))}
                     </svg>
                   </div>
+                  <p className="text-stone-400 text-sm text-center">Draw to {drawAmount} mL mark</p>
                 </div>
 
                 {/* Result Cards */}
