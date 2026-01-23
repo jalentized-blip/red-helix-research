@@ -210,7 +210,7 @@ export default function Cart() {
                 {/* Info Box */}
                 <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
                   <p className="flex items-center gap-2">
-                    <span className="text-red-600">✓</span> Domestic US shipping only
+                    <span className="text-red-600">✓</span> Same-day shipping
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-red-600">✓</span> Lab tested products

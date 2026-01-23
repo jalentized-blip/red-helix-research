@@ -1,11 +1,11 @@
 import React from 'react';
-import { FlaskConical, Globe2, ShieldCheck, Headphones, CheckCircle, RefreshCw } from "lucide-react";
+import { FlaskConical, ShieldCheck, Headphones, CheckCircle, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function TrustBar() {
   const features = [
     { icon: FlaskConical, label: "Lab Tested Batches" },
-    { icon: Globe2, label: "Worldwide Shipping" },
+    { icon: () => <span className="text-red-600 text-lg">🇺🇸</span>, label: "United States Shipping Only" },
     { icon: ShieldCheck, label: "Secure Crypto Payments" },
     { icon: Headphones, label: "24h Support" },
   ];
