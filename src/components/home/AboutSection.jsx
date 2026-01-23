@@ -5,7 +5,23 @@ import { ArrowRight } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 
 export default function AboutSection() {
-  const vialImage = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/17af00112_image.png";
+  const [vialImage, setVialImage] = useState(null);
+
+  useEffect(() => {
+    const generateImage = async () => {
+      try {
+        const result = await base44.integrations.Core.GenerateImage({
+          prompt: "Professional photograph of a large-scale API peptide manufacturing facility in China, modern pharmaceutical factory interior with stainless steel equipment, clean room conditions, workers in cleanroom suits, high-tech production line, bright industrial lighting, quality manufacturing setting"
+        });
+        if (result?.url) {
+          setVialImage(result.url);
+        }
+      } catch (error) {
+        console.error('Failed to generate image:', error);
+      }
+    };
+    generateImage();
+  }, []);
 
   return (
     <section className="py-24 px-4 relative overflow-hidden">
