@@ -431,8 +431,11 @@ export default function CryptoCheckout() {
                     </div>
                   </div>
                   <div className="bg-amber-900/20 border border-amber-700/50 rounded p-3 mt-4">
-                    <p className="text-amber-600 text-xs font-semibold">
+                    <p className="text-amber-600 text-xs font-semibold mb-2">
                       ⚠️ Your payment will be automatically detected once the blockchain confirms the transaction. Network congestion or gas prices may affect confirmation times. Please be patient.
+                    </p>
+                    <p className="text-amber-600 text-xs">
+                      Having issues? Contact us on <a href="https://discord.gg/s78Jeajp" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-400 transition-colors">Discord</a> for support.
                     </p>
                   </div>
                 </DialogDescription>
