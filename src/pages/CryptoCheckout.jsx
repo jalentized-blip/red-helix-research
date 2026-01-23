@@ -299,6 +299,66 @@ export default function CryptoCheckout() {
                 <span className="text-red-600">✓</span> Confirmation via email
               </p>
             </div>
+
+            {/* Payment Status */}
+            {transactionId && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`mt-6 rounded-lg p-4 border ${
+                  paymentCleared
+                    ? 'bg-green-600/20 border-green-600/50'
+                    : paymentDetected
+                    ? 'bg-amber-600/20 border-amber-600/50'
+                    : 'bg-stone-800/50 border-stone-700'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {paymentCleared ? (
+                    <>
+                      <Check className="w-5 h-5 text-green-600" />
+                      <div>
+                        <p className="font-semibold text-green-600">Payment Cleared</p>
+                        <p className="text-xs text-green-600/80">Transaction confirmed on blockchain</p>
+                      </div>
+                    </>
+                  ) : paymentDetected ? (
+                    <>
+                      <Loader2 className="w-5 h-5 text-amber-600 animate-spin" />
+                      <div>
+                        <p className="font-semibold text-amber-600">Payment Detected</p>
+                        <p className="text-xs text-amber-600/80">Waiting for blockchain confirmation...</p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-5 h-5 text-stone-400" />
+                      <div>
+                        <p className="font-semibold text-stone-400">Checking for payment...</p>
+                        <p className="text-xs text-stone-500">Auto-checking every 10 seconds</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Submit Button */}
+            {paymentCleared && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-6"
+              >
+                <Button
+                  onClick={handleSubmitOrder}
+                  disabled={submitting}
+                  className="w-full bg-green-700 hover:bg-green-600 text-amber-50 font-semibold py-6"
+                >
+                  {submitting ? 'Submitting...' : 'Submit Order'}
+                </Button>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
