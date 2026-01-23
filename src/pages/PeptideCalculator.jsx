@@ -291,7 +291,85 @@ export default function PeptideCalculator() {
                 </div>
                 </div>
 
-      {/* Footer Info */}
+                {/* Syringe Visualization */}
+                {isValid && (
+                <div className="max-w-6xl mx-auto px-4 mt-12">
+                  <div className="bg-stone-800/50 rounded-lg p-6 border border-stone-700 overflow-x-auto">
+                    <p className="text-stone-400 text-sm mb-4 font-semibold">Syringe Markings (1mL)</p>
+                    <svg viewBox="0 0 1100 120" className="w-full h-40" style={{ minWidth: '900px' }}>
+                      {/* Syringe barrel */}
+                      <rect x="50" y="30" width="1000" height="60" rx="8" fill="none" stroke="currentColor" strokeWidth="3" className="text-red-600" />
+
+                      {/* Syringe plunger */}
+                      <rect
+                        x="50"
+                        y="30"
+                        width={Math.min(1000, (drawUnits / 100) * 1000)}
+                        height="60"
+                        rx="8"
+                        fill="currentColor"
+                        opacity="0.25"
+                        className="text-red-600"
+                      />
+
+                      {/* Major markings (every 10 units) */}
+                      {Array.from({ length: 11 }, (_, i) => i * 10).map((units) => (
+                        <g key={units}>
+                          <line
+                            x1={50 + (units / 100) * 1000}
+                            y1="10"
+                            x2={50 + (units / 100) * 1000}
+                            y2="25"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-red-600"
+                          />
+                          <text
+                            x={50 + (units / 100) * 1000}
+                            y="8"
+                            textAnchor="middle"
+                            fontSize="16"
+                            fontWeight="700"
+                            fill="currentColor"
+                            className="text-red-600"
+                          >
+                            {units}
+                          </text>
+                        </g>
+                      ))}
+
+                      {/* Minor markings (every 5 units) */}
+                      {Array.from({ length: 20 }, (_, i) => (i * 5)).filter(u => u % 10 !== 0).map((units) => (
+                        <line
+                          key={`minor-${units}`}
+                          x1={50 + (units / 100) * 1000}
+                          y1="15"
+                          x2={50 + (units / 100) * 1000}
+                          y2="25"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="text-red-600"
+                        />
+                      ))}
+
+                      {/* Current draw indicator */}
+                      <line
+                        x1={50 + (drawUnits / 100) * 1000}
+                        y1="30"
+                        x2={50 + (drawUnits / 100) * 1000}
+                        y2="90"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        className="text-amber-400"
+                        strokeDasharray="5,5"
+                      />
+                    </svg>
+                    <p className="text-center text-red-600 font-bold text-lg mt-4">Draw to <span className="text-2xl">{drawUnits}</span> units ({drawAmount} mL)</p>
+                  </div>
+                </div>
+                )}
+
+                {/* Footer Info */}
       <div className="max-w-6xl mx-auto px-4 mt-16">
         <div className="bg-stone-900/30 border border-stone-700 rounded-lg p-8">
           <h3 className="text-xl font-bold text-amber-50 mb-4">How to use</h3>
