@@ -60,6 +60,7 @@ const PROMO_CODES = {
   'SAVE10': { discount: 0.10, label: '10% off' },
   'SAVE20': { discount: 0.20, label: '20% off' },
   'WELCOME': { discount: 0.15, label: '15% off first order' },
+  'FIRSTDAY15': { discount: 0.15, label: '15% off' },
 };
 
 export const validatePromoCode = (code) => {
