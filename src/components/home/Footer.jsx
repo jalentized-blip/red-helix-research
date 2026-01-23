@@ -34,6 +34,7 @@ export default function Footer() {
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/18e048c9e_image.png" 
               alt="Red Dirt Research" 
               className="h-12 w-auto object-contain"
+              style={{ mixBlendMode: 'screen' }}
             />
           </div>
 
