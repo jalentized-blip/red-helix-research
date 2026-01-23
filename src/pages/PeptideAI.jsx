@@ -22,6 +22,8 @@ export default function PeptideAI() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voiceCallActive, setVoiceCallActive] = useState(false);
+  const [autoRecordNext, setAutoRecordNext] = useState(false);
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const synthRef = useRef(window.speechSynthesis);
