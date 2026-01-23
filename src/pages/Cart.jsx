@@ -7,6 +7,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 
 export default function Cart() {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState(getPromoCode());
