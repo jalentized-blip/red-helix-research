@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import ProductModal from '@/components/product/ProductModal';
 
-import AnnouncementBar from '@/components/home/AnnouncementBar';
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
 import ValueProposition from '@/components/home/ValueProposition';
