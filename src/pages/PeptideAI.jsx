@@ -113,6 +113,11 @@ export default function PeptideAI() {
       utterance.rate = 1;
       utterance.pitch = 1;
       utterance.volume = 1;
+      
+      // Set selected voice
+      if (availableVoices.length > 0 && selectedVoice < availableVoices.length) {
+        utterance.voice = availableVoices[selectedVoice];
+      }
 
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => {
