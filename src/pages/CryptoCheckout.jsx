@@ -327,6 +327,7 @@ export default function CryptoCheckout() {
                 onChange={(e) => setWalletAddress(e.target.value)}
                 placeholder="Your sending wallet address"
                 className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                disabled={formApplied}
                 required
               />
               <p className="text-xs text-stone-500">We'll automatically detect your payment from this wallet</p>
@@ -340,9 +341,42 @@ export default function CryptoCheckout() {
                 onChange={(e) => setTransactionId(e.target.value)}
                 placeholder="Paste your transaction ID"
                 className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                disabled={formApplied}
                 required
               />
               <p className="text-xs text-stone-500">Auto-verified against blockchain</p>
+            </div>
+
+            <div className="flex gap-3">
+              {!formApplied && walletAddress && transactionId && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex gap-3 w-full"
+                >
+                  <Button
+                    onClick={handleApplyForm}
+                    className="flex-1 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
+                  >
+                    Apply
+                  </Button>
+                </motion.div>
+              )}
+              {formApplied && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="w-full"
+                >
+                  <Button
+                    onClick={handleCancelForm}
+                    variant="outline"
+                    className="w-full border-stone-700 text-stone-300 hover:text-red-600"
+                  >
+                    Cancel
+                  </Button>
+                </motion.div>
+              )}
             </div>
 
             <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
