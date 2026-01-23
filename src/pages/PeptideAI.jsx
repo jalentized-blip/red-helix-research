@@ -24,11 +24,13 @@ export default function PeptideAI() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voiceCallActive, setVoiceCallActive] = useState(false);
   const [autoRecordNext, setAutoRecordNext] = useState(false);
-  const [selectedVoice, setSelectedVoice] = useState(0);
-  const [availableVoices, setAvailableVoices] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState('Sarah');
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef(null);
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
-  const synthRef = useRef(window.speechSynthesis);
+
+  const VOICE_OPTIONS = ['Sarah', 'James', 'Aria', 'Daniel', 'Grace', 'Chris', 'Luna', 'River'];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
