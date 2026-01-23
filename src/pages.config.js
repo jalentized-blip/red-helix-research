@@ -10,6 +10,7 @@ import AgeGate from './pages/AgeGate';
 import Account from './pages/Account';
 import OrderTracking from './pages/OrderTracking';
 import LearnMore from './pages/LearnMore';
+import PeptideLearn from './pages/PeptideLearn';
 import __Layout from './Layout.jsx';
 
 
@@ -26,6 +27,7 @@ export const PAGES = {
     "Account": Account,
     "OrderTracking": OrderTracking,
     "LearnMore": LearnMore,
+    "PeptideLearn": PeptideLearn,
 }
 
 export const pagesConfig = {
