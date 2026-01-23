@@ -300,8 +300,8 @@ export default function PeptideCalculator() {
                   transition={{ delay: 0.2 }}
                   className="bg-stone-800/50 rounded-lg p-4"
                 >
-                  <p className="text-stone-400 text-sm mb-1">Doses in Vial</p>
-                  <p className="text-2xl font-bold text-red-600">{dosesInVial}</p>
+                  <p className="text-stone-400 text-sm mb-1">Concentration (3mL Vial)</p>
+                  <p className="text-2xl font-bold text-red-600">{concentration.toFixed(2)} mg/mL</p>
                 </motion.div>
 
                 <motion.div
@@ -310,8 +310,8 @@ export default function PeptideCalculator() {
                   transition={{ delay: 0.3 }}
                   className="bg-stone-800/50 rounded-lg p-4"
                 >
-                  <p className="text-stone-400 text-sm mb-1">Concentration</p>
-                  <p className="text-2xl font-bold text-red-600">{concentration.toFixed(2)} mg/mL</p>
+                  <p className="text-stone-400 text-sm mb-1">Doses in Vial</p>
+                  <p className="text-2xl font-bold text-red-600">{dosesInVial}</p>
                 </motion.div>
 
                 {drawAmount > currentWater && (
