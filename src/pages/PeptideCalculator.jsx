@@ -277,23 +277,23 @@ export default function PeptideCalculator() {
             ) : (
               <div className="space-y-6">
                 {/* Visual Meter */}
-                <div className="bg-stone-800/50 rounded-lg p-6 mb-8">
-                  <div className="text-center mb-4">
+                <div className="bg-stone-800/50 rounded-lg p-6 mb-8 overflow-x-auto">
+                  <div className="mb-4">
                     <svg
-                      viewBox="0 0 200 100"
-                      className="w-full h-24 text-red-600"
+                      viewBox="0 0 800 120"
+                      className="w-full h-32 text-red-600 min-w-full"
                       style={{ filter: 'drop-shadow(0 0 10px rgba(220, 38, 38, 0.3))' }}
                     >
                       {/* Syringe barrel */}
-                      <rect x="30" y="30" width="120" height="40" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
+                      <rect x="50" y="40" width="700" height="50" rx="8" fill="none" stroke="currentColor" strokeWidth="2" />
 
                       {/* Syringe plunger */}
                       <rect
-                        x="30"
-                        y="30"
-                        width={Math.min(120, (drawAmount / currentWater) * 120)}
-                        height="40"
-                        rx="5"
+                        x="50"
+                        y="40"
+                        width={Math.min(700, (drawAmount / currentWater) * 700)}
+                        height="50"
+                        rx="8"
                         fill="currentColor"
                         opacity="0.3"
                       />
@@ -301,12 +301,13 @@ export default function PeptideCalculator() {
                       {/* Markings */}
                       {[0, 0.25, 0.5, 0.75, 1].map((mark) => (
                         <g key={mark}>
-                          <line x1={30 + mark * 120} y1="25" x2={30 + mark * 120} y2="30" stroke="currentColor" strokeWidth="1" />
+                          <line x1={50 + mark * 700} y1="30" x2={50 + mark * 700} y2="40" stroke="currentColor" strokeWidth="1.5" />
                           <text
-                            x={30 + mark * 120}
-                            y="20"
+                            x={50 + mark * 700}
+                            y="22"
                             textAnchor="middle"
-                            fontSize="10"
+                            fontSize="12"
+                            fontWeight="600"
                             fill="currentColor"
                             className="text-stone-400"
                           >
