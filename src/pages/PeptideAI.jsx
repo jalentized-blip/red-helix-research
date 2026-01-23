@@ -107,35 +107,38 @@ export default function PeptideAI() {
     }
   };
 
-  const speakResponse = (text) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      utterance.volume = 1;
+  const speakResponse = async (text) => {
+    try {
+      setIsSpeaking(true);
+      const response = await base44.functions.invoke('textToSpeech', {
+        text: text,
+        voiceId: selectedVoice
+      });
+
+      const audioBlob = new Blob([response.data], { type: 'audio/mpeg' });
+      const audioUrl = URL.createObjectURL(audioBlob);
       
-      // Set selected voice
-      if (availableVoices.length > 0 && selectedVoice < availableVoices.length) {
-        utterance.voice = availableVoices[selectedVoice];
+      if (audioRef.current) {
+        audioRef.current.src = audioUrl;
+        audioRef.current.play();
+        
+        audioRef.current.onended = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(audioUrl);
+          // Auto-listen after AI finishes speaking in voice call mode
+          if (voiceCallActive) {
+            setAutoRecordNext(true);
+            setTimeout(() => {
+              if (recognitionRef.current) {
+                recognitionRef.current.start();
+              }
+            }, 800);
+          }
+        };
       }
-
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        // Auto-listen after AI finishes speaking in voice call mode
-        if (voiceCallActive) {
-          setAutoRecordNext(true);
-          setTimeout(() => {
-            if (recognitionRef.current) {
-              recognitionRef.current.start();
-            }
-          }, 800);
-        }
-      };
-      utterance.onerror = () => setIsSpeaking(false);
-
-      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('Error playing audio:', err);
+      setIsSpeaking(false);
     }
   };
 
