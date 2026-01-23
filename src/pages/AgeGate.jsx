@@ -15,6 +15,7 @@ export default function AgeGate() {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [ageConfirmLoading, setAgeConfirmLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
