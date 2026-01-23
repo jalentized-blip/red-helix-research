@@ -94,6 +94,7 @@ const SourcesBubble = ({ productName }) => {
 };
 
 export default function LearnMore() {
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
