@@ -358,9 +358,9 @@ export default function PeptideCalculator() {
                     Copy Results
                   </Button>
                 </div>
-              </div>
-            )}
-          </div>
+                </div>
+                )}
+                </div>
         </div>
       </div>
 
