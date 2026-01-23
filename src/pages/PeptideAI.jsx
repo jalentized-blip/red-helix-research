@@ -104,11 +104,35 @@ export default function PeptideAI() {
       utterance.volume = 1;
 
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        // Auto-listen after AI finishes speaking in voice call mode
+        if (voiceCallActive) {
+          setAutoRecordNext(true);
+          setTimeout(() => {
+            if (recognitionRef.current) {
+              recognitionRef.current.start();
+            }
+          }, 800);
+        }
+      };
       utterance.onerror = () => setIsSpeaking(false);
 
       window.speechSynthesis.speak(utterance);
     }
+  };
+
+  const startVoiceCall = () => {
+    setVoiceCallActive(true);
+    setAutoRecordNext(true);
+    startListening();
+  };
+
+  const endVoiceCall = () => {
+    setVoiceCallActive(false);
+    setAutoRecordNext(false);
+    stopListening();
+    window.speechSynthesis.cancel();
   };
 
   const handleSendMessage = async (e) => {
