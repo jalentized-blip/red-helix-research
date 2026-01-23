@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function TrustBar() {
   const features = [
     { icon: FlaskConical, label: "Lab Tested Batches" },
-    { icon: USMapIcon, label: "United States Shipping Only" },
+    { icon: Package, label: "United States Shipping Only" },
     { icon: ShieldCheck, label: "Secure Crypto Payments" },
     { icon: Headphones, label: "24h Support" },
   ];
