@@ -34,7 +34,7 @@ export default function ValueProposition() {
             <div className="relative bg-gradient-to-br from-stone-800 to-stone-900 rounded-2xl p-8 border border-stone-700">
               <div className="flex items-center justify-center gap-6">
                 {[1, 2, 3].map((i) => (
-                  <DollarSign key={i} className="w-16 h-16 text-red-600" strokeWidth={1.5} />
+                  <DollarSign key={i} className="w-16 h-16 text-red-600" strokeWidth={1.5} data-testid="dollar-icon" />
                 ))}
               </div>
             </div>
