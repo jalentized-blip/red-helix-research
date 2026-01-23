@@ -123,7 +123,7 @@ export default function LearnMore() {
           ))}
         </div>
 
-        {products.length === 0 && (
+        {uniqueProducts.length === 0 && (
           <div className="text-center py-20">
             <Beaker className="w-16 h-16 text-stone-600 mx-auto mb-4" />
             <p className="text-stone-400 text-lg">No peptides available yet.</p>
