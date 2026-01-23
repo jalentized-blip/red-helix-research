@@ -122,7 +122,7 @@ const navLinks = [
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/cfa1f187d_image-Picsart-BackgroundRemover.png"
               alt="Red Dirt Research"
-              className="h-20 w-auto object-contain"
+              className="h-40 w-auto object-contain"
               style={{ 
                 opacity: logoOpacity,
                 transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
