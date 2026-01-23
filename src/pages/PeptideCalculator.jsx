@@ -280,20 +280,20 @@ export default function PeptideCalculator() {
                 <div className="bg-stone-800/50 rounded-lg p-6 mb-8 overflow-x-auto">
                   <div className="mb-4">
                     <svg
-                      viewBox="0 0 800 120"
-                      className="w-full h-32 text-red-600 min-w-full"
+                      viewBox="0 0 1200 160"
+                      className="w-full h-48 text-red-600 min-w-full"
                       style={{ filter: 'drop-shadow(0 0 10px rgba(220, 38, 38, 0.3))' }}
                     >
                       {/* Syringe barrel */}
-                      <rect x="50" y="40" width="700" height="50" rx="8" fill="none" stroke="currentColor" strokeWidth="2" />
+                      <rect x="80" y="50" width="1050" height="70" rx="12" fill="none" stroke="currentColor" strokeWidth="2.5" />
 
                       {/* Syringe plunger */}
                       <rect
-                        x="50"
-                        y="40"
-                        width={Math.min(700, (drawAmount / currentWater) * 700)}
-                        height="50"
-                        rx="8"
+                        x="80"
+                        y="50"
+                        width={Math.min(1050, (drawAmount / currentWater) * 1050)}
+                        height="70"
+                        rx="12"
                         fill="currentColor"
                         opacity="0.3"
                       />
@@ -301,13 +301,13 @@ export default function PeptideCalculator() {
                       {/* Markings */}
                       {[0, 0.25, 0.5, 0.75, 1].map((mark) => (
                         <g key={mark}>
-                          <line x1={50 + mark * 700} y1="30" x2={50 + mark * 700} y2="40" stroke="currentColor" strokeWidth="1.5" />
+                          <line x1={80 + mark * 1050} y1="35" x2={80 + mark * 1050} y2="50" stroke="currentColor" strokeWidth="2" />
                           <text
-                            x={50 + mark * 700}
-                            y="22"
+                            x={80 + mark * 1050}
+                            y="25"
                             textAnchor="middle"
-                            fontSize="12"
-                            fontWeight="600"
+                            fontSize="18"
+                            fontWeight="700"
                             fill="currentColor"
                             className="text-stone-400"
                           >
