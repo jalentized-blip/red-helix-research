@@ -132,7 +132,7 @@ export default function CryptoCheckout() {
 
   // Auto-verify transaction ID when entered
   useEffect(() => {
-    if (!transactionId || paymentCleared) return;
+    if (!transactionId || !formApplied || paymentCleared) return;
 
     const pollTransactionId = async () => {
       try {
