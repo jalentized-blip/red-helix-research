@@ -144,12 +144,14 @@ export default function AgeGate() {
             <div className="space-y-3">
               <Button
                 onClick={() => handleAgeConfirm(true)}
+                disabled={ageConfirmLoading}
                 className="w-full bg-red-600 hover:bg-red-700 text-amber-50 text-lg py-6"
               >
-                I'm 21 or Older
+                {ageConfirmLoading ? 'Verifying...' : "I'm 21 or Older"}
               </Button>
               <Button
                 onClick={() => handleAgeConfirm(false)}
+                disabled={ageConfirmLoading}
                 variant="outline"
                 className="w-full border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 text-lg py-6"
               >
