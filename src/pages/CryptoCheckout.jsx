@@ -508,5 +508,6 @@ export default function CryptoCheckout() {
           <div className="fixed bottom-6 right-24 z-40">
             <CryptoWalletHelp />
           </div>
-          </);
+          </div>
+          );
           }
