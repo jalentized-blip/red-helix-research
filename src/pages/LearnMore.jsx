@@ -69,7 +69,7 @@ const SourcesBubble = ({ productName }) => {
             sources.map((study, idx) => (
               <div key={idx} className="border-l-2 border-green-500 pl-3 py-2">
                 <p className="text-xs text-stone-400 mb-1">Study {idx + 1} ({study.year})</p>
-                <p className="text-xs text-green-400 leading-relaxed">{study.summary}</p>
+                <p className="text-xs text-white leading-relaxed">{study.summary}</p>
               </div>
             ))
           ) : (
