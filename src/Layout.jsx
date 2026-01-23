@@ -120,9 +120,9 @@ const navLinks = [
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/972165e60_reddirtbrother-Picsart-BackgroundRemover.jpg"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/f43766ab7_thisonerighthere.png"
               alt="Red Dirt Research"
-              className="h-16 w-auto object-contain"
+              className="h-20 w-auto object-contain"
               style={{ 
                 opacity: logoOpacity,
                 transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
