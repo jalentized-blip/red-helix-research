@@ -339,29 +339,6 @@ export default function CryptoCheckout() {
               </p>
             </div>
 
-            {/* Payment Status */}
-            {walletAddress && transactionId && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`mt-6 rounded-lg p-4 border flex items-center justify-between ${
-                  paymentCleared
-                    ? 'bg-green-600/20 border-green-600/50'
-                    : 'bg-amber-600/20 border-amber-600/50'
-                }`}
-              >
-                <div>
-                  <p className={`font-semibold flex items-center gap-2 ${paymentCleared ? 'text-green-600' : 'text-amber-600'}`}>
-                    {paymentCleared ? 'Completed' : 'Confirming...'}
-                  </p>
-                  <p className={`text-xs ${paymentCleared ? 'text-green-600/80' : 'text-amber-600/80'}`}>
-                    {paymentCleared ? 'Transaction verified on blockchain' : 'Verifying payment details'}
-                  </p>
-                </div>
-                <Loader2 className={`w-6 h-6 animate-spin ${paymentCleared ? 'text-green-600' : 'text-amber-600'}`} />
-              </motion.div>
-            )}
-
 
           </motion.div>
         </div>
