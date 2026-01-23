@@ -59,6 +59,9 @@ export default function Layout({ children }) {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-6">
+            <Link to={createPageUrl('Home')} className="text-sm font-medium text-stone-300 hover:text-red-600 transition-colors uppercase tracking-wide">
+              Home
+            </Link>
             {navLinks.map((link) => (
               <button
                 key={link.label}
@@ -104,6 +107,9 @@ export default function Layout({ children }) {
               </SheetTrigger>
               <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
                 <nav className="flex flex-col gap-4 mt-8">
+                  <Link to={createPageUrl('Home')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700 block">
+                    Home
+                  </Link>
                   {navLinks.map((link) => (
                     <button
                       key={link.label}
