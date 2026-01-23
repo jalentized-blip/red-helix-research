@@ -221,6 +221,18 @@ const navLinks = [
       <main>
         {children}
       </main>
-    </div>
-  );
-}
+
+      {/* WhatsApp Chat Button */}
+      <a
+        href={whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 p-4 bg-green-600 rounded-full shadow-lg hover:bg-green-700 transition-all hover:scale-110"
+        style={{ opacity: 0.2 }}
+        title="Chat with us on WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6 text-white" />
+      </a>
+      </div>
+      );
+      }
