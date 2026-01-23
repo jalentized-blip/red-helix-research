@@ -112,44 +112,7 @@ export default function CryptoCheckout() {
     return () => clearInterval(interval);
   }, [walletAddress, selectedCrypto, cryptoAmount, finalTotal, paymentCleared]);
 
-  // Poll for manual transaction ID verification
-  useEffect(() => {
-    if (!transactionId || paymentCleared) return;
 
-    const pollPayment = async () => {
-      try {
-        const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount is ${cryptoAmount} ${selectedCrypto}, 3) Destination matches payment address, 4) Has at least 1 confirmation. Return JSON with "valid" (boolean - true only if all 4 criteria met), "confirmed" (boolean), and "error" (string or null).`,
-          add_context_from_internet: true,
-          response_json_schema: {
-            type: 'object',
-            properties: {
-              valid: { type: 'boolean' },
-              confirmed: { type: 'boolean' },
-              error: { type: ['string', 'null'] },
-            },
-            required: ['valid', 'confirmed', 'error'],
-          },
-        });
-
-        if (result.valid && result.confirmed) {
-          setPaymentCleared(true);
-          setPaymentDetected(true);
-          setTimeout(() => {
-            window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
-          }, 1500);
-        } else if (result.error) {
-          console.error('Transaction validation error:', result.error);
-        }
-      } catch (error) {
-        console.error('Error checking payment:', error);
-      }
-    };
-
-    pollPayment();
-    const interval = setInterval(pollPayment, 10000);
-    return () => clearInterval(interval);
-  }, [transactionId, selectedCrypto, cryptoAmount, paymentCleared]);
 
 
 
