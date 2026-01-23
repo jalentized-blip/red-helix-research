@@ -1,18 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
 const ELEVENLABS_API_KEY = Deno.env.get("ELEVENLABS_API_KEY");
-
-// Curated selection of natural-sounding voices
-const VOICES = {
-  "Sarah": { id: "EXAVITQu4vr4xnSDxMaL", name: "Sarah" },
-  "James": { id: "pNInz6obpgDQGcFmaJgB", name: "James" },
-  "Aria": { id: "9BWtsMINqrJLrRacOk9x", name: "Aria" },
-  "Daniel": { id: "onwK4e9ZDvHVJNcpOqAM", name: "Daniel" },
-  "Grace": { id: "JBFqnCBsd6RMkjVDRZzw", name: "Grace" },
-  "Chris": { id: "iP3nJ0z0nHULyNhWrRac", name: "Chris" },
-  "Luna": { id: "Xb7hH8MSUJpSbSDYk0k2", name: "Luna" },
-  "River": { id: "DCf6VLC2l8vsMfsOm8QJ", name: "River" }
-};
+const ELEVENLABS_VOICE_ID = Deno.env.get("ELEVENLABS_VOICE_ID");
 
 Deno.serve(async (req) => {
   try {
