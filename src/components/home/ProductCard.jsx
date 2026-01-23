@@ -1,0 +1,86 @@
+import React from 'react';
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell } from "lucide-react";
+
+const badgeConfig = {
+  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-500/20 text-red-400 border-red-500/30" },
+  trending: { icon: TrendingUp, label: "Trending", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
+  top_rated: { icon: Star, label: "Top Rated", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
+  popular: { icon: BarChart2, label: "Popular", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+  classic: { icon: Award, label: "Classic", color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" },
+  newcomer: { icon: Sparkles, label: "Newcomer", color: "bg-pink-500/20 text-pink-400 border-pink-500/30" },
+  essential: { icon: Dumbbell, label: "Essential", color: "bg-orange-500/20 text-orange-400 border-orange-500/30" },
+};
+
+const categoryLabels = {
+  weight_loss: "Weight Loss",
+  recovery_healing: "Muscle Growth & Recovery",
+  cognitive_focus: "Cognitive Enhancement",
+  performance_longevity: "Performance & Longevity",
+  sexual_health: "Sexual Health",
+  general_health: "General Health"
+};
+
+export default function ProductCard({ product, index = 0 }) {
+  const badge = product.badge ? badgeConfig[product.badge] : null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
+      viewport={{ once: true }}
+    >
+      <Card className="group relative bg-neutral-900/60 border-neutral-800 hover:border-yellow-500/40 transition-all duration-300 overflow-hidden h-full">
+        {/* Hover glow */}
+        <div className="absolute inset-0 bg-gradient-to-t from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Badge */}
+        {badge && (
+          <div className="absolute top-3 left-3 z-10">
+            <Badge className={`${badge.color} border text-xs font-medium flex items-center gap-1`}>
+              <badge.icon className="w-3 h-3" />
+              {badge.label}
+            </Badge>
+          </div>
+        )}
+
+        <div className="p-5 relative">
+          {/* Product Image */}
+          <div className="relative mb-4 aspect-square flex items-center justify-center bg-neutral-800/50 rounded-xl overflow-hidden">
+            <div className="w-24 h-32 bg-gradient-to-b from-yellow-500/20 to-yellow-600/10 rounded-lg flex items-center justify-center border border-yellow-500/20">
+              <div className="w-8 h-20 bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-md border border-neutral-600" />
+            </div>
+          </div>
+
+          {/* Product Info */}
+          <h3 className="text-lg font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
+            {product.name}
+          </h3>
+          
+          <p className="text-sm text-neutral-400 mb-3 line-clamp-2">
+            {product.description}
+          </p>
+
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs text-yellow-500/80 font-medium">
+              {categoryLabels[product.category]}
+            </span>
+            <span className="text-lg font-bold text-white">
+              From <span className="text-yellow-400">${product.price_from}</span>
+            </span>
+          </div>
+
+          <Button 
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-neutral-900 font-semibold"
+          >
+            Select strength
+          </Button>
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
