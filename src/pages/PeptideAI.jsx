@@ -35,17 +35,7 @@ export default function PeptideAI() {
 
 
 
-  const startListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.start();
-    }
-  };
 
-  const stopListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-    }
-  };
 
   const speakResponse = async (text) => {
     try {
