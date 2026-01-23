@@ -2,7 +2,9 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Mail, MessageCircle, Send } from "lucide-react";
+import { Mail, MessageCircle, Send, ArrowRight } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 
 const contactMethods = [
   {
@@ -66,6 +68,22 @@ export default function Contact() {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA to Contact Page */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center mt-12"
+        >
+          <Link to={createPageUrl('Contact')}>
+            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 font-semibold px-6">
+              Go to Contact Form
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
