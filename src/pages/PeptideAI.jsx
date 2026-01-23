@@ -114,12 +114,10 @@ export default function PeptideAI() {
     try {
       setIsSpeaking(true);
       const response = await base44.functions.invoke('textToSpeech', {
-        text: text,
-        voiceId: selectedVoice
+        text: text
       });
 
-      const audioBlob = new Blob([response.data], { type: 'audio/mpeg' });
-      const audioUrl = URL.createObjectURL(audioBlob);
+      const audioUrl = response.data.audioUrl;
       
       if (audioRef.current) {
         audioRef.current.src = audioUrl;
