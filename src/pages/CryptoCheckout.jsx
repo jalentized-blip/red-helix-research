@@ -10,6 +10,8 @@ import { base44 } from '@/api/base44Client';
 
 export default function CryptoCheckout() {
   const [walletAddress, setWalletAddress] = useState('');
+  const [transactionId, setTransactionId] = useState('');
+  const [productName, setProductName] = useState('');
   const [selectedCrypto, setSelectedCrypto] = useState('BTC');
   const [copied, setCopied] = useState(false);
   const [exchangeRates, setExchangeRates] = useState(null);
