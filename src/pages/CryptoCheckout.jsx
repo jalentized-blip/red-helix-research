@@ -287,7 +287,7 @@ export default function CryptoCheckout() {
             </div>
 
             {/* Payment Status */}
-            {transactionId && (
+            {walletAddress && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -304,24 +304,24 @@ export default function CryptoCheckout() {
                     <>
                       <Check className="w-5 h-5 text-green-600" />
                       <div>
-                        <p className="font-semibold text-green-600">Payment Cleared</p>
-                        <p className="text-xs text-green-600/80">Transaction confirmed on blockchain</p>
+                        <p className="font-semibold text-green-600">Payment Confirmed!</p>
+                        <p className="text-xs text-green-600/80">Transaction verified on blockchain</p>
                       </div>
                     </>
                   ) : paymentDetected ? (
                     <>
                       <Loader2 className="w-5 h-5 text-amber-600 animate-spin" />
                       <div>
-                        <p className="font-semibold text-amber-600">Payment Detected</p>
+                        <p className="font-semibold text-amber-600">Payment Received</p>
                         <p className="text-xs text-amber-600/80">Waiting for blockchain confirmation...</p>
                       </div>
                     </>
                   ) : (
                     <>
-                      <AlertCircle className="w-5 h-5 text-stone-400" />
+                      <Loader2 className="w-5 h-5 text-stone-400 animate-spin" />
                       <div>
-                        <p className="font-semibold text-stone-400">Checking for payment...</p>
-                        <p className="text-xs text-stone-500">Auto-checking every 10 seconds</p>
+                        <p className="font-semibold text-stone-400">Monitoring wallet...</p>
+                        <p className="text-xs text-stone-500">Auto-detecting payment</p>
                       </div>
                     </>
                   )}
