@@ -5,6 +5,7 @@ import CryptoCheckout from './pages/CryptoCheckout';
 import Home from './pages/Home';
 import PaymentCompleted from './pages/PaymentCompleted';
 import PeptideCalculator from './pages/PeptideCalculator';
+import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import __Layout from './Layout.jsx';
 
 
@@ -16,6 +17,7 @@ export const PAGES = {
     "Home": Home,
     "PaymentCompleted": PaymentCompleted,
     "PeptideCalculator": PeptideCalculator,
+    "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
 }
 
 export const pagesConfig = {
