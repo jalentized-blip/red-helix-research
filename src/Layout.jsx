@@ -12,6 +12,7 @@ const navLinks = [
                     { label: "Peptide Blends", href: "#goals" },
                     { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
                     { label: "Certificates", href: "#certificates" },
+                    { label: "Orders", href: createPageUrl('OrderTracking'), isPage: true },
                   ];
 
       export default function Layout({ children }) {
