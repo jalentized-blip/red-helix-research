@@ -75,7 +75,7 @@ export default function Home() {
     setAgeVerified(true);
   };
 
-  if (showAgeVerification && (!isAuthenticated || !ageVerified)) {
+  if (showAgeVerification && !ageVerified) {
     return (
       <div className="min-h-screen bg-stone-950 text-amber-50 flex items-center justify-center">
         <AgeVerification 
@@ -97,9 +97,9 @@ export default function Home() {
       <ValueProposition />
       <NumberedFeatures />
       <AboutSection />
-      <BestSellers products={products} onSelectStrength={handleSelectStrength} />
-      <ShopByGoal products={products} onSelectStrength={handleSelectStrength} />
-      <AllProducts products={products} onSelectStrength={handleSelectStrength} />
+      <BestSellers products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} />
+      <ShopByGoal products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} />
+      <AllProducts products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} />
       <WhyTrustUs />
       <ProductModal 
         product={selectedProduct} 
