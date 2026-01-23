@@ -42,7 +42,7 @@ export default function Account() {
 
   const handleLogout = async () => {
     await base44.auth.logout();
-    navigate(createPageUrl('Home'));
+    window.location.href = createPageUrl('Home');
   };
 
   if (loading) {
