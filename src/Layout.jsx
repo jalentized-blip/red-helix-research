@@ -206,9 +206,12 @@ const navLinks = [
                     <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
                       My Account
                     </Link>
-                    <Link to={createPageUrl('Login')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                      Sign In / Sign Up
-                    </Link>
+                    <button
+                      onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
+                      className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
+                    >
+                      Sign In
+                    </button>
                   </nav>
                 </SheetContent>
               </Sheet>

@@ -1,6 +1,5 @@
 import About from './pages/About';
 import Account from './pages/Account';
-import AgeGate from './pages/AgeGate';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import CryptoCheckout from './pages/CryptoCheckout';
@@ -17,7 +16,6 @@ import __Layout from './Layout.jsx';
 export const PAGES = {
     "About": About,
     "Account": Account,
-    "AgeGate": AgeGate,
     "Cart": Cart,
     "Contact": Contact,
     "CryptoCheckout": CryptoCheckout,
