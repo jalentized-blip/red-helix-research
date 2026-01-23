@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { text, voiceId } = await req.json();
+    const { text, voice_id } = await req.json();
 
     if (!text) {
       return Response.json({ 
@@ -26,8 +26,10 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
+    const finalVoiceId = voice_id || ELEVENLABS_VOICE_ID;
+
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${finalVoiceId}`,
       {
         method: 'POST',
         headers: {
