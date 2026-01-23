@@ -38,24 +38,24 @@ export default function AllProducts({ products }) {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               All Products
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-6">
+          <p className="text-stone-300 text-lg max-w-2xl mx-auto mb-6">
             Browse our complete catalog of research-grade peptides
           </p>
           
           {/* Search Bar */}
           <div className="max-w-md mx-auto">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
               <Input
                 type="text"
                 placeholder="Search peptides..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500 focus:border-yellow-500/50"
+                className="pl-10 bg-stone-900 border-stone-700 text-amber-50 placeholder:text-stone-400 focus:border-red-700/50"
               />
             </div>
           </div>
@@ -64,12 +64,12 @@ export default function AllProducts({ products }) {
         {/* Category Tabs */}
         <div className="flex justify-center mb-10 overflow-x-auto pb-2">
           <Tabs value={activeCategory} onValueChange={setActiveCategory}>
-            <TabsList className="bg-neutral-900/60 border border-neutral-800 p-1 flex-wrap">
+            <TabsList className="bg-stone-900/60 border border-stone-700 p-1 flex-wrap">
               {categories.map((cat) => (
                 <TabsTrigger 
                   key={cat.id} 
                   value={cat.id}
-                  className="data-[state=active]:bg-yellow-500 data-[state=active]:text-neutral-900 text-neutral-400 font-medium"
+                  className="data-[state=active]:bg-red-700 data-[state=active]:text-amber-50 text-stone-300 font-medium"
                 >
                   {cat.label}
                 </TabsTrigger>
@@ -86,7 +86,7 @@ export default function AllProducts({ products }) {
         </div>
 
         {filteredProducts.length === 0 && (
-          <div className="text-center py-12 text-neutral-500">
+          <div className="text-center py-12 text-stone-400">
             No products found in this category.
           </div>
         )}

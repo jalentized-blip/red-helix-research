@@ -17,11 +17,11 @@ export default function Hero() {
           backgroundImage: `url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&q=80')`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/95 to-neutral-950/70" />
+      <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/95 to-stone-950/70" />
       
       {/* Animated accent line */}
       <motion.div 
-        className="absolute left-0 top-1/4 w-1 h-32 bg-gradient-to-b from-yellow-500 to-transparent"
+        className="absolute left-0 top-1/4 w-1 h-32 bg-gradient-to-b from-red-700 to-transparent"
         initial={{ height: 0 }}
         animate={{ height: 128 }}
         transition={{ duration: 1, delay: 0.5 }}
@@ -36,18 +36,18 @@ export default function Hero() {
         >
           {/* Main Title */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
-            <span className="text-white">PREMIUM QUALITY,</span>
+            <span className="text-amber-50">PREMIUM QUALITY,</span>
             <br />
-            <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 via-red-500 to-red-700 bg-clip-text text-transparent">
               LAB VERIFIED.
             </span>
           </h1>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl font-semibold text-neutral-200 mb-3 tracking-wide">
+          <p className="text-xl md:text-2xl font-semibold text-amber-100 mb-3 tracking-wide">
             Every Batch Tested. Every Result Trusted.
           </p>
-          <p className="text-sm md:text-base text-yellow-500/90 font-medium uppercase tracking-widest mb-10">
+          <p className="text-sm md:text-base text-red-600/90 font-medium uppercase tracking-widest mb-10">
             For Research and Laboratory Use Only
           </p>
 
@@ -56,14 +56,14 @@ export default function Hero() {
             <Button 
               variant="outline"
               onClick={() => scrollTo('certificates')}
-              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-neutral-900 px-8 py-6 text-base font-semibold uppercase tracking-wide transition-all"
+              className="bg-transparent border-2 border-amber-50 text-amber-50 hover:bg-amber-50 hover:text-stone-900 px-8 py-6 text-base font-semibold uppercase tracking-wide transition-all"
             >
               <FileText className="w-5 h-5 mr-2" />
               View Test Reports
             </Button>
             <Button 
               onClick={() => scrollTo('products')}
-              className="bg-yellow-500 hover:bg-yellow-400 text-neutral-900 px-8 py-6 text-base font-semibold uppercase tracking-wide"
+              className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 py-6 text-base font-semibold uppercase tracking-wide"
             >
               <ShoppingBag className="w-5 h-5 mr-2" />
               Shop Peptides
@@ -78,8 +78,8 @@ export default function Hero() {
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="w-6 h-10 rounded-full border-2 border-yellow-500/50 flex items-start justify-center p-2">
-          <div className="w-1.5 h-3 bg-yellow-500 rounded-full" />
+        <div className="w-6 h-10 rounded-full border-2 border-red-700/50 flex items-start justify-center p-2">
+          <div className="w-1.5 h-3 bg-red-700 rounded-full" />
         </div>
       </motion.div>
     </section>

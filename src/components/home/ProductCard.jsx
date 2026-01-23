@@ -34,9 +34,9 @@ export default function ProductCard({ product, index = 0 }) {
       transition={{ delay: index * 0.05, duration: 0.4 }}
       viewport={{ once: true }}
     >
-      <Card className="group relative bg-neutral-900/60 border-neutral-800 hover:border-yellow-500/40 transition-all duration-300 overflow-hidden h-full">
+      <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full">
         {/* Hover glow */}
-        <div className="absolute inset-0 bg-gradient-to-t from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-red-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
         {/* Badge */}
         {badge && (
@@ -50,7 +50,7 @@ export default function ProductCard({ product, index = 0 }) {
 
         <div className="p-5 relative">
           {/* Product Image */}
-          <div className="relative mb-4 aspect-square flex items-center justify-center bg-neutral-800/50 rounded-xl overflow-hidden">
+          <div className="relative mb-4 aspect-square flex items-center justify-center bg-stone-800/50 rounded-xl overflow-hidden">
             {product.image_url ? (
               <img 
                 src={product.image_url} 
@@ -58,32 +58,32 @@ export default function ProductCard({ product, index = 0 }) {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-24 h-32 bg-gradient-to-b from-yellow-500/20 to-yellow-600/10 rounded-lg flex items-center justify-center border border-yellow-500/20">
-                <div className="w-8 h-20 bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-md border border-neutral-600" />
+              <div className="w-24 h-32 bg-gradient-to-b from-red-700/20 to-red-800/10 rounded-lg flex items-center justify-center border border-red-700/20">
+                <div className="w-8 h-20 bg-gradient-to-b from-stone-700 to-stone-800 rounded-md border border-stone-600" />
               </div>
             )}
           </div>
 
           {/* Product Info */}
-          <h3 className="text-lg font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
+          <h3 className="text-lg font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors">
             {product.name}
           </h3>
           
-          <p className="text-sm text-neutral-400 mb-3 line-clamp-2">
+          <p className="text-sm text-stone-300 mb-3 line-clamp-2">
             {product.description}
           </p>
 
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs text-yellow-500/80 font-medium">
+            <span className="text-xs text-red-600/80 font-medium">
               {categoryLabels[product.category]}
             </span>
-            <span className="text-lg font-bold text-white">
-              From <span className="text-yellow-400">${product.price_from}</span>
+            <span className="text-lg font-bold text-amber-50">
+              From <span className="text-red-600">${product.price_from}</span>
             </span>
           </div>
 
           <Button 
-            className="w-full bg-yellow-500 hover:bg-yellow-400 text-neutral-900 font-semibold"
+            className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
           >
             Select strength
           </Button>

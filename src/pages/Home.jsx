@@ -26,7 +26,7 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
+    <div className="min-h-screen bg-stone-950 text-amber-50">
       <AnnouncementBar />
       <Hero />
       <TrustBar />
