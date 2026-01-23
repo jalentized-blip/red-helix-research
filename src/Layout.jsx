@@ -7,17 +7,18 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const navLinks = [
-  { label: "Peptides", href: "#products" },
-  { label: "Peptide Blends", href: "#goals" },
-  { label: "Certificates", href: "#certificates" },
-  { label: "FAQ", href: "#faq" },
-];
+        { label: "Peptides", href: "#products" },
+        { label: "Peptide Blends", href: "#goals" },
+        { label: "Certificates", href: "#certificates" },
+        { label: "FAQ", href: "#faq" },
+      ];
 
-export default function Layout({ children }) {
+      export default function Layout({ children }) {
         const [scrolled, setScrolled] = useState(false);
         const [cartCount, setCartCount] = useState(0);
         const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
         const [logoOpacity, setLogoOpacity] = useState(1);
+        const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
 
         useEffect(() => {
           const handleScroll = () => {
@@ -38,16 +39,28 @@ export default function Layout({ children }) {
           const handleMouseMove = (e) => {
             setMousePos({ x: e.clientX, y: e.clientY });
 
-            // Calculate distance from logo (approximate center-left position)
+            // Calculate distance from logo (approximate center position)
             const logoX = 100;
             const logoY = 60;
             const distance = Math.sqrt(
               Math.pow(e.clientX - logoX, 2) + Math.pow(e.clientY - logoY, 2)
             );
 
-            // Opacity decreases as mouse gets closer (0.2 to 1)
-            const opacity = Math.min(1, Math.max(0.2, distance / 200));
+            // Opacity decreases as mouse gets closer
+            const opacity = Math.min(1, Math.max(0, distance / 150));
             setLogoOpacity(opacity);
+
+            // Calculate repulsion - logo moves away from cursor
+            if (distance < 250) {
+              const angle = Math.atan2(logoY - e.clientY, logoX - e.clientX);
+              const force = Math.max(0, 100 - distance) * 0.3;
+              setLogoOffset({
+                x: Math.cos(angle) * force,
+                y: Math.sin(angle) * force
+              });
+            } else {
+              setLogoOffset({ x: 0, y: 0 });
+            }
           };
 
           window.addEventListener('mousemove', handleMouseMove);
@@ -70,7 +83,11 @@ export default function Layout({ children }) {
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
               alt="Red Dirt Research" 
               className="h-28 w-auto object-contain transition-opacity duration-150"
-              style={{ opacity: logoOpacity }}
+              style={{ 
+                opacity: logoOpacity,
+                transform: `translate(${logoOffset.x}px, ${logoOffset.y}px)`,
+                transition: 'opacity 150ms'
+              }}
             />
           </div>
 
