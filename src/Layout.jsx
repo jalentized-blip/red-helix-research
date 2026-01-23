@@ -151,6 +151,9 @@ const navLinks = [
             <Link to={createPageUrl('Contact')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
               Contact
             </Link>
+            <Link to={createPageUrl('Account')} className="text-sm font-medium text-stone-300 hover:text-red-600 px-3 py-2 transition-all uppercase tracking-wide">
+              Account
+            </Link>
             {navLinks.map((link) => 
               link.isPage ? (
                 <Link
