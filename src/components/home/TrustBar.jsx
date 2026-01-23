@@ -3,7 +3,7 @@ import { FlaskConical, ShieldCheck, Headphones, CheckCircle, RefreshCw } from "l
 import { motion } from "framer-motion";
 
 const USMapIcon = () => (
-  <svg viewBox="0 0 960 600" className="w-5 h-5 text-red-600 fill-current">
+  <svg viewBox="0 0 960 600" className="w-8 h-8 text-red-600 fill-current">
     <path d="M190,210 L240,200 L280,210 L310,190 L360,195 L390,210 L410,230 L390,250 L380,270 L410,280 L430,300 L400,320 L360,310 L320,330 L280,320 L240,340 L200,330 L170,310 L150,280 L160,250 L170,220 Z M480,180 L530,170 L560,185 L570,210 L550,230 L510,220 Z M80,280 L130,270 L150,290 L140,310 L100,300 Z" />
   </svg>
 );
