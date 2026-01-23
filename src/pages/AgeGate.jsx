@@ -58,14 +58,22 @@ export default function AgeGate() {
     
     setAgeConfirmLoading(true);
     try {
-      // Update user with age verification
-      await base44.auth.updateMe({
-        age_verified: true,
-        age_verified_date: new Date().toISOString()
-      });
-      navigate(createPageUrl('Home'));
+      const user = await base44.auth.me();
+      if (user) {
+        // User is logged in, update age verification
+        await base44.auth.updateMe({
+          age_verified: true,
+          age_verified_date: new Date().toISOString()
+        });
+        navigate(createPageUrl('Home'));
+      } else {
+        // Not logged in, show sign in form
+        setIsVerified(true);
+        setAgeConfirmLoading(false);
+      }
     } catch {
-      setError('Unable to verify age. Please try again.');
+      // Not logged in, show sign in form
+      setIsVerified(true);
       setAgeConfirmLoading(false);
     }
   };
