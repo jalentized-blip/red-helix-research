@@ -1,29 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ArrowLeft, Send, Loader2, AlertCircle, Volume2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
-import { motion } from 'framer-motion';
-import { base44 } from '@/api/base44Client';
-import ReactMarkdown from 'react-markdown';
+      import { Button } from '@/components/ui/button';
+      import { Input } from '@/components/ui/input';
+      import { ArrowLeft, Send, Loader2, AlertCircle, Mic } from 'lucide-react';
+      import { Link } from 'react-router-dom';
+      import { createPageUrl } from '@/utils';
+      import { motion } from 'framer-motion';
+      import { base44 } from '@/api/base44Client';
+      import ReactMarkdown from 'react-markdown';
 
-export default function PeptideAI() {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      role: 'assistant',
-      content: 'Welcome to Peptide AI! I\'m here to answer all your questions about peptides, protocols, dosing, research, and more. What would you like to know?'
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const audioRef = useRef(null);
-  const messagesEndRef = useRef(null);
+      export default function PeptideAI() {
+        const [messages, setMessages] = useState([
+          {
+            id: 1,
+            role: 'assistant',
+            content: 'Welcome to Peptide AI! I\'m here to answer all your questions about peptides, protocols, dosing, research, and more. What would you like to know?'
+          }
+        ]);
+        const [input, setInput] = useState('');
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState('');
+        const [isRecording, setIsRecording] = useState(false);
+        const [transcript, setTranscript] = useState('');
+        const [isSpeaking, setIsSpeaking] = useState(false);
+        const audioRef = useRef(null);
+        const messagesEndRef = useRef(null);
+        const recognitionRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
