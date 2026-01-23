@@ -19,12 +19,27 @@ const navLinks = [
         const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
         const [logoOpacity, setLogoOpacity] = useState(1);
         const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
+        const [logoScale, setLogoScale] = useState(1);
 
         useEffect(() => {
           const handleScroll = () => {
             setScrolled(window.scrollY > 50);
-            if (window.scrollY > 50) {
-              setLogoOpacity(0.1);
+            
+            // Get ValueProposition section position
+            const valueSection = document.querySelector('section');
+            if (valueSection) {
+              const rect = valueSection.getBoundingClientRect();
+              const sectionTop = window.scrollY + rect.top;
+              
+              if (window.scrollY > sectionTop) {
+                // Past the section - minimize and fade
+                setLogoScale(0.3);
+                setLogoOpacity(0);
+              } else {
+                // Before section - normal
+                setLogoScale(1);
+                setLogoOpacity(1);
+              }
             }
           };
           window.addEventListener('scroll', handleScroll);
@@ -85,11 +100,10 @@ const navLinks = [
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
               alt="Red Dirt Research" 
-              className="h-40 w-auto object-contain transition-opacity duration-150"
+              className="h-40 w-auto object-contain transition-all duration-300"
               style={{ 
                 opacity: logoOpacity,
-                transform: `translate(${logoOffset.x}px, ${logoOffset.y}px)`,
-                transition: 'opacity 150ms'
+                transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
               }}
             />
           </div>
