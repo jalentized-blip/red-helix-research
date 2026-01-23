@@ -218,7 +218,10 @@ const navLinks = [
                         </Link>
                         <button
                           onClick={() => {
-                            base44.auth.logout(createPageUrl('Home'));
+                            localStorage.clear();
+                            sessionStorage.clear();
+                            base44.auth.logout();
+                            window.location.href = createPageUrl('Home');
                           }}
                           className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
                         >
