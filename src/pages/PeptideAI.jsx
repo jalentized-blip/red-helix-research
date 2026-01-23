@@ -34,6 +34,46 @@ import React, { useState, useRef, useEffect } from 'react';
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    recognitionRef.current = new SpeechRecognition();
+    recognitionRef.current.continuous = false;
+    recognitionRef.current.interimResults = true;
+    recognitionRef.current.lang = 'en-US';
+
+    recognitionRef.current.onstart = () => {
+      setIsRecording(true);
+      setTranscript('');
+    };
+
+    recognitionRef.current.onresult = (event) => {
+      let interimTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          setTranscript(prev => prev + transcript);
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+      if (interimTranscript) {
+        setTranscript(prev => prev.split('(interim)')[0] + interimTranscript + '(interim)');
+      }
+    };
+
+    recognitionRef.current.onend = () => {
+      setIsRecording(false);
+    };
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.abort();
+      }
+    };
+  }, []);
+
 
 
 
