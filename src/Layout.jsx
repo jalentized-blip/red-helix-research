@@ -14,23 +14,45 @@ const navLinks = [
 ];
 
 export default function Layout({ children }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+        const [scrolled, setScrolled] = useState(false);
+        const [cartCount, setCartCount] = useState(0);
+        const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+        const [logoOpacity, setLogoOpacity] = useState(1);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+        useEffect(() => {
+          const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+          };
+          window.addEventListener('scroll', handleScroll);
+          return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
 
-  useEffect(() => {
-    setCartCount(getCartCount());
-    const handleCartUpdate = () => setCartCount(getCartCount());
-    window.addEventListener('cartUpdated', handleCartUpdate);
-    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
-  }, []);
+        useEffect(() => {
+          setCartCount(getCartCount());
+          const handleCartUpdate = () => setCartCount(getCartCount());
+          window.addEventListener('cartUpdated', handleCartUpdate);
+          return () => window.removeEventListener('cartUpdated', handleCartUpdate);
+        }, []);
+
+        useEffect(() => {
+          const handleMouseMove = (e) => {
+            setMousePos({ x: e.clientX, y: e.clientY });
+
+            // Calculate distance from logo (approximate center-left position)
+            const logoX = 100;
+            const logoY = 60;
+            const distance = Math.sqrt(
+              Math.pow(e.clientX - logoX, 2) + Math.pow(e.clientY - logoY, 2)
+            );
+
+            // Opacity decreases as mouse gets closer (0.2 to 1)
+            const opacity = Math.min(1, Math.max(0.2, distance / 200));
+            setLogoOpacity(opacity);
+          };
+
+          window.addEventListener('mousemove', handleMouseMove);
+          return () => window.removeEventListener('mousemove', handleMouseMove);
+        }, []);
 
   const scrollTo = (id) => {
     const element = document.getElementById(id.replace('#', ''));
@@ -40,18 +62,15 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen bg-stone-950">
       {/* Fixed Header */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-stone-950/95 backdrop-blur-xl border-b border-stone-700/50 py-2' 
-          : 'bg-transparent py-3'
-      }`}>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-3">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
               alt="Red Dirt Research" 
-              className="h-20 w-auto object-contain"
+              className="h-28 w-auto object-contain transition-opacity duration-150"
+              style={{ opacity: logoOpacity }}
             />
           </div>
 
