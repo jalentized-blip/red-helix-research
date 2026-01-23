@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Home, MessageCircle, Eye, Pin } from 'lucide-react';
+import { Home, Pin, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -17,6 +17,7 @@ const categories = [
 
 export default function Forums() {
   const [selectedCategory, setSelectedCategory] = useState('general');
+  const [selectedThread, setSelectedThread] = useState(null);
 
   const { data: threads = [] } = useQuery({
     queryKey: ['forumThreads'],
@@ -30,6 +31,51 @@ export default function Forums() {
       if (!a.is_pinned && b.is_pinned) return 1;
       return new Date(b.created_date) - new Date(a.created_date);
     });
+
+  if (selectedThread) {
+    return (
+      <div className="min-h-screen bg-stone-950 pt-24 pb-20">
+        <div className="max-w-4xl mx-auto px-4">
+          <button 
+            onClick={() => setSelectedThread(null)}
+            className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8 transition-colors"
+          >
+            <X className="w-4 h-4" />
+            Back to Forums
+          </button>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8"
+          >
+            <div className="mb-8 pb-8 border-b border-stone-700">
+              <h1 className="text-3xl md:text-4xl font-black text-amber-50 mb-4">
+                {selectedThread.title}
+              </h1>
+              <p className="text-stone-400 text-sm">
+                Posted {new Date(selectedThread.created_date).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </p>
+            </div>
+
+            <div className="prose prose-invert max-w-none">
+              <div className="bg-stone-800/30 border border-stone-700 rounded-lg p-6 text-stone-200 leading-relaxed whitespace-pre-wrap">
+                {selectedThread.content}
+              </div>
+            </div>
+
+            <div className="mt-12 p-6 bg-stone-800/50 border border-stone-700 rounded-lg text-center text-stone-400">
+              <p className="text-sm">This is a research and educational thread. Always verify protocols with current research and consult appropriate professionals.</p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-stone-950 pt-24 pb-20">
@@ -87,9 +133,9 @@ export default function Forums() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
                     >
-                      <Link
-                        to={`${createPageUrl('Forums')}?threadId=${thread.id}`}
-                        className="block p-5 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-red-600/50 hover:bg-stone-800/50 transition-all"
+                      <button
+                        onClick={() => setSelectedThread(thread)}
+                        className="w-full text-left p-5 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-red-600/50 hover:bg-stone-800/50 transition-all"
                       >
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 min-w-0">
@@ -107,24 +153,12 @@ export default function Forums() {
                             <p className="text-stone-500 text-xs mt-2">
                               {new Date(thread.created_date).toLocaleDateString('en-US', {
                                 month: 'short',
-                                day: 'numeric',
-                                year: thread.created_date.includes(new Date().getFullYear()) ? undefined : 'numeric'
+                                day: 'numeric'
                               })}
                             </p>
                           </div>
-
-                          <div className="flex flex-col items-end gap-2 text-stone-400 text-sm">
-                            <div className="flex items-center gap-1">
-                              <MessageCircle className="w-4 h-4" />
-                              <span>{thread.replies}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Eye className="w-4 h-4" />
-                              <span>{thread.views}</span>
-                            </div>
-                          </div>
                         </div>
-                      </Link>
+                      </button>
                     </motion.div>
                   ))}
                 </div>
