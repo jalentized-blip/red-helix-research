@@ -87,12 +87,14 @@ export default function AboutSection() {
             <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-stone-700 bg-stone-800 relative">
               {vialImage ? (
                 <>
-                  <img 
+                  <motion.img 
                     src={vialImage}
                     alt="Peptide factory"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover brightness-110"
+                    animate={{ scale: 1.05 }}
+                    transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
                   />
-                  <div className="absolute inset-0 bg-red-900/20" />
+                  <div className="absolute inset-0 bg-red-900/15" />
                 </>
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
