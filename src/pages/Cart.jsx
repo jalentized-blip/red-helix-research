@@ -50,9 +50,10 @@ export default function Cart() {
     setPromoError('');
   };
 
-  const total = getCartTotal();
-  const discount = appliedPromo ? getDiscountAmount(appliedPromo, total) : 0;
-  const finalTotal = total - discount;
+  const SHIPPING_COST = 15.00;
+  const subtotal = getCartTotal();
+  const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
+  const finalTotal = subtotal - discount + SHIPPING_COST;
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
@@ -159,7 +160,7 @@ export default function Cart() {
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-stone-300">
                     <span>Subtotal</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-green-600">
@@ -168,8 +169,8 @@ export default function Cart() {
                     </div>
                   )}
                   <div className="flex justify-between text-stone-300">
-                    <span>Shipping</span>
-                    <span className="text-green-600">Free</span>
+                    <span>FedEx Shipping</span>
+                    <span>${SHIPPING_COST.toFixed(2)}</span>
                   </div>
                   <div className="border-t border-stone-700 pt-3 flex justify-between text-amber-50 font-bold text-lg">
                     <span>Total</span>
