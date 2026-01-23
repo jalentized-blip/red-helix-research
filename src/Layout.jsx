@@ -32,6 +32,9 @@ const navLinks = [
           const handleScroll = () => {
             setScrolled(window.scrollY > 50);
 
+            // Hide/show header based on scroll direction
+            setHeaderVisible(window.scrollY < 50 || window.scrollY < lastScrollY);
+
             // Calculate scroll speed and update magnifying glass
             const scrollSpeed = Math.abs(window.scrollY - lastScrollY);
             setLastScrollY(window.scrollY);
