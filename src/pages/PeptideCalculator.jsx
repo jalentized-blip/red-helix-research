@@ -336,24 +336,24 @@ export default function PeptideCalculator() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="bg-stone-800/50 rounded-lg p-4"
-                >
-                  <p className="text-stone-400 text-sm mb-1">Concentration (3mL Vial)</p>
-                  <p className="text-2xl font-bold text-red-600">{concentration.toFixed(2)} mg/mL</p>
-                </motion.div>
+                   initial={{ scale: 0.95, opacity: 0 }}
+                   animate={{ scale: 1, opacity: 1 }}
+                   transition={{ delay: 0.2 }}
+                   className="bg-stone-800/50 rounded-lg p-4"
+                 >
+                   <p className="text-stone-400 text-sm mb-1">Doses in Vial</p>
+                   <p className="text-2xl font-bold text-red-600">{dosesInVial}</p>
+                 </motion.div>
 
-                <motion.div
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="bg-stone-800/50 rounded-lg p-4"
-                >
-                  <p className="text-stone-400 text-sm mb-1">Doses in Vial</p>
-                  <p className="text-2xl font-bold text-red-600">{dosesInVial}</p>
-                </motion.div>
+                 <motion.div
+                   initial={{ scale: 0.95, opacity: 0 }}
+                   animate={{ scale: 1, opacity: 1 }}
+                   transition={{ delay: 0.3 }}
+                   className="bg-stone-800/50 rounded-lg p-4"
+                 >
+                   <p className="text-stone-400 text-sm mb-1">Concentration</p>
+                   <p className="text-2xl font-bold text-red-600">{concentration.toFixed(2)} mg/mL</p>
+                 </motion.div>
 
                 {drawAmount > syringeCapacity && (
                   <motion.div
