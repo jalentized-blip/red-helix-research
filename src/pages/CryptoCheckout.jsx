@@ -198,6 +198,32 @@ export default function CryptoCheckout() {
               <p className="text-xs text-stone-500">Provide your wallet to track the order</p>
             </div>
 
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-stone-300 block">Transaction ID <span className="text-red-600">*</span></label>
+              <Input
+                type="text"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
+                placeholder="Enter transaction ID"
+                className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                required
+              />
+              <p className="text-xs text-stone-500">Required for order confirmation</p>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-stone-300 block">Product Name <span className="text-red-600">*</span></label>
+              <Input
+                type="text"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                placeholder="Enter product name"
+                className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                required
+              />
+              <p className="text-xs text-stone-500">Specify the product you're purchasing</p>
+            </div>
+
             <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
               <p className="flex items-center gap-2">
                 <span className="text-red-600">✓</span> Same-day shipping
