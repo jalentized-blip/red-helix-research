@@ -196,12 +196,26 @@ export default function AgeGate() {
               type="submit"
               className="w-full bg-red-600 hover:bg-red-700 text-amber-50 text-lg py-6"
             >
-              Sign Up & Continue
+              {isSignIn ? 'Sign In & Continue' : 'Sign Up & Continue'}
             </Button>
           </form>
 
+          <div className="text-center">
+            <button
+              onClick={() => {
+                setIsSignIn(!isSignIn);
+                setError('');
+                setEmail('');
+                setPassword('');
+              }}
+              className="text-stone-400 hover:text-amber-50 text-sm underline transition-colors"
+            >
+              {isSignIn ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+            </button>
+          </div>
+
           <p className="text-stone-500 text-xs text-center">
-            By signing up, you confirm you are 21 years or older.
+            {isSignIn ? 'Sign in to access your account' : 'By signing up, you confirm you are 21 years or older.'}
           </p>
         </div>
       </div>
