@@ -218,12 +218,51 @@ export default function PeptideCalculator() {
                 Use Custom Value
               </Button>
               <p className="text-xs text-stone-400 mt-2">
-                <strong>Common Strengths:</strong> BPC-157: 10mg, NAD+: 1000mg
+               <strong>Common Strengths:</strong> BPC-157: 10mg, NAD+: 1000mg
               </p>
-            </div>
+              </div>
 
+              {/* Water Volume Input */}
+              <div className="mb-8">
+              <label className="block text-sm font-semibold text-amber-50 mb-3">Bacteriostatic Water Volume</label>
+              {water !== 'other' ? (
+               <Select value={water} onValueChange={setWater}>
+                 <SelectTrigger className="bg-stone-800 border border-stone-700 text-amber-50 mb-3">
+                   <SelectValue />
+                 </SelectTrigger>
+                 <SelectContent className="bg-stone-800 border border-stone-700">
+                   {waterOptions.map((opt) => (
+                     <SelectItem key={opt} value={opt} className="text-amber-50">
+                       {opt} mL
+                     </SelectItem>
+                   ))}
+                   <SelectItem value="other" className="text-amber-50">
+                     Other
+                   </SelectItem>
+                 </SelectContent>
+               </Select>
+              ) : (
+               <input
+                 type="number"
+                 value={waterCustom}
+                 onChange={(e) => setWaterCustom(e.target.value)}
+                 placeholder="Enter custom water volume"
+                 className="w-full bg-stone-800 border border-stone-700 rounded px-4 py-2 text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600 mb-3"
+               />
+              )}
+              <Button
+               variant="outline"
+               className="border-stone-700 text-stone-400 hover:text-red-600 hover:border-red-600 w-full"
+               onClick={() => {
+                 setWater('other');
+                 setWaterCustom('');
+               }}
+              >
+               Use Custom Value
+              </Button>
+              </div>
 
-          </motion.div>
+              </motion.div>
 
           {/* Results Section */}
           <motion.div variants={item} className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
