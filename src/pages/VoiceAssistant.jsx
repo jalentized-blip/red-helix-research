@@ -226,7 +226,7 @@ export default function VoiceAssistant() {
 
   useEffect(() => {
     if (!isRecording && transcript.trim()) {
-      handleProcessTranscript(transcript.trim());
+      handleProcessTranscript(transcript.trim(), 'voice');
     }
   }, [isRecording]);
 
