@@ -314,6 +314,18 @@ export default function CryptoCheckout() {
               <p className="text-xs text-stone-500">We'll automatically detect your payment from this wallet</p>
             </div>
 
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-stone-300 block">Transaction ID (Optional)</label>
+              <Input
+                type="text"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
+                placeholder="Paste transaction ID for faster confirmation"
+                className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+              />
+              <p className="text-xs text-stone-500">Auto-verified for instant confirmation</p>
+            </div>
+
             <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
               <p className="flex items-center gap-2">
                 <span className="text-red-600">✓</span> Same-day shipping
