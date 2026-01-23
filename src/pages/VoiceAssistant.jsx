@@ -96,108 +96,106 @@ export default function VoiceAssistant() {
 
   return (
     <div className="min-h-screen bg-stone-950 pt-24 pb-20 flex flex-col">
-      <div className="max-w-3xl mx-auto w-full px-4 flex flex-col h-[calc(100vh-120px)]">
+      <div className="max-w-2xl mx-auto w-full px-4 flex flex-col h-[calc(100vh-120px)]">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-8">
           <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-4">
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
-          <h1 className="text-4xl font-black text-amber-50">Voice Assistant</h1>
-          <p className="text-stone-400 mt-2">Convert text to speech or speak to hear it back</p>
+          <h1 className="text-3xl font-black text-amber-50">Voice Assistant</h1>
         </div>
 
-        {/* Responses Container */}
-        <div className="flex-1 overflow-y-auto space-y-4 mb-6 bg-stone-900/30 border border-stone-700 rounded-lg p-6">
-          {responses.length === 0 ? (
-            <div className="flex items-center justify-center h-full">
-              <p className="text-stone-500 text-center">Type or speak something to hear it in voice</p>
-            </div>
-          ) : (
-            responses.map((response) => (
-              <motion.div
-                key={response.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex justify-center"
-              >
-                <div className="max-w-[85%] rounded-lg px-4 py-3 bg-red-700 text-amber-50">
-                  <p>{response.text}</p>
-                </div>
-              </motion.div>
-            ))
-          )}
-        </div>
-
-        {/* Hidden audio element */}
-        <audio ref={audioRef} className="hidden" />
-
-        {/* Input Area */}
-        <div className="space-y-2">
-          <div className="relative">
-            <Input
-              type="text"
-              value={isRecording ? transcript.replace('(interim)', '') : text}
-              onChange={(e) => !isRecording && setText(e.target.value)}
-              placeholder="Type text or use the mic to speak..."
-              className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500 pr-40"
-              disabled={isRecording || isSpeaking}
-              onKeyPress={(e) => e.key === 'Enter' && handleSpeak()}
-            />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-              <Button
-                type="button"
-                onClick={toggleRecording}
-                className={`px-3 gap-2 transition-colors ${
-                  isRecording
-                    ? 'bg-red-600 hover:bg-red-700 text-amber-50'
-                    : 'bg-blue-600 hover:bg-blue-700 text-amber-50'
-                }`}
-                disabled={isSpeaking}
-              >
-                {isRecording ? <Square className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-              </Button>
-              <Button
-                type="button"
-                onClick={handleSpeak}
-                disabled={!text.trim() || isSpeaking || isRecording}
-                className="bg-red-700 hover:bg-red-600 text-amber-50 px-6 gap-2"
-              >
-                <Volume2 className="w-4 h-4" />
-                Speak
-              </Button>
-            </div>
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col items-center justify-between">
+          {/* Responses */}
+          <div className="w-full flex-1 overflow-y-auto space-y-4 mb-8">
+            {responses.length === 0 ? (
+              <div className="text-center text-stone-400">
+                <p>Click the circle below and start speaking</p>
+              </div>
+            ) : (
+              responses.map((response) => (
+                <motion.div
+                  key={response.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-center"
+                >
+                  <div className="max-w-[70%] rounded-2xl px-6 py-3 bg-red-700 text-amber-50 text-center">
+                    <p>{response.text}</p>
+                  </div>
+                </motion.div>
+              ))
+            )}
           </div>
 
-          {isRecording && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center gap-2 text-red-400 text-xs"
-            >
-              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
-                <Mic className="w-3 h-3" />
-              </motion.div>
-              <span>Recording...</span>
-            </motion.div>
-          )}
+          {/* Circular Button */}
+          <div className="flex flex-col items-center gap-4">
+            <audio ref={audioRef} className="hidden" />
 
-          {isSpeaking && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center gap-2 text-amber-400 text-xs"
+            <motion.button
+              onClick={toggleRecording}
+              disabled={isSpeaking}
+              className={`relative w-32 h-32 rounded-full flex items-center justify-center transition-all disabled:opacity-50 ${
+                isRecording
+                  ? 'bg-red-600 shadow-lg shadow-red-600/50'
+                  : isSpeaking
+                  ? 'bg-blue-600 shadow-lg shadow-blue-600/50'
+                  : 'bg-red-700 hover:bg-red-600 shadow-lg shadow-red-700/50'
+              }`}
+              animate={
+                isRecording
+                  ? { scale: [1, 1.05, 1] }
+                  : isSpeaking
+                  ? { scale: [1, 1.05, 1] }
+                  : {}
+              }
+              transition={{ repeat: Infinity, duration: 1 }}
             >
-              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
-                <Volume2 className="w-3 h-3" />
-              </motion.div>
-              <span>Playing audio...</span>
-            </motion.div>
-          )}
+              <Mic className="w-12 h-12 text-amber-50" />
 
-          <p className="text-xs text-stone-500 text-center">
-            Type text and click Speak, or use the mic button to record voice
-          </p>
+              {isRecording && (
+                <motion.div
+                  className="absolute inset-0 rounded-full border-4 border-red-400"
+                  animate={{ scale: [1, 1.2] }}
+                  transition={{ repeat: Infinity, duration: 1 }}
+                />
+              )}
+            </motion.button>
+
+            {/* Status Text */}
+            <div className="h-6">
+              {isRecording && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-red-400 text-sm font-medium"
+                >
+                  Listening...
+                </motion.p>
+              )}
+              {isSpeaking && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-blue-400 text-sm font-medium"
+                >
+                  Speaking...
+                </motion.p>
+              )}
+            </div>
+
+            {isRecording && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-stone-400 text-center text-sm max-w-xs"
+              >
+                {transcript.replace('(interim)', '') || 'Waiting for speech...'}
+              </motion.p>
+            )}
+          </div>
         </div>
       </div>
     </div>
