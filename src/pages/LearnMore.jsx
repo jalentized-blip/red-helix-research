@@ -52,6 +52,11 @@ const SourcesBubble = ({ productName }) => {
     setIsExpanded(!isExpanded);
   };
 
+  // Hide research for GLOW peptide
+  if (productName.toUpperCase() === 'GLOW') {
+    return null;
+  }
+
   return (
     <div className="mt-4">
       <button
