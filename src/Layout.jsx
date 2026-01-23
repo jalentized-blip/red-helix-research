@@ -116,7 +116,8 @@ const navLinks = [
 
   return (
     <div className="min-h-screen bg-stone-950 relative">
-      <MolecularBackground />
+        <MolecularBackground />
+        <FloatingMolecularFormulas />
       
       {/* Fixed Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 py-3 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
