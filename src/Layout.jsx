@@ -23,6 +23,9 @@ const navLinks = [
         useEffect(() => {
           const handleScroll = () => {
             setScrolled(window.scrollY > 50);
+            if (window.scrollY > 50) {
+              setLogoOpacity(0.25);
+            }
           };
           window.addEventListener('scroll', handleScroll);
           return () => window.removeEventListener('scroll', handleScroll);
