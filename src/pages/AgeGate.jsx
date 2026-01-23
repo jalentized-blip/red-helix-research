@@ -61,19 +61,16 @@ export default function AgeGate() {
     }
 
     try {
-      // Invite user and store age verification
+      // Invite user (they'll get signup email with link)
       await base44.users.inviteUser(email, 'user');
       
-      // Store age verification in user profile
-      await base44.auth.updateMe({
-        age_verified: true,
-        age_verified_date: new Date().toISOString(),
-        stay_logged_in: stayLoggedIn
-      });
-
-      navigate(createPageUrl('Home'));
+      setError('');
+      // Show success message and redirect to login
+      setTimeout(() => {
+        base44.auth.redirectToLogin(createPageUrl('Home'));
+      }, 2000);
     } catch (err) {
-      setError('Unable to complete sign up. Please try again.');
+      setError('Unable to send invite. Please try again or contact support.');
     }
   };
 
