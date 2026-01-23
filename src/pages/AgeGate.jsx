@@ -11,6 +11,7 @@ export default function AgeGate() {
   const [error, setError] = useState('');
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isSignIn, setIsSignIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
