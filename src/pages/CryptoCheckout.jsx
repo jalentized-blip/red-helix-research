@@ -112,6 +112,46 @@ export default function CryptoCheckout() {
     return () => clearInterval(interval);
   }, [walletAddress, selectedCrypto, cryptoAmount, finalTotal, paymentCleared]);
 
+  // Auto-verify transaction ID when entered
+  useEffect(() => {
+    if (!transactionId || paymentCleared) return;
+
+    const pollTransactionId = async () => {
+      try {
+        const result = await base44.integrations.Core.InvokeLLM({
+          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals exactly ${cryptoAmount} ${selectedCrypto} (or ~${finalTotal.toFixed(2)} USD), 3) Has at least 1 confirmation. Return JSON with "valid" (boolean - true only if all 3 criteria met), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
+          add_context_from_internet: true,
+          response_json_schema: {
+            type: 'object',
+            properties: {
+              valid: { type: 'boolean' },
+              confirmed: { type: 'boolean' },
+              amount: { type: ['number', 'null'] },
+              error: { type: ['string', 'null'] },
+            },
+            required: ['valid', 'confirmed', 'amount', 'error'],
+          },
+        });
+
+        if (result.valid && result.confirmed) {
+          setPaymentCleared(true);
+          setPaymentDetected(true);
+          setTimeout(() => {
+            window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
+          }, 1500);
+        } else if (result.amount && result.amount !== parseFloat(cryptoAmount)) {
+          setPaymentDetected(true);
+        }
+      } catch (error) {
+        console.error('Error verifying transaction:', error);
+      }
+    };
+
+    pollTransactionId();
+    const interval = setInterval(pollTransactionId, 10000);
+    return () => clearInterval(interval);
+  }, [transactionId, selectedCrypto, cryptoAmount, finalTotal, paymentCleared]);
+
 
 
 
