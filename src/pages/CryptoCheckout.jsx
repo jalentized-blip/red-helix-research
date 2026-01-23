@@ -82,7 +82,15 @@ export default function CryptoCheckout() {
   };
 
   const handleApplyForm = () => {
+    setDisclaimerOpen(true);
+  };
+
+  const handleConfirmDisclaimer = () => {
     setFormApplied(true);
+    setDisclaimerOpen(false);
+    setTimeout(() => {
+      progressRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleCancelForm = () => {
