@@ -210,15 +210,25 @@ const navLinks = [
                   <Link to={createPageUrl('Contact')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all block">
                     Contact
                   </Link>
-                  {navLinks.map((link) => (
-                    <button
-                      key={link.label}
-                      onClick={() => scrollTo(link.href)}
-                      className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all"
-                    >
-                      {link.label}
-                    </button>
-                  ))}
+                  {navLinks.map((link) =>
+                    link.isPage ? (
+                      <Link
+                        key={link.label}
+                        to={link.href}
+                        className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all block"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <button
+                        key={link.label}
+                        onClick={() => scrollTo(link.href)}
+                        className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all"
+                      >
+                        {link.label}
+                      </button>
+                    )
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
