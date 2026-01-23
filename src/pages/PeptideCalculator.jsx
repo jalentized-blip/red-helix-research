@@ -355,15 +355,15 @@ export default function PeptideCalculator() {
                    <p className="text-2xl font-bold text-red-600">{concentration.toFixed(2)} mg/mL</p>
                  </motion.div>
 
-                {drawAmount > syringeCapacity && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="bg-red-600/20 border border-red-600/50 rounded-lg p-4 text-red-400 text-sm"
-                  >
-                    ⚠️ Draw amount exceeds 1mL syringe capacity. Reduce dose.
-                  </motion.div>
-                )}
+                {drawAmount > currentWater && (
+                   <motion.div
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1 }}
+                     className="bg-red-600/20 border border-red-600/50 rounded-lg p-4 text-red-400 text-sm"
+                   >
+                     ⚠️ Not enough peptide in solution. Increase water or reduce dose.
+                   </motion.div>
+                 )}
               </div>
             )}
           </motion.div>
