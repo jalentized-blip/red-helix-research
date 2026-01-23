@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import ProductModal from '../components/product/ProductModal';
+import ProductModal from '@/components/product/ProductModal';
 
 import AnnouncementBar from '@/components/home/AnnouncementBar';
 import Hero from '@/components/home/Hero';
@@ -45,12 +45,12 @@ export default function Home() {
       <BestSellers products={products} onSelectStrength={handleSelectStrength} />
       <ShopByGoal />
       <AllProducts products={products} onSelectStrength={handleSelectStrength} />
+      <WhyTrustUs />
       <ProductModal 
         product={selectedProduct} 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
       />
-      <WhyTrustUs />
       <Certificates />
       <HowItWorks />
       <Reviews />
