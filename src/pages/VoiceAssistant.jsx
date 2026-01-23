@@ -205,36 +205,115 @@ export default function VoiceAssistant() {
   return (
     <div className="min-h-screen bg-stone-950 pt-24 pb-20 flex flex-col">
       <div className="max-w-2xl mx-auto w-full px-4 flex flex-col h-[calc(100vh-120px)]">
-        {/* Header */}
+        {/* Header with Controls */}
         <div className="mb-8">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-4">
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </Link>
-          <h1 className="text-3xl font-black text-amber-50">Voice Assistant</h1>
+          <div className="flex items-center justify-between mb-4">
+            <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500">
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </Link>
+            <div className="flex gap-2">
+              <Button
+                onClick={newConversation}
+                variant="outline"
+                size="sm"
+                className="text-amber-50 border-red-600/30 hover:bg-red-600/10"
+              >
+                <Plus className="w-4 h-4" />
+                New
+              </Button>
+              <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-amber-50 border-red-600/30 hover:bg-red-600/10"
+                  >
+                    <Save className="w-4 h-4" />
+                    Save
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-stone-900 border-stone-700">
+                  <DialogHeader>
+                    <DialogTitle className="text-amber-50">Save Conversation</DialogTitle>
+                  </DialogHeader>
+                  <Input
+                    placeholder="Conversation title..."
+                    value={conversationTitle}
+                    onChange={(e) => setConversationTitle(e.target.value)}
+                    className="bg-stone-800 border-stone-700 text-amber-50"
+                  />
+                  <div className="flex gap-2">
+                    <Button onClick={saveConversation} className="bg-red-700 hover:bg-red-600 flex-1">
+                      Save
+                    </Button>
+                    <Button onClick={() => setShowSaveDialog(false)} variant="outline" className="flex-1">
+                      Cancel
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-black text-amber-50">Voice Assistant</h1>
+              {conversationTitle && <p className="text-stone-400 text-sm mt-1">{conversationTitle}</p>}
+            </div>
+            <div className="w-40">
+              <label className="text-xs text-stone-400 mb-2 block">Voice</label>
+              <Select value={selectedVoice} onValueChange={setSelectedVoice}>
+                <SelectTrigger className="bg-stone-800 border-stone-700 text-amber-50 h-8">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-stone-900 border-stone-700">
+                  {ELEVENLABS_VOICES.map(voice => (
+                    <SelectItem key={voice.id} value={voice.id}>
+                      {voice.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </div>
 
-        {/* Main Content */}
+        {/* Messages */}
         <div className="flex-1 flex flex-col items-center justify-between">
-          {/* Responses */}
           <div className="w-full flex-1 overflow-y-auto space-y-4 mb-8">
-            {responses.length === 0 ? (
+            {messages.length === 0 ? (
               <div className="text-center text-stone-400">
                 <p>Click the circle below and start speaking</p>
               </div>
             ) : (
-              responses.map((response) => (
+              messages.map((msg, idx) => (
                 <motion.div
-                  key={response.id}
+                  key={idx}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex justify-center"
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className="max-w-[70%] rounded-2xl px-6 py-3 bg-red-700 text-amber-50 text-center">
-                    <p>{response.text}</p>
+                  <div className={`max-w-[70%] rounded-2xl px-6 py-3 text-center ${
+                    msg.role === 'user' 
+                      ? 'bg-red-700 text-amber-50' 
+                      : 'bg-blue-700 text-amber-50'
+                  }`}>
+                    <p className="text-sm">{msg.content}</p>
                   </div>
                 </motion.div>
               ))
+            )}
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex justify-start"
+              >
+                <div className="bg-blue-700 text-amber-50 rounded-2xl px-6 py-3">
+                  <p className="text-sm">Thinking...</p>
+                </div>
+              </motion.div>
             )}
           </div>
 
@@ -244,7 +323,7 @@ export default function VoiceAssistant() {
 
             <motion.button
               onClick={toggleRecording}
-              disabled={isSpeaking}
+              disabled={isSpeaking || isLoading}
               className={`relative w-32 h-32 rounded-full flex items-center justify-center transition-all disabled:opacity-50 ${
                 isRecording
                   ? 'bg-red-600 shadow-lg shadow-red-600/50'
@@ -272,39 +351,56 @@ export default function VoiceAssistant() {
               )}
             </motion.button>
 
-            {/* Status Text */}
             <div className="h-6">
               {isRecording && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-red-400 text-sm font-medium"
-                >
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-400 text-sm font-medium">
                   Listening...
                 </motion.p>
               )}
               {isSpeaking && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-blue-400 text-sm font-medium"
-                >
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-blue-400 text-sm font-medium">
                   Speaking...
+                </motion.p>
+              )}
+              {isLoading && (
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-amber-400 text-sm font-medium">
+                  Processing...
                 </motion.p>
               )}
             </div>
 
             {isRecording && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-stone-400 text-center text-sm max-w-xs"
-              >
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-stone-400 text-center text-sm max-w-xs">
                 {transcript.replace('(interim)', '') || 'Waiting for speech...'}
               </motion.p>
             )}
           </div>
         </div>
+
+        {/* Saved Conversations Sidebar */}
+        {savedConversations.length > 0 && (
+          <div className="mt-8 pt-8 border-t border-stone-700">
+            <p className="text-xs text-stone-400 mb-3 uppercase">Recent Conversations</p>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {savedConversations.slice(0, 5).map(conv => (
+                <div key={conv.id} className="flex items-center gap-2 bg-stone-800/50 p-2 rounded text-xs text-amber-50">
+                  <button
+                    onClick={() => loadConversation(conv)}
+                    className="flex-1 text-left truncate hover:text-red-400"
+                  >
+                    {conv.title}
+                  </button>
+                  <button
+                    onClick={() => deleteConversation(conv.id)}
+                    className="text-stone-500 hover:text-red-600"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
