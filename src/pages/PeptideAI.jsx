@@ -186,8 +186,8 @@ At the end of your response, include a "📚 Learning Resources" section with re
 
       setMessages(prev => [...prev, assistantMessage]);
       
-      // Speak the response if text-to-speech is supported
-      if ('speechSynthesis' in window) {
+      // Speak the response if in voice call mode
+      if (voiceCallActive && 'speechSynthesis' in window) {
         speakResponse(response);
       }
     } catch (err) {
