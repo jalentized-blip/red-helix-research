@@ -251,35 +251,22 @@ At the end of your response, include a "📚 Learning Resources" section with re
               </Button>
             </div>
           </div>
-          
-          {isSpeaking && voiceCallActive && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center gap-2 text-green-400 text-xs"
-            >
-              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
-                <Mic className="w-3 h-3" />
-              </motion.div>
-              <span>AI is speaking... (will listen when done)</span>
-            </motion.div>
-          )}
-          
-          {isListening && voiceCallActive && (
+
+          {isSpeaking && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="flex items-center gap-2 text-blue-400 text-xs"
             >
               <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
-                <Mic className="w-3 h-3" />
+                <Volume2 className="w-3 h-3" />
               </motion.div>
-              <span>Listening{transcript && `: "${transcript}"`}...</span>
+              <span>Playing audio...</span>
             </motion.div>
           )}
-          
+
           <p className="text-xs text-stone-500 text-center">
-            {voiceCallActive ? "Live conversation mode - AI will respond with voice" : "This AI only answers peptide-related questions"}
+            This AI only answers peptide-related questions
           </p>
         </form>
       </div>
