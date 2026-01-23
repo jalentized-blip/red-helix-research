@@ -19,7 +19,7 @@ const SourcesBubble = ({ productName }) => {
       setLoadingSource(true);
       try {
         const response = await base44.integrations.Core.InvokeLLM({
-          prompt: `Find the 4 most significant and well-cited peer-reviewed research studies on "${productName}". For each study, provide: title, year, journal, and a brief 2-3 sentence summary of the KEY FINDINGS and OUTCOMES. Return a JSON object with a "studies" array containing objects with: "title", "year", "journal", and "findings" (the summary of key outcomes).`,
+          prompt: `Find the 4 most significant peer-reviewed research studies on "${productName}". For each study, explain in simple, non-technical language: what the study discovered and how it's beneficial. Use 1-2 short sentences that anyone can understand. Return a JSON object with a "studies" array containing objects with: "year", and "summary" (simple explanation of what was discovered and its benefit).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: "object",
@@ -29,10 +29,8 @@ const SourcesBubble = ({ productName }) => {
                 items: {
                   type: "object",
                   properties: {
-                    title: { type: "string" },
                     year: { type: "string" },
-                    journal: { type: "string" },
-                    findings: { type: "string" }
+                    summary: { type: "string" }
                   }
                 }
               }
