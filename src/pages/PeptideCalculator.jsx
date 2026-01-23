@@ -359,10 +359,11 @@ export default function PeptideCalculator() {
                   </Button>
                 </div>
                 </div>
+                </div>
                 )}
                 </div>
-        </div>
-      </div>
+                </div>
+                </div>
 
       {/* Footer Info */}
       <div className="max-w-6xl mx-auto px-4 mt-16">
