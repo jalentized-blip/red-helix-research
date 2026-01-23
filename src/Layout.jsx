@@ -39,13 +39,11 @@ export default function Layout({ children }) {
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 border border-yellow-500/30 flex items-center justify-center">
-              <span className="text-lg font-black text-yellow-400">RD</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-lg font-bold text-white">RED DIRT</span>
-              <span className="text-lg font-bold text-yellow-400 ml-1">RESEARCH</span>
-            </div>
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/352e34b61_image.png" 
+              alt="Red Dirt Research" 
+              className="h-10 w-auto"
+            />
           </div>
 
           {/* Desktop Nav */}
