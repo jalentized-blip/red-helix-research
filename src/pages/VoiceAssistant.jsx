@@ -18,7 +18,7 @@ import {
 const ELEVENLABS_VOICES = [
   { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel' },
   { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella' },
-  { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Aria' },
+  { id: 'MF3mGyEYCl7XYWbV9V6O', name: 'Aria' },
   { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam' },
   { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam' },
 ];
