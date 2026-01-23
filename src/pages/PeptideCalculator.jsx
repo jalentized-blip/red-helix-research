@@ -8,14 +8,12 @@ import { Loader2 } from 'lucide-react';
 
 export default function PeptideCalculator() {
   const [selectedPeptide, setSelectedPeptide] = useState(null);
-  const [dosingInfo, setDosingInfo] = useState(null);
-  const [dosingLoading, setDosingLoading] = useState(false);
-  const [dose, setDose] = useState('0.5');
-  const [doseCustom, setDoseCustom] = useState('');
-  const [strength, setStrength] = useState('10');
-  const [strengthCustom, setStrengthCustom] = useState('');
-  const [water, setWater] = useState('3.0');
-  const [waterCustom, setWaterCustom] = useState('');
+    const [dosingInfo, setDosingInfo] = useState(null);
+    const [dosingLoading, setDosingLoading] = useState(false);
+    const [dose, setDose] = useState('0.5');
+    const [doseCustom, setDoseCustom] = useState('');
+    const [strength, setStrength] = useState('10');
+    const [strengthCustom, setStrengthCustom] = useState('');
 
   // Fetch products from database
   const { data: products = [] } = useQuery({
