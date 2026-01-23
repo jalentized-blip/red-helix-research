@@ -42,17 +42,23 @@ export default function Account() {
 
   const handleLogout = async () => {
     try {
-      // Clear any cached auth data
+      // Clear all browser storage
       localStorage.clear();
       sessionStorage.clear();
+      // Clear all cookies
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+      });
       await base44.auth.logout();
-      // Force full page reload to clear all session data
-      window.location.href = createPageUrl('Home');
+      // Redirect home with logout flag
+      window.location.href = createPageUrl('Home') + '?logout=true';
     } catch (error) {
       console.error('Logout error:', error);
       localStorage.clear();
       sessionStorage.clear();
-      window.location.href = createPageUrl('Home');
+      window.location.href = createPageUrl('Home') + '?logout=true';
     }
   };
 
