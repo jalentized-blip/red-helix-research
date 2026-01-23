@@ -178,8 +178,6 @@ const navLinks = [
           
           {/* Actions */}
           <div className="flex items-center gap-3">
-
-
             <Link to={createPageUrl('Cart')}>
               <Button 
                 variant="outline" 
@@ -195,46 +193,27 @@ const navLinks = [
               </Button>
             </Link>
 
-            {/* Mobile Menu */}
+            {/* User Menu */}
             <Sheet>
-              <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon" className="text-stone-300">
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-stone-300 hover:text-amber-50">
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
                 <nav className="flex flex-col gap-4 mt-8">
-                  <Link to={createPageUrl('Home')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                    Home
-                  </Link>
-                  <Link to={createPageUrl('About')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                    About
-                  </Link>
-                  <Link to={createPageUrl('Contact')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                    Contact
-                  </Link>
                   <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                    Account
+                    My Account
                   </Link>
-                  {navLinks.map((link) =>
-                    link.isPage ? (
-                      <Link
-                        key={link.label}
-                        to={link.href}
-                        className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50"
-                      >
-                        {link.label}
-                      </Link>
-                    ) : (
-                      <button
-                        key={link.label}
-                        onClick={() => scrollTo(link.href)}
-                        className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50"
-                      >
-                        {link.label}
-                      </button>
-                    )
-                  )}
+                  <Link to={createPageUrl('OrderTracking')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
+                    Orders
+                  </Link>
+                  <button
+                    onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
+                    className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50"
+                  >
+                    Sign In
+                  </button>
                 </nav>
               </SheetContent>
             </Sheet>
