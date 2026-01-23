@@ -202,13 +202,36 @@ At the end of your response, include a "📚 Learning Resources" section with re
     <div className="min-h-screen bg-stone-950 pt-24 pb-20 flex flex-col">
       <div className="max-w-3xl mx-auto w-full px-4 flex flex-col h-[calc(100vh-120px)]">
         {/* Header */}
-        <div className="mb-6">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-4">
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </Link>
-          <h1 className="text-4xl font-black text-amber-50">Peptide AI</h1>
-          <p className="text-stone-400 mt-2">Expert answers about peptides, protocols & research</p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-4">
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </Link>
+            <h1 className="text-4xl font-black text-amber-50">Peptide AI</h1>
+            <p className="text-stone-400 mt-2">Expert answers about peptides, protocols & research</p>
+          </div>
+          <div>
+            {voiceCallActive ? (
+              <motion.button
+                onClick={endVoiceCall}
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-amber-50 px-4 py-3 rounded-lg font-semibold"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ repeat: Infinity, duration: 1 }}
+              >
+                <PhoneOff className="w-5 h-5" />
+                End Call
+              </motion.button>
+            ) : (
+              <Button
+                onClick={startVoiceCall}
+                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-amber-50 px-4 py-3"
+              >
+                <Phone className="w-5 h-5" />
+                Start Voice Call
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Messages Container */}
