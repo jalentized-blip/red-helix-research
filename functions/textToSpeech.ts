@@ -26,11 +26,8 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
-    // Use default voice if not specified or invalid
-    const voice = voiceId && VOICES[voiceId] ? VOICES[voiceId] : VOICES["Sarah"];
-
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voice.id}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}`,
       {
         method: 'POST',
         headers: {
@@ -53,13 +50,10 @@ Deno.serve(async (req) => {
     }
 
     const audioBuffer = await response.arrayBuffer();
+    const base64Audio = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
+    const dataUrl = `data:audio/mpeg;base64,${base64Audio}`;
     
-    return new Response(audioBuffer, {
-      headers: {
-        'Content-Type': 'audio/mpeg',
-        'Cache-Control': 'no-cache',
-      }
-    });
+    return Response.json({ audioUrl: dataUrl });
   } catch (error) {
     return Response.json({ 
       error: error.message 
