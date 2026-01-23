@@ -234,27 +234,14 @@ At the end of your response, include a "📚 Learning Resources" section with re
               disabled={loading || voiceCallActive}
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-              {voiceCallActive ? (
-                <motion.button
-                  type="button"
-                  onClick={endVoiceCall}
-                  className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-amber-50 px-3 py-2 rounded text-sm font-semibold"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ repeat: Infinity, duration: 1 }}
-                >
-                  <PhoneOff className="w-4 h-4" />
-                  End
-                </motion.button>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={startVoiceCall}
-                  className="bg-green-600 hover:bg-green-700 text-amber-50 px-3 gap-2"
-                  disabled={loading}
-                >
-                  <Phone className="w-4 h-4" />
-                </Button>
-              )}
+              <Button
+                type="button"
+                onClick={speakLastMessage}
+                className="bg-blue-600 hover:bg-blue-700 text-amber-50 px-3 gap-2"
+                disabled={loading || isSpeaking || messages.every(m => m.role === 'user')}
+              >
+                <Volume2 className="w-4 h-4" />
+              </Button>
               <Button
                 type="submit"
                 disabled={loading || !input.trim()}
