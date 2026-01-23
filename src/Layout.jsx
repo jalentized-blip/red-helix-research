@@ -209,20 +209,20 @@ const navLinks = [
               </SheetTrigger>
               <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
                 <nav className="flex flex-col gap-4 mt-8">
-                  <Link to={createPageUrl('Home')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700 block">
+                  <Link to={createPageUrl('Home')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all block">
                     Home
                   </Link>
-                  <Link to={createPageUrl('About')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700 block">
+                  <Link to={createPageUrl('About')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all block">
                     About
                   </Link>
-                  <Link to={createPageUrl('Contact')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700 block">
+                  <Link to={createPageUrl('Contact')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all block">
                     Contact
                   </Link>
                   {navLinks.map((link) => (
                     <button
                       key={link.label}
                       onClick={() => scrollTo(link.href)}
-                      className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700"
+                      className="text-left text-lg font-medium text-amber-50 hover:text-red-600 px-3 py-2 border border-stone-700 rounded-lg hover:border-red-600 transition-all"
                     >
                       {link.label}
                     </button>
