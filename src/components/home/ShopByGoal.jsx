@@ -113,16 +113,18 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                       const matchedProduct = products.find(p => p.name === productName);
                       return (
                         <button
-                          key={productName}
-                          onClick={() => {
-                            if (matchedProduct && onSelectStrength) {
-                              onSelectStrength(matchedProduct);
-                            }
-                          }}
-                          className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all"
-                        >
-                          {productName}
-                        </button>
+                           key={productName}
+                           onClick={() => {
+                             if (!isAuthenticated) {
+                               base44.auth.redirectToLogin(createPageUrl('Home'));
+                             } else if (matchedProduct && onSelectStrength) {
+                               onSelectStrength(matchedProduct);
+                             }
+                           }}
+                           className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all"
+                         >
+                           {productName}
+                         </button>
                       );
                     })}
                   </div>
