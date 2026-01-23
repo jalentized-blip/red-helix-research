@@ -32,15 +32,9 @@ export default function ValueProposition() {
           <div className="relative">
             <div className="absolute inset-0 bg-red-700/20 blur-3xl rounded-full" />
             <div className="relative bg-gradient-to-br from-stone-800 to-stone-900 rounded-2xl p-8 border border-stone-700">
-              <div className="flex items-end gap-4">
+              <div className="flex items-center justify-center gap-6">
                 {[1, 2, 3].map((i) => (
-                  <div 
-                    key={i}
-                    className={`w-16 bg-gradient-to-b from-stone-600 to-stone-700 rounded-lg border border-stone-600 flex flex-col items-center justify-end pb-2 ${i === 2 ? 'h-32' : 'h-24'}`}
-                  >
-                    <div className="w-10 h-2 bg-red-700/50 rounded mb-2" />
-                    <div className="w-6 h-6 rounded-full bg-stone-800 border-2 border-red-700/50" />
-                  </div>
+                  <DollarSign key={i} className="w-16 h-16 text-red-600" strokeWidth={1.5} />
                 ))}
               </div>
             </div>
