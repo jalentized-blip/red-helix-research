@@ -234,7 +234,7 @@ export default function VoiceAssistant() {
     if (!textInput.trim()) return;
     const messageText = textInput;
     setTextInput('');
-    await handleProcessTranscript(messageText);
+    await handleProcessTranscript(messageText, 'text');
   };
 
   return (
