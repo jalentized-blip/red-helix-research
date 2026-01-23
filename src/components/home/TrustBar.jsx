@@ -26,7 +26,7 @@ const BouncingVial = () => (
 export default function TrustBar() {
   const features = [
     { icon: FlaskConical, label: "Lab Tested Batches" },
-    { icon: Package, label: "United States Shipping Only" },
+    { icon: BouncingVial, label: "United States Shipping Only" },
     { icon: ShieldCheck, label: "Secure Crypto Payments" },
     { icon: Headphones, label: "24h Support" },
   ];
