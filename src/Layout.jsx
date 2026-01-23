@@ -11,7 +11,6 @@ const navLinks = [
   { label: "Peptide Blends", href: "#goals" },
   { label: "Certificates", href: "#certificates" },
   { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Layout({ children }) {
