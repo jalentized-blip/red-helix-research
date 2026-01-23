@@ -63,26 +63,16 @@ const SourcesBubble = ({ productName }) => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-3 space-y-3 bg-black/40 rounded-lg p-3 max-w-xs"
+          className="mt-3 space-y-3 bg-black/40 rounded-lg p-3 max-w-sm"
         >
           {loadingSource ? (
             <p className="text-xs text-stone-400">Loading research...</p>
           ) : sources.length > 0 ? (
             sources.map((study, idx) => (
-              <div key={idx} className="border-l-2 border-blue-500 pl-2">
-                <p className="text-xs font-semibold text-blue-300 line-clamp-2">{study.title}</p>
-                <p className="text-xs text-stone-400 mt-1">{study.authors}</p>
-                <p className="text-xs text-stone-500">{study.journal} ({study.year})</p>
-                {study.pmid && (
-                  <a
-                    href={`https://pubmed.ncbi.nlm.nih.gov/${study.pmid}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block underline"
-                  >
-                    View on PubMed
-                  </a>
-                )}
+              <div key={idx} className="border-l-2 border-green-500 pl-3 py-2">
+                <p className="text-xs font-semibold text-white">{study.title}</p>
+                <p className="text-xs text-stone-400 mt-1">{study.journal} ({study.year})</p>
+                <p className="text-xs text-green-400 mt-2 leading-relaxed">{study.findings}</p>
               </div>
             ))
           ) : (
