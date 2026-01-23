@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,17 @@ export default function LearnMore() {
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
   });
+
+  const uniqueProducts = useMemo(() => {
+    const seen = new Set();
+    return products.filter(product => {
+      if (seen.has(product.id)) {
+        return false;
+      }
+      seen.add(product.id);
+      return true;
+    });
+  }, [products]);
 
   const categoryLabels = {
     weight_loss: 'Weight Loss',
