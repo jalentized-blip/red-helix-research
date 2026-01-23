@@ -299,7 +299,7 @@ export default function PeptideCalculator() {
                       />
 
                       {/* Markings */}
-                      {[0, 0.25, 0.5, 0.75, 1].map((mark) => (
+                      {Array.from({ length: Math.floor(currentWater) + 1 }, (_, i) => i / currentWater).map((mark) => (
                         <g key={mark}>
                           <line x1={80 + mark * 1050} y1="35" x2={80 + mark * 1050} y2="50" stroke="currentColor" strokeWidth="2" />
                           <text
