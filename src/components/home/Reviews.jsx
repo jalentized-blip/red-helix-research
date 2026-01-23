@@ -40,11 +40,11 @@ export default function Reviews() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Real Reviews from Discord
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg">
+          <p className="text-stone-300 text-lg">
             Verified testimonials from our community members
           </p>
         </motion.div>
@@ -59,21 +59,21 @@ export default function Reviews() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-neutral-900/60 border-neutral-800 p-6 relative">
-                <Quote className="absolute top-4 right-4 w-8 h-8 text-yellow-500/20" />
+              <Card className="h-full bg-stone-900/60 border-stone-700 p-6 relative">
+                <Quote className="absolute top-4 right-4 w-8 h-8 text-red-700/20" />
                 
                 <div className="flex items-center gap-2 mb-4">
-                  <Zap className="w-4 h-4 text-yellow-500" />
-                  <span className="text-xs font-medium text-yellow-400">{review.badge}</span>
+                  <Zap className="w-4 h-4 text-red-600" />
+                  <span className="text-xs font-medium text-red-600">{review.badge}</span>
                 </div>
 
-                <blockquote className="text-neutral-300 text-sm leading-relaxed mb-6 italic">
+                <blockquote className="text-amber-100 text-sm leading-relaxed mb-6 italic">
                   "{review.text}"
                 </blockquote>
 
-                <div className="mt-auto pt-4 border-t border-neutral-800">
-                  <p className="font-semibold text-white">{review.author}</p>
-                  <p className="text-xs text-neutral-500">{review.role} • {review.date}</p>
+                <div className="mt-auto pt-4 border-t border-stone-700">
+                  <p className="font-semibold text-amber-50">{review.author}</p>
+                  <p className="text-xs text-stone-400">{review.role} • {review.date}</p>
                 </div>
               </Card>
             </motion.div>
@@ -87,7 +87,7 @@ export default function Reviews() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <p className="text-neutral-400 mb-4">Want to see more reviews? Join our community!</p>
+          <p className="text-stone-300 mb-4">Want to see more reviews? Join our community!</p>
           <Button 
             className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
             onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}

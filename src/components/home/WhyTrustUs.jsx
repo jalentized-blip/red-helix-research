@@ -28,7 +28,7 @@ export default function WhyTrustUs() {
   };
 
   return (
-    <section className="py-24 px-4 bg-gradient-to-b from-neutral-900/50 to-neutral-950">
+    <section className="py-24 px-4 bg-gradient-to-b from-stone-900/50 to-stone-950">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -38,16 +38,16 @@ export default function WhyTrustUs() {
           className="text-center mb-6"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="text-white">Why Researchers Trust</span>
+            <span className="text-amber-50">Why Researchers Trust</span>
             <br />
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Red Dirt Research
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg">
+          <p className="text-stone-300 text-lg">
             Transparent. Tested. Trusted.
           </p>
-          <p className="text-neutral-500 text-sm mt-2">
+          <p className="text-stone-400 text-sm mt-2">
             Premium Quality. Same Day Worldwide Shipping. Rigorously 3rd Party Tested.
           </p>
         </motion.div>
@@ -61,7 +61,7 @@ export default function WhyTrustUs() {
         >
           <Button 
             onClick={() => scrollTo('products')}
-            className="bg-yellow-500 hover:bg-yellow-400 text-neutral-900 font-bold px-8 py-6 text-lg uppercase tracking-wide"
+            className="bg-red-700 hover:bg-red-600 text-amber-50 font-bold px-8 py-6 text-lg uppercase tracking-wide"
           >
             Shop Now!
           </Button>
@@ -77,14 +77,14 @@ export default function WhyTrustUs() {
               transition={{ delay: index * 0.15 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-neutral-900/60 border-neutral-800 hover:border-yellow-500/40 transition-all duration-300 p-6 text-center group">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-yellow-500/10 border border-yellow-500/30 mb-6 group-hover:bg-yellow-500/20 transition-colors">
-                  <point.icon className="w-8 h-8 text-yellow-500" />
+              <Card className="h-full bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 p-6 text-center group">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-700/10 border border-red-700/30 mb-6 group-hover:bg-red-700/20 transition-colors">
+                  <point.icon className="w-8 h-8 text-red-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">
+                <h3 className="text-lg font-bold text-amber-50 mb-3 group-hover:text-red-600 transition-colors">
                   {point.title}
                 </h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
+                <p className="text-stone-300 text-sm leading-relaxed">
                   {point.description}
                 </p>
               </Card>

@@ -44,7 +44,7 @@ const goals = [
 
 export default function ShopByGoal() {
   return (
-    <section id="goals" className="py-20 px-4 bg-neutral-950/50">
+    <section id="goals" className="py-20 px-4 bg-stone-950/50">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div 
@@ -54,11 +54,11 @@ export default function ShopByGoal() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Shop by Goal
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+          <p className="text-stone-300 text-lg max-w-2xl mx-auto">
             Find the right peptides for your research objectives
           </p>
         </motion.div>
@@ -73,20 +73,20 @@ export default function ShopByGoal() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="group relative bg-neutral-900/60 border-neutral-800 hover:border-yellow-500/40 transition-all duration-300 overflow-hidden cursor-pointer">
+              <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden cursor-pointer">
                 {/* Background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${goal.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
                 <div className="relative p-6">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className={`p-3 rounded-xl bg-neutral-800/80 border border-neutral-700 group-hover:border-yellow-500/30 transition-colors`}>
+                    <div className={`p-3 rounded-xl bg-stone-800/80 border border-stone-700 group-hover:border-red-700/30 transition-colors`}>
                       <goal.icon className={`w-6 h-6 ${goal.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors">
+                      <h3 className="text-xl font-bold text-amber-50 group-hover:text-red-600 transition-colors">
                         {goal.title}
                       </h3>
-                      <p className="text-sm text-neutral-400 mt-1">
+                      <p className="text-sm text-stone-300 mt-1">
                         {goal.description}
                       </p>
                     </div>
@@ -96,7 +96,7 @@ export default function ShopByGoal() {
                     {goal.products.map((product) => (
                       <span
                         key={product}
-                        className="px-3 py-1.5 bg-neutral-800/80 rounded-lg text-xs font-medium text-neutral-300 border border-neutral-700"
+                        className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700"
                       >
                         {product}
                       </span>

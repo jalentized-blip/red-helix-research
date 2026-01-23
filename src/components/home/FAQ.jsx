@@ -36,7 +36,7 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="py-20 px-4 bg-neutral-950/50">
+    <section className="py-20 px-4 bg-stone-950/50">
       <div className="max-w-3xl mx-auto">
         {/* Section Header */}
         <motion.div 
@@ -46,7 +46,7 @@ export default function FAQ() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Common Questions
             </span>
           </h2>
@@ -63,12 +63,12 @@ export default function FAQ() {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-neutral-900/60 border border-neutral-800 rounded-xl px-6 data-[state=open]:border-yellow-500/40"
+                className="bg-stone-900/60 border border-stone-700 rounded-xl px-6 data-[state=open]:border-red-700/40"
               >
-                <AccordionTrigger className="text-left text-white hover:text-yellow-400 py-5 hover:no-underline">
+                <AccordionTrigger className="text-left text-amber-50 hover:text-red-600 py-5 hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-neutral-400 pb-5">
+                <AccordionContent className="text-stone-300 pb-5">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

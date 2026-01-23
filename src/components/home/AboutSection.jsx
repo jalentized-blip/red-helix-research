@@ -13,7 +13,7 @@ export default function AboutSection() {
           backgroundImage: `url('https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1920&q=80')`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/95 to-neutral-950/90" />
+      <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/95 to-stone-950/90" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -24,14 +24,14 @@ export default function AboutSection() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-black mb-6">
-              <span className="text-white">About</span>
+              <span className="text-amber-50">About</span>
               <br />
-              <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
                 Red Dirt Research
               </span>
             </h2>
 
-            <div className="space-y-4 text-neutral-300 leading-relaxed">
+            <div className="space-y-4 text-amber-100 leading-relaxed">
               <p>
                 Red Dirt Research is a trusted supplier of premium research-use compounds, 
                 dedicated to unmatched quality, safety, and transparency. We proudly serve 
@@ -51,7 +51,7 @@ export default function AboutSection() {
             </div>
 
             <Button 
-              className="mt-8 bg-yellow-500 hover:bg-yellow-400 text-neutral-900 font-semibold px-6"
+              className="mt-8 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold px-6"
             >
               Learn More
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -65,17 +65,17 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-neutral-800">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-stone-700">
               <img 
                 src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&q=80"
                 alt="Laboratory research"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 to-transparent" />
             </div>
             
             {/* Floating badge */}
-            <div className="absolute -bottom-6 -left-6 bg-yellow-500 text-neutral-900 font-bold px-6 py-4 rounded-xl shadow-xl">
+            <div className="absolute -bottom-6 -left-6 bg-red-700 text-amber-50 font-bold px-6 py-4 rounded-xl shadow-xl">
               <div className="text-3xl">2,000+</div>
               <div className="text-sm uppercase tracking-wide">Researchers Trust Us</div>
             </div>

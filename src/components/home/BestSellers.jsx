@@ -16,17 +16,17 @@ export default function BestSellers({ products }) {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/30 mb-6">
-            <TrendingUp className="w-4 h-4 text-yellow-400" />
-            <span className="text-sm font-medium text-yellow-400">Most Popular</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-700/10 rounded-full border border-red-700/30 mb-6">
+            <TrendingUp className="w-4 h-4 text-red-600" />
+            <span className="text-sm font-medium text-red-600">Most Popular</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Best Sellers
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+          <p className="text-stone-300 text-lg max-w-2xl mx-auto">
             Top-rated peptides trusted by thousands of researchers worldwide
           </p>
         </motion.div>

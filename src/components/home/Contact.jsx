@@ -37,11 +37,11 @@ export default function Contact() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Need Help?
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg">
+          <p className="text-stone-300 text-lg">
             Our team responds within 24 hours
           </p>
         </motion.div>
@@ -56,12 +56,12 @@ export default function Contact() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-neutral-900/60 border-neutral-800 hover:border-yellow-500/40 transition-all duration-300 p-6 text-center cursor-pointer">
+              <Card className="bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 p-6 text-center cursor-pointer">
                 <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${method.color} mb-4 transition-colors`}>
                   <method.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-1">{method.label}</h3>
-                <p className="text-sm text-neutral-400">{method.value}</p>
+                <h3 className="text-lg font-bold text-amber-50 mb-1">{method.label}</h3>
+                <p className="text-sm text-stone-300">{method.value}</p>
               </Card>
             </motion.div>
           ))}

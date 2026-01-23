@@ -40,17 +40,17 @@ export default function NumberedFeatures() {
             >
               {/* Number Circle */}
               <div className="flex-shrink-0">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-500/20 group-hover:scale-110 transition-transform">
-                  <span className="text-2xl font-black text-neutral-900">{feature.number}</span>
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-red-700 to-red-800 flex items-center justify-center shadow-lg shadow-red-700/20 group-hover:scale-110 transition-transform">
+                  <span className="text-2xl font-black text-amber-50">{feature.number}</span>
                 </div>
               </div>
 
               {/* Content */}
               <div>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
+                <h3 className="text-xl font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-neutral-400 leading-relaxed">
+                <p className="text-stone-300 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
