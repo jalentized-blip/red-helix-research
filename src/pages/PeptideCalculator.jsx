@@ -271,6 +271,17 @@ export default function PeptideCalculator() {
                   <p className="text-3xl font-bold text-red-600">{dosesInVial}</p>
                 </div>
 
+                {/* Reconstitution Steps */}
+                <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700 mt-6">
+                  <p className="text-stone-400 text-sm font-semibold mb-3">Reconstitution Steps:</p>
+                  <ol className="space-y-2 text-sm text-stone-300 list-decimal list-inside">
+                    <li>Draw {currentWater} mL of bacteriostatic water into a syringe</li>
+                    <li>Inject into the vial containing {currentStrength} mg peptide</li>
+                    <li>Let the solution reconstitute for 5-10 minutes</li>
+                    <li>For your {currentDose} mg dose, draw {drawAmount} mL ({drawUnits} units)</li>
+                  </ol>
+                </div>
+
                 {drawAmount > currentWater && (
                   <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-4 text-red-400 text-sm mt-6">
                     ⚠️ Draw amount exceeds available volume. Adjust dose or water.
