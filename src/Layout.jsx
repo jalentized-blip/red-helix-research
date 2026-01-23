@@ -211,15 +211,19 @@ const navLinks = [
                 </SheetTrigger>
                 <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
                   <nav className="flex flex-col gap-4 mt-8">
-                    <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                      My Account
-                    </Link>
-                    <button
-                      onClick={() => base44.auth.redirectToLogin(createPageUrl('Account'))}
-                      className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
-                    >
-                      Sign In
-                    </button>
+                    {isAuthenticated && (
+                      <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
+                        My Account
+                      </Link>
+                    )}
+                    {!isAuthenticated && (
+                      <button
+                        onClick={() => base44.auth.redirectToLogin(createPageUrl('Account'))}
+                        className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
+                      >
+                        Sign In
+                      </button>
+                    )}
                   </nav>
                 </SheetContent>
               </Sheet>
