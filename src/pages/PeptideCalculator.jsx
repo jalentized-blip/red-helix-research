@@ -357,8 +357,11 @@ www.reddirtresearch.com`;
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Reset
                   </Button>
-                  <Button className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50">
-                    Copy Results
+                  <Button 
+                    onClick={handleDownload}
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
+                  >
+                    Download Results
                   </Button>
                 </div>
                 </div>
