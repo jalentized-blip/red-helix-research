@@ -3,13 +3,15 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { LogOut, Package, User, ArrowLeft } from 'lucide-react';
+import { LogOut, Package, User, Settings, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 
 export default function Account() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('orders');
   const navigate = useNavigate();
 
   const { data: orders = [] } = useQuery({
@@ -23,12 +25,12 @@ export default function Account() {
       try {
         const currentUser = await base44.auth.me();
         if (!currentUser) {
-          navigate(createPageUrl('Login'));
+          navigate(createPageUrl('Home'));
           return;
         }
         setUser(currentUser);
       } catch (err) {
-        navigate(createPageUrl('Login'));
+        navigate(createPageUrl('Home'));
       } finally {
         setLoading(false);
       }
@@ -43,7 +45,7 @@ export default function Account() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 pb-20 flex items-center justify-center">
+      <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
         <p className="text-stone-400">Loading...</p>
       </div>
     );
@@ -54,84 +56,174 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
-      <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8">
-          <ArrowLeft className="w-4 h-4" />
+    <div className="min-h-screen bg-stone-950 pt-24 pb-20">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Back Button */}
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8 transition-colors">
+          <Home className="w-4 h-4" />
           Back to Shop
         </Link>
 
-        {/* Account Info */}
-        <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-black text-amber-50 mb-2">My Account</h1>
-              <p className="text-stone-400">{user.email}</p>
-            </div>
-            <User className="w-12 h-12 text-red-600" />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-24"
+            >
+              <div className="flex flex-col items-center text-center mb-6 pb-6 border-b border-stone-700">
+                <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center mb-4">
+                  <User className="w-8 h-8 text-amber-50" />
+                </div>
+                <h3 className="text-amber-50 font-bold text-lg">{user.full_name || 'User'}</h3>
+                <p className="text-stone-400 text-xs mt-1">{user.email}</p>
+              </div>
+
+              <nav className="space-y-2 mb-8">
+                <button
+                  onClick={() => setActiveTab('orders')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'orders'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <Package className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Order History</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('settings')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'settings'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <Settings className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Settings</span>
+                </button>
+              </nav>
+
+              <Button
+                onClick={handleLogout}
+                className="w-full bg-red-600 hover:bg-red-700 text-amber-50 gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div>
-              <p className="text-stone-400 text-sm mb-1">Full Name</p>
-              <p className="text-amber-50 font-semibold">{user.full_name || 'Not set'}</p>
-            </div>
-            <div>
-              <p className="text-stone-400 text-sm mb-1">Account Status</p>
-              <p className="text-amber-50 font-semibold capitalize">{user.role}</p>
-            </div>
-          </div>
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="bg-stone-900/50 border border-stone-700 rounded-lg p-8"
+            >
+              {activeTab === 'orders' && (
+                <div>
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Order History</h2>
 
-          <Button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-amber-50 gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </Button>
-        </div>
-
-        {/* Orders Section */}
-        <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-          <div className="flex items-center gap-2 mb-6">
-            <Package className="w-6 h-6 text-red-600" />
-            <h2 className="text-2xl font-black text-amber-50">Recent Orders</h2>
-          </div>
-
-          {orders.length === 0 ? (
-            <div className="text-center py-12">
-              <Package className="w-12 h-12 text-stone-600 mx-auto mb-4" />
-              <p className="text-stone-400 mb-4">No orders yet</p>
-              <Link to={createPageUrl('Home')}>
-                <Button className="bg-red-600 hover:bg-red-700">
-                  Start Shopping
-                </Button>
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="border border-stone-700 rounded-lg p-4 hover:border-red-600/50 transition-colors">
-                  <div className="flex items-center justify-between mb-3">
-                    <div>
-                      <p className="text-amber-50 font-semibold">Order #{order.order_number}</p>
-                      <p className="text-stone-400 text-sm">
-                        {new Date(order.created_date).toLocaleDateString()}
-                      </p>
+                  {orders.length === 0 ? (
+                    <div className="text-center py-16">
+                      <Package className="w-16 h-16 text-stone-600 mx-auto mb-4" />
+                      <p className="text-stone-400 mb-6 text-lg">No orders yet</p>
+                      <Link to={createPageUrl('Home')}>
+                        <Button className="bg-red-600 hover:bg-red-700">
+                          Start Shopping
+                        </Button>
+                      </Link>
                     </div>
-                    <div className="text-right">
-                      <p className="text-amber-50 font-black text-lg">${order.total_amount}</p>
-                      <p className="text-stone-400 text-sm capitalize">{order.status}</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {orders.map((order, idx) => (
+                        <motion.div
+                          key={order.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                          className="border border-stone-700 rounded-lg p-6 hover:border-red-600/50 hover:bg-stone-800/30 transition-all"
+                        >
+                          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                              <p className="text-amber-50 font-black text-lg">Order #{order.order_number}</p>
+                              <p className="text-stone-400 text-sm mt-1">
+                                Placed {new Date(order.created_date).toLocaleDateString('en-US', { 
+                                  year: 'numeric', 
+                                  month: 'short', 
+                                  day: 'numeric' 
+                                })}
+                              </p>
+                            </div>
+
+                            <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                              <div className="text-right">
+                                <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Total</p>
+                                <p className="text-amber-50 font-black text-xl">${order.total_amount.toFixed(2)}</p>
+                              </div>
+                              <div className="h-px w-full md:w-px md:h-8 bg-stone-700"></div>
+                              <div>
+                                <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Status</p>
+                                <p className="text-amber-50 font-bold capitalize">
+                                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                                    order.status === 'delivered' ? 'bg-green-600/20 text-green-400' :
+                                    order.status === 'shipped' ? 'bg-blue-600/20 text-blue-400' :
+                                    order.status === 'processing' ? 'bg-yellow-600/20 text-yellow-400' :
+                                    'bg-stone-700/50 text-stone-300'
+                                  }`}>
+                                    {order.status}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {order.items && order.items.length > 0 && (
+                            <div className="mt-4 pt-4 border-t border-stone-700/50 text-sm text-stone-400">
+                              {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                            </div>
+                          )}
+                        </motion.div>
+                      ))}
                     </div>
-                  </div>
-                  <div className="text-stone-400 text-sm">
-                    {order.items?.length || 0} item{order.items?.length !== 1 ? 's' : ''}
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'settings' && (
+                <div>
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Account Settings</h2>
+
+                  <div className="space-y-6">
+                    <div className="pb-6 border-b border-stone-700">
+                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Full Name</p>
+                      <p className="text-amber-50 text-lg font-semibold">{user.full_name || 'Not set'}</p>
+                    </div>
+
+                    <div className="pb-6 border-b border-stone-700">
+                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Email Address</p>
+                      <p className="text-amber-50 text-lg font-semibold">{user.email}</p>
+                    </div>
+
+                    <div className="pb-6">
+                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Account Type</p>
+                      <p className="text-amber-50 text-lg font-semibold capitalize">{user.role}</p>
+                    </div>
+
+                    <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 mt-8">
+                      <p className="text-stone-400 text-sm mb-4">Need to update your information?</p>
+                      <p className="text-stone-500 text-xs">Contact support at support@redditresearch.com</p>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              )}
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>
