@@ -146,6 +146,16 @@ export default function AgeGate() {
               />
             </div>
 
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={stayLoggedIn}
+                onChange={(e) => setStayLoggedIn(e.target.checked)}
+                className="w-4 h-4 accent-red-600"
+              />
+              <span className="text-amber-50 text-sm">Stay logged in to skip age verification</span>
+            </label>
+
             {error && (
               <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-3 text-red-400 text-sm">
                 {error}
