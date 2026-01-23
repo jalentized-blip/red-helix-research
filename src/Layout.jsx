@@ -33,8 +33,8 @@ export default function Layout({ children }) {
       {/* Fixed Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-stone-950/95 backdrop-blur-xl border-b border-stone-700/50 py-3' 
-          : 'bg-transparent py-5'
+          ? 'bg-stone-950/95 backdrop-blur-xl border-b border-stone-700/50 py-2' 
+          : 'bg-transparent py-3'
       }`}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
@@ -42,7 +42,7 @@ export default function Layout({ children }) {
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
               alt="Red Dirt Research" 
-              className="h-96 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </div>
 

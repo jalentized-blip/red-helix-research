@@ -33,7 +33,7 @@ export default function Footer() {
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
               alt="Red Dirt Research" 
-              className="h-96 w-auto object-contain"
+              className="h-20 w-auto object-contain"
             />
           </div>
 
