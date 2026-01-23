@@ -2,6 +2,8 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Scale, Heart, Brain, Zap } from "lucide-react";
+import { base44 } from '@/api/base44Client';
+import { createPageUrl } from '@/utils';
 
 const goals = [
   {
@@ -42,7 +44,7 @@ const goals = [
   }
 ];
 
-export default function ShopByGoal({ products = [], onSelectStrength }) {
+export default function ShopByGoal({ products = [], onSelectStrength, isAuthenticated = true }) {
   return (
     <section id="goals" className="py-20 px-4 bg-stone-950/50 relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
