@@ -84,6 +84,12 @@ export default function CryptoCheckout() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 space-y-6"
           >
+            {loading && (
+              <div className="flex items-center justify-center gap-2 text-stone-400">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="text-sm">Fetching live exchange rates...</span>
+              </div>
+            )}
             <div>
               <h2 className="text-xl font-bold text-amber-50 mb-4">Payment Method</h2>
               <div className="space-y-2">
