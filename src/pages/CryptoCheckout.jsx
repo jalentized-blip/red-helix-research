@@ -8,6 +8,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { getCartTotal, getPromoCode, getDiscountAmount } from '@/components/utils/cart';
 import { base44 } from '@/api/base44Client';
+import CryptoWalletHelp from '@/components/crypto/CryptoWalletHelp';
 
 export default function CryptoCheckout() {
   const [walletAddress, setWalletAddress] = useState('');
