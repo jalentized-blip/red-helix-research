@@ -22,8 +22,13 @@ export default function AgeGate() {
     const checkExistingUser = async () => {
       try {
         const user = await base44.auth.me();
-        if (user && user.age_verified) {
-          navigate(createPageUrl('Home'));
+        if (user) {
+          if (user.age_verified) {
+            navigate(createPageUrl('Home'));
+          } else if (user.email) {
+            // User is logged in but not age verified - show verification form
+            setIsVerified(true);
+          }
         }
       } catch {
         // Not logged in, show age gate
