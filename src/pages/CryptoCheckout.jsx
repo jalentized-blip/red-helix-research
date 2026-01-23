@@ -64,6 +64,13 @@ export default function CryptoCheckout() {
   const cryptoAmount = exchangeRates ? (finalTotal / exchangeRates[selectedCrypto]).toFixed(8) : '0';
   const paymentAddress = '1A1z7agoat2GPFH7g2oh3KfsTUxfzAXXXX'; // Placeholder address
 
+  // Calculate progress based on transaction stages
+  let progress = 0;
+  if (walletAddress) progress = 25;
+  if (transactionId) progress = 50;
+  if (paymentDetected) progress = 75;
+  if (paymentCleared) progress = 100;
+
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(paymentAddress);
     setCopied(true);
