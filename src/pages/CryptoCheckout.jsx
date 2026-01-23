@@ -427,39 +427,99 @@ export default function CryptoCheckout() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-32 bg-stone-900/50 border border-stone-700 rounded-lg p-6"
           >
-          <div className="mb-4">
-            <p className="text-sm font-semibold text-stone-300 mb-2">Transaction Progress</p>
-            <div className="w-full bg-stone-800 rounded-full h-3 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className={`h-full transition-colors ${
-                  paymentCleared
-                    ? 'bg-green-600'
-                    : paymentDetected
-                    ? 'bg-amber-600'
-                    : 'bg-red-600'
-                }`}
-              />
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <p className="text-sm font-semibold text-stone-300">Transaction Progress</p>
+              <p className="text-xs text-stone-400">
+                {paymentCleared ? '✓ Confirmed' : paymentDetected ? '⏳ Detecting confirmations...' : formApplied && transactionId ? '🔄 Monitoring blockchain...' : formApplied && walletAddress ? '⏳ Awaiting transaction...' : '○ Pending'}
+              </p>
             </div>
-          </div>
-          <div className="grid grid-cols-4 gap-2 text-xs">
-            <div className={`text-center ${formApplied && walletAddress ? 'text-amber-50' : 'text-stone-500'}`}>
-              <p className="font-semibold">Wallet</p>
-              <p>25%</p>
+            
+            {/* Progress Track with Stage Indicators */}
+            <div className="relative mb-6">
+              <div className="w-full bg-stone-800 rounded-full h-2 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                  className={`h-full transition-colors ${
+                    paymentCleared
+                      ? 'bg-green-600'
+                      : paymentDetected
+                      ? 'bg-amber-600'
+                      : formApplied
+                      ? 'bg-blue-600'
+                      : 'bg-stone-700'
+                  }`}
+                />
+              </div>
+              
+              {/* Stage Circles */}
+              <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-0 -mx-3">
+                {[
+                  { percent: 0, label: 'Start', status: formApplied },
+                  { percent: 25, label: 'Wallet', status: formApplied && walletAddress },
+                  { percent: 50, label: 'TX ID', status: formApplied && transactionId },
+                  { percent: 75, label: 'Detected', status: paymentDetected },
+                  { percent: 100, label: 'Confirmed', status: paymentCleared }
+                ].map((stage) => {
+                  const isActive = progress >= stage.percent;
+                  const isPending = progress > stage.percent && progress < stage.percent + 20;
+                  
+                  return (
+                    <motion.div
+                      key={stage.percent}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.1 }}
+                      className="flex flex-col items-center"
+                    >
+                      <motion.div
+                        animate={isPending ? { scale: [1, 1.3, 1] } : {}}
+                        transition={isPending ? { duration: 1.2, repeat: Infinity } : {}}
+                        className={`w-4 h-4 rounded-full border-2 transition-all ${
+                          paymentCleared && isActive
+                            ? 'bg-green-600 border-green-500 shadow-lg shadow-green-600/50'
+                            : paymentDetected && isActive
+                            ? 'bg-amber-600 border-amber-500 shadow-lg shadow-amber-600/50'
+                            : isActive
+                            ? 'bg-blue-600 border-blue-500 shadow-lg shadow-blue-600/50'
+                            : 'bg-stone-700 border-stone-600'
+                        }`}
+                      />
+                      <span className={`text-xs mt-3 font-medium whitespace-nowrap ${
+                        isActive ? 'text-amber-50' : 'text-stone-500'
+                      }`}>
+                        {stage.label}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
-            <div className={`text-center ${formApplied && transactionId ? 'text-amber-50' : 'text-stone-500'}`}>
-              <p className="font-semibold">TX ID</p>
-              <p>50%</p>
-            </div>
-            <div className={`text-center ${formApplied && paymentDetected ? 'text-amber-50' : 'text-stone-500'}`}>
-              <p className="font-semibold">Detected</p>
-              <p>75%</p>
-            </div>
-            <div className={`text-center ${formApplied && paymentCleared ? 'text-green-600' : 'text-stone-500'}`}>
-              <p className="font-semibold">Confirmed</p>
-              <p>100%</p>
+
+            {/* Status Messages */}
+            <div className="space-y-2 text-xs text-stone-400 mt-8">
+              {formApplied && walletAddress && (
+                <p className="flex items-center gap-2">
+                  <span className="text-blue-600">✓</span> Wallet address registered
+                </p>
+              )}
+              {formApplied && transactionId && (
+                <p className="flex items-center gap-2">
+                  <span className="text-blue-600">✓</span> Transaction ID submitted
+                </p>
+              )}
+              {paymentDetected && (
+                <p className="flex items-center gap-2">
+                  <span className="text-amber-600">⏳</span> Payment detected on blockchain - awaiting confirmations...
+                </p>
+              )}
+              {paymentCleared && (
+                <p className="flex items-center gap-2">
+                  <span className="text-green-600">✓</span> Payment confirmed - processing order...
+                </p>
+              )}
             </div>
           </div>
           </motion.div>
