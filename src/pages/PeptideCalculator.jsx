@@ -384,23 +384,55 @@ www.reddirtresearch.com`;
                       {/* Fluid fill animation */}
                       <defs>
                         <linearGradient id="fluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="rgba(220, 38, 38, 0.4)" />
-                          <stop offset="100%" stopColor="rgba(220, 38, 38, 0.6)" />
+                          <stop offset="0%" stopColor="rgba(220, 38, 38, 0.5)" />
+                          <stop offset="50%" stopColor="rgba(239, 68, 68, 0.6)" />
+                          <stop offset="100%" stopColor="rgba(220, 38, 38, 0.7)" />
                         </linearGradient>
+                        <filter id="fluidShadow" x="-50%" y="-50%" width="200%" height="200%">
+                          <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+                        </filter>
                       </defs>
 
-                      {/* Syringe plunger with animation */}
-                      <motion.rect
-                        x="50"
-                        y="30"
-                        width={Math.min(1000, (drawUnits / 100) * 1000)}
-                        height="60"
-                        rx="8"
-                        fill="url(#fluidGradient)"
-                        initial={{ width: 0 }}
-                        animate={{ width: Math.min(1000, (drawUnits / 100) * 1000) }}
-                        transition={{ type: 'spring', stiffness: 60, damping: 15, duration: 0.8 }}
-                      />
+                      {/* Fluid fill with wave effect */}
+                      <motion.g>
+                        {/* Main fluid body */}
+                        <motion.rect
+                          x="50"
+                          y="30"
+                          width={Math.min(1000, (drawUnits / 100) * 1000)}
+                          height="60"
+                          rx="4"
+                          fill="url(#fluidGradient)"
+                          initial={{ width: 0, opacity: 0 }}
+                          animate={{ width: Math.min(1000, (drawUnits / 100) * 1000), opacity: 1 }}
+                          transition={{ type: 'spring', stiffness: 80, damping: 20, duration: 1.2 }}
+                        />
+                        
+                        {/* Wave splash effect at top */}
+                        <motion.path
+                          d={`M 50 35 Q ${55 + (drawUnits / 100) * 1000 * 0.25} 20, ${100 + (drawUnits / 100) * 1000 * 0.5} 32 T ${Math.min(1050, 50 + (drawUnits / 100) * 1000)} 35`}
+                          fill="none"
+                          stroke="rgba(239, 68, 68, 0.8)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          initial={{ opacity: 0, pathLength: 0 }}
+                          animate={{ opacity: 0, pathLength: 1 }}
+                          transition={{ delay: 0.4, duration: 0.6 }}
+                          filter="url(#fluidShadow)"
+                        />
+
+                        {/* Shimmer effect */}
+                        <motion.ellipse
+                          cx={50 + (drawUnits / 100) * 500}
+                          cy="40"
+                          rx="80"
+                          ry="15"
+                          fill="rgba(255, 255, 255, 0.15)"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: [0, 0.6, 0] }}
+                          transition={{ delay: 0.6, duration: 0.8 }}
+                        />
+                      </motion.g>
 
                       {/* Major markings (every 10 units) */}
                       {Array.from({ length: 11 }, (_, i) => i * 10).map((units) => (
