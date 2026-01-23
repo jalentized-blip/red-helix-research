@@ -18,8 +18,14 @@ const SourcesBubble = ({ productName }) => {
     if (!isExpanded && sources.length === 0) {
       setLoadingSource(true);
       try {
+        // Convert shorthand peptide names to full names for better LLM results
+        const peptideNameMap = {
+          'tb5+bpc5': 'TB-500 + BPC-157'
+        };
+        const fullName = peptideNameMap[productName.toLowerCase()] || productName;
+
         const response = await base44.integrations.Core.InvokeLLM({
-          prompt: `Find the 3 most significant peer-reviewed research studies on "${productName}". For each study, explain in simple, non-technical language: what the study discovered and how it's beneficial. Use 1-2 short sentences that anyone can understand. Return a JSON object with a "studies" array containing objects with: "year", and "summary" (simple explanation of what was discovered and its benefit).`,
+          prompt: `Find the 3 most significant peer-reviewed research studies on "${fullName}". For each study, explain in simple, non-technical language: what the study discovered and how it's beneficial. Use 1-2 short sentences that anyone can understand. Return a JSON object with a "studies" array containing objects with: "year", and "summary" (simple explanation of what was discovered and its benefit).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: "object",
