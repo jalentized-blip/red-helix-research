@@ -78,14 +78,20 @@ import React, { useState, useRef, useEffect } from 'react';
 
 
 
-  const speakLastMessage = async () => {
-    const lastAssistantMessage = [...messages].reverse().find(m => m.role === 'assistant');
-    if (!lastAssistantMessage || isSpeaking) return;
+  const toggleVoiceRecording = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+    } else {
+      setTranscript('');
+      recognitionRef.current?.start();
+    }
+  };
 
+  const playAudioResponse = async (text) => {
     try {
       setIsSpeaking(true);
       const response = await base44.functions.invoke('textToSpeech', {
-        text: lastAssistantMessage.content
+        text: text
       });
 
       const audioUrl = response.data.audioUrl;
