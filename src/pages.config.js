@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import PaymentCompleted from './pages/PaymentCompleted';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
+import AgeGate from './pages/AgeGate';
 import __Layout from './Layout.jsx';
 
 
@@ -18,6 +19,7 @@ export const PAGES = {
     "PaymentCompleted": PaymentCompleted,
     "PeptideCalculator": PeptideCalculator,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
+    "AgeGate": AgeGate,
 }
 
 export const pagesConfig = {

@@ -1,0 +1,141 @@
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { base44 } from '@/api/base44Client';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+
+export default function AgeGate() {
+  const [isVerified, setIsVerified] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleAgeConfirm = (confirmed) => {
+    if (!confirmed) {
+      window.location.href = 'https://www.google.com';
+      return;
+    }
+    setIsVerified(true);
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    try {
+      // Invite user and store age verification
+      await base44.users.inviteUser(email, 'user');
+      
+      // Store age verification in user profile
+      await base44.auth.updateMe({
+        age_verified: true,
+        age_verified_date: new Date().toISOString()
+      });
+
+      navigate(createPageUrl('Home'));
+    } catch (err) {
+      setError('Unable to complete sign up. Please try again.');
+    }
+  };
+
+  if (!isVerified) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4">
+        <div className="max-w-md w-full">
+          <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 text-center space-y-6">
+            <div>
+              <h1 className="text-4xl font-black text-amber-50 mb-2">Age Verification</h1>
+              <p className="text-stone-400">Red Dirt Research</p>
+            </div>
+
+            <div className="bg-red-950/30 border border-red-700/50 rounded-lg p-4">
+              <p className="text-red-100 text-sm">
+                You must be 21 years or older to access this website and purchase research peptides.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <Button
+                onClick={() => handleAgeConfirm(true)}
+                className="w-full bg-red-600 hover:bg-red-700 text-amber-50 text-lg py-6"
+              >
+                I'm 21 or Older
+              </Button>
+              <Button
+                onClick={() => handleAgeConfirm(false)}
+                variant="outline"
+                className="w-full border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 text-lg py-6"
+              >
+                I'm Under 21
+              </Button>
+            </div>
+
+            <p className="text-stone-500 text-xs">
+              By confirming, you agree that you are at least 21 years old.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4">
+      <div className="max-w-md w-full">
+        <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 space-y-6">
+          <div>
+            <h1 className="text-3xl font-black text-amber-50 mb-2">Create Account</h1>
+            <p className="text-stone-400">Sign up to access our peptide catalog</p>
+          </div>
+
+          <form onSubmit={handleSignUp} className="space-y-4">
+            <div>
+              <label className="block text-amber-50 text-sm font-semibold mb-2">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-full bg-stone-800 border border-stone-600 rounded px-4 py-2 text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
+              />
+            </div>
+
+            <div>
+              <label className="block text-amber-50 text-sm font-semibold mb-2">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                className="w-full bg-stone-800 border border-stone-600 rounded px-4 py-2 text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-3 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              className="w-full bg-red-600 hover:bg-red-700 text-amber-50 text-lg py-6"
+            >
+              Sign Up & Continue
+            </Button>
+          </form>
+
+          <p className="text-stone-500 text-xs text-center">
+            By signing up, you confirm you are 21 years or older.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
