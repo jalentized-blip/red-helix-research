@@ -5,6 +5,24 @@ import { ArrowRight } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 
 export default function AboutSection() {
+  const [vialImage, setVialImage] = useState(null);
+
+  useEffect(() => {
+    const generateImage = async () => {
+      try {
+        const result = await base44.integrations.Core.GenerateImage({
+          prompt: "Close-up professional photograph of multiple 3ml peptide vials arranged neatly on a laboratory surface, clear glass vials with amber/blue liquid inside, clinical pharmaceutical setting, well-lit, high quality product photography"
+        });
+        if (result?.url) {
+          setVialImage(result.url);
+        }
+      } catch (error) {
+        console.error('Failed to generate image:', error);
+      }
+    };
+    generateImage();
+  }, []);
+
   return (
     <section className="py-24 px-4 relative overflow-hidden">
       {/* Background Image */}
