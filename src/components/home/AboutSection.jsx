@@ -5,23 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 
 export default function AboutSection() {
-  const [vialImage, setVialImage] = useState(null);
-
-  useEffect(() => {
-    const generateImage = async () => {
-      try {
-        const result = await base44.integrations.Core.GenerateImage({
-          prompt: "Close-up professional photograph of multiple 3ml retatrutide vials arranged neatly on a laboratory surface, clear glass vials with liquid inside, pharmaceutical clinical setting, well-lit, high quality product photography"
-        });
-        if (result?.url) {
-          setVialImage(result.url);
-        }
-      } catch (error) {
-        console.error('Failed to generate image:', error);
-      }
-    };
-    generateImage();
-  }, []);
+  const vialImage = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/17af00112_image.png";
 
   return (
     <section className="py-24 px-4 relative overflow-hidden">
