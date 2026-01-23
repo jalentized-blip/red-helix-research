@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, ShoppingCart, CheckCircle } from "lucide-react";
-import { addToCart } from '@/components/utils/cart';
+import { addToCart } from '@/components/utils/cart.js';
 
 export default function ProductModal({ product, isOpen, onClose }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
