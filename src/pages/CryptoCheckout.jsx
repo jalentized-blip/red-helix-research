@@ -70,6 +70,67 @@ export default function CryptoCheckout() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Poll for payment detection
+  useEffect(() => {
+    if (!transactionId || paymentCleared) return;
+
+    const pollPayment = async () => {
+      try {
+        const result = await base44.integrations.Core.InvokeLLM({
+          prompt: `Check if the cryptocurrency transaction ID "${transactionId}" exists and has been confirmed. Return a JSON object with "exists" (boolean) and "confirmed" (boolean) indicating if the transaction is confirmed on the blockchain.`,
+          add_context_from_internet: true,
+          response_json_schema: {
+            type: 'object',
+            properties: {
+              exists: { type: 'boolean' },
+              confirmed: { type: 'boolean' },
+            },
+            required: ['exists', 'confirmed'],
+          },
+        });
+        
+        if (result.exists) {
+          setPaymentDetected(true);
+          if (result.confirmed) {
+            setPaymentCleared(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking payment:', error);
+      }
+    };
+
+    const interval = setInterval(pollPayment, 10000); // Poll every 10 seconds
+    return () => clearInterval(interval);
+  }, [transactionId, paymentCleared]);
+
+  const handleSubmitOrder = async () => {
+    if (!transactionId || !productName) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: 'jakehboen95@gmail.com',
+        subject: 'New Crypto Checkout Order',
+        body: `New order submitted:\n\nProduct Name: ${productName}\nTransaction ID: ${transactionId}\nWallet Address: ${walletAddress || 'Not provided'}\nCryptocurrency: ${selectedCrypto}\nAmount: ${cryptoAmount} ${selectedCrypto}\nUSD Total: $${finalTotal.toFixed(2)}\n\nPlease verify the transaction and process the order.`,
+      });
+      
+      // Clear cart and show success
+      localStorage.removeItem('rdr_cart');
+      window.dispatchEvent(new Event('cartUpdated'));
+      alert('Order submitted successfully! Check your email for confirmation.');
+      window.location.href = createPageUrl('Home');
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('Error submitting order. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
       <div className="max-w-3xl mx-auto">
