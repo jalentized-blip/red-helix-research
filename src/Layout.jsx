@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Peptides", href: "#products" },
   { label: "Peptide Blends", href: "#goals" },
   { label: "Certificates", href: "#certificates" },
-  { label: "About", href: "#about" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
@@ -62,6 +61,9 @@ export default function Layout({ children }) {
             <Link to={createPageUrl('Home')} className="text-sm font-medium text-stone-300 hover:text-red-600 transition-colors uppercase tracking-wide">
               Home
             </Link>
+            <Link to={createPageUrl('About')} className="text-sm font-medium text-stone-300 hover:text-red-600 transition-colors uppercase tracking-wide">
+              About
+            </Link>
             {navLinks.map((link) => (
               <button
                 key={link.label}
@@ -109,6 +111,9 @@ export default function Layout({ children }) {
                 <nav className="flex flex-col gap-4 mt-8">
                   <Link to={createPageUrl('Home')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700 block">
                     Home
+                  </Link>
+                  <Link to={createPageUrl('About')} className="text-left text-lg font-medium text-amber-50 hover:text-red-600 transition-colors py-2 border-b border-stone-700 block">
+                    About
                   </Link>
                   {navLinks.map((link) => (
                     <button

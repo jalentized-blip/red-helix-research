@@ -1,11 +1,13 @@
-import Home from './pages/Home';
 import Cart from './pages/Cart';
+import Home from './pages/Home';
+import About from './pages/About';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Home": Home,
     "Cart": Cart,
+    "Home": Home,
+    "About": About,
 }
 
 export const pagesConfig = {
