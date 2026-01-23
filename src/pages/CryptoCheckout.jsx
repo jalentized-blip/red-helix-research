@@ -324,22 +324,7 @@ export default function CryptoCheckout() {
               </motion.div>
             )}
 
-            {/* Submit Button */}
-            {paymentCleared && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mt-6"
-              >
-                <Button
-                  onClick={handleSubmitOrder}
-                  disabled={submitting}
-                  className="w-full bg-green-700 hover:bg-green-600 text-amber-50 font-semibold py-6"
-                >
-                  {submitting ? 'Submitting...' : 'Submit Order'}
-                </Button>
-              </motion.div>
-            )}
+
           </motion.div>
         </div>
       </div>
