@@ -128,35 +128,28 @@ export default function CryptoCheckout() {
           <h1 className="text-4xl font-black text-amber-50">Crypto Checkout</h1>
         </div>
 
-        {/* Disclaimer */}
+        {/* How It Works */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-blue-900/20 border border-blue-600/30 rounded-lg p-6 mb-8"
         >
-          <h3 className="text-lg font-bold text-blue-400 mb-4">How This Works</h3>
+          <h3 className="text-lg font-bold text-blue-400 mb-4">How It Works</h3>
           <div className="space-y-3 text-sm text-stone-300">
             <p>
-              <span className="font-semibold text-blue-400">Step 1:</span> Choose your cryptocurrency and copy the payment address below.
+              <span className="font-semibold text-blue-400">1.</span> Choose your cryptocurrency type.
             </p>
             <p>
-              <span className="font-semibold text-blue-400">Step 2:</span> Send exactly the amount shown from your wallet. Make sure the amount matches perfectly.
+              <span className="font-semibold text-blue-400">2.</span> Copy the payment address and send exactly the amount shown.
             </p>
             <p>
-              <span className="font-semibold text-blue-400">Step 3:</span> We have two ways to confirm your payment:
+              <span className="font-semibold text-blue-400">3.</span> Enter your wallet address so we can automatically detect your payment.
             </p>
-            <ul className="ml-4 space-y-2">
-              <li className="flex items-start gap-2">
-                <span className="text-red-600 mt-0.5">→</span>
-                <span><strong>Automatic detection:</strong> Provide your wallet address and we'll watch for your payment automatically (fastest method).</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-red-600 mt-0.5">→</span>
-                <span><strong>Manual verification:</strong> Paste your transaction ID and we'll verify it matches your order amount.</span>
-              </li>
-            </ul>
-            <p className="text-xs text-stone-400 pt-2">
-              Once confirmed, you'll be redirected to a success page and sent an email with your order details and tracking information.
+            <p>
+              <span className="font-semibold text-blue-400">4.</span> We verify the transaction on the blockchain and automatically confirm your order. You'll be redirected and sent a confirmation email.
+            </p>
+            <p className="text-xs text-amber-600 pt-2 font-semibold">
+              ⚠️ Payment detection works best when sending from a single wallet address. Make sure the sending address exactly matches what you enter.
             </p>
           </div>
         </motion.div>
