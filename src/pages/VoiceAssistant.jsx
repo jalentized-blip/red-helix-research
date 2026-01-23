@@ -57,17 +57,22 @@ export default function VoiceAssistant() {
     };
 
     recognitionRef.current.onresult = (event) => {
+      let finalTranscript = '';
       let interimTranscript = '';
+      
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const t = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          setTranscript(prev => prev + t);
+          finalTranscript += t;
         } else {
           interimTranscript += t;
         }
       }
-      if (interimTranscript) {
-        setTranscript(prev => prev.split('(interim)')[0] + interimTranscript + '(interim)');
+      
+      if (finalTranscript) {
+        setTranscript(finalTranscript + (interimTranscript ? ' ' + interimTranscript : ''));
+      } else if (interimTranscript) {
+        setTranscript(interimTranscript);
       }
     };
 
