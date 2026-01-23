@@ -7,8 +7,23 @@ export default function BestSellers({ products, onSelectStrength }) {
   const featuredProducts = products.filter(p => p.is_featured).slice(0, 7);
 
   return (
-    <section id="bestsellers" className="py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+    <section id="bestsellers" className="py-20 px-4 relative">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          className="absolute top-10 right-10 text-red-600/15 text-7xl"
+          animate={{ y: [0, 30, 0], rotate: [0, 360] }}
+          transition={{ duration: 12, repeat: Infinity }}
+        >
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="50" cy="20" r="6" fill="currentColor" />
+            <circle cx="77" cy="50" r="6" fill="currentColor" />
+            <circle cx="50" cy="80" r="6" fill="currentColor" />
+            <circle cx="23" cy="50" r="6" fill="currentColor" />
+          </svg>
+        </motion.div>
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
