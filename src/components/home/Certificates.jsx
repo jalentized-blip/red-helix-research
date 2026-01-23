@@ -1,17 +1,7 @@
 import React from 'react';
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { FileCheck, Download, ExternalLink, ShieldCheck } from "lucide-react";
-
-const certificates = [
-  { name: "Retatrutide 10mg", date: "Jan 2025", purity: "99.2%" },
-  { name: "BPC-157 5mg", date: "Jan 2025", purity: "98.9%" },
-  { name: "Tirzepatide 10mg", date: "Dec 2024", purity: "99.1%" },
-  { name: "TB-500 5mg", date: "Dec 2024", purity: "98.7%" },
-  { name: "Semaglutide 5mg", date: "Jan 2025", purity: "99.4%" },
-  { name: "MOTS-c 10mg", date: "Jan 2025", purity: "98.8%" },
-];
+import { FlaskConical, ShieldCheck, Info } from "lucide-react";
 
 export default function Certificates() {
   return (
@@ -26,7 +16,7 @@ export default function Certificates() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-700/10 rounded-full border border-red-700/30 mb-6">
             <ShieldCheck className="w-4 h-4 text-red-600" />
-            <span className="text-sm font-medium text-red-600">Verified Quality</span>
+            <span className="text-sm font-medium text-red-600">Quality Commitment</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl font-black mb-4">
@@ -35,58 +25,39 @@ export default function Certificates() {
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-2xl mx-auto">
-            Full transparency with every batch. Download COAs to verify purity, sterility, and quality.
+            Transparent third-party testing for verified purity, sterility, and quality assurance.
           </p>
         </motion.div>
 
-        {/* Certificates Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-          {certificates.map((cert, index) => (
-            <motion.div
-              key={cert.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              viewport={{ once: true }}
-            >
-              <Card className="bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 p-5 group cursor-pointer">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-red-700/10 border border-red-700/20">
-                      <FileCheck className="w-5 h-5 text-red-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-amber-50 group-hover:text-red-600 transition-colors">
-                        {cert.name}
-                      </h4>
-                      <p className="text-xs text-stone-400">{cert.date}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-red-600">{cert.purity}</div>
-                    <p className="text-xs text-stone-400">Purity</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center gap-2 text-xs text-stone-400 group-hover:text-red-600/70 transition-colors">
-                  <Download className="w-3 h-3" />
-                  <span>Click to download PDF</span>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* View All Button */}
+        {/* No Tests Yet Card */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center"
         >
-          <Button variant="outline" className="border-red-700/50 text-red-600 hover:bg-red-700/10">
-            <ExternalLink className="w-4 h-4 mr-2" />
-            View All Test Reports
-          </Button>
+          <Card className="bg-stone-900/60 border-stone-700 p-12 text-center">
+            <div className="flex flex-col items-center max-w-2xl mx-auto">
+              <div className="p-4 rounded-2xl bg-stone-800/50 border border-stone-700 mb-6">
+                <FlaskConical className="w-12 h-12 text-stone-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-amber-50 mb-3">
+                Testing In Progress
+              </h3>
+              <p className="text-stone-300 mb-6">
+                We are committed to providing full transparency through independent third-party laboratory analysis. 
+                Certificates of Analysis will be published here as soon as testing is completed.
+              </p>
+              <div className="flex items-start gap-3 px-4 py-3 bg-stone-800/50 rounded-lg border border-stone-700">
+                <Info className="w-5 h-5 text-stone-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-stone-400 text-left leading-relaxed">
+                  <span className="font-semibold text-stone-300">Testing Initiative:</span> We are currently coordinating group buys for comprehensive third-party testing through Janoshik Analytical, 
+                  a leading independent laboratory specializing in peptide and pharmaceutical analysis. 
+                  All batches will undergo rigorous testing for purity, concentration, sterility, and heavy metal contamination. 
+                  Results will be published immediately upon receipt to ensure complete transparency for our research community.
+                </p>
+              </div>
+            </div>
+          </Card>
         </motion.div>
       </div>
     </section>
