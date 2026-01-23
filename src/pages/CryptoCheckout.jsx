@@ -190,12 +190,15 @@ export default function CryptoCheckout() {
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <Link to={createPageUrl('Cart')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Cart
-          </Link>
-          <h1 className="text-4xl font-black text-amber-50">Crypto Checkout</h1>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <Link to={createPageUrl('Cart')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Cart
+            </Link>
+            <h1 className="text-4xl font-black text-amber-50">Crypto Checkout</h1>
+          </div>
+          <CryptoWalletHelp />
         </div>
 
         {/* How It Works */}
