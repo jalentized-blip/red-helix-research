@@ -4,12 +4,14 @@ import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, getProm
 import { Trash2, ShoppingBag, ArrowLeft, X, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import { motion } from 'framer-motion';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState(getPromoCode());
   const [promoError, setPromoError] = useState('');
+  const [promoFocused, setPromoFocused] = useState(false);
 
   useEffect(() => {
     setCartItems(getCart());
@@ -139,16 +141,27 @@ export default function Cart() {
                             setPromoCode(e.target.value.toUpperCase());
                             setPromoError('');
                           }}
+                          onFocus={() => setPromoFocused(true)}
+                          onBlur={() => setPromoFocused(false)}
                           placeholder="Enter code"
                           className="flex-1 bg-stone-700 border border-stone-600 rounded px-3 py-2 text-sm text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
                         />
-                        <Button
-                          onClick={handleApplyPromo}
-                          size="sm"
-                          className="bg-red-700 hover:bg-red-600 text-amber-50"
-                        >
-                          Apply
-                        </Button>
+                        {(promoCode || promoFocused) && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <Button
+                              onClick={handleApplyPromo}
+                              size="sm"
+                              className="bg-red-700 hover:bg-red-600 text-amber-50"
+                            >
+                              Apply
+                            </Button>
+                          </motion.div>
+                        )}
                       </div>
                       {promoError && (
                         <p className="text-xs text-red-500">{promoError}</p>
