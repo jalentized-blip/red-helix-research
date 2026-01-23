@@ -35,17 +35,7 @@ const navLinks = [
             const scrollSpeed = Math.abs(window.scrollY - lastScrollY);
             setLastScrollY(window.scrollY);
 
-            if (window.scrollY === 0) {
-              // At top - show magnifying glass
-              setMagnifyingGlassOpacity(0.25);
-              setMagnifyingGlassBlur(0);
-              setMagnifyingGlassScale(1);
-            } else {
-              // Scrolling - scale down and blur based on speed
-              setMagnifyingGlassScale(Math.max(0, 1 - window.scrollY * 0.01));
-              setMagnifyingGlassBlur(Math.min(20, scrollSpeed * 0.5));
-              setMagnifyingGlassOpacity(0);
-            }
+
 
             // Find the DollarSign icons in ValueProposition
             const dollarSigns = document.querySelectorAll('[data-testid="dollar-icon"]');
