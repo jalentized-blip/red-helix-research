@@ -315,10 +315,10 @@ export default function VoiceAssistant() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 flex flex-col items-center justify-between">
-          <div className="w-full flex-1 overflow-y-auto space-y-4 mb-8">
+        <div className="flex-1 flex flex-col gap-4 min-h-0">
+          <div className="flex-1 overflow-y-auto space-y-4 pr-2">
             {messages.length === 0 ? (
-              <div className="text-center text-stone-400">
+              <div className="text-center text-stone-400 flex items-center justify-center h-full">
                 <p>Click the circle below and start speaking</p>
               </div>
             ) : (
@@ -332,7 +332,7 @@ export default function VoiceAssistant() {
                   <div className={`max-w-[70%] rounded-2xl px-6 py-3 text-center ${
                     msg.role === 'user' 
                       ? 'bg-red-700 text-amber-50' 
-                      : 'bg-blue-700 text-amber-50'
+                      : 'bg-amber-100 text-stone-900'
                   }`}>
                     <p className="text-sm">{msg.content}</p>
                   </div>
@@ -345,7 +345,7 @@ export default function VoiceAssistant() {
                 animate={{ opacity: 1 }}
                 className="flex justify-start"
               >
-                <div className="bg-blue-700 text-amber-50 rounded-2xl px-6 py-3">
+                <div className="bg-amber-100 text-stone-900 rounded-2xl px-6 py-3">
                   <p className="text-sm">Thinking...</p>
                 </div>
               </motion.div>
