@@ -114,10 +114,19 @@ export default function AgeGate() {
 
     setAuthLoading(true);
     try {
-      // Just redirect to login page - Base44 will handle authentication
-      await base44.auth.redirectToLogin();
+      // Sign in is handled by Base44 - just verify the user exists and proceed
+      // The actual authentication will happen through Base44's built-in auth
+      const user = await base44.auth.me();
+      if (user && user.email === email) {
+        // User is authenticated
+        await base44.auth.updateMe({
+          age_verified: true,
+          age_verified_date: new Date().toISOString()
+        });
+        navigate(createPageUrl('Home'));
+      }
     } catch (err) {
-      setError('Sign in failed. Please try again.');
+      setError('Invalid email or password. Please try again.');
       setAuthLoading(false);
     }
   };
