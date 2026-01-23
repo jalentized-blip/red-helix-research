@@ -101,7 +101,7 @@ export default function LearnMore() {
   const uniqueProducts = useMemo(() => {
     const seen = new Set();
     return products.filter(product => {
-      if (seen.has(product.id)) {
+      if (seen.has(product.id) || product.name.toUpperCase() === 'GLOW') {
         return false;
       }
       seen.add(product.id);
