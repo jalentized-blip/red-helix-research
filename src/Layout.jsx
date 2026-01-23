@@ -118,28 +118,16 @@ const navLinks = [
       <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 py-3 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
-          <Link to={createPageUrl('Home')} className="flex items-center gap-2 relative group">
-            <div className="relative">
-              <div 
-                className="h-12 w-12 bg-red-700 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all"
-                style={{ 
-                  opacity: logoOpacity,
-                  transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
-                }}
-              >
-                <span className="text-amber-50 font-black text-lg">RDR</span>
-              </div>
-            </div>
-            <div 
-              className="hidden sm:flex flex-col"
+          <Link to={createPageUrl('Home')} className="flex items-center relative group">
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/972165e60_reddirtbrother-Picsart-BackgroundRemover.jpg"
+              alt="Red Dirt Research"
+              className="h-16 w-auto object-contain"
               style={{ 
                 opacity: logoOpacity,
                 transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
               }}
-            >
-              <span className="text-amber-50 font-black text-sm">RED DIRT</span>
-              <span className="text-red-600 font-semibold text-xs">RESEARCH</span>
-            </div>
+            />
           </Link>
 
           {/* Desktop Nav */}
