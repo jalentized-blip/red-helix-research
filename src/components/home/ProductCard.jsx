@@ -26,7 +26,7 @@ const categoryLabels = {
   general_health: "General Health"
 };
 
-export default function ProductCard({ product, index = 0, onSelectStrength }) {
+export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true }) {
   const badge = product.badge ? badgeConfig[product.badge] : null;
 
   return (
@@ -52,7 +52,7 @@ export default function ProductCard({ product, index = 0, onSelectStrength }) {
 
         <div className="p-5 relative">
           {/* Product Image */}
-          <div className="relative mb-4 aspect-square flex items-center justify-center bg-stone-800/50 rounded-xl overflow-hidden">
+          <div className={`relative mb-4 aspect-square flex items-center justify-center bg-stone-800/50 rounded-xl overflow-hidden ${!isAuthenticated ? 'blur-sm' : ''}`}>
             {product.image_url ? (
               <img 
                 src={product.image_url} 
@@ -67,15 +67,15 @@ export default function ProductCard({ product, index = 0, onSelectStrength }) {
           </div>
 
           {/* Product Info */}
-          <h3 className="text-lg font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors">
+          <h3 className={`text-lg font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors ${!isAuthenticated ? 'blur-sm' : ''}`}>
             {product.name}
           </h3>
           
-          <p className="text-sm text-stone-300 mb-3 line-clamp-2">
+          <p className={`text-sm text-stone-300 mb-3 line-clamp-2 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             {product.description}
           </p>
 
-          <div className="flex items-center justify-between mb-4">
+          <div className={`flex items-center justify-between mb-4 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             <span className="text-xs text-red-600/80 font-medium">
               {categoryLabels[product.category]}
             </span>
@@ -84,12 +84,22 @@ export default function ProductCard({ product, index = 0, onSelectStrength }) {
             </span>
           </div>
 
-          <Button 
-            onClick={() => onSelectStrength?.(product)}
-            className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
-          >
-            Select strength
-          </Button>
+          {!isAuthenticated ? (
+            <Button 
+              onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
+              className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold gap-2"
+            >
+              <Lock className="w-4 h-4" />
+              Sign in to Access
+            </Button>
+          ) : (
+            <Button 
+              onClick={() => onSelectStrength?.(product)}
+              className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
+            >
+              Select strength
+            </Button>
+          )}
         </div>
       </Card>
     </motion.div>
