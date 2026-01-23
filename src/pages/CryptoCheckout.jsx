@@ -269,88 +269,16 @@ export default function CryptoCheckout() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-stone-300 block">Your Wallet Address (Optional)</label>
+              <label className="text-sm font-semibold text-stone-300 block">Your Wallet Address <span className="text-red-600">*</span></label>
               <Input
                 type="text"
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
-                placeholder="For order updates"
-                className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-              />
-              <p className="text-xs text-stone-500">Provide your wallet to track the order</p>
-            </div>
-
-            <div className="space-y-2 group">
-              <label className="text-sm font-semibold text-stone-300 block">Transaction ID <span className="text-red-600">*</span></label>
-              <div className="relative">
-                <Input
-                  type="text"
-                  value={transactionId}
-                  onChange={(e) => setTransactionId(e.target.value)}
-                  placeholder="Enter transaction ID"
-                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                  required
-                />
-                <Button
-                  onClick={() => {
-                    if (transactionId.trim()) {
-                      const pollPayment = async () => {
-                        try {
-                          const result = await base44.integrations.Core.InvokeLLM({
-                            prompt: `Validate this cryptocurrency transaction ID: "${transactionId}". Check if it exists on the blockchain AND verify the transaction amount matches exactly ${finalTotal.toFixed(2)} USD (or equivalent in ${selectedCrypto}). Return a JSON object with "valid" (boolean - true only if both transaction exists AND amount matches), "exists" (boolean), "amountMatches" (boolean), and "actualAmount" (number or null).`,
-                            add_context_from_internet: true,
-                            response_json_schema: {
-                              type: 'object',
-                              properties: {
-                                valid: { type: 'boolean' },
-                                exists: { type: 'boolean' },
-                                amountMatches: { type: 'boolean' },
-                                actualAmount: { type: ['number', 'null'] },
-                              },
-                              required: ['valid', 'exists', 'amountMatches', 'actualAmount'],
-                            },
-                          });
-
-                          if (result.valid) {
-                            setPaymentCleared(true);
-                            setPaymentDetected(true);
-                            setTimeout(() => {
-                              window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
-                            }, 1500);
-                          } else if (result.exists && !result.amountMatches) {
-                            setPaymentDetected(true);
-                            alert(`Transaction found but amount mismatch. Expected: $${finalTotal.toFixed(2)}, Actual: $${result.actualAmount || 'unknown'}`);
-                          } else if (!result.exists) {
-                            alert('Transaction ID not found on blockchain');
-                          }
-                        } catch (error) {
-                          console.error('Error checking payment:', error);
-                          alert('Failed to validate transaction. Please try again.');
-                        }
-                      };
-                      pollPayment();
-                    }
-                  }}
-                  size="sm"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-red-700 hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  Check
-                </Button>
-              </div>
-              <p className="text-xs text-stone-500">Required for order confirmation</p>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-stone-300 block">Product Name <span className="text-red-600">*</span></label>
-              <Input
-                type="text"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
-                placeholder="Enter product name"
+                placeholder="Your sending wallet address"
                 className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
                 required
               />
-              <p className="text-xs text-stone-500">Specify the product you're purchasing</p>
+              <p className="text-xs text-stone-500">We'll automatically detect your payment from this wallet</p>
             </div>
 
             <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
