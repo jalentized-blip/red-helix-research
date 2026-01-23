@@ -54,14 +54,14 @@ export default function PeptideCalculator() {
 
   const doseOptions = ['0.1', '0.25', '0.5', '1', '2.5', '5', '7.5', '10', '12.5', '15', '50'];
   const strengthOptions = ['1', '5', '10', '15', '20', '30', '50', '1000'];
+  const waterOptions = ['1.0', '2.0', '3.0', '5.0', '10.0'];
 
   const currentDose = dose === 'other' ? parseFloat(doseCustom) : parseFloat(dose);
   const currentStrength = strength === 'other' ? parseFloat(strengthCustom) : parseFloat(strength);
-  const vialVolume = 3.0; // Always 3ml vial
-  const syringeCapacity = 1.0; // Always 1ml syringe
+  const currentWater = water === 'other' ? parseFloat(waterCustom) : parseFloat(water);
 
   // Calculate results
-  const concentration = currentStrength / vialVolume;
+  const concentration = currentWater > 0 ? currentStrength / currentWater : 0;
   const drawAmount = concentration > 0 ? (currentDose / concentration).toFixed(2) : 0;
   const drawUnits = concentration > 0 ? (currentDose / concentration * 100).toFixed(0) : 0;
   const dosesInVial = concentration > 0 ? Math.floor((currentStrength / currentDose)).toFixed(0) : 0;
