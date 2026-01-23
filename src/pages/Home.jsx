@@ -24,11 +24,28 @@ import Footer from '@/components/home/Footer';
 export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
   });
+
+  useEffect(() => {
+    const checkAgeVerification = async () => {
+      try {
+        const user = await base44.auth.me();
+        if (!user.age_verified) {
+          navigate(createPageUrl('AgeGate'));
+        }
+      } catch {
+        // Not logged in, redirect to age gate
+        navigate(createPageUrl('AgeGate'));
+      }
+    };
+
+    checkAgeVerification();
+  }, [navigate]);
 
   const handleSelectStrength = (product) => {
     setSelectedProduct(product);
