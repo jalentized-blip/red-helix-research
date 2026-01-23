@@ -312,7 +312,7 @@ export default function PeptideCalculator() {
                 </div>
 
                 {/* Results Cards */}
-              <div className="space-y-5">
+                <div className="space-y-5">
                 {/* Draw Amount */}
                 <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
                   <p className="text-stone-400 text-sm mb-2">Draw to</p>
