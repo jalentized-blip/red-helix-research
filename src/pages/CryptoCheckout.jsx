@@ -506,7 +506,7 @@ export default function CryptoCheckout() {
 
           {/* Floating Help Button */}
           <div className="fixed bottom-6 right-24 z-40">
-            <CryptoWalletHelp />
+          <CryptoWalletHelp />
           </div>
           </div>
           );
