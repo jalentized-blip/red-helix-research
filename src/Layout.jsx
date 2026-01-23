@@ -37,17 +37,6 @@ export default function Layout({ children }) {
         useEffect(() => {
           const handleMouseMove = (e) => {
             setMousePos({ x: e.clientX, y: e.clientY });
-
-            // Calculate distance from logo (approximate center-left position)
-            const logoX = 100;
-            const logoY = 60;
-            const distance = Math.sqrt(
-              Math.pow(e.clientX - logoX, 2) + Math.pow(e.clientY - logoY, 2)
-            );
-
-            // Opacity decreases as mouse gets closer (0.2 to 1)
-            const opacity = Math.min(1, Math.max(0.2, distance / 200));
-            setLogoOpacity(opacity);
           };
 
           window.addEventListener('mousemove', handleMouseMove);
@@ -65,12 +54,15 @@ export default function Layout({ children }) {
       <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-3">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 relative h-28">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
               alt="Red Dirt Research" 
-              className="h-28 w-auto object-contain transition-opacity duration-150"
-              style={{ opacity: logoOpacity }}
+              className="h-28 w-auto object-contain"
+              style={{
+                maskImage: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, transparent 0%, black 80px)`,
+                WebkitMaskImage: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, transparent 0%, black 80px)`,
+              }}
             />
           </div>
 
