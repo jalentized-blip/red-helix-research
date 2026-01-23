@@ -38,11 +38,12 @@ export default function Layout({ children }) {
       }`}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 bg-transparent">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/5ea93db07_logo.png" 
               alt="Red Dirt Research" 
-              className="h-12 w-auto object-contain"
+              className="h-12 w-auto object-contain mix-blend-lighten"
+              style={{ filter: 'drop-shadow(0 0 1px rgba(180, 140, 80, 0.5))' }}
             />
           </div>
 

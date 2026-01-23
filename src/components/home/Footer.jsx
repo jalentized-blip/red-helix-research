@@ -29,11 +29,11 @@ export default function Footer() {
         {/* Footer Content */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center bg-transparent">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/5ea93db07_logo.png" 
               alt="Red Dirt Research" 
-              className="h-12 w-auto object-contain"
+              className="h-12 w-auto object-contain mix-blend-lighten"
             />
           </div>
 
