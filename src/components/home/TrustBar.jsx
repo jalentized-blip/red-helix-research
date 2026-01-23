@@ -1,32 +1,11 @@
 import React from 'react';
-import { FlaskConical, ShieldCheck, Headphones, CheckCircle, RefreshCw } from "lucide-react";
+import { FlaskConical, ShieldCheck, Headphones, CheckCircle, RefreshCw, Package } from "lucide-react";
 import { motion } from "framer-motion";
-
-const BouncingVial = () => (
-  <motion.svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    animate={{ y: [0, -8, 0] }}
-    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-  >
-    <path d="M7 6h10v2H7z" />
-    <path d="M9 8v8c0 1.1.9 2 2 2s2-.9 2-2V8" />
-    <path d="M8 8h8" />
-    <path d="M10 16h4" />
-    <circle cx="12" cy="6" r="1" fill="currentColor" />
-  </motion.svg>
-);
 
 export default function TrustBar() {
   const features = [
     { icon: FlaskConical, label: "Lab Tested Batches" },
-    { icon: BouncingVial, label: "United States Shipping Only" },
+    { icon: Package, label: "United States Shipping Only" },
     { icon: ShieldCheck, label: "Secure Crypto Payments" },
     { icon: Headphones, label: "24h Support" },
   ];
