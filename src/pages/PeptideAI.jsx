@@ -212,9 +212,9 @@ At the end of your response, include a "📚 Learning Resources" section with re
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={isListening ? `Listening...${transcript && ` "${transcript}"`}` : "Ask about peptides, protocols, dosing, safety..."}
+              placeholder="Ask about peptides, protocols, dosing, safety..."
               className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500 pr-40"
-              disabled={loading || voiceCallActive}
+              disabled={loading}
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
               <Button
