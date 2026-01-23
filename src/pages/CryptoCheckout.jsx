@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { getCartTotal, getPromoCode, getDiscountAmount } from '@/components/utils/cart';
+import { base44 } from '@/api/base44Client';
 
 export default function CryptoCheckout() {
   const [walletAddress, setWalletAddress] = useState('');
   const [selectedCrypto, setSelectedCrypto] = useState('BTC');
   const [copied, setCopied] = useState(false);
+  const [exchangeRates, setExchangeRates] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const SHIPPING_COST = 15.00;
   const subtotal = getCartTotal();
@@ -18,15 +21,42 @@ export default function CryptoCheckout() {
   const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
   const finalTotal = subtotal - discount + SHIPPING_COST;
 
-  // Placeholder exchange rates (in production, fetch from an API)
-  const exchangeRates = {
-    BTC: 42500,
-    ETH: 2500,
-    USDT: 1,
-    USDC: 1,
-  };
+  useEffect(() => {
+    const fetchExchangeRates = async () => {
+      try {
+        const result = await base44.integrations.Core.InvokeLLM({
+          prompt: 'Get the current exchange rates for BTC, ETH, USDT, and USDC in USD. Return ONLY a JSON object with keys "BTC", "ETH", "USDT", "USDC" and their current USD values as numbers.',
+          add_context_from_internet: true,
+          response_json_schema: {
+            type: 'object',
+            properties: {
+              BTC: { type: 'number' },
+              ETH: { type: 'number' },
+              USDT: { type: 'number' },
+              USDC: { type: 'number' },
+            },
+            required: ['BTC', 'ETH', 'USDT', 'USDC'],
+          },
+        });
+        setExchangeRates(result);
+      } catch (error) {
+        console.error('Failed to fetch exchange rates:', error);
+        // Fallback rates if API fails
+        setExchangeRates({
+          BTC: 42500,
+          ETH: 2500,
+          USDT: 1,
+          USDC: 1,
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const cryptoAmount = (finalTotal / exchangeRates[selectedCrypto]).toFixed(8);
+    fetchExchangeRates();
+  }, []);
+
+  const cryptoAmount = exchangeRates ? (finalTotal / exchangeRates[selectedCrypto]).toFixed(8) : '0';
   const paymentAddress = '1A1z7agoat2GPFH7g2oh3KfsTUxfzAXXXX'; // Placeholder address
 
   const handleCopyAddress = () => {
