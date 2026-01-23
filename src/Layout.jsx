@@ -14,8 +14,6 @@ const navLinks = [
                     { label: "Peptides", href: "#products" },
                     { label: "Peptide Blends", href: "#goals" },
                     { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
-                    { label: "Forums", href: createPageUrl('Forums'), isPage: true },
-                    { label: "Group Buy", href: createPageUrl('GroupBuy'), isPage: true },
                     { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
                     { label: "COAs", href: "#certificates" },
                   ];
@@ -209,6 +207,9 @@ const navLinks = [
                 </SheetTrigger>
                 <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
                   <nav className="flex flex-col gap-4 mt-8">
+                    <Link to={createPageUrl('GroupBuy')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
+                      Group Buy
+                    </Link>
                     {isAuthenticated && (
                       <>
                         <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
