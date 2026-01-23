@@ -51,9 +51,17 @@ export default function ProductCard({ product, index = 0 }) {
         <div className="p-5 relative">
           {/* Product Image */}
           <div className="relative mb-4 aspect-square flex items-center justify-center bg-neutral-800/50 rounded-xl overflow-hidden">
-            <div className="w-24 h-32 bg-gradient-to-b from-yellow-500/20 to-yellow-600/10 rounded-lg flex items-center justify-center border border-yellow-500/20">
-              <div className="w-8 h-20 bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-md border border-neutral-600" />
-            </div>
+            {product.image_url ? (
+              <img 
+                src={product.image_url} 
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-24 h-32 bg-gradient-to-b from-yellow-500/20 to-yellow-600/10 rounded-lg flex items-center justify-center border border-yellow-500/20">
+                <div className="w-8 h-20 bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-md border border-neutral-600" />
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
