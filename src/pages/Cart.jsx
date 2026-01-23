@@ -192,8 +192,11 @@ export default function Cart() {
                   </div>
                 </div>
 
-                <Button className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3">
-                  Checkout
+                <Button 
+                  onClick={() => navigate(createPageUrl('CryptoCheckout'))}
+                  className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3"
+                >
+                  Checkout with Crypto
                 </Button>
 
                 <Button
