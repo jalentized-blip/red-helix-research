@@ -13,6 +13,7 @@ import PeptideAI from './pages/PeptideAI';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
+import VoiceAssistant from './pages/VoiceAssistant';
 import __Layout from './Layout.jsx';
 
 
@@ -32,6 +33,7 @@ export const PAGES = {
     "PeptideCalculator": PeptideCalculator,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
+    "VoiceAssistant": VoiceAssistant,
 }
 
 export const pagesConfig = {
