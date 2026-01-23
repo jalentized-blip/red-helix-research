@@ -297,6 +297,19 @@ import React, { useState, useRef, useEffect } from 'react';
             </div>
           </div>
 
+          {isRecording && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center gap-2 text-red-400 text-xs"
+            >
+              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
+                <Mic className="w-3 h-3" />
+              </motion.div>
+              <span>Recording... {transcript && transcript.replace('(interim)', '')}</span>
+            </motion.div>
+          )}
+
           {isSpeaking && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -304,14 +317,14 @@ import React, { useState, useRef, useEffect } from 'react';
               className="flex items-center gap-2 text-blue-400 text-xs"
             >
               <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 0.6 }}>
-                <Volume2 className="w-3 h-3" />
+                <Mic className="w-3 h-3" />
               </motion.div>
-              <span>Playing audio...</span>
+              <span>AI speaking...</span>
             </motion.div>
           )}
 
           <p className="text-xs text-stone-500 text-center">
-            This AI only answers peptide-related questions
+            Click the mic button to speak, or type your question
           </p>
         </form>
       </div>
