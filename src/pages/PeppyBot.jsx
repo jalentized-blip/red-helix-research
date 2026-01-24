@@ -25,22 +25,6 @@ export default function PeppyBot() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  if (showEducationModule) {
-    return (
-      <div className="min-h-screen bg-stone-950">
-        <div className="max-w-6xl mx-auto px-4 pt-8">
-          <button
-            onClick={() => setShowEducationModule(false)}
-            className="mb-6 text-stone-400 hover:text-amber-50 transition-colors flex items-center gap-2"
-          >
-            ← Back to Chat
-          </button>
-        </div>
-        <GrayMarketEducationModule />
-      </div>
-    );
-  }
-
 
 
   const scrollToBottom = () => {
@@ -138,6 +122,22 @@ User question: ${userMessage}`
       handleSend();
     }
   };
+
+  if (showEducationModule) {
+    return (
+      <div className="min-h-screen bg-stone-950">
+        <div className="max-w-6xl mx-auto px-4 pt-8">
+          <button
+            onClick={() => setShowEducationModule(false)}
+            className="mb-6 text-stone-400 hover:text-amber-50 transition-colors flex items-center gap-2"
+          >
+            ← Back to Chat
+          </button>
+        </div>
+        <GrayMarketEducationModule />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-8">
