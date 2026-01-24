@@ -200,12 +200,18 @@ export default function PeppyBot() {
       }
 
       addDebug(`Invoking textToSpeech with voice: ${selectedVoice}`);
-      const response = await base44.functions.invoke('textToSpeech', { 
-        text: cleanText,
-        voice_id: selectedVoice 
-      });
-
-      addDebug(`Response received: ${response.status}`);
+      addDebug(`Text length: ${cleanText.length}, Text preview: ${cleanText.substring(0, 50)}`);
+      let response;
+      try {
+        response = await base44.functions.invoke('textToSpeech', { 
+          text: cleanText,
+          voice_id: selectedVoice 
+        });
+        addDebug(`Response received: ${response.status}`);
+      } catch (invokeError) {
+        addDebug(`Invoke error: ${invokeError.response?.data?.error || invokeError.message}`);
+        throw invokeError;
+      }
 
       if (response.data?.audioUrl) {
         addDebug('Audio URL received, setting up playback');
