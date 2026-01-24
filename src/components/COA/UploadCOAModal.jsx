@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { base44 } from '@/api/base44Client';
-import { Upload, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Upload, Loader2, CheckCircle2, AlertCircle, Zap } from 'lucide-react';
 
 export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
   const [step, setStep] = useState(1); // 1: upload, 2: verify, 3: details
@@ -12,6 +12,8 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [extractionError, setExtractionError] = useState(null);
   
   const [peptideName, setPeptideName] = useState('');
   const [peptideStrength, setPeptideStrength] = useState('');
@@ -56,9 +58,49 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
     }
   };
 
-  const handleProceedToDetails = () => {
+  const handleProceedToDetails = async () => {
     if (verificationResult?.is_valid_coa && verificationResult?.confidence >= 70) {
-      setStep(3);
+      setIsExtracting(true);
+      setExtractionError(null);
+      
+      try {
+        const extractionResponse = await base44.integrations.Core.InvokeLLM({
+          prompt: `You are analyzing a Certificate of Analysis (COA) image. Extract the following information from the COA:
+1. Peptide/Compound Name (the name of the substance being analyzed)
+2. Peptide Strength/Dosage (the concentration, mg, or strength information)
+
+Return ONLY a JSON object with these fields: {"peptide_name": "...", "peptide_strength": "..."}
+If you cannot find either field, set it to null.`,
+          file_urls: fileUrl,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              peptide_name: { type: "string" },
+              peptide_strength: { type: "string" }
+            }
+          }
+        });
+
+        // Auto-fill the fields if extraction was successful
+        if (extractionResponse.peptide_name) {
+          setPeptideName(extractionResponse.peptide_name);
+        }
+        if (extractionResponse.peptide_strength) {
+          setPeptideStrength(extractionResponse.peptide_strength);
+        }
+
+        // Show error if required fields are missing
+        if (!extractionResponse.peptide_name || !extractionResponse.peptide_strength) {
+          setExtractionError('Could not auto-detect all required fields. Please fill them in manually.');
+        }
+
+        setStep(3);
+      } catch (error) {
+        setExtractionError('Error analyzing document. Please fill in the fields manually.');
+        setStep(3);
+      } finally {
+        setIsExtracting(false);
+      }
     }
   };
 
@@ -97,6 +139,7 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
     setPeptideName('');
     setPeptideStrength('');
     setCoaLink('');
+    setExtractionError(null);
     onClose();
   };
 
@@ -169,12 +212,23 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
               </div>
 
               {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
-                <Button
-                  onClick={handleProceedToDetails}
-                  className="w-full bg-barn-brown hover:bg-barn-dark text-amber-50"
-                >
-                  Continue to Details
-                </Button>
+               <Button
+                 onClick={handleProceedToDetails}
+                 disabled={isExtracting}
+                 className="w-full bg-barn-brown hover:bg-barn-dark text-amber-50"
+               >
+                 {isExtracting ? (
+                   <>
+                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                     Analyzing Document...
+                   </>
+                 ) : (
+                   <>
+                     <Zap className="w-4 h-4 mr-2" />
+                     Continue to Details
+                   </>
+                 )}
+               </Button>
               ) : (
                 <Button
                   onClick={() => setStep(1)}
@@ -190,6 +244,11 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
           {/* Step 3: Details Form */}
           {step === 3 && (
             <div className="space-y-4">
+              {extractionError && (
+                <div className="p-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
+                  <p className="text-sm text-yellow-400">{extractionError}</p>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-semibold text-amber-50 mb-2">
                   Peptide Name *
