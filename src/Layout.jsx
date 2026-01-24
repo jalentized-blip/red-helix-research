@@ -57,17 +57,13 @@ const HeaderSearch = () => {
     <div className="flex justify-center pb-3 pt-2 border-t border-stone-800/30">
       <motion.div
         onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={(e) => {
-          // Only close if mouse is leaving the entire search area
-          const relatedTarget = e.relatedTarget;
-          if (!relatedTarget || !e.currentTarget.contains(relatedTarget)) {
-            setTimeout(() => {
-              setIsExpanded(false);
-              setShowResults(false);
-            }, 200);
-          }
+        onMouseLeave={() => {
+          setTimeout(() => {
+            setIsExpanded(false);
+            setShowResults(false);
+          }, 300);
         }}
-        className="relative px-8 py-4"
+        className="relative px-8 py-4 pb-8"
       >
         {/* Magnifying Glass Icon */}
         <motion.div
@@ -131,6 +127,7 @@ const HeaderSearch = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
+              onMouseEnter={() => setIsExpanded(true)}
               className="absolute top-full mt-2 w-[400px] max-h-[60vh] overflow-y-auto bg-stone-900/95 backdrop-blur-md border border-stone-700 rounded-lg shadow-2xl"
             >
               {!hasResults ? (
