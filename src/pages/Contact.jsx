@@ -73,7 +73,7 @@ export default function Contact() {
         >
           <Button 
             className="bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold px-8 py-6 text-lg"
-            onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}
+            onClick={() => window.open('https://discord.gg/jH5s4dBr', '_blank')}
           >
             <MessageCircle className="w-5 h-5 mr-3" />
             Join Discord Server
