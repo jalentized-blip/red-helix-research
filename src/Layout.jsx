@@ -11,6 +11,7 @@ import MolecularBackground from '@/components/MolecularBackground';
 import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+import UploadCOAModal from '@/components/COA/UploadCOAModal';
 
 const navLinks = [
   { label: "Peptides", href: "#products" },
