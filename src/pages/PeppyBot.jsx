@@ -435,7 +435,9 @@ export default function PeppyBot() {
               )}
               <div className={`h-full overflow-y-auto p-6 space-y-4 ${isSpeaking ? 'blur-sm' : ''} transition-all duration-300`}>
                 <AnimatePresence initial={false}>
-                  {messages.map((message, index) => (
+                  {messages.map((message, index) => {
+                    const isProductsMessage = message.role === 'assistant' && message.content.includes('Products');
+                    return (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 10 }}
@@ -450,24 +452,34 @@ export default function PeppyBot() {
                         }`}
                       >
                         {message.role === 'assistant' ? (
-                          <ReactMarkdown
-                            className="prose prose-invert prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                            components={{
-                              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                              strong: ({ children }) => <strong className="text-amber-50 font-semibold">{children}</strong>,
-                              ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
-                              ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
-                              li: ({ children }) => <li className="mb-1">{children}</li>,
-                            }}
-                          >
-                            {message.content}
-                          </ReactMarkdown>
+                          isProductsMessage ? (
+                            <div className="space-y-3">
+                              <p className="mb-3">{message.content.replace('Click the Products button and start shopping.', '').trim()}</p>
+                              <Link to={createPageUrl('Home') + '#products'} className="inline-block bg-red-700 hover:bg-red-600 text-amber-50 px-4 py-2 rounded-lg font-semibold transition-colors">
+                                Shop Products
+                              </Link>
+                            </div>
+                          ) : (
+                            <ReactMarkdown
+                              className="prose prose-invert prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                              components={{
+                                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                strong: ({ children }) => <strong className="text-amber-50 font-semibold">{children}</strong>,
+                                ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
+                                ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
+                                li: ({ children }) => <li className="mb-1">{children}</li>,
+                              }}
+                            >
+                              {message.content}
+                            </ReactMarkdown>
+                          )
                         ) : (
                           <p className="whitespace-pre-wrap">{message.content}</p>
                         )}
                       </div>
                     </motion.div>
-                  ))}
+                  );
+                  })}
                 </AnimatePresence>
                 <div ref={messagesEndRef} />
               </div>
