@@ -8,7 +8,8 @@ import { getCartCount } from '@/components/utils/cart';
       import { createPageUrl } from '@/utils';
       import { base44 } from '@/api/base44Client';
       import MolecularBackground from '@/components/MolecularBackground';
-import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
+      import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
+      import GlobalSearch from '@/components/GlobalSearch';
 
 const navLinks = [
                           { label: "Peptides", href: "#products" },
@@ -185,8 +186,9 @@ const navLinks = [
         `}</style>
         <MolecularBackground />
         <FloatingMolecularFormulas />
-      
-      {/* Fixed Header */}
+        <GlobalSearch />
+
+        {/* Fixed Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 py-3 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
