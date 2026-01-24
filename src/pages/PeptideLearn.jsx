@@ -323,6 +323,12 @@ export default function PeptideLearn() {
             <p className="text-stone-400 text-lg">Loading research data...</p>
           </div>
         )}
+
+        <ProductModal 
+          product={product} 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+        />
       </div>
     </div>
   );
