@@ -17,18 +17,25 @@ const categories = [
 ];
 
 export default function AllProducts({ products, onSelectStrength, isAuthenticated = true }) {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showAll, setShowAll] = useState(false);
-  const [sortBy, setSortBy] = useState("featured");
+    const [activeCategory, setActiveCategory] = useState("all");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [showAll, setShowAll] = useState(false);
+    const [sortBy, setSortBy] = useState("featured");
 
-  const filteredProducts = products.filter(product => {
-    const matchesCategory = activeCategory === "all" || product.category === activeCategory;
-    const matchesSearch = searchQuery === "" || 
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
+    // Deduplicate products by name - keep only the most recent version
+    const deduplicatedProducts = Array.from(
+      new Map(
+        products.map(product => [product.name, product])
+      ).values()
+    ).sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date));
+
+    const filteredProducts = deduplicatedProducts.filter(product => {
+      const matchesCategory = activeCategory === "all" || product.category === activeCategory;
+      const matchesSearch = searchQuery === "" || 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchesCategory && matchesSearch;
+    });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch(sortBy) {
