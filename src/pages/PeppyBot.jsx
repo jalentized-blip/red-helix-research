@@ -382,58 +382,48 @@ export default function PeppyBot() {
 
         {/* Chat Container */}
         <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-800 rounded-xl overflow-hidden relative">
-          <VoiceVisualizer isActive={isSpeaking} audioRef={audioRef} />
           {/* Messages */}
-          <div className={`h-[60vh] overflow-y-auto p-6 space-y-4 ${isSpeaking ? 'blur-sm' : ''} transition-all duration-300`}>
-            <AnimatePresence initial={false}>
-              {messages.map((message, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-lg p-4 ${
-                      message.role === 'user'
-                        ? 'bg-red-700 text-amber-50'
-                        : 'bg-stone-800 text-stone-100'
-                    }`}
-                  >
-                    {message.role === 'assistant' ? (
-                      <ReactMarkdown
-                        className="prose prose-invert prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                        components={{
-                          p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                          strong: ({ children }) => <strong className="text-amber-50 font-semibold">{children}</strong>,
-                          ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
-                          ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
-                          li: ({ children }) => <li className="mb-1">{children}</li>,
-                        }}
+            <div className="relative h-[60vh] overflow-hidden rounded-lg">
+              <VoiceVisualizer isActive={isSpeaking} audioRef={audioRef} />
+              <div className={`h-full overflow-y-auto p-6 space-y-4 ${isSpeaking ? 'blur-sm' : ''} transition-all duration-300`}>
+                <AnimatePresence initial={false}>
+                  {messages.map((message, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div
+                        className={`max-w-[80%] rounded-lg p-4 ${
+                          message.role === 'user'
+                            ? 'bg-red-700 text-amber-50'
+                            : 'bg-stone-800 text-stone-100'
+                        }`}
                       >
-                        {message.content}
-                      </ReactMarkdown>
-                    ) : (
-                      <p className="whitespace-pre-wrap">{message.content}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-            {isLoading && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex justify-start"
-              >
-                <div className="bg-stone-800 rounded-lg p-4 flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 text-amber-50 animate-spin" />
-                  <span className="text-stone-300 text-sm">PeppyBot is thinking...</span>
-                </div>
-              </motion.div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+                        {message.role === 'assistant' ? (
+                          <ReactMarkdown
+                            className="prose prose-invert prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                            components={{
+                              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                              strong: ({ children }) => <strong className="text-amber-50 font-semibold">{children}</strong>,
+                              ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
+                              ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
+                              li: ({ children }) => <li className="mb-1">{children}</li>,
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                        ) : (
+                          <p className="whitespace-pre-wrap">{message.content}</p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                <div ref={messagesEndRef} />
+              </div>
+            </div>
 
           {/* Voice Mode Indicator */}
           {isVoiceMode && (
