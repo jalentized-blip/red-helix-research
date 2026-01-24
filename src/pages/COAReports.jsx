@@ -158,8 +158,28 @@ export default function COAReports() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-stone-900/50 border border-stone-800 rounded-lg p-6 hover:border-barn-brown/50 transition-all hover:shadow-lg hover:shadow-barn-brown/20"
+                className={`bg-stone-900/50 border rounded-lg p-6 transition-all hover:shadow-lg hover:shadow-barn-brown/20 ${
+                  selectedIds.has(coa.id)
+                    ? 'border-barn-brown bg-barn-brown/10'
+                    : 'border-stone-800 hover:border-barn-brown/50'
+                }`}
               >
+                {isAdmin && (
+                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-stone-800">
+                    <Checkbox
+                      checked={selectedIds.has(coa.id)}
+                      onCheckedChange={() => toggleSelect(coa.id)}
+                      className="w-4 h-4"
+                    />
+                    <button
+                      onClick={() => handleDelete(coa.id)}
+                      className="ml-auto p-2 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-900/40 transition-colors"
+                      title="Delete this COA"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
                 {/* Thumbnail */}
                 <div className="mb-4 bg-stone-800 rounded-lg h-48 overflow-hidden border border-stone-700">
                   <img
