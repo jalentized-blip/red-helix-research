@@ -193,7 +193,7 @@ const navLinks = [
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/8aa5e41e9_image-Picsart-BackgroundRemover1.png"
-              alt="Red Dirt Research"
+              alt="Barn"
               className="h-40 w-auto object-contain"
               style={{ 
                 opacity: logoOpacity,
