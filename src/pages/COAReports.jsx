@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, ExternalLink, Search, Trash2, Edit2, Upload } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Search, Trash2, Edit2, Upload, Check, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -34,12 +34,15 @@ export default function COAReports() {
     queryFn: () => base44.entities.UserCOA.list('-created_date'),
   });
 
-  const filteredCOAs = coas.filter(coa =>
+  const isAdmin = user?.role === 'admin';
+
+  // Show all COAs to admins, only approved to regular users
+  const displayedCOAs = isAdmin ? coas : coas.filter(coa => coa.approved);
+
+  const filteredCOAs = displayedCOAs.filter(coa =>
     coa.peptide_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     coa.peptide_strength.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const isAdmin = user?.role === 'admin';
 
   const toggleSelect = (id) => {
     const newSelected = new Set(selectedIds);
@@ -85,6 +88,26 @@ export default function COAReports() {
       refetch();
     } catch (error) {
       alert('Error deleting COA: ' + error.message);
+    }
+  };
+
+  const handleApprove = async (id) => {
+    try {
+      await base44.entities.UserCOA.update(id, { approved: true });
+      refetch();
+    } catch (error) {
+      alert('Error approving COA: ' + error.message);
+    }
+  };
+
+  const handleReject = async (id) => {
+    if (!window.confirm('Delete this COA?')) return;
+
+    try {
+      await base44.entities.UserCOA.delete(id);
+      refetch();
+    } catch (error) {
+      alert('Error rejecting COA: ' + error.message);
     }
   };
 
@@ -167,19 +190,52 @@ export default function COAReports() {
                 }`}
               >
                 {isAdmin && (
-                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-stone-800">
-                    <Checkbox
-                      checked={selectedIds.has(coa.id)}
-                      onCheckedChange={() => toggleSelect(coa.id)}
-                      className="w-4 h-4"
-                    />
-                    <button
-                      onClick={() => handleDelete(coa.id)}
-                      className="ml-auto p-2 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-900/40 transition-colors"
-                      title="Delete this COA"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                  <div className="space-y-3 mb-4 pb-4 border-b border-stone-800">
+                    {/* Checkbox and Delete */}
+                    <div className="flex items-center gap-3">
+                      <Checkbox
+                        checked={selectedIds.has(coa.id)}
+                        onCheckedChange={() => toggleSelect(coa.id)}
+                        className="w-4 h-4"
+                      />
+                      <button
+                        onClick={() => handleDelete(coa.id)}
+                        className="ml-auto p-2 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-900/40 transition-colors"
+                        title="Delete this COA"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Approval Status and Controls */}
+                    {!coa.approved && (
+                      <div className="flex items-center gap-2 bg-yellow-900/20 border border-yellow-700/30 rounded px-3 py-2">
+                        <span className="text-xs font-semibold text-yellow-400">PENDING APPROVAL</span>
+                        <div className="flex gap-2 ml-auto">
+                          <button
+                            onClick={() => handleApprove(coa.id)}
+                            className="p-1.5 rounded bg-green-900/40 text-green-500 hover:bg-green-900/60 transition-colors"
+                            title="Approve this COA"
+                          >
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleReject(coa.id)}
+                            className="p-1.5 rounded bg-red-900/40 text-red-500 hover:bg-red-900/60 transition-colors"
+                            title="Reject this COA"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {coa.approved && (
+                      <div className="flex items-center gap-2 bg-green-900/20 border border-green-700/30 rounded px-3 py-2">
+                        <Check className="w-4 h-4 text-green-500" />
+                        <span className="text-xs font-semibold text-green-400">APPROVED</span>
+                      </div>
+                    )}
                   </div>
                 )}
                 {/* Thumbnail */}

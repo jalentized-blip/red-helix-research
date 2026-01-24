@@ -76,7 +76,8 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
         coa_image_url: fileUrl,
         coa_link: coaLink,
         verified: true,
-        uploaded_by: (await base44.auth.me()).email
+        uploaded_by: (await base44.auth.me()).email,
+        approved: false
       });
 
       onSuccess?.();
