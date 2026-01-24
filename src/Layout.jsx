@@ -147,9 +147,9 @@ const HeaderSearch = () => {
                       </h3>
                       <div className="space-y-1">
                         {filteredPages.map((page) => (
-                          <Link
+                          <a
                             key={page.name}
-                            to={page.url}
+                            href={page.url}
                             className="block px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
                             onClick={() => {
                               setSearchQuery('');
@@ -159,7 +159,7 @@ const HeaderSearch = () => {
                           >
                             <div className="font-semibold text-amber-50 text-sm">{page.name}</div>
                             <div className="text-xs text-stone-400">{page.description}</div>
-                          </Link>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -173,9 +173,9 @@ const HeaderSearch = () => {
                       </h3>
                       <div className="space-y-1">
                         {filteredProducts.slice(0, 8).map((product) => (
-                          <Link
+                          <a
                             key={product.id}
-                            to={createPageUrl('Home') + '#products'}
+                            href={createPageUrl('Home') + '?product=' + encodeURIComponent(product.id)}
                             className="block px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
                             onClick={() => {
                               setSearchQuery('');
@@ -188,7 +188,7 @@ const HeaderSearch = () => {
                               <div className="text-xs text-stone-400 line-clamp-1">{product.description}</div>
                             )}
                             <div className="text-xs text-red-600 mt-1">From ${product.price_from}</div>
-                          </Link>
+                          </a>
                         ))}
                         {filteredProducts.length > 8 && (
                           <div className="px-3 py-2 text-xs text-stone-400">

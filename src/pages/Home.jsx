@@ -62,13 +62,23 @@ export default function Home() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const section = params.get('section');
+    const productId = params.get('product');
+
     if (section) {
       setTimeout(() => {
         const element = document.getElementById(section);
         element?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
-  }, []);
+
+    if (productId && products.length > 0) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        setSelectedProduct(product);
+        setIsModalOpen(true);
+      }
+    }
+  }, [products]);
 
   const handleAgeVerification = () => {
     setShowAgeVerification(false);
