@@ -19,7 +19,7 @@ const StorySection = ({ icon: Icon, title, description, highlight }) => (
         <p className="text-stone-300 leading-relaxed mb-3">{description}</p>
         {highlight && (
           <div className="bg-red-600/10 border border-red-600/30 rounded-lg p-4 mt-4">
-            <p className="text-red-500 font-semibold">{highlight}</p>
+           <p className="text-amber-50 font-semibold">{highlight}</p>
           </div>
         )}
       </div>
