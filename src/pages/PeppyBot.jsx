@@ -192,6 +192,11 @@ export default function PeppyBot() {
         return;
       }
 
+      // Set up text display
+      setSpeakingText(cleanText);
+      setDisplayedText('');
+      textIndexRef.current = 0;
+
       addDebug('Invoking textToSpeech');
       addDebug(`Text length: ${cleanText.length}, Text preview: ${cleanText.substring(0, 50)}`);
       let response;
