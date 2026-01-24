@@ -127,7 +127,8 @@ export default function PeppyBot() {
         if (final) {
           setMessages(prev => [...prev, { role: 'user', content: final }]);
           setInterimTranscript('');
-          handleAIResponse(final);
+          addDebug(`Speech recognized: ${final.substring(0, 30)}`);
+          handleAIResponse(final, true);
         } else {
           setInterimTranscript(interim);
         }
@@ -271,13 +272,13 @@ export default function PeppyBot() {
     await speakText('Hello, this is a test of the voice system.');
   };
 
-  const handleAIResponse = async (userMessage) => {
+  const handleAIResponse = async (userMessage, forceVoiceMode = null) => {
     setIsLoading(true);
     addDebug(`User message: ${userMessage.substring(0, 50)}`);
 
-    // Always use voice if in voice mode OR if voice mode was recently active
-    const shouldUseVoice = isVoiceMode;
-    addDebug(`Voice enabled: ${shouldUseVoice}`);
+    // Use forced voice mode if provided (from handleSend), otherwise use current state
+    const shouldUseVoice = forceVoiceMode !== null ? forceVoiceMode : isVoiceMode;
+    addDebug(`Should use voice: ${shouldUseVoice}`);
 
     try {
       const systemPrompt = `You are PeppyBot, an educational AI assistant specializing in peptide research. Your role is STRICTLY limited to discussing peptides and research use only.
@@ -342,6 +343,10 @@ export default function PeppyBot() {
     const userMessage = input.trim();
     setInput('');
 
+    // Capture voice mode before turning it off
+    const wasInVoiceMode = isVoiceMode;
+    addDebug(`Sending message - was in voice mode: ${wasInVoiceMode}`);
+
     // Typing in chat switches to text mode
     if (isVoiceMode) {
       setIsVoiceMode(false);
@@ -352,7 +357,7 @@ export default function PeppyBot() {
     }
 
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    await handleAIResponse(userMessage);
+    await handleAIResponse(userMessage, wasInVoiceMode);
   };
 
   const handleKeyPress = (e) => {
