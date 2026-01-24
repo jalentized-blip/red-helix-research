@@ -65,8 +65,8 @@ export default function About() {
         <StorySection
           icon={DollarSign}
           title="The Pricing Illusion"
-          description="I started researching US vendors and found something troubling: their prices were suspiciously low compared to the clinic, but the margins were still massive. I dug deeper into sourcing costs and realized vendors were pricing based on China suppliers at $5-15 per vial while marking up 300-500%. The catch? They were hiding this reality."
-          highlight="US vendors claimed 'premium quality' while sourcing from the same places they wouldn't admit to."
+          description="I started researching US vendors and found something troubling: their prices were suspiciously low compared to the clinic, but the margins were still massive. I dug deeper into sourcing costs and realized vendors were pricing based on China suppliers at $5-15 per vial while marking up 300-500%. The catch? They were hiding this reality. US vendors claimed 'premium quality' while sourcing from the same places they wouldn't admit to. They'd invest thousands in marketing to create an illusion of exclusivity, then pocket the difference."
+          highlight="Quality claims meant nothing when the sourcing was identical."
         />
 
         {/* Chapter 3 */}
