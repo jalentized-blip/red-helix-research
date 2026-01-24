@@ -185,14 +185,19 @@ export default function PeppyBot() {
   const speakText = async (text) => {
     try {
       addDebug('speakText called');
-      
+
       // Clean markdown and special characters for better speech
       const cleanText = text
             .replace(/\*\*/g, '')
             .replace(/⚠️/g, 'Warning:')
             .replace(/[#*_]/g, '')
             .replace(/\n+/g, '. ')
-            .substring(0, 1000);
+            .trim();
+
+      if (!cleanText) {
+        addDebug('No text to speak');
+        return;
+      }
 
       addDebug(`Invoking textToSpeech with voice: ${selectedVoice}`);
       const response = await base44.functions.invoke('textToSpeech', { 
