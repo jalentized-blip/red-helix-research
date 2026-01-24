@@ -88,30 +88,30 @@ export default function About() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-gradient-to-r from-red-600/10 to-amber-600/10 border border-red-600/30 rounded-lg p-10"
+          className="bg-gradient-to-r from-barn-brown/20 to-barn-tan/10 border border-barn-brown/30 rounded-lg p-10"
         >
           <h3 className="text-3xl font-bold text-amber-50 mb-4">
-            Building Barn
+            Our Commitment to You
           </h3>
-          <p className="text-stone-300 leading-relaxed mb-6">
-            We decided to flip the script entirely. No more hidden margins. No more false sourcing claims. Instead, we built Barn on a foundation of actual transparency:
+          <p className="text-amber-50 leading-relaxed mb-6">
+            We're competing to be the most trusted peptide source in the market. Here's what we stand for:
           </p>
-          <ul className="space-y-3 text-stone-300">
+          <ul className="space-y-3 text-amber-50">
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Show Our Profit Margins:</strong> We openly display what we pay for peptides and what we charge. You know exactly how much we make on every product.</span>
+              <span className="text-barn-brown font-bold mt-1">✓</span>
+              <span><strong>COAs on Everything:</strong> Every product we sell includes verified third-party testing. No exceptions, no compromises.</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Full Sourcing Disclosure:</strong> We tell you where our peptides come from, who our suppliers are, and why we chose them—without the marketing spin.</span>
+              <span className="text-barn-brown font-bold mt-1">✓</span>
+              <span><strong>Customer Service That Cares:</strong> Our team is genuinely invested in your success. We answer questions thoroughly, resolve issues quickly, and treat you like a valued member of our community.</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Live COA Process:</strong> Watch as we send off batches for Janoshik testing. See the entire process from synthesis to certification. You get the reports before we do.</span>
+              <span className="text-barn-brown font-bold mt-1">✓</span>
+              <span><strong>Helping Others Advance:</strong> We believe in the research community. By providing affordable, verified peptides, we're enabling more researchers to contribute to the field.</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>The Ins and Outs:</strong> We break down everything—storage, handling, testing protocols, even our supplier vetting. There are no black boxes here.</span>
+              <span className="text-barn-brown font-bold mt-1">✓</span>
+              <span><strong>Competitive Pricing:</strong> Fair doesn't mean expensive. We compete on price while maintaining the highest standards of quality and transparency.</span>
             </li>
           </ul>
         </motion.div>
