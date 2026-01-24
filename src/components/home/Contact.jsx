@@ -12,7 +12,7 @@ const contactMethods = [
     label: "WhatsApp",
     value: "Message us",
     color: "bg-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/30",
-    link: "https://wa.me/"
+    link: "https://wa.me/85251705487"
   },
   {
     icon: MessageCircle,
