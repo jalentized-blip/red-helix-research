@@ -3,11 +3,23 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Send, Loader2, ArrowLeft, Mic, MicOff, Volume2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const VOICE_OPTIONS = [
+  { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel - Calm Female' },
+  { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah - Professional Female' },
+  { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam - Deep Male' },
+  { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam - Friendly Male' },
+  { id: 'TxGEqnHWrfWFTfGW9XjX', name: 'Josh - Young Male' },
+  { id: 'VR6AewLTigWG4xSOukaG', name: 'Arnold - Mature Male' },
+  { id: 'ODq5zmih8GrVes37Dizd', name: 'Patrick - Energetic Male' },
+  { id: 'IKne3meq5aSn9XLyUdCD', name: 'Charlie - Casual Male' },
+];
 
 export default function PeppyBot() {
   const [messages, setMessages] = useState([
@@ -22,6 +34,7 @@ export default function PeppyBot() {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [volume, setVolume] = useState([0.8]);
+  const [selectedVoice, setSelectedVoice] = useState('21m00Tcm4TlvDq8ikWAM');
   const [interimTranscript, setInterimTranscript] = useState('');
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -111,7 +124,10 @@ export default function PeppyBot() {
   const speakText = async (text) => {
     try {
       setIsSpeaking(true);
-      const response = await base44.functions.invoke('textToSpeech', { text });
+      const response = await base44.functions.invoke('textToSpeech', { 
+        text: text.replace(/\*\*/g, '').replace(/⚠️/g, 'Warning:'),
+        voice_id: selectedVoice 
+      });
       
       if (response.data.audioUrl) {
         const audio = new Audio(response.data.audioUrl);
@@ -288,6 +304,18 @@ User question: ${userMessage}`;
                   )}
                 </div>
                 <div className="flex items-center gap-3">
+                  <Select value={selectedVoice} onValueChange={setSelectedVoice}>
+                    <SelectTrigger className="w-48 bg-stone-700 border-stone-600 text-amber-50">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-stone-800 border-stone-700">
+                      {VOICE_OPTIONS.map((voice) => (
+                        <SelectItem key={voice.id} value={voice.id} className="text-amber-50">
+                          {voice.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <div className="flex items-center gap-2">
                     <Volume2 className="w-4 h-4 text-stone-400" />
                     <Slider

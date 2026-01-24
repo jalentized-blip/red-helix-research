@@ -1,40 +1,31 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
-const ELEVENLABS_API_KEY = Deno.env.get("ELEVENLABS_API_KEY");
-const ELEVENLABS_VOICE_ID = Deno.env.get("ELEVENLABS_VOICE_ID");
-
 Deno.serve(async (req) => {
   try {
-    if (!ELEVENLABS_API_KEY) {
-      return Response.json({ 
-        error: 'ElevenLabs API key not configured' 
-      }, { status: 500 });
-    }
-
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
-
+    
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { text, voice_id } = await req.json();
+    const apiKey = Deno.env.get('ELEVENLABS_API_KEY');
+    const voiceId = voice_id || Deno.env.get('ELEVENLABS_VOICE_ID') || '21m00Tcm4TlvDq8ikWAM';
 
-    if (!text) {
-      return Response.json({ 
-        error: 'Text is required' 
-      }, { status: 400 });
+    if (!apiKey) {
+      return Response.json({ error: 'ElevenLabs API key not configured' }, { status: 500 });
     }
 
-    const finalVoiceId = voice_id || ELEVENLABS_VOICE_ID;
-
+    // Call ElevenLabs API
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${finalVoiceId}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
       {
         method: 'POST',
         headers: {
-          'xi-api-key': ELEVENLABS_API_KEY,
+          'Accept': 'audio/mpeg',
           'Content-Type': 'application/json',
+          'xi-api-key': apiKey,
         },
         body: JSON.stringify({
           text: text,
@@ -42,27 +33,27 @@ Deno.serve(async (req) => {
           voice_settings: {
             stability: 0.5,
             similarity_boost: 0.75,
-          }
-        })
+          },
+        }),
       }
     );
 
     if (!response.ok) {
-      throw new Error(`ElevenLabs API error: ${response.statusText}`);
+      const error = await response.text();
+      console.error('ElevenLabs error:', error);
+      return Response.json({ error: 'Text-to-speech failed' }, { status: 500 });
     }
 
-    const audioBuffer = await response.arrayBuffer();
-    const uint8Array = new Uint8Array(audioBuffer);
-    let base64Audio = '';
-    for (let i = 0; i < uint8Array.length; i++) {
-      base64Audio += String.fromCharCode(uint8Array[i]);
-    }
-    const dataUrl = `data:audio/mpeg;base64,${btoa(base64Audio)}`;
+    // Get audio data
+    const audioBlob = await response.arrayBuffer();
     
-    return Response.json({ audioUrl: dataUrl });
+    // Upload to storage
+    const audioFile = new File([audioBlob], 'speech.mp3', { type: 'audio/mpeg' });
+    const { file_url } = await base44.asServiceRole.integrations.Core.UploadFile({ file: audioFile });
+
+    return Response.json({ audioUrl: file_url });
   } catch (error) {
-    return Response.json({ 
-      error: error.message 
-    }, { status: 500 });
+    console.error('Error:', error);
+    return Response.json({ error: error.message }, { status: 500 });
   }
 });
