@@ -11,7 +11,8 @@ Deno.serve(async (req) => {
 
     const { text } = await req.json();
     const apiKey = Deno.env.get('ELEVENLABS_API_KEY');
-    const voiceId = Deno.env.get('ELEVENLABS_VOICE_ID');
+    // Use free tier voices (Bella - a standard free voice)
+    const voiceId = 'EXAVITQu4vr4xnSDxMaL';
 
     if (!apiKey) {
       return Response.json({ error: 'API key not configured' }, { status: 500 });
@@ -31,11 +32,6 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           text: text.trim(),
-          model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-          },
         }),
       }
     );
