@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Send, Loader2, ArrowLeft, Mic, MicOff, Volume2 } from 'lucide-react';
+import { Send, Loader2, ArrowLeft, Mic, MicOff, Volume2, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReactMarkdown from 'react-markdown';
@@ -380,74 +380,25 @@ User question: ${userMessage}`;
 
           {/* Voice Mode Indicator */}
           {isVoiceMode && (
-            <div className="border-t border-stone-800 bg-stone-800/50">
-              <div className="px-4 py-3">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`flex items-center gap-2 ${isListening ? 'text-red-500' : 'text-stone-400'}`}>
-                      {isListening ? <Mic className="w-4 h-4 animate-pulse" /> : <MicOff className="w-4 h-4" />}
-                      <span className="text-sm font-medium">
-                        {isListening ? 'Listening...' : 'Voice Paused'}
-                      </span>
-                    </div>
-                    {interimTranscript && (
-                      <span className="text-sm text-stone-400 italic">"{interimTranscript}"</span>
-                    )}
-                    {isSpeaking && (
-                      <span className="text-sm text-amber-50 flex items-center gap-1">
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                        Speaking...
-                      </span>
-                    )}
+            <div className="border-t border-stone-800 px-4 py-3 bg-stone-800/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`flex items-center gap-2 ${isListening ? 'text-red-500' : 'text-stone-400'}`}>
+                    {isListening ? <Mic className="w-4 h-4 animate-pulse" /> : <MicOff className="w-4 h-4" />}
+                    <span className="text-sm font-medium">
+                      {isListening ? 'Listening...' : 'Voice Paused'}
+                    </span>
                   </div>
-                  <button
-                    onClick={() => setShowAdvancedAudio(!showAdvancedAudio)}
-                    className="text-xs text-stone-400 hover:text-amber-50 transition-colors underline"
-                  >
-                    {showAdvancedAudio ? 'Hide' : 'Audio Settings'}
-                  </button>
+                  {interimTranscript && (
+                    <span className="text-sm text-stone-400 italic">"{interimTranscript}"</span>
+                  )}
+                  {isSpeaking && (
+                    <span className="text-sm text-amber-50 flex items-center gap-1">
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                      Speaking...
+                    </span>
+                  )}
                 </div>
-
-                {showAdvancedAudio && (
-                  <div className="mb-4 p-3 bg-stone-900/50 rounded-lg border border-stone-700 space-y-3">
-                    <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
-                    {audioDevices.input.length > 0 ? (
-                      <Select value={selectedInputDevice} onValueChange={setSelectedInputDevice}>
-                        <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="bg-stone-800 border-stone-700">
-                          {audioDevices.input.map((device) => (
-                            <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
-                              {device.label || `Microphone ${device.deviceId.substring(0, 5)}`}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <p className="text-xs text-stone-400">No input devices found</p>
-                    )}
-
-                    <div className="text-xs font-semibold text-stone-300 uppercase mt-3">Audio Output Device</div>
-                    {audioDevices.output.length > 0 ? (
-                      <Select value={selectedOutputDevice} onValueChange={setSelectedOutputDevice}>
-                        <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="bg-stone-800 border-stone-700">
-                          {audioDevices.output.map((device) => (
-                            <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
-                              {device.label || `Speaker ${device.deviceId.substring(0, 5)}`}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <p className="text-xs text-stone-400">No output devices found</p>
-                    )}
-                  </div>
-                )}
-
                 <div className="flex items-center gap-3">
                   <Select value={selectedVoice} onValueChange={setSelectedVoice}>
                     <SelectTrigger className="w-48 bg-stone-700 border-stone-600 text-amber-50">
@@ -481,15 +432,68 @@ User question: ${userMessage}`;
             </div>
           )}
 
+          {/* Advanced Audio Settings Dropdown */}
+          {showAdvancedAudio && isVoiceMode && (
+            <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50 space-y-3">
+              <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
+              {audioDevices.input.length > 0 ? (
+                <Select value={selectedInputDevice} onValueChange={setSelectedInputDevice}>
+                  <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-stone-800 border-stone-700">
+                    {audioDevices.input.map((device) => (
+                      <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
+                        {device.label || `Microphone ${device.deviceId.substring(0, 5)}`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <p className="text-xs text-stone-400">No input devices found</p>
+              )}
+
+              <div className="text-xs font-semibold text-stone-300 uppercase mt-3">Audio Output Device</div>
+              {audioDevices.output.length > 0 ? (
+                <Select value={selectedOutputDevice} onValueChange={setSelectedOutputDevice}>
+                  <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-stone-800 border-stone-700">
+                    {audioDevices.output.map((device) => (
+                      <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
+                        {device.label || `Speaker ${device.deviceId.substring(0, 5)}`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <p className="text-xs text-stone-400">No output devices found</p>
+              )}
+            </div>
+          )}
+
           {/* Input Area */}
           <div className="border-t border-stone-800 p-4">
             <div className="flex gap-2">
-              <Button
-                onClick={toggleVoiceMode}
-                className={`${isVoiceMode ? 'bg-red-700 hover:bg-red-600' : 'bg-stone-700 hover:bg-stone-600'} text-amber-50`}
-              >
-                {isVoiceMode ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-              </Button>
+              <div className="flex flex-col gap-2">
+                <Button
+                  onClick={toggleVoiceMode}
+                  className={`${isVoiceMode ? 'bg-red-700 hover:bg-red-600' : 'bg-stone-700 hover:bg-stone-600'} text-amber-50`}
+                >
+                  {isVoiceMode ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                </Button>
+                {isVoiceMode && (
+                  <Button
+                    onClick={() => setShowAdvancedAudio(!showAdvancedAudio)}
+                    variant="outline"
+                    size="icon"
+                    className="bg-stone-700 hover:bg-stone-600 border-stone-600 text-amber-50"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
