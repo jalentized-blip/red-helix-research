@@ -424,6 +424,9 @@ const HeaderSearch = () => {
             <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
               Contact
             </Link>
+            <Link to={createPageUrl('PeppyBot')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
+              PeppyBot
+            </Link>
             {isAuthenticated && (
               <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
                 Account
