@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
+import VoiceVisualizer from '@/components/VoiceVisualizer';
 
 const VOICE_OPTIONS = [
   { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel - Calm Female' },
@@ -167,75 +168,49 @@ export default function PeppyBot() {
       
       // Clean markdown and special characters for better speech
       const cleanText = text
-        .replace(/\*\*/g, '')
-        .replace(/⚠️/g, 'Warning:')
-        .replace(/[#*_]/g, '')
-        .replace(/\n+/g, '. ')
-        .substring(0, 500); // Limit length for faster response
-      
-      console.log('Requesting TTS for:', cleanText.substring(0, 50));
-      
-      const response = await base44.functions.invoke('textToSpeech', { 
-        text: cleanText,
-        voice_id: selectedVoice 
-      });
-      
-      console.log('TTS response:', response.data);
-      
-      if (response.data?.audioUrl) {
-        // Stop any currently playing audio
-        if (audioRef.current) {
-          audioRef.current.pause();
-          audioRef.current = null;
-        }
-        
-        console.log('Creating audio element');
-        const audio = new Audio(response.data.audioUrl);
-        audioRef.current = audio;
-        audio.volume = volume[0];
-        
-        // Set output device if supported
-        if (selectedOutputDevice && audio.setSinkId) {
-          try {
-            await audio.setSinkId(selectedOutputDevice);
-            console.log('Audio output device set:', selectedOutputDevice);
-          } catch (err) {
-            console.warn('Could not set output device:', err);
+            .replace(/\*\*/g, '')
+            .replace(/⚠️/g, 'Warning:')
+            .replace(/[#*_]/g, '')
+            .replace(/\n+/g, '. ')
+            .substring(0, 500);
+
+          const response = await base44.functions.invoke('textToSpeech', { 
+            text: cleanText,
+            voice_id: selectedVoice 
+          });
+
+          if (response.data?.audioUrl) {
+            // Create new audio element
+            const audio = new Audio(response.data.audioUrl);
+            audio.volume = volume[0];
+            audioRef.current = audio;
+
+            // Set output device if supported
+            if (selectedOutputDevice && audio.setSinkId) {
+              try {
+                await audio.setSinkId(selectedOutputDevice);
+              } catch (err) {
+                console.warn('Could not set output device:', err);
+              }
+            }
+
+            audio.onended = () => {
+              setIsSpeaking(false);
+              audioRef.current = null;
+            };
+
+            audio.onerror = (e) => {
+              console.error('Audio error:', e);
+              setIsSpeaking(false);
+            };
+
+            try {
+              await audio.play();
+            } catch (err) {
+              console.error('Play error:', err);
+              setIsSpeaking(false);
+            }
           }
-        }
-        
-        audio.onloadeddata = () => {
-          console.log('Audio loaded successfully');
-        };
-        
-        audio.onended = () => {
-          console.log('Audio playback ended');
-          setIsSpeaking(false);
-          audioRef.current = null;
-        };
-        
-        audio.onerror = (e) => {
-          console.error('Audio playback error:', e);
-          console.error('Audio src:', audio.src);
-          setIsSpeaking(false);
-          audioRef.current = null;
-        };
-        
-        console.log('Starting playback');
-        try {
-          // Ensure audio plays with user gesture context
-          const playPromise = audio.play();
-          if (playPromise !== undefined) {
-            await playPromise;
-          }
-        } catch (err) {
-          console.error('Play error:', err);
-          setIsSpeaking(false);
-        }
-      } else {
-        console.error('No audioUrl in response');
-        setIsSpeaking(false);
-      }
     } catch (error) {
       console.error('Text-to-speech error:', error);
       setIsSpeaking(false);
@@ -325,9 +300,10 @@ User question: ${userMessage}`;
         </div>
 
         {/* Chat Container */}
-        <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-800 rounded-xl overflow-hidden">
+        <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-800 rounded-xl overflow-hidden relative">
+          <VoiceVisualizer isActive={isSpeaking} audioRef={audioRef} />
           {/* Messages */}
-          <div className="h-[60vh] overflow-y-auto p-6 space-y-4">
+          <div className={`h-[60vh] overflow-y-auto p-6 space-y-4 ${isSpeaking ? 'blur-sm' : ''} transition-all duration-300`}>
             <AnimatePresence initial={false}>
               {messages.map((message, index) => (
                 <motion.div
