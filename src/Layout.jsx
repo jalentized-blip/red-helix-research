@@ -173,14 +173,20 @@ const HeaderSearch = () => {
                       </h3>
                       <div className="space-y-1">
                         {filteredProducts.slice(0, 8).map((product) => (
-                          <a
+                          <button
                             key={product.id}
-                            href={createPageUrl('Home') + '?product=' + encodeURIComponent(product.id)}
-                            className="block px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
+                            className="block w-full text-left px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
                             onClick={() => {
                               setSearchQuery('');
                               setShowResults(false);
                               setIsExpanded(false);
+                              window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
+                              setTimeout(() => {
+                                const element = document.getElementById('products');
+                                if (element) {
+                                  element.scrollIntoView({ behavior: 'smooth' });
+                                }
+                              }, 100);
                             }}
                           >
                             <div className="font-semibold text-amber-50 text-sm">{product.name}</div>
@@ -188,7 +194,7 @@ const HeaderSearch = () => {
                               <div className="text-xs text-stone-400 line-clamp-1">{product.description}</div>
                             )}
                             <div className="text-xs text-red-600 mt-1">From ${product.price_from}</div>
-                          </a>
+                          </button>
                         ))}
                         {filteredProducts.length > 8 && (
                           <div className="px-3 py-2 text-xs text-stone-400">
