@@ -99,9 +99,9 @@ export default function COAReports() {
           <p className="text-stone-400">Browse Certificates of Analysis uploaded by our community</p>
         </div>
 
-        {/* Search */}
-        <div className="mb-8 max-w-md">
-          <div className="relative">
+        {/* Search and Admin Controls */}
+        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="relative max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500" />
             <Input
               type="text"
@@ -111,6 +111,36 @@ export default function COAReports() {
               className="pl-10 bg-stone-900 border-stone-700 text-amber-50 placeholder:text-stone-400"
             />
           </div>
+
+          {isAdmin && selectedIds.size > 0 && (
+            <div className="flex gap-2">
+              <Button
+                onClick={toggleSelectAll}
+                variant="outline"
+                className="border-stone-700 text-amber-50"
+              >
+                {selectedIds.size === filteredCOAs.length ? 'Deselect All' : 'Select All'}
+              </Button>
+              <Button
+                onClick={handleDeleteSelected}
+                disabled={isDeleting}
+                className="bg-red-900 hover:bg-red-800 text-amber-50"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete ({selectedIds.size})
+              </Button>
+            </div>
+          )}
+
+          {isAdmin && selectedIds.size === 0 && filteredCOAs.length > 0 && (
+            <Button
+              onClick={toggleSelectAll}
+              variant="outline"
+              className="border-stone-700 text-amber-50"
+            >
+              Select All
+            </Button>
+          )}
         </div>
 
         {/* COA Grid */}
