@@ -156,16 +156,30 @@ export default function LearnMore() {
                     </p>
 
                     <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2 text-white/80 text-sm">
-                        <Beaker className="w-4 h-4" />
-                        <span>View Research</span>
-                      </div>
-                      <span className="text-2xl font-bold text-amber-300">
-                        ${product.price_from}+
+                      <span className="text-sm font-semibold text-amber-300">
+                        From ${product.price_from}
                       </span>
                     </div>
 
-                    <SourcesBubble productName={product.name} />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
+                          setTimeout(() => {
+                            window.location.href = createPageUrl('Home');
+                          }, 100);
+                        }}
+                        className="flex-1 px-3 py-2 bg-barn-brown hover:bg-barn-brown/90 text-amber-50 text-xs font-semibold rounded-lg transition-colors"
+                      >
+                        View Product
+                      </button>
+                      <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} onClick={(e) => e.stopPropagation()}>
+                        <button className="px-3 py-2 bg-black/40 hover:bg-black/60 text-amber-50 text-xs font-semibold rounded-lg transition-colors">
+                          Research
+                        </button>
+                      </Link>
+                    </div>
                   </div>
 
                   {/* Hover effect */}
