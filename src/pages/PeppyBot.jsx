@@ -9,12 +9,11 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
-import GrayMarketEducationModule from '@/components/GrayMarketEducationModule';
+
 
 // Uses ElevenLabs free tier voice
 
 export default function PeppyBot() {
-  const [showEducationModule, setShowEducationModule] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -123,22 +122,6 @@ User question: ${userMessage}`
     }
   };
 
-  if (showEducationModule) {
-    return (
-      <div className="min-h-screen bg-stone-950">
-        <div className="max-w-6xl mx-auto px-4 pt-8">
-          <button
-            onClick={() => setShowEducationModule(false)}
-            className="mb-6 text-stone-400 hover:text-amber-50 transition-colors flex items-center gap-2"
-          >
-            ← Back to Chat
-          </button>
-        </div>
-        <GrayMarketEducationModule />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -240,16 +223,20 @@ User question: ${userMessage}`
           </div>
         </div>
 
-        {/* Suggested Prompts */}
-        <div className="mt-6 space-y-2">
-          <p className="text-xs text-stone-400 uppercase tracking-wider">Try asking:</p>
-          <button
-            onClick={() => setShowEducationModule(true)}
-            className="w-full p-3 bg-barn-brown/10 border border-barn-brown/30 rounded-lg hover:bg-barn-brown/20 transition-colors text-left"
-          >
-            <p className="text-sm font-semibold text-amber-50">Learn about the gray market for peptides</p>
-            <p className="text-xs text-stone-400 mt-1">Explore efficiency, empowerment & self-testing safety</p>
-          </button>
+        {/* Quick Links */}
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <Link to={createPageUrl('Home') + '#products'} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
+            <p className="text-sm font-semibold text-amber-50">Products</p>
+          </Link>
+          <Link to={createPageUrl('PeptideCalculator')} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
+            <p className="text-sm font-semibold text-amber-50">Calculator</p>
+          </Link>
+          <Link to={createPageUrl('LearnMore')} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
+            <p className="text-sm font-semibold text-amber-50">Learn More</p>
+          </Link>
+          <Link to={createPageUrl('Home') + '#certificates'} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
+            <p className="text-sm font-semibold text-amber-50">COAs</p>
+          </Link>
         </div>
       </div>
     </div>
