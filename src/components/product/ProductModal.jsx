@@ -201,7 +201,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
             >
               <button
                 onClick={() => setShowCOA(false)}
-                className="absolute top-4 right-4 p-2 bg-stone-800 hover:bg-stone-700 rounded-full z-10"
+                className="absolute top-4 right-4 p-2 bg-stone-800 hover:bg-stone-700 rounded-full z-20"
               >
                 <X className="w-5 h-5 text-amber-50" />
               </button>
@@ -210,26 +210,20 @@ export default function ProductModal({ product, isOpen, onClose }) {
               {productCOAs.length > 1 && (
                 <>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePrevCOA();
-                    }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-10"
+                    onClick={handlePrevCOA}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-20"
                   >
                     <ChevronLeft className="w-6 h-6 text-amber-50" />
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleNextCOA();
-                    }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-10"
+                    onClick={handleNextCOA}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-20"
                   >
                     <ChevronRight className="w-6 h-6 text-amber-50" />
                   </button>
 
                   {/* COA Counter */}
-                  <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-stone-800 rounded-full z-10">
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-stone-800 rounded-full z-20 pointer-events-none">
                     <p className="text-sm text-amber-50 font-semibold">
                       {currentCoaIndex + 1} / {productCOAs.length}
                     </p>
