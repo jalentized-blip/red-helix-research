@@ -9,9 +9,9 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { text, voice_id } = await req.json();
+    const { text } = await req.json();
     const apiKey = Deno.env.get('ELEVENLABS_API_KEY');
-    const voiceId = voice_id || '21m00Tcm4TlvDq8ikWAM';
+    const voiceId = Deno.env.get('ELEVENLABS_VOICE_ID');
 
     if (!apiKey) {
       return Response.json({ error: 'API key not configured' }, { status: 500 });
