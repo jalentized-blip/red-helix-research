@@ -43,8 +43,10 @@ Deno.serve(async (req) => {
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('ElevenLabs error:', response.status, errorText);
-      return Response.json({ error: 'Speech synthesis failed' }, { status: 500 });
+      console.error('ElevenLabs error status:', response.status);
+      console.error('ElevenLabs error response:', errorText);
+      console.error('Request details - Voice ID:', voiceId, 'Text length:', text.trim().length);
+      return Response.json({ error: `ElevenLabs error: ${errorText}` }, { status: 500 });
     }
 
     const audioBlob = await response.arrayBuffer();
