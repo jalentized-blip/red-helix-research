@@ -20,6 +20,7 @@ Deno.serve(async (req) => {
 
     console.log('Generating speech for:', text.substring(0, 50));
     console.log('Using voice ID:', voiceId);
+    console.log('API Key present:', !!apiKey, 'Key length:', apiKey?.length);
 
     // Call ElevenLabs API
     const response = await fetch(
@@ -44,10 +45,13 @@ Deno.serve(async (req) => {
       }
     );
 
+    console.log('ElevenLabs response status:', response.status);
+    
     if (!response.ok) {
       const error = await response.text();
-      console.error('ElevenLabs API error:', error);
-      return Response.json({ error: `API error: ${error}` }, { status: response.status });
+      console.error('ElevenLabs API error status:', response.status);
+      console.error('ElevenLabs API error body:', error);
+      return Response.json({ error: `ElevenLabs error: ${error}` }, { status: response.status });
     }
 
     console.log('Audio generated successfully');
