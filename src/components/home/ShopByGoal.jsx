@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Scale, Heart, Brain, Zap } from "lucide-react";
+import { Scale, Heart, Brain, Zap, Info } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
+
+const peptideInfo = {
+  "Retatrutide": "Triple agonist targeting GLP-1, GIP, and glucagon receptors for advanced metabolic research",
+  "Tirzepatide": "Dual GIP/GLP-1 receptor agonist for metabolic and weight management studies",
+  "Semaglutide": "GLP-1 receptor agonist used in diabetes and obesity research",
+  "BPC 157": "Body Protection Compound for tissue repair and gut healing research",
+  "TB500": "Thymosin Beta-4 fragment promoting cellular migration and wound healing",
+  "BPC 157 + TB500": "Synergistic blend combining tissue repair and healing properties",
+  "Semax": "ACTH analog enhancing cognitive function and neuroprotection",
+  "Selank": "Anxiolytic peptide promoting stress resilience and mental clarity",
+  "Pinealon": "Brain-specific peptide supporting neurological health and function",
+  "MOTS-c": "Mitochondrial-derived peptide enhancing metabolic regulation and longevity",
+  "HGH": "Human Growth Hormone for muscle growth and anti-aging research",
+  "Epithalon": "Pineal peptide regulating circadian rhythm and cellular aging"
+};
 
 const goals = [
   {
@@ -45,6 +60,8 @@ const goals = [
 ];
 
 export default function ShopByGoal({ products = [], onSelectStrength, isAuthenticated = true }) {
+  const [hoveredPeptide, setHoveredPeptide] = useState(null);
+
   return (
     <section id="goals" className="py-20 px-4 bg-stone-950/50 relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -110,21 +127,25 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
 
                   <div className="flex flex-wrap gap-2">
                     {goal.products.map((productName) => {
-                      const matchedProduct = products.find(p => p.name === productName);
                       return (
-                        <button
-                           key={productName}
-                           onClick={() => {
-                             if (!isAuthenticated) {
-                               base44.auth.redirectToLogin(createPageUrl('Home'));
-                             } else if (matchedProduct && onSelectStrength) {
-                               onSelectStrength(matchedProduct);
-                             }
-                           }}
-                           className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all"
-                         >
-                           {productName}
-                         </button>
+                        <div
+                          key={productName}
+                          className="relative"
+                          onMouseEnter={() => setHoveredPeptide(productName)}
+                          onMouseLeave={() => setHoveredPeptide(null)}
+                        >
+                          <div className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all cursor-default flex items-center gap-1.5">
+                            <Info className="w-3 h-3" />
+                            {productName}
+                          </div>
+                          {hoveredPeptide === productName && (
+                            <div className="absolute z-50 bottom-full left-0 mb-2 w-64 bg-stone-900 border border-red-700/50 rounded-lg p-3 shadow-xl">
+                              <p className="text-xs text-stone-300 leading-relaxed">
+                                {peptideInfo[productName]}
+                              </p>
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                   </div>
