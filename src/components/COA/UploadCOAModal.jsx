@@ -18,6 +18,8 @@ export default function UploadCOAModal({ isOpen, onClose, onSuccess }) {
   const [peptideName, setPeptideName] = useState('');
   const [peptideStrength, setPeptideStrength] = useState('');
   const [coaLink, setCoaLink] = useState('');
+  const [isFromBarn, setIsFromBarn] = useState(null);
+  const [batchNumber, setBatchNumber] = useState('');
 
   const handleFileSelect = async (e) => {
     const selectedFile = e.target.files?.[0];
@@ -105,7 +107,7 @@ If you cannot find either field, set it to null.`,
   };
 
   const handleSubmit = async () => {
-    if (!peptideName || !peptideStrength || !fileUrl) {
+    if (!peptideName || !peptideStrength || !fileUrl || isFromBarn === null) {
       alert('Please fill in all required fields');
       return;
     }
@@ -119,7 +121,9 @@ If you cannot find either field, set it to null.`,
         coa_link: coaLink,
         verified: true,
         uploaded_by: (await base44.auth.me()).email,
-        approved: false
+        approved: false,
+        is_from_barn: isFromBarn,
+        batch_number: batchNumber || null
       });
 
       onSuccess?.();
@@ -140,6 +144,8 @@ If you cannot find either field, set it to null.`,
     setPeptideStrength('');
     setCoaLink('');
     setExtractionError(null);
+    setIsFromBarn(null);
+    setBatchNumber('');
     onClose();
   };
 
@@ -281,6 +287,46 @@ If you cannot find either field, set it to null.`,
                   value={coaLink}
                   onChange={(e) => setCoaLink(e.target.value)}
                   placeholder="Direct link to COA document"
+                  className="bg-stone-800 border-stone-700 text-amber-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-amber-50 mb-3">
+                  Is this COA from Barn? *
+                </label>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setIsFromBarn(true)}
+                    className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
+                      isFromBarn === true
+                        ? 'bg-barn-brown text-amber-50'
+                        : 'bg-stone-800 border border-stone-700 text-stone-300 hover:bg-stone-700'
+                    }`}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => setIsFromBarn(false)}
+                    className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
+                      isFromBarn === false
+                        ? 'bg-barn-brown text-amber-50'
+                        : 'bg-stone-800 border border-stone-700 text-stone-300 hover:bg-stone-700'
+                    }`}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-amber-50 mb-2">
+                  Batch Number (Optional)
+                </label>
+                <Input
+                  value={batchNumber}
+                  onChange={(e) => setBatchNumber(e.target.value)}
+                  placeholder="e.g., LOT-2024-001"
                   className="bg-stone-800 border-stone-700 text-amber-50"
                 />
               </div>
