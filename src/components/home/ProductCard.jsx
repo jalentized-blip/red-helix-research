@@ -42,8 +42,21 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4 }}
       viewport={{ once: true }}
+      whileHover={{ 
+        scale: 1.05, 
+        y: -8,
+        zIndex: 50
+      }}
+      className="relative"
     >
-      <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full">
+      {/* Depth of field blur effect on siblings */}
+      <motion.div
+        className="absolute inset-0 -m-12 pointer-events-none"
+        initial={{ backdropFilter: "blur(0px)" }}
+        whileHover={{ backdropFilter: "blur(2px)" }}
+      />
+      
+      <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20">
         {/* Hover glow */}
         <div className="absolute inset-0 bg-gradient-to-t from-red-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
