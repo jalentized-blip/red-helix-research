@@ -6,6 +6,7 @@ import { ArrowLeft, Beaker, TestTube, CheckCircle, AlertCircle, TrendingUp } fro
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import ProductModal from '@/components/product/ProductModal';
 
 export default function PeptideLearn() {
   const [peptideData, setPeptideData] = useState(null);
