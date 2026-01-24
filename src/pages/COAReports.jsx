@@ -259,6 +259,20 @@ export default function COAReports() {
                     <p className="text-sm font-semibold text-stone-300">{coa.peptide_strength}</p>
                   </div>
 
+                  {coa.is_from_barn && (
+                    <div>
+                      <p className="text-xs text-amber-400 uppercase tracking-wider font-semibold">Source</p>
+                      <p className="text-sm text-amber-300">From Barn</p>
+                    </div>
+                  )}
+
+                  {coa.batch_number && (
+                    <div>
+                      <p className="text-xs text-stone-400 uppercase tracking-wider">Batch Number</p>
+                      <p className="text-sm text-stone-300">{coa.batch_number}</p>
+                    </div>
+                  )}
+
                   {coa.uploaded_by && (
                     <div>
                       <p className="text-xs text-stone-400 uppercase tracking-wider">Uploaded By</p>
