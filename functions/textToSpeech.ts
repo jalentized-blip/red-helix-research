@@ -77,6 +77,7 @@ Deno.serve(async (req) => {
     
     const audioDataUrl = `data:audio/mpeg;base64,${base64Audio}`;
 
+    console.log('Returning successful response with audio URL');
     return Response.json({ audioUrl: audioDataUrl });
   } catch (error) {
     console.error('Function error:', error);
