@@ -20,6 +20,7 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [sortBy, setSortBy] = useState("featured");
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = activeCategory === "all" || product.category === activeCategory;
@@ -29,7 +30,23 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
     return matchesCategory && matchesSearch;
   });
 
-  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 9);
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch(sortBy) {
+      case "price-low":
+        return a.price_from - b.price_from;
+      case "price-high":
+        return b.price_from - a.price_from;
+      case "name-asc":
+        return a.name.localeCompare(b.name);
+      case "name-desc":
+        return b.name.localeCompare(a.name);
+      case "featured":
+      default:
+        return (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0);
+    }
+  });
+
+  const displayedProducts = showAll ? sortedProducts : sortedProducts.slice(0, 9);
 
   return (
     <section id="products" className="py-20 px-4 relative">
