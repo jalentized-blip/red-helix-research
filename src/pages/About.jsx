@@ -21,7 +21,7 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
           <div className="mt-4 space-y-0">
             <p className="text-3xl font-black text-amber-50">{highlight}</p>
             {highlightSecondary && (
-              <p className="text-3xl font-black text-barn-tan">{highlightSecondary}</p>
+              <p className="text-3xl font-black text-amber-50">{highlightSecondary}</p>
             )}
             <p className="text-white font-semibold text-lg mt-6 mb-3">Every Batch Tested. Every Result Trusted.</p>
             <p className="text-barn-tan text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
