@@ -1,23 +1,206 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Send } from 'lucide-react';
+import { ShoppingCart, Menu, X, Send, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { getCartCount } from '@/components/utils/cart';
-      import { Link } from 'react-router-dom';
-      import { createPageUrl } from '@/utils';
-      import { base44 } from '@/api/base44Client';
-      import MolecularBackground from '@/components/MolecularBackground';
-      import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
-      import GlobalSearch from '@/components/GlobalSearch';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+import { base44 } from '@/api/base44Client';
+import MolecularBackground from '@/components/MolecularBackground';
+import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 
 const navLinks = [
-                          { label: "Peptides", href: "#products" },
-                          { label: "Peptide Blends", href: "#goals" },
-                          { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
-                          { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
-                          { label: "COAs", href: "#certificates" },
-                        ];
+  { label: "Peptides", href: "#products" },
+  { label: "Peptide Blends", href: "#goals" },
+  { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
+  { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
+  { label: "COAs", href: "#certificates" },
+];
+
+const HeaderSearch = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showResults, setShowResults] = useState(false);
+
+  const { data: products = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => base44.entities.Product.list(),
+  });
+
+  const pages = [
+    { name: 'Home', url: createPageUrl('Home'), description: 'Main page with all products', keywords: ['home', 'main', 'shop', 'products', 'peptides'] },
+    { name: 'About', url: createPageUrl('About'), description: 'Our story and mission', keywords: ['about', 'story', 'mission', 'transparency', 'who we are'] },
+    { name: 'Contact', url: createPageUrl('Contact'), description: 'Get in touch with us', keywords: ['contact', 'support', 'help', 'discord', 'telegram', 'whatsapp'] },
+    { name: 'Peptide Calculator', url: createPageUrl('PeptideCalculator'), description: 'Calculate dosing and reconstitution', keywords: ['calculator', 'dosing', 'dose', 'reconstitution', 'mixing', 'measure'] },
+    { name: 'Learn More', url: createPageUrl('LearnMore'), description: 'Research and peptide information', keywords: ['learn', 'research', 'information', 'education', 'science'] },
+    { name: 'Cart', url: createPageUrl('Cart'), description: 'Your shopping cart', keywords: ['cart', 'checkout', 'purchase', 'buy'] },
+    { name: 'Account', url: createPageUrl('Account'), description: 'Manage your account and orders', keywords: ['account', 'orders', 'profile', 'settings'] },
+  ];
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  const filteredPages = pages.filter(page =>
+    page.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    page.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    page.keywords.some(keyword => keyword.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  const hasResults = searchQuery.length > 0 && (filteredProducts.length > 0 || filteredPages.length > 0);
+
+  return (
+    <div className="flex justify-center pb-3 pt-2 border-t border-stone-800/30">
+      <motion.div
+        onMouseEnter={() => setIsExpanded(true)}
+        onMouseLeave={() => {
+          setIsExpanded(false);
+          setShowResults(false);
+        }}
+        className="relative"
+      >
+        {/* Magnifying Glass Icon */}
+        <motion.div
+          animate={{
+            y: [0, -3, 0],
+            opacity: isExpanded ? 0 : 0.4,
+          }}
+          transition={{
+            y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+            opacity: { duration: 0.3 }
+          }}
+          className="absolute left-0 top-0"
+        >
+          <Search className="w-6 h-6 text-amber-50" />
+        </motion.div>
+
+        {/* Expanded Search Bar */}
+        <motion.div
+          initial={false}
+          animate={{
+            width: isExpanded ? '400px' : '24px',
+            opacity: isExpanded ? 1 : 0,
+          }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          className="relative"
+        >
+          {isExpanded && (
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+              <input
+                type="text"
+                placeholder="Search products, pages..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowResults(true);
+                }}
+                className="w-full pl-10 pr-10 py-2 bg-stone-900/90 backdrop-blur-md border border-stone-700 rounded-full text-amber-50 text-sm placeholder:text-stone-400 focus:outline-none focus:border-red-700/50"
+                autoFocus
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setShowResults(false);
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-50 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          )}
+        </motion.div>
+
+        {/* Search Results Dropdown */}
+        <AnimatePresence>
+          {isExpanded && showResults && searchQuery && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-full mt-2 w-[400px] max-h-[60vh] overflow-y-auto bg-stone-900/95 backdrop-blur-md border border-stone-700 rounded-lg shadow-2xl"
+            >
+              {!hasResults ? (
+                <div className="p-6 text-center text-stone-400 text-sm">
+                  No results found for "{searchQuery}"
+                </div>
+              ) : (
+                <div className="p-3">
+                  {/* Pages Section */}
+                  {filteredPages.length > 0 && (
+                    <div className="mb-3">
+                      <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2 px-2">
+                        Pages
+                      </h3>
+                      <div className="space-y-1">
+                        {filteredPages.map((page) => (
+                          <Link
+                            key={page.name}
+                            to={page.url}
+                            className="block px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
+                            onClick={() => {
+                              setSearchQuery('');
+                              setShowResults(false);
+                              setIsExpanded(false);
+                            }}
+                          >
+                            <div className="font-semibold text-amber-50 text-sm">{page.name}</div>
+                            <div className="text-xs text-stone-400">{page.description}</div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Products Section */}
+                  {filteredProducts.length > 0 && (
+                    <div>
+                      <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2 px-2">
+                        Products
+                      </h3>
+                      <div className="space-y-1">
+                        {filteredProducts.slice(0, 8).map((product) => (
+                          <Link
+                            key={product.id}
+                            to={createPageUrl('Home') + '#products'}
+                            className="block px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
+                            onClick={() => {
+                              setSearchQuery('');
+                              setShowResults(false);
+                              setIsExpanded(false);
+                            }}
+                          >
+                            <div className="font-semibold text-amber-50 text-sm">{product.name}</div>
+                            {product.description && (
+                              <div className="text-xs text-stone-400 line-clamp-1">{product.description}</div>
+                            )}
+                            <div className="text-xs text-red-600 mt-1">From ${product.price_from}</div>
+                          </Link>
+                        ))}
+                        {filteredProducts.length > 8 && (
+                          <div className="px-3 py-2 text-xs text-stone-400">
+                            +{filteredProducts.length - 8} more products
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
+  );
+};
 
       export default function Layout({ children }) {
         const [scrolled, setScrolled] = useState(false);
@@ -186,11 +369,10 @@ const navLinks = [
         `}</style>
         <MolecularBackground />
         <FloatingMolecularFormulas />
-        <GlobalSearch />
 
         {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 py-3 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
+          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 
@@ -303,9 +485,12 @@ const navLinks = [
                   </nav>
                 </SheetContent>
               </Sheet>
-          </div>
-        </div>
-      </header>
+              </div>
+              </div>
+
+              {/* Global Search - Centered Under Navigation */}
+              <HeaderSearch />
+              </header>
       
 
       
