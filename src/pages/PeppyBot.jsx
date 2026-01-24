@@ -152,7 +152,24 @@ export default function PeppyBot() {
         audioRef.current.pause();
       }
     };
-  }, [isVoiceMode, isListening]);
+    }, [isVoiceMode, isListening]);
+
+    // Typing animation effect
+    useEffect(() => {
+    if (!isSpeaking || !speakingText) return;
+
+    const typingSpeed = 30; // ms per character
+    const interval = setInterval(() => {
+      if (textIndexRef.current < speakingText.length) {
+        setDisplayedText(speakingText.slice(0, textIndexRef.current + 1));
+        textIndexRef.current += 1;
+      } else {
+        clearInterval(interval);
+      }
+    }, typingSpeed);
+
+    return () => clearInterval(interval);
+    }, [isSpeaking, speakingText]);
 
   const toggleVoiceMode = () => {
     if (isVoiceMode) {
