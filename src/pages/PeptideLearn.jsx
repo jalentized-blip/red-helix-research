@@ -12,6 +12,7 @@ export default function PeptideLearn() {
   const [peptideData, setPeptideData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
