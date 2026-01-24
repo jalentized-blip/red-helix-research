@@ -45,6 +45,15 @@ export default function PeppyBot() {
   const recognitionRef = useRef(null);
   const audioRef = useRef(null);
 
+  // Create persistent audio element on mount
+  useEffect(() => {
+    if (!audioRef.current) {
+      const audio = new Audio();
+      audio.muted = false;
+      audioRef.current = audio;
+    }
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -178,16 +187,11 @@ export default function PeppyBot() {
       });
 
       if (response.data?.audioUrl) {
-        // Stop any existing audio
-        if (audioRef.current) {
-          audioRef.current.pause();
-          audioRef.current = null;
-        }
-
-        // Create new audio element
-        const audio = new Audio(response.data.audioUrl);
+        // Use persistent audio element
+        const audio = audioRef.current;
+        audio.src = response.data.audioUrl;
         audio.volume = volume[0];
-        audioRef.current = audio;
+        audio.muted = false;
 
         // Set output device if supported
         if (selectedOutputDevice && audio.setSinkId) {
@@ -205,7 +209,6 @@ export default function PeppyBot() {
 
         audio.onended = () => {
           setIsSpeaking(false);
-          audioRef.current = null;
           // Resume listening if in voice mode
           if (isVoiceMode && recognitionRef.current) {
             recognitionRef.current.start();
@@ -218,12 +221,11 @@ export default function PeppyBot() {
         };
 
         // Play the audio
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((err) => {
-            console.error('Play error:', err);
-            setIsSpeaking(false);
-          });
+        try {
+          await audio.play();
+        } catch (err) {
+          console.error('Play error:', err);
+          setIsSpeaking(false);
         }
       }
     } catch (error) {
