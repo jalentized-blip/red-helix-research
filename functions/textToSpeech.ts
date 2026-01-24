@@ -44,14 +44,15 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Text-to-speech failed' }, { status: 500 });
     }
 
-    // Get audio data
+    // Get audio data and convert to base64
     const audioBlob = await response.arrayBuffer();
+    const base64Audio = btoa(
+      new Uint8Array(audioBlob).reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
     
-    // Upload to storage
-    const audioFile = new File([audioBlob], 'speech.mp3', { type: 'audio/mpeg' });
-    const { file_url } = await base44.asServiceRole.integrations.Core.UploadFile({ file: audioFile });
+    const audioDataUrl = `data:audio/mpeg;base64,${base64Audio}`;
 
-    return Response.json({ audioUrl: file_url });
+    return Response.json({ audioUrl: audioDataUrl });
   } catch (error) {
     console.error('Error:', error);
     return Response.json({ error: error.message }, { status: 500 });

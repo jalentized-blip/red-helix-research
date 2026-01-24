@@ -124,21 +124,47 @@ export default function PeppyBot() {
   const speakText = async (text) => {
     try {
       setIsSpeaking(true);
+      
+      // Clean markdown and special characters for better speech
+      const cleanText = text
+        .replace(/\*\*/g, '')
+        .replace(/⚠️/g, 'Warning:')
+        .replace(/[#*_]/g, '')
+        .replace(/\n+/g, '. ');
+      
       const response = await base44.functions.invoke('textToSpeech', { 
-        text: text.replace(/\*\*/g, '').replace(/⚠️/g, 'Warning:'),
+        text: cleanText,
         voice_id: selectedVoice 
       });
       
-      if (response.data.audioUrl) {
+      if (response.data?.audioUrl) {
+        // Stop any currently playing audio
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
+        
         const audio = new Audio(response.data.audioUrl);
         audioRef.current = audio;
         audio.volume = volume[0];
         
         audio.onended = () => {
           setIsSpeaking(false);
+          audioRef.current = null;
         };
         
-        await audio.play();
+        audio.onerror = (e) => {
+          console.error('Audio playback error:', e);
+          setIsSpeaking(false);
+          audioRef.current = null;
+        };
+        
+        await audio.play().catch(err => {
+          console.error('Play error:', err);
+          setIsSpeaking(false);
+        });
+      } else {
+        setIsSpeaking(false);
       }
     } catch (error) {
       console.error('Text-to-speech error:', error);
