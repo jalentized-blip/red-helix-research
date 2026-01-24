@@ -164,53 +164,68 @@ export default function PeppyBot() {
 
   const speakText = async (text) => {
     try {
-      setIsSpeaking(true);
-      
       // Clean markdown and special characters for better speech
       const cleanText = text
             .replace(/\*\*/g, '')
             .replace(/⚠️/g, 'Warning:')
             .replace(/[#*_]/g, '')
             .replace(/\n+/g, '. ')
-            .substring(0, 500);
+            .substring(0, 1000);
 
-          const response = await base44.functions.invoke('textToSpeech', { 
-            text: cleanText,
-            voice_id: selectedVoice 
-          });
+      const response = await base44.functions.invoke('textToSpeech', { 
+        text: cleanText,
+        voice_id: selectedVoice 
+      });
 
-          if (response.data?.audioUrl) {
-            // Create new audio element
-            const audio = new Audio(response.data.audioUrl);
-            audio.volume = volume[0];
-            audioRef.current = audio;
+      if (response.data?.audioUrl) {
+        // Stop any existing audio
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
 
-            // Set output device if supported
-            if (selectedOutputDevice && audio.setSinkId) {
-              try {
-                await audio.setSinkId(selectedOutputDevice);
-              } catch (err) {
-                console.warn('Could not set output device:', err);
-              }
-            }
+        // Create new audio element
+        const audio = new Audio(response.data.audioUrl);
+        audio.volume = volume[0];
+        audioRef.current = audio;
 
-            audio.onended = () => {
-              setIsSpeaking(false);
-              audioRef.current = null;
-            };
-
-            audio.onerror = (e) => {
-              console.error('Audio error:', e);
-              setIsSpeaking(false);
-            };
-
-            try {
-              await audio.play();
-            } catch (err) {
-              console.error('Play error:', err);
-              setIsSpeaking(false);
-            }
+        // Set output device if supported
+        if (selectedOutputDevice && audio.setSinkId) {
+          try {
+            await audio.setSinkId(selectedOutputDevice);
+          } catch (err) {
+            console.warn('Could not set output device:', err);
           }
+        }
+
+        // Set up event listeners
+        audio.onplay = () => {
+          setIsSpeaking(true);
+        };
+
+        audio.onended = () => {
+          setIsSpeaking(false);
+          audioRef.current = null;
+          // Resume listening if in voice mode
+          if (isVoiceMode && recognitionRef.current) {
+            recognitionRef.current.start();
+          }
+        };
+
+        audio.onerror = (e) => {
+          console.error('Audio error:', e);
+          setIsSpeaking(false);
+        };
+
+        // Play the audio
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.error('Play error:', err);
+            setIsSpeaking(false);
+          });
+        }
+      }
     } catch (error) {
       console.error('Text-to-speech error:', error);
       setIsSpeaking(false);
@@ -261,7 +276,6 @@ export default function PeppyBot() {
 
       // Only speak if in voice mode
       if (shouldUseVoice) {
-        setIsSpeaking(true);
         await speakText(response);
       }
     } catch (error) {
@@ -269,7 +283,6 @@ export default function PeppyBot() {
       setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
 
       if (shouldUseVoice) {
-        setIsSpeaking(true);
         await speakText(errorMsg);
       }
     } finally {
