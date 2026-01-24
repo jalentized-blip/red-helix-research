@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X, ShoppingCart, CheckCircle, Info } from "lucide-react";
+import { X, ShoppingCart, CheckCircle, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import { addToCart } from '@/components/utils/cart';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -13,6 +13,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
   const [addedToCart, setAddedToCart] = useState(false);
   const [showCOA, setShowCOA] = useState(false);
   const [hoveredInfo, setHoveredInfo] = useState(false);
+  const [currentCoaIndex, setCurrentCoaIndex] = useState(0);
 
   const { data: coas = [] } = useQuery({
     queryKey: ['coas'],
@@ -22,9 +23,17 @@ export default function ProductModal({ product, isOpen, onClose }) {
 
   if (!product) return null;
 
-  const productCOA = coas.find(coa => 
+  const productCOAs = coas.filter(coa => 
     coa.product_name?.toLowerCase() === product.name?.toLowerCase()
   );
+
+  const handleNextCOA = () => {
+    setCurrentCoaIndex((prev) => (prev + 1) % productCOAs.length);
+  };
+
+  const handlePrevCOA = () => {
+    setCurrentCoaIndex((prev) => (prev - 1 + productCOAs.length) % productCOAs.length);
+  };
 
   const handleAddToCart = () => {
     if (selectedSpec) {
@@ -51,16 +60,21 @@ export default function ProductModal({ product, isOpen, onClose }) {
               onMouseLeave={() => setHoveredInfo(false)}
             >
               <button
-                onClick={() => productCOA && setShowCOA(true)}
+                onClick={() => {
+                  if (productCOAs.length > 0) {
+                    setCurrentCoaIndex(0);
+                    setShowCOA(true);
+                  }
+                }}
                 className={`p-2 rounded-full transition-all ${
-                  productCOA 
+                  productCOAs.length > 0
                     ? 'bg-stone-800 hover:bg-stone-700 cursor-pointer' 
                     : 'bg-stone-800/50 cursor-default'
                 }`}
               >
                 <Info className="w-5 h-5 text-stone-400" />
               </button>
-              
+
               {hoveredInfo && (
                 <motion.div
                   initial={{ opacity: 0, y: -5 }}
@@ -68,7 +82,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                   className="absolute top-full right-0 mt-2 px-3 py-2 bg-stone-800 border border-stone-700 rounded-lg shadow-xl whitespace-nowrap z-50"
                 >
                   <p className="text-xs text-stone-300">
-                    {productCOA ? 'Click to view COA' : 'PENDING COA'}
+                    {productCOAs.length > 0 ? `Click to view ${productCOAs.length} COA${productCOAs.length > 1 ? 's' : ''}` : 'PENDING COA'}
                   </p>
                 </motion.div>
               )}
@@ -170,7 +184,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
 
       {/* COA Image Overlay */}
       <AnimatePresence>
-        {showCOA && productCOA && (
+        {showCOA && productCOAs.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -191,8 +205,40 @@ export default function ProductModal({ product, isOpen, onClose }) {
               >
                 <X className="w-5 h-5 text-amber-50" />
               </button>
+
+              {/* Navigation Arrows */}
+              {productCOAs.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevCOA();
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-10"
+                  >
+                    <ChevronLeft className="w-6 h-6 text-amber-50" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextCOA();
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-10"
+                  >
+                    <ChevronRight className="w-6 h-6 text-amber-50" />
+                  </button>
+
+                  {/* COA Counter */}
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-stone-800 rounded-full z-10">
+                    <p className="text-sm text-amber-50 font-semibold">
+                      {currentCoaIndex + 1} / {productCOAs.length}
+                    </p>
+                  </div>
+                </>
+              )}
+
               <img
-                src={productCOA.image_url}
+                src={productCOAs[currentCoaIndex].image_url}
                 alt={`COA for ${product.name}`}
                 className="w-full h-auto"
               />
