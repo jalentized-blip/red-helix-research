@@ -70,7 +70,7 @@ export default function Hero() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
             <span className="text-amber-50">PREMIUM QUALITY,</span>
             <br />
-            <span className="bg-gradient-to-r from-red-600 via-red-500 to-red-700 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-barn-brown via-barn-brown to-barn-brown bg-clip-text text-transparent">
               LAB VERIFIED.
             </span>
           </h1>
@@ -95,7 +95,7 @@ export default function Hero() {
             </Button>
             <Button 
               onClick={() => scrollTo('products')}
-              className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 py-6 text-base font-semibold uppercase tracking-wide"
+              className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50 px-8 py-6 text-base font-semibold uppercase tracking-wide"
             >
               <ShoppingBag className="w-5 h-5 mr-2" />
               Shop Peptides

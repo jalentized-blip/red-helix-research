@@ -47,7 +47,7 @@ export default function Contact() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-barn-brown to-barn-brown bg-clip-text text-transparent">
               Need Help?
             </span>
           </h2>
@@ -89,7 +89,7 @@ export default function Contact() {
           className="text-center mt-12"
         >
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 font-semibold px-6">
+            <Button className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50 font-semibold px-6">
               Go to Contact Form
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
