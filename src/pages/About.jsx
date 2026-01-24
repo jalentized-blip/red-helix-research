@@ -61,9 +61,9 @@ export default function About() {
         {/* Chapter 1 */}
         <StorySection
           icon={Beaker}
-          title="The Wake-Up Call: Men's Health Clinic Visit"
-          description="It started with a visit to a men's health clinic. The prices quoted were shocking—premium markups on peptides that I quickly realized were completely unjustifiable. This sparked a question: 'What are these actually costing at source?'"
-          highlight="This is where the investigation began."
+          title="A Better Way Forward"
+          description="Barn emerged to compete in the peptide market on what matters most: transparency, reliability, and genuine care for our community. We refused to follow the playbook of inflated margins and empty promises. Instead, we built something different—a company that puts customers first."
+          highlight="Integrity Over Margins"
         />
 
         {/* Chapter 2 */}
