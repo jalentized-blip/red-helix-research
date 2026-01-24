@@ -455,7 +455,7 @@ export default function PeppyBot() {
                           isProductsMessage ? (
                             <div className="space-y-3">
                               <p className="mb-3">{message.content.replace('Click the Products button and start shopping.', '').trim()}</p>
-                              <Link to={createPageUrl('Home') + '?section=all-products'} className="inline-block bg-red-700 hover:bg-red-600 text-amber-50 px-4 py-2 rounded-lg font-semibold transition-colors">
+                              <Link to={createPageUrl('Home') + '?section=products'} className="inline-block bg-red-700 hover:bg-red-600 text-amber-50 px-4 py-2 rounded-lg font-semibold transition-colors">
                                 Shop Products
                               </Link>
                             </div>
