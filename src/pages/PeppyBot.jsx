@@ -41,18 +41,23 @@ export default function PeppyBot() {
   const [selectedInputDevice, setSelectedInputDevice] = useState('');
   const [selectedOutputDevice, setSelectedOutputDevice] = useState('');
   const [showAdvancedAudio, setShowAdvancedAudio] = useState(false);
+  const [debugInfo, setDebugInfo] = useState('');
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const audioRef = useRef(null);
 
   // Create persistent audio element on mount
   useEffect(() => {
-    if (!audioRef.current) {
-      const audio = new Audio();
-      audio.muted = false;
-      audioRef.current = audio;
-    }
+    const audio = new Audio();
+    audio.crossOrigin = 'anonymous';
+    audioRef.current = audio;
+    addDebug('Audio element initialized');
   }, []);
+
+  const addDebug = (msg) => {
+    console.log('[DEBUG]', msg);
+    setDebugInfo(prev => `${prev}\n${msg}`.slice(-200));
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -173,6 +178,8 @@ export default function PeppyBot() {
 
   const speakText = async (text) => {
     try {
+      addDebug('speakText called');
+      
       // Clean markdown and special characters for better speech
       const cleanText = text
             .replace(/\*\*/g, '')
@@ -181,64 +188,96 @@ export default function PeppyBot() {
             .replace(/\n+/g, '. ')
             .substring(0, 1000);
 
+      addDebug(`Invoking textToSpeech with voice: ${selectedVoice}`);
       const response = await base44.functions.invoke('textToSpeech', { 
         text: cleanText,
         voice_id: selectedVoice 
       });
 
+      addDebug(`Response received: ${response.status}`);
+
       if (response.data?.audioUrl) {
+        addDebug('Audio URL received, setting up playback');
+        
         // Use persistent audio element
         const audio = audioRef.current;
+        
+        // Reset audio element
+        audio.pause();
+        audio.currentTime = 0;
+        
+        // Set properties
         audio.src = response.data.audioUrl;
         audio.volume = volume[0];
         audio.muted = false;
+        
+        addDebug(`Audio configured - Volume: ${volume[0]}`);
 
         // Set output device if supported
         if (selectedOutputDevice && audio.setSinkId) {
           try {
             await audio.setSinkId(selectedOutputDevice);
+            addDebug('Output device set');
           } catch (err) {
-            console.warn('Could not set output device:', err);
+            addDebug(`Output device error: ${err.message}`);
           }
         }
 
         // Set up event listeners
         audio.onplay = () => {
+          addDebug('Audio playback started');
           setIsSpeaking(true);
         };
 
         audio.onended = () => {
+          addDebug('Audio playback ended');
           setIsSpeaking(false);
           // Resume listening if in voice mode
           if (isVoiceMode && recognitionRef.current) {
+            addDebug('Resuming listening');
             recognitionRef.current.start();
           }
         };
 
         audio.onerror = (e) => {
-          console.error('Audio error:', e);
+          addDebug(`Audio error: ${audio.error?.message || e}`);
           setIsSpeaking(false);
         };
 
         // Play the audio
-        try {
-          await audio.play();
-        } catch (err) {
-          console.error('Play error:', err);
-          setIsSpeaking(false);
+        addDebug('Attempting to play audio');
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              addDebug('Audio playing successfully');
+            })
+            .catch((err) => {
+              addDebug(`Play error: ${err.message}`);
+              setIsSpeaking(false);
+            });
         }
+      } else {
+        addDebug('No audio URL in response');
       }
     } catch (error) {
-      console.error('Text-to-speech error:', error);
+      addDebug(`Text-to-speech error: ${error.message}`);
       setIsSpeaking(false);
     }
   };
 
+  const testVoice = async () => {
+    addDebug('Testing voice...');
+    await speakText('Hello, this is a test of the voice system.');
+  };
+
   const handleAIResponse = async (userMessage) => {
     setIsLoading(true);
+    addDebug(`User message: ${userMessage.substring(0, 50)}`);
 
     // Determine mode from context
     const shouldUseVoice = isVoiceMode;
+    addDebug(`Voice mode: ${shouldUseVoice}`);
 
     try {
       const systemPrompt = `You are PeppyBot, an educational AI assistant specializing in peptide research. Your role is STRICTLY limited to discussing peptides and research use only.
@@ -268,19 +307,24 @@ export default function PeppyBot() {
 
   User question: ${userMessage}`;
 
+      addDebug('Calling InvokeLLM...');
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: systemPrompt,
         add_context_from_internet: true
       });
+
+      addDebug('LLM response received');
 
       // Add message immediately for real-time display
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
 
       // Only speak if in voice mode
       if (shouldUseVoice) {
+        addDebug('Starting voice playback');
         await speakText(response);
       }
     } catch (error) {
+      addDebug(`Error: ${error.message}`);
       const errorMsg = "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists.";
       setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
 
@@ -440,10 +484,36 @@ export default function PeppyBot() {
             </div>
           )}
 
+          {/* Debug Info */}
+          {debugInfo && (
+           <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50">
+             <div className="text-xs font-semibold text-stone-300 uppercase mb-2">Debug Info</div>
+             <pre className="text-xs text-stone-400 bg-stone-950 p-2 rounded overflow-auto max-h-24 whitespace-pre-wrap break-words">{debugInfo}</pre>
+             <Button
+               onClick={() => setDebugInfo('')}
+               variant="outline"
+               size="sm"
+               className="mt-2 text-xs bg-stone-700 border-stone-600 text-amber-50"
+             >
+               Clear
+             </Button>
+           </div>
+          )}
+
           {/* Advanced Audio Settings Dropdown */}
           {showAdvancedAudio && (
-            <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50 space-y-3">
-              <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
+           <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50 space-y-3">
+             <div className="flex items-center justify-between mb-3">
+               <div className="text-xs font-semibold text-stone-300 uppercase">Audio Settings</div>
+               <Button
+                 onClick={testVoice}
+                 size="sm"
+                 className="bg-amber-600 hover:bg-amber-700 text-stone-950 text-xs"
+               >
+                 🔊 Test Voice
+               </Button>
+             </div>
+             <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
               {audioDevices.input.length > 0 ? (
                 <Select value={selectedInputDevice} onValueChange={setSelectedInputDevice}>
                   <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
