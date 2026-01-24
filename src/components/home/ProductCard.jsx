@@ -82,18 +82,16 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
         transition={{ delay: index * 0.05, duration: 0.4 }}
         viewport={{ once: true }}
         animate={{
-          scale: isHovered ? 1 + (hoverProgress / 100) * 0.15 : 1,
-          x: isHovered ? `calc(50vw - 50% - ${window.scrollX}px)` : 0,
-          y: isHovered ? `calc(50vh - 50% - ${window.scrollY}px)` : 0,
+          scale: isHovered ? 1 + (hoverProgress / 100) * 0.5 : 1,
+          y: isHovered ? -8 - (hoverProgress / 100) * 100 : 0,
+          x: isHovered ? (hoverProgress / 100) * 0 : 0,
         }}
-        transition={{ type: "spring", stiffness: 50, damping: 20 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         className="relative z-50"
         style={{ 
           zIndex: isHovered ? 100 : 'auto',
-          transformOrigin: 'center center',
-          position: isHovered ? 'fixed' : 'relative'
+          transformOrigin: 'center center'
         }}
       >
       
