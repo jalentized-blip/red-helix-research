@@ -78,9 +78,9 @@ export default function About() {
         {/* Chapter 3 */}
         <StorySection
           icon={Eye}
-          title="The Transparency Lie"
-          description="What really opened my eyes was the number of vendors claiming complete transparency. Their websites talked about 'American sourcing,' 'premium origins,' and 'quality assurance'—yet when asked about sourcing, they'd dodge the question. The industry standard became clear: sell the dream, hide the sourcing."
-          highlight="'Transparency' became a marketing buzzword while actual transparency didn't exist."
+          title="Affordable Peptides for Everyone"
+          description="High quality shouldn't come with a premium price tag. We've restructured our entire operation to offer competitive pricing without sacrificing quality or integrity. By eliminating unnecessary middlemen and being honest about our costs, we deliver research-grade peptides at fair prices. Accessibility matters—we believe everyone conducting legitimate research deserves access to verified products."
+          highlight="Quality at Fair Prices"
         />
 
         {/* Chapter 4 */}
