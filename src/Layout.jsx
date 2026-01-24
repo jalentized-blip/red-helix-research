@@ -129,6 +129,60 @@ const navLinks = [
 
   return (
     <div className="min-h-screen bg-stone-950 relative">
+        <style>{`
+          :root {
+            --barn-brown: #7D4A2B;
+            --barn-tan: #C4955B;
+            --barn-cream: #F5E6D3;
+            --barn-dark: #2B1810;
+          }
+
+          /* Override red colors with barn brown */
+          .bg-red-600, .bg-red-700, .hover\\:bg-red-600:hover, .hover\\:bg-red-700:hover {
+            background-color: var(--barn-brown) !important;
+          }
+          .text-red-600, .text-red-400, .hover\\:text-red-600:hover, .hover\\:text-red-400:hover, .hover\\:text-red-500:hover {
+            color: var(--barn-brown) !important;
+          }
+          .border-red-600, .border-red-700, .border-red-500 {
+            border-color: var(--barn-brown) !important;
+          }
+          .border-red-600\\/30, .border-red-600\\/70 {
+            border-color: rgba(125, 74, 43, 0.3) !important;
+          }
+          .shadow-red-600\\/50, .shadow-red-700\\/50 {
+            --tw-shadow-color: rgba(125, 74, 43, 0.5) !important;
+          }
+
+          /* Update amber text to barn cream/tan */
+          .text-amber-50 {
+            color: var(--barn-cream) !important;
+          }
+
+          /* Hover states for borders */
+          .hover\\:border-red-700\\/40:hover {
+            border-color: rgba(125, 74, 43, 0.4) !important;
+          }
+
+          /* Gradient from red */
+          .from-red-600, .from-red-700, .to-red-700, .to-red-800 {
+            --tw-gradient-from: var(--barn-brown) !important;
+            --tw-gradient-to: var(--barn-dark) !important;
+          }
+          .from-red-700\\/20, .from-red-800\\/10 {
+            --tw-gradient-from: rgba(125, 74, 43, 0.2) !important;
+          }
+
+          /* Red backgrounds with opacity */
+          .bg-red-600\\/10, .bg-red-700\\/5 {
+            background-color: rgba(125, 74, 43, 0.1) !important;
+          }
+
+          /* Text colors with opacity */
+          .text-red-600\\/80 {
+            color: rgba(125, 74, 43, 0.8) !important;
+          }
+        `}</style>
         <MolecularBackground />
         <FloatingMolecularFormulas />
       
