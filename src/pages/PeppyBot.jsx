@@ -189,7 +189,7 @@ export default function PeppyBot() {
         return;
       }
 
-      addDebug(`Invoking textToSpeech with voice: ${selectedVoice}`);
+      addDebug('Invoking textToSpeech');
       addDebug(`Text length: ${cleanText.length}, Text preview: ${cleanText.substring(0, 50)}`);
       let response;
       try {
