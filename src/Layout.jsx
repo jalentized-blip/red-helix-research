@@ -58,10 +58,12 @@ const HeaderSearch = () => {
       <motion.div
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => {
-          setTimeout(() => {
-            setIsExpanded(false);
-            setShowResults(false);
-          }, 300);
+          if (!searchQuery) {
+            setTimeout(() => {
+              setIsExpanded(false);
+              setShowResults(false);
+            }, 300);
+          }
         }}
         className="relative px-8 py-4 pb-8"
       >
@@ -109,6 +111,7 @@ const HeaderSearch = () => {
                   onClick={() => {
                     setSearchQuery('');
                     setShowResults(false);
+                    setIsExpanded(false);
                   }}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-50 transition-colors"
                 >
