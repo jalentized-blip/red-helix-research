@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 
-const StorySection = ({ icon: Icon, title, description, highlight }) => (
+const StorySection = ({ icon: Icon, title, description, highlight, highlightSecondary }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -18,8 +18,12 @@ const StorySection = ({ icon: Icon, title, description, highlight }) => (
         <h3 className="text-2xl font-bold text-amber-50 mb-3">{title}</h3>
         <p className="text-stone-300 leading-relaxed mb-3">{description}</p>
         {highlight && (
-          <div className="bg-barn-brown/20 border border-barn-brown/50 rounded-lg p-4 mt-4">
-            <p className="text-barn-tan font-bold text-lg">{highlight}</p>
+          <div className="mt-4 space-y-2">
+            <p className="text-2xl font-bold text-barn-brown">{highlight}</p>
+            {highlightSecondary && (
+              <p className="text-2xl font-bold text-barn-brown">{highlightSecondary}</p>
+            )}
+            <p className="text-stone-400 text-sm mt-3">Every Batch Tested. Every Result Trusted.</p>
           </div>
         )}
       </div>
