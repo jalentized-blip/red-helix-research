@@ -9,12 +9,7 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
   const [audioInitialized, setAudioInitialized] = useState(false);
 
   useEffect(() => {
-    if (!isActive || !audioRef?.current) {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-      }
-      return;
-    }
+    if (!audioRef?.current) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -28,6 +23,10 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
       try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         audioContextRef.current = audioContext;
+
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
 
         const analyzer = audioContext.createAnalyser();
         analyzer.fftSize = 256;
@@ -52,35 +51,11 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
       analyzer.getByteFrequencyData(dataArray);
 
       // Clear canvas
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillStyle = 'rgba(30, 27, 23, 0.2)';
       ctx.fillRect(0, 0, width, height);
 
-      // Draw waveform
-      const sliceWidth = width / bufferLength;
-      let x = 0;
-
-      ctx.strokeStyle = 'rgba(217, 119, 6, 0.8)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-
-      for (let i = 0; i < bufferLength; i++) {
-        const v = dataArray[i] / 128.0;
-        const y = (v * height) / 2;
-
-        if (i === 0) {
-          ctx.moveTo(x, y);
-        } else {
-          ctx.lineTo(x, y);
-        }
-
-        x += sliceWidth;
-      }
-
-      ctx.lineTo(width, height / 2);
-      ctx.stroke();
-
       // Draw frequency bars
-      ctx.fillStyle = 'rgba(217, 119, 6, 0.6)';
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.8)';
       const barWidth = (width / bufferLength) * 2.5;
 
       for (let i = 0; i < bufferLength; i++) {
@@ -104,7 +79,7 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
         cancelAnimationFrame(animationIdRef.current);
       }
     };
-  }, [isActive, audioRef]);
+  }, [audioRef]);
 
   return (
     <motion.div
