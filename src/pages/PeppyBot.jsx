@@ -11,16 +11,7 @@ import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import VoiceVisualizer from '@/components/VoiceVisualizer';
 
-const VOICE_OPTIONS = [
-  { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel - Calm Female' },
-  { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah - Professional Female' },
-  { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam - Deep Male' },
-  { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam - Friendly Male' },
-  { id: 'TxGEqnHWrfWFTfGW9XjX', name: 'Josh - Young Male' },
-  { id: 'VR6AewLTigWG4xSOukaG', name: 'Arnold - Mature Male' },
-  { id: 'ODq5zmih8GrVes37Dizd', name: 'Patrick - Energetic Male' },
-  { id: 'IKne3meq5aSn9XLyUdCD', name: 'Charlie - Casual Male' },
-];
+// Voice ID is set from environment secret ELEVENLABS_VOICE_ID
 
 export default function PeppyBot() {
   const [messages, setMessages] = useState([
