@@ -157,12 +157,17 @@ export default function PeptideLearn() {
           </div>
           <p className="text-stone-300 text-lg mb-6">{product.description}</p>
           <div className="flex gap-4 flex-wrap">
-            <Button className="bg-red-600 hover:bg-red-700 text-white">
+            <button
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
+                setTimeout(() => {
+                  window.location.href = createPageUrl('Home');
+                }, 100);
+              }}
+              className="px-6 py-2 bg-barn-brown hover:bg-barn-brown/90 text-amber-50 font-semibold rounded-lg transition-colors"
+            >
               View Product
-            </Button>
-            <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600">
-              Learn More
-            </Button>
+            </button>
           </div>
         </motion.div>
 
