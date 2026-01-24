@@ -39,10 +39,10 @@ export default function MolecularBackground() {
       <svg className="absolute inset-0 w-full h-full opacity-5" preserveAspectRatio="xMidYMid slice">
         <defs>
           <pattern id="helix" x="0" y="0" width="100" height="200" patternUnits="userSpaceOnUse">
-            <path d="M 50 0 Q 80 25, 80 50 Q 80 75, 50 100 Q 20 125, 20 150 Q 20 175, 50 200" stroke="#dc2626" strokeWidth="2" fill="none" />
-            <path d="M 50 0 Q 20 25, 20 50 Q 20 75, 50 100 Q 80 125, 80 150 Q 80 175, 50 200" stroke="#dc2626" strokeWidth="2" fill="none" opacity="0.5" />
-            <circle cx="50" cy="50" r="3" fill="#dc2626" opacity="0.6" />
-            <circle cx="50" cy="150" r="3" fill="#dc2626" opacity="0.6" />
+            <path d="M 50 0 Q 80 25, 80 50 Q 80 75, 50 100 Q 20 125, 20 150 Q 20 175, 50 200" stroke="#7D4A2B" strokeWidth="2" fill="none" />
+            <path d="M 50 0 Q 20 25, 20 50 Q 20 75, 50 100 Q 80 125, 80 150 Q 80 175, 50 200" stroke="#7D4A2B" strokeWidth="2" fill="none" opacity="0.5" />
+            <circle cx="50" cy="50" r="3" fill="#7D4A2B" opacity="0.6" />
+            <circle cx="50" cy="150" r="3" fill="#7D4A2B" opacity="0.6" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#helix)" />
@@ -53,7 +53,7 @@ export default function MolecularBackground() {
 
 function SVGMolecule({ size }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" className="text-red-600">
+    <svg width={size} height={size} viewBox="0 0 100 100" className="text-[#7D4A2B]">
       <circle cx="50" cy="30" r="6" fill="currentColor" opacity="0.7" />
       <circle cx="30" cy="60" r="5" fill="currentColor" opacity="0.6" />
       <circle cx="70" cy="60" r="5" fill="currentColor" opacity="0.6" />

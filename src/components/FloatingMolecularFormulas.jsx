@@ -64,7 +64,7 @@ const FloatingFormula = ({ formula, startX, delay, duration }) => {
         ease: 'linear',
         opacity: { duration: duration * 0.3, times: [0, 0.5, 1] },
       }}
-      className="fixed text-xs font-mono text-red-500/40 pointer-events-none whitespace-nowrap select-none"
+      className="fixed text-xs font-mono text-[#7D4A2B]/40 pointer-events-none whitespace-nowrap select-none"
       style={{
         left: startX,
         top: '-20px',
