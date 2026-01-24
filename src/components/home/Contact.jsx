@@ -2,22 +2,24 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Mail, MessageCircle, Send, ArrowRight } from "lucide-react";
+import { MessageCircle, Send, ArrowRight } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const contactMethods = [
   {
-    icon: Mail,
-    label: "Email",
-    value: "support@barn.com",
-    color: "bg-red-500/20 text-red-400 hover:bg-red-500/30"
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: "Message us",
+    color: "bg-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/30",
+    link: "https://wa.me/"
   },
   {
     icon: MessageCircle,
     label: "Discord",
     value: "Join our server",
-    color: "bg-[#5865F2]/20 text-[#5865F2] hover:bg-[#5865F2]/30"
+    color: "bg-[#5865F2]/20 text-[#5865F2] hover:bg-[#5865F2]/30",
+    link: "https://discord.gg/Nee8Ydev"
   },
   {
     icon: Send,
@@ -58,7 +60,10 @@ export default function Contact() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 p-6 text-center cursor-pointer">
+              <Card 
+                className="bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 p-6 text-center cursor-pointer"
+                onClick={() => method.link && window.open(method.link, '_blank')}
+              >
                 <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${method.color} mb-4 transition-colors`}>
                   <method.icon className="w-6 h-6" />
                 </div>
