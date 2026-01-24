@@ -451,31 +451,49 @@ const HeaderSearch = () => {
                     <Menu className="w-6 h-6" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="bg-stone-950 border-stone-700 w-72">
-                  <nav className="flex flex-col gap-4 mt-8">
-                    <Link to={createPageUrl('GroupBuy')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                      Group Buy
-                    </Link>
-                    <Link to={createPageUrl('PeppyBot')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                      PeppyBot
-                    </Link>
-                    <Link to={createPageUrl('PeptideCalculator')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                      Peptide Calculator
-                    </Link>
-                    <Link to={createPageUrl('LearnMore')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                      Learn More
-                    </Link>
-                    <button onClick={() => scrollTo('#certificates')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full">
-                      COAs
-                    </button>
-                    {isAuthenticated && (
-                      <>
-                        <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                          My Account
-                        </Link>
-                        <Link to={createPageUrl('Account')} className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all block rounded-lg hover:bg-stone-800/50">
-                          Orders
-                        </Link>
+                <SheetContent side="right" className="bg-stone-950 border-stone-700 w-80">
+                  <div className="h-full flex flex-col">
+                    <div className="border-b border-stone-800/50 pb-6 mb-8">
+                      <h2 className="text-2xl font-bold text-amber-50">Menu</h2>
+                      <p className="text-stone-400 text-sm mt-1">Research & Education</p>
+                    </div>
+                    
+                    <nav className="flex flex-col gap-2 flex-1">
+                      <Link to={createPageUrl('GroupBuy')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                        Group Buy
+                      </Link>
+                      
+                      <div className="border-t border-stone-800/30 my-2 pt-2" />
+                      
+                      <Link to={createPageUrl('PeppyBot')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                        PeppyBot
+                      </Link>
+                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                        Peptide Calculator
+                      </Link>
+                      <Link to={createPageUrl('LearnMore')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                        Research & Education
+                      </Link>
+                      <button onClick={() => scrollTo('#certificates')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 w-full">
+                        Certificates of Analysis
+                      </button>
+                      
+                      <div className="border-t border-stone-800/30 my-4 pt-4" />
+                      
+                      {isAuthenticated && (
+                        <>
+                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                            Account Profile
+                          </Link>
+                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                            Order History
+                          </Link>
+                        </>
+                      )}
+                    </nav>
+                    
+                    <div className="border-t border-stone-800/50 pt-4 mt-auto">
+                      {isAuthenticated && (
                         <button
                           onClick={() => {
                             localStorage.clear();
@@ -488,21 +506,21 @@ const HeaderSearch = () => {
                             base44.auth.logout();
                             window.location.href = createPageUrl('Home') + '?logout=true';
                           }}
-                          className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
+                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-barn-brown/30"
                         >
                           Sign Out
                         </button>
-                      </>
-                    )}
-                    {!isAuthenticated && (
-                      <button
-                        onClick={() => base44.auth.redirectToLogin(createPageUrl('Account'))}
-                        className="text-left text-lg font-semibold text-amber-50 hover:text-red-600 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 w-full"
-                      >
-                        Sign In
-                      </button>
-                    )}
-                  </nav>
+                      )}
+                      {!isAuthenticated && (
+                        <button
+                          onClick={() => base44.auth.redirectToLogin(createPageUrl('Account'))}
+                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-barn-brown/30"
+                        >
+                          Sign In
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </SheetContent>
               </Sheet>
               </div>
