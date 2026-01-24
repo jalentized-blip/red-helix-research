@@ -3,14 +3,31 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, ExternalLink, Search } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Search, Trash2, Edit2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { motion } from 'framer-motion';
 
 export default function COAReports() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedIds, setSelectedIds] = useState(new Set());
+  const [user, setUser] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const { data: coas = [], isLoading } = useQuery({
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await base44.auth.me();
+        setUser(userData);
+      } catch (error) {
+        setUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const { data: coas = [], isLoading, refetch } = useQuery({
     queryKey: ['userCOAs'],
     queryFn: () => base44.entities.UserCOA.list('-created_date'),
   });
