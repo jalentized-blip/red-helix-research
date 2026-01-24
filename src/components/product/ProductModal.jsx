@@ -192,51 +192,65 @@ export default function ProductModal({ product, isOpen, onClose }) {
             onClick={() => setShowCOA(false)}
             className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4"
           >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-4xl max-h-[90vh] overflow-auto bg-stone-900 rounded-lg"
-            >
-              <button
-                onClick={() => setShowCOA(false)}
-                className="absolute top-4 right-4 p-2 bg-stone-800 hover:bg-stone-700 rounded-full z-20"
+            <div className="relative max-w-4xl w-full">
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative max-h-[90vh] overflow-auto bg-stone-900 rounded-lg"
               >
-                <X className="w-5 h-5 text-amber-50" />
-              </button>
+                <img
+                  src={productCOAs[currentCoaIndex].image_url}
+                  alt={`COA for ${product.name}`}
+                  className="w-full h-auto"
+                />
+              </motion.div>
 
-              {/* Navigation Arrows */}
+              {/* Navigation Arrows - Outside scroll container */}
               {productCOAs.length > 1 && (
                 <>
                   <button
-                    onClick={handlePrevCOA}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-20"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevCOA();
+                    }}
+                    className="fixed left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm"
                   >
                     <ChevronLeft className="w-6 h-6 text-amber-50" />
                   </button>
                   <button
-                    onClick={handleNextCOA}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800 hover:bg-stone-700 rounded-full z-20"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextCOA();
+                    }}
+                    className="fixed right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm"
                   >
                     <ChevronRight className="w-6 h-6 text-amber-50" />
                   </button>
-
-                  {/* COA Counter */}
-                  <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-stone-800 rounded-full z-20 pointer-events-none">
-                    <p className="text-sm text-amber-50 font-semibold">
-                      {currentCoaIndex + 1} / {productCOAs.length}
-                    </p>
-                  </div>
                 </>
               )}
 
-              <img
-                src={productCOAs[currentCoaIndex].image_url}
-                alt={`COA for ${product.name}`}
-                className="w-full h-auto"
-              />
-            </motion.div>
+              {/* Close Button - Outside scroll container */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowCOA(false);
+                }}
+                className="fixed top-6 right-6 p-2 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm"
+              >
+                <X className="w-5 h-5 text-amber-50" />
+              </button>
+
+              {/* COA Counter - Outside scroll container */}
+              {productCOAs.length > 1 && (
+                <div className="fixed top-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-stone-800/90 rounded-full backdrop-blur-sm pointer-events-none">
+                  <p className="text-sm text-amber-50 font-semibold">
+                    {currentCoaIndex + 1} / {productCOAs.length}
+                  </p>
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
