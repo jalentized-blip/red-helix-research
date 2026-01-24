@@ -210,14 +210,14 @@ User question: ${userMessage}`;
 
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
       
-      if (isVoiceMode && !isSpeaking) {
+      if (isVoiceMode) {
         await speakText(response);
       }
     } catch (error) {
       const errorMsg = "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists.";
       setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
       
-      if (isVoiceMode && !isSpeaking) {
+      if (isVoiceMode) {
         await speakText(errorMsg);
       }
     } finally {
