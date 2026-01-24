@@ -28,6 +28,13 @@ const categoryLabels = {
 
 export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true }) {
   const badge = product.badge ? badgeConfig[product.badge] : null;
+  
+  // Use barn logo for all products except bacteriostatic water
+  const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
+                     product.name?.toLowerCase().includes('bac water');
+  const displayImage = isBacWater 
+    ? product.image_url 
+    : 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/0ac3c5268_image.png';
 
   return (
     <motion.div
