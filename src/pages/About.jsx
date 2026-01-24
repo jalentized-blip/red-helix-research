@@ -119,9 +119,9 @@ export default function About() {
         {/* Chapter 5 */}
         <StorySection
           icon={Eye}
-          title="Why This Matters"
-          description="The peptide research space deserves better. You deserve to know what you're buying, where it comes from, and what it actually costs to produce. When you buy from Barn, you're not just getting a product—you're getting the truth."
-          highlight="Transparency isn't a feature we offer. It's our foundation."
+          title="Why We're Different"
+          description="In a market full of shortcuts and hype, Barn stands out because we genuinely care about your success. We're not trying to maximize margins—we're trying to build a community of trusted researchers with access to verified products at fair prices. Every decision we make is guided by one question: Is this in the best interest of our customers?"
+          highlight="Excellence in Every Interaction"
         />
       </div>
 
