@@ -60,9 +60,9 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
         <div className="p-5 relative">
           {/* Product Image */}
           <div className={`relative mb-4 aspect-square flex items-center justify-center bg-stone-800/50 rounded-xl overflow-hidden ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            {product.image_url ? (
+            {displayImage ? (
               <img 
-                src={product.image_url} 
+                src={displayImage} 
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
