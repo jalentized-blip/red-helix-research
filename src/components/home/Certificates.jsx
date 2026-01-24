@@ -108,8 +108,8 @@ export default function Certificates() {
           ))}
         </div>
 
-        {/* Load More Button */}
-        {!showAll && certificates.length > 3 && (
+        {/* Load More/Hide Button */}
+        {certificates.length > 3 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -117,10 +117,10 @@ export default function Certificates() {
             className="text-center mt-12"
           >
             <button
-              onClick={() => setShowAll(true)}
+              onClick={() => setShowAll(!showAll)}
               className="px-8 py-3 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
             >
-              Load More Tests
+              {showAll ? 'Hide' : 'Load More Tests'}
             </button>
           </motion.div>
         )}
