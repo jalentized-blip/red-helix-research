@@ -275,9 +275,9 @@ export default function PeppyBot() {
     setIsLoading(true);
     addDebug(`User message: ${userMessage.substring(0, 50)}`);
 
-    // Determine mode from context
+    // Always use voice if in voice mode OR if voice mode was recently active
     const shouldUseVoice = isVoiceMode;
-    addDebug(`Voice mode: ${shouldUseVoice}`);
+    addDebug(`Voice enabled: ${shouldUseVoice}`);
 
     try {
       const systemPrompt = `You are PeppyBot, an educational AI assistant specializing in peptide research. Your role is STRICTLY limited to discussing peptides and research use only.
@@ -577,7 +577,7 @@ export default function PeppyBot() {
                 placeholder={isVoiceMode ? "Voice mode active - or type your message..." : "Ask me about peptide research, dosing, storage, or anything else..."}
                 className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-400 resize-none"
                 rows={3}
-                disabled={isLoading || isVoiceMode}
+                disabled={isLoading}
               />
               <Button
                 onClick={handleSend}
