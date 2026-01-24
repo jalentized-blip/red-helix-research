@@ -215,7 +215,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                       e.stopPropagation();
                       handlePrevCOA();
                     }}
-                    className="fixed left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm"
+                    className="fixed left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm pointer-events-auto z-[101] cursor-pointer transition-colors"
                   >
                     <ChevronLeft className="w-6 h-6 text-amber-50" />
                   </button>
@@ -224,7 +224,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                       e.stopPropagation();
                       handleNextCOA();
                     }}
-                    className="fixed right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm"
+                    className="fixed right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm pointer-events-auto z-[101] cursor-pointer transition-colors"
                   >
                     <ChevronRight className="w-6 h-6 text-amber-50" />
                   </button>
