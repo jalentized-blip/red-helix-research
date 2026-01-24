@@ -154,21 +154,31 @@ export default function PeppyBot() {
     };
     }, [isVoiceMode, isListening]);
 
-    // Typing animation effect
+    // Typing animation effect with variable speed
     useEffect(() => {
-    if (!isSpeaking || !speakingText) return;
+      if (!isSpeaking || !speakingText) return;
 
-    const typingSpeed = 30; // ms per character
-    const interval = setInterval(() => {
-      if (textIndexRef.current < speakingText.length) {
-        setDisplayedText(speakingText.slice(0, textIndexRef.current + 1));
-        textIndexRef.current += 1;
-      } else {
-        clearInterval(interval);
-      }
-    }, typingSpeed);
+      let timeoutId;
+      const typeNextChar = () => {
+        if (textIndexRef.current < speakingText.length) {
+          const char = speakingText[textIndexRef.current];
+          setDisplayedText(speakingText.slice(0, textIndexRef.current + 1));
+          textIndexRef.current += 1;
 
-    return () => clearInterval(interval);
+          // Variable typing speed - faster for most chars, pause at punctuation
+          let delay = 20; // base speed (faster)
+          if (['.', '!', '?', ',', ';', ':'].includes(char)) {
+            delay = 80; // pause at punctuation
+          } else if (char === ' ') {
+            delay = 10; // slightly faster at spaces
+          }
+
+          timeoutId = setTimeout(typeNextChar, delay);
+        }
+      };
+
+      typeNextChar();
+      return () => clearTimeout(timeoutId);
     }, [isSpeaking, speakingText]);
 
   const toggleVoiceMode = () => {
