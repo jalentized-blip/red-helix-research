@@ -245,7 +245,28 @@ export default function COAReports() {
             ))}
           </div>
         )}
+
+        {/* Submit COA Button */}
+        <div className="mt-12 text-center">
+          <Button
+            onClick={() => setShowUploadModal(true)}
+            className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50 gap-2"
+            size="lg"
+          >
+            <Upload className="w-5 h-5" />
+            Submit COA
+          </Button>
+        </div>
       </div>
+
+      <UploadCOAModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+        onSuccess={() => {
+          setShowUploadModal(false);
+          refetch();
+        }}
+      />
     </div>
   );
 }
