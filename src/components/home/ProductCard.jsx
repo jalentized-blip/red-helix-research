@@ -28,7 +28,33 @@ const categoryLabels = {
 
 export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true }) {
   const [isHovered, setIsHovered] = React.useState(false);
+  const [hoverProgress, setHoverProgress] = React.useState(0);
   const badge = product.badge ? badgeConfig[product.badge] : null;
+
+  React.useEffect(() => {
+    let interval;
+    if (isHovered) {
+      interval = setInterval(() => {
+        setHoverProgress((prev) => {
+          const next = prev + 0.5;
+          if (next >= 100) {
+            clearInterval(interval);
+            // Trigger select strength after animation completes
+            setTimeout(() => {
+              onSelectStrength?.(product);
+              setIsHovered(false);
+              setHoverProgress(0);
+            }, 200);
+            return 100;
+          }
+          return next;
+        });
+      }, 50); // Update every 50ms for smooth progression
+    } else {
+      setHoverProgress(0);
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, product, onSelectStrength]);
   
   // Use barn logo for all products except bacteriostatic water
   const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
@@ -42,17 +68,11 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
       {/* Full-page blur overlay */}
       {isHovered && (
         <motion.div
-          initial={{ backdropFilter: "blur(0px)", opacity: 0 }}
           animate={{ 
-            backdropFilter: "blur(20px)", 
-            opacity: 1 
+            backdropFilter: `blur(${hoverProgress * 0.3}px)`,
+            opacity: hoverProgress / 100
           }}
-          exit={{ backdropFilter: "blur(0px)", opacity: 0 }}
-          transition={{ 
-            backdropFilter: { duration: 1.5, ease: "easeInOut" },
-            opacity: { duration: 0.3 }
-          }}
-          className="fixed inset-0 z-40 pointer-events-none bg-stone-950/20"
+          className="fixed inset-0 z-40 pointer-events-none bg-stone-950/30"
         />
       )}
 
@@ -61,14 +81,18 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.05, duration: 0.4 }}
         viewport={{ once: true }}
-        whileHover={{ 
-          scale: 1.05, 
-          y: -8,
-          zIndex: 50
+        animate={{
+          scale: isHovered ? 1 + (hoverProgress / 100) * 0.5 : 1,
+          y: isHovered ? -8 - (hoverProgress / 100) * 100 : 0,
+          x: isHovered ? (hoverProgress / 100) * 0 : 0,
         }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         className="relative z-50"
+        style={{ 
+          zIndex: isHovered ? 100 : 'auto',
+          transformOrigin: 'center center'
+        }}
       >
       
       <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20">
