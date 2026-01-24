@@ -434,11 +434,11 @@ export default function PeppyBot() {
               <VoiceVisualizer isActive={isSpeaking} audioRef={audioRef} />
               {isSpeaking && displayedText && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                  <div className="max-w-2xl mx-auto px-8 text-center">
-                    <p className="text-2xl font-semibold text-amber-50 leading-relaxed">
+                  <div className="max-w-3xl mx-auto px-8 text-center">
+                    <p className="text-xl font-medium text-amber-50 leading-relaxed tracking-tight">
                       {displayedText}
                       {textIndexRef.current < speakingText.length && (
-                        <span className="animate-pulse">|</span>
+                        <span className="opacity-60">▌</span>
                       )}
                     </p>
                   </div>
