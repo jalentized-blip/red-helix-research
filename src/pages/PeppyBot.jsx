@@ -32,9 +32,12 @@ export default function PeppyBot() {
   const [selectedOutputDevice, setSelectedOutputDevice] = useState('');
   const [showAdvancedAudio, setShowAdvancedAudio] = useState(false);
   const [debugInfo, setDebugInfo] = useState('');
+  const [speakingText, setSpeakingText] = useState('');
+  const [displayedText, setDisplayedText] = useState('');
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const audioRef = useRef(null);
+  const textIndexRef = useRef(0);
 
   // Create persistent audio element on mount
   useEffect(() => {
