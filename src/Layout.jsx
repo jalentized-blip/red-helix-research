@@ -333,55 +333,65 @@ const HeaderSearch = () => {
             --barn-dark: #2B1810;
           }
 
-          /* Override red colors with barn brown */
-          .bg-red-600, .bg-red-700, .bg-red-800, .hover\\:bg-red-600:hover, .hover\\:bg-red-700:hover {
+          /* Override ALL red and crimson colors with barn brown */
+          [class*="bg-red"], [class*="bg-crimson"],
+          .hover\\:bg-red-600:hover, .hover\\:bg-red-700:hover, .hover\\:bg-red-800:hover {
             background-color: var(--barn-brown) !important;
           }
-          .text-red-600, .text-red-400, .text-red-500, .text-red-700, .hover\\:text-red-600:hover, .hover\\:text-red-400:hover, .hover\\:text-red-500:hover {
+
+          [class*="text-red"], [class*="text-crimson"],
+          .hover\\:text-red-400:hover, .hover\\:text-red-500:hover, .hover\\:text-red-600:hover, .hover\\:text-red-700:hover {
             color: var(--barn-brown) !important;
           }
-          .border-red-600, .border-red-700, .border-red-500, .focus\\:border-red-700\\/50:focus {
+
+          [class*="border-red"], [class*="border-crimson"],
+          .focus\\:border-red-700\\/50:focus, .focus\\:border-red-600:focus {
             border-color: var(--barn-brown) !important;
           }
-          .border-red-600\\/30, .border-red-600\\/70 {
+
+          /* Red/Crimson with opacity overrides */
+          [class*="bg-red-"][class*="\\/"], [class*="bg-crimson-"][class*="\\/"] {
+            background-color: rgba(125, 74, 43, 0.1) !important;
+          }
+          [class*="text-red-"][class*="\\/"], [class*="text-crimson-"][class*="\\/"] {
+            color: rgba(125, 74, 43, 0.8) !important;
+          }
+          [class*="border-red-"][class*="\\/"], [class*="border-crimson-"][class*="\\/"] {
             border-color: rgba(125, 74, 43, 0.3) !important;
           }
-          .shadow-red-600\\/50, .shadow-red-700\\/50 {
+
+          /* Shadow colors */
+          [class*="shadow-red"], [class*="shadow-crimson"] {
             --tw-shadow-color: rgba(125, 74, 43, 0.5) !important;
           }
 
-          /* Update amber text to barn cream/tan */
-          .text-amber-50 {
+          /* Gradients */
+          [class*="from-red"], [class*="to-red"], [class*="via-red"],
+          [class*="from-crimson"], [class*="to-crimson"], [class*="via-crimson"] {
+            --tw-gradient-from: var(--barn-brown) !important;
+            --tw-gradient-to: var(--barn-dark) !important;
+            --tw-gradient-via: var(--barn-brown) !important;
+          }
+
+          /* Update amber text to barn cream */
+          .text-amber-50, [class*="text-amber-50"] {
             color: var(--barn-cream) !important;
           }
 
-          /* Hover states for borders */
-          .hover\\:border-red-700\\/40:hover {
-            border-color: rgba(125, 74, 43, 0.4) !important;
-          }
-
-          /* Gradient from red */
-          .from-red-600, .from-red-700, .to-red-700, .to-red-800 {
-            --tw-gradient-from: var(--barn-brown) !important;
-            --tw-gradient-to: var(--barn-dark) !important;
-          }
-          .from-red-700\\/20, .from-red-800\\/10 {
-            --tw-gradient-from: rgba(125, 74, 43, 0.2) !important;
-          }
-
-          /* Red backgrounds with opacity */
-          .bg-red-600\\/10, .bg-red-700\\/5, .bg-red-700\\/10 {
-            background-color: rgba(125, 74, 43, 0.1) !important;
-          }
-
-          /* Text colors with opacity */
-          .text-red-600\\/80 {
-            color: rgba(125, 74, 43, 0.8) !important;
-          }
-
-          /* Checkmark and icon colors */
-          svg[class*="text-red"], svg[class*="text-crimson"] {
+          /* SVG and icon colors */
+          svg[class*="text-red"], svg[class*="text-crimson"],
+          [class*="text-red"] svg, [class*="text-crimson"] svg {
             color: var(--barn-brown) !important;
+          }
+
+          /* Ring colors for focus states */
+          [class*="ring-red"], [class*="ring-crimson"] {
+            --tw-ring-color: var(--barn-brown) !important;
+          }
+
+          /* Accent colors */
+          [class*="accent-red"], [class*="accent-crimson"] {
+            accent-color: var(--barn-brown) !important;
           }
         `}</style>
         <MolecularBackground />
