@@ -18,10 +18,16 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'ElevenLabs API key not configured' }, { status: 500 });
     }
 
-    // Trim whitespace from API key
-    apiKey = apiKey.trim();
+    if (!text || text.trim().length === 0) {
+      console.error('No text provided');
+      return Response.json({ error: 'Text is required' }, { status: 400 });
+    }
 
-    console.log('Generating speech for:', text.substring(0, 50));
+    // Trim whitespace from API key and text
+    apiKey = apiKey.trim();
+    const cleanText = text.trim();
+
+    console.log('Generating speech for:', cleanText.substring(0, 50));
     console.log('Using voice ID:', voiceId);
     console.log('API Key present:', !!apiKey, 'Key length:', apiKey?.length);
 
