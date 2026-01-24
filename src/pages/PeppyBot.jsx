@@ -453,34 +453,20 @@ export default function PeppyBot() {
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-3">
-                  <Select value={selectedVoice} onValueChange={setSelectedVoice}>
-                    <SelectTrigger className="w-48 bg-stone-700 border-stone-600 text-amber-50">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-stone-800 border-stone-700">
-                      {VOICE_OPTIONS.map((voice) => (
-                        <SelectItem key={voice.id} value={voice.id} className="text-amber-50">
-                          {voice.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <div className="flex items-center gap-2">
-                    <Volume2 className="w-4 h-4 text-stone-400" />
-                    <Slider
-                      value={volume}
-                      onValueChange={(val) => {
-                        setVolume(val);
-                        if (audioRef.current) {
-                          audioRef.current.volume = val[0];
-                        }
-                      }}
-                      max={1}
-                      step={0.1}
-                      className="w-24"
-                    />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Volume2 className="w-4 h-4 text-stone-400" />
+                  <Slider
+                    value={volume}
+                    onValueChange={(val) => {
+                      setVolume(val);
+                      if (audioRef.current) {
+                        audioRef.current.volume = val[0];
+                      }
+                    }}
+                    max={1}
+                    step={0.1}
+                    className="w-24"
+                  />
                 </div>
               </div>
             </div>
