@@ -172,10 +172,16 @@ export default function PeppyBot() {
         };
         
         console.log('Starting playback');
-        await audio.play().catch(err => {
+        try {
+          // Ensure audio plays with user gesture context
+          const playPromise = audio.play();
+          if (playPromise !== undefined) {
+            await playPromise;
+          }
+        } catch (err) {
           console.error('Play error:', err);
           setIsSpeaking(false);
-        });
+        }
       } else {
         console.error('No audioUrl in response');
         setIsSpeaking(false);
