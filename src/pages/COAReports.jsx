@@ -279,7 +279,7 @@ export default function COAReports() {
                       href={coa.coa_image_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-barn-brown/20 border border-barn-brown/30 rounded-lg text-barn-tan hover:bg-barn-brown/30 transition-colors text-sm font-semibold"
+                      className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-barn-brown hover:bg-barn-brown/90 rounded-lg text-amber-50 transition-colors text-sm font-semibold"
                     >
                       View Image
                       <ExternalLink className="w-3 h-3" />
@@ -289,7 +289,7 @@ export default function COAReports() {
                         href={coa.coa_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-barn-brown/20 border border-barn-brown/30 rounded-lg text-barn-tan hover:bg-barn-brown/30 transition-colors text-sm font-semibold"
+                        className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-barn-brown hover:bg-barn-brown/90 rounded-lg text-amber-50 transition-colors text-sm font-semibold"
                       >
                         Original Link
                         <ExternalLink className="w-3 h-3" />
