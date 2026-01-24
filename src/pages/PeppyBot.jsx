@@ -241,11 +241,16 @@ export default function PeppyBot() {
         audio.onplay = () => {
           addDebug('Audio playback started');
           setIsSpeaking(true);
+          // Start typing animation
+          textIndexRef.current = 0;
+          setDisplayedText('');
         };
 
         audio.onended = () => {
           addDebug('Audio playback ended');
           setIsSpeaking(false);
+          setSpeakingText('');
+          setDisplayedText('');
           // Resume listening if in voice mode
           if (isVoiceMode && recognitionRef.current) {
             addDebug('Resuming listening');
