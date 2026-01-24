@@ -57,9 +57,15 @@ const HeaderSearch = () => {
     <div className="flex justify-center pb-3 pt-2 border-t border-stone-800/30">
       <motion.div
         onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={() => {
-          setIsExpanded(false);
-          setShowResults(false);
+        onMouseLeave={(e) => {
+          // Only close if mouse is leaving the entire search area
+          const relatedTarget = e.relatedTarget;
+          if (!relatedTarget || !e.currentTarget.contains(relatedTarget)) {
+            setTimeout(() => {
+              setIsExpanded(false);
+              setShowResults(false);
+            }, 200);
+          }
         }}
         className="relative"
       >
