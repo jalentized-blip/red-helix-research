@@ -11,7 +11,7 @@ import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import VoiceVisualizer from '@/components/VoiceVisualizer';
 
-// Voice ID is set from environment secret ELEVENLABS_VOICE_ID
+// Uses ElevenLabs free tier voice
 
 export default function PeppyBot() {
   const [messages, setMessages] = useState([
