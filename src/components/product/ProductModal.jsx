@@ -33,15 +33,13 @@ export default function ProductModal({ product, isOpen, onClose }) {
 
         <div className="space-y-6">
           {/* Product Image */}
-          {product.image_url && (
-            <div className="aspect-video w-full bg-stone-800 rounded-xl overflow-hidden">
-              <img 
-                src={product.image_url} 
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
+          <div className="aspect-video w-full bg-stone-800 rounded-xl overflow-hidden">
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/f33efc498_image.png" 
+              alt={product.name}
+              className="w-full h-full object-contain"
+            />
+          </div>
 
           {/* Description */}
           {product.description && (
