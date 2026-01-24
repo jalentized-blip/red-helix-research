@@ -487,6 +487,18 @@ const HeaderSearch = () => {
                       
                       <div className="border-t border-stone-800/30 my-2 pt-2" />
                       
+                      <button
+                        onClick={() => setShowUploadModal(true)}
+                        className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 w-full"
+                      >
+                        Upload Your COA
+                      </button>
+                      <Link to={createPageUrl('COAReports')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                        COA Reports
+                      </Link>
+                      
+                      <div className="border-t border-stone-800/30 my-2 pt-2" />
+                      
                       <Link to={createPageUrl('PeppyBot')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
                         PeppyBot
                       </Link>
