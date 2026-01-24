@@ -422,6 +422,18 @@ export default function PeppyBot() {
           {/* Messages */}
             <div className="relative h-[60vh] overflow-hidden rounded-lg">
               <VoiceVisualizer isActive={isSpeaking} audioRef={audioRef} />
+              {isSpeaking && displayedText && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                  <div className="max-w-2xl mx-auto px-8 text-center">
+                    <p className="text-2xl font-semibold text-amber-50 leading-relaxed">
+                      {displayedText}
+                      {textIndexRef.current < speakingText.length && (
+                        <span className="animate-pulse">|</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+              )}
               <div className={`h-full overflow-y-auto p-6 space-y-4 ${isSpeaking ? 'blur-sm' : ''} transition-all duration-300`}>
                 <AnimatePresence initial={false}>
                   {messages.map((message, index) => (
