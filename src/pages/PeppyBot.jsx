@@ -4,12 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Send, Loader2, ArrowLeft, Mic, MicOff, Volume2, Settings } from 'lucide-react';
+import { Send, Loader2, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
-import VoiceVisualizer from '@/components/VoiceVisualizer';
 
 // Uses ElevenLabs free tier voice
 
@@ -22,35 +21,9 @@ export default function PeppyBot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isVoiceMode, setIsVoiceMode] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [volume, setVolume] = useState([0.8]);
-  const [interimTranscript, setInterimTranscript] = useState('');
-  const [audioDevices, setAudioDevices] = useState({ input: [], output: [] });
-  const [selectedInputDevice, setSelectedInputDevice] = useState('');
-  const [selectedOutputDevice, setSelectedOutputDevice] = useState('');
-  const [showAdvancedAudio, setShowAdvancedAudio] = useState(false);
-  const [debugInfo, setDebugInfo] = useState('');
-  const [speakingText, setSpeakingText] = useState('');
-  const [displayedText, setDisplayedText] = useState('');
   const messagesEndRef = useRef(null);
-  const recognitionRef = useRef(null);
-  const audioRef = useRef(null);
-  const textIndexRef = useRef(0);
 
-  // Create persistent audio element on mount
-  useEffect(() => {
-    const audio = new Audio();
-    audio.crossOrigin = 'anonymous';
-    audioRef.current = audio;
-    addDebug('Audio element initialized');
-  }, []);
 
-  const addDebug = (msg) => {
-    console.log('[DEBUG]', msg);
-    setDebugInfo(prev => `${prev}\n${msg}`.slice(-200));
-  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -60,270 +33,12 @@ export default function PeppyBot() {
     scrollToBottom();
   }, [messages]);
 
-  // Enumerate audio devices
-  useEffect(() => {
-    const getAudioDevices = async () => {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const audioInput = devices.filter(device => device.kind === 'audioinput');
-        const audioOutput = devices.filter(device => device.kind === 'audiooutput');
 
-        setAudioDevices({ input: audioInput, output: audioOutput });
 
-        if (audioInput.length > 0 && !selectedInputDevice) {
-          setSelectedInputDevice(audioInput[0].deviceId);
-        }
-        if (audioOutput.length > 0 && !selectedOutputDevice) {
-          setSelectedOutputDevice(audioOutput[0].deviceId);
-        }
-      } catch (err) {
-        console.error('Error enumerating audio devices:', err);
-      }
-    };
 
-    getAudioDevices();
 
-    // Listen for device changes
-    navigator.mediaDevices.addEventListener('devicechange', getAudioDevices);
-    return () => navigator.mediaDevices.removeEventListener('devicechange', getAudioDevices);
-  }, []);
-
-  // Initialize speech recognition
-  useEffect(() => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = true;
-      recognitionRef.current.interimResults = true;
-
-      // Set audio input device if supported
-      if (selectedInputDevice && recognitionRef.current.mediaDevices?.getUserMedia) {
-        recognitionRef.current.mediaDevices = { getUserMedia: (constraints) => {
-          constraints.audio = { deviceId: { exact: selectedInputDevice } };
-          return navigator.mediaDevices.getUserMedia(constraints);
-        }};
-      }
-
-      recognitionRef.current.onresult = (event) => {
-        let interim = '';
-        let final = '';
-
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            final += transcript;
-          } else {
-            interim += transcript;
-          }
-        }
-
-        if (final) {
-          setMessages(prev => [...prev, { role: 'user', content: final }]);
-          setInterimTranscript('');
-          addDebug(`Speech recognized: ${final.substring(0, 30)}`);
-          handleAIResponse(final, true);
-        } else {
-          setInterimTranscript(interim);
-        }
-      };
-
-      recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        setIsListening(false);
-      };
-
-      recognitionRef.current.onend = () => {
-        // Always restart if in voice mode, regardless of listening state
-        if (isVoiceMode) {
-          try {
-            recognitionRef.current.start();
-          } catch (e) {
-            console.error('Error restarting recognition:', e);
-          }
-        }
-      };
-    }
-
-    return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-    };
-    }, [isVoiceMode, isListening]);
-
-    // Typing animation effect with variable speed
-    useEffect(() => {
-      if (!isSpeaking || !speakingText) return;
-
-      let timeoutId;
-      const typeNextChar = () => {
-        if (textIndexRef.current < speakingText.length) {
-          const char = speakingText[textIndexRef.current];
-          setDisplayedText(speakingText.slice(0, textIndexRef.current + 1));
-          textIndexRef.current += 1;
-
-          // Variable typing speed - faster for most chars, pause at punctuation
-          let delay = 20; // base speed (faster)
-          if (['.', '!', '?', ',', ';', ':'].includes(char)) {
-            delay = 80; // pause at punctuation
-          } else if (char === ' ') {
-            delay = 10; // slightly faster at spaces
-          }
-
-          timeoutId = setTimeout(typeNextChar, delay);
-        }
-      };
-
-      typeNextChar();
-      return () => clearTimeout(timeoutId);
-    }, [isSpeaking, speakingText]);
-
-  const toggleVoiceMode = () => {
-    if (isVoiceMode) {
-      // Stop voice mode
-      setIsVoiceMode(false);
-      setIsListening(false);
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-    } else {
-      // Start voice mode
-      setIsVoiceMode(true);
-      setIsListening(true);
-      if (recognitionRef.current) {
-        recognitionRef.current.start();
-      }
-    }
-  };
-
-  const speakText = async (text) => {
-    try {
-      addDebug('speakText called');
-
-      // Clean markdown and special characters for better speech
-      const cleanText = text
-            .replace(/\*\*/g, '')
-            .replace(/⚠️/g, 'Warning:')
-            .replace(/[#*_]/g, '')
-            .replace(/\n+/g, '. ')
-            .trim();
-
-      if (!cleanText) {
-        addDebug('No text to speak');
-        return;
-      }
-
-      // Set up text display
-      setSpeakingText(cleanText);
-      setDisplayedText('');
-      textIndexRef.current = 0;
-
-      addDebug('Invoking textToSpeech');
-      addDebug(`Text length: ${cleanText.length}, Text preview: ${cleanText.substring(0, 50)}`);
-      let response;
-      try {
-        response = await base44.functions.invoke('textToSpeech', { 
-          text: cleanText
-        });
-        addDebug(`Response received: ${response.status}`);
-      } catch (invokeError) {
-        addDebug(`Invoke error: ${invokeError.response?.data?.error || invokeError.message}`);
-        throw invokeError;
-      }
-
-      if (response.data?.audioUrl) {
-        addDebug('Audio URL received, setting up playback');
-        
-        // Use persistent audio element
-        const audio = audioRef.current;
-        
-        // Reset audio element
-        audio.pause();
-        audio.currentTime = 0;
-        
-        // Set properties
-        audio.src = response.data.audioUrl;
-        audio.volume = volume[0];
-        audio.muted = false;
-        
-        addDebug(`Audio configured - Volume: ${volume[0]}`);
-
-        // Set output device if supported
-        if (selectedOutputDevice && audio.setSinkId) {
-          try {
-            await audio.setSinkId(selectedOutputDevice);
-            addDebug('Output device set');
-          } catch (err) {
-            addDebug(`Output device error: ${err.message}`);
-          }
-        }
-
-        // Set up event listeners
-        audio.onplay = () => {
-          addDebug('Audio playback started');
-          setIsSpeaking(true);
-          // Start typing animation
-          textIndexRef.current = 0;
-          setDisplayedText('');
-        };
-
-        audio.onended = () => {
-          addDebug('Audio playback ended');
-          setIsSpeaking(false);
-          setSpeakingText('');
-          setDisplayedText('');
-          // Resume listening if in voice mode
-          if (isVoiceMode && recognitionRef.current) {
-            addDebug('Resuming listening');
-            recognitionRef.current.start();
-          }
-        };
-
-        audio.onerror = (e) => {
-          addDebug(`Audio error: ${audio.error?.message || e}`);
-          setIsSpeaking(false);
-        };
-
-        // Play the audio
-        addDebug('Attempting to play audio');
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              addDebug('Audio playing successfully');
-            })
-            .catch((err) => {
-              addDebug(`Play error: ${err.message}`);
-              setIsSpeaking(false);
-            });
-        }
-      } else {
-        addDebug('No audio URL in response');
-      }
-    } catch (error) {
-      addDebug(`Text-to-speech error: ${error.message}`);
-      setIsSpeaking(false);
-    }
-  };
-
-  const testVoice = async () => {
-    addDebug('Testing voice...');
-    await speakText('Hello, this is a test of the voice system.');
-  };
-
-  const handleAIResponse = async (userMessage, forceVoiceMode = null) => {
+  const handleAIResponse = async (userMessage) => {
     setIsLoading(true);
-    addDebug(`User message: ${userMessage.substring(0, 50)}`);
-
-    // Use forced voice mode if provided (from handleSend), otherwise use current state
-    const shouldUseVoice = forceVoiceMode !== null ? forceVoiceMode : isVoiceMode;
-    addDebug(`Should use voice: ${shouldUseVoice}`);
 
     try {
       const systemPrompt = `You are PeppyBot, a chill AI buddy who talks about peptide research. Keep it real and conversational—like chatting with a knowledgeable friend.
@@ -342,32 +57,15 @@ export default function PeppyBot() {
 
       User question: ${userMessage}`;
 
-      addDebug('Calling InvokeLLM...');
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: systemPrompt,
         add_context_from_internet: true
       });
 
-      addDebug('LLM response received');
-
-      // Add message immediately for real-time display
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-
-      // Only speak if in voice mode
-      if (shouldUseVoice) {
-        addDebug('Starting voice playback');
-        // Keep response concise for voice by truncating after first few sentences
-        const voiceText = response.split('\n')[0].substring(0, 500);
-        await speakText(voiceText);
-      }
     } catch (error) {
-      addDebug(`Error: ${error.message}`);
       const errorMsg = "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists.";
       setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
-
-      if (shouldUseVoice) {
-        await speakText(errorMsg);
-      }
     } finally {
       setIsLoading(false);
     }
@@ -379,21 +77,8 @@ export default function PeppyBot() {
     const userMessage = input.trim();
     setInput('');
 
-    // Capture voice mode before turning it off
-    const wasInVoiceMode = isVoiceMode;
-    addDebug(`Sending message - was in voice mode: ${wasInVoiceMode}`);
-
-    // Typing in chat switches to text mode
-    if (isVoiceMode) {
-      setIsVoiceMode(false);
-      setIsListening(false);
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-    }
-
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    await handleAIResponse(userMessage, wasInVoiceMode);
+    await handleAIResponse(userMessage);
   };
 
   const handleKeyPress = (e) => {
@@ -420,20 +105,7 @@ export default function PeppyBot() {
         <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-800 rounded-xl overflow-hidden relative">
           {/* Messages */}
             <div className="relative h-[60vh] overflow-hidden rounded-lg">
-              <VoiceVisualizer isActive={isSpeaking} audioRef={audioRef} />
-              {isSpeaking && displayedText && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                  <div className="max-w-3xl mx-auto px-8 text-center">
-                    <p className="text-xl font-medium text-amber-50 leading-relaxed tracking-tight">
-                      {displayedText}
-                      {textIndexRef.current < speakingText.length && (
-                        <span className="opacity-60">▌</span>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )}
-              <div className={`h-full overflow-y-auto p-6 space-y-4 ${isSpeaking ? 'blur-sm' : ''} transition-all duration-300`}>
+              <div className="h-full overflow-y-auto p-6 space-y-4">
                 <AnimatePresence initial={false}>
                   {messages.map((message, index) => {
                     const isProductsMessage = message.role === 'assistant' && message.content.includes('Products');
@@ -485,144 +157,23 @@ export default function PeppyBot() {
               </div>
             </div>
 
-          {/* Voice Mode Indicator */}
-          {isVoiceMode && (
-            <div className="border-t border-stone-800 px-4 py-3 bg-stone-800/50">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={`flex items-center gap-2 ${isListening ? 'text-red-500' : 'text-stone-400'}`}>
-                    {isListening ? <Mic className="w-4 h-4 animate-pulse" /> : <MicOff className="w-4 h-4" />}
-                    <span className="text-sm font-medium">
-                      {isListening ? 'Listening...' : 'Voice Paused'}
-                    </span>
-                  </div>
-                  {interimTranscript && (
-                    <span className="text-sm text-stone-400 italic">"{interimTranscript}"</span>
-                  )}
-                  {isSpeaking && (
-                    <span className="text-sm text-amber-50 flex items-center gap-1">
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      Speaking...
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Volume2 className="w-4 h-4 text-stone-400" />
-                  <Slider
-                    value={volume}
-                    onValueChange={(val) => {
-                      setVolume(val);
-                      if (audioRef.current) {
-                        audioRef.current.volume = val[0];
-                      }
-                    }}
-                    max={1}
-                    step={0.1}
-                    className="w-24"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* Debug Info */}
-          {debugInfo && (
-           <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50">
-             <div className="text-xs font-semibold text-stone-300 uppercase mb-2">Debug Info</div>
-             <pre className="text-xs text-stone-400 bg-stone-950 p-2 rounded overflow-auto max-h-24 whitespace-pre-wrap break-words">{debugInfo}</pre>
-             <Button
-               onClick={() => setDebugInfo('')}
-               variant="outline"
-               size="sm"
-               className="mt-2 text-xs bg-stone-700 border-stone-600 text-amber-50"
-             >
-               Clear
-             </Button>
-           </div>
-          )}
-
-          {/* Advanced Audio Settings Dropdown */}
-          {showAdvancedAudio && (
-           <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50 space-y-3">
-             <div className="flex items-center justify-between mb-3">
-               <div className="text-xs font-semibold text-stone-300 uppercase">Audio Settings</div>
-               <Button
-                 onClick={testVoice}
-                 size="sm"
-                 className="bg-amber-600 hover:bg-amber-700 text-stone-950 text-xs"
-               >
-                 🔊 Test Voice
-               </Button>
-             </div>
-             <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
-              {audioDevices.input.length > 0 ? (
-                <Select value={selectedInputDevice} onValueChange={setSelectedInputDevice}>
-                  <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-stone-800 border-stone-700">
-                    {audioDevices.input.map((device) => (
-                      <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
-                        {device.label || `Microphone ${device.deviceId.substring(0, 5)}`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <p className="text-xs text-stone-400">No input devices found</p>
-              )}
-
-              <div className="text-xs font-semibold text-stone-300 uppercase mt-3">Audio Output Device</div>
-              {audioDevices.output.length > 0 ? (
-                <Select value={selectedOutputDevice} onValueChange={setSelectedOutputDevice}>
-                  <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-stone-800 border-stone-700">
-                    {audioDevices.output.map((device) => (
-                      <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
-                        {device.label || `Speaker ${device.deviceId.substring(0, 5)}`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <p className="text-xs text-stone-400">No output devices found</p>
-              )}
-            </div>
-          )}
 
           {/* Input Area */}
           <div className="border-t border-stone-800 p-4">
             <div className="flex gap-2">
-              <div className="flex flex-col gap-2">
-                <Button
-                  onClick={toggleVoiceMode}
-                  className={`${isVoiceMode ? 'bg-red-700 hover:bg-red-600' : 'bg-stone-700 hover:bg-stone-600'} text-amber-50`}
-                >
-                  {isVoiceMode ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-                </Button>
-                <Button
-                  onClick={() => setShowAdvancedAudio(!showAdvancedAudio)}
-                  variant="outline"
-                  size="icon"
-                  className="bg-stone-700 hover:bg-stone-600 border-stone-600 text-amber-50"
-                >
-                  <Settings className="w-4 h-4" />
-                </Button>
-              </div>
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={isVoiceMode ? "Voice mode active - or type your message..." : "Ask me about peptide research, dosing, storage, or anything else..."}
+                placeholder="Ask me about peptide research, dosing, storage, or anything else..."
                 className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-400 resize-none"
                 rows={3}
                 disabled={isLoading}
               />
               <Button
                 onClick={handleSend}
-                disabled={!input.trim() || isLoading || isVoiceMode}
+                disabled={!input.trim() || isLoading}
                 className="bg-red-700 hover:bg-red-600 text-amber-50 self-end"
               >
                 {isLoading ? (
@@ -633,7 +184,7 @@ export default function PeppyBot() {
               </Button>
             </div>
             <p className="text-xs text-stone-500 mt-2">
-              {isVoiceMode ? 'Voice chat active - Click mic to disable' : 'Press Enter to send, Shift+Enter for new line'}
+              Press Enter to send, Shift+Enter for new line
             </p>
           </div>
         </div>
