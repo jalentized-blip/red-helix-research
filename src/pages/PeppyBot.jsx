@@ -433,7 +433,7 @@ User question: ${userMessage}`;
           )}
 
           {/* Advanced Audio Settings Dropdown */}
-          {showAdvancedAudio && isVoiceMode && (
+          {showAdvancedAudio && (
             <div className="border-t border-stone-800 px-4 py-3 bg-stone-900/50 space-y-3">
               <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
               {audioDevices.input.length > 0 ? (
@@ -483,16 +483,14 @@ User question: ${userMessage}`;
                 >
                   {isVoiceMode ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
                 </Button>
-                {isVoiceMode && (
-                  <Button
-                    onClick={() => setShowAdvancedAudio(!showAdvancedAudio)}
-                    variant="outline"
-                    size="icon"
-                    className="bg-stone-700 hover:bg-stone-600 border-stone-600 text-amber-50"
-                  >
-                    <Settings className="w-4 h-4" />
-                  </Button>
-                )}
+                <Button
+                  onClick={() => setShowAdvancedAudio(!showAdvancedAudio)}
+                  variant="outline"
+                  size="icon"
+                  className="bg-stone-700 hover:bg-stone-600 border-stone-600 text-amber-50"
+                >
+                  <Settings className="w-4 h-4" />
+                </Button>
               </div>
               <Textarea
                 value={input}
