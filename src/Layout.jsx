@@ -12,6 +12,7 @@ import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
+import AlertsDropdown from '@/components/AlertsDropdown';
 
 const navLinks = [
   { label: "Peptides", href: "#products" },
@@ -455,11 +456,15 @@ const HeaderSearch = () => {
           
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {isAuthenticated && (
+              <AlertsDropdown />
+            )}
+
             <Link to={createPageUrl('Cart')}>
-              <button className="relative p-2.5 rounded-lg bg-stone-900/50 border border-red-600/30 text-amber-50 hover:bg-red-600/10 hover:border-red-600/70 hover:text-red-400 transition-all duration-300 group">
+              <button className="relative p-2.5 rounded-lg bg-stone-900/50 border border-barn-brown/30 text-amber-50 hover:bg-barn-brown/10 hover:border-barn-brown/70 hover:text-barn-tan transition-all duration-300 group">
                 <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-red-500">
+                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-barn-brown to-barn-brown/80 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-barn-brown">
                     {cartCount}
                   </span>
                 )}
