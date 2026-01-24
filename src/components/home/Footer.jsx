@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Logo */}
           <div className="flex items-center">
             <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/af30dbf80_download.png" 
               alt="Barn" 
               className="h-20 w-auto object-contain"
             />
