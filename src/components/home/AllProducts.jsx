@@ -95,21 +95,37 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
         </motion.div>
 
         {/* Category Tabs */}
-        <div className="flex justify-center mb-10 overflow-x-auto pb-2">
-          <Tabs value={activeCategory} onValueChange={setActiveCategory}>
-            <TabsList className="bg-stone-900/60 border border-stone-700 p-1 flex-wrap">
-              {categories.map((cat) => (
-                <TabsTrigger 
-                  key={cat.id} 
-                  value={cat.id}
-                  className="data-[state=active]:bg-red-700 data-[state=active]:text-amber-50 text-stone-300 font-medium"
-                >
-                  {cat.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        </div>
+         <div className="flex justify-center mb-10 overflow-x-auto pb-2">
+           <Tabs value={activeCategory} onValueChange={setActiveCategory}>
+             <TabsList className="bg-stone-900/60 border border-stone-700 p-1 flex-wrap">
+               {categories.map((cat) => (
+                 <TabsTrigger 
+                   key={cat.id} 
+                   value={cat.id}
+                   className="data-[state=active]:bg-red-700 data-[state=active]:text-amber-50 text-stone-300 font-medium"
+                 >
+                   {cat.label}
+                 </TabsTrigger>
+               ))}
+             </TabsList>
+           </Tabs>
+         </div>
+
+         {/* Sort Dropdown */}
+         <div className="flex justify-end mb-6">
+           <Select value={sortBy} onValueChange={setSortBy}>
+             <SelectTrigger className="w-40 bg-stone-900 border-stone-700 text-amber-50">
+               <SelectValue />
+             </SelectTrigger>
+             <SelectContent className="bg-stone-900 border-stone-700">
+               <SelectItem value="featured" className="text-amber-50">Featured</SelectItem>
+               <SelectItem value="price-low" className="text-amber-50">Price: Low to High</SelectItem>
+               <SelectItem value="price-high" className="text-amber-50">Price: High to Low</SelectItem>
+               <SelectItem value="name-asc" className="text-amber-50">Name: A-Z</SelectItem>
+               <SelectItem value="name-desc" className="text-amber-50">Name: Z-A</SelectItem>
+             </SelectContent>
+           </Select>
+         </div>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
