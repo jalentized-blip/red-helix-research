@@ -194,8 +194,7 @@ export default function PeppyBot() {
       let response;
       try {
         response = await base44.functions.invoke('textToSpeech', { 
-          text: cleanText,
-          voice_id: selectedVoice 
+          text: cleanText
         });
         addDebug(`Response received: ${response.status}`);
       } catch (invokeError) {
