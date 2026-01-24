@@ -240,22 +240,15 @@ User question: ${userMessage}`
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-3">
-          <Link to={createPageUrl('Home') + '#products'} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Products</p>
-          </Link>
-          <Link to={createPageUrl('PeptideCalculator')} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Calculator</p>
-          </Link>
-          <Link to={createPageUrl('LearnMore')} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Learn More</p>
-          </Link>
-          <Link to={createPageUrl('Home') + '#certificates'} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">COAs</p>
-          </Link>
-          <button onClick={() => setShowEducationModule(true)} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Gray Market 101</p>
+        {/* Suggested Prompts */}
+        <div className="mt-6 space-y-2">
+          <p className="text-xs text-stone-400 uppercase tracking-wider">Try asking:</p>
+          <button
+            onClick={() => setShowEducationModule(true)}
+            className="w-full p-3 bg-barn-brown/10 border border-barn-brown/30 rounded-lg hover:bg-barn-brown/20 transition-colors text-left"
+          >
+            <p className="text-sm font-semibold text-amber-50">Learn about the gray market for peptides</p>
+            <p className="text-xs text-stone-400 mt-1">Explore efficiency, empowerment & self-testing safety</p>
           </button>
         </div>
       </div>
