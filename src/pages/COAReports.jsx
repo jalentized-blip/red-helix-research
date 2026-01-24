@@ -15,6 +15,7 @@ export default function COAReports() {
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [user, setUser] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
