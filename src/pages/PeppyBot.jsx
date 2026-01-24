@@ -36,6 +36,10 @@ export default function PeppyBot() {
   const [volume, setVolume] = useState([0.8]);
   const [selectedVoice, setSelectedVoice] = useState('21m00Tcm4TlvDq8ikWAM');
   const [interimTranscript, setInterimTranscript] = useState('');
+  const [audioDevices, setAudioDevices] = useState({ input: [], output: [] });
+  const [selectedInputDevice, setSelectedInputDevice] = useState('');
+  const [selectedOutputDevice, setSelectedOutputDevice] = useState('');
+  const [showAdvancedAudio, setShowAdvancedAudio] = useState(false);
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const audioRef = useRef(null);
@@ -48,6 +52,34 @@ export default function PeppyBot() {
     scrollToBottom();
   }, [messages]);
 
+  // Enumerate audio devices
+  useEffect(() => {
+    const getAudioDevices = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audioInput = devices.filter(device => device.kind === 'audioinput');
+        const audioOutput = devices.filter(device => device.kind === 'audiooutput');
+
+        setAudioDevices({ input: audioInput, output: audioOutput });
+
+        if (audioInput.length > 0 && !selectedInputDevice) {
+          setSelectedInputDevice(audioInput[0].deviceId);
+        }
+        if (audioOutput.length > 0 && !selectedOutputDevice) {
+          setSelectedOutputDevice(audioOutput[0].deviceId);
+        }
+      } catch (err) {
+        console.error('Error enumerating audio devices:', err);
+      }
+    };
+
+    getAudioDevices();
+
+    // Listen for device changes
+    navigator.mediaDevices.addEventListener('devicechange', getAudioDevices);
+    return () => navigator.mediaDevices.removeEventListener('devicechange', getAudioDevices);
+  }, []);
+
   // Initialize speech recognition
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -55,6 +87,14 @@ export default function PeppyBot() {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = true;
       recognitionRef.current.interimResults = true;
+
+      // Set audio input device if supported
+      if (selectedInputDevice && recognitionRef.current.mediaDevices?.getUserMedia) {
+        recognitionRef.current.mediaDevices = { getUserMedia: (constraints) => {
+          constraints.audio = { deviceId: { exact: selectedInputDevice } };
+          return navigator.mediaDevices.getUserMedia(constraints);
+        }};
+      }
 
       recognitionRef.current.onresult = (event) => {
         let interim = '';
@@ -153,6 +193,16 @@ export default function PeppyBot() {
         const audio = new Audio(response.data.audioUrl);
         audioRef.current = audio;
         audio.volume = volume[0];
+        
+        // Set output device if supported
+        if (selectedOutputDevice && audio.setSinkId) {
+          try {
+            await audio.setSinkId(selectedOutputDevice);
+            console.log('Audio output device set:', selectedOutputDevice);
+          } catch (err) {
+            console.warn('Could not set output device:', err);
+          }
+        }
         
         audio.onloadeddata = () => {
           console.log('Audio loaded successfully');
@@ -330,25 +380,74 @@ User question: ${userMessage}`;
 
           {/* Voice Mode Indicator */}
           {isVoiceMode && (
-            <div className="border-t border-stone-800 px-4 py-3 bg-stone-800/50">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={`flex items-center gap-2 ${isListening ? 'text-red-500' : 'text-stone-400'}`}>
-                    {isListening ? <Mic className="w-4 h-4 animate-pulse" /> : <MicOff className="w-4 h-4" />}
-                    <span className="text-sm font-medium">
-                      {isListening ? 'Listening...' : 'Voice Paused'}
-                    </span>
+            <div className="border-t border-stone-800 bg-stone-800/50">
+              <div className="px-4 py-3">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`flex items-center gap-2 ${isListening ? 'text-red-500' : 'text-stone-400'}`}>
+                      {isListening ? <Mic className="w-4 h-4 animate-pulse" /> : <MicOff className="w-4 h-4" />}
+                      <span className="text-sm font-medium">
+                        {isListening ? 'Listening...' : 'Voice Paused'}
+                      </span>
+                    </div>
+                    {interimTranscript && (
+                      <span className="text-sm text-stone-400 italic">"{interimTranscript}"</span>
+                    )}
+                    {isSpeaking && (
+                      <span className="text-sm text-amber-50 flex items-center gap-1">
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Speaking...
+                      </span>
+                    )}
                   </div>
-                  {interimTranscript && (
-                    <span className="text-sm text-stone-400 italic">"{interimTranscript}"</span>
-                  )}
-                  {isSpeaking && (
-                    <span className="text-sm text-amber-50 flex items-center gap-1">
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      Speaking...
-                    </span>
-                  )}
+                  <button
+                    onClick={() => setShowAdvancedAudio(!showAdvancedAudio)}
+                    className="text-xs text-stone-400 hover:text-amber-50 transition-colors underline"
+                  >
+                    {showAdvancedAudio ? 'Hide' : 'Audio Settings'}
+                  </button>
                 </div>
+
+                {showAdvancedAudio && (
+                  <div className="mb-4 p-3 bg-stone-900/50 rounded-lg border border-stone-700 space-y-3">
+                    <div className="text-xs font-semibold text-stone-300 uppercase">Audio Input Device</div>
+                    {audioDevices.input.length > 0 ? (
+                      <Select value={selectedInputDevice} onValueChange={setSelectedInputDevice}>
+                        <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-stone-800 border-stone-700">
+                          {audioDevices.input.map((device) => (
+                            <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
+                              {device.label || `Microphone ${device.deviceId.substring(0, 5)}`}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <p className="text-xs text-stone-400">No input devices found</p>
+                    )}
+
+                    <div className="text-xs font-semibold text-stone-300 uppercase mt-3">Audio Output Device</div>
+                    {audioDevices.output.length > 0 ? (
+                      <Select value={selectedOutputDevice} onValueChange={setSelectedOutputDevice}>
+                        <SelectTrigger className="w-full bg-stone-700 border-stone-600 text-amber-50 text-sm">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-stone-800 border-stone-700">
+                          {audioDevices.output.map((device) => (
+                            <SelectItem key={device.deviceId} value={device.deviceId} className="text-amber-50">
+                              {device.label || `Speaker ${device.deviceId.substring(0, 5)}`}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <p className="text-xs text-stone-400">No output devices found</p>
+                    )}
+                  </div>
+                )}
+
                 <div className="flex items-center gap-3">
                   <Select value={selectedVoice} onValueChange={setSelectedVoice}>
                     <SelectTrigger className="w-48 bg-stone-700 border-stone-600 text-amber-50">
