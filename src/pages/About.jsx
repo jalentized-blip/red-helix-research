@@ -46,7 +46,7 @@ export default function About() {
             Our Story: A Journey to Radical Transparency
           </h1>
           <p className="text-xl text-stone-300 leading-relaxed">
-            Red Dirt Research was born from frustration, research, and a commitment to change an industry built on hidden margins and false claims.
+            Barn was born from frustration, research, and a commitment to change an industry built on hidden margins and false claims.
           </p>
         </motion.div>
       </div>
@@ -85,10 +85,10 @@ export default function About() {
           className="bg-gradient-to-r from-red-600/10 to-amber-600/10 border border-red-600/30 rounded-lg p-10"
         >
           <h3 className="text-3xl font-bold text-amber-50 mb-4">
-            Building Red Dirt Research
+            Building Barn
           </h3>
           <p className="text-stone-300 leading-relaxed mb-6">
-            We decided to flip the script entirely. No more hidden margins. No more false sourcing claims. Instead, we built Red Dirt Research on a foundation of actual transparency:
+            We decided to flip the script entirely. No more hidden margins. No more false sourcing claims. Instead, we built Barn on a foundation of actual transparency:
           </p>
           <ul className="space-y-3 text-stone-300">
             <li className="flex items-start gap-3">
@@ -114,7 +114,7 @@ export default function About() {
         <StorySection
           icon={Eye}
           title="Why This Matters"
-          description="The peptide research space deserves better. You deserve to know what you're buying, where it comes from, and what it actually costs to produce. When you buy from Red Dirt Research, you're not just getting a product—you're getting the truth."
+          description="The peptide research space deserves better. You deserve to know what you're buying, where it comes from, and what it actually costs to produce. When you buy from Barn, you're not just getting a product—you're getting the truth."
           highlight="Transparency isn't a feature we offer. It's our foundation."
         />
       </div>
