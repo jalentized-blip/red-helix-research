@@ -333,8 +333,8 @@ export default function PeppyBot() {
       2. Be casual and friendly, not robotic or overly formal
       3. Only discuss peptides and research use
       4. If asked about non-peptide stuff, just say you focus on peptides
-      5. NEVER mention websites, links, URLs, or external sites
-      6. NEVER tell users to visit websites or check links
+      5. NEVER mention external websites, links, or external URLs
+      6. If someone asks about purchasing, ordering, or buying peptides, direct them to the Products section
       7. Don't be preachy—just give helpful info
       8. Only provide direct knowledge and conversation about peptides
 
