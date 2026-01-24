@@ -48,10 +48,10 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-5xl font-black text-amber-50 mb-6">
-            Our Story: A Journey to Radical Transparency
+            Barn: Transparency, Affordability & Exceptional Service
           </h1>
-          <p className="text-xl text-stone-300 leading-relaxed">
-            Barn was born from frustration, research, and a commitment to change an industry built on hidden margins and false claims.
+          <p className="text-xl text-amber-50 leading-relaxed">
+            We're reimagining the peptide market with verified products, fair pricing, and customer service that actually cares.
           </p>
         </motion.div>
       </div>
