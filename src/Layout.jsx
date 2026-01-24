@@ -67,7 +67,7 @@ const HeaderSearch = () => {
             }, 200);
           }
         }}
-        className="relative"
+        className="relative px-8 py-4"
       >
         {/* Magnifying Glass Icon */}
         <motion.div
