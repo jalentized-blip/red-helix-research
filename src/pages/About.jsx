@@ -135,7 +135,7 @@ export default function About() {
           <h2 className="text-3xl font-bold text-amber-50 mb-4">
             Ready to Experience Real Transparency?
           </h2>
-          <p className="text-stone-300 mb-8 text-lg">
+          <p className="text-amber-50 mb-8 text-lg">
             Explore our products and see exactly what you're getting.
           </p>
           <Link to={createPageUrl('Home')}>
