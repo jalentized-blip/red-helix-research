@@ -16,7 +16,7 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
       <Icon className="w-8 h-8 text-red-600 flex-shrink-0 mt-1" />
       <div>
         <h3 className="text-2xl font-bold text-amber-50 mb-3">{title}</h3>
-        <p className="text-stone-300 leading-relaxed mb-3">{description}</p>
+        <p className="text-amber-50 leading-relaxed mb-3">{description}</p>
         {highlight && (
           <div className="mt-4 space-y-0">
             <p className="text-3xl font-black text-amber-50">{highlight}</p>
