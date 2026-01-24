@@ -486,6 +486,12 @@ const HeaderSearch = () => {
                     </div>
                     
                     <nav className="flex flex-col gap-2 flex-1">
+                      <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                        Home
+                      </Link>
+
+                      <div className="border-t border-stone-800/30 my-2 pt-2" />
+
                       <Link to={createPageUrl('GroupBuy')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
                         Group Buy
                       </Link>
