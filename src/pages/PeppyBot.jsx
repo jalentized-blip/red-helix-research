@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Loader2, ArrowLeft } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
+import { Send, Loader2, ArrowLeft, Mic, MicOff, Volume2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReactMarkdown from 'react-markdown';
@@ -17,7 +18,14 @@ export default function PeppyBot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isVoiceMode, setIsVoiceMode] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [volume, setVolume] = useState([0.8]);
+  const [interimTranscript, setInterimTranscript] = useState('');
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const audioRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -27,12 +35,102 @@ export default function PeppyBot() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
 
-    const userMessage = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+      recognitionRef.current.onresult = (event) => {
+        let interim = '';
+        let final = '';
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            final += transcript;
+          } else {
+            interim += transcript;
+          }
+        }
+
+        if (final) {
+          setMessages(prev => [...prev, { role: 'user', content: final }]);
+          setInterimTranscript('');
+          handleAIResponse(final);
+        } else {
+          setInterimTranscript(interim);
+        }
+      };
+
+      recognitionRef.current.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        if (isVoiceMode && isListening) {
+          recognitionRef.current.start();
+        }
+      };
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, [isVoiceMode, isListening]);
+
+  const toggleVoiceMode = () => {
+    if (isVoiceMode) {
+      // Stop voice mode
+      setIsVoiceMode(false);
+      setIsListening(false);
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    } else {
+      // Start voice mode
+      setIsVoiceMode(true);
+      setIsListening(true);
+      if (recognitionRef.current) {
+        recognitionRef.current.start();
+      }
+    }
+  };
+
+  const speakText = async (text) => {
+    try {
+      setIsSpeaking(true);
+      const response = await base44.functions.invoke('textToSpeech', { text });
+      
+      if (response.data.audioUrl) {
+        const audio = new Audio(response.data.audioUrl);
+        audioRef.current = audio;
+        audio.volume = volume[0];
+        
+        audio.onended = () => {
+          setIsSpeaking(false);
+        };
+        
+        await audio.play();
+      }
+    } catch (error) {
+      console.error('Text-to-speech error:', error);
+      setIsSpeaking(false);
+    }
+  };
+
+  const handleAIResponse = async (userMessage) => {
     setIsLoading(true);
 
     try {
@@ -69,14 +167,29 @@ User question: ${userMessage}`;
       });
 
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      
+      if (isVoiceMode && !isSpeaking) {
+        await speakText(response);
+      }
     } catch (error) {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists."
-      }]);
+      const errorMsg = "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists.";
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
+      
+      if (isVoiceMode && !isSpeaking) {
+        await speakText(errorMsg);
+      }
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = input.trim();
+    setInput('');
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    await handleAIResponse(userMessage);
   };
 
   const handleKeyPress = (e) => {
@@ -153,21 +266,69 @@ User question: ${userMessage}`;
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Voice Mode Indicator */}
+          {isVoiceMode && (
+            <div className="border-t border-stone-800 px-4 py-3 bg-stone-800/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`flex items-center gap-2 ${isListening ? 'text-red-500' : 'text-stone-400'}`}>
+                    {isListening ? <Mic className="w-4 h-4 animate-pulse" /> : <MicOff className="w-4 h-4" />}
+                    <span className="text-sm font-medium">
+                      {isListening ? 'Listening...' : 'Voice Paused'}
+                    </span>
+                  </div>
+                  {interimTranscript && (
+                    <span className="text-sm text-stone-400 italic">"{interimTranscript}"</span>
+                  )}
+                  {isSpeaking && (
+                    <span className="text-sm text-amber-50 flex items-center gap-1">
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                      Speaking...
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <Volume2 className="w-4 h-4 text-stone-400" />
+                    <Slider
+                      value={volume}
+                      onValueChange={(val) => {
+                        setVolume(val);
+                        if (audioRef.current) {
+                          audioRef.current.volume = val[0];
+                        }
+                      }}
+                      max={1}
+                      step={0.1}
+                      className="w-24"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Input Area */}
           <div className="border-t border-stone-800 p-4">
             <div className="flex gap-2">
+              <Button
+                onClick={toggleVoiceMode}
+                className={`${isVoiceMode ? 'bg-red-700 hover:bg-red-600' : 'bg-stone-700 hover:bg-stone-600'} text-amber-50`}
+              >
+                {isVoiceMode ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+              </Button>
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask me about peptide research, dosing, storage, or anything else..."
+                placeholder={isVoiceMode ? "Voice mode active - or type your message..." : "Ask me about peptide research, dosing, storage, or anything else..."}
                 className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-400 resize-none"
                 rows={3}
-                disabled={isLoading}
+                disabled={isLoading || isVoiceMode}
               />
               <Button
                 onClick={handleSend}
-                disabled={!input.trim() || isLoading}
+                disabled={!input.trim() || isLoading || isVoiceMode}
                 className="bg-red-700 hover:bg-red-600 text-amber-50 self-end"
               >
                 {isLoading ? (
@@ -178,7 +339,7 @@ User question: ${userMessage}`;
               </Button>
             </div>
             <p className="text-xs text-stone-500 mt-2">
-              Press Enter to send, Shift+Enter for new line
+              {isVoiceMode ? 'Voice chat active - Click mic to disable' : 'Press Enter to send, Shift+Enter for new line'}
             </p>
           </div>
         </div>
