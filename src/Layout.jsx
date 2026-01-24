@@ -595,6 +595,8 @@ const HeaderSearch = () => {
       <Send className="w-6 h-6 text-white" />
       </a>
 
+      <DiscordChatBubble />
+
       <UploadCOAModal
       isOpen={showUploadModal}
       onClose={() => setShowUploadModal(false)}
