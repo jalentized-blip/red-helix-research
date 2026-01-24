@@ -26,7 +26,6 @@ Deno.serve(async (req) => {
       {
         method: 'POST',
         headers: {
-          'Accept': 'audio/mpeg',
           'Content-Type': 'application/json',
           'xi-api-key': apiKey.trim(),
         },
