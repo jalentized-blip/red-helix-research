@@ -9,50 +9,6 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 
 const SourcesBubble = ({ productName }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [sources, setSources] = useState([]);
-  const [loadingSource, setLoadingSource] = useState(false);
-
-  const handleExpand = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!isExpanded && sources.length === 0) {
-      setLoadingSource(true);
-      try {
-        // Convert shorthand peptide names to full names for better LLM results
-        const peptideNameMap = {
-          'tb5+bpc5': 'TB-500 + BPC-157'
-        };
-        const fullName = peptideNameMap[productName.toLowerCase()] || productName;
-
-        const response = await base44.integrations.Core.InvokeLLM({
-          prompt: `Find the 3 most significant peer-reviewed research studies on "${fullName}". For each study, explain in simple, non-technical language: what the study discovered and how it's beneficial. Use 1-2 short sentences that anyone can understand. Return a JSON object with a "studies" array containing objects with: "year", and "summary" (simple explanation of what was discovered and its benefit).`,
-          add_context_from_internet: true,
-          response_json_schema: {
-            type: "object",
-            properties: {
-              studies: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    year: { type: "string" },
-                    summary: { type: "string" }
-                  }
-                }
-              }
-            }
-          }
-        });
-        setSources(response.studies || []);
-      } catch (error) {
-        console.error('Error fetching sources:', error);
-      }
-      setLoadingSource(false);
-    }
-    setIsExpanded(!isExpanded);
-  };
-
   // Hide research for GLOW peptide
   if (productName.toUpperCase() === 'GLOW') {
     return null;
@@ -61,34 +17,17 @@ const SourcesBubble = ({ productName }) => {
   return (
     <div className="mt-4">
       <button
-        onClick={handleExpand}
+        onClick={() => {
+          const element = document.getElementById('peptide-learn');
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
         className="inline-flex items-center gap-2 px-3 py-2 bg-black/40 hover:bg-black/60 rounded-full transition-all"
       >
         <Beaker className="w-4 h-4 text-blue-400" />
-        <span className="text-xs font-semibold text-amber-50">Research</span>
-        <ChevronDown className={`w-3 h-3 text-amber-50 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+        <span className="text-xs font-semibold text-amber-50">View Research</span>
       </button>
-
-      {isExpanded && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-3 space-y-3 bg-black/40 rounded-lg p-3 max-w-sm"
-        >
-          {loadingSource ? (
-            <p className="text-xs text-stone-400">Loading research...</p>
-          ) : sources.length > 0 ? (
-            sources.map((study, idx) => (
-              <div key={idx} className="border-l-2 border-green-500 pl-3 py-2">
-                <p className="text-xs text-stone-400 mb-1">Study {idx + 1} ({study.year})</p>
-                <p className="text-xs text-white leading-relaxed">{study.summary}</p>
-              </div>
-            ))
-          ) : (
-            <p className="text-xs text-stone-400">No research available</p>
-          )}
-        </motion.div>
-      )}
     </div>
   );
 };
