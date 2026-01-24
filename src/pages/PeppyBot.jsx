@@ -130,12 +130,17 @@ export default function PeppyBot() {
         .replace(/\*\*/g, '')
         .replace(/⚠️/g, 'Warning:')
         .replace(/[#*_]/g, '')
-        .replace(/\n+/g, '. ');
+        .replace(/\n+/g, '. ')
+        .substring(0, 500); // Limit length for faster response
+      
+      console.log('Requesting TTS for:', cleanText.substring(0, 50));
       
       const response = await base44.functions.invoke('textToSpeech', { 
         text: cleanText,
         voice_id: selectedVoice 
       });
+      
+      console.log('TTS response:', response.data);
       
       if (response.data?.audioUrl) {
         // Stop any currently playing audio
@@ -144,26 +149,35 @@ export default function PeppyBot() {
           audioRef.current = null;
         }
         
+        console.log('Creating audio element');
         const audio = new Audio(response.data.audioUrl);
         audioRef.current = audio;
         audio.volume = volume[0];
         
+        audio.onloadeddata = () => {
+          console.log('Audio loaded successfully');
+        };
+        
         audio.onended = () => {
+          console.log('Audio playback ended');
           setIsSpeaking(false);
           audioRef.current = null;
         };
         
         audio.onerror = (e) => {
           console.error('Audio playback error:', e);
+          console.error('Audio src:', audio.src);
           setIsSpeaking(false);
           audioRef.current = null;
         };
         
+        console.log('Starting playback');
         await audio.play().catch(err => {
           console.error('Play error:', err);
           setIsSpeaking(false);
         });
       } else {
+        console.error('No audioUrl in response');
         setIsSpeaking(false);
       }
     } catch (error) {
