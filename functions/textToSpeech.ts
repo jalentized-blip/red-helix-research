@@ -10,7 +10,7 @@ Deno.serve(async (req) => {
     }
 
     const { text, voice_id } = await req.json();
-    const apiKey = Deno.env.get('ELEVENLABS_API_KEY');
+    let apiKey = Deno.env.get('ELEVENLABS_API_KEY');
     const voiceId = voice_id || '21m00Tcm4TlvDq8ikWAM';
 
     if (!apiKey) {
@@ -18,13 +18,16 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'ElevenLabs API key not configured' }, { status: 500 });
     }
 
+    // Trim whitespace from API key
+    apiKey = apiKey.trim();
+
     console.log('Generating speech for:', text.substring(0, 50));
     console.log('Using voice ID:', voiceId);
     console.log('API Key present:', !!apiKey, 'Key length:', apiKey?.length);
 
-    // Call ElevenLabs API
+    // Call ElevenLabs API with v1 endpoint
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
       {
         method: 'POST',
         headers: {
@@ -34,24 +37,23 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           text: text,
-          model_id: 'eleven_turbo_v2_5',
+          model_id: 'eleven_monolingual_v1',
           voice_settings: {
             stability: 0.5,
-            similarity_boost: 0.8,
-            style: 0.0,
-            use_speaker_boost: true
+            similarity_boost: 0.8
           },
         }),
       }
     );
 
     console.log('ElevenLabs response status:', response.status);
+    console.log('ElevenLabs response headers:', JSON.stringify([...response.headers.entries()]));
     
     if (!response.ok) {
-      const error = await response.text();
+      const errorText = await response.text();
       console.error('ElevenLabs API error status:', response.status);
-      console.error('ElevenLabs API error body:', error);
-      return Response.json({ error: `ElevenLabs error: ${error}` }, { status: response.status });
+      console.error('ElevenLabs API error body:', errorText);
+      return Response.json({ error: `ElevenLabs error (${response.status}): ${errorText}` }, { status: 500 });
     }
 
     console.log('Audio generated successfully');
