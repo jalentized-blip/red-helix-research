@@ -216,15 +216,16 @@ const HeaderSearch = () => {
 };
 
       export default function Layout({ children }) {
-        const [scrolled, setScrolled] = useState(false);
-        const [cartCount, setCartCount] = useState(0);
-        const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-        const [logoOpacity, setLogoOpacity] = useState(1);
-        const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
-        const [logoScale, setLogoScale] = useState(1);
-        const [lastScrollY, setLastScrollY] = useState(0);
-        const [headerVisible, setHeaderVisible] = useState(true);
-        const [isAuthenticated, setIsAuthenticated] = useState(false);
+               const [scrolled, setScrolled] = useState(false);
+               const [cartCount, setCartCount] = useState(0);
+               const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+               const [logoOpacity, setLogoOpacity] = useState(1);
+               const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
+               const [logoScale, setLogoScale] = useState(1);
+               const [lastScrollY, setLastScrollY] = useState(0);
+               const [headerVisible, setHeaderVisible] = useState(true);
+               const [isAuthenticated, setIsAuthenticated] = useState(false);
+               const [showUploadModal, setShowUploadModal] = useState(false);
 
         useEffect(() => {
           const checkAuth = async () => {
