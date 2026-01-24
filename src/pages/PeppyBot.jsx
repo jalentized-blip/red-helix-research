@@ -140,8 +140,13 @@ export default function PeppyBot() {
       };
 
       recognitionRef.current.onend = () => {
-        if (isVoiceMode && isListening) {
-          recognitionRef.current.start();
+        // Always restart if in voice mode, regardless of listening state
+        if (isVoiceMode) {
+          try {
+            recognitionRef.current.start();
+          } catch (e) {
+            console.error('Error restarting recognition:', e);
+          }
         }
       };
     }
