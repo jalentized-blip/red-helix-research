@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
+import DiscordChatBubble from '@/components/DiscordChatBubble';
 
 const navLinks = [
   { label: "Peptides", href: "#products" },

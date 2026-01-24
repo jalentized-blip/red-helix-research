@@ -1,5 +1,6 @@
 import About from './pages/About';
 import Account from './pages/Account';
+import COAReports from './pages/COAReports';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import CryptoCheckout from './pages/CryptoCheckout';
@@ -15,13 +16,13 @@ import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import COAReports from './pages/COAReports';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
     "Account": Account,
+    "COAReports": COAReports,
     "Cart": Cart,
     "Contact": Contact,
     "CryptoCheckout": CryptoCheckout,
@@ -37,7 +38,6 @@ export const PAGES = {
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "COAReports": COAReports,
 }
 
 export const pagesConfig = {
