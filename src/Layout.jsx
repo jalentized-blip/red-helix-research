@@ -334,13 +334,13 @@ const HeaderSearch = () => {
           }
 
           /* Override red colors with barn brown */
-          .bg-red-600, .bg-red-700, .hover\\:bg-red-600:hover, .hover\\:bg-red-700:hover {
+          .bg-red-600, .bg-red-700, .bg-red-800, .hover\\:bg-red-600:hover, .hover\\:bg-red-700:hover {
             background-color: var(--barn-brown) !important;
           }
-          .text-red-600, .text-red-400, .hover\\:text-red-600:hover, .hover\\:text-red-400:hover, .hover\\:text-red-500:hover {
+          .text-red-600, .text-red-400, .text-red-500, .text-red-700, .hover\\:text-red-600:hover, .hover\\:text-red-400:hover, .hover\\:text-red-500:hover {
             color: var(--barn-brown) !important;
           }
-          .border-red-600, .border-red-700, .border-red-500 {
+          .border-red-600, .border-red-700, .border-red-500, .focus\\:border-red-700\\/50:focus {
             border-color: var(--barn-brown) !important;
           }
           .border-red-600\\/30, .border-red-600\\/70 {
@@ -370,13 +370,18 @@ const HeaderSearch = () => {
           }
 
           /* Red backgrounds with opacity */
-          .bg-red-600\\/10, .bg-red-700\\/5 {
+          .bg-red-600\\/10, .bg-red-700\\/5, .bg-red-700\\/10 {
             background-color: rgba(125, 74, 43, 0.1) !important;
           }
 
           /* Text colors with opacity */
           .text-red-600\\/80 {
             color: rgba(125, 74, 43, 0.8) !important;
+          }
+
+          /* Checkmark and icon colors */
+          svg[class*="text-red"], svg[class*="text-crimson"] {
+            color: var(--barn-brown) !important;
           }
         `}</style>
         <MolecularBackground />
