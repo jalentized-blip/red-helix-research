@@ -37,6 +37,55 @@ export default function COAReports() {
     coa.peptide_strength.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const isAdmin = user?.role === 'admin';
+
+  const toggleSelect = (id) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filteredCOAs.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredCOAs.map(coa => coa.id)));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (!window.confirm(`Delete ${selectedIds.size} COA(s)?`)) return;
+
+    setIsDeleting(true);
+    try {
+      const deletePromises = Array.from(selectedIds).map(id =>
+        base44.entities.UserCOA.delete(id)
+      );
+      await Promise.all(deletePromises);
+      setSelectedIds(new Set());
+      refetch();
+    } catch (error) {
+      alert('Error deleting COAs: ' + error.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this COA?')) return;
+
+    try {
+      await base44.entities.UserCOA.delete(id);
+      refetch();
+    } catch (error) {
+      alert('Error deleting COA: ' + error.message);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-8">
       <div className="max-w-6xl mx-auto px-4">
