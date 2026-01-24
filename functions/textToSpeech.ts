@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
           'xi-api-key': apiKey,
         },
         body: JSON.stringify({
-          text: text,
+          text: cleanText,
           model_id: 'eleven_monolingual_v1',
           voice_settings: {
             stability: 0.5,
