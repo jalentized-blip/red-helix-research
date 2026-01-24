@@ -44,6 +44,9 @@ const certificates = [
 
 export default function Certificates() {
   const [selectedCert, setSelectedCert] = useState(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedCerts = showAll ? certificates : certificates.slice(0, 3);
 
   return (
     <section id="certificates" className="py-24 px-4 bg-stone-950/50">
@@ -72,7 +75,7 @@ export default function Certificates() {
 
         {/* Certificates Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certificates.map((cert, idx) => (
+          {displayedCerts.map((cert, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
@@ -104,6 +107,23 @@ export default function Certificates() {
             </motion.div>
           ))}
         </div>
+
+        {/* Load More Button */}
+        {!showAll && certificates.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <button
+              onClick={() => setShowAll(true)}
+              className="px-8 py-3 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
+            >
+              Load More Tests
+            </button>
+          </motion.div>
+        )}
       </div>
 
       {/* Full Image Dialog */}
