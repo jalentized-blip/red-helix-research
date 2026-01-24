@@ -32,7 +32,7 @@ export default function Footer() {
           <div className="flex items-center">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/e486eaa24_thisisitbuddy.png" 
-              alt="Red Dirt Research" 
+              alt="Barn" 
               className="h-20 w-auto object-contain"
             />
           </div>
@@ -42,7 +42,7 @@ export default function Footer() {
             <a href="#" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <Mail className="w-5 h-5" />
             </a>
-            <a href="https://discord.gg/s78Jeajp" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
+            <a href="https://discord.gg/jH5s4dBr" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <MessageCircle className="w-5 h-5" />
             </a>
             <a href="#" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
@@ -55,7 +55,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-stone-400">
-            © 2024 Red Dirt Research. All rights reserved.
+            © 2024 Barn. All rights reserved.
           </p>
         </div>
       </div>

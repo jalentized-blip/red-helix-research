@@ -41,7 +41,7 @@ export default function WhyTrustUs() {
             <span className="text-amber-50">Why Researchers Trust</span>
             <br />
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Red Dirt Research
+              Barn
             </span>
           </h2>
           <p className="text-stone-300 text-lg">

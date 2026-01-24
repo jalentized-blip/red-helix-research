@@ -10,7 +10,7 @@ const contactMethods = [
   {
     icon: Mail,
     label: "Email",
-    value: "support@reddirtresearch.com",
+    value: "support@barn.com",
     color: "bg-red-500/20 text-red-400 hover:bg-red-500/30"
   },
   {
