@@ -27,6 +27,7 @@ const categoryLabels = {
 };
 
 export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true }) {
+  const [isHovered, setIsHovered] = React.useState(false);
   const badge = product.badge ? badgeConfig[product.badge] : null;
   
   // Use barn logo for all products except bacteriostatic water
@@ -37,24 +38,38 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
     : 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/0ac3c5268_image.png';
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
-      viewport={{ once: true }}
-      whileHover={{ 
-        scale: 1.05, 
-        y: -8,
-        zIndex: 50
-      }}
-      className="relative"
-    >
-      {/* Depth of field blur effect on siblings */}
+    <>
+      {/* Full-page blur overlay */}
+      {isHovered && (
+        <motion.div
+          initial={{ backdropFilter: "blur(0px)", opacity: 0 }}
+          animate={{ 
+            backdropFilter: "blur(20px)", 
+            opacity: 1 
+          }}
+          exit={{ backdropFilter: "blur(0px)", opacity: 0 }}
+          transition={{ 
+            backdropFilter: { duration: 1.5, ease: "easeInOut" },
+            opacity: { duration: 0.3 }
+          }}
+          className="fixed inset-0 z-40 pointer-events-none bg-stone-950/20"
+        />
+      )}
+
       <motion.div
-        className="absolute inset-0 -m-12 pointer-events-none"
-        initial={{ backdropFilter: "blur(0px)" }}
-        whileHover={{ backdropFilter: "blur(12px)" }}
-      />
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.05, duration: 0.4 }}
+        viewport={{ once: true }}
+        whileHover={{ 
+          scale: 1.05, 
+          y: -8,
+          zIndex: 50
+        }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        className="relative z-50"
+      >
       
       <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20">
         {/* Hover glow */}
@@ -123,5 +138,6 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
         </div>
       </Card>
     </motion.div>
+    </>
   );
 }
