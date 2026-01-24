@@ -53,7 +53,7 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
       <motion.div
         className="absolute inset-0 -m-12 pointer-events-none"
         initial={{ backdropFilter: "blur(0px)" }}
-        whileHover={{ backdropFilter: "blur(2px)" }}
+        whileHover={{ backdropFilter: "blur(12px)" }}
       />
       
       <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20">
