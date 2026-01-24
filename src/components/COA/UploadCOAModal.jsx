@@ -112,6 +112,11 @@ If you cannot find either field, set it to null.`,
       return;
     }
 
+    if (!isFromBarn) {
+      alert('This COA must be for Barn products. Please try again with a valid COA for Barn-related products.');
+      return;
+    }
+
     setIsUploading(true);
     try {
       await base44.entities.UserCOA.create({
