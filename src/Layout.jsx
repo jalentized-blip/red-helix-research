@@ -414,20 +414,40 @@ const HeaderSearch = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
-              Home
-            </Link>
-            <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
-              About
-            </Link>
-            <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
-              Contact
-            </Link>
-            {isAuthenticated && (
-              <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2 transition-all rounded-lg hover:bg-stone-800/50 backdrop-blur-sm">
-                Account
+          <nav className="hidden lg:flex items-center gap-3 flex-1 justify-center">
+            <div className="flex items-center gap-2">
+              <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                Home
               </Link>
+              <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                About
+              </Link>
+              <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                Contact
+              </Link>
+            </div>
+
+            <div className="h-6 w-px bg-stone-700/50" />
+
+            <div className="flex items-center gap-2">
+              <Link to={createPageUrl('PeptideCalculator')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                Calculator
+              </Link>
+              <Link to={createPageUrl('LearnMore')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                Research
+              </Link>
+              <button onClick={() => scrollTo('#certificates')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                COAs
+              </button>
+            </div>
+
+            {isAuthenticated && (
+              <>
+                <div className="h-6 w-px bg-stone-700/50" />
+                <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                  Account
+                </Link>
+              </>
             )}
           </nav>
           
