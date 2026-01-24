@@ -9,23 +9,25 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
   const [audioInitialized, setAudioInitialized] = useState(false);
 
   useEffect(() => {
-    if (!audioRef?.current) return;
+    if (!isActive || !audioRef?.current) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
     const width = canvas.width;
     const height = canvas.height;
 
-    // Initialize audio context and analyzer
+    // Initialize audio context and analyzer once
     if (!audioContextRef.current) {
       try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         audioContextRef.current = audioContext;
 
         if (audioContext.state === 'suspended') {
-          audioContext.resume();
+          audioContext.resume().catch(e => console.error('Failed to resume audio context', e));
         }
 
         const analyzer = audioContext.createAnalyser();
@@ -51,11 +53,11 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
       analyzer.getByteFrequencyData(dataArray);
 
       // Clear canvas
-      ctx.fillStyle = 'rgba(30, 27, 23, 0.2)';
+      ctx.fillStyle = 'rgba(30, 27, 23, 1)';
       ctx.fillRect(0, 0, width, height);
 
       // Draw frequency bars
-      ctx.fillStyle = 'rgba(217, 119, 6, 0.8)';
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.9)';
       const barWidth = (width / bufferLength) * 2.5;
 
       for (let i = 0; i < bufferLength; i++) {
@@ -79,7 +81,7 @@ export default function VoiceVisualizer({ isActive, audioRef }) {
         cancelAnimationFrame(animationIdRef.current);
       }
     };
-  }, [audioRef]);
+  }, [isActive, audioRef]);
 
   return (
     <motion.div
