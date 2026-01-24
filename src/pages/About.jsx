@@ -24,7 +24,7 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
               <p className="text-3xl font-black text-amber-50">{highlightSecondary}</p>
             )}
             <p className="text-white font-semibold text-lg mt-6 mb-3">Every Batch Tested. Every Result Trusted.</p>
-            <p className="text-barn-tan text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
+            <p className="text-amber-50 text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
           </div>
         )}
       </div>
