@@ -298,7 +298,7 @@ If you cannot find either field, set it to null.`,
 
               <div>
                 <label className="block text-sm font-semibold text-amber-50 mb-3">
-                  Is this COA from Barn? *
+                  Is this COA results of testing Barn products? *
                 </label>
                 <div className="flex gap-3">
                   <button
