@@ -17,6 +17,7 @@ import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import PeptideReconstitution from './pages/PeptideReconstitution';
+import GLP1Plotter from './pages/GLP1Plotter';
 import __Layout from './Layout.jsx';
 
 
@@ -40,6 +41,7 @@ export const PAGES = {
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
     "PeptideReconstitution": PeptideReconstitution,
+    "GLP1Plotter": GLP1Plotter,
 }
 
 export const pagesConfig = {
