@@ -18,6 +18,7 @@ const categories = [
 export default function AllProducts({ products, onSelectStrength, isAuthenticated = true }) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = activeCategory === "all" || product.category === activeCategory;
@@ -26,6 +27,8 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
+
+  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 9);
 
   return (
     <section id="products" className="py-20 px-4 relative">
@@ -92,7 +95,7 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product, index) => (
+          {displayedProducts.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} onSelectStrength={onSelectStrength} isAuthenticated={isAuthenticated} />
           ))}
         </div>
@@ -101,6 +104,23 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
           <div className="text-center py-12 text-stone-400">
             No products found in this category.
           </div>
+        )}
+
+        {/* Show More/Hide Button */}
+        {filteredProducts.length > 9 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="px-8 py-3 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
+            >
+              {showAll ? 'HIDE' : 'SHOW MORE..'}
+            </button>
+          </motion.div>
         )}
       </div>
     </section>
