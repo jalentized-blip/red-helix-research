@@ -70,7 +70,7 @@ export default function Hero() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
             <span className="text-amber-50">PREMIUM QUALITY,</span>
             <br />
-            <span className="text-barn-brown">LAB VERIFIED.</span>
+            <span className="bg-gradient-to-b from-barn-tan via-barn-brown to-barn-brown/80 bg-clip-text text-transparent">LAB VERIFIED.</span>
           </h1>
 
           {/* Tagline */}
