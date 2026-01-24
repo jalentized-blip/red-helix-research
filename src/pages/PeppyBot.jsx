@@ -322,12 +322,9 @@ export default function PeppyBot() {
       // Only speak if in voice mode
       if (shouldUseVoice) {
         addDebug('Starting voice playback');
-        // Summarize response for voice - keep it short and conversational
-        const summaryPrompt = `Summarize this response in 2-3 sentences max (under 100 words). Keep it conversational and friendly. End with a follow-up question or prompt. Remove markdown formatting:\n\n${response}`;
-        const summaryResponse = await base44.integrations.Core.InvokeLLM({
-          prompt: summaryPrompt
-        });
-        await speakText(summaryResponse);
+        // Keep response concise for voice by truncating after first few sentences
+        const voiceText = response.split('\n')[0].substring(0, 500);
+        await speakText(voiceText);
       }
     } catch (error) {
       addDebug(`Error: ${error.message}`);
