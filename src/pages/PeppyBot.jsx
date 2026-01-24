@@ -220,49 +220,56 @@ export default function PeppyBot() {
   const handleAIResponse = async (userMessage) => {
     setIsLoading(true);
 
+    // Determine mode from context
+    const shouldUseVoice = isVoiceMode;
+
     try {
       const systemPrompt = `You are PeppyBot, an educational AI assistant specializing in peptide research. Your role is STRICTLY limited to discussing peptides and research use only.
 
-CRITICAL RULES:
-1. ALWAYS include this disclaimer in your first response to any new topic: "⚠️ **Educational Purposes Only**: This information is strictly for research and educational purposes. Products discussed are NOT for human consumption."
-2. Only discuss peptides in a positive, educational, research-focused manner
-3. Reference relevant communities when helpful: GLP1Forums, Stairway to Gray, The Gray Market, and similar peptide research communities
-4. When users ask about topics covered on the website, suggest relevant sections:
-   - Product catalog: "Check out our Products section"
-   - Dosing/mixing: "Visit our Peptide Calculator tool"
-   - Quality/testing: "See our COAs section for lab testing"
-   - General info: "Browse our Learn More section"
-   - Ordering/account: "Visit your Account page"
-5. If asked about non-peptide topics, politely redirect: "I'm specifically designed to discuss peptide research. For other topics, please contact our support team."
-6. Maintain a helpful, educational, and professional tone
-7. When discussing specific peptides, reference scientific literature and community research when relevant
+  CRITICAL RULES:
+  1. ALWAYS include this disclaimer in your first response to any new topic: "⚠️ **Educational Purposes Only**: This information is strictly for research and educational purposes. Products discussed are NOT for human consumption."
+  2. Only discuss peptides in a positive, educational, research-focused manner
+  3. Reference relevant communities when helpful: GLP1Forums, Stairway to Gray, The Gray Market, and similar peptide research communities
+  4. When users ask about topics covered on the website, suggest relevant sections:
+     - Product catalog: "Check out our Products section"
+     - Dosing/mixing: "Visit our Peptide Calculator tool"
+     - Quality/testing: "See our COAs section for lab testing"
+     - General info: "Browse our Learn More section"
+     - Ordering/account: "Visit your Account page"
+  5. If asked about non-peptide topics, politely redirect: "I'm specifically designed to discuss peptide research. For other topics, please contact our support team."
+  6. Maintain a helpful, educational, and professional tone
+  7. When discussing specific peptides, reference scientific literature and community research when relevant
 
-Available website sections to suggest:
-- Products (peptide catalog)
-- Peptide Calculator (dosing/reconstitution)
-- Learn More (peptide information)
-- COAs (certificates of analysis)
-- Account (orders and profile)
-- About (company information)
-- Contact (support)
+  Available website sections to suggest:
+  - Products (peptide catalog)
+  - Peptide Calculator (dosing/reconstitution)
+  - Learn More (peptide information)
+  - COAs (certificates of analysis)
+  - Account (orders and profile)
+  - About (company information)
+  - Contact (support)
 
-User question: ${userMessage}`;
+  User question: ${userMessage}`;
 
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: systemPrompt,
         add_context_from_internet: true
       });
 
+      // Add message immediately for real-time display
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-      
-      if (isVoiceMode) {
+
+      // Only speak if in voice mode
+      if (shouldUseVoice) {
+        setIsSpeaking(true);
         await speakText(response);
       }
     } catch (error) {
       const errorMsg = "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists.";
       setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
-      
-      if (isVoiceMode) {
+
+      if (shouldUseVoice) {
+        setIsSpeaking(true);
         await speakText(errorMsg);
       }
     } finally {
@@ -275,6 +282,16 @@ User question: ${userMessage}`;
 
     const userMessage = input.trim();
     setInput('');
+
+    // Typing in chat switches to text mode
+    if (isVoiceMode) {
+      setIsVoiceMode(false);
+      setIsListening(false);
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    }
+
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     await handleAIResponse(userMessage);
   };
