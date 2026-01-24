@@ -26,7 +26,6 @@ export default function PeppyBot() {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [volume, setVolume] = useState([0.8]);
-  const [selectedVoice, setSelectedVoice] = useState('21m00Tcm4TlvDq8ikWAM');
   const [interimTranscript, setInterimTranscript] = useState('');
   const [audioDevices, setAudioDevices] = useState({ input: [], output: [] });
   const [selectedInputDevice, setSelectedInputDevice] = useState('');
