@@ -59,6 +59,11 @@ Deno.serve(async (req) => {
       const errorText = await response.text();
       console.error('ElevenLabs API error status:', response.status);
       console.error('ElevenLabs API error body:', errorText);
+      console.error('Request was:', {
+        url: `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
+        text: cleanText.substring(0, 100),
+        textLength: cleanText.length
+      });
       return Response.json({ error: `ElevenLabs error (${response.status}): ${errorText}` }, { status: 500 });
     }
 
