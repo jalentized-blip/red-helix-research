@@ -18,12 +18,13 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
         <h3 className="text-2xl font-bold text-amber-50 mb-3">{title}</h3>
         <p className="text-stone-300 leading-relaxed mb-3">{description}</p>
         {highlight && (
-          <div className="mt-4 space-y-2">
-            <p className="text-2xl font-bold text-barn-brown">{highlight}</p>
+          <div className="mt-4 space-y-0">
+            <p className="text-3xl font-black text-amber-50">{highlight}</p>
             {highlightSecondary && (
-              <p className="text-2xl font-bold text-barn-brown">{highlightSecondary}</p>
+              <p className="text-3xl font-black text-red-600">{highlightSecondary}</p>
             )}
-            <p className="text-stone-400 text-sm mt-3">Every Batch Tested. Every Result Trusted.</p>
+            <p className="text-white font-semibold text-lg mt-6 mb-3">Every Batch Tested. Every Result Trusted.</p>
+            <p className="text-barn-tan text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
           </div>
         )}
       </div>
