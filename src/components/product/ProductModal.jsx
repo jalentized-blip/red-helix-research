@@ -2,14 +2,29 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X, ShoppingCart, CheckCircle } from "lucide-react";
+import { X, ShoppingCart, CheckCircle, Info } from "lucide-react";
 import { addToCart } from '@/components/utils/cart';
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProductModal({ product, isOpen, onClose }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [showCOA, setShowCOA] = useState(false);
+  const [hoveredInfo, setHoveredInfo] = useState(false);
+
+  const { data: coas = [] } = useQuery({
+    queryKey: ['coas'],
+    queryFn: () => base44.entities.COA.list(),
+    initialData: [],
+  });
 
   if (!product) return null;
+
+  const productCOA = coas.find(coa => 
+    coa.product_name?.toLowerCase() === product.name?.toLowerCase()
+  );
 
   const handleAddToCart = () => {
     if (selectedSpec) {
@@ -26,9 +41,39 @@ export default function ProductModal({ product, isOpen, onClose }) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-stone-900 border-stone-700 max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-amber-50 pr-8">
-            {product.name}
-          </DialogTitle>
+          <div className="flex items-start justify-between">
+            <DialogTitle className="text-2xl font-bold text-amber-50 pr-8">
+              {product.name}
+            </DialogTitle>
+            <div 
+              className="relative"
+              onMouseEnter={() => setHoveredInfo(true)}
+              onMouseLeave={() => setHoveredInfo(false)}
+            >
+              <button
+                onClick={() => productCOA && setShowCOA(true)}
+                className={`p-2 rounded-full transition-all ${
+                  productCOA 
+                    ? 'bg-stone-800 hover:bg-stone-700 cursor-pointer' 
+                    : 'bg-stone-800/50 cursor-default'
+                }`}
+              >
+                <Info className="w-5 h-5 text-stone-400" />
+              </button>
+              
+              {hoveredInfo && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute top-full right-0 mt-2 px-3 py-2 bg-stone-800 border border-stone-700 rounded-lg shadow-xl whitespace-nowrap z-50"
+                >
+                  <p className="text-xs text-stone-300">
+                    {productCOA ? 'Click to view COA' : 'PENDING COA'}
+                  </p>
+                </motion.div>
+              )}
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -122,6 +167,39 @@ export default function ProductModal({ product, isOpen, onClose }) {
           </div>
         </div>
       </DialogContent>
+
+      {/* COA Image Overlay */}
+      <AnimatePresence>
+        {showCOA && productCOA && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCOA(false)}
+            className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl max-h-[90vh] overflow-auto bg-stone-900 rounded-lg"
+            >
+              <button
+                onClick={() => setShowCOA(false)}
+                className="absolute top-4 right-4 p-2 bg-stone-800 hover:bg-stone-700 rounded-full z-10"
+              >
+                <X className="w-5 h-5 text-amber-50" />
+              </button>
+              <img
+                src={productCOA.image_url}
+                alt={`COA for ${product.name}`}
+                className="w-full h-auto"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Dialog>
   );
 }
