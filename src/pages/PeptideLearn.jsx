@@ -26,7 +26,7 @@ export default function PeptideLearn() {
   useEffect(() => {
     const findAndLoadProduct = async () => {
       const foundProduct = products.find(p => p.id === productId);
-      if (foundProduct) {
+      if (foundProduct && foundProduct.name.toUpperCase() !== 'BAC RESEARCH') {
         setProduct(foundProduct);
         await generatePeptideData(foundProduct);
       }

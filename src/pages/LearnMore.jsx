@@ -9,8 +9,8 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 
 const SourcesBubble = ({ productName }) => {
-  // Hide research for GLOW peptide
-  if (productName.toUpperCase() === 'GLOW') {
+  // Hide research for GLOW and BAC RESEARCH
+  if (productName.toUpperCase() === 'GLOW' || productName.toUpperCase() === 'BAC RESEARCH') {
     return null;
   }
 
@@ -42,7 +42,7 @@ export default function LearnMore() {
   const uniqueProducts = useMemo(() => {
     const seen = new Set();
     return products.filter(product => {
-      if (seen.has(product.id) || product.name.toUpperCase() === 'GLOW') {
+      if (seen.has(product.id) || product.name.toUpperCase() === 'GLOW' || product.name.toUpperCase() === 'BAC RESEARCH') {
         return false;
       }
       seen.add(product.id);
