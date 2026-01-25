@@ -42,14 +42,18 @@ export default function LearnMore() {
   });
 
   const uniqueProducts = useMemo(() => {
-    const seen = new Set();
-    return products.filter(product => {
-      if (seen.has(product.id) || product.name.toUpperCase() === 'GLOW' || product.name.toUpperCase() === 'BAC RESEARCH') {
-        return false;
+    // Deduplicate by name, keeping the most recent version
+    const productMap = new Map();
+    products.forEach(product => {
+      if (product.name.toUpperCase() === 'GLOW' || product.name.toUpperCase() === 'BAC RESEARCH') {
+        return;
       }
-      seen.add(product.id);
-      return true;
+      if (!productMap.has(product.name) || 
+          new Date(product.updated_date) > new Date(productMap.get(product.name).updated_date)) {
+        productMap.set(product.name, product);
+      }
     });
+    return Array.from(productMap.values());
   }, [products]);
 
   const filteredProducts = useMemo(() => {
