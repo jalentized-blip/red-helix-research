@@ -227,7 +227,7 @@ const HeaderSearch = () => {
                         const [headerVisible, setHeaderVisible] = useState(true);
                         const [isAuthenticated, setIsAuthenticated] = useState(false);
                         const [showUploadModal, setShowUploadModal] = useState(false);
-                        const [mouseNearTop, setMouseNearTop] = useState(true);
+                        const [mouseNearTop, setMouseNearTop] = useState(false);
                         const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
 
         useEffect(() => {
@@ -288,7 +288,7 @@ const HeaderSearch = () => {
           const handleMouseMove = (e) => {
             setMousePos({ x: e.clientX, y: e.clientY });
 
-            // Show header when mouse is near top on non-home pages
+            // Show/hide header based on mouse position on non-home pages
             if (!isHomePage) {
               setMouseNearTop(e.clientY < 100);
             }
