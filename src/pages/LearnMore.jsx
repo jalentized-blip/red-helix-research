@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, BookOpen, Beaker, Youtube, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -34,6 +35,7 @@ const SourcesBubble = ({ productName }) => {
 
 export default function LearnMore() {
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
@@ -49,6 +51,13 @@ export default function LearnMore() {
       return true;
     });
   }, [products]);
+
+  const filteredProducts = useMemo(() => {
+    if (selectedCategory === 'all') {
+      return uniqueProducts;
+    }
+    return uniqueProducts.filter(product => product.category === selectedCategory);
+  }, [uniqueProducts, selectedCategory]);
 
   const categoryLabels = {
     weight_loss: 'Weight Loss',
@@ -122,11 +131,30 @@ export default function LearnMore() {
               Explore the science behind our peptides. Discover potential uses, clinical research, and key findings for each product.
             </p>
           </div>
+
+          {/* Sort by Intended Use */}
+          <div className="mb-8">
+            <label className="block text-stone-400 text-sm font-semibold mb-2">Sort by Intended Use</label>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full md:w-64 bg-stone-900 border-stone-700 text-amber-50">
+                <SelectValue placeholder="All Products" />
+              </SelectTrigger>
+              <SelectContent className="bg-stone-900 border-stone-700">
+                <SelectItem value="all" className="text-amber-50">All Products</SelectItem>
+                <SelectItem value="weight_loss" className="text-amber-50">Weight Loss</SelectItem>
+                <SelectItem value="recovery_healing" className="text-amber-50">Recovery & Healing</SelectItem>
+                <SelectItem value="cognitive_focus" className="text-amber-50">Cognitive Focus</SelectItem>
+                <SelectItem value="performance_longevity" className="text-amber-50">Performance & Longevity</SelectItem>
+                <SelectItem value="sexual_health" className="text-amber-50">Sexual Health</SelectItem>
+                <SelectItem value="general_health" className="text-amber-50">General Health</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Peptide Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {uniqueProducts.map((product, idx) => (
+          {filteredProducts.map((product, idx) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -190,10 +218,10 @@ export default function LearnMore() {
           ))}
         </div>
 
-        {uniqueProducts.length === 0 && (
+        {filteredProducts.length === 0 && (
           <div className="text-center py-20">
             <Beaker className="w-16 h-16 text-stone-600 mx-auto mb-4" />
-            <p className="text-stone-400 text-lg">No peptides available yet.</p>
+            <p className="text-stone-400 text-lg">No peptides found in this category.</p>
           </div>
         )}
       </div>
