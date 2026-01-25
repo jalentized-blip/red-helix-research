@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ProductModal from '@/components/product/ProductModal';
 import AgeVerification from '@/components/AgeVerification';
+import TechGrid from '@/components/effects/TechGrid';
+import ParticleField from '@/components/effects/ParticleField';
 
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
@@ -99,7 +101,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 text-amber-50">
+    <div className="min-h-screen bg-stone-950 text-amber-50 relative">
+      <TechGrid />
+      <ParticleField />
       <AgeVerification 
         isOpen={showAgeVerification} 
         onVerify={handleAgeVerification} 

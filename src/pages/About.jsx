@@ -4,60 +4,103 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import TechGrid from '@/components/effects/TechGrid';
+import HolographicText from '@/components/effects/HolographicText';
+import GlowingCard from '@/components/effects/GlowingCard';
+import ParticleField from '@/components/effects/ParticleField';
 
 const StorySection = ({ icon: Icon, title, description, highlight, highlightSecondary }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    className="bg-stone-900/50 border border-stone-700 rounded-lg p-8"
-  >
-    <div className="flex items-start gap-4">
-      <Icon className="w-8 h-8 text-red-600 flex-shrink-0 mt-1" />
-      <div>
-        <h3 className="text-2xl font-bold text-amber-50 mb-3">{title}</h3>
-        <p className="text-amber-50 leading-relaxed mb-3">{description}</p>
-        {highlight && (
-          <div className="mt-4 space-y-0">
-            <p className="text-3xl font-black text-amber-50">{highlight}</p>
-            {highlightSecondary && (
-              <p className="text-3xl font-black text-amber-50">{highlightSecondary}</p>
-            )}
-            <p className="text-white font-semibold text-lg mt-6 mb-3">Every Batch Tested. Every Result Trusted.</p>
-            <p className="text-amber-50 text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
-          </div>
-        )}
+  <GlowingCard>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="p-8"
+    >
+      <div className="flex items-start gap-4">
+        <motion.div
+          animate={{ 
+            boxShadow: [
+              '0 0 10px rgba(125, 74, 43, 0.5)',
+              '0 0 20px rgba(125, 74, 43, 0.8)',
+              '0 0 10px rgba(125, 74, 43, 0.5)',
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="rounded-full p-2 bg-stone-800"
+        >
+          <Icon className="w-8 h-8 text-barn-brown flex-shrink-0" />
+        </motion.div>
+        <div>
+          <HolographicText className="text-2xl font-bold text-amber-50 mb-3">{title}</HolographicText>
+          <p className="text-amber-50 leading-relaxed mb-3">{description}</p>
+          {highlight && (
+            <div className="mt-4 space-y-0">
+              <HolographicText className="text-3xl font-black text-amber-50">{highlight}</HolographicText>
+              {highlightSecondary && (
+                <HolographicText className="text-3xl font-black text-amber-50">{highlightSecondary}</HolographicText>
+              )}
+              <p className="text-white font-semibold text-lg mt-6 mb-3">Every Batch Tested. Every Result Trusted.</p>
+              <p className="text-amber-50 text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </motion.div>
+    </motion.div>
+  </GlowingCard>
 );
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-stone-950 pt-32 pb-20 relative">
+      <TechGrid />
+      <ParticleField />
       {/* Hero Section */}
-      <div className="max-w-4xl mx-auto px-4 mb-20">
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-8">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
+      <div className="max-w-4xl mx-auto px-4 mb-20 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-barn-brown hover:text-barn-tan mb-8 group">
+            <motion.div
+              whileHover={{ x: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </motion.div>
+            <span className="relative">
+              Back to Home
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-barn-brown group-hover:w-full transition-all duration-300" />
+            </span>
+          </Link>
+        </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-5xl font-black text-amber-50 mb-6">
+          <HolographicText className="text-5xl font-black text-amber-50 mb-6 block">
             Barn: Transparency, Affordability & Exceptional Service
-          </h1>
-          <p className="text-xl text-amber-50 leading-relaxed">
+          </HolographicText>
+          <motion.p 
+            className="text-xl text-amber-50 leading-relaxed"
+            animate={{ 
+              textShadow: [
+                '0 0 5px rgba(125, 74, 43, 0.3)',
+                '0 0 10px rgba(125, 74, 43, 0.5)',
+                '0 0 5px rgba(125, 74, 43, 0.3)',
+              ]
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
             We're reimagining the peptide market with verified products, fair pricing, and customer service that actually cares.
-          </p>
+          </motion.p>
         </motion.div>
       </div>
 
       {/* Story Timeline */}
-      <div className="max-w-4xl mx-auto px-4 space-y-8 mb-20">
+      <div className="max-w-4xl mx-auto px-4 space-y-8 mb-20 relative z-10">
         {/* Chapter 1 */}
         <StorySection
           icon={Beaker}
@@ -84,15 +127,16 @@ export default function About() {
         />
 
         {/* Chapter 4 */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-gradient-to-r from-barn-brown/20 to-barn-tan/10 border border-barn-brown/30 rounded-lg p-10"
-        >
-          <h3 className="text-3xl font-bold text-amber-50 mb-4">
+        <GlowingCard>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-r from-barn-brown/20 to-barn-tan/10 p-10"
+          >
+          <HolographicText className="text-3xl font-bold text-amber-50 mb-4 block">
             Our Commitment to You
-          </h3>
+          </HolographicText>
           <p className="text-amber-50 leading-relaxed mb-6">
             We're competing to be the most trusted peptide source in the market. Here's what we stand for:
           </p>
@@ -114,7 +158,8 @@ export default function About() {
               <span><strong>Competitive Pricing:</strong> Fair doesn't mean expensive. We compete on price while maintaining the highest standards of quality and transparency.</span>
             </li>
           </ul>
-        </motion.div>
+          </motion.div>
+          </GlowingCard>
 
         {/* Chapter 5 */}
         <StorySection
@@ -126,22 +171,38 @@ export default function About() {
       </div>
 
       {/* CTA Section */}
-      <div className="max-w-4xl mx-auto px-4 text-center">
+      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-amber-50 mb-4">
+          <HolographicText className="text-3xl font-bold text-amber-50 mb-4 block">
             Ready to Experience Real Transparency?
-          </h2>
+          </HolographicText>
           <p className="text-amber-50 mb-8 text-lg">
             Explore our products and see exactly what you're getting.
           </p>
           <Link to={createPageUrl('Home')}>
-            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 py-6 text-lg font-semibold">
-              Shop Now
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button className="bg-barn-brown hover:bg-barn-tan text-amber-50 px-8 py-6 text-lg font-semibold relative overflow-hidden group">
+                <span className="relative z-10">Shop Now</span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-barn-tan to-barn-brown opacity-0 group-hover:opacity-100 transition-opacity"
+                  animate={{
+                    x: ['-100%', '100%']
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+              </Button>
+            </motion.div>
           </Link>
         </motion.div>
       </div>
