@@ -298,7 +298,7 @@ www.reddirtresearch.com`;
                         <stop offset="100%" stopColor="rgba(59, 130, 246, 0.7)" />
                       </linearGradient>
                       <clipPath id="vialClip">
-                        <rect x="52" y="60" width="96" height="198" rx="6" />
+                        <rect x="52" y="62" width="96" height="196" rx="6" />
                       </clipPath>
                     </defs>
 
@@ -312,18 +312,28 @@ www.reddirtresearch.com`;
                     {/* Main vial body */}
                     <rect x="50" y="60" width="100" height="200" rx="8" fill="rgba(255, 255, 255, 0.15)" stroke="#999" strokeWidth="2" />
                     
-                    {/* Water fill - clipped to vial interior */}
+                    {/* Barn logo on vial */}
+                    <image 
+                      href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/af30dbf80_download.png"
+                      x="75" 
+                      y="140" 
+                      width="50" 
+                      height="50"
+                      opacity="0.4"
+                    />
+                    
+                    {/* Water fill - clipped to vial interior, fills exactly to measurement lines */}
                     <g clipPath="url(#vialClip)">
                       <motion.rect
                         x="52"
-                        y={258 - (Math.min(currentWater, 3) / 3) * 198}
+                        y={62 + (196 - (Math.min(currentWater, 3) / 3) * 196)}
                         width="96"
-                        height={(Math.min(currentWater, 3) / 3) * 198}
+                        height={(Math.min(currentWater, 3) / 3) * 196}
                         fill="url(#vialFluidGradient)"
                         initial={{ height: 0 }}
                         animate={{ 
-                          height: (Math.min(currentWater, 3) / 3) * 198,
-                          y: 258 - (Math.min(currentWater, 3) / 3) * 198
+                          height: (Math.min(currentWater, 3) / 3) * 196,
+                          y: 62 + (196 - (Math.min(currentWater, 3) / 3) * 196)
                         }}
                         transition={{ type: 'spring', stiffness: 100, damping: 15 }}
                       />
@@ -332,15 +342,18 @@ www.reddirtresearch.com`;
                     {/* Vial bottom cap */}
                     <ellipse cx="100" cy="260" rx="50" ry="8" fill="#e5e5e5" stroke="#999" strokeWidth="1" />
                     
-                    {/* Volume markings - 1ml at 66.6% from bottom, 2ml at 33.3%, 3ml at top */}
-                    <line x1="150" y1="192" x2="165" y2="192" stroke="#999" strokeWidth="1" />
-                    <text x="170" y="197" fontSize="12" fill="#999">1ml</text>
+                    {/* Volume markings - precisely positioned */}
+                    {/* 1ml = 1/3 full = bottom + 65.33px */}
+                    <line x1="150" y1="193" x2="165" y2="193" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="198" fontSize="12" fill="#999">1ml</text>
                     
-                    <line x1="150" y1="126" x2="165" y2="126" stroke="#999" strokeWidth="1" />
-                    <text x="170" y="131" fontSize="12" fill="#999">2ml</text>
+                    {/* 2ml = 2/3 full = bottom + 130.66px */}
+                    <line x1="150" y1="127" x2="165" y2="127" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="132" fontSize="12" fill="#999">2ml</text>
                     
-                    <line x1="150" y1="60" x2="165" y2="60" stroke="#999" strokeWidth="1" />
-                    <text x="170" y="65" fontSize="12" fill="#999">3ml</text>
+                    {/* 3ml = full = top */}
+                    <line x1="150" y1="62" x2="165" y2="62" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="67" fontSize="12" fill="#999">3ml</text>
                   </svg>
                   
                   {/* Current volume label */}
