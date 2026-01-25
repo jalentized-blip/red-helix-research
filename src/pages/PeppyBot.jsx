@@ -14,6 +14,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Uses ElevenLabs free tier voice
 
 export default function PeppyBot() {
+  const [sessionId] = useState(() => {
+    let sid = localStorage.getItem('peppybot_session_id');
+    if (!sid) {
+      sid = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem('peppybot_session_id', sid);
+    }
+    return sid;
+  });
+
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -22,7 +31,34 @@ export default function PeppyBot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const history = await base44.entities.PeppyBotConversation.filter(
+          { session_id: sessionId },
+          'timestamp',
+          1000
+        );
+
+        if (history && history.length > 0) {
+          const loadedMessages = history.map(h => ({
+            role: h.role,
+            content: h.message
+          }));
+          setMessages(loadedMessages);
+        }
+        setHistoryLoaded(true);
+      } catch (error) {
+        console.error('Error loading conversation history:', error);
+        setHistoryLoaded(true);
+      }
+    };
+
+    loadHistory();
+  }, [sessionId]);
 
 
 
@@ -222,7 +258,9 @@ ${conversationHistory}
         add_context_from_internet: isDosingQuestion ? true : true
       });
 
-      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      const aiMsg = { role: 'assistant', content: response };
+      setMessages(prev => [...prev, aiMsg]);
+      await saveMessage('assistant', response);
     } catch (error) {
       const errorMsg = "I apologize, but I encountered an error. Please try again or contact our support team if the issue persists.";
       setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
@@ -237,7 +275,9 @@ ${conversationHistory}
     const userMessage = input.trim();
     setInput('');
 
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    const userMsg = { role: 'user', content: userMessage };
+    setMessages(prev => [...prev, userMsg]);
+    await saveMessage('user', userMessage);
     await handleAIResponse(userMessage);
   };
 
