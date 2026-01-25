@@ -24,7 +24,7 @@ export default function PeptideCalculator() {
 
   const doseOptions = ['0.1', '0.25', '0.5', '1', '2.5', '5', '7.5', '10', '12.5', '15', '50'];
   const strengthOptions = ['1', '5', '10', '15', '20', '30', '50', '1000'];
-  const waterOptions = ['1.0', '2.0', '3.0', '5.0', '10.0'];
+  const waterOptions = ['1.0', '2.0', '3.0'];
 
   const currentDose = dose === 'other' ? parseFloat(doseCustom) || 0 : parseFloat(dose);
   const currentStrength = strength === 'other' ? parseFloat(strengthCustom) || 0 : parseFloat(strength);
@@ -291,6 +291,17 @@ www.reddirtresearch.com`;
                 <div className="relative w-48 h-64">
                   {/* Vial Container */}
                   <svg viewBox="0 0 200 300" className="w-full h-full">
+                    <defs>
+                      <linearGradient id="vialFluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="rgba(59, 130, 246, 0.6)" />
+                        <stop offset="50%" stopColor="rgba(96, 165, 250, 0.5)" />
+                        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.7)" />
+                      </linearGradient>
+                      <clipPath id="vialClip">
+                        <rect x="52" y="60" width="96" height="198" rx="6" />
+                      </clipPath>
+                    </defs>
+
                     {/* Vial cap */}
                     <ellipse cx="100" cy="30" rx="35" ry="8" fill="#666" />
                     <rect x="65" y="30" width="70" height="15" fill="#666" />
@@ -301,43 +312,35 @@ www.reddirtresearch.com`;
                     {/* Main vial body */}
                     <rect x="50" y="60" width="100" height="200" rx="8" fill="rgba(255, 255, 255, 0.15)" stroke="#999" strokeWidth="2" />
                     
-                    {/* Water fill - calculated based on 3ml max */}
-                    <motion.rect
-                      x="50"
-                      y={260 - (currentWater / 3) * 200}
-                      width="100"
-                      height={(currentWater / 3) * 200}
-                      rx="4"
-                      fill="url(#vialFluidGradient)"
-                      initial={{ height: 0, y: 260 }}
-                      animate={{ 
-                        height: (currentWater / 3) * 200,
-                        y: 260 - (currentWater / 3) * 200
-                      }}
-                      transition={{ type: 'spring', stiffness: 100, damping: 15 }}
-                    />
+                    {/* Water fill - clipped to vial interior */}
+                    <g clipPath="url(#vialClip)">
+                      <motion.rect
+                        x="52"
+                        y={258 - (Math.min(currentWater, 3) / 3) * 198}
+                        width="96"
+                        height={(Math.min(currentWater, 3) / 3) * 198}
+                        fill="url(#vialFluidGradient)"
+                        initial={{ height: 0 }}
+                        animate={{ 
+                          height: (Math.min(currentWater, 3) / 3) * 198,
+                          y: 258 - (Math.min(currentWater, 3) / 3) * 198
+                        }}
+                        transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+                      />
+                    </g>
                     
                     {/* Vial bottom cap */}
                     <ellipse cx="100" cy="260" rx="50" ry="8" fill="#e5e5e5" stroke="#999" strokeWidth="1" />
                     
-                    {/* Volume markings */}
-                    <line x1="150" y1="160" x2="165" y2="160" stroke="#999" strokeWidth="1" />
-                    <text x="170" y="165" fontSize="12" fill="#999">1ml</text>
+                    {/* Volume markings - 1ml at 66.6% from bottom, 2ml at 33.3%, 3ml at top */}
+                    <line x1="150" y1="192" x2="165" y2="192" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="197" fontSize="12" fill="#999">1ml</text>
                     
-                    <line x1="150" y1="93" x2="165" y2="93" stroke="#999" strokeWidth="1" />
-                    <text x="170" y="98" fontSize="12" fill="#999">2ml</text>
+                    <line x1="150" y1="126" x2="165" y2="126" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="131" fontSize="12" fill="#999">2ml</text>
                     
                     <line x1="150" y1="60" x2="165" y2="60" stroke="#999" strokeWidth="1" />
                     <text x="170" y="65" fontSize="12" fill="#999">3ml</text>
-                    
-                    {/* Gradient definitions */}
-                    <defs>
-                      <linearGradient id="vialFluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(59, 130, 246, 0.6)" />
-                        <stop offset="50%" stopColor="rgba(96, 165, 250, 0.5)" />
-                        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.7)" />
-                      </linearGradient>
-                    </defs>
                   </svg>
                   
                   {/* Current volume label */}
