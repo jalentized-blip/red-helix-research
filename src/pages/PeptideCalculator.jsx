@@ -289,7 +289,6 @@ www.reddirtresearch.com`;
               {/* Vial Visualization */}
               <div className="mt-6 flex justify-center">
                 <div className="relative w-48 h-64">
-                  {/* Vial Container */}
                   <svg viewBox="0 0 200 300" className="w-full h-full">
                     <defs>
                       <linearGradient id="vialFluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -309,7 +308,7 @@ www.reddirtresearch.com`;
                     {/* Vial neck */}
                     <path d="M 75 45 L 80 60 L 120 60 L 125 45 Z" fill="#e5e5e5" stroke="#999" strokeWidth="1" />
                     
-                    {/* Main vial body */}
+                    {/* Main vial body - interior from y=62 to y=258 (196px total) */}
                     <rect x="50" y="60" width="100" height="200" rx="8" fill="rgba(255, 255, 255, 0.15)" stroke="#999" strokeWidth="2" />
                     
                     {/* Barn logo on vial */}
@@ -322,18 +321,43 @@ www.reddirtresearch.com`;
                       opacity="0.4"
                     />
                     
-                    {/* Water fill - clipped to vial interior, fills exactly to measurement lines */}
+                    {/* Water fill - precisely calculated
+                        Vial interior: 196px from y=62 (top) to y=258 (bottom)
+                        1ml = 196/3 = 65.33px height, top at y=192.67
+                        2ml = 392/3 = 130.67px height, top at y=127.33
+                        3ml = 196px height, top at y=62
+                    */}
                     <g clipPath="url(#vialClip)">
                       <motion.rect
                         x="52"
-                        y={62 + (196 - (Math.min(currentWater, 3) / 3) * 196)}
+                        y={(() => {
+                          const vialTop = 62;
+                          const vialHeight = 196;
+                          const fillRatio = Math.min(currentWater, 3) / 3;
+                          const waterHeight = fillRatio * vialHeight;
+                          return vialTop + (vialHeight - waterHeight);
+                        })()}
                         width="96"
-                        height={(Math.min(currentWater, 3) / 3) * 196}
+                        height={(() => {
+                          const vialHeight = 196;
+                          const fillRatio = Math.min(currentWater, 3) / 3;
+                          return fillRatio * vialHeight;
+                        })()}
                         fill="url(#vialFluidGradient)"
                         initial={{ height: 0 }}
                         animate={{ 
-                          height: (Math.min(currentWater, 3) / 3) * 196,
-                          y: 62 + (196 - (Math.min(currentWater, 3) / 3) * 196)
+                          height: (() => {
+                            const vialHeight = 196;
+                            const fillRatio = Math.min(currentWater, 3) / 3;
+                            return fillRatio * vialHeight;
+                          })(),
+                          y: (() => {
+                            const vialTop = 62;
+                            const vialHeight = 196;
+                            const fillRatio = Math.min(currentWater, 3) / 3;
+                            const waterHeight = fillRatio * vialHeight;
+                            return vialTop + (vialHeight - waterHeight);
+                          })()
                         }}
                         transition={{ type: 'spring', stiffness: 100, damping: 15 }}
                       />
@@ -342,17 +366,18 @@ www.reddirtresearch.com`;
                     {/* Vial bottom cap */}
                     <ellipse cx="100" cy="260" rx="50" ry="8" fill="#e5e5e5" stroke="#999" strokeWidth="1" />
                     
-                    {/* Volume markings - precisely positioned */}
-                    {/* 1ml = 1/3 full = bottom + 65.33px */}
-                    <line x1="150" y1="193" x2="165" y2="193" stroke="#999" strokeWidth="1" />
-                    <text x="170" y="198" fontSize="12" fill="#999">1ml</text>
+                    {/* Volume markings - precisely positioned to match water levels
+                        1ml line: vialTop + (2/3 * vialHeight) = 62 + 130.67 = 192.67
+                        2ml line: vialTop + (1/3 * vialHeight) = 62 + 65.33 = 127.33
+                        3ml line: vialTop = 62
+                    */}
+                    <line x1="150" y1="192.67" x2="165" y2="192.67" stroke="#999" strokeWidth="1.5" />
+                    <text x="170" y="197" fontSize="12" fill="#999">1ml</text>
                     
-                    {/* 2ml = 2/3 full = bottom + 130.66px */}
-                    <line x1="150" y1="127" x2="165" y2="127" stroke="#999" strokeWidth="1" />
+                    <line x1="150" y1="127.33" x2="165" y2="127.33" stroke="#999" strokeWidth="1.5" />
                     <text x="170" y="132" fontSize="12" fill="#999">2ml</text>
                     
-                    {/* 3ml = full = top */}
-                    <line x1="150" y1="62" x2="165" y2="62" stroke="#999" strokeWidth="1" />
+                    <line x1="150" y1="62" x2="165" y2="62" stroke="#999" strokeWidth="1.5" />
                     <text x="170" y="67" fontSize="12" fill="#999">3ml</text>
                   </svg>
                   
