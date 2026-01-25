@@ -224,9 +224,11 @@ const HeaderSearch = () => {
                const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
                const [logoScale, setLogoScale] = useState(1);
                const [lastScrollY, setLastScrollY] = useState(0);
-               const [headerVisible, setHeaderVisible] = useState(true);
-               const [isAuthenticated, setIsAuthenticated] = useState(false);
-               const [showUploadModal, setShowUploadModal] = useState(false);
+                        const [headerVisible, setHeaderVisible] = useState(true);
+                        const [isAuthenticated, setIsAuthenticated] = useState(false);
+                        const [showUploadModal, setShowUploadModal] = useState(false);
+                        const [mouseNearTop, setMouseNearTop] = useState(false);
+                        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -285,6 +287,11 @@ const HeaderSearch = () => {
         useEffect(() => {
           const handleMouseMove = (e) => {
             setMousePos({ x: e.clientX, y: e.clientY });
+
+            // Show header when mouse is near top on non-home pages
+            if (!isHomePage) {
+              setMouseNearTop(e.clientY < 100);
+            }
 
             // Calculate distance from logo (approximate center position)
             const logoX = 100;
@@ -401,7 +408,7 @@ const HeaderSearch = () => {
         <FloatingMolecularFormulas />
 
         {/* Fixed Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" style={{ transform: headerVisible ? 'translateY(0)' : 'translateY(-100%)' }}>
+        <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" style={{ transform: (isHomePage ? headerVisible : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}>
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
