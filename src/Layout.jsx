@@ -319,7 +319,7 @@ const HeaderSearch = () => {
 
           window.addEventListener('mousemove', handleMouseMove);
           return () => window.removeEventListener('mousemove', handleMouseMove);
-                }, []);
+                }, [isHomePage]);
 
           const telegramLink = 'https://t.me/+UYRVjzIFDy9iYzc9';
 
