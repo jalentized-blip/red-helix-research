@@ -492,7 +492,7 @@ const HeaderSearch = () => {
                       <p className="text-stone-400 text-sm mt-1">Research & Education</p>
                     </div>
                     
-                    <nav className="flex flex-col gap-2 flex-1">
+                    <nav className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden">
                       <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
                         Home
                       </Link>
