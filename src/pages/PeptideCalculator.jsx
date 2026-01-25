@@ -285,6 +285,67 @@ www.reddirtresearch.com`;
                   </Button>
                 </>
               )}
+
+              {/* Vial Visualization */}
+              <div className="mt-6 flex justify-center">
+                <div className="relative w-48 h-64">
+                  {/* Vial Container */}
+                  <svg viewBox="0 0 200 300" className="w-full h-full">
+                    {/* Vial cap */}
+                    <ellipse cx="100" cy="30" rx="35" ry="8" fill="#666" />
+                    <rect x="65" y="30" width="70" height="15" fill="#666" />
+                    
+                    {/* Vial neck */}
+                    <path d="M 75 45 L 80 60 L 120 60 L 125 45 Z" fill="#e5e5e5" stroke="#999" strokeWidth="1" />
+                    
+                    {/* Main vial body */}
+                    <rect x="50" y="60" width="100" height="200" rx="8" fill="rgba(255, 255, 255, 0.15)" stroke="#999" strokeWidth="2" />
+                    
+                    {/* Water fill - calculated based on 3ml max */}
+                    <motion.rect
+                      x="50"
+                      y={260 - (currentWater / 3) * 200}
+                      width="100"
+                      height={(currentWater / 3) * 200}
+                      rx="4"
+                      fill="url(#vialFluidGradient)"
+                      initial={{ height: 0, y: 260 }}
+                      animate={{ 
+                        height: (currentWater / 3) * 200,
+                        y: 260 - (currentWater / 3) * 200
+                      }}
+                      transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+                    />
+                    
+                    {/* Vial bottom cap */}
+                    <ellipse cx="100" cy="260" rx="50" ry="8" fill="#e5e5e5" stroke="#999" strokeWidth="1" />
+                    
+                    {/* Volume markings */}
+                    <line x1="150" y1="160" x2="165" y2="160" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="165" fontSize="12" fill="#999">1ml</text>
+                    
+                    <line x1="150" y1="93" x2="165" y2="93" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="98" fontSize="12" fill="#999">2ml</text>
+                    
+                    <line x1="150" y1="60" x2="165" y2="60" stroke="#999" strokeWidth="1" />
+                    <text x="170" y="65" fontSize="12" fill="#999">3ml</text>
+                    
+                    {/* Gradient definitions */}
+                    <defs>
+                      <linearGradient id="vialFluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="rgba(59, 130, 246, 0.6)" />
+                        <stop offset="50%" stopColor="rgba(96, 165, 250, 0.5)" />
+                        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.7)" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  
+                  {/* Current volume label */}
+                  <div className="absolute bottom-0 left-0 right-0 text-center">
+                    <p className="text-blue-400 font-bold text-sm">{currentWater} mL</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
