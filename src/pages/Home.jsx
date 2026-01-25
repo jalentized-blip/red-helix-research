@@ -46,11 +46,15 @@ export default function Home() {
           const isAuth = await base44.auth.isAuthenticated();
           setIsAuthenticated(isAuth);
 
-          if (!isAuth || !verified) {
+          if (!verified) {
             setShowAgeVerification(true);
           }
         } catch (error) {
-          setShowAgeVerification(true);
+          const verified = localStorage.getItem('ageVerified') === 'true';
+          setAgeVerified(verified);
+          if (!verified) {
+            setShowAgeVerification(true);
+          }
         }
       };
       checkAuth();
