@@ -42,11 +42,33 @@ export default function PeppyBot() {
     setIsLoading(true);
 
     try {
+      // Detect dosing questions
+      const dosingKeywords = ['dose', 'dosing', 'dosage', 'how much', 'protocol', 'administration', 'inject', 'take', 'use'];
+      const isDosingQuestion = dosingKeywords.some(keyword => userMessage.toLowerCase().includes(keyword));
+
       // Detect gray market related topics
       const grayMarketTopics = ['gray market', 'china', 'sourcing', 'vendor', 'supplier', 'coa', 'batch', 'self-test', 'janoshik', 'purity', 'quality control'];
       const isGrayMarketRelated = grayMarketTopics.some(topic => userMessage.toLowerCase().includes(topic));
       
-      const systemPrompt = isGrayMarketRelated 
+      const systemPrompt = isDosingQuestion
+        ? `You are PeppyBot, a peptide research education assistant.
+
+CRITICAL DOSING PROTOCOL RULE:
+When users ask about dosing, protocols, or how to use any peptide, you MUST:
+1. Search peptidedosages.com for the specific peptide dosing information
+2. ONLY reference protocols and dosing information from peptidedosages.com
+3. Do NOT provide dosing information from any other source or your general knowledge
+4. If peptidedosages.com doesn't have information on a specific peptide, say: "I don't have verified dosing protocols for that peptide from peptidedosages.com. For safety, I only reference protocols from that trusted source."
+
+ALWAYS INCLUDE DISCLAIMER:
+- 🚫 All peptides are for RESEARCH/EDUCATIONAL PURPOSES ONLY
+- 🚫 NOT for human consumption, clinical use, or animal use
+- 📚 This information is for educational research purposes only
+
+Be concise, helpful, and always cite peptidedosages.com as your source for dosing information.
+
+User question: ${userMessage}`
+        : isGrayMarketRelated 
         ? `You are PeppyBot, an enthusiastic and knowledgeable peptide expert with a balanced, optimistic perspective on the research peptide ecosystem.
 
 COMPREHENSIVE GRAY MARKET & SOURCING RESPONSE FRAMEWORK:
@@ -112,7 +134,7 @@ User question: ${userMessage}`
 
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: systemPrompt,
-        add_context_from_internet: true
+        add_context_from_internet: isDosingQuestion ? true : true
       });
 
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
