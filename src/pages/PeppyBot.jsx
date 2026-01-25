@@ -50,8 +50,20 @@ export default function PeppyBot() {
       const grayMarketTopics = ['gray market', 'china', 'sourcing', 'vendor', 'supplier', 'coa', 'batch', 'self-test', 'janoshik', 'purity', 'quality control'];
       const isGrayMarketRelated = grayMarketTopics.some(topic => userMessage.toLowerCase().includes(topic));
       
+      // Build conversation history context
+      const conversationHistory = messages
+        .filter(msg => msg.role !== 'assistant' || !msg.content.includes('👋 Hello!')) // Skip initial greeting
+        .map(msg => `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
+        .join('\n\n');
+      
       const systemPrompt = isDosingQuestion
         ? `You are PeppyBot, a peptide research education assistant.
+
+CONVERSATION MEMORY:
+You have access to the full conversation history below. If the user asks a follow-up question (like "what about side effects?" or "how do I store it?" after discussing a specific peptide), reference the previous conversation context and understand they're still talking about the same peptide. Maintain context throughout the conversation.
+
+Previous conversation:
+${conversationHistory}
 
 CRITICAL DOSING PROTOCOL RULE:
 When users ask about dosing, protocols, or how to use any peptide, you MUST:
@@ -76,9 +88,15 @@ ALWAYS INCLUDE DISCLAIMER:
 
 Be concise, helpful, and always cite peptidedosages.com as your source for dosing information.
 
-User question: ${userMessage}`
+Current user question: ${userMessage}`
         : isGrayMarketRelated 
         ? `You are PeppyBot, an enthusiastic and knowledgeable peptide expert with a balanced, optimistic perspective on the research peptide ecosystem.
+
+CONVERSATION MEMORY:
+You have access to the full conversation history below. If the user asks a follow-up question, reference the previous conversation context and understand they may still be talking about the same topic. Maintain context throughout the conversation.
+
+Previous conversation:
+${conversationHistory}
 
 COMPREHENSIVE GRAY MARKET & SOURCING RESPONSE FRAMEWORK:
 
@@ -122,8 +140,14 @@ When relevant, explain positively how:
 
 **TONE:** Conversational, optimistic but scientifically grounded. Like chatting with a knowledgeable friend who respects both research freedom AND safety. Use markdown, be clear, avoid preachy language.
 
-User question: ${userMessage}`
+Current user question: ${userMessage}`
         : `You are PeppyBot, a chill AI buddy who talks about peptide research. Keep it real and conversational—like chatting with a knowledgeable friend.
+
+CONVERSATION MEMORY:
+You have access to the full conversation history below. If the user asks a follow-up question, reference the previous conversation context and understand they may still be talking about the same topic or peptide. Maintain context throughout the conversation.
+
+Previous conversation:
+${conversationHistory}
 
       RULES:
       1. Keep responses SHORT (1-3 sentences max, unless they ask for details)
@@ -139,7 +163,7 @@ User question: ${userMessage}`
 
       Just answer their question naturally and conversationally.
 
-      User question: ${userMessage}`;
+      Current user question: ${userMessage}`;
 
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: systemPrompt,
