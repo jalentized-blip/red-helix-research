@@ -224,11 +224,12 @@ const HeaderSearch = () => {
                const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
                const [logoScale, setLogoScale] = useState(1);
                const [lastScrollY, setLastScrollY] = useState(0);
-                        const [headerVisible, setHeaderVisible] = useState(true);
-                        const [isAuthenticated, setIsAuthenticated] = useState(false);
-                        const [showUploadModal, setShowUploadModal] = useState(false);
-                        const [mouseNearTop, setMouseNearTop] = useState(false);
-                        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
+                               const [headerVisible, setHeaderVisible] = useState(true);
+                               const [isAuthenticated, setIsAuthenticated] = useState(false);
+                               const [showUploadModal, setShowUploadModal] = useState(false);
+                               const [mouseNearTop, setMouseNearTop] = useState(false);
+                               const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
+                               const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -407,8 +408,26 @@ const HeaderSearch = () => {
         <MolecularBackground />
         <FloatingMolecularFormulas />
 
+        {/* Mobile Header Toggle (when collapsed on home page) */}
+        {isHomePage && mobileHeaderCollapsed && (
+          <div 
+            onClick={() => setMobileHeaderCollapsed(false)}
+            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-12 bg-stone-950/60 backdrop-blur-sm border-b border-stone-800/30 flex items-center justify-center cursor-pointer active:bg-stone-900/60 transition-colors"
+          >
+            <div className="w-12 h-1 bg-stone-600 rounded-full" />
+          </div>
+        )}
+
         {/* Fixed Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" style={{ transform: (isHomePage ? headerVisible : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}>
+          <header 
+            onClick={() => {
+              if (isHomePage && window.innerWidth < 1024) {
+                setMobileHeaderCollapsed(true);
+              }
+            }}
+            className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" 
+            style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
+          >
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
