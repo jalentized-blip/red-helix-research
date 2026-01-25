@@ -34,7 +34,8 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       const matchesSearch = searchQuery === "" || 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
-      return matchesCategory && matchesSearch;
+      const isBacResearch = product.name.toUpperCase() === 'BAC RESEARCH';
+      return matchesCategory && matchesSearch && !isBacResearch;
     });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
