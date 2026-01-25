@@ -18,7 +18,6 @@ const navLinks = [
         { label: "Peptides", href: "#products" },
         { label: "Peptide Blends", href: "#goals" },
         { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
-        { label: "GLP-1 Plotter", href: createPageUrl('GLP1Plotter'), isPage: true },
         { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
         { label: "COAs", href: "#certificates" },
       ];
@@ -437,9 +436,6 @@ const HeaderSearch = () => {
               <Link to={createPageUrl('PeptideCalculator')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
                 Calculator
               </Link>
-              <Link to={createPageUrl('GLP1Plotter')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
-                GLP-1 Plotter
-              </Link>
               <Link to={createPageUrl('LearnMore')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
                 Research
               </Link>
@@ -519,9 +515,6 @@ const HeaderSearch = () => {
                       </Link>
                       <Link to={createPageUrl('PeptideCalculator')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
                         Peptide Calculator
-                      </Link>
-                      <Link to={createPageUrl('GLP1Plotter')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
-                        GLP-1 Plotter
                       </Link>
                       <Link to={createPageUrl('LearnMore')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
                         Research & Education
