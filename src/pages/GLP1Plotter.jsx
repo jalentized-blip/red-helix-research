@@ -50,44 +50,123 @@ const generatePlotData = (injections, halfLife, days = 84) => {
 };
 
 const schedulePresets = {
-  custom: { name: 'Custom Schedule', schedule: [] },
-  semaWeekly: {
-    name: 'Semaglutide Weekly (Standard Titration)',
-    schedule: [
-      { day: 0, dose: 0.25 },
-      { day: 7, dose: 0.25 },
-      { day: 14, dose: 0.25 },
-      { day: 21, dose: 0.25 },
-      { day: 28, dose: 0.5 },
-      { day: 35, dose: 0.5 },
-      { day: 42, dose: 0.5 },
-      { day: 49, dose: 0.5 },
-      { day: 56, dose: 1.0 },
-      { day: 63, dose: 1.0 },
-      { day: 70, dose: 1.0 },
-      { day: 77, dose: 1.0 },
-    ],
+  semaglutide: {
+    custom: { name: 'Custom Schedule', schedule: [] },
+    semaStandard: {
+      name: 'Semaglutide - Standard Titration to 2.4mg',
+      schedule: [
+        { day: 0, dose: 0.25 }, { day: 7, dose: 0.25 }, { day: 14, dose: 0.25 }, { day: 21, dose: 0.25 },
+        { day: 28, dose: 0.5 }, { day: 35, dose: 0.5 }, { day: 42, dose: 0.5 }, { day: 49, dose: 0.5 },
+        { day: 56, dose: 1.0 }, { day: 63, dose: 1.0 }, { day: 70, dose: 1.0 }, { day: 77, dose: 1.0 },
+        { day: 84, dose: 1.7 }, { day: 91, dose: 1.7 }, { day: 98, dose: 1.7 }, { day: 105, dose: 1.7 },
+        { day: 112, dose: 2.4 }, { day: 119, dose: 2.4 }, { day: 126, dose: 2.4 }, { day: 133, dose: 2.4 },
+      ],
+    },
+    semaAggressive: {
+      name: 'Semaglutide - Aggressive Titration to 2.4mg',
+      schedule: [
+        { day: 0, dose: 0.25 }, { day: 7, dose: 0.25 },
+        { day: 14, dose: 0.5 }, { day: 21, dose: 0.5 },
+        { day: 28, dose: 1.0 }, { day: 35, dose: 1.0 },
+        { day: 42, dose: 1.7 }, { day: 49, dose: 1.7 },
+        { day: 56, dose: 2.4 }, { day: 63, dose: 2.4 }, { day: 70, dose: 2.4 }, { day: 77, dose: 2.4 },
+      ],
+    },
+    semaConservative: {
+      name: 'Semaglutide - Conservative to 1.0mg',
+      schedule: [
+        { day: 0, dose: 0.25 }, { day: 7, dose: 0.25 }, { day: 14, dose: 0.25 }, { day: 21, dose: 0.25 },
+        { day: 28, dose: 0.25 }, { day: 35, dose: 0.25 }, { day: 42, dose: 0.5 }, { day: 49, dose: 0.5 },
+        { day: 56, dose: 0.5 }, { day: 63, dose: 0.5 }, { day: 70, dose: 1.0 }, { day: 77, dose: 1.0 },
+      ],
+    },
+    semaMaintenance1mg: {
+      name: 'Semaglutide - Maintenance 1.0mg Weekly',
+      schedule: Array.from({ length: 12 }, (_, i) => ({ day: i * 7, dose: 1.0 })),
+    },
+    semaMaintenance2_4mg: {
+      name: 'Semaglutide - Maintenance 2.4mg Weekly',
+      schedule: Array.from({ length: 12 }, (_, i) => ({ day: i * 7, dose: 2.4 })),
+    },
   },
-  tirzWeekly: {
-    name: 'Tirzepatide Weekly (Standard Titration)',
-    schedule: [
-      { day: 0, dose: 2.5 },
-      { day: 7, dose: 2.5 },
-      { day: 14, dose: 2.5 },
-      { day: 21, dose: 2.5 },
-      { day: 28, dose: 5.0 },
-      { day: 35, dose: 5.0 },
-      { day: 42, dose: 5.0 },
-      { day: 49, dose: 5.0 },
-      { day: 56, dose: 7.5 },
-      { day: 63, dose: 7.5 },
-      { day: 70, dose: 7.5 },
-      { day: 77, dose: 7.5 },
-    ],
+  tirzepatide: {
+    custom: { name: 'Custom Schedule', schedule: [] },
+    tirzStandard: {
+      name: 'Tirzepatide - Standard Titration to 15mg',
+      schedule: [
+        { day: 0, dose: 2.5 }, { day: 7, dose: 2.5 }, { day: 14, dose: 2.5 }, { day: 21, dose: 2.5 },
+        { day: 28, dose: 5.0 }, { day: 35, dose: 5.0 }, { day: 42, dose: 5.0 }, { day: 49, dose: 5.0 },
+        { day: 56, dose: 7.5 }, { day: 63, dose: 7.5 }, { day: 70, dose: 7.5 }, { day: 77, dose: 7.5 },
+        { day: 84, dose: 10.0 }, { day: 91, dose: 10.0 }, { day: 98, dose: 10.0 }, { day: 105, dose: 10.0 },
+        { day: 112, dose: 12.5 }, { day: 119, dose: 12.5 }, { day: 126, dose: 12.5 }, { day: 133, dose: 12.5 },
+        { day: 140, dose: 15.0 }, { day: 147, dose: 15.0 }, { day: 154, dose: 15.0 }, { day: 161, dose: 15.0 },
+      ],
+    },
+    tirzAggressive: {
+      name: 'Tirzepatide - Aggressive Titration to 15mg',
+      schedule: [
+        { day: 0, dose: 2.5 }, { day: 7, dose: 2.5 },
+        { day: 14, dose: 5.0 }, { day: 21, dose: 5.0 },
+        { day: 28, dose: 7.5 }, { day: 35, dose: 7.5 },
+        { day: 42, dose: 10.0 }, { day: 49, dose: 10.0 },
+        { day: 56, dose: 12.5 }, { day: 63, dose: 12.5 },
+        { day: 70, dose: 15.0 }, { day: 77, dose: 15.0 }, { day: 84, dose: 15.0 },
+      ],
+    },
+    tirzConservative: {
+      name: 'Tirzepatide - Conservative to 10mg',
+      schedule: [
+        { day: 0, dose: 2.5 }, { day: 7, dose: 2.5 }, { day: 14, dose: 2.5 }, { day: 21, dose: 2.5 },
+        { day: 28, dose: 2.5 }, { day: 35, dose: 2.5 }, { day: 42, dose: 5.0 }, { day: 49, dose: 5.0 },
+        { day: 56, dose: 5.0 }, { day: 63, dose: 5.0 }, { day: 70, dose: 7.5 }, { day: 77, dose: 7.5 },
+        { day: 84, dose: 7.5 }, { day: 91, dose: 10.0 }, { day: 98, dose: 10.0 },
+      ],
+    },
+    tirzMaintenance10mg: {
+      name: 'Tirzepatide - Maintenance 10mg Weekly',
+      schedule: Array.from({ length: 12 }, (_, i) => ({ day: i * 7, dose: 10.0 })),
+    },
+    tirzMaintenance15mg: {
+      name: 'Tirzepatide - Maintenance 15mg Weekly',
+      schedule: Array.from({ length: 12 }, (_, i) => ({ day: i * 7, dose: 15.0 })),
+    },
   },
-  weekly: { name: 'Weekly - Same Dose', schedule: [] },
-  biweekly: { name: 'Every 2 Weeks - Same Dose', schedule: [] },
-  everyThreeDays: { name: 'Every 3 Days - Same Dose', schedule: [] },
+  retatrutide: {
+    custom: { name: 'Custom Schedule', schedule: [] },
+    retaStandard: {
+      name: 'Retatrutide - Standard Titration to 12mg',
+      schedule: [
+        { day: 0, dose: 1.0 }, { day: 7, dose: 1.0 }, { day: 14, dose: 1.0 }, { day: 21, dose: 1.0 },
+        { day: 28, dose: 2.0 }, { day: 35, dose: 2.0 }, { day: 42, dose: 2.0 }, { day: 49, dose: 2.0 },
+        { day: 56, dose: 4.0 }, { day: 63, dose: 4.0 }, { day: 70, dose: 4.0 }, { day: 77, dose: 4.0 },
+        { day: 84, dose: 8.0 }, { day: 91, dose: 8.0 }, { day: 98, dose: 8.0 }, { day: 105, dose: 8.0 },
+        { day: 112, dose: 12.0 }, { day: 119, dose: 12.0 }, { day: 126, dose: 12.0 }, { day: 133, dose: 12.0 },
+      ],
+    },
+    retaConservative: {
+      name: 'Retatrutide - Conservative to 8mg',
+      schedule: [
+        { day: 0, dose: 0.5 }, { day: 7, dose: 0.5 }, { day: 14, dose: 0.5 }, { day: 21, dose: 0.5 },
+        { day: 28, dose: 1.0 }, { day: 35, dose: 1.0 }, { day: 42, dose: 1.0 }, { day: 49, dose: 1.0 },
+        { day: 56, dose: 2.0 }, { day: 63, dose: 2.0 }, { day: 70, dose: 2.0 }, { day: 77, dose: 2.0 },
+        { day: 84, dose: 4.0 }, { day: 91, dose: 4.0 }, { day: 98, dose: 4.0 }, { day: 105, dose: 4.0 },
+        { day: 112, dose: 8.0 }, { day: 119, dose: 8.0 }, { day: 126, dose: 8.0 },
+      ],
+    },
+    retaMaintenance8mg: {
+      name: 'Retatrutide - Maintenance 8mg Weekly',
+      schedule: Array.from({ length: 12 }, (_, i) => ({ day: i * 7, dose: 8.0 })),
+    },
+    retaMaintenance12mg: {
+      name: 'Retatrutide - Maintenance 12mg Weekly',
+      schedule: Array.from({ length: 12 }, (_, i) => ({ day: i * 7, dose: 12.0 })),
+    },
+  },
+  generic: {
+    weekly: { name: 'Weekly - Same Dose', schedule: [] },
+    biweekly: { name: 'Every 2 Weeks - Same Dose', schedule: [] },
+    everyThreeDays: { name: 'Every 3 Days - Same Dose', schedule: [] },
+  },
 };
 
 export default function GLP1Plotter() {
@@ -129,12 +208,19 @@ export default function GLP1Plotter() {
 
   const applySchedulePreset = (presetKey) => {
     setSelectedSchedule(presetKey);
-    const preset = schedulePresets[presetKey];
+    
+    // Get the preset from the appropriate category
+    let preset;
+    if (schedulePresets[peptideType] && schedulePresets[peptideType][presetKey]) {
+      preset = schedulePresets[peptideType][presetKey];
+    } else if (schedulePresets.generic[presetKey]) {
+      preset = schedulePresets.generic[presetKey];
+    }
     
     if (!preset) return;
 
     if (preset.schedule.length > 0) {
-      // Use predefined schedule (semaWeekly, tirzWeekly)
+      // Use predefined schedule
       const newInjections = preset.schedule.map((item, idx) => ({
         id: idx + 1,
         dayNumber: item.day,
@@ -241,10 +327,23 @@ export default function GLP1Plotter() {
               <div className="space-y-3">
                 <Select value={selectedSchedule} onValueChange={applySchedulePreset}>
                   <SelectTrigger className="bg-stone-800 border-stone-600 text-amber-50">
-                    <SelectValue />
+                    <SelectValue placeholder="Select a schedule preset" />
                   </SelectTrigger>
                   <SelectContent className="bg-stone-900 border-stone-700">
-                    {Object.entries(schedulePresets).map(([key, value]) => (
+                    {/* Peptide-specific schedules */}
+                    {schedulePresets[peptideType] && (
+                      <>
+                        {Object.entries(schedulePresets[peptideType]).map(([key, value]) => (
+                          <SelectItem key={key} value={key} className="text-amber-50">
+                            {value.name}
+                          </SelectItem>
+                        ))}
+                        <div className="h-px bg-stone-700 my-1" />
+                      </>
+                    )}
+                    
+                    {/* Generic schedules */}
+                    {Object.entries(schedulePresets.generic).map(([key, value]) => (
                       <SelectItem key={key} value={key} className="text-amber-50">
                         {value.name}
                       </SelectItem>
