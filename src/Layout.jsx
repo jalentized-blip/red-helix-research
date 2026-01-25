@@ -314,7 +314,7 @@ const HeaderSearch = () => {
           return () => window.removeEventListener('mousemove', handleMouseMove);
                 }, []);
 
-          const telegramLink = 'https://t.me/rdrjake';
+          const telegramLink = 'https://t.me/+UYRVjzIFDy9iYzc9';
 
           const scrollTo = (id) => {
     const element = document.getElementById(id.replace('#', ''));
