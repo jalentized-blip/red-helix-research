@@ -149,21 +149,10 @@ export default function ProductModal({ product, isOpen, onClose }) {
           {/* Add to Cart Button */}
           <div className="flex gap-3">
             <Button
-              onClick={handleAddToCart}
-              disabled={!selectedSpec || addedToCart}
-              className="flex-1 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 text-lg"
+              disabled={true}
+              className="flex-1 bg-stone-700 text-stone-400 font-semibold py-6 text-lg cursor-not-allowed"
             >
-              {addedToCart ? (
-                <>
-                  <CheckCircle className="w-5 h-5 mr-2" />
-                  Added to Cart!
-                </>
-              ) : (
-                <>
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Add to Cart {selectedSpec ? `- $${selectedSpec.price}` : ''}
-                </>
-              )}
+              Out of Stock
             </Button>
           </div>
 
