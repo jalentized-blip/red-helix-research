@@ -49,8 +49,51 @@ const generatePlotData = (injections, halfLife, days = 84) => {
   return data;
 };
 
+const schedulePresets = {
+  custom: { name: 'Custom Schedule', schedule: [] },
+  semaWeekly: {
+    name: 'Semaglutide Weekly (Standard Titration)',
+    schedule: [
+      { day: 0, dose: 0.25 },
+      { day: 7, dose: 0.25 },
+      { day: 14, dose: 0.25 },
+      { day: 21, dose: 0.25 },
+      { day: 28, dose: 0.5 },
+      { day: 35, dose: 0.5 },
+      { day: 42, dose: 0.5 },
+      { day: 49, dose: 0.5 },
+      { day: 56, dose: 1.0 },
+      { day: 63, dose: 1.0 },
+      { day: 70, dose: 1.0 },
+      { day: 77, dose: 1.0 },
+    ],
+  },
+  tirzWeekly: {
+    name: 'Tirzepatide Weekly (Standard Titration)',
+    schedule: [
+      { day: 0, dose: 2.5 },
+      { day: 7, dose: 2.5 },
+      { day: 14, dose: 2.5 },
+      { day: 21, dose: 2.5 },
+      { day: 28, dose: 5.0 },
+      { day: 35, dose: 5.0 },
+      { day: 42, dose: 5.0 },
+      { day: 49, dose: 5.0 },
+      { day: 56, dose: 7.5 },
+      { day: 63, dose: 7.5 },
+      { day: 70, dose: 7.5 },
+      { day: 77, dose: 7.5 },
+    ],
+  },
+  weekly: { name: 'Weekly - Same Dose', schedule: [] },
+  biweekly: { name: 'Every 2 Weeks - Same Dose', schedule: [] },
+  everyThreeDays: { name: 'Every 3 Days - Same Dose', schedule: [] },
+};
+
 export default function GLP1Plotter() {
   const [peptideType, setPeptideType] = useState('semaglutide');
+  const [selectedSchedule, setSelectedSchedule] = useState('custom');
+  const [dosageForSchedule, setDosageForSchedule] = useState('0.25');
   const [injections, setInjections] = useState([
     { id: 1, dayNumber: 0, dose: 0.25, dosageUnit: 'mg' },
     { id: 2, dayNumber: 7, dose: 0.25, dosageUnit: 'mg' },
@@ -82,6 +125,67 @@ export default function GLP1Plotter() {
         inj.id === id ? { ...inj, [field]: field === 'dayNumber' || field === 'dose' ? parseFloat(value) || 0 : value } : inj
       )
     );
+  };
+
+  const applySchedulePreset = (presetKey) => {
+    setSelectedSchedule(presetKey);
+    const preset = schedulePresets[presetKey];
+    
+    if (!preset) return;
+
+    if (preset.schedule.length > 0) {
+      // Use predefined schedule (semaWeekly, tirzWeekly)
+      const newInjections = preset.schedule.map((item, idx) => ({
+        id: idx + 1,
+        dayNumber: item.day,
+        dose: item.dose,
+        dosageUnit: 'mg',
+      }));
+      setInjections(newInjections);
+      setNextId(newInjections.length + 1);
+    } else if (presetKey === 'weekly') {
+      // Generate weekly schedule for plotDays duration
+      const dose = parseFloat(dosageForSchedule) || 0.25;
+      const newInjections = [];
+      for (let day = 0; day < plotDays; day += 7) {
+        newInjections.push({
+          id: newInjections.length + 1,
+          dayNumber: day,
+          dose,
+          dosageUnit: 'mg',
+        });
+      }
+      setInjections(newInjections);
+      setNextId(newInjections.length + 1);
+    } else if (presetKey === 'biweekly') {
+      // Generate bi-weekly schedule
+      const dose = parseFloat(dosageForSchedule) || 0.25;
+      const newInjections = [];
+      for (let day = 0; day < plotDays; day += 14) {
+        newInjections.push({
+          id: newInjections.length + 1,
+          dayNumber: day,
+          dose,
+          dosageUnit: 'mg',
+        });
+      }
+      setInjections(newInjections);
+      setNextId(newInjections.length + 1);
+    } else if (presetKey === 'everyThreeDays') {
+      // Generate every 3 days schedule
+      const dose = parseFloat(dosageForSchedule) || 0.25;
+      const newInjections = [];
+      for (let day = 0; day < plotDays; day += 3) {
+        newInjections.push({
+          id: newInjections.length + 1,
+          dayNumber: day,
+          dose,
+          dosageUnit: 'mg',
+        });
+      }
+      setInjections(newInjections);
+      setNextId(newInjections.length + 1);
+    }
   };
 
   const maxConcentration = Math.max(...plotData.map((d) => d.concentration), 0);
@@ -129,6 +233,48 @@ export default function GLP1Plotter() {
                   ))}
                 </SelectContent>
               </Select>
+            </Card>
+
+            {/* Schedule Preset */}
+            <Card className="bg-stone-900/50 border-stone-700 p-6">
+              <h3 className="text-lg font-bold text-amber-50 mb-4">Dosing Schedule</h3>
+              <div className="space-y-3">
+                <Select value={selectedSchedule} onValueChange={applySchedulePreset}>
+                  <SelectTrigger className="bg-stone-800 border-stone-600 text-amber-50">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-stone-900 border-stone-700">
+                    {Object.entries(schedulePresets).map(([key, value]) => (
+                      <SelectItem key={key} value={key} className="text-amber-50">
+                        {value.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Dose input for regular schedules */}
+                {(selectedSchedule === 'weekly' || selectedSchedule === 'biweekly' || selectedSchedule === 'everyThreeDays') && (
+                  <div>
+                    <label className="block text-amber-100 text-sm mb-2">Dose per injection (mg)</label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.05"
+                        value={dosageForSchedule}
+                        onChange={(e) => setDosageForSchedule(e.target.value)}
+                        className="bg-stone-800 border-stone-600 text-amber-50"
+                      />
+                      <Button
+                        onClick={() => applySchedulePreset(selectedSchedule)}
+                        className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50"
+                      >
+                        Apply
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </Card>
 
             {/* Timeline */}
