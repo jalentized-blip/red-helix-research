@@ -227,7 +227,7 @@ const HeaderSearch = () => {
                         const [headerVisible, setHeaderVisible] = useState(true);
                         const [isAuthenticated, setIsAuthenticated] = useState(false);
                         const [showUploadModal, setShowUploadModal] = useState(false);
-                        const [mouseNearTop, setMouseNearTop] = useState(false);
+                        const [mouseNearTop, setMouseNearTop] = useState(true);
                         const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
 
         useEffect(() => {

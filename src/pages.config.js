@@ -13,10 +13,10 @@ import PaymentCompleted from './pages/PaymentCompleted';
 import PeppyBot from './pages/PeppyBot';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideLearn from './pages/PeptideLearn';
+import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import PeptideReconstitution from './pages/PeptideReconstitution';
 import __Layout from './Layout.jsx';
 
 
@@ -36,10 +36,10 @@ export const PAGES = {
     "PeppyBot": PeppyBot,
     "PeptideCalculator": PeptideCalculator,
     "PeptideLearn": PeptideLearn,
+    "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "PeptideReconstitution": PeptideReconstitution,
 }
 
 export const pagesConfig = {
