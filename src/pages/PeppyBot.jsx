@@ -34,6 +34,20 @@ export default function PeppyBot() {
     scrollToBottom();
   }, [messages]);
 
+  // Save message to database
+  const saveMessage = async (role, content) => {
+    try {
+      await base44.entities.PeppyBotConversation.create({
+        session_id: sessionId,
+        role: role,
+        message: content,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+  };
+
 
 
 
