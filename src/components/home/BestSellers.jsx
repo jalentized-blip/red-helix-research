@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
 
 export default function BestSellers({ products, onSelectStrength, isAuthenticated = true }) {
-  const featuredProducts = products.filter(p => p.is_featured).slice(0, 7);
+  const featuredProducts = products.filter(p => p.is_featured && !p.is_deleted).slice(0, 7);
 
   return (
     <section id="bestsellers" className="py-20 px-4 relative">
