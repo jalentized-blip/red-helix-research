@@ -229,6 +229,7 @@ const HeaderSearch = () => {
                                const [showUploadModal, setShowUploadModal] = useState(false);
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
+                               const [editModeEnabled, setEditModeEnabled] = useState(true);
                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
 
         useEffect(() => {
@@ -236,12 +237,25 @@ const HeaderSearch = () => {
             try {
               const isAuth = await base44.auth.isAuthenticated();
               setIsAuthenticated(isAuth);
+
+              // Load edit mode preference
+              const savedEditMode = localStorage.getItem('adminEditModeEnabled');
+              if (savedEditMode !== null) {
+                setEditModeEnabled(savedEditMode === 'true');
+              }
             } catch (error) {
               setIsAuthenticated(false);
             }
           };
           checkAuth();
         }, []);
+
+        const toggleEditMode = () => {
+          const newValue = !editModeEnabled;
+          setEditModeEnabled(newValue);
+          localStorage.setItem('adminEditModeEnabled', String(newValue));
+          window.dispatchEvent(new CustomEvent('editModeChanged', { detail: newValue }));
+        };
 
         useEffect(() => {
           const handleScroll = () => {
@@ -628,6 +642,19 @@ const HeaderSearch = () => {
       window.location.href = createPageUrl('COAReports');
       }}
       />
+
+      {/* Edit Mode Toggle for Admins */}
+      {isAuthenticated && (
+        <button
+          onClick={toggleEditMode}
+          className="fixed bottom-24 right-6 z-40 p-3 bg-purple-600/20 hover:bg-purple-600/40 border border-purple-600/50 rounded-lg shadow-lg transition-all hover:scale-110"
+          title={editModeEnabled ? "Disable Editing Mode" : "Enable Editing Mode"}
+        >
+          <span className="text-xs font-semibold text-purple-400">
+            {editModeEnabled ? "🖊️" : "🔒"}
+          </span>
+        </button>
+      )}
       </div>
       );
       }

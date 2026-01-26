@@ -12,6 +12,7 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
   const [isHovered, setIsHovered] = useState(false);
   const [value, setValue] = useState(defaultValue);
   const [editValue, setEditValue] = useState(defaultValue);
+  const [editModeEnabled, setEditModeEnabled] = useState(true);
   const inputRef = useRef(null);
   const initializedRef = useRef(false);
 
@@ -23,6 +24,12 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
       try {
         const user = await base44.auth.me();
         setIsAdmin(user?.role === 'admin');
+        
+        // Load edit mode preference
+        const savedEditMode = localStorage.getItem('adminEditModeEnabled');
+        if (savedEditMode !== null) {
+          setEditModeEnabled(savedEditMode === 'true');
+        }
       } catch {
         setIsAdmin(false);
       }
@@ -41,6 +48,13 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
       }
     };
     fetchSavedText();
+
+    // Listen for edit mode changes
+    const handleEditModeChange = (event) => {
+      setEditModeEnabled(event.detail);
+    };
+    window.addEventListener('editModeChanged', handleEditModeChange);
+    return () => window.removeEventListener('editModeChanged', handleEditModeChange);
   }, [textKey]);
 
   useEffect(() => {
@@ -90,7 +104,7 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
 
   const Component = as;
 
-  if (!isAdmin) {
+  if (!isAdmin || !editModeEnabled) {
     return <Component className={className}>{value}</Component>;
   }
 
