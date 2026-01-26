@@ -60,7 +60,7 @@ export default function TelegramChatWindow({ isOpen, onClose }) {
       });
 
       // Subscribe to admin status changes
-      const unsubscribeAdmin = base44.entities.AdminStatus.subscribe((event) => {
+      const unsubscribeAdmin = base44.entities.AdminStatus.subscribe(async (event) => {
         const adminStatuses = await base44.entities.AdminStatus.list();
         setAdmins(adminStatuses);
       });
