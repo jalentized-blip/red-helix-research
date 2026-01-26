@@ -344,71 +344,71 @@ const HeaderSearch = () => {
     <div className="min-h-screen bg-stone-950 relative">
         <style>{`
           :root {
-            --barn-brown: #7D4A2B;
-            --barn-tan: #C4955B;
-            --barn-cream: #F5E6D3;
-            --barn-dark: #2B1810;
+            --red-dirt-red: #8B2635;
+            --red-dirt-dark: #6B1827;
+            --red-dirt-gold: #C4955B;
+            --red-dirt-cream: #F5E6D3;
           }
 
-          /* Override ALL red and crimson colors with barn brown */
+          /* Override ALL red and crimson colors with Red Dirt red */
           [class*="bg-red"], [class*="bg-crimson"],
           .hover\\:bg-red-600:hover, .hover\\:bg-red-700:hover, .hover\\:bg-red-800:hover {
-            background-color: var(--barn-brown) !important;
+            background-color: var(--red-dirt-red) !important;
           }
 
           [class*="text-red"], [class*="text-crimson"],
           .hover\\:text-red-400:hover, .hover\\:text-red-500:hover, .hover\\:text-red-600:hover, .hover\\:text-red-700:hover {
-            color: var(--barn-brown) !important;
+            color: var(--red-dirt-red) !important;
           }
 
           [class*="border-red"], [class*="border-crimson"],
           .focus\\:border-red-700\\/50:focus, .focus\\:border-red-600:focus {
-            border-color: var(--barn-brown) !important;
+            border-color: var(--red-dirt-red) !important;
           }
 
           /* Red/Crimson with opacity overrides */
           [class*="bg-red-"][class*="\\/"], [class*="bg-crimson-"][class*="\\/"] {
-            background-color: rgba(125, 74, 43, 0.1) !important;
+            background-color: rgba(139, 38, 53, 0.1) !important;
           }
           [class*="text-red-"][class*="\\/"], [class*="text-crimson-"][class*="\\/"] {
-            color: rgba(125, 74, 43, 0.8) !important;
+            color: rgba(139, 38, 53, 0.8) !important;
           }
           [class*="border-red-"][class*="\\/"], [class*="border-crimson-"][class*="\\/"] {
-            border-color: rgba(125, 74, 43, 0.3) !important;
+            border-color: rgba(139, 38, 53, 0.3) !important;
           }
 
           /* Shadow colors */
           [class*="shadow-red"], [class*="shadow-crimson"] {
-            --tw-shadow-color: rgba(125, 74, 43, 0.5) !important;
+            --tw-shadow-color: rgba(139, 38, 53, 0.5) !important;
           }
 
           /* Gradients */
           [class*="from-red"], [class*="to-red"], [class*="via-red"],
           [class*="from-crimson"], [class*="to-crimson"], [class*="via-crimson"] {
-            --tw-gradient-from: var(--barn-brown) !important;
-            --tw-gradient-to: var(--barn-dark) !important;
-            --tw-gradient-via: var(--barn-brown) !important;
+            --tw-gradient-from: var(--red-dirt-red) !important;
+            --tw-gradient-to: var(--red-dirt-dark) !important;
+            --tw-gradient-via: var(--red-dirt-red) !important;
           }
 
-          /* Update amber text to barn cream */
+          /* Update amber text to Red Dirt cream */
           .text-amber-50, [class*="text-amber-50"] {
-            color: var(--barn-cream) !important;
+            color: var(--red-dirt-cream) !important;
           }
 
           /* SVG and icon colors */
           svg[class*="text-red"], svg[class*="text-crimson"],
           [class*="text-red"] svg, [class*="text-crimson"] svg {
-            color: var(--barn-brown) !important;
+            color: var(--red-dirt-red) !important;
           }
 
           /* Ring colors for focus states */
           [class*="ring-red"], [class*="ring-crimson"] {
-            --tw-ring-color: var(--barn-brown) !important;
+            --tw-ring-color: var(--red-dirt-red) !important;
           }
 
           /* Accent colors */
           [class*="accent-red"], [class*="accent-crimson"] {
-            accent-color: var(--barn-brown) !important;
+            accent-color: var(--red-dirt-red) !important;
           }
         `}</style>
         <MolecularBackground />
@@ -451,13 +451,13 @@ const HeaderSearch = () => {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-3 flex-1 justify-center">
             <div className="flex items-center gap-2">
-              <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+              <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Home
               </Link>
-              <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+              <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 About
               </Link>
-              <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+              <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Contact
               </Link>
             </div>
@@ -465,13 +465,13 @@ const HeaderSearch = () => {
             <div className="h-6 w-px bg-stone-700/50" />
 
             <div className="flex items-center gap-2">
-              <Link to={createPageUrl('PeptideCalculator')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+              <Link to={createPageUrl('PeptideCalculator')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Calculator
               </Link>
-              <Link to={createPageUrl('LearnMore')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+              <Link to={createPageUrl('LearnMore')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Research
               </Link>
-              <button onClick={() => scrollTo('#certificates')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+              <button onClick={() => scrollTo('#certificates')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 COAs
               </button>
             </div>
@@ -479,7 +479,7 @@ const HeaderSearch = () => {
             {isAuthenticated && (
               <>
                 <div className="h-6 w-px bg-stone-700/50" />
-                <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm">
+                <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                   Account
                 </Link>
               </>
@@ -488,7 +488,7 @@ const HeaderSearch = () => {
             {isAdmin && (
               <>
                 <div className="h-6 w-px bg-stone-700/50" />
-                <Link to={createPageUrl('GrayMarketInsights')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm flex items-center gap-1.5">
+                <Link to={createPageUrl('GrayMarketInsights')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm flex items-center gap-1.5">
                   <Eye className="w-4 h-4" />
                   Market Intel
                 </Link>
@@ -503,10 +503,10 @@ const HeaderSearch = () => {
             )}
 
             <Link to={createPageUrl('Cart')}>
-              <button className="relative p-2.5 rounded-lg bg-stone-900/50 border border-barn-brown/30 text-amber-50 hover:bg-barn-brown/10 hover:border-barn-brown/70 hover:text-barn-tan transition-all duration-300 group">
+              <button className="relative p-2.5 rounded-lg bg-stone-900/50 border border-red-600/30 text-amber-50 hover:bg-red-600/10 hover:border-red-600/70 hover:text-red-400 transition-all duration-300 group">
                 <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-barn-brown to-barn-brown/80 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-barn-brown">
+                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-red-600">
                     {cartCount}
                   </span>
                 )}
@@ -528,13 +528,13 @@ const HeaderSearch = () => {
                     </div>
                     
                     <nav className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden">
-                      <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                      <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Home
                       </Link>
 
                       <div className="border-t border-stone-800/30 my-2 pt-2" />
 
-                      <Link to={createPageUrl('GroupBuy')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                      <Link to={createPageUrl('GroupBuy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Group Buy
                       </Link>
                       
@@ -542,26 +542,26 @@ const HeaderSearch = () => {
                       
                       <button
                         onClick={() => setShowUploadModal(true)}
-                        className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 w-full"
+                        className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 w-full"
                       >
                         Upload Your COA
                       </button>
-                      <Link to={createPageUrl('COAReports')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                      <Link to={createPageUrl('COAReports')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         COA Reports
                       </Link>
                       
                       <div className="border-t border-stone-800/30 my-2 pt-2" />
                       
-                      <Link to={createPageUrl('PeppyBot')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                      <Link to={createPageUrl('PeppyBot')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         PeppyBot
                       </Link>
-                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Peptide Calculator
                       </Link>
-                      <Link to={createPageUrl('LearnMore')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                      <Link to={createPageUrl('LearnMore')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Research & Education
                       </Link>
-                      <button onClick={() => scrollTo('#certificates')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 w-full">
+                      <button onClick={() => scrollTo('#certificates')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 w-full">
                         Certificates of Analysis
                       </button>
                       
@@ -569,10 +569,10 @@ const HeaderSearch = () => {
                       
                       {isAuthenticated && (
                         <>
-                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                             Account Profile
                           </Link>
-                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
+                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                             Order History
                           </Link>
                         </>
@@ -581,7 +581,7 @@ const HeaderSearch = () => {
                       {isAdmin && (
                         <>
                           <div className="border-t border-stone-800/30 my-2 pt-2" />
-                          <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 flex items-center gap-2">
+                          <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
                             <Eye className="w-4 h-4" />
                             Market Intelligence
                           </Link>
@@ -603,7 +603,7 @@ const HeaderSearch = () => {
                             base44.auth.logout();
                             window.location.href = createPageUrl('Home') + '?logout=true';
                           }}
-                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-barn-brown/30"
+                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
                         >
                           Sign Out
                         </button>
@@ -611,7 +611,7 @@ const HeaderSearch = () => {
                       {!isAuthenticated && (
                         <button
                           onClick={() => base44.auth.redirectToLogin(createPageUrl('Account'))}
-                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-barn-brown/30"
+                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
                         >
                           Sign In
                         </button>
