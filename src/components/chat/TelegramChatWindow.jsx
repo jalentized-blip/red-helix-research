@@ -5,13 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Send, Loader2, Circle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function TelegramChatWindow({ isOpen, onClose }) {
+export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState(null);
   const [user, setUser] = useState(null);
   const [admins, setAdmins] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -22,31 +23,75 @@ export default function TelegramChatWindow({ isOpen, onClose }) {
 
   const initializeChat = async () => {
     try {
-      const currentUser = await base44.auth.me();
-      setUser(currentUser);
+      const isAuth = await base44.auth.isAuthenticated();
+      setIsAuthenticated(isAuth);
 
-      // Find or create conversation
-      const conversations = await base44.entities.SupportConversation.filter({
-        customer_email: currentUser.email
-      });
-
-      let conv;
-      if (conversations.length > 0) {
-        conv = conversations[0];
-      } else {
-        conv = await base44.entities.SupportConversation.create({
-          customer_email: currentUser.email,
-          customer_name: currentUser.full_name,
-          status: 'open'
-        });
+      let currentUser = null;
+      if (isAuth) {
+        currentUser = await base44.auth.me();
+        setUser(currentUser);
       }
-      setConversation(conv);
 
-      // Load messages
-      const msgs = await base44.entities.SupportMessage.filter({
-        conversation_id: conv.id
-      });
-      setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+      // If opening a specific conversation from inbox
+      if (conversationId) {
+        const conv = await base44.entities.SupportConversation.list();
+        const targetConv = conv.find(c => c.id === conversationId);
+        if (targetConv) {
+          setConversation(targetConv);
+          const msgs = await base44.entities.SupportMessage.filter({
+            conversation_id: targetConv.id
+          });
+          setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+        }
+      } else if (customerInfo) {
+        // New conversation from unauthenticated user
+        const conversations = await base44.entities.SupportConversation.filter({
+          customer_email: customerInfo.email
+        });
+
+        let conv;
+        if (conversations.length > 0) {
+          conv = conversations[0];
+        } else {
+          conv = await base44.entities.SupportConversation.create({
+            customer_email: customerInfo.email,
+            customer_name: customerInfo.name,
+            status: 'open'
+          });
+        }
+        setConversation(conv);
+
+        const msgs = await base44.entities.SupportMessage.filter({
+          conversation_id: conv.id
+        });
+        setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+      } else if (currentUser) {
+        // Existing authenticated user
+        return;
+
+        // Find or create conversation for authenticated user
+        const conversations = await base44.entities.SupportConversation.filter({
+          customer_email: currentUser.email
+        });
+
+        let conv;
+        if (conversations.length > 0) {
+          conv = conversations[0];
+        } else {
+          conv = await base44.entities.SupportConversation.create({
+            customer_email: currentUser.email,
+            customer_name: currentUser.full_name,
+            status: 'open'
+          });
+        }
+        setConversation(conv);
+
+        // Load messages
+        const msgs = await base44.entities.SupportMessage.filter({
+          conversation_id: conv.id
+        });
+        setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+      }
 
       // Load admin statuses
       const adminStatuses = await base44.entities.AdminStatus.list();
@@ -79,7 +124,7 @@ export default function TelegramChatWindow({ isOpen, onClose }) {
   }, [messages]);
 
   const handleSend = async () => {
-    if (!newMessage.trim() || !conversation || !user) return;
+    if (!newMessage.trim() || !conversation) return;
 
     setLoading(true);
     try {
@@ -87,7 +132,7 @@ export default function TelegramChatWindow({ isOpen, onClose }) {
         conversation_id: conversation.id,
         message: newMessage,
         sender_role: 'customer',
-        sender_name: user.full_name
+        sender_name: customerInfo?.name || user?.full_name || 'Customer'
       });
 
       await base44.entities.SupportConversation.update(conversation.id, {
