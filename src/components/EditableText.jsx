@@ -20,21 +20,29 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
     if (initializedRef.current) return;
     initializedRef.current = true;
 
-    const checkAdmin = async () => {
-      try {
-        const user = await base44.auth.me();
-        setIsAdmin(user?.role === 'admin');
-        
-        // Load edit mode preference
-        const savedEditMode = localStorage.getItem('adminEditModeEnabled');
-        if (savedEditMode !== null) {
-          setEditModeEnabled(savedEditMode === 'true');
+    // Use cached admin status to avoid rate limits
+    if (window.__adminStatusCache !== undefined) {
+      setIsAdmin(window.__adminStatusCache);
+    } else {
+      const checkAdmin = async () => {
+        try {
+          const user = await base44.auth.me();
+          const isAdminUser = user?.role === 'admin';
+          setIsAdmin(isAdminUser);
+          window.__adminStatusCache = isAdminUser;
+        } catch {
+          setIsAdmin(false);
+          window.__adminStatusCache = false;
         }
-      } catch {
-        setIsAdmin(false);
-      }
-    };
-    checkAdmin();
+      };
+      checkAdmin();
+    }
+
+    // Load edit mode preference
+    const savedEditMode = localStorage.getItem('adminEditModeEnabled');
+    if (savedEditMode !== null) {
+      setEditModeEnabled(savedEditMode === 'true');
+    }
 
     // Fetch saved text for this key
     const fetchSavedText = async () => {
