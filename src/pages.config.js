@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import CryptoCheckout from './pages/CryptoCheckout';
 import CustomerInfo from './pages/CustomerInfo';
+import GrayMarketInsights from './pages/GrayMarketInsights';
 import GroupBuy from './pages/GroupBuy';
 import Home from './pages/Home';
 import LearnMore from './pages/LearnMore';
@@ -19,7 +20,6 @@ import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import GrayMarketInsights from './pages/GrayMarketInsights';
 import __Layout from './Layout.jsx';
 
 
@@ -33,6 +33,7 @@ export const PAGES = {
     "Contact": Contact,
     "CryptoCheckout": CryptoCheckout,
     "CustomerInfo": CustomerInfo,
+    "GrayMarketInsights": GrayMarketInsights,
     "GroupBuy": GroupBuy,
     "Home": Home,
     "LearnMore": LearnMore,
@@ -45,7 +46,6 @@ export const PAGES = {
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "GrayMarketInsights": GrayMarketInsights,
 }
 
 export const pagesConfig = {
