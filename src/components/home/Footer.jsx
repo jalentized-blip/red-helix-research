@@ -55,7 +55,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-stone-400">
-            © 2026 Red Dirt Research. All rights reserved.
+            © 2026 Red Helix Research. All rights reserved.
           </p>
         </div>
       </div>
