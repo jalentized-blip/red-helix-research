@@ -457,10 +457,12 @@ const HeaderSearch = () => {
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
-            <img 
+            <motion.img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/cb22c6063_thisonerighthere.png"
               alt="Red Dirt Research"
               className="h-40 w-auto object-contain"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
               style={{ 
                 opacity: logoOpacity,
                 transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
