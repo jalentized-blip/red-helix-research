@@ -27,16 +27,14 @@ export default function FloatingChatButton({ onClick, isOpen }) {
   }, []);
 
   return (
-    <motion.div
-      className="fixed right-0 top-0 h-screen z-50 flex items-center justify-center"
+    <motion.button
+      onClick={onClick}
+      className="fixed bottom-6 right-6 z-50 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all group relative"
       style={{ opacity: 0.25 }}
-      whileHover={{ opacity: 1 }}
+      whileHover={{ opacity: 1, y: [0, -8, 0, -4, 0] }}
+      transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <button
-        onClick={onClick}
-        className="p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all hover:scale-110 group relative"
-        whileTap={{ scale: 0.95 }}
-      >
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
