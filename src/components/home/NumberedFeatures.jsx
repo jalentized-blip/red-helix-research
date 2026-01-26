@@ -14,8 +14,8 @@ const features = [
   },
   {
     number: "3",
-    title: "Same-Day Shipping",
-    description: "Orders placed before 3PM PST ship the same business day directly from our fulfillment center."
+    title: "Quality Customer Service",
+    description: "Our responsive support team is dedicated to helping you every step of the way."
   },
   {
     number: "4",
