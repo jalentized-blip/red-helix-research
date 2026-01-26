@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from "framer-motion";
-import EditableText from '@/components/EditableText';
+
 
 const features = [
   {
@@ -53,10 +53,10 @@ export default function NumberedFeatures() {
               {/* Content */}
               <div>
                 <h3 className="text-xl font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors">
-                  <EditableText textKey={`${feature.key}_title`} defaultValue={feature.title} />
+                  {feature.title}
                 </h3>
                 <p className="text-stone-300 leading-relaxed">
-                  <EditableText textKey={`${feature.key}_desc`} defaultValue={feature.description} multiline />
+                  {feature.description}
                 </p>
               </div>
             </motion.div>

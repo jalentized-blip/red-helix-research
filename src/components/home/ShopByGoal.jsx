@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Scale, Heart, Brain, Zap, Info } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
-import EditableText from '@/components/EditableText';
+
 
 const peptideInfo = {
   "Retatrutide": "Triple agonist targeting GLP-1, GIP, and glucagon receptors for advanced metabolic research",
@@ -93,11 +93,11 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              <EditableText textKey="shop_by_goal_heading" defaultValue="Shop by Goal" />
+              Shop by Goal
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-2xl mx-auto">
-            <EditableText textKey="shop_by_goal_subtitle" defaultValue="Find the right peptides for your research objectives" />
+            Find the right peptides for your research objectives
           </p>
         </motion.div>
 
@@ -122,10 +122,10 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-amber-50 group-hover:text-red-600 transition-colors">
-                        <EditableText textKey={`${goal.key}_title`} defaultValue={goal.title} />
+                        {goal.title}
                       </h3>
                       <p className="text-sm text-stone-300 mt-1">
-                        <EditableText textKey={`${goal.key}_desc`} defaultValue={goal.description} multiline />
+                        {goal.description}
                       </p>
                     </div>
                   </div>

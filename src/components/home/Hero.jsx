@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { FileText, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
-import EditableText from '@/components/EditableText';
+
 
 export default function Hero() {
   const scrollTo = (id) => {

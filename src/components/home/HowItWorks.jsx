@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { ShoppingCart, Mail, Truck, Package, MapPin, RefreshCw } from "lucide-react";
-import EditableText from '@/components/EditableText';
+
 
 const steps = [
   {
@@ -46,11 +46,11 @@ export default function HowItWorks() {
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              <EditableText textKey="how_it_works_heading" defaultValue="How It Works" />
+              How It Works
             </span>
           </h2>
           <p className="text-stone-300 text-lg">
-            <EditableText textKey="how_it_works_subtitle" defaultValue="Simple, secure, and discreet" />
+            Simple, secure, and discreet
           </p>
         </motion.div>
 
@@ -75,10 +75,10 @@ export default function HowItWorks() {
               </div>
 
               <h3 className="text-xl font-bold text-amber-50 mb-2">
-                <EditableText textKey={`${step.key}_title`} defaultValue={step.title} />
+                {step.title}
               </h3>
               <p className="text-stone-300">
-                <EditableText textKey={`${step.key}_desc`} defaultValue={step.description} />
+                {step.description}
               </p>
             </motion.div>
           ))}

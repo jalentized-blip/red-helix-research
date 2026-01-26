@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { MessageCircle, Send, ArrowRight } from "lucide-react";
-import EditableText from '@/components/EditableText';
+
 
 const DiscordIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -49,11 +49,11 @@ export default function Contact() {
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-barn-brown to-barn-brown bg-clip-text text-transparent">
-              <EditableText textKey="contact_heading" defaultValue="Need Help?" />
+              Need Help?
             </span>
           </h2>
           <p className="text-stone-300 text-lg">
-            <EditableText textKey="contact_subtitle" defaultValue="Our team responds within 24 hours" />
+            Our team responds within 24 hours
           </p>
         </motion.div>
 
