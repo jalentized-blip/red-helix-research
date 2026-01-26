@@ -39,17 +39,14 @@ export default function Footer() {
 
           {/* Contact Links */}
           <div className="flex items-center gap-4">
-            <a href="#" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
+            <a href="mailto:reddirtresearch@gmail.com" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <Mail className="w-5 h-5" />
             </a>
-            <a href="https://discord.gg/jH5s4dBr" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
+            <a href="https://discord.gg/s78Jeajp" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <MessageCircle className="w-5 h-5" />
             </a>
-            <a href="#" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
+            <a href="https://t.me/Reddirtresearch" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <Send className="w-5 h-5" />
-            </a>
-            <a href="#" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
-              <Globe className="w-5 h-5" />
             </a>
           </div>
 

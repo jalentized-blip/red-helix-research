@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Send, Search, Eye } from 'lucide-react';
+import { ShoppingCart, Menu, X, Send, Search, Eye, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -650,16 +650,14 @@ const HeaderSearch = () => {
         {children}
       </main>
 
-      {/* Telegram Chat Button */}
+      {/* Email Button */}
       <a
-      href={telegramLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 p-4 bg-blue-500 rounded-full shadow-lg hover:bg-blue-600 transition-all hover:scale-110"
-      style={{ opacity: 0.2 }}
-      title="Chat with us on Telegram"
+      href="mailto:reddirtresearch@gmail.com"
+      className="fixed bottom-6 right-6 z-40 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all hover:scale-110"
+      style={{ opacity: 0.9 }}
+      title="Email Red Dirt Research"
       >
-      <Send className="w-6 h-6 text-white" />
+      <Mail className="w-6 h-6 text-amber-50" />
       </a>
 
       <UploadCOAModal

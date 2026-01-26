@@ -90,7 +90,7 @@ export default function Reviews() {
           <p className="text-stone-300 mb-4">Want to see more reviews? Join our community!</p>
           <Button 
             className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
-            onClick={() => window.open('https://discord.gg/Nee8Ydev', '_blank')}
+            onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Join our Discord Community Today!

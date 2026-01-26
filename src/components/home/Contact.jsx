@@ -14,24 +14,18 @@ import { createPageUrl } from '@/utils';
 
 const contactMethods = [
   {
-    icon: MessageCircle,
-    label: "WhatsApp",
-    value: "Message us",
-    color: "bg-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/30",
-    link: "https://wa.me/85251705487"
-  },
-  {
     icon: DiscordIcon,
     label: "Discord",
     value: "Join our server",
     color: "bg-[#5865F2]/20 text-[#5865F2] hover:bg-[#5865F2]/30",
-    link: "https://discord.gg/Nee8Ydev"
+    link: "https://discord.gg/s78Jeajp"
   },
   {
     icon: Send,
     label: "Telegram",
     value: "Message us",
-    color: "bg-[#0088cc]/20 text-[#0088cc] hover:bg-[#0088cc]/30"
+    color: "bg-[#0088cc]/20 text-[#0088cc] hover:bg-[#0088cc]/30",
+    link: "https://t.me/Reddirtresearch"
   }
 ];
 
@@ -47,7 +41,7 @@ export default function Contact() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-barn-brown to-barn-brown bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Need Help?
             </span>
           </h2>
@@ -89,7 +83,7 @@ export default function Contact() {
           className="text-center mt-12"
         >
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50 font-semibold px-6">
+            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 font-semibold px-6">
               Go to Contact Form
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
