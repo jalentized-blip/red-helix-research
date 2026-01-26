@@ -132,22 +132,21 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
 
   return (
     <div
-      className="relative inline-block group/editable"
+      className="relative inline-block group/editable pr-10"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Component className={className}>{value}</Component>
-      {isHovered && (
-        <button
-          onClick={() => {
-            setEditValue(value);
-            setIsEditing(true);
-          }}
-          className="absolute -right-8 top-1/2 -translate-y-1/2 p-1.5 bg-red-600/80 hover:bg-red-600 rounded-md shadow-lg transition-all opacity-0 group-hover/editable:opacity-100"
-        >
-          <Pencil className="w-3 h-3 text-white" />
-        </button>
-      )}
+      <button
+        onClick={() => {
+          setEditValue(value);
+          setIsEditing(true);
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        className="absolute -right-8 top-1/2 -translate-y-1/2 p-1.5 bg-red-600/80 hover:bg-red-600 rounded-md shadow-lg transition-all opacity-0 group-hover/editable:opacity-100"
+      >
+        <Pencil className="w-3 h-3 text-white" />
+      </button>
     </div>
   );
 }
