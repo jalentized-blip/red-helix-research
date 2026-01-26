@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { MessageCircle, Send, ArrowRight } from "lucide-react";
+import { MessageCircle, Send, ArrowRight, Mail } from "lucide-react";
 
 const DiscordIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -13,6 +13,13 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const contactMethods = [
+  {
+    icon: Mail,
+    label: "Email",
+    value: "Email us",
+    color: "bg-red-700/20 text-red-600 hover:bg-red-700/30",
+    link: "mailto:reddirtresearch@gmail.com"
+  },
   {
     icon: DiscordIcon,
     label: "Discord",

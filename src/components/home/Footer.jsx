@@ -48,6 +48,9 @@ export default function Footer() {
             <a href="https://t.me/Reddirtresearch" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <Send className="w-5 h-5" />
             </a>
+            <a href="https://reddirtresearch.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
+              <Globe className="w-5 h-5" />
+            </a>
           </div>
 
           {/* Copyright */}
