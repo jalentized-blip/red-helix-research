@@ -34,12 +34,15 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
         setUser(currentUser);
       }
 
+      let conversationToUse = null;
+
       // If opening a specific conversation from inbox
       if (conversationId) {
         const conv = await base44.entities.SupportConversation.list();
         const targetConv = conv.find(c => c.id === conversationId);
         if (targetConv) {
           setConversation(targetConv);
+          conversationToUse = targetConv;
           const msgs = await base44.entities.SupportMessage.filter({
             conversation_id: targetConv.id
           });
@@ -62,6 +65,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           });
         }
         setConversation(conv);
+        conversationToUse = conv;
 
         const msgs = await base44.entities.SupportMessage.filter({
           conversation_id: conv.id
@@ -84,6 +88,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           });
         }
         setConversation(conv);
+        conversationToUse = conv;
 
         // Load messages
         const msgs = await base44.entities.SupportMessage.filter({
@@ -98,7 +103,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
       // Subscribe to new messages
       const unsubscribe = base44.entities.SupportMessage.subscribe((event) => {
-        if (event.type === 'create' && event.data.conversation_id === conversation?.id) {
+        if (event.type === 'create' && event.data.conversation_id === conversationToUse?.id) {
           setMessages(prev => [...prev, event.data]);
           setTypingAdmin(null);
         }
@@ -112,9 +117,9 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
       // Subscribe to conversation updates to detect typing
       const unsubscribeConv = base44.entities.SupportConversation.subscribe((event) => {
-        if (event.id === conversation?.id && event.data?.last_message_at) {
-          const adminTyping = admins.find(a => a.is_online);
-          if (adminTyping && admins.length > 0) {
+        if (event.id === conversationToUse?.id && event.data?.last_message_at) {
+          const adminTyping = adminStatuses.find(a => a.is_online);
+          if (adminTyping && adminStatuses.length > 0) {
             setTypingAdmin(adminTyping);
             setTimeout(() => setTypingAdmin(null), 2000);
           }
