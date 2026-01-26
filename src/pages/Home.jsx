@@ -7,6 +7,7 @@ import ProductModal from '@/components/product/ProductModal';
 import AgeVerification from '@/components/AgeVerification';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
+import { Package } from 'lucide-react';
 
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
