@@ -637,7 +637,7 @@ const HeaderSearch = () => {
                       )}
                       {!isAuthenticated && (
                         <button
-                          onClick={() => base44.auth.redirectToLogin(createPageUrl('Account'))}
+                          onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
                           className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
                         >
                           Sign In
