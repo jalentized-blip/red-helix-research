@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, Loader2, Circle } from 'lucide-react';
+import { Send, Loader2, Circle, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingIndicator from './TypingIndicator';
 
@@ -15,6 +15,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
   const [admins, setAdmins] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [typingAdmin, setTypingAdmin] = useState(null);
+  const [isMinimized, setIsMinimized] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -207,15 +208,23 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           {/* Main Chat Section */}
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50">
-            <h3 className="font-bold text-lg">Customer Support</h3>
-            <div className="flex items-center gap-2 mt-1">
-              <Circle className={`w-2 h-2 ${onlineAdmins.length > 0 ? 'fill-green-400 text-green-400' : 'fill-stone-400 text-stone-400'}`} />
-              <p className="text-xs text-amber-50/80">
-                {onlineAdmins.length > 0 ? `${onlineAdmins.length} admin${onlineAdmins.length !== 1 ? 's' : ''} online` : 'No admins online'}
-              </p>
+            <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50 flex items-start justify-between">
+              <div>
+                <h3 className="font-bold text-lg">Customer Support</h3>
+                <div className="flex items-center gap-2 mt-1">
+                  <Circle className={`w-2 h-2 ${onlineAdmins.length > 0 ? 'fill-green-400 text-green-400' : 'fill-stone-400 text-stone-400'}`} />
+                  <p className="text-xs text-amber-50/80">
+                    {onlineAdmins.length > 0 ? `${onlineAdmins.length} admin${onlineAdmins.length !== 1 ? 's' : ''} online` : 'No admins online'}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsMinimized(!isMinimized)}
+                className="text-amber-50 hover:bg-red-600/50 p-1 rounded transition-colors"
+              >
+                <Minus className="w-5 h-5" />
+              </button>
             </div>
-          </div>
 
           {/* Admin List */}
           {admins.length > 0 && (
@@ -296,6 +305,8 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
               </Button>
             </div>
           </div>
+             </>
+           )}
           </div>
           </motion.div>
           )}
