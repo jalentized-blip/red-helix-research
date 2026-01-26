@@ -16,7 +16,6 @@ import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
 import FloatingChatButton from '@/components/chat/FloatingChatButton';
 import TelegramChatWindow from '@/components/chat/TelegramChatWindow';
-import AdminChatSidebar from '@/components/chat/AdminChatSidebar';
 import InboxMessages from '@/components/chat/InboxMessages';
 import CustomerInfoModal from '@/components/chat/CustomerInfoModal';
 
@@ -669,65 +668,45 @@ const HeaderSearch = () => {
         {children}
       </main>
 
-      {isAdmin ? (
-        <div className="fixed bottom-0 right-0 z-50 h-screen flex">
-          <AdminChatSidebar 
-            selectedConvId={selectedConvId}
-            onSelectConversation={(conv) => {
-              setSelectedConvId(conv.id);
-              setChatOpen(true);
-            }}
-          />
-          <TelegramChatWindow 
-            isOpen={chatOpen}
-            onClose={() => {
-              setChatOpen(false);
-              setSelectedConvId(null);
-            }}
-            isAdmin={true}
-            conversationId={selectedConvId}
-          />
-        </div>
-      ) : (
-        <>
-          <FloatingChatButton 
-            onClick={() => {
-              setSelectedConvId(null);
-              setShowCustomerInfo(true);
-            }}
-            isOpen={chatOpen}
-          />
+      <FloatingChatButton 
+        onClick={() => {
+          setSelectedConvId(null);
+          setShowCustomerInfo(!isAdmin);
+          setChatOpen(true);
+        }}
+        isOpen={chatOpen}
+      />
 
-          <InboxMessages 
-            onSelectConversation={(conv) => {
-              setSelectedConvId(conv.id);
-              setChatOpen(true);
-            }}
-          />
-
-          <CustomerInfoModal 
-            isOpen={showCustomerInfo && !chatOpen}
-            onClose={() => setShowCustomerInfo(false)}
-            onSubmit={(info) => {
-              setCustomerInfo(info);
-              setShowCustomerInfo(false);
-              setChatOpen(true);
-            }}
-          />
-
-          <TelegramChatWindow 
-            isOpen={chatOpen}
-            onClose={() => {
-              setChatOpen(false);
-              setSelectedConvId(null);
-              setCustomerInfo(null);
-            }}
-            customerInfo={customerInfo}
-            conversationId={selectedConvId}
-            isAdmin={false}
-          />
-        </>
+      {!isAdmin && (
+        <InboxMessages 
+          onSelectConversation={(conv) => {
+            setSelectedConvId(conv.id);
+            setChatOpen(true);
+          }}
+        />
       )}
+
+      <CustomerInfoModal 
+        isOpen={showCustomerInfo && !chatOpen}
+        onClose={() => setShowCustomerInfo(false)}
+        onSubmit={(info) => {
+          setCustomerInfo(info);
+          setShowCustomerInfo(false);
+          setChatOpen(true);
+        }}
+      />
+
+      <TelegramChatWindow 
+        isOpen={chatOpen}
+        onClose={() => {
+          setChatOpen(false);
+          setSelectedConvId(null);
+          setCustomerInfo(null);
+        }}
+        customerInfo={customerInfo}
+        conversationId={selectedConvId}
+        isAdmin={isAdmin}
+      />
 
       <UploadCOAModal
       isOpen={showUploadModal}

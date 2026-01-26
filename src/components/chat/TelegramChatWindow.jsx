@@ -176,10 +176,38 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className={`${isAdmin ? 'fixed bottom-0 right-0 z-50 w-96 h-screen rounded-none' : 'fixed bottom-24 right-6 z-50 w-96 h-[500px] rounded-2xl'} bg-stone-900 border border-stone-700 shadow-2xl flex flex-col overflow-hidden`}
+          className={`fixed z-50 bg-stone-900 border border-stone-700 shadow-2xl overflow-hidden ${isAdmin ? 'bottom-6 right-6 w-[900px] h-[600px] rounded-2xl flex' : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl flex flex-col'}`}
         >
-          {/* Header */}
-          <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50">
+          {/* Admin Sidebar */}
+          {isAdmin && (
+            <div className="w-72 border-r border-stone-700 flex flex-col overflow-hidden bg-stone-950">
+              {/* Online Admins */}
+              <div className="p-4 border-b border-stone-700">
+                <h3 className="text-sm font-bold text-amber-50 mb-3">Support Team</h3>
+                <div className="space-y-2">
+                  {admins.map(admin => (
+                    <div key={admin.id} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-stone-800/50">
+                      <Circle className={`w-2 h-2 ${admin.is_online ? 'fill-green-400 text-green-400' : 'fill-stone-600 text-stone-600'}`} />
+                      <span className="text-xs text-stone-300">{admin.admin_name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Conversations */}
+              <div className="flex-1 overflow-y-auto p-4">
+                <h3 className="text-sm font-bold text-amber-50 mb-3">Conversations</h3>
+                <div className="space-y-2">
+                  {/* Conversations list would go here */}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Main Chat Section */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50">
             <h3 className="font-bold text-lg">Customer Support</h3>
             <div className="flex items-center gap-2 mt-1">
               <Circle className={`w-2 h-2 ${onlineAdmins.length > 0 ? 'fill-green-400 text-green-400' : 'fill-stone-400 text-stone-400'}`} />
@@ -268,8 +296,9 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
               </Button>
             </div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
+          </div>
+          </motion.div>
+          )}
+          </AnimatePresence>
+          );
+          }
