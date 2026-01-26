@@ -18,6 +18,7 @@ import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import AdminStockManagement from './pages/AdminStockManagement';
+import AdminOrderManagement from './pages/AdminOrderManagement';
 import __Layout from './Layout.jsx';
 
 
@@ -42,6 +43,7 @@ export const PAGES = {
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
     "AdminStockManagement": AdminStockManagement,
+    "AdminOrderManagement": AdminOrderManagement,
 }
 
 export const pagesConfig = {
