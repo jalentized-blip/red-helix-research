@@ -30,6 +30,7 @@ export default function Home() {
     const [showAgeVerification, setShowAgeVerification] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [ageVerified, setAgeVerified] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     const { data: products = [], isLoading } = useQuery({
@@ -45,6 +46,11 @@ export default function Home() {
 
           const isAuth = await base44.auth.isAuthenticated();
           setIsAuthenticated(isAuth);
+
+          if (isAuth) {
+            const user = await base44.auth.me();
+            setIsAdmin(user?.role === 'admin');
+          }
 
           if (!verified) {
             setShowAgeVerification(true);
@@ -112,6 +118,16 @@ export default function Home() {
         isOpen={showAgeVerification} 
         onVerify={handleAgeVerification} 
       />
+
+      {/* Admin Stock Management Button */}
+      {isAdmin && (
+        <Link to={createPageUrl('AdminStockManagement')}>
+          <button className="fixed top-24 right-6 z-40 p-3 bg-red-600/20 hover:bg-red-600/40 border border-red-600/50 rounded-lg shadow-lg transition-all hover:scale-110">
+            <Package className="w-5 h-5 text-red-400" />
+          </button>
+        </Link>
+      )}
+
       <Hero />
       <TrustBar />
       <ValueProposition />
