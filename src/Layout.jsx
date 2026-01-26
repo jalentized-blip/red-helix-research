@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
+import NotificationCenter from '@/components/NotificationCenter';
 import FloatingChatButton from '@/components/chat/FloatingChatButton';
 import TelegramChatWindow from '@/components/chat/TelegramChatWindow';
 
@@ -517,6 +518,10 @@ const HeaderSearch = () => {
           
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {isAuthenticated && isAdmin && (
+              <NotificationCenter userEmail={user?.email} />
+            )}
+
             {isAuthenticated && (
               <AlertsDropdown />
             )}
