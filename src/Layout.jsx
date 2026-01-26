@@ -620,9 +620,7 @@ const HeaderSearch = () => {
                       {isAuthenticated && (
                         <button
                           onClick={() => {
-                            // ✅ FIXED: Let Base44 SDK handle logout properly
-                            // Do NOT clear localStorage/sessionStorage before logout
-                            // The SDK manages token cleanup internally
+                            // Let Base44 SDK handle logout properly
                             base44.auth.logout(createPageUrl('Home'));
                           }}
                           className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
@@ -631,16 +629,12 @@ const HeaderSearch = () => {
                         </button>
                       )}
                       {!isAuthenticated && (
-                        <button
-                          onClick={() => {
-                            // ✅ FIXED: Use current URL as return URL for better UX
-                            // This redirects to Base44's hosted login page
-                            base44.auth.redirectToLogin(window.location.href);
-                          }}
-                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
+                        <Link
+                          to={createPageUrl('Login')}
+                          className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30 block"
                         >
                           Sign In
-                        </button>
+                        </Link>
                       )}
                     </div>
                   </div>
