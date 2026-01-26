@@ -27,11 +27,51 @@ export default function AdminSupport() {
           return;
         }
         setUser(currentUser);
+
+        // Set admin as online
+        const adminStatuses = await base44.entities.AdminStatus.filter({
+          admin_email: currentUser.email
+        });
+        
+        if (adminStatuses.length > 0) {
+          await base44.entities.AdminStatus.update(adminStatuses[0].id, {
+            is_online: true,
+            last_seen: new Date().toISOString()
+          });
+        } else {
+          await base44.entities.AdminStatus.create({
+            admin_email: currentUser.email,
+            admin_name: currentUser.full_name,
+            is_online: true,
+            last_seen: new Date().toISOString()
+          });
+        }
       } catch (error) {
         navigate(createPageUrl('Home'));
       }
     };
     checkAuth();
+
+    // Cleanup: set admin as offline when leaving
+    return () => {
+      const setOffline = async () => {
+        try {
+          const currentUser = await base44.auth.me();
+          const adminStatuses = await base44.entities.AdminStatus.filter({
+            admin_email: currentUser.email
+          });
+          if (adminStatuses.length > 0) {
+            await base44.entities.AdminStatus.update(adminStatuses[0].id, {
+              is_online: false,
+              last_seen: new Date().toISOString()
+            });
+          }
+        } catch (error) {
+          console.error('Failed to set offline:', error);
+        }
+      };
+      setOffline();
+    };
   }, [navigate]);
 
   const { data: conversations = [], refetch: refetchConversations } = useQuery({

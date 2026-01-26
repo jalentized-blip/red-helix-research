@@ -1,12 +1,35 @@
-import React from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MessageCircle, X, Circle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
 
-export default function FloatingChatButton({ onClick, isOpen, unreadCount }) {
+export default function FloatingChatButton({ onClick, isOpen }) {
+  const [adminsOnline, setAdminsOnline] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const admins = await base44.entities.AdminStatus.list();
+        setAdminsOnline(admins.some(a => a.is_online));
+      } catch (error) {
+        console.error('Failed to check admin status:', error);
+      }
+    };
+
+    checkAdminStatus();
+
+    // Subscribe to status changes
+    const unsubscribe = base44.entities.AdminStatus.subscribe(() => {
+      checkAdminStatus();
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <motion.button
       onClick={onClick}
-      className="fixed bottom-6 right-6 z-50 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all hover:scale-110"
+      className="fixed bottom-6 right-6 z-50 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all hover:scale-110 group relative"
       style={{ opacity: 0.25 }}
       whileHover={{ opacity: 1 }}
       whileTap={{ scale: 0.95 }}
@@ -32,14 +55,16 @@ export default function FloatingChatButton({ onClick, isOpen, unreadCount }) {
             className="relative"
           >
             <MessageCircle className="w-6 h-6 text-amber-50" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                {unreadCount}
-              </span>
+            {adminsOnline && (
+              <Circle className="absolute -top-1 -right-1 w-3 h-3 fill-green-400 text-green-400" />
             )}
           </motion.div>
         )}
       </AnimatePresence>
+      
+      <div className="absolute bottom-full right-0 mb-2 bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 whitespace-nowrap text-xs text-amber-50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        {adminsOnline ? 'Admins online' : 'Start a chat'}
+      </div>
     </motion.button>
   );
 }
