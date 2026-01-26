@@ -6,7 +6,7 @@ import { Send, Loader2, Circle, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingIndicator from './TypingIndicator';
 
-export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null, isAdmin = false }) {
+export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null, isAdmin = false, isMinimized = false, setIsMinimized = () => {} }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,15 +15,13 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
   const [admins, setAdmins] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [typingAdmin, setTypingAdmin] = useState(null);
-  const [isMinimized, setIsMinimized] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setIsMinimized(false);
+    if (isOpen && !isMinimized) {
       initializeChat();
     }
-  }, [isOpen]);
+  }, [isOpen, isMinimized]);
 
   const initializeChat = async () => {
     try {
