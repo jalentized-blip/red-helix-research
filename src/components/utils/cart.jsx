@@ -61,6 +61,8 @@ const PROMO_CODES = {
   'SAVE20': { discount: 0.20, label: '20% off' },
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
+  'GOMIE15': { discount: 0.15, label: '15% off', isAffiliate: true },
+  'CJ15': { discount: 0.15, label: '15% off', isAffiliate: true },
 };
 
 export const validatePromoCode = (code) => {

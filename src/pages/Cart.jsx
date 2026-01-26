@@ -13,6 +13,7 @@ export default function Cart() {
   const [appliedPromo, setAppliedPromo] = useState(getPromoCode());
   const [promoError, setPromoError] = useState('');
   const [promoFocused, setPromoFocused] = useState(false);
+  const [showAffiliateMessage, setShowAffiliateMessage] = useState(false);
 
   useEffect(() => {
     setCartItems(getCart());
@@ -38,10 +39,14 @@ export default function Cart() {
   };
 
   const handleApplyPromo = () => {
+    const promoDetails = validatePromoCode(promoCode);
     if (addPromoCode(promoCode)) {
       setAppliedPromo(promoCode.toUpperCase());
       setPromoCode('');
       setPromoError('');
+      if (promoDetails?.isAffiliate) {
+        setShowAffiliateMessage(true);
+      }
     } else {
       setPromoError('Invalid promo code');
     }
@@ -51,6 +56,7 @@ export default function Cart() {
     removePromoCode();
     setAppliedPromo(null);
     setPromoError('');
+    setShowAffiliateMessage(false);
   };
 
   const SHIPPING_COST = 15.00;
@@ -118,6 +124,17 @@ export default function Cart() {
 
                 {/* Promo Code Section */}
                 <div className="mb-6 p-4 bg-stone-800/50 rounded-lg">
+                  {showAffiliateMessage && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-3 p-3 bg-red-600/20 border border-red-600/50 rounded text-center"
+                    >
+                      <p className="text-sm font-semibold text-red-400">
+                        Thank you for supporting our affiliates! 💜
+                      </p>
+                    </motion.div>
+                  )}
                   {appliedPromo ? (
                     <div className="flex items-center justify-between bg-green-600/20 border border-green-600/50 rounded p-3">
                       <div className="flex items-center gap-2">
