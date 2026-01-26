@@ -13,6 +13,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
+import FloatingChatButton from '@/components/chat/FloatingChatButton';
+import CustomerChatWindow from '@/components/chat/CustomerChatWindow';
 
 const navLinks = [
         { label: "Peptides", href: "#products" },
@@ -231,6 +233,7 @@ const HeaderSearch = () => {
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
+                               const [chatOpen, setChatOpen] = useState(false);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -601,6 +604,9 @@ const HeaderSearch = () => {
                             <Eye className="w-4 h-4" />
                             Market Intelligence
                           </Link>
+                          <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                            Customer Support
+                          </Link>
                         </>
                       )}
                     </nav>
@@ -650,15 +656,15 @@ const HeaderSearch = () => {
         {children}
       </main>
 
-      {/* Email Button */}
-      <a
-      href="mailto:reddirtresearch@gmail.com"
-      className="fixed bottom-6 right-6 z-40 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all hover:scale-110"
-      style={{ opacity: 0.9 }}
-      title="Email Red Dirt Research"
-      >
-      <Mail className="w-6 h-6 text-amber-50" />
-      </a>
+      <FloatingChatButton 
+        onClick={() => setChatOpen(!chatOpen)}
+        isOpen={chatOpen}
+      />
+
+      <CustomerChatWindow 
+        isOpen={chatOpen}
+        onClose={() => setChatOpen(false)}
+      />
 
       <UploadCOAModal
       isOpen={showUploadModal}
