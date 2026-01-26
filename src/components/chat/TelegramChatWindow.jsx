@@ -177,7 +177,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className={`fixed z-50 bg-stone-900 border border-stone-700 shadow-2xl overflow-hidden ${isAdmin ? 'bottom-6 right-6 w-[900px] h-[600px] rounded-2xl flex' : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl flex flex-col'}`}
+          className={`fixed z-50 bg-stone-900 border border-stone-700 shadow-2xl overflow-hidden ${isAdmin ? 'bottom-6 right-6 w-[900px] rounded-2xl flex' : 'bottom-24 right-6 w-96 rounded-2xl flex flex-col'} ${isMinimized ? 'h-auto' : isAdmin ? 'h-[600px]' : 'h-[500px]'}`}
         >
           {/* Admin Sidebar */}
           {isAdmin && (
@@ -231,7 +231,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
             {!isMinimized && (
               <>
                 {/* Admin List */}
-                {admins.length > 0 && !isAdmin && (
+                {admins.length > 0 && (
                   <div className="px-4 py-2 bg-stone-800/50 border-b border-stone-700">
                     <p className="text-xs font-semibold text-stone-400 mb-2">Available Support</p>
                     <div className="space-y-1">
