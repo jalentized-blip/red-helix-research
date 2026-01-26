@@ -48,12 +48,13 @@ export default function Account() {
       try {
         const currentUser = await base44.auth.me();
         if (!currentUser) {
-          navigate(createPageUrl('Home'));
+          navigate(createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(createPageUrl('Account')));
           return;
         }
         setUser(currentUser);
       } catch (err) {
-        base44.auth.redirectToLogin(createPageUrl('Account'));
+        // Redirect to our custom login page
+        navigate(createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(createPageUrl('Account')));
         return;
       } finally {
         setLoading(false);
