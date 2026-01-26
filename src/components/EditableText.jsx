@@ -12,10 +12,13 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
   const [isHovered, setIsHovered] = useState(false);
   const [value, setValue] = useState(defaultValue);
   const [editValue, setEditValue] = useState(defaultValue);
-  const [savedTexts, setSavedTexts] = useState({});
   const inputRef = useRef(null);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     const checkAdmin = async () => {
       try {
         const user = await base44.auth.me();
@@ -26,23 +29,18 @@ export default function EditableText({ textKey, defaultValue, as = 'span', class
     };
     checkAdmin();
 
-    // Fetch all saved texts
-    const fetchSavedTexts = async () => {
+    // Fetch saved text for this key
+    const fetchSavedText = async () => {
       try {
-        const texts = await base44.entities.SiteText.list();
-        const textsMap = {};
-        texts.forEach(t => {
-          textsMap[t.text_key] = t.text_value;
-        });
-        setSavedTexts(textsMap);
-        if (textsMap[textKey]) {
-          setValue(textsMap[textKey]);
+        const texts = await base44.entities.SiteText.filter({ text_key: textKey });
+        if (texts.length > 0) {
+          setValue(texts[0].text_value);
         }
       } catch (err) {
-        // No saved texts yet
+        // No saved text yet
       }
     };
-    fetchSavedTexts();
+    fetchSavedText();
   }, [textKey]);
 
   useEffect(() => {
