@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Package, AlertCircle, CheckCircle, ArrowLeft, Save } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 export default function AdminStockManagement() {
   const [user, setUser] = useState(null);
@@ -44,8 +45,12 @@ export default function AdminStockManagement() {
   const updateStockMutation = useMutation({
     mutationFn: ({ productId, updates }) => 
       base44.entities.Product.update(productId, updates),
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      const state = editingStates[variables.productId];
+      toast.success(`Stock updated for ${state?.selectedSpec || 'product'}`, {
+        description: `${state?.stockQuantity || 0} units - ${state?.inStock ? 'In Stock' : 'Out of Stock'}`
+      });
       setEditingStates({});
     },
   });
