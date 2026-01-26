@@ -28,7 +28,7 @@ export default function FloatingChatButton({ onClick, isOpen }) {
 
   return (
     <motion.button
-      onClick={onClick}
+      onClick={() => onClick && onClick()}
       className="fixed bottom-6 right-6 z-50 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all group"
       whileHover={{ scale: 1.1, y: -8 }}
       transition={{ type: 'spring', stiffness: 300, damping: 10 }}

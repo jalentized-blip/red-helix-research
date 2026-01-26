@@ -20,6 +20,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
   useEffect(() => {
     if (isOpen) {
+      setIsMinimized(false);
       initializeChat();
     }
   }, [isOpen]);
@@ -221,7 +222,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                 )}
               </div>
               <button
-                onClick={() => setIsMinimized(!isMinimized)}
+                onClick={() => setIsMinimized(true)}
                 className="text-amber-50 hover:bg-red-600/50 p-1 rounded transition-colors flex-shrink-0"
               >
                 <Minus className="w-5 h-5" />
