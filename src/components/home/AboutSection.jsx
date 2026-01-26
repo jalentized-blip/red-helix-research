@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { base44 } from '@/api/base44Client';
-import EditableText from '@/components/EditableText';
+
 
 export default function AboutSection() {
   const [vialImage, setVialImage] = useState(null);
@@ -44,22 +44,22 @@ export default function AboutSection() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-black mb-6">
-              <span className="text-amber-50"><EditableText textKey="about_heading_line1" defaultValue="About" /></span>
+              <span className="text-amber-50">About</span>
               <br />
               <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-                <EditableText textKey="about_heading_line2" defaultValue="Barn" />
+                Barn
               </span>
             </h2>
 
             <div className="space-y-4 text-amber-100 leading-relaxed">
               <p>
-                <EditableText textKey="about_para1" defaultValue="Barn is a trusted supplier of premium research-use compounds, dedicated to unmatched quality, safety, and transparency. We proudly serve laboratories, academic institutions, and professional researchers across the world with fast, reliable service." multiline />
+                Barn is a trusted supplier of premium research-use compounds, dedicated to unmatched quality, safety, and transparency. We proudly serve laboratories, academic institutions, and professional researchers across the world with fast, reliable service.
               </p>
               <p>
-                <EditableText textKey="about_para2" defaultValue="Every batch is produced in cGMP-certified facilities and verified through rigorous third-party testing by leading American labs. Certificates of Analysis (COAs) are provided with every compound, ensuring researchers have the confidence and clarity they need for consistent results." multiline />
+                Every batch is produced in cGMP-certified facilities and verified through rigorous third-party testing by leading American labs. Certificates of Analysis (COAs) are provided with every compound, ensuring researchers have the confidence and clarity they need for consistent results.
               </p>
               <p>
-                <EditableText textKey="about_para3" defaultValue="With same-day shipping and a commitment to precision, Barn is your dependable partner for research excellence." multiline />
+                With same-day shipping and a commitment to precision, Barn is your dependable partner for research excellence.
               </p>
             </div>
 
