@@ -459,7 +459,7 @@ const HeaderSearch = () => {
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/cb22c6063_thisonerighthere.png"
-              alt="Red Dirt Research"
+              alt="Red Helix Research"
               className="h-40 w-auto object-contain"
               style={{ 
                 opacity: logoOpacity,
