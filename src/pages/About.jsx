@@ -105,7 +105,7 @@ export default function About() {
         <StorySection
           icon={Beaker}
           title="A Better Way Forward"
-          description="Red Dirt Research emerged to compete in the peptide market on what matters most: transparency, reliability, and genuine care for our community. We refused to follow the playbook of inflated margins and empty promises. Instead, we built something different—a company that puts customers first."
+          description="Red Helix Research emerged to compete in the peptide market on what matters most: transparency, reliability, and genuine care for our community. We refused to follow the playbook of inflated margins and empty promises. Instead, we built something different—a company that puts customers first."
           highlight="Integrity Over Margins"
         />
 
