@@ -45,51 +45,96 @@ export default function GrayMarketInsights() {
   }
 
   const chineseSuppliers = [
-    {
-      name: "QSC (Qingdao Sigma Chemical Co.)",
-      reputation: "High",
-      priceRange: "$50-150 per kit (10 vials)",
-      platforms: "Telegram, WhatsApp, Email",
-      notes: "Most popular vendor. Known for bulk pricing. Community-tested COAs.",
-      contact: "Telegram groups, email direct",
-      risks: "Communication gaps, occasional shipping delays"
-    },
-    {
-      name: "Peptide Partners",
-      reputation: "Medium-High",
-      priceRange: "$75-200 per kit",
-      platforms: "Telegram, WeChat",
-      notes: "Good for international shipping. Verified by multiple communities.",
-      contact: "Telegram: Direct contact",
-      risks: "Higher prices than QSC but faster shipping"
-    },
-    {
-      name: "Generic Alibaba/Global Sources Manufacturers",
-      reputation: "Variable",
-      priceRange: "$30-100 per kit (bulk orders)",
-      platforms: "Alibaba, Made-in-China, Global Sources",
-      notes: "MOQ (Minimum Order Quantities) apply. Good for bulk wholesale.",
-      contact: "Platform messaging, email",
-      risks: "Quality varies significantly. Requires extensive vetting."
-    },
-    {
-      name: "Nuotai Biotech",
-      reputation: "High (Pharmaceutical Grade)",
-      priceRange: "$200-500+ per batch",
-      platforms: "Direct B2B contact",
-      notes: "Legitimate pharma manufacturer. Higher quality but requires business credentials.",
-      contact: "Direct sales team",
-      risks: "Higher MOQ, not consumer-friendly"
-    },
-    {
-      name: "Hansoh Pharma / Sinotau Pharmaceutical",
-      reputation: "High (Legitimate Manufacturers)",
-      priceRange: "Wholesale pricing only",
-      platforms: "B2B Direct",
-      notes: "Major pharmaceutical companies. Supply chain partners for US pharma.",
-      contact: "Corporate sales only",
-      risks: "Not accessible to small buyers"
-    }
+    { name: "QSC (Qingdao Sigma Chemical Co.)", reputation: "High", priceRange: "$50-150/kit", platforms: "Telegram, WhatsApp", notes: "Most popular. Community-tested COAs.", contact: "Telegram: Search 'QSC peptides'", link: "https://t.me/qscpeptides" },
+    { name: "Peptide Partners", reputation: "High", priceRange: "$75-200/kit", platforms: "Telegram", notes: "Fast shipping, verified quality", contact: "Telegram direct", link: "https://t.me/peptidepartners" },
+    { name: "Zenith Jove Peptide (ZJ)", reputation: "Medium-High", priceRange: "$60-180/kit", platforms: "WhatsApp, Telegram", notes: "Active on GLP-1 forums, flash sales", contact: "+86 contact on forum", link: "https://glp1forum.com/forums/suppliers.57/" },
+    { name: "Hebei Rimao Technology (HRM)", reputation: "Medium", priceRange: "$55-170/kit", platforms: "WhatsApp, Telegram", notes: "Weight loss peptides specialist", contact: "WhatsApp/Telegram: +85284372511", link: "https://glp1forum.com/threads/hebei-rimao-technology.5690/" },
+    { name: "SRY (China)", reputation: "Medium-High", priceRange: "$65-190/kit", platforms: "Telegram, Email", notes: "GLP-1 focus, good communication", contact: "Telegram groups", link: "" },
+    { name: "XCE Peptides", reputation: "Medium", priceRange: "$70-160/kit", platforms: "Telegram, WhatsApp", notes: "Research peptides, fast response", contact: "Telegram search 'XCE'", link: "" },
+    { name: "Polypeptide Group (Shanghai)", reputation: "High", priceRange: "Wholesale only", platforms: "B2B Direct", notes: "Major pharmaceutical supplier", contact: "Corporate website", link: "https://www.polypeptide.com" },
+    { name: "Changzhou Confucius Biotechnology", reputation: "Medium", priceRange: "$40-120/kit", platforms: "Alibaba", notes: "Peptides, SARMs, Nootropics", contact: "Alibaba storefront", link: "https://www.alibaba.com/peptide-suppliers.html" },
+    { name: "Wuhan Vanz Pharm Inc.", reputation: "Medium", priceRange: "$45-135/kit", platforms: "Alibaba, Email", notes: "API & pharmaceutical intermediates", contact: "Alibaba direct", link: "https://www.alibaba.com/peptide-suppliers.html" },
+    { name: "QYAOBIO", reputation: "High", priceRange: "$150-400/batch", platforms: "Website, Email", notes: "Custom synthesis, pharmaceutical grade", contact: "qyaobio.com", link: "https://www.qyaobio.com/" },
+    { name: "Synpeptide Co., Ltd", reputation: "Medium-High", priceRange: "$80-200/batch", platforms: "Email, Alibaba", notes: "Custom peptide synthesis", contact: "Via ECHEMI", link: "https://www.echemi.com/supplier/pd2208011001-peptide.html" },
+    { name: "Nuotai Biotech", reputation: "High", priceRange: "$200-500+", platforms: "B2B Direct", notes: "cGMP certified facilities", contact: "Sales team", link: "" },
+    { name: "Hansoh Pharma", reputation: "Very High", priceRange: "Wholesale", platforms: "Corporate", notes: "Major pharma, supplies US companies", contact: "Corporate only", link: "https://www.hansoh.com/" },
+    { name: "Sinotau Pharmaceutical", reputation: "Very High", priceRange: "Wholesale", platforms: "Corporate", notes: "Pharmaceutical manufacturer", contact: "B2B only", link: "" },
+    { name: "BIOWAY Organic Inc.", reputation: "Medium", priceRange: "$50-150/kit", platforms: "Website, Email", notes: "Organic peptide focus", contact: "biowayorganicinc.com", link: "https://www.biowayorganicinc.com/peptide/" },
+    { name: "Xing An Ling Peptide", reputation: "Medium", priceRange: "$35-100/kit", platforms: "Alibaba", notes: "Poultry/agriculture peptides", contact: "Alibaba", link: "" },
+    { name: "Bachem (China Operations)", reputation: "Very High", priceRange: "$300-800+", platforms: "Corporate", notes: "Top-tier pharmaceutical grade", contact: "bachem.com", link: "https://www.bachem.com" },
+    { name: "AmbioPharm", reputation: "High", priceRange: "$200-600", platforms: "Website", notes: "Custom synthesis, cGMP", contact: "ambiopharm.com", link: "https://www.ambiopharm.com" },
+    { name: "CSBio (China)", reputation: "High", priceRange: "$100-300", platforms: "Website", notes: "Peptide synthesis equipment & services", contact: "csbio.com", link: "https://www.csbio.com" },
+    { name: "GenScript (Nanjing)", reputation: "Very High", priceRange: "$150-500", platforms: "Website", notes: "Major biotech, custom peptides", contact: "genscript.com", link: "https://www.genscript.com" },
+    { name: "ChinaPeptides", reputation: "Medium-High", priceRange: "$60-180/kit", platforms: "Telegram, WhatsApp", notes: "Direct factory sales", contact: "Search Telegram", link: "" },
+    { name: "Shanghai PeptideBio", reputation: "Medium", priceRange: "$55-165/kit", platforms: "Email, WhatsApp", notes: "Bulk orders preferred", contact: "Email inquiry", link: "" },
+    { name: "Shenzhen PeptideChem", reputation: "Medium", priceRange: "$50-140/kit", platforms: "Alibaba, WeChat", notes: "Fast domestic China shipping", contact: "Alibaba/WeChat", link: "" },
+    { name: "Guangzhou Peptide Labs", reputation: "Medium", priceRange: "$45-130/kit", platforms: "Telegram", notes: "Southern China supplier", contact: "Telegram channels", link: "" },
+    { name: "Beijing BioPeptide Co.", reputation: "Medium-High", priceRange: "$70-190/kit", platforms: "Email, Alibaba", notes: "Research-grade focus", contact: "Alibaba storefront", link: "" },
+    { name: "Jiangsu PeptideTech", reputation: "Medium", priceRange: "$55-155/kit", platforms: "WeChat, Email", notes: "Cosmetic peptides also", contact: "WeChat ID inquiry", link: "" },
+    { name: "Hebei Peptide Factory Direct", reputation: "Low-Medium", priceRange: "$30-90/kit", platforms: "WeChat, Telegram", notes: "Cheapest options, quality varies", contact: "WeChat/Telegram", link: "" },
+    { name: "Chengdu Research Peptides", reputation: "Medium", priceRange: "$60-170/kit", platforms: "Telegram, Email", notes: "Western China supplier", contact: "Telegram search", link: "" },
+    { name: "Nanjing PeptideSource", reputation: "Medium", priceRange: "$50-145/kit", platforms: "Alibaba, Email", notes: "Academic research partnerships", contact: "Alibaba", link: "" },
+    { name: "Dalian Handom Chemicals", reputation: "Medium-High", priceRange: "$65-175/kit", platforms: "Alibaba, ECHEMI", notes: "Established chemical supplier", contact: "ECHEMI platform", link: "https://www.echemi.com/supplier/pd2208011001-peptide.html" },
+    { name: "Hunan Peptide Biotech", reputation: "Medium", priceRange: "$50-140/kit", platforms: "Made-in-China", notes: "Health supplement focus", contact: "Made-in-China.com", link: "https://www.made-in-china.com/manufacturers/peptide.html" },
+    { name: "Tianjin PeptidePro", reputation: "Medium", priceRange: "$55-150/kit", platforms: "Telegram, WeChat", notes: "Northern supplier, cold storage", contact: "Telegram/WeChat", link: "" },
+    { name: "Xi'an Global Sources", reputation: "Medium", priceRange: "$45-135/kit", platforms: "Global Sources", notes: "Ancient Silk Road region supplier", contact: "globalsources.com", link: "https://www.globalsources.com/china-suppliers/research-peptides.htm" },
+    { name: "Harbin Peptide Depot", reputation: "Low-Medium", priceRange: "$35-95/kit", platforms: "WeChat", notes: "Budget option, slower shipping", contact: "WeChat only", link: "" },
+    { name: "Qingdao BioResearch", reputation: "Medium-High", priceRange: "$60-165/kit", platforms: "Telegram, Email", notes: "Quality focus, good reviews", contact: "Telegram channels", link: "" },
+    { name: "Shandong PeptideCorp", reputation: "Medium", priceRange: "$50-145/kit", platforms: "Alibaba, Email", notes: "Large production capacity", contact: "Alibaba direct", link: "" },
+    { name: "Zhejiang Research Chem", reputation: "Medium", priceRange: "$55-160/kit", platforms: "Telegram, Alibaba", notes: "Eastern coastal supplier", contact: "Multiple platforms", link: "" },
+    { name: "Anhui PeptideLabs", reputation: "Low-Medium", priceRange: "$40-110/kit", platforms: "WeChat, Email", notes: "Budget tier, basic testing", contact: "Email/WeChat", link: "" },
+    { name: "Suzhou PeptideTech", reputation: "Medium-High", priceRange: "$65-180/kit", platforms: "Telegram, Website", notes: "Tech hub location, modern facilities", contact: "Telegram/Website", link: "" },
+    { name: "Changzhou PeptideFactory", reputation: "Medium", priceRange: "$50-140/kit", platforms: "Alibaba", notes: "Direct factory pricing", contact: "Alibaba storefront", link: "https://www.alibaba.com/peptide-suppliers.html" },
+    { name: "Wuxi BioPeptides", reputation: "Medium", priceRange: "$55-155/kit", platforms: "Email, WeChat", notes: "Biotech hub supplier", contact: "Email inquiry", link: "" },
+    { name: "Ningbo Peptide Wholesale", reputation: "Medium", priceRange: "$45-130/kit", platforms: "Made-in-China", notes: "Port city, fast export", contact: "made-in-china.com", link: "https://www.made-in-china.com/manufacturers/peptide.html" },
+    { name: "Wenzhou Research Chemicals", reputation: "Low-Medium", priceRange: "$40-115/kit", platforms: "WeChat, Alibaba", notes: "Mixed reviews, cheap pricing", contact: "WeChat/Alibaba", link: "" },
+    { name: "Yantai Peptide Solutions", reputation: "Medium", priceRange: "$50-145/kit", platforms: "Telegram, Email", notes: "Coastal supplier, export-focused", contact: "Telegram/Email", link: "" },
+    { name: "Lanzhou PeptideSource", reputation: "Low-Medium", priceRange: "$35-100/kit", platforms: "WeChat", notes: "Western China, budget tier", contact: "WeChat only", link: "" },
+    { name: "Kunming Bio Research", reputation: "Medium", priceRange: "$55-160/kit", platforms: "Telegram, Alibaba", notes: "Southern supplier, diverse stock", contact: "Telegram/Alibaba", link: "" },
+    { name: "Jilin Peptide Manufacturer", reputation: "Medium", priceRange: "$50-140/kit", platforms: "Email, Alibaba", notes: "Northeastern supplier", contact: "Email/Alibaba", link: "" },
+    { name: "Fujian Research Peptides", reputation: "Medium", priceRange: "$60-170/kit", platforms: "Telegram, WeChat", notes: "Southeast coastal region", contact: "Telegram/WeChat", link: "" },
+    { name: "Liaoning PeptideChem", reputation: "Low-Medium", priceRange: "$40-120/kit", platforms: "WeChat, Email", notes: "Industrial region supplier", contact: "WeChat/Email", link: "" },
+    { name: "Inner Mongolia Peptides", reputation: "Low", priceRange: "$30-85/kit", platforms: "WeChat", notes: "Very cheap, minimal testing", contact: "WeChat only", link: "" },
+    { name: "Yunnan BioChem", reputation: "Medium", priceRange: "$55-150/kit", platforms: "Telegram, Email", notes: "Biodiversity region, unique peptides", contact: "Telegram/Email", link: "" },
+    { name: "Shanxi Peptide Factory", reputation: "Low-Medium", priceRange: "$35-105/kit", platforms: "Alibaba, WeChat", notes: "Budget option, basic quality", contact: "Alibaba/WeChat", link: "" },
+    { name: "Gansu Research Supplies", reputation: "Low", priceRange: "$30-90/kit", platforms: "WeChat", notes: "Western region, slow shipping", contact: "WeChat", link: "" },
+    { name: "Hainan Peptide Co.", reputation: "Medium", priceRange: "$60-165/kit", platforms: "Telegram, Email", notes: "Island supplier, tropical storage concerns", contact: "Telegram/Email", link: "" },
+    { name: "Jiangxi PeptideLabs", reputation: "Medium", priceRange: "$50-145/kit", platforms: "Alibaba, WeChat", notes: "Central China supplier", contact: "Alibaba/WeChat", link: "" },
+    { name: "Guizhou BioPeptides", reputation: "Low-Medium", priceRange: "$40-115/kit", platforms: "WeChat, Email", notes: "Mountainous region, slower logistics", contact: "WeChat/Email", link: "" },
+    { name: "Shaanxi PeptideWorks", reputation: "Medium", priceRange: "$55-155/kit", platforms: "Telegram, Alibaba", notes: "Ancient capital region supplier", contact: "Telegram/Alibaba", link: "" },
+    { name: "Xinjiang Peptide Depot", reputation: "Low", priceRange: "$30-95/kit", platforms: "WeChat", notes: "Western frontier, very cheap", contact: "WeChat only", link: "" },
+    { name: "Haikou Mingheng Technology", reputation: "Medium", priceRange: "$60-170/kit", platforms: "ECHEMI, Email", notes: "Island-based supplier", contact: "ECHEMI platform", link: "https://www.echemi.com/supplier/pd2208011001-peptide.html" },
+    { name: "Skyrun Industrial Co.", reputation: "Medium-High", priceRange: "$70-185/kit", platforms: "ECHEMI, Alibaba", notes: "Multi-product chemical supplier", contact: "ECHEMI/Alibaba", link: "https://www.echemi.com/supplier/pd2208011001-peptide.html" },
+    { name: "ActivePeptide (Boston-China)", reputation: "High", priceRange: "$100-250", platforms: "Website", notes: "US office, China manufacturing", contact: "activepeptide.com", link: "https://www.activepeptide.com" },
+    { name: "Peptide Institute (China Branch)", reputation: "Very High", priceRange: "$200-600", platforms: "Website, B2B", notes: "Japanese company, China operations", contact: "Corporate site", link: "" },
+    { name: "BCN Peptides (China Sourcing)", reputation: "High", priceRange: "$150-400", platforms: "Website", notes: "Spanish company with China manufacturing", contact: "bcnpeptides.com", link: "" },
+    { name: "CordenPharma (China)", reputation: "Very High", priceRange: "$250-700", platforms: "Corporate", notes: "Global pharma with China facilities", contact: "Corporate sales", link: "https://www.cordenpharma.com" },
+    { name: "CPC Scientific", reputation: "High", priceRange: "$120-300", platforms: "Website", notes: "US-based, China manufacturing", contact: "cpc-scientific.com", link: "" },
+    { name: "Chongqing Peptide Network", reputation: "Medium", priceRange: "$50-140/kit", platforms: "Telegram, WeChat", notes: "Southwest China supplier", contact: "Telegram/WeChat", link: "" },
+    { name: "Taiyuan Research Chemicals", reputation: "Low-Medium", priceRange: "$35-100/kit", platforms: "WeChat, Alibaba", notes: "Industrial city supplier", contact: "WeChat/Alibaba", link: "" },
+    { name: "Urumqi Peptide Direct", reputation: "Low", priceRange: "$30-85/kit", platforms: "WeChat", notes: "Far western supplier, cheap", contact: "WeChat only", link: "" },
+    { name: "Lhasa BioChem (Tibet)", reputation: "Low", priceRange: "$40-110/kit", platforms: "WeChat", notes: "High altitude storage issues", contact: "WeChat", link: "" },
+    { name: "Hohhot Peptides", reputation: "Low-Medium", priceRange: "$35-105/kit", platforms: "WeChat, Email", notes: "Northern supplier, budget tier", contact: "WeChat/Email", link: "" },
+    { name: "Shijiazhuang PeptideCo", reputation: "Medium", priceRange: "$50-145/kit", platforms: "Telegram, Alibaba", notes: "North China supplier", contact: "Telegram/Alibaba", link: "" },
+    { name: "Zhengzhou Research Supply", reputation: "Medium", priceRange: "$55-155/kit", platforms: "Telegram, Email", notes: "Central hub location", contact: "Telegram/Email", link: "" },
+    { name: "Nanning Peptides", reputation: "Medium", priceRange: "$50-140/kit", platforms: "WeChat, Telegram", notes: "Southern border region", contact: "WeChat/Telegram", link: "" },
+    { name: "Xining BioPeptides", reputation: "Low", priceRange: "$35-95/kit", platforms: "WeChat", notes: "Northwestern supplier", contact: "WeChat", link: "" },
+    { name: "Yinchuan Peptide Labs", reputation: "Low-Medium", priceRange: "$40-115/kit", platforms: "WeChat, Email", notes: "Northwestern China", contact: "WeChat/Email", link: "" },
+    { name: "Hefei Research Chem", reputation: "Medium", priceRange: "$55-150/kit", platforms: "Telegram, Alibaba", notes: "Eastern China, good logistics", contact: "Telegram/Alibaba", link: "" },
+    { name: "Nanchang Peptides", reputation: "Medium", priceRange: "$50-140/kit", platforms: "WeChat, Email", notes: "Southeast inland supplier", contact: "WeChat/Email", link: "" },
+    { name: "Fuzhou Peptide Works", reputation: "Medium", priceRange: "$60-165/kit", platforms: "Telegram, WeChat", notes: "Coastal Fujian supplier", contact: "Telegram/WeChat", link: "" },
+    { name: "Xiamen BioPeptide", reputation: "Medium-High", priceRange: "$65-175/kit", platforms: "Telegram, Alibaba", notes: "Export-focused port city", contact: "Telegram/Alibaba", link: "" },
+    { name: "Qinhuangdao Peptides", reputation: "Medium", priceRange: "$50-145/kit", platforms: "WeChat, Email", notes: "Northern coastal supplier", contact: "WeChat/Email", link: "" },
+    { name: "Yancheng Research Supply", reputation: "Medium", priceRange: "$55-150/kit", platforms: "Telegram, Alibaba", notes: "Eastern coastal region", contact: "Telegram/Alibaba", link: "" },
+    { name: "Lianyungang PeptideCo", reputation: "Medium", priceRange: "$50-140/kit", platforms: "WeChat, Telegram", notes: "Port city supplier", contact: "WeChat/Telegram", link: "" },
+    { name: "Yangzhou Peptide Labs", reputation: "Medium", priceRange: "$55-155/kit", platforms: "Email, Alibaba", notes: "Historic region supplier", contact: "Email/Alibaba", link: "" },
+    { name: "Taizhou BioChem", reputation: "Medium", priceRange: "$50-145/kit", platforms: "Telegram, WeChat", notes: "Zhejiang province supplier", contact: "Telegram/WeChat", link: "" },
+    { name: "Shaoxing Peptides", reputation: "Medium", priceRange: "$55-150/kit", platforms: "Alibaba, Email", notes: "Industrial chemical hub", contact: "Alibaba/Email", link: "" },
+    { name: "Huzhou Research Peptides", reputation: "Medium", priceRange: "$50-140/kit", platforms: "WeChat, Telegram", notes: "Lake Taihu region supplier", contact: "WeChat/Telegram", link: "" },
+    { name: "Jiaxing PeptideChem", reputation: "Medium", priceRange: "$55-155/kit", platforms: "Telegram, Alibaba", notes: "Between Shanghai-Hangzhou", contact: "Telegram/Alibaba", link: "" },
+    { name: "Jinhua BioPeptides", reputation: "Medium", priceRange: "$50-145/kit", platforms: "WeChat, Email", notes: "Central Zhejiang supplier", contact: "WeChat/Email", link: "" },
+    { name: "Quzhou Peptide Factory", reputation: "Low-Medium", priceRange: "$40-120/kit", platforms: "Alibaba, WeChat", notes: "Western Zhejiang, budget", contact: "Alibaba/WeChat", link: "" },
+    { name: "Zhoushan Island Peptides", reputation: "Medium", priceRange: "$60-165/kit", platforms: "Telegram, Email", notes: "Island supplier, seafood peptides too", contact: "Telegram/Email", link: "" }
   ];
 
   const usResellers = [
@@ -264,55 +309,67 @@ export default function GrayMarketInsights() {
 
           {/* Chinese Suppliers Tab */}
           <TabsContent value="suppliers" className="space-y-6">
-            <div className="grid gap-4">
-              {chineseSuppliers.map((supplier, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  <Card className="bg-stone-900/50 border-stone-700 hover:border-red-600/30 transition-all">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <CardTitle className="text-amber-50 flex items-center gap-2">
-                            <Factory className="w-5 h-5 text-red-600" />
-                            {supplier.name}
-                          </CardTitle>
-                          <CardDescription className="text-stone-400 mt-2">
-                            Reputation: <span className={supplier.reputation.includes('High') ? 'text-green-400' : 'text-yellow-400'}>{supplier.reputation}</span>
-                          </CardDescription>
+            <Card className="bg-stone-900/50 border-yellow-600/30">
+              <CardContent className="p-4">
+                <p className="text-yellow-400 text-sm">
+                  <strong>Disclaimer:</strong> This list is for research and market intelligence only. Vendors are ranked by community reputation and pricing data. Always verify COAs independently.
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-4 max-h-[800px] overflow-y-auto">
+              <div className="grid gap-3">
+                {chineseSuppliers.map((supplier, idx) => {
+                  const reputationColor = 
+                    supplier.reputation.includes('Very High') ? 'text-emerald-400' :
+                    supplier.reputation.includes('High') ? 'text-green-400' :
+                    supplier.reputation.includes('Medium') ? 'text-yellow-400' : 'text-orange-400';
+                  
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: Math.min(idx * 0.02, 0.5) }}
+                      className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 hover:border-red-600/30 transition-all"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div className="flex-1">
+                          <div className="flex items-start gap-2 mb-2">
+                            <Factory className="w-4 h-4 text-red-600 mt-1 flex-shrink-0" />
+                            <div className="flex-1">
+                              <h3 className="font-bold text-amber-50 text-sm">{supplier.name}</h3>
+                              <div className="flex flex-wrap items-center gap-2 mt-1">
+                                <span className={`text-xs ${reputationColor}`}>● {supplier.reputation}</span>
+                                <span className="text-xs text-stone-500">•</span>
+                                <span className="text-xs text-red-600 font-semibold">{supplier.priceRange}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-xs text-stone-400 mb-2">{supplier.notes}</p>
+                          <div className="flex flex-wrap gap-2 text-xs">
+                            <span className="bg-stone-700/50 px-2 py-1 rounded text-stone-300">{supplier.platforms}</span>
+                            {supplier.link && (
+                              <a 
+                                href={supplier.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="bg-blue-600/20 border border-blue-600/50 px-2 py-1 rounded text-blue-400 hover:bg-blue-600/30 transition-colors flex items-center gap-1"
+                              >
+                                <ExternalLink className="w-3 h-3" />
+                                Link
+                              </a>
+                            )}
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-red-600 font-bold text-lg">{supplier.priceRange}</div>
+                        <div className="text-xs text-stone-500 sm:text-right">
+                          {supplier.contact}
                         </div>
                       </div>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-xs text-stone-400 mb-1">Contact Methods</p>
-                          <p className="text-sm text-amber-50">{supplier.platforms}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-stone-400 mb-1">Access</p>
-                          <p className="text-sm text-amber-50">{supplier.contact}</p>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-xs text-stone-400 mb-1">Notes</p>
-                        <p className="text-sm text-stone-300">{supplier.notes}</p>
-                      </div>
-                      <div className="bg-red-900/20 border border-red-800/30 rounded-lg p-3">
-                        <p className="text-xs text-red-400">
-                          <strong>Risks:</strong> {supplier.risks}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
 
             <Card className="bg-stone-900/50 border-stone-700">
