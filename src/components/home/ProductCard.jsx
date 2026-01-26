@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell, Lock } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
+import { Link } from 'react-router-dom';
 
 const badgeConfig = {
   bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-500/20 text-red-400 border-red-500/30" },
@@ -120,13 +121,14 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
           </div>
 
           {!isAuthenticated ? (
-            <Button 
-              onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
-              className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold gap-2"
-            >
-              <Lock className="w-4 h-4" />
-              Sign in to Access
-            </Button>
+            <Link to={createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(window.location.href)}>
+              <Button 
+                className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold gap-2"
+              >
+                <Lock className="w-4 h-4" />
+                Sign in to Access
+              </Button>
+            </Link>
           ) : (
             <Button 
               onClick={() => onSelectStrength?.(product)}
