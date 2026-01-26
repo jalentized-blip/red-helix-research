@@ -201,6 +201,37 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                 </div>
               </div>
 
+              {/* Message an Admin */}
+              <div className="p-4 border-b border-stone-700">
+                <h3 className="text-sm font-bold text-amber-50 mb-3">Message an Admin</h3>
+                <div className="space-y-1.5">
+                  {admins.map(admin => (
+                    <button
+                      key={admin.id}
+                      onClick={() => setSelectedAdminId(selectedAdminId === admin.id ? null : admin.id)}
+                      className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                        selectedAdminId === admin.id
+                          ? 'bg-red-700/30 border border-red-600/50'
+                          : 'hover:bg-stone-700/30 border border-transparent'
+                      }`}
+                    >
+                      <Circle className={`w-2 h-2 flex-shrink-0 ${admin.is_online ? 'fill-green-400 text-green-400' : 'fill-stone-600 text-stone-600'}`} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-stone-200 font-medium truncate">{admin.admin_name}</p>
+                        {!admin.is_online && admin.last_seen && (
+                          <p className="text-xs text-stone-500">
+                            Last seen: {new Date(admin.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        )}
+                        {admin.is_online && (
+                          <p className="text-xs text-green-400">Online</p>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Conversations */}
               <div className="flex-1 overflow-y-auto p-4">
                 <h3 className="text-sm font-bold text-amber-50 mb-3">Conversations</h3>
@@ -236,38 +267,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
             {!isMinimized && (
               <>
-                {/* Admin List */}
-                {!isAdmin && admins.length > 0 && (
-                  <div className="px-4 py-3 bg-stone-800/50 border-b border-stone-700">
-                    <p className="text-xs font-semibold text-stone-400 mb-2">Message an Admin</p>
-                    <div className="space-y-1.5">
-                      {admins.map(admin => (
-                        <button
-                          key={admin.id}
-                          onClick={() => setSelectedAdminId(selectedAdminId === admin.id ? null : admin.id)}
-                          className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                            selectedAdminId === admin.id
-                              ? 'bg-red-700/30 border border-red-600/50'
-                              : 'hover:bg-stone-700/30 border border-transparent'
-                          }`}
-                        >
-                          <Circle className={`w-2 h-2 flex-shrink-0 ${admin.is_online ? 'fill-green-400 text-green-400' : 'fill-stone-600 text-stone-600'}`} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs text-stone-200 font-medium truncate">{admin.admin_name}</p>
-                            {!admin.is_online && admin.last_seen && (
-                              <p className="text-xs text-stone-500">
-                                Last seen: {new Date(admin.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </p>
-                            )}
-                            {admin.is_online && (
-                              <p className="text-xs text-green-400">Online</p>
-                            )}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+     
 
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
