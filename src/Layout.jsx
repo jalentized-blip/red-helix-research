@@ -723,7 +723,7 @@ const HeaderSearch = () => {
       {isAdmin && selectedAdmins.map((adminEmail, index) => (
         <TelegramChatWindow
           key={adminEmail}
-          isOpen={chatOpen}
+          isOpen={true}
           onClose={() => {
             setSelectedAdmins(prev => prev.filter(email => email !== adminEmail));
           }}
@@ -733,7 +733,6 @@ const HeaderSearch = () => {
           onSelectAdmin={(email) => {
             if (!selectedAdmins.includes(email)) {
               setSelectedAdmins(prev => [...prev, email]);
-              setChatOpen(true);
             }
           }}
         />
