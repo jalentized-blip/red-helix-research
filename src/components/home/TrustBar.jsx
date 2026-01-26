@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlaskConical, ShieldCheck, Headphones, CheckCircle, RefreshCw, Package } from "lucide-react";
 import { motion } from "framer-motion";
-import EditableText from '@/components/EditableText';
+
 
 export default function TrustBar() {
   const features = [
@@ -29,7 +29,7 @@ export default function TrustBar() {
             >
               <feature.icon className="w-5 h-5 text-red-600" />
               <span className="text-sm font-medium">
-                <EditableText textKey={feature.key} defaultValue={feature.label} />
+                {feature.label}
               </span>
             </motion.div>
           ))}
