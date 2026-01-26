@@ -113,7 +113,7 @@ export default function About() {
         <StorySection
           icon={DollarSign}
           title="COA Transparency on Every Product"
-          description="We prove our commitment through third-party Certificates of Analysis (COAs) on every batch. No hidden testing, no guesswork—just verifiable proof of purity and potency. Every product sold through Red Dirt Research comes with accessible, transparent testing documentation so you know exactly what you're getting. This isn't a promise; it's a guarantee backed by actual lab data."
+          description="We prove our commitment through third-party Certificates of Analysis (COAs) on every batch. No hidden testing, no guesswork—just verifiable proof of purity and potency. Every product sold through Red Helix Research comes with accessible, transparent testing documentation so you know exactly what you're getting. This isn't a promise; it's a guarantee backed by actual lab data."
           highlight="100% Verified"
           highlightSecondary="Every Batch"
         />
