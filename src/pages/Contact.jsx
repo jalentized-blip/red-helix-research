@@ -55,7 +55,7 @@ export default function Contact() {
           className="text-center mb-12"
         >
           <h1 className="text-5xl md:text-6xl font-black mb-4">
-            <span className="bg-gradient-to-r from-barn-brown to-barn-brown bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
               Get in Touch
             </span>
           </h1>
@@ -155,7 +155,7 @@ export default function Contact() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-barn-brown hover:bg-barn-brown/90 text-amber-50 font-semibold py-6 text-lg"
+              className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 text-lg"
             >
               {loading ? (
                 <>

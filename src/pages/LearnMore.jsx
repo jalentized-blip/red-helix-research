@@ -202,7 +202,7 @@ export default function LearnMore() {
                             window.location.href = createPageUrl('Home');
                           }, 100);
                         }}
-                        className="flex-1 px-3 py-2 bg-barn-brown hover:bg-barn-brown/90 text-amber-50 text-xs font-semibold rounded-lg transition-colors"
+                        className="flex-1 px-3 py-2 bg-red-700 hover:bg-red-600 text-amber-50 text-xs font-semibold rounded-lg transition-colors"
                       >
                         View Product
                       </button>

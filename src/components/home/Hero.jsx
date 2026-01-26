@@ -70,7 +70,7 @@ export default function Hero() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
             <span className="text-amber-50">PREMIUM QUALITY,</span>
             <br />
-            <span className="text-barn-brown" style={{ textShadow: '0 2px 8px rgba(125, 74, 43, 0.5), 0 0 15px rgba(196, 149, 91, 0.2)' }}>LAB VERIFIED.</span>
+            <span className="text-red-600" style={{ textShadow: '0 2px 8px rgba(139, 38, 53, 0.5), 0 0 15px rgba(139, 38, 53, 0.2)' }}>LAB VERIFIED.</span>
           </h1>
 
           {/* Tagline */}
@@ -93,7 +93,7 @@ export default function Hero() {
             </Button>
             <Button 
               onClick={() => scrollTo('products')}
-              className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50 px-8 py-6 text-base font-semibold uppercase tracking-wide"
+              className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 py-6 text-base font-semibold uppercase tracking-wide"
             >
               <ShoppingBag className="w-5 h-5 mr-2" />
               Shop Peptides
