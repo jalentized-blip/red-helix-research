@@ -6,7 +6,7 @@ import { Send, Loader2, Circle, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingIndicator from './TypingIndicator';
 
-export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null, isAdmin = false, isMinimized = false, setIsMinimized = () => {} }) {
+export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null, isAdmin = false, isMinimized = false, setIsMinimized = () => {}, adminEmail = null, windowPosition = 0, onSelectAdmin = () => {} }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,8 +37,22 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
           let conversationToUse = null;
 
+          // If admin is viewing a specific admin's chat
+          if (isAdmin && adminEmail) {
+            const conversations = await base44.entities.SupportConversation.list();
+            const adminConversations = conversations.filter(c => c.customer_email === adminEmail);
+
+            if (adminConversations.length > 0) {
+              setConversation(adminConversations[0]);
+              conversationToUse = adminConversations[0];
+              const msgs = await base44.entities.SupportMessage.filter({
+                conversation_id: adminConversations[0].id
+              });
+              setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+            }
+          }
           // If opening a specific conversation from inbox
-          if (conversationId) {
+          else if (conversationId) {
             const conv = await base44.entities.SupportConversation.list();
             const targetConv = conv.find(c => c.id === conversationId);
             if (targetConv) {
@@ -191,6 +205,8 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
   const onlineAdmins = admins.filter(a => a.is_online);
 
+  const bottomOffset = isAdmin ? 24 + (windowPosition * 380) : 96;
+
   return (
     <AnimatePresence>
       {isOpen && !isMinimized && (
@@ -199,10 +215,11 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className={`fixed z-50 bg-stone-900 border border-stone-700 shadow-2xl overflow-hidden ${isAdmin ? 'bottom-6 right-6 w-[900px] rounded-2xl flex' : 'bottom-24 right-6 w-96 rounded-2xl flex flex-col'} ${isMinimized ? 'h-auto' : isAdmin ? 'h-[600px]' : 'h-[500px]'}`}
+          className={`fixed z-50 bg-stone-900 border border-stone-700 shadow-2xl overflow-hidden rounded-2xl flex flex-col ${isAdmin ? 'w-96 h-[500px]' : 'bottom-24 right-6 w-96 rounded-2xl flex flex-col h-[500px]'} ${isMinimized ? 'h-auto' : ''}`}
+          style={isAdmin ? { bottom: `${bottomOffset}px`, right: '24px' } : {}}
         >
-          {/* Admin Sidebar */}
-          {isAdmin && (
+          {/* Admin Sidebar - Hidden in admin chat window, shown in main view */}
+          {false && isAdmin && (
             <div className="w-72 border-r border-stone-700 flex flex-col overflow-hidden bg-stone-950">
               {/* Online Admins */}
               <div className="p-4 border-b border-stone-700">

@@ -237,11 +237,12 @@ const HeaderSearch = () => {
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
                                const [chatOpen, setChatOpen] = useState(false);
-                               const [user, setUser] = useState(null);
-                               const [showCustomerInfo, setShowCustomerInfo] = useState(false);
-                               const [selectedConvId, setSelectedConvId] = useState(null);
-                               const [customerInfo, setCustomerInfo] = useState(null);
-                               const [isMinimized, setIsMinimized] = useState(false);
+                                                    const [user, setUser] = useState(null);
+                                                    const [showCustomerInfo, setShowCustomerInfo] = useState(false);
+                                                    const [selectedConvId, setSelectedConvId] = useState(null);
+                                                    const [customerInfo, setCustomerInfo] = useState(null);
+                                                    const [isMinimized, setIsMinimized] = useState(false);
+                                                    const [selectedAdmins, setSelectedAdmins] = useState([]);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -703,19 +704,40 @@ const HeaderSearch = () => {
         }}
       />
 
-      <TelegramChatWindow 
-        isOpen={chatOpen}
-        onClose={() => {
-          setChatOpen(false);
-          setSelectedConvId(null);
-          setCustomerInfo(null);
-        }}
-        customerInfo={customerInfo}
-        conversationId={selectedConvId}
-        isAdmin={isAdmin}
-        isMinimized={isMinimized}
-        setIsMinimized={setIsMinimized}
-      />
+      {!isAdmin && (
+        <TelegramChatWindow 
+          isOpen={chatOpen}
+          onClose={() => {
+            setChatOpen(false);
+            setSelectedConvId(null);
+            setCustomerInfo(null);
+          }}
+          customerInfo={customerInfo}
+          conversationId={selectedConvId}
+          isAdmin={isAdmin}
+          isMinimized={isMinimized}
+          setIsMinimized={setIsMinimized}
+        />
+      )}
+
+      {isAdmin && selectedAdmins.map((adminEmail, index) => (
+        <TelegramChatWindow
+          key={adminEmail}
+          isOpen={chatOpen}
+          onClose={() => {
+            setSelectedAdmins(prev => prev.filter(email => email !== adminEmail));
+          }}
+          adminEmail={adminEmail}
+          isAdmin={isAdmin}
+          windowPosition={index}
+          onSelectAdmin={(email) => {
+            if (!selectedAdmins.includes(email)) {
+              setSelectedAdmins(prev => [...prev, email]);
+              setChatOpen(true);
+            }
+          }}
+        />
+      ))}
 
       <UploadCOAModal
       isOpen={showUploadModal}
