@@ -81,7 +81,7 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <HolographicText className="text-5xl font-black text-amber-50 mb-6 block">
-            Red Helix Research: Transparency, Affordability & Exceptional Service
+            Red Dirt Research: Transparency, Affordability & Exceptional Service
           </HolographicText>
           <motion.p 
             className="text-xl text-amber-50 leading-relaxed"
@@ -105,7 +105,7 @@ export default function About() {
         <StorySection
           icon={Beaker}
           title="A Better Way Forward"
-          description="Red Helix Research emerged to compete in the peptide market on what matters most: transparency, reliability, and genuine care for our community. We refused to follow the playbook of inflated margins and empty promises. Instead, we built something different—a company that puts customers first."
+          description="Red Dirt Research emerged to compete in the peptide market on what matters most: transparency, reliability, and genuine care for our community. We refused to follow the playbook of inflated margins and empty promises. Instead, we built something different—a company that puts customers first."
           highlight="Integrity Over Margins"
         />
 
@@ -113,7 +113,7 @@ export default function About() {
         <StorySection
           icon={DollarSign}
           title="COA Transparency on Every Product"
-          description="We prove our commitment through third-party Certificates of Analysis (COAs) on every batch. No hidden testing, no guesswork—just verifiable proof of purity and potency. Every product sold through Red Helix Research comes with accessible, transparent testing documentation so you know exactly what you're getting. This isn't a promise; it's a guarantee backed by actual lab data."
+          description="We prove our commitment through third-party Certificates of Analysis (COAs) on every batch. No hidden testing, no guesswork—just verifiable proof of purity and potency. Every product sold through Red Dirt Research comes with accessible, transparent testing documentation so you know exactly what you're getting. This isn't a promise; it's a guarantee backed by actual lab data."
           highlight="100% Verified"
           highlightSecondary="Every Batch"
         />
@@ -165,7 +165,7 @@ export default function About() {
         <StorySection
           icon={Eye}
           title="Why We're Different"
-          description="In a market full of shortcuts and hype, Red Helix Research stands out because we genuinely care about your success. We're not trying to maximize margins—we're trying to build a community of trusted researchers with access to verified products at fair prices. Every decision we make is guided by one question: Is this in the best interest of our customers?"
+          description="In a market full of shortcuts and hype, Red Dirt Research stands out because we genuinely care about your success. We're not trying to maximize margins—we're trying to build a community of trusted researchers with access to verified products at fair prices. Every decision we make is guided by one question: Is this in the best interest of our customers?"
           highlight="Excellence in Every Interaction"
         />
       </div>

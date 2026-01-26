@@ -13,7 +13,7 @@ const reviews = [
     badge: "10 days international"
   },
   {
-    text: "Second order with Red Helix, same excellent experience. Quality is top notch and their customer support actually responds. Will definitely be ordering again.",
+    text: "Second order with Red Dirt, same excellent experience. Quality is top notch and their customer support actually responds. Will definitely be ordering again.",
     author: "Marcus R.",
     role: "Discord Member",
     date: "Dec 28, 2024",
