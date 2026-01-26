@@ -1,5 +1,7 @@
 import About from './pages/About';
 import Account from './pages/Account';
+import AdminOrderManagement from './pages/AdminOrderManagement';
+import AdminStockManagement from './pages/AdminStockManagement';
 import COAReports from './pages/COAReports';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
@@ -17,14 +19,15 @@ import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import AdminStockManagement from './pages/AdminStockManagement';
-import AdminOrderManagement from './pages/AdminOrderManagement';
+import GrayMarketInsights from './pages/GrayMarketInsights';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
     "Account": Account,
+    "AdminOrderManagement": AdminOrderManagement,
+    "AdminStockManagement": AdminStockManagement,
     "COAReports": COAReports,
     "Cart": Cart,
     "Contact": Contact,
@@ -42,8 +45,7 @@ export const PAGES = {
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "AdminStockManagement": AdminStockManagement,
-    "AdminOrderManagement": AdminOrderManagement,
+    "GrayMarketInsights": GrayMarketInsights,
 }
 
 export const pagesConfig = {
