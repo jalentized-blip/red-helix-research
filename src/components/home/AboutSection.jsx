@@ -46,13 +46,13 @@ export default function AboutSection() {
               <span className="text-amber-50">About</span>
               <br />
               <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-                Red Dirt Research
+                Red Helix Research
               </span>
             </h2>
 
             <div className="space-y-4 text-amber-100 leading-relaxed">
               <p>
-                Red Dirt Research is a trusted supplier of premium research-use compounds, 
+                Red Helix Research is a trusted supplier of premium research-use compounds, 
                 dedicated to unmatched quality, safety, and transparency. We proudly serve 
                 laboratories, academic institutions, and professional researchers across the 
                 world with fast, reliable service.
@@ -64,7 +64,7 @@ export default function AboutSection() {
                 the confidence and clarity they need for consistent results.
               </p>
               <p>
-                With same-day shipping and a commitment to precision, Red Dirt Research is 
+                With same-day shipping and a commitment to precision, Red Helix Research is 
                 your dependable partner for research excellence.
               </p>
             </div>
