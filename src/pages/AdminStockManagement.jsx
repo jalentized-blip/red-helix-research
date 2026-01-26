@@ -121,6 +121,27 @@ export default function AdminStockManagement() {
     });
   };
 
+  const handleAllOutOfStock = () => {
+    products.forEach(product => {
+      if (product.specifications && product.specifications.length > 0) {
+        const updatedSpecs = product.specifications.map(spec => ({
+          ...spec,
+          stock_quantity: 0,
+          in_stock: false
+        }));
+        
+        updateStockMutation.mutate({
+          productId: product.id,
+          updates: { specifications: updatedSpecs }
+        });
+      }
+    });
+    
+    toast.success('All products marked as out of stock', {
+      description: 'All strength options have been disabled'
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
@@ -144,8 +165,20 @@ export default function AdminStockManagement() {
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-black text-amber-50 mb-2">Stock Management</h1>
-          <p className="text-stone-400">Admin only - Manage product inventory and availability by strength</p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-4xl font-black text-amber-50 mb-2">Stock Management</h1>
+              <p className="text-stone-400">Admin only - Manage product inventory and availability by strength</p>
+            </div>
+            <Button
+              onClick={handleAllOutOfStock}
+              variant="outline"
+              className="bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30"
+            >
+              <AlertCircle className="w-4 h-4 mr-2" />
+              Mark All Out of Stock
+            </Button>
+          </div>
         </div>
 
         {isLoading ? (
