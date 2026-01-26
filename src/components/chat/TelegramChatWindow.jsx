@@ -201,31 +201,26 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                 </div>
               </div>
 
-              {/* Message an Admin */}
-              <div className="p-4 border-b border-stone-700">
-                <h3 className="text-sm font-bold text-amber-50 mb-3">Message an Admin</h3>
-                <div className="space-y-1.5">
+              {/* Admin Status List */}
+              <div className="p-4 border-b border-stone-700 flex-1 overflow-y-auto">
+                <h3 className="text-sm font-bold text-amber-50 mb-3">Admin Status</h3>
+                <div className="space-y-2">
                   {admins.map(admin => (
                     <button
                       key={admin.id}
                       onClick={() => setSelectedAdminId(selectedAdminId === admin.id ? null : admin.id)}
-                      className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                         selectedAdminId === admin.id
                           ? 'bg-red-700/30 border border-red-600/50'
                           : 'hover:bg-stone-700/30 border border-transparent'
                       }`}
                     >
-                      <Circle className={`w-2 h-2 flex-shrink-0 ${admin.is_online ? 'fill-green-400 text-green-400' : 'fill-stone-600 text-stone-600'}`} />
+                      <div className={`w-3 h-3 rounded-full flex-shrink-0 ${admin.is_online ? 'bg-green-400 shadow-lg shadow-green-400/50' : 'bg-red-600 shadow-lg shadow-red-600/50'}`} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs text-stone-200 font-medium truncate">{admin.admin_name}</p>
-                        {!admin.is_online && admin.last_seen && (
-                          <p className="text-xs text-stone-500">
-                            Last seen: {new Date(admin.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </p>
-                        )}
-                        {admin.is_online && (
-                          <p className="text-xs text-green-400">Online</p>
-                        )}
+                        <p className="text-xs text-stone-200 font-medium">{admin.admin_name}</p>
+                        <p className={`text-xs ${admin.is_online ? 'text-green-400' : 'text-red-400'}`}>
+                          {admin.is_online ? 'Online' : 'Offline'}
+                        </p>
                       </div>
                     </button>
                   ))}
