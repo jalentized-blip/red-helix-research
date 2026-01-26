@@ -14,10 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
-import FloatingChatButton from '@/components/chat/FloatingChatButton';
-import TelegramChatWindow from '@/components/chat/TelegramChatWindow';
-import InboxMessages from '@/components/chat/InboxMessages';
-import CustomerInfoModal from '@/components/chat/CustomerInfoModal';
+
 
 const navLinks = [
         { label: "Peptides", href: "#products" },
@@ -236,13 +233,7 @@ const HeaderSearch = () => {
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
-                               const [chatOpen, setChatOpen] = useState(false);
-                                                    const [user, setUser] = useState(null);
-                                                    const [showCustomerInfo, setShowCustomerInfo] = useState(false);
-                                                    const [selectedConvId, setSelectedConvId] = useState(null);
-                                                    const [customerInfo, setCustomerInfo] = useState(null);
-                                                    const [isMinimized, setIsMinimized] = useState(false);
-                                                    const [selectedAdmins, setSelectedAdmins] = useState([]);
+                               const [user, setUser] = useState(null);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -670,73 +661,7 @@ const HeaderSearch = () => {
         {children}
       </main>
 
-      <FloatingChatButton 
-        onClick={() => {
-          if (chatOpen && isMinimized) {
-            setIsMinimized(false);
-          } else {
-            setSelectedConvId(null);
-            setShowCustomerInfo(!isAdmin);
-            setChatOpen(true);
-            setIsMinimized(false);
-          }
-        }}
-        isOpen={chatOpen}
-        isMinimized={isMinimized}
-      />
 
-      {!isAdmin && (
-        <InboxMessages 
-          onSelectConversation={(conv) => {
-            setSelectedConvId(conv.id);
-            setChatOpen(true);
-          }}
-        />
-      )}
-
-      <CustomerInfoModal 
-        isOpen={showCustomerInfo && !chatOpen}
-        onClose={() => setShowCustomerInfo(false)}
-        onSubmit={(info) => {
-          setCustomerInfo(info);
-          setShowCustomerInfo(false);
-          setChatOpen(true);
-        }}
-      />
-
-      {!isAdmin && (
-        <TelegramChatWindow 
-          isOpen={chatOpen}
-          onClose={() => {
-            setChatOpen(false);
-            setSelectedConvId(null);
-            setCustomerInfo(null);
-          }}
-          customerInfo={customerInfo}
-          conversationId={selectedConvId}
-          isAdmin={isAdmin}
-          isMinimized={isMinimized}
-          setIsMinimized={setIsMinimized}
-        />
-      )}
-
-      {isAdmin && selectedAdmins.map((adminEmail, index) => (
-        <TelegramChatWindow
-          key={adminEmail}
-          isOpen={true}
-          onClose={() => {
-            setSelectedAdmins(prev => prev.filter(email => email !== adminEmail));
-          }}
-          adminEmail={adminEmail}
-          isAdmin={isAdmin}
-          windowPosition={index}
-          onSelectAdmin={(email) => {
-            if (!selectedAdmins.includes(email)) {
-              setSelectedAdmins(prev => [...prev, email]);
-            }
-          }}
-        />
-      ))}
 
       <UploadCOAModal
       isOpen={showUploadModal}
