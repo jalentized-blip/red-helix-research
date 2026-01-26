@@ -31,8 +31,8 @@ export default function Footer() {
           {/* Logo */}
           <div className="flex items-center">
             <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/af30dbf80_download.png" 
-              alt="Barn" 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/cb22c6063_thisonerighthere.png" 
+              alt="Red Dirt Research" 
               className="h-20 w-auto object-contain"
             />
           </div>
@@ -55,7 +55,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-stone-400">
-            © 2024 Barn. All rights reserved.
+            © 2024 Red Dirt Research. All rights reserved.
           </p>
         </div>
       </div>
