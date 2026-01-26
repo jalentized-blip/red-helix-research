@@ -72,23 +72,12 @@ export default function Account() {
     refetchPreferences();
   };
 
-  const handleLogout = async () => {
-    try {
-      localStorage.clear();
-      sessionStorage.clear();
-      document.cookie.split(";").forEach((c) => {
-        document.cookie = c
-          .replace(/^ +/, "")
-          .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
-      });
-      await base44.auth.logout();
-      window.location.href = createPageUrl('Home') + '?logout=true';
-    } catch (error) {
-      console.error('Logout error:', error);
-      localStorage.clear();
-      sessionStorage.clear();
-      window.location.href = createPageUrl('Home') + '?logout=true';
-    }
+  const handleLogout = () => {
+    // ✅ FIXED: Let Base44 SDK handle logout properly
+    // Do NOT clear localStorage/sessionStorage - the SDK manages token cleanup internally
+    // Clearing storage before logout breaks the SDK's ability to properly clean up
+    // and removes important app configuration like appId
+    base44.auth.logout(createPageUrl('Home'));
   };
 
   if (loading) {
