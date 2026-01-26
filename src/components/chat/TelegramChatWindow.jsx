@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, Loader2, Circle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import TypingIndicator from './TypingIndicator';
 
 export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null }) {
   const [messages, setMessages] = useState([]);
@@ -13,6 +14,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
   const [user, setUser] = useState(null);
   const [admins, setAdmins] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [typingAdmin, setTypingAdmin] = useState(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -98,6 +100,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
       const unsubscribe = base44.entities.SupportMessage.subscribe((event) => {
         if (event.type === 'create' && event.data.conversation_id === conversation?.id) {
           setMessages(prev => [...prev, event.data]);
+          setTypingAdmin(null);
         }
       });
 
@@ -107,9 +110,21 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
         setAdmins(adminStatuses);
       });
 
+      // Subscribe to conversation updates to detect typing
+      const unsubscribeConv = base44.entities.SupportConversation.subscribe((event) => {
+        if (event.id === conversation?.id && event.data?.last_message_at) {
+          const adminTyping = admins.find(a => a.is_online);
+          if (adminTyping && admins.length > 0) {
+            setTypingAdmin(adminTyping);
+            setTimeout(() => setTypingAdmin(null), 2000);
+          }
+        }
+      });
+
       return () => {
         unsubscribe();
         unsubscribeAdmin();
+        unsubscribeConv();
       };
     } catch (error) {
       console.error('Failed to initialize chat:', error);
@@ -215,6 +230,11 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                   </div>
                 </div>
               ))
+            )}
+            {typingAdmin && (
+              <div className="flex justify-start">
+                <TypingIndicator name={typingAdmin.admin_name} />
+              </div>
             )}
             <div ref={messagesEndRef} />
           </div>
