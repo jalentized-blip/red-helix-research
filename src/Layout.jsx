@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import FloatingChatButton from '@/components/chat/FloatingChatButton';
-import CustomerChatWindow from '@/components/chat/CustomerChatWindow';
+import TelegramChatWindow from '@/components/chat/TelegramChatWindow';
 
 const navLinks = [
         { label: "Peptides", href: "#products" },
@@ -661,7 +661,7 @@ const HeaderSearch = () => {
         isOpen={chatOpen}
       />
 
-      <CustomerChatWindow 
+      <TelegramChatWindow 
         isOpen={chatOpen}
         onClose={() => setChatOpen(false)}
       />
