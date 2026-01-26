@@ -241,12 +241,8 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                   {admins.map(admin => (
                     <button
                       key={admin.id}
-                      onClick={() => setSelectedAdminId(selectedAdminId === admin.id ? null : admin.id)}
-                      className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                        selectedAdminId === admin.id
-                          ? 'bg-red-700/30 border border-red-600/50'
-                          : 'hover:bg-stone-700/30 border border-transparent'
-                      }`}
+                      onClick={() => onSelectAdmin(admin.admin_email)}
+                      className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-stone-700/30 border border-transparent hover:border-red-600/30"
                     >
                       <div className={`w-3 h-3 rounded-full flex-shrink-0 ${admin.is_online ? 'bg-green-400 shadow-lg shadow-green-400/50' : 'bg-red-600 shadow-lg shadow-red-600/50'}`} />
                       <div className="flex-1 min-w-0">
