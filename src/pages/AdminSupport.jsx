@@ -80,6 +80,33 @@ export default function AdminSupport() {
     enabled: !!user,
   });
 
+  // Subscribe to new conversations
+  useEffect(() => {
+    if (!user) return;
+
+    const unsubscribe = base44.entities.SupportConversation.subscribe(async (event) => {
+      if (event.type === 'create') {
+        refetchConversations();
+
+        // Create notification for all admins about new session
+        const allAdmins = await base44.entities.User.list();
+        const adminEmails = allAdmins.filter(a => a.role === 'admin').map(a => a.email);
+
+        for (const adminEmail of adminEmails) {
+          await base44.entities.Notification.create({
+            admin_email: adminEmail,
+            type: 'new_session',
+            conversation_id: event.id,
+            customer_name: event.data.customer_name,
+            customer_email: event.data.customer_email
+          });
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user, refetchConversations]);
+
   useEffect(() => {
     if (!selectedConversation) return;
 
@@ -101,9 +128,24 @@ export default function AdminSupport() {
     loadMessages();
 
     // Subscribe to new messages
-    const unsubscribe = base44.entities.SupportMessage.subscribe((event) => {
+    const unsubscribe = base44.entities.SupportMessage.subscribe(async (event) => {
       if (event.type === 'create' && event.data.conversation_id === selectedConversation.id) {
         setMessages(prev => [...prev, event.data]);
+        
+        // Create notification for all admins
+        const allAdmins = await base44.entities.User.list();
+        const adminEmails = allAdmins.filter(u => u.role === 'admin').map(u => u.email);
+        
+        for (const adminEmail of adminEmails) {
+          await base44.entities.Notification.create({
+            admin_email: adminEmail,
+            type: 'new_message',
+            conversation_id: selectedConversation.id,
+            customer_name: selectedConversation.customer_name,
+            customer_email: selectedConversation.customer_email,
+            message_preview: event.data.message.slice(0, 50)
+          });
+        }
       }
     });
 
