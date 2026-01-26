@@ -165,7 +165,7 @@ export default function About() {
         <StorySection
           icon={Eye}
           title="Why We're Different"
-          description="In a market full of shortcuts and hype, Red Dirt Research stands out because we genuinely care about your success. We're not trying to maximize margins—we're trying to build a community of trusted researchers with access to verified products at fair prices. Every decision we make is guided by one question: Is this in the best interest of our customers?"
+          description="In a market full of shortcuts and hype, Red Helix Research stands out because we genuinely care about your success. We're not trying to maximize margins—we're trying to build a community of trusted researchers with access to verified products at fair prices. Every decision we make is guided by one question: Is this in the best interest of our customers?"
           highlight="Excellence in Every Interaction"
         />
       </div>
