@@ -81,7 +81,7 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <HolographicText className="text-5xl font-black text-amber-50 mb-6 block">
-            Red Dirt Research: Transparency, Affordability & Exceptional Service
+            Red Helix Research: Transparency, Affordability & Exceptional Service
           </HolographicText>
           <motion.p 
             className="text-xl text-amber-50 leading-relaxed"
