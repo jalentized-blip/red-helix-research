@@ -620,15 +620,10 @@ const HeaderSearch = () => {
                       {isAuthenticated && (
                         <button
                           onClick={() => {
-                            localStorage.clear();
-                            sessionStorage.clear();
-                            document.cookie.split(";").forEach((c) => {
-                              document.cookie = c
-                                .replace(/^ +/, "")
-                                .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
-                            });
-                            base44.auth.logout();
-                            window.location.href = createPageUrl('Home') + '?logout=true';
+                            // ✅ FIXED: Let Base44 SDK handle logout properly
+                            // Do NOT clear localStorage/sessionStorage before logout
+                            // The SDK manages token cleanup internally
+                            base44.auth.logout(createPageUrl('Home'));
                           }}
                           className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
                         >
@@ -637,7 +632,11 @@ const HeaderSearch = () => {
                       )}
                       {!isAuthenticated && (
                         <button
-                          onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
+                          onClick={() => {
+                            // ✅ FIXED: Use current URL as return URL for better UX
+                            // This redirects to Base44's hosted login page
+                            base44.auth.redirectToLogin(window.location.href);
+                          }}
                           className="w-full text-center text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-red-600/30"
                         >
                           Sign In
