@@ -3,20 +3,43 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { LogOut, Package, User, Settings, Home } from 'lucide-react';
+import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import DashboardStats from '@/components/account/DashboardStats';
+import FavoritePeptides from '@/components/account/FavoritePeptides';
+import RecommendedPeptides from '@/components/account/RecommendedPeptides';
+import RecentActivity from '@/components/account/RecentActivity';
+import QuickCategories from '@/components/account/QuickCategories';
 
 export default function Account() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('orders');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
 
   const { data: orders = [] } = useQuery({
     queryKey: ['orders'],
     queryFn: () => base44.entities.Order.filter({ created_by: user?.email }),
+    enabled: !!user
+  });
+
+  const { data: preferences, refetch: refetchPreferences } = useQuery({
+    queryKey: ['userPreferences', user?.email],
+    queryFn: async () => {
+      const prefs = await base44.entities.UserPreference.filter({ created_by: user?.email });
+      if (prefs.length === 0) {
+        const newPref = await base44.entities.UserPreference.create({
+          favorite_products: [],
+          viewed_products: [],
+          preferred_categories: [],
+          search_history: []
+        });
+        return newPref;
+      }
+      return prefs[0];
+    },
     enabled: !!user
   });
 
@@ -40,19 +63,25 @@ export default function Account() {
     fetchUser();
   }, [navigate]);
 
+  const handleRemoveFavorite = async (productId) => {
+    if (!preferences) return;
+    const updatedFavorites = preferences.favorite_products.filter(id => id !== productId);
+    await base44.entities.UserPreference.update(preferences.id, {
+      favorite_products: updatedFavorites
+    });
+    refetchPreferences();
+  };
+
   const handleLogout = async () => {
     try {
-      // Clear all browser storage
       localStorage.clear();
       sessionStorage.clear();
-      // Clear all cookies
       document.cookie.split(";").forEach((c) => {
         document.cookie = c
           .replace(/^ +/, "")
           .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
       });
       await base44.auth.logout();
-      // Redirect home with logout flag
       window.location.href = createPageUrl('Home') + '?logout=true';
     } catch (error) {
       console.error('Logout error:', error);
@@ -101,6 +130,59 @@ export default function Account() {
 
               <nav className="space-y-2 mb-8">
                 <button
+                  onClick={() => setActiveTab('dashboard')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'dashboard'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Dashboard</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('favorites')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'favorites'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <Heart className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Favorites</span>
+                  {preferences?.favorite_products?.length > 0 && (
+                    <span className="ml-auto text-xs px-2 py-0.5 bg-red-600/30 text-red-400 rounded-full">
+                      {preferences.favorite_products.length}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('recommendations')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'recommendations'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Recommended</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('activity')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'activity'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <History className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Activity</span>
+                </button>
+
+                <button
                   onClick={() => setActiveTab('orders')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                     activeTab === 'orders'
@@ -109,7 +191,7 @@ export default function Account() {
                   }`}
                 >
                   <Package className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Order History</span>
+                  <span className="text-sm font-semibold">Orders</span>
                 </button>
 
                 <button
@@ -142,9 +224,51 @@ export default function Account() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-stone-900/50 border border-stone-700 rounded-lg p-8"
+              className="space-y-6"
             >
+              {activeTab === 'dashboard' && (
+                <div className="space-y-6">
+                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                    <h2 className="text-2xl font-black text-amber-50 mb-6">Research Dashboard</h2>
+                    <DashboardStats preferences={preferences} orders={orders} />
+                  </div>
+
+                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                    <h2 className="text-xl font-bold text-amber-50 mb-4">Quick Access Categories</h2>
+                    <QuickCategories preferences={preferences} />
+                  </div>
+
+                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                    <h2 className="text-xl font-bold text-amber-50 mb-4">Recommended For You</h2>
+                    <RecommendedPeptides preferences={preferences} orders={orders} />
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'favorites' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">My Favorite Peptides</h2>
+                  <FavoritePeptides preferences={preferences} onRemoveFavorite={handleRemoveFavorite} />
+                </div>
+              )}
+
+              {activeTab === 'recommendations' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Recommended For You</h2>
+                  <p className="text-stone-400 text-sm mb-6">Based on your browsing history and research interests</p>
+                  <RecommendedPeptides preferences={preferences} orders={orders} />
+                </div>
+              )}
+
+              {activeTab === 'activity' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Recent Activity</h2>
+                  <RecentActivity preferences={preferences} />
+                </div>
+              )}
+
               {activeTab === 'orders' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
                 <div>
                   <h2 className="text-2xl font-black text-amber-50 mb-6">Order History</h2>
 
@@ -215,7 +339,7 @@ export default function Account() {
               )}
 
               {activeTab === 'settings' && (
-                <div>
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
                   <h2 className="text-2xl font-black text-amber-50 mb-6">Account Settings</h2>
 
                   <div className="space-y-6">
