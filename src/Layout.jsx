@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Send, Search } from 'lucide-react';
+import { ShoppingCart, Menu, X, Send, Search, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -226,6 +226,7 @@ const HeaderSearch = () => {
                const [lastScrollY, setLastScrollY] = useState(0);
                                const [headerVisible, setHeaderVisible] = useState(true);
                                const [isAuthenticated, setIsAuthenticated] = useState(false);
+                               const [isAdmin, setIsAdmin] = useState(false);
                                const [showUploadModal, setShowUploadModal] = useState(false);
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
@@ -236,8 +237,13 @@ const HeaderSearch = () => {
             try {
               const isAuth = await base44.auth.isAuthenticated();
               setIsAuthenticated(isAuth);
+              if (isAuth) {
+                const user = await base44.auth.me();
+                setIsAdmin(user?.role === 'admin');
+              }
             } catch (error) {
               setIsAuthenticated(false);
+              setIsAdmin(false);
             }
           };
           checkAuth();
@@ -478,6 +484,16 @@ const HeaderSearch = () => {
                 </Link>
               </>
             )}
+
+            {isAdmin && (
+              <>
+                <div className="h-6 w-px bg-stone-700/50" />
+                <Link to={createPageUrl('GrayMarketInsights')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 backdrop-blur-sm flex items-center gap-1.5">
+                  <Eye className="w-4 h-4" />
+                  Market Intel
+                </Link>
+              </>
+            )}
           </nav>
           
           {/* Actions */}
@@ -558,6 +574,16 @@ const HeaderSearch = () => {
                           </Link>
                           <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30">
                             Order History
+                          </Link>
+                        </>
+                      )}
+
+                      {isAdmin && (
+                        <>
+                          <div className="border-t border-stone-800/30 my-2 pt-2" />
+                          <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-base font-semibold text-amber-50 hover:text-barn-tan px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-barn-brown/30 flex items-center gap-2">
+                            <Eye className="w-4 h-4" />
+                            Market Intelligence
                           </Link>
                         </>
                       )}
