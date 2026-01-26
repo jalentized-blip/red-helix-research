@@ -29,10 +29,10 @@ export default function FloatingChatButton({ onClick, isOpen }) {
   return (
     <motion.button
       onClick={onClick}
-      className="fixed bottom-6 right-6 z-50 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all group relative"
+      className="fixed bottom-6 right-6 z-50 p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all group relative w-fit h-fit"
       style={{ opacity: 0.25 }}
       whileHover={{ opacity: 1, y: [0, -8, 0, -4, 0] }}
-      transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+      transition={{ duration: 0.5, type: 'spring', stiffness: 300, damping: 10 }}
       whileTap={{ scale: 0.95 }}
     >
         <AnimatePresence mode="wait">
