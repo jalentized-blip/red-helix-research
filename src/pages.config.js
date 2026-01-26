@@ -20,6 +20,7 @@ import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
+import VettedVendors from './pages/VettedVendors';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import __Layout from './Layout.jsx';
@@ -48,6 +49,7 @@ export const PAGES = {
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
+    "VettedVendors": VettedVendors,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
 }
