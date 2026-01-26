@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Scale, Heart, Brain, Zap, Info } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
+import EditableText from '@/components/EditableText';
 
 const peptideInfo = {
   "Retatrutide": "Triple agonist targeting GLP-1, GIP, and glucagon receptors for advanced metabolic research",
@@ -28,7 +29,8 @@ const goals = [
     icon: Scale,
     products: ["Retatrutide", "Tirzepatide", "Semaglutide"],
     gradient: "from-orange-500/20 to-red-500/20",
-    iconColor: "text-orange-400"
+    iconColor: "text-orange-400",
+    key: "goal_1"
   },
   {
     id: "recovery_healing",
@@ -37,7 +39,8 @@ const goals = [
     icon: Heart,
     products: ["BPC 157", "TB500", "BPC 157 + TB500"],
     gradient: "from-green-500/20 to-emerald-500/20",
-    iconColor: "text-green-400"
+    iconColor: "text-green-400",
+    key: "goal_2"
   },
   {
     id: "cognitive_focus",
@@ -46,7 +49,8 @@ const goals = [
     icon: Brain,
     products: ["Semax", "Selank", "Pinealon"],
     gradient: "from-blue-500/20 to-indigo-500/20",
-    iconColor: "text-blue-400"
+    iconColor: "text-blue-400",
+    key: "goal_3"
   },
   {
     id: "performance_longevity",
@@ -55,7 +59,8 @@ const goals = [
     icon: Zap,
     products: ["MOTS-c", "HGH", "Epithalon"],
     gradient: "from-purple-500/20 to-pink-500/20",
-    iconColor: "text-purple-400"
+    iconColor: "text-purple-400",
+    key: "goal_4"
   }
 ];
 
@@ -88,11 +93,11 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Shop by Goal
+              <EditableText textKey="shop_by_goal_heading" defaultValue="Shop by Goal" />
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-2xl mx-auto">
-            Find the right peptides for your research objectives
+            <EditableText textKey="shop_by_goal_subtitle" defaultValue="Find the right peptides for your research objectives" />
           </p>
         </motion.div>
 
@@ -117,10 +122,10 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-amber-50 group-hover:text-red-600 transition-colors">
-                        {goal.title}
+                        <EditableText textKey={`${goal.key}_title`} defaultValue={goal.title} />
                       </h3>
                       <p className="text-sm text-stone-300 mt-1">
-                        {goal.description}
+                        <EditableText textKey={`${goal.key}_desc`} defaultValue={goal.description} multiline />
                       </p>
                     </div>
                   </div>
