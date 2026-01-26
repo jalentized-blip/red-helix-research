@@ -6,7 +6,7 @@ import { Send, Loader2, Circle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingIndicator from './TypingIndicator';
 
-export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null }) {
+export default function TelegramChatWindow({ isOpen, onClose, customerInfo = null, conversationId = null, isAdmin = false }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -148,8 +148,8 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
       await base44.entities.SupportMessage.create({
         conversation_id: conversation.id,
         message: newMessage,
-        sender_role: 'customer',
-        sender_name: customerInfo?.name || user?.full_name || 'Customer'
+        sender_role: isAdmin ? 'admin' : 'customer',
+        sender_name: isAdmin ? (user?.full_name || 'Support Admin') : (customerInfo?.name || user?.full_name || 'Customer')
       });
 
       await base44.entities.SupportConversation.update(conversation.id, {
@@ -176,7 +176,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className="fixed bottom-24 right-6 z-50 w-96 h-[500px] bg-stone-900 border border-stone-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+          className={`${isAdmin ? 'fixed bottom-0 right-0 z-50 w-96 h-screen rounded-none' : 'fixed bottom-24 right-6 z-50 w-96 h-[500px] rounded-2xl'} bg-stone-900 border border-stone-700 shadow-2xl flex flex-col overflow-hidden`}
         >
           {/* Header */}
           <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50">
