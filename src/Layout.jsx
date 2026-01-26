@@ -234,7 +234,8 @@ const HeaderSearch = () => {
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
-                               const [chatOpen, setChatOpen] = useState(false);
+                                    const [chatOpen, setChatOpen] = useState(false);
+                                    const [user, setUser] = useState(null);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -242,8 +243,9 @@ const HeaderSearch = () => {
               const isAuth = await base44.auth.isAuthenticated();
               setIsAuthenticated(isAuth);
               if (isAuth) {
-                const user = await base44.auth.me();
-                setIsAdmin(user?.role === 'admin');
+                const userData = await base44.auth.me();
+                setUser(userData);
+                setIsAdmin(userData?.role === 'admin');
               }
             } catch (error) {
               setIsAuthenticated(false);
