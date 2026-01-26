@@ -94,7 +94,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
           {/* Product Image */}
           <div className="aspect-video w-full bg-stone-800 rounded-xl overflow-hidden">
             <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/f33efc498_image.png" 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/0fc41cec4_reddirtvial.jpg" 
               alt={product.name}
               className="w-full h-full object-contain"
             />
