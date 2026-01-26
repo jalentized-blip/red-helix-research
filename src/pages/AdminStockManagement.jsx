@@ -43,15 +43,17 @@ export default function AdminStockManagement() {
   }, [navigate]);
 
   const updateStockMutation = useMutation({
-    mutationFn: ({ productId, updates }) => 
+    mutationFn: ({ productId, updates, showToast = true }) => 
       base44.entities.Product.update(productId, updates),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      const state = editingStates[variables.productId];
-      toast.success(`Stock updated for ${state?.selectedSpec || 'product'}`, {
-        description: `${state?.stockQuantity || 0} units - ${state?.inStock ? 'In Stock' : 'Out of Stock'}`
-      });
-      setEditingStates({});
+      if (variables.showToast) {
+        const state = editingStates[variables.productId];
+        toast.success(`Stock updated for ${state?.selectedSpec || 'product'}`, {
+          description: `${state?.stockQuantity || 0} units - ${state?.inStock ? 'In Stock' : 'Out of Stock'}`
+        });
+        setEditingStates({});
+      }
     },
   });
 
@@ -121,8 +123,8 @@ export default function AdminStockManagement() {
     });
   };
 
-  const handleAllOutOfStock = () => {
-    products.forEach(product => {
+  const handleAllOutOfStock = async () => {
+    const updatePromises = products.map(product => {
       if (product.specifications && product.specifications.length > 0) {
         const updatedSpecs = product.specifications.map(spec => ({
           ...spec,
@@ -130,16 +132,23 @@ export default function AdminStockManagement() {
           in_stock: false
         }));
         
-        updateStockMutation.mutate({
-          productId: product.id,
-          updates: { specifications: updatedSpecs }
-        });
+        return base44.entities.Product.update(product.id, { specifications: updatedSpecs });
       }
+      return Promise.resolve();
     });
     
-    toast.success('All products marked as out of stock', {
-      description: 'All strength options have been disabled'
-    });
+    try {
+      await Promise.all(updatePromises);
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      setEditingStates({});
+      toast.success('All products marked as out of stock', {
+        description: 'All strength options have been disabled and applied successfully'
+      });
+    } catch (error) {
+      toast.error('Failed to update all products', {
+        description: error.message
+      });
+    }
   };
 
   if (loading) {
