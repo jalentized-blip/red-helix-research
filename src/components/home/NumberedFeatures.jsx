@@ -1,26 +1,31 @@
 import React from 'react';
 import { motion } from "framer-motion";
+import EditableText from '@/components/EditableText';
 
 const features = [
   {
     number: "1",
     title: "Research Use Only",
-    description: "Clearly labeled for laboratory and research purposes."
+    description: "Clearly labeled for laboratory and research purposes.",
+    key: "numbered_feature_1"
   },
   {
     number: "2",
     title: "cGMP Certified Manufacturing",
-    description: "Produced in FDA-audited, cGMP-certified facilities to meet the highest global standards for quality and safety."
+    description: "Produced in FDA-audited, cGMP-certified facilities to meet the highest global standards for quality and safety.",
+    key: "numbered_feature_2"
   },
   {
     number: "3",
     title: "Quality Customer Service",
-    description: "Our responsive support team is dedicated to helping you every step of the way."
+    description: "Our responsive support team is dedicated to helping you every step of the way.",
+    key: "numbered_feature_3"
   },
   {
     number: "4",
     title: "Third-Party Lab Tested",
-    description: "Every batch undergoes full-panel testing for purity, sterility, endotoxins, and heavy metals."
+    description: "Every batch undergoes full-panel testing for purity, sterility, endotoxins, and heavy metals.",
+    key: "numbered_feature_4"
   }
 ];
 
@@ -48,10 +53,10 @@ export default function NumberedFeatures() {
               {/* Content */}
               <div>
                 <h3 className="text-xl font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors">
-                  {feature.title}
+                  <EditableText textKey={`${feature.key}_title`} defaultValue={feature.title} />
                 </h3>
                 <p className="text-stone-300 leading-relaxed">
-                  {feature.description}
+                  <EditableText textKey={`${feature.key}_desc`} defaultValue={feature.description} multiline />
                 </p>
               </div>
             </motion.div>
