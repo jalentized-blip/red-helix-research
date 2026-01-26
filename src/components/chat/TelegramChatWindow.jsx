@@ -211,103 +211,107 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
             <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50 flex items-start justify-between">
               <div>
                 <h3 className="font-bold text-lg">Customer Support</h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <Circle className={`w-2 h-2 ${onlineAdmins.length > 0 ? 'fill-green-400 text-green-400' : 'fill-stone-400 text-stone-400'}`} />
-                  <p className="text-xs text-amber-50/80">
-                    {onlineAdmins.length > 0 ? `${onlineAdmins.length} admin${onlineAdmins.length !== 1 ? 's' : ''} online` : 'No admins online'}
-                  </p>
-                </div>
+                {!isMinimized && (
+                  <div className="flex items-center gap-2 mt-1">
+                    <Circle className={`w-2 h-2 ${onlineAdmins.length > 0 ? 'fill-green-400 text-green-400' : 'fill-stone-400 text-stone-400'}`} />
+                    <p className="text-xs text-amber-50/80">
+                      {onlineAdmins.length > 0 ? `${onlineAdmins.length} admin${onlineAdmins.length !== 1 ? 's' : ''} online` : 'No admins online'}
+                    </p>
+                  </div>
+                )}
               </div>
               <button
                 onClick={() => setIsMinimized(!isMinimized)}
-                className="text-amber-50 hover:bg-red-600/50 p-1 rounded transition-colors"
+                className="text-amber-50 hover:bg-red-600/50 p-1 rounded transition-colors flex-shrink-0"
               >
                 <Minus className="w-5 h-5" />
               </button>
             </div>
 
-          {/* Admin List */}
-          {admins.length > 0 && (
-            <div className="px-4 py-2 bg-stone-800/50 border-b border-stone-700">
-              <p className="text-xs font-semibold text-stone-400 mb-2">Available Support</p>
-              <div className="space-y-1">
-                {admins.map(admin => (
-                  <div key={admin.id} className="flex items-center gap-2">
-                    <Circle className={`w-2 h-2 ${admin.is_online ? 'fill-green-400 text-green-400' : 'fill-stone-600 text-stone-600'}`} />
-                    <p className="text-xs text-stone-300">{admin.admin_name}</p>
-                    {!admin.is_online && admin.last_seen && (
-                      <p className="text-xs text-stone-500">
-                        ({new Date(admin.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})
-                      </p>
-                    )}
+            {!isMinimized && (
+              <>
+                {/* Admin List */}
+                {admins.length > 0 && !isAdmin && (
+                  <div className="px-4 py-2 bg-stone-800/50 border-b border-stone-700">
+                    <p className="text-xs font-semibold text-stone-400 mb-2">Available Support</p>
+                    <div className="space-y-1">
+                      {admins.map(admin => (
+                        <div key={admin.id} className="flex items-center gap-2">
+                          <Circle className={`w-2 h-2 ${admin.is_online ? 'fill-green-400 text-green-400' : 'fill-stone-600 text-stone-600'}`} />
+                          <p className="text-xs text-stone-300">{admin.admin_name}</p>
+                          {!admin.is_online && admin.last_seen && (
+                            <p className="text-xs text-stone-500">
+                              ({new Date(admin.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                )}
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.length === 0 ? (
-              <div className="text-center text-stone-400 text-sm mt-8">
-                <p>Welcome! How can we help you today?</p>
-              </div>
-            ) : (
-              messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.sender_role === 'customer' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                      msg.sender_role === 'customer'
-                        ? 'bg-red-700 text-amber-50'
-                        : 'bg-stone-800 text-amber-50'
-                    }`}
-                  >
-                    {msg.sender_role === 'admin' && (
-                      <p className="text-xs text-stone-400 mb-1">{msg.sender_name || 'Support Team'}</p>
-                    )}
-                    <p className="text-sm">{msg.message}</p>
+                {/* Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                  {messages.length === 0 ? (
+                    <div className="text-center text-stone-400 text-sm mt-8">
+                      <p>Welcome! How can we help you today?</p>
+                    </div>
+                  ) : (
+                    messages.map((msg) => (
+                      <div
+                        key={msg.id}
+                        className={`flex ${msg.sender_role === 'customer' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[75%] rounded-2xl px-4 py-2 ${
+                            msg.sender_role === 'customer'
+                              ? 'bg-red-700 text-amber-50'
+                              : 'bg-stone-800 text-amber-50'
+                          }`}
+                        >
+                          {msg.sender_role === 'admin' && (
+                            <p className="text-xs text-stone-400 mb-1">{msg.sender_name || 'Support Team'}</p>
+                          )}
+                          <p className="text-sm">{msg.message}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  {typingAdmin && (
+                    <div className="flex justify-start">
+                      <TypingIndicator name={typingAdmin.admin_name} />
+                    </div>
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+
+                {/* Input */}
+                <div className="p-4 border-t border-stone-700">
+                  <div className="flex gap-2">
+                    <Input
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && !loading && handleSend()}
+                      placeholder="Type your message..."
+                      className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                      disabled={loading}
+                    />
+                    <Button
+                      onClick={handleSend}
+                      disabled={loading || !newMessage.trim()}
+                      className="bg-red-700 hover:bg-red-600"
+                    >
+                      {loading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Send className="w-4 h-4" />
+                      )}
+                    </Button>
                   </div>
                 </div>
-              ))
+              </>
             )}
-            {typingAdmin && (
-              <div className="flex justify-start">
-                <TypingIndicator name={typingAdmin.admin_name} />
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <div className="p-4 border-t border-stone-700">
-            <div className="flex gap-2">
-              <Input
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && !loading && handleSend()}
-                placeholder="Type your message..."
-                className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                disabled={loading}
-              />
-              <Button
-                onClick={handleSend}
-                disabled={loading || !newMessage.trim()}
-                className="bg-red-700 hover:bg-red-600"
-              >
-                {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Send className="w-4 h-4" />
-                )}
-              </Button>
             </div>
-          </div>
-             </>
-           )}
-          </div>
           </motion.div>
           )}
           </AnimatePresence>
