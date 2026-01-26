@@ -9,6 +9,6 @@ export const base44 = createClient({
   token,
   functionsVersion,
   serverUrl: '',
-  requiresAuth: true,
+  requiresAuth: false,  // Keep false - allows anonymous browsing; login is optional
   appBaseUrl
 });
