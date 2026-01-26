@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { ShieldCheck, ExternalLink } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EditableText from '@/components/EditableText';
 
 const certificates = [
   {
@@ -66,11 +65,11 @@ export default function Certificates() {
           
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              <EditableText textKey="certs_heading" defaultValue="Certificates of Analysis" />
+              Certificates of Analysis
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-2xl mx-auto">
-            <EditableText textKey="certs_subtitle" defaultValue="Every batch tested by Janoshik Analytical for verified purity and quality." multiline />
+            Every batch tested by Janoshik Analytical for verified purity and quality.
           </p>
         </motion.div>
 

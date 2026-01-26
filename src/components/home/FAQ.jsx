@@ -7,7 +7,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-
 const faqs = [
   {
     question: "How do I pay?",

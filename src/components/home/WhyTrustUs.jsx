@@ -4,25 +4,21 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { FlaskConical, Truck, Building2, ShieldCheck } from "lucide-react";
 
-
 const trustPoints = [
   {
     icon: FlaskConical,
     title: "Tested By Leading American 3rd Party Labs",
-    description: "Every compound batch is independently verified by industry-leading third-party labs; ensuring purity, consistency, and confidence in your research.",
-    key: "trust_point_1"
+    description: "Every compound batch is independently verified by industry-leading third-party labs; ensuring purity, consistency, and confidence in your research."
   },
   {
     icon: Truck,
     title: "Free Shipping For Orders Over $300",
-    description: "We offer free FedEx Expedited Shipping for orders over $300 within the US, and international orders over $500.",
-    key: "trust_point_2"
+    description: "We offer free FedEx Expedited Shipping for orders over $300 within the US, and international orders over $500."
   },
   {
     icon: Building2,
     title: "cGMP Certified Manufacturing",
-    description: "Our compounds are produced in FDA-audited, cGMP-certified facilities to meet the highest standards for quality and safety.",
-    key: "trust_point_3"
+    description: "Our compounds are produced in FDA-audited, cGMP-certified facilities to meet the highest standards for quality and safety."
   }
 ];
 

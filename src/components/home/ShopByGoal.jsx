@@ -5,7 +5,6 @@ import { Scale, Heart, Brain, Zap, Info } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
 
-
 const peptideInfo = {
   "Retatrutide": "Triple agonist targeting GLP-1, GIP, and glucagon receptors for advanced metabolic research",
   "Tirzepatide": "Dual GIP/GLP-1 receptor agonist for metabolic and weight management studies",
@@ -29,8 +28,7 @@ const goals = [
     icon: Scale,
     products: ["Retatrutide", "Tirzepatide", "Semaglutide"],
     gradient: "from-orange-500/20 to-red-500/20",
-    iconColor: "text-orange-400",
-    key: "goal_1"
+    iconColor: "text-orange-400"
   },
   {
     id: "recovery_healing",
@@ -39,8 +37,7 @@ const goals = [
     icon: Heart,
     products: ["BPC 157", "TB500", "BPC 157 + TB500"],
     gradient: "from-green-500/20 to-emerald-500/20",
-    iconColor: "text-green-400",
-    key: "goal_2"
+    iconColor: "text-green-400"
   },
   {
     id: "cognitive_focus",
@@ -49,8 +46,7 @@ const goals = [
     icon: Brain,
     products: ["Semax", "Selank", "Pinealon"],
     gradient: "from-blue-500/20 to-indigo-500/20",
-    iconColor: "text-blue-400",
-    key: "goal_3"
+    iconColor: "text-blue-400"
   },
   {
     id: "performance_longevity",
@@ -59,8 +55,7 @@ const goals = [
     icon: Zap,
     products: ["MOTS-c", "HGH", "Epithalon"],
     gradient: "from-purple-500/20 to-pink-500/20",
-    iconColor: "text-purple-400",
-    key: "goal_4"
+    iconColor: "text-purple-400"
   }
 ];
 

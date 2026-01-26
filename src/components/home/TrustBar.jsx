@@ -2,13 +2,12 @@ import React from 'react';
 import { FlaskConical, ShieldCheck, Headphones, CheckCircle, RefreshCw, Package } from "lucide-react";
 import { motion } from "framer-motion";
 
-
 export default function TrustBar() {
   const features = [
-    { icon: FlaskConical, label: "Lab Tested Batches", key: "trust_feat_1" },
-    { icon: Package, label: "United States Shipping Only", key: "trust_feat_2" },
-    { icon: ShieldCheck, label: "Secure Crypto Payments", key: "trust_feat_3" },
-    { icon: Headphones, label: "24h Support", key: "trust_feat_4" },
+    { icon: FlaskConical, label: "Lab Tested Batches" },
+    { icon: Package, label: "United States Shipping Only" },
+    { icon: ShieldCheck, label: "Secure Crypto Payments" },
+    { icon: Headphones, label: "24h Support" },
   ];
 
   const payments = ["BTC", "USDT", "USDC"];
@@ -28,9 +27,7 @@ export default function TrustBar() {
               className="flex items-center gap-2 text-stone-300"
             >
               <feature.icon className="w-5 h-5 text-red-600" />
-              <span className="text-sm font-medium">
-                {feature.label}
-              </span>
+              <span className="text-sm font-medium">{feature.label}</span>
             </motion.div>
           ))}
         </div>

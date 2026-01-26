@@ -243,7 +243,6 @@ const HeaderSearch = () => {
           checkAuth();
         }, []);
 
-
         useEffect(() => {
           const handleScroll = () => {
             setScrolled(window.scrollY > 50);
@@ -629,8 +628,6 @@ const HeaderSearch = () => {
       window.location.href = createPageUrl('COAReports');
       }}
       />
-
-
       </div>
       );
       }

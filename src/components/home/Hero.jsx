@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { FileText, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 
-
 export default function Hero() {
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });

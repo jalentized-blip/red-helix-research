@@ -1,31 +1,26 @@
 import React from 'react';
 import { motion } from "framer-motion";
 
-
 const features = [
   {
     number: "1",
     title: "Research Use Only",
-    description: "Clearly labeled for laboratory and research purposes.",
-    key: "numbered_feature_1"
+    description: "Clearly labeled for laboratory and research purposes."
   },
   {
     number: "2",
     title: "cGMP Certified Manufacturing",
-    description: "Produced in FDA-audited, cGMP-certified facilities to meet the highest global standards for quality and safety.",
-    key: "numbered_feature_2"
+    description: "Produced in FDA-audited, cGMP-certified facilities to meet the highest global standards for quality and safety."
   },
   {
     number: "3",
     title: "Quality Customer Service",
-    description: "Our responsive support team is dedicated to helping you every step of the way.",
-    key: "numbered_feature_3"
+    description: "Our responsive support team is dedicated to helping you every step of the way."
   },
   {
     number: "4",
     title: "Third-Party Lab Tested",
-    description: "Every batch undergoes full-panel testing for purity, sterility, endotoxins, and heavy metals.",
-    key: "numbered_feature_4"
+    description: "Every batch undergoes full-panel testing for purity, sterility, endotoxins, and heavy metals."
   }
 ];
 

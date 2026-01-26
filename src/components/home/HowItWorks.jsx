@@ -2,28 +2,24 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { ShoppingCart, Mail, Truck, Package, MapPin, RefreshCw } from "lucide-react";
 
-
 const steps = [
   {
     number: "1",
     title: "Add to Cart",
     description: "Select your peptides and quantities",
-    icon: ShoppingCart,
-    key: "step_1"
+    icon: ShoppingCart
   },
   {
     number: "2",
     title: "Receive Payment Details",
     description: "We'll email you the crypto wallet address",
-    icon: Mail,
-    key: "step_2"
+    icon: Mail
   },
   {
     number: "3",
     title: "Order Ships",
     description: "Ships within 24–48h after payment confirms",
-    icon: Truck,
-    key: "step_3"
+    icon: Truck
   }
 ];
 
@@ -74,12 +70,8 @@ export default function HowItWorks() {
                 <span className="text-3xl font-black text-red-600">{step.number}</span>
               </div>
 
-              <h3 className="text-xl font-bold text-amber-50 mb-2">
-                {step.title}
-              </h3>
-              <p className="text-stone-300">
-                {step.description}
-              </p>
+              <h3 className="text-xl font-bold text-amber-50 mb-2">{step.title}</h3>
+              <p className="text-stone-300">{step.description}</p>
             </motion.div>
           ))}
         </div>
