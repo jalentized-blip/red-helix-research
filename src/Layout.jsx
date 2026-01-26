@@ -410,6 +410,22 @@ const HeaderSearch = () => {
           [class*="accent-red"], [class*="accent-crimson"] {
             accent-color: var(--red-dirt-red) !important;
           }
+
+          /* Custom scrollbar styling */
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+          ::-webkit-scrollbar-track {
+            background: rgba(28, 25, 23, 0.5);
+            border-radius: 4px;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: var(--red-dirt-red);
+            border-radius: 4px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: var(--red-dirt-dark);
+          }
         `}</style>
         <MolecularBackground />
         <FloatingMolecularFormulas />
