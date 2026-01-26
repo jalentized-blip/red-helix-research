@@ -5,13 +5,15 @@ import { createPageUrl } from '@/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Package, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Package, AlertCircle, CheckCircle, ArrowLeft, Save } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 export default function AdminStockManagement() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [editingStates, setEditingStates] = useState({});
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -44,26 +46,73 @@ export default function AdminStockManagement() {
       base44.entities.Product.update(productId, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      setEditingStates({});
     },
   });
 
-  const handleStockChange = (productId, quantity) => {
-    updateStockMutation.mutate({
-      productId,
-      updates: { 
-        stock_quantity: parseInt(quantity) || 0,
-        in_stock: parseInt(quantity) > 0
-      }
-    });
+  const initializeEditingState = (productId, product) => {
+    if (!editingStates[productId]) {
+      setEditingStates(prev => ({
+        ...prev,
+        [productId]: {
+          selectedSpec: product.specifications?.[0]?.name || null,
+          stockQuantity: product.specifications?.[0]?.stock_quantity || 0,
+          inStock: product.specifications?.[0]?.in_stock !== false
+        }
+      }));
+    }
   };
 
-  const handleToggleStock = (product) => {
+  const handleSpecChange = (productId, specName, product) => {
+    const spec = product.specifications?.find(s => s.name === specName);
+    setEditingStates(prev => ({
+      ...prev,
+      [productId]: {
+        selectedSpec: specName,
+        stockQuantity: spec?.stock_quantity || 0,
+        inStock: spec?.in_stock !== false
+      }
+    }));
+  };
+
+  const handleStockQuantityChange = (productId, quantity) => {
+    setEditingStates(prev => ({
+      ...prev,
+      [productId]: {
+        ...prev[productId],
+        stockQuantity: parseInt(quantity) || 0
+      }
+    }));
+  };
+
+  const handleToggleStock = (productId) => {
+    setEditingStates(prev => ({
+      ...prev,
+      [productId]: {
+        ...prev[productId],
+        inStock: !prev[productId].inStock
+      }
+    }));
+  };
+
+  const handleApply = (product) => {
+    const state = editingStates[product.id];
+    if (!state || !state.selectedSpec) return;
+
+    const updatedSpecs = product.specifications.map(spec => {
+      if (spec.name === state.selectedSpec) {
+        return {
+          ...spec,
+          stock_quantity: state.stockQuantity,
+          in_stock: state.inStock
+        };
+      }
+      return spec;
+    });
+
     updateStockMutation.mutate({
       productId: product.id,
-      updates: { 
-        in_stock: !product.in_stock,
-        stock_quantity: !product.in_stock ? (product.stock_quantity || 0) : 0
-      }
+      updates: { specifications: updatedSpecs }
     });
   };
 
@@ -91,24 +140,29 @@ export default function AdminStockManagement() {
 
         <div className="mb-8">
           <h1 className="text-4xl font-black text-amber-50 mb-2">Stock Management</h1>
-          <p className="text-stone-400">Admin only - Manage product inventory and availability</p>
+          <p className="text-stone-400">Admin only - Manage product inventory and availability by strength</p>
         </div>
 
         {isLoading ? (
           <p className="text-stone-400">Loading products...</p>
         ) : (
           <div className="space-y-4">
-            {products.map((product, idx) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
-                className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 hover:border-red-600/30 transition-all"
-              >
-                <div className="flex flex-col lg:flex-row lg:items-center gap-6">
-                  {/* Product Info */}
-                  <div className="flex-1">
+            {products.map((product, idx) => {
+              if (!editingStates[product.id]) {
+                initializeEditingState(product.id, product);
+              }
+              const state = editingStates[product.id] || {};
+              
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 hover:border-red-600/30 transition-all"
+                >
+                  <div className="flex flex-col gap-6">
+                    {/* Product Info */}
                     <div className="flex items-start gap-4">
                       {product.image_url && (
                         <img 
@@ -123,53 +177,95 @@ export default function AdminStockManagement() {
                         <span className="text-red-600 font-semibold">From ${product.price_from}</span>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Stock Controls */}
-                  <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 lg:min-w-[400px]">
-                    <div className="flex-1">
-                      <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
-                        Stock Quantity
-                      </label>
-                      <Input
-                        type="number"
-                        min="0"
-                        value={product.stock_quantity || 0}
-                        onChange={(e) => handleStockChange(product.id, e.target.value)}
-                        className="bg-stone-800 border-stone-700 text-amber-50"
-                      />
-                    </div>
+                    {/* Stock Controls */}
+                    {product.specifications && product.specifications.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div className="md:col-span-1">
+                          <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
+                            Strength Option
+                          </label>
+                          <Select
+                            value={state.selectedSpec || product.specifications[0]?.name}
+                            onValueChange={(value) => handleSpecChange(product.id, value, product)}
+                          >
+                            <SelectTrigger className="bg-stone-800 border-stone-700 text-amber-50">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-stone-900 border-stone-700">
+                              {product.specifications.map((spec) => (
+                                <SelectItem 
+                                  key={spec.name} 
+                                  value={spec.name}
+                                  className="text-amber-50"
+                                >
+                                  {spec.name} - ${spec.price}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                    <div className="flex-1">
-                      <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
-                        Status
-                      </label>
-                      <Button
-                        onClick={() => handleToggleStock(product)}
-                        variant="outline"
-                        className={`w-full ${
-                          product.in_stock
-                            ? 'bg-green-600/20 border-green-600/50 text-green-400 hover:bg-green-600/30'
-                            : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
-                        }`}
-                      >
-                        {product.in_stock ? (
-                          <>
-                            <CheckCircle className="w-4 h-4 mr-2" />
-                            In Stock
-                          </>
-                        ) : (
-                          <>
-                            <AlertCircle className="w-4 h-4 mr-2" />
-                            Out of Stock
-                          </>
-                        )}
-                      </Button>
-                    </div>
+                        <div className="md:col-span-1">
+                          <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
+                            Stock Quantity
+                          </label>
+                          <Input
+                            type="number"
+                            min="0"
+                            value={state.stockQuantity || 0}
+                            onChange={(e) => handleStockQuantityChange(product.id, e.target.value)}
+                            className="bg-stone-800 border-stone-700 text-amber-50"
+                          />
+                        </div>
+
+                        <div className="md:col-span-1">
+                          <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
+                            Status
+                          </label>
+                          <Button
+                            onClick={() => handleToggleStock(product.id)}
+                            variant="outline"
+                            className={`w-full ${
+                              state.inStock
+                                ? 'bg-green-600/20 border-green-600/50 text-green-400 hover:bg-green-600/30'
+                                : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
+                            }`}
+                          >
+                            {state.inStock ? (
+                              <>
+                                <CheckCircle className="w-4 h-4 mr-2" />
+                                In Stock
+                              </>
+                            ) : (
+                              <>
+                                <AlertCircle className="w-4 h-4 mr-2" />
+                                Out of Stock
+                              </>
+                            )}
+                          </Button>
+                        </div>
+
+                        <div className="md:col-span-1">
+                          <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
+                            &nbsp;
+                          </label>
+                          <Button
+                            onClick={() => handleApply(product)}
+                            className="w-full bg-red-600 hover:bg-red-700 text-amber-50"
+                          >
+                            <Save className="w-4 h-4 mr-2" />
+                            Apply
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-stone-500 text-sm">No specifications available for this product</p>
+                    )}
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </div>
