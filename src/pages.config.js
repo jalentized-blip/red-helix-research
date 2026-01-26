@@ -12,6 +12,7 @@ import GrayMarketInsights from './pages/GrayMarketInsights';
 import GroupBuy from './pages/GroupBuy';
 import Home from './pages/Home';
 import LearnMore from './pages/LearnMore';
+import Login from './pages/Login';
 import OrderTracking from './pages/OrderTracking';
 import PaymentCompleted from './pages/PaymentCompleted';
 import PeppyBot from './pages/PeppyBot';
@@ -39,6 +40,7 @@ export const PAGES = {
     "GroupBuy": GroupBuy,
     "Home": Home,
     "LearnMore": LearnMore,
+    "Login": Login,
     "OrderTracking": OrderTracking,
     "PaymentCompleted": PaymentCompleted,
     "PeppyBot": PeppyBot,
