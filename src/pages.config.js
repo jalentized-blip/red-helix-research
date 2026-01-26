@@ -2,6 +2,7 @@ import About from './pages/About';
 import Account from './pages/Account';
 import AdminOrderManagement from './pages/AdminOrderManagement';
 import AdminStockManagement from './pages/AdminStockManagement';
+import AdminSupport from './pages/AdminSupport';
 import COAReports from './pages/COAReports';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
@@ -20,7 +21,6 @@ import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import AdminSupport from './pages/AdminSupport';
 import __Layout from './Layout.jsx';
 
 
@@ -29,6 +29,7 @@ export const PAGES = {
     "Account": Account,
     "AdminOrderManagement": AdminOrderManagement,
     "AdminStockManagement": AdminStockManagement,
+    "AdminSupport": AdminSupport,
     "COAReports": COAReports,
     "Cart": Cart,
     "Contact": Contact,
@@ -47,7 +48,6 @@ export const PAGES = {
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "AdminSupport": AdminSupport,
 }
 
 export const pagesConfig = {

@@ -241,6 +241,7 @@ const HeaderSearch = () => {
                                const [showCustomerInfo, setShowCustomerInfo] = useState(false);
                                const [selectedConvId, setSelectedConvId] = useState(null);
                                const [customerInfo, setCustomerInfo] = useState(null);
+                               const [isMinimized, setIsMinimized] = useState(false);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -670,9 +671,14 @@ const HeaderSearch = () => {
 
       <FloatingChatButton 
         onClick={() => {
-          setSelectedConvId(null);
-          setShowCustomerInfo(!isAdmin);
-          setChatOpen(true);
+          if (chatOpen && isMinimized) {
+            setIsMinimized(false);
+          } else {
+            setSelectedConvId(null);
+            setShowCustomerInfo(!isAdmin);
+            setChatOpen(true);
+            setIsMinimized(false);
+          }
         }}
         isOpen={chatOpen}
       />
@@ -706,6 +712,8 @@ const HeaderSearch = () => {
         customerInfo={customerInfo}
         conversationId={selectedConvId}
         isAdmin={isAdmin}
+        isMinimized={isMinimized}
+        setIsMinimized={setIsMinimized}
       />
 
       <UploadCOAModal
