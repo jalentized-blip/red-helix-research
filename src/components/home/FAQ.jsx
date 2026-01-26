@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import EditableText from '@/components/EditableText';
 
 const faqs = [
   {
@@ -47,7 +48,7 @@ export default function FAQ() {
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Common Questions
+              <EditableText textKey="faq_heading" defaultValue="Common Questions" />
             </span>
           </h2>
         </motion.div>

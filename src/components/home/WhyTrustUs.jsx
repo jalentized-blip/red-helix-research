@@ -3,22 +3,26 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { FlaskConical, Truck, Building2, ShieldCheck } from "lucide-react";
+import EditableText from '@/components/EditableText';
 
 const trustPoints = [
   {
     icon: FlaskConical,
     title: "Tested By Leading American 3rd Party Labs",
-    description: "Every compound batch is independently verified by industry-leading third-party labs; ensuring purity, consistency, and confidence in your research."
+    description: "Every compound batch is independently verified by industry-leading third-party labs; ensuring purity, consistency, and confidence in your research.",
+    key: "trust_point_1"
   },
   {
     icon: Truck,
     title: "Free Shipping For Orders Over $300",
-    description: "We offer free FedEx Expedited Shipping for orders over $300 within the US, and international orders over $500."
+    description: "We offer free FedEx Expedited Shipping for orders over $300 within the US, and international orders over $500.",
+    key: "trust_point_2"
   },
   {
     icon: Building2,
     title: "cGMP Certified Manufacturing",
-    description: "Our compounds are produced in FDA-audited, cGMP-certified facilities to meet the highest standards for quality and safety."
+    description: "Our compounds are produced in FDA-audited, cGMP-certified facilities to meet the highest standards for quality and safety.",
+    key: "trust_point_3"
   }
 ];
 
@@ -38,17 +42,17 @@ export default function WhyTrustUs() {
           className="text-center mb-6"
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="text-amber-50">Why Researchers Trust</span>
+            <span className="text-amber-50"><EditableText textKey="trust_heading_line1" defaultValue="Why Researchers Trust" /></span>
             <br />
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Barn
+              <EditableText textKey="trust_heading_line2" defaultValue="Barn" />
             </span>
           </h2>
           <p className="text-stone-300 text-lg">
-            Transparent. Tested. Trusted.
+            <EditableText textKey="trust_tagline" defaultValue="Transparent. Tested. Trusted." />
           </p>
           <p className="text-stone-400 text-sm mt-2">
-            Premium Quality. Same Day Worldwide Shipping. Rigorously 3rd Party Tested.
+            <EditableText textKey="trust_subtitle" defaultValue="Premium Quality. Same Day Worldwide Shipping. Rigorously 3rd Party Tested." multiline />
           </p>
         </motion.div>
 
@@ -82,10 +86,10 @@ export default function WhyTrustUs() {
                   <point.icon className="w-8 h-8 text-red-600" />
                 </div>
                 <h3 className="text-lg font-bold text-amber-50 mb-3 group-hover:text-red-600 transition-colors">
-                  {point.title}
+                  <EditableText textKey={`${point.key}_title`} defaultValue={point.title} />
                 </h3>
                 <p className="text-stone-300 text-sm leading-relaxed">
-                  {point.description}
+                  <EditableText textKey={`${point.key}_desc`} defaultValue={point.description} multiline />
                 </p>
               </Card>
             </motion.div>

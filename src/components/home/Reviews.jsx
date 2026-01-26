@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Quote, Zap, ExternalLink } from "lucide-react";
+import EditableText from '@/components/EditableText';
 
 const reviews = [
   {
@@ -41,11 +42,11 @@ export default function Reviews() {
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Real Reviews from Discord
+              <EditableText textKey="reviews_heading" defaultValue="Real Reviews from Discord" />
             </span>
           </h2>
           <p className="text-stone-300 text-lg">
-            Verified testimonials from our community members
+            <EditableText textKey="reviews_subtitle" defaultValue="Verified testimonials from our community members" />
           </p>
         </motion.div>
 

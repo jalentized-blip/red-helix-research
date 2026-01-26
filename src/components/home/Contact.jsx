@@ -48,11 +48,11 @@ export default function Contact() {
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-barn-brown to-barn-brown bg-clip-text text-transparent">
-              Need Help?
+              <EditableText textKey="contact_heading" defaultValue="Need Help?" />
             </span>
           </h2>
           <p className="text-stone-300 text-lg">
-            Our team responds within 24 hours
+            <EditableText textKey="contact_subtitle" defaultValue="Our team responds within 24 hours" />
           </p>
         </motion.div>
 
