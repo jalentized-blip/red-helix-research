@@ -25,82 +25,98 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
   }, [isOpen, isMinimized]);
 
   const initializeChat = async () => {
-    try {
-      const isAuth = await base44.auth.isAuthenticated();
-      setIsAuthenticated(isAuth);
+        try {
+          const isAuth = await base44.auth.isAuthenticated();
+          setIsAuthenticated(isAuth);
 
-      let currentUser = null;
-      if (isAuth) {
-        currentUser = await base44.auth.me();
-        setUser(currentUser);
-      }
+          let currentUser = null;
+          if (isAuth) {
+            currentUser = await base44.auth.me();
+            setUser(currentUser);
+          }
 
-      let conversationToUse = null;
+          let conversationToUse = null;
 
-      // If opening a specific conversation from inbox
-      if (conversationId) {
-        const conv = await base44.entities.SupportConversation.list();
-        const targetConv = conv.find(c => c.id === conversationId);
-        if (targetConv) {
-          setConversation(targetConv);
-          conversationToUse = targetConv;
-          const msgs = await base44.entities.SupportMessage.filter({
-            conversation_id: targetConv.id
+          // If opening a specific conversation from inbox
+          if (conversationId) {
+            const conv = await base44.entities.SupportConversation.list();
+            const targetConv = conv.find(c => c.id === conversationId);
+            if (targetConv) {
+              setConversation(targetConv);
+              conversationToUse = targetConv;
+              const msgs = await base44.entities.SupportMessage.filter({
+                conversation_id: targetConv.id
+              });
+              setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+            }
+          } else if (customerInfo) {
+            // New conversation from unauthenticated user
+            const conversations = await base44.entities.SupportConversation.filter({
+              customer_email: customerInfo.email
+            });
+
+            let conv;
+            if (conversations.length > 0) {
+              conv = conversations[0];
+            } else {
+              conv = await base44.entities.SupportConversation.create({
+                customer_email: customerInfo.email,
+                customer_name: customerInfo.name,
+                status: 'open'
+              });
+            }
+            setConversation(conv);
+            conversationToUse = conv;
+
+            const msgs = await base44.entities.SupportMessage.filter({
+              conversation_id: conv.id
+            });
+            setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+          } else if (currentUser) {
+            // Existing authenticated user
+            const conversations = await base44.entities.SupportConversation.filter({
+              customer_email: currentUser.email
+            });
+
+            let conv;
+            if (conversations.length > 0) {
+              conv = conversations[0];
+            } else {
+              conv = await base44.entities.SupportConversation.create({
+                customer_email: currentUser.email,
+                customer_name: currentUser.full_name,
+                status: 'open'
+              });
+            }
+            setConversation(conv);
+            conversationToUse = conv;
+
+            // Load messages
+            const msgs = await base44.entities.SupportMessage.filter({
+              conversation_id: conv.id
+            });
+            setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
+          }
+
+          // Load website admins from User entity
+          const allUsers = await base44.entities.User.list();
+          const websiteAdmins = allUsers.filter(u => u.role === 'admin');
+
+          // Load admin statuses
+          const adminStatuses = await base44.entities.AdminStatus.list();
+
+          // Merge admin data with status
+          const adminList = websiteAdmins.map(admin => {
+            const status = adminStatuses.find(s => s.admin_email === admin.email);
+            return {
+              id: admin.id,
+              admin_email: admin.email,
+              admin_name: admin.full_name,
+              is_online: status?.is_online || false,
+              last_seen: status?.last_seen
+            };
           });
-          setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
-        }
-      } else if (customerInfo) {
-        // New conversation from unauthenticated user
-        const conversations = await base44.entities.SupportConversation.filter({
-          customer_email: customerInfo.email
-        });
-
-        let conv;
-        if (conversations.length > 0) {
-          conv = conversations[0];
-        } else {
-          conv = await base44.entities.SupportConversation.create({
-            customer_email: customerInfo.email,
-            customer_name: customerInfo.name,
-            status: 'open'
-          });
-        }
-        setConversation(conv);
-        conversationToUse = conv;
-
-        const msgs = await base44.entities.SupportMessage.filter({
-          conversation_id: conv.id
-        });
-        setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
-      } else if (currentUser) {
-        // Existing authenticated user
-        const conversations = await base44.entities.SupportConversation.filter({
-          customer_email: currentUser.email
-        });
-
-        let conv;
-        if (conversations.length > 0) {
-          conv = conversations[0];
-        } else {
-          conv = await base44.entities.SupportConversation.create({
-            customer_email: currentUser.email,
-            customer_name: currentUser.full_name,
-            status: 'open'
-          });
-        }
-        setConversation(conv);
-        conversationToUse = conv;
-
-        // Load messages
-        const msgs = await base44.entities.SupportMessage.filter({
-          conversation_id: conv.id
-        });
-        setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
-      }
-
-      // Load admin statuses
-      const adminStatuses = await base44.entities.AdminStatus.list();
-      setAdmins(adminStatuses);
+          setAdmins(adminList);
 
       // Subscribe to new messages
       const unsubscribe = base44.entities.SupportMessage.subscribe((event) => {
