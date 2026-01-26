@@ -681,6 +681,7 @@ const HeaderSearch = () => {
           }
         }}
         isOpen={chatOpen}
+        isMinimized={isMinimized}
       />
 
       {!isAdmin && (

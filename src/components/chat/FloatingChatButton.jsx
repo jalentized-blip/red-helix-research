@@ -3,7 +3,7 @@ import { MessageCircle, X, Circle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 
-export default function FloatingChatButton({ onClick, isOpen }) {
+export default function FloatingChatButton({ onClick, isOpen, isMinimized = false }) {
   const [adminsOnline, setAdminsOnline] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function FloatingChatButton({ onClick, isOpen }) {
       whileTap={{ scale: 0.95 }}
     >
         <AnimatePresence mode="wait">
-          {isOpen ? (
+          {isOpen && !isMinimized ? (
             <motion.div
               key="close"
               initial={{ rotate: -90, opacity: 0 }}
