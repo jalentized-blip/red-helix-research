@@ -67,9 +67,6 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
         setMessages(msgs.sort((a, b) => new Date(a.created_date) - new Date(b.created_date)));
       } else if (currentUser) {
         // Existing authenticated user
-        return;
-
-        // Find or create conversation for authenticated user
         const conversations = await base44.entities.SupportConversation.filter({
           customer_email: currentUser.email
         });
@@ -99,7 +96,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
 
       // Subscribe to new messages
       const unsubscribe = base44.entities.SupportMessage.subscribe((event) => {
-        if (event.type === 'create' && event.data.conversation_id === conv.id) {
+        if (event.type === 'create' && event.data.conversation_id === conversation?.id) {
           setMessages(prev => [...prev, event.data]);
         }
       });
