@@ -269,7 +269,6 @@ export default function Account() {
 
               {activeTab === 'orders' && (
                 <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                <div>
                   <h2 className="text-2xl font-black text-amber-50 mb-6">Order History</h2>
 
                   {orders.length === 0 ? (
