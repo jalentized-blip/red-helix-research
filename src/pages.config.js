@@ -1,6 +1,7 @@
 import About from './pages/About';
 import Account from './pages/Account';
 import AdminOrderManagement from './pages/AdminOrderManagement';
+import AdminPriceManagement from './pages/AdminPriceManagement';
 import AdminStockManagement from './pages/AdminStockManagement';
 import AdminSupport from './pages/AdminSupport';
 import COAReports from './pages/COAReports';
@@ -29,6 +30,7 @@ export const PAGES = {
     "About": About,
     "Account": Account,
     "AdminOrderManagement": AdminOrderManagement,
+    "AdminPriceManagement": AdminPriceManagement,
     "AdminStockManagement": AdminStockManagement,
     "AdminSupport": AdminSupport,
     "COAReports": COAReports,
