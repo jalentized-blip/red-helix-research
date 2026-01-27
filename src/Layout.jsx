@@ -609,6 +609,10 @@ const HeaderSearch = () => {
                             <Eye className="w-4 h-4" />
                             Market Intelligence
                           </Link>
+                          <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                            <Mail className="w-4 h-4" />
+                            Price Management
+                          </Link>
                           <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                             Customer Support
                           </Link>
