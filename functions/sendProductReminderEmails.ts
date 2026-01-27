@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
     // Send reminder email
     try {
       await base44.asServiceRole.integrations.Core.SendEmail({
-        from_name: 'Red Felix Research',
+        from_name: 'Red Helix Research',
         to: pref.created_by,
         subject: `Still interested in ${product.name}?`,
         body: `
