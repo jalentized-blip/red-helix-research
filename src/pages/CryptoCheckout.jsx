@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -39,7 +39,7 @@ export default function CryptoCheckout() {
     const fetchExchangeRates = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: 'Get the current exchange rates for BTC, ETH, USDT, and USDC in USD. Return ONLY a JSON object with keys "BTC", "ETH", "USDT", "USDC" and their current USD values as numbers.',
+          prompt: 'Get the current exchange rates for BTC, ETH, USDT, and USDC in USD. For USDT and USDC return exactly 1.0 since they are stablecoins. Return ONLY a JSON object with keys "BTC", "ETH", "USDT", "USDC" and their current USD values as numbers.',
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -59,8 +59,8 @@ export default function CryptoCheckout() {
         setExchangeRates({
           BTC: 42500,
           ETH: 2500,
-          USDT: 1,
-          USDC: 1,
+          USDT: 1.00,
+          USDC: 1.00,
         });
       } finally {
         setLoading(false);
@@ -70,7 +70,18 @@ export default function CryptoCheckout() {
     fetchExchangeRates();
   }, []);
 
-  const cryptoAmount = exchangeRates ? (finalTotal / exchangeRates[selectedCrypto]).toFixed(8) : '0';
+  // Calculate crypto amount with special handling for stablecoins
+  const cryptoAmount = useMemo(() => {
+    if (!exchangeRates) return '0';
+    
+    // For stablecoins (USDT, USDC), use 1:1 conversion with USD
+    if (selectedCrypto === 'USDT' || selectedCrypto === 'USDC') {
+      return finalTotal.toFixed(2); // 2 decimal places for stablecoins
+    }
+    
+    // For other cryptos, use exchange rate
+    return (finalTotal / exchangeRates[selectedCrypto]).toFixed(8);
+  }, [exchangeRates, selectedCrypto, finalTotal]);
   
   // Cryptocurrency-specific wallet addresses
   const walletAddresses = {
@@ -182,7 +193,7 @@ export default function CryptoCheckout() {
     const pollWalletPayment = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Monitor the ${selectedCrypto} wallet address "${walletAddress}" for incoming transactions. Check if any transaction has been received in the last 30 minutes with an amount equal to or greater than ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD). Return a JSON object with "paymentDetected" (boolean), "transactionId" (string or null), "amount" (number or null), "confirmed" (boolean), and "confirmations" (number or null). Only return true if amount matches and has at least 1 confirmation.`,
+          prompt: `Monitor ${selectedCrypto} wallet address "${walletAddress}" for incoming transactions. Check for transactions in the last 30 minutes with amount ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD). Return JSON with "paymentDetected" (boolean), "transactionId" (string or null), "amount" (number or null), "confirmed" (boolean), and "confirmations" (number or null).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -228,7 +239,7 @@ export default function CryptoCheckout() {
     const pollTransactionId = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals exactly ${cryptoAmount} ${selectedCrypto} (or ~${finalTotal.toFixed(2)} USD), 3) Has at least 1 confirmation. Return JSON with "valid" (boolean - true only if all 3 criteria met), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
+          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals ${cryptoAmount} ${selectedCrypto}, 3) Has at least 1 confirmation. Return JSON with "valid" (boolean), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -349,6 +360,11 @@ export default function CryptoCheckout() {
                 <p className="text-3xl font-black text-red-600 font-mono">{cryptoAmount}</p>
                 <p className="text-xs text-stone-500 mt-2">{selectedCrypto}</p>
                 <p className="text-xs text-stone-400 mt-1">≈ ${finalTotal.toFixed(2)} USD</p>
+                {(selectedCrypto === 'USDT' || selectedCrypto === 'USDC') && (
+                  <p className="text-xs text-green-400 mt-1">
+                    ✓ Stablecoin - amount matches USD value
+                  </p>
+                )}
               </div>
             </div>
 
@@ -375,6 +391,11 @@ export default function CryptoCheckout() {
               <p className="text-sm text-amber-600">
                 ⚠️ Send the exact amount from the address above. Incorrect amounts or addresses may result in lost funds.
               </p>
+              {(selectedCrypto === 'USDT' || selectedCrypto === 'USDC') && (
+                <p className="text-sm text-blue-400 mt-2">
+                  📝 Note: {selectedCrypto} should be sent on the Ethereum network (ERC-20). Do not use other networks like Tron or BSC.
+                </p>
+              )}
             </div>
           </motion.div>
 
