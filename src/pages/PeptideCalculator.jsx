@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Info, RotateCcw, ExternalLink } from 'lucide-react';
+import { Info, RotateCcw, ExternalLink, Syringe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
@@ -15,6 +15,7 @@ export default function PeptideCalculator() {
   const [strengthCustom, setStrengthCustom] = useState('');
   const [water, setWater] = useState('1.0');
   const [waterCustom, setWaterCustom] = useState('');
+  const [syringeSize, setSyringeSize] = useState('1'); // '1', '2', or '3' mL
 
   // Fetch products
   const { data: products = [] } = useQuery({
@@ -25,17 +26,29 @@ export default function PeptideCalculator() {
   const doseOptions = ['0.1', '0.25', '0.5', '1', '2.5', '5', '7.5', '10', '12.5', '15', '50'];
   const strengthOptions = ['1', '5', '10', '15', '20', '30', '50', '1000'];
   const waterOptions = ['1.0', '2.0', '3.0'];
+  const syringeSizeOptions = [
+    { value: '1', label: '1 mL Syringe (100 units)', units: 100 },
+    { value: '2', label: '2 mL Syringe (200 units)', units: 200 },
+    { value: '3', label: '3 mL Syringe (300 units)', units: 300 }
+  ];
 
   const currentDose = dose === 'other' ? parseFloat(doseCustom) || 0 : parseFloat(dose);
   const currentStrength = strength === 'other' ? parseFloat(strengthCustom) || 0 : parseFloat(strength);
   const currentWater = water === 'other' ? parseFloat(waterCustom) || 0 : parseFloat(water);
+  const currentSyringeSize = parseFloat(syringeSize);
+  const totalSyringeUnits = currentSyringeSize * 100; // 100 units per mL
 
   const concentration = currentWater > 0 ? currentStrength / currentWater : 0;
-  const drawAmount = concentration > 0 ? (currentDose / concentration).toFixed(2) : 0;
-  const drawUnits = concentration > 0 ? (currentDose / concentration * 100).toFixed(0) : 0;
+  const drawAmountML = concentration > 0 ? (currentDose / concentration) : 0;
+  const drawAmount = drawAmountML.toFixed(3);
+  // Units are always 100 per mL regardless of syringe size
+  const drawUnits = concentration > 0 ? (drawAmountML * 100).toFixed(0) : 0;
   const dosesInVial = concentration > 0 && currentDose > 0 ? Math.floor(currentStrength / currentDose) : 0;
 
   const isValid = currentDose > 0 && currentStrength > 0 && currentWater > 0;
+  
+  // Check if draw exceeds syringe capacity
+  const exceedsSyringeCapacity = drawAmountML > currentSyringeSize;
 
   const handleReset = () => {
     setDose('1');
@@ -44,6 +57,7 @@ export default function PeptideCalculator() {
     setStrengthCustom('');
     setWater('1.0');
     setWaterCustom('');
+    setSyringeSize('1');
   };
 
   const handleDownload = () => {
@@ -62,6 +76,7 @@ Generated: ${timestamp}
 Desired Dose: ${currentDose} mg
 Peptide Strength (Vial): ${currentStrength} mg
 Bacteriostatic Water: ${currentWater} mL
+Syringe Size: ${currentSyringeSize} mL (${totalSyringeUnits} units)
 
 === CALCULATION RESULTS ===
 Concentration: ${concentration.toFixed(2)} mg/mL
@@ -73,7 +88,7 @@ Doses in Vial: ${dosesInVial}
 1. Draw ${currentWater} mL of bacteriostatic water into a syringe
 2. Inject into the vial containing ${currentStrength} mg peptide
 3. Let the solution reconstitute for 5-10 minutes
-4. For your ${currentDose} mg dose, draw ${drawAmount} mL (${drawUnits} units)
+4. Using your ${currentSyringeSize}mL syringe, draw ${drawAmount} mL (${drawUnits} units) for your ${currentDose} mg dose
 
 === IMPORTANT NOTES ===
 - This calculator is for research purposes only
@@ -97,28 +112,88 @@ www.reddirtresearch.com`;
     window.URL.revokeObjectURL(url);
   };
 
+  // Generate syringe markings based on size
+  const getSyringeMarkings = () => {
+    const size = currentSyringeSize;
+    const totalUnits = size * 100;
+    
+    // Major markings configuration based on syringe size
+    let majorInterval, minorInterval;
+    if (size === 1) {
+      majorInterval = 10;  // Every 10 units
+      minorInterval = 5;   // Every 5 units
+    } else if (size === 2) {
+      majorInterval = 20;  // Every 20 units
+      minorInterval = 10;  // Every 10 units
+    } else {
+      majorInterval = 50;  // Every 50 units for 3mL
+      minorInterval = 10;  // Every 10 units
+    }
+    
+    const majorMarkings = [];
+    const minorMarkings = [];
+    
+    for (let i = 0; i <= totalUnits; i += majorInterval) {
+      majorMarkings.push(i);
+    }
+    
+    for (let i = 0; i <= totalUnits; i += minorInterval) {
+      if (i % majorInterval !== 0) {
+        minorMarkings.push(i);
+      }
+    }
+    
+    return { majorMarkings, minorMarkings, totalUnits };
+  };
+
+  const { majorMarkings, minorMarkings, totalUnits } = getSyringeMarkings();
+
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       {/* Header */}
-            <div className="max-w-6xl mx-auto px-4 mb-12">
-              <div className="text-center mb-8">
-                <h1 className="text-5xl font-black text-amber-50 mb-3">Peptide Reconstitution Calculator</h1>
-                <p className="text-stone-400 text-lg">Calculate your peptide dosage with precision</p>
-              </div>
+      <div className="max-w-6xl mx-auto px-4 mb-12">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-black text-amber-50 mb-3">Peptide Reconstitution Calculator</h1>
+          <p className="text-stone-400 text-lg">Calculate your peptide dosage with precision</p>
+        </div>
 
-              {/* Disclaimer */}
-              <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg p-4 mb-8">
-                <p className="text-yellow-100 text-sm text-center">
-                  <span className="font-semibold">⚠️ Disclaimer:</span> This calculator is strictly for research purposes only. All peptides are sold for research use only and are not intended for human consumption. Always follow local laws and regulations.
-                </p>
-              </div>
-            </div>
+        {/* Disclaimer */}
+        <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg p-4 mb-8">
+          <p className="text-yellow-100 text-sm text-center">
+            <span className="font-semibold">⚠️ Disclaimer:</span> This calculator is strictly for research purposes only. All peptides are sold for research use only and are not intended for human consumption. Always follow local laws and regulations.
+          </p>
+        </div>
+      </div>
 
       {/* Main Calculator Grid */}
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* LEFT SIDE - INPUTS */}
           <div className="space-y-6">
+            {/* Syringe Size - NEW */}
+            <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Syringe className="w-5 h-5 text-red-600" />
+                <label className="text-amber-50 font-semibold">Syringe Size</label>
+                <Info className="w-4 h-4 text-stone-500" />
+              </div>
+              <Select value={syringeSize} onValueChange={setSyringeSize}>
+                <SelectTrigger className="bg-stone-800 border-stone-600 text-amber-50">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-stone-800 border-stone-600">
+                  {syringeSizeOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value} className="text-amber-50">
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-stone-500 text-xs mt-2">
+                Select the syringe size you'll use for administration
+              </p>
+            </div>
+
             {/* Dose */}
             <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-3">
@@ -300,206 +375,218 @@ www.reddirtresearch.com`;
               <div className="space-y-6">
                 {/* Results Cards */}
                 <div className="space-y-5">
-                {/* Draw Amount */}
-                <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
-                  <p className="text-stone-400 text-sm mb-2">Draw to</p>
-                  <p className="text-3xl font-bold text-red-600">{drawAmount} mL</p>
-                </div>
-
-                {/* Draw Units */}
-                <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
-                  <p className="text-stone-400 text-sm mb-2">Or draw to</p>
-                  <p className="text-3xl font-bold text-red-600">{drawUnits} units</p>
-                </div>
-
-                {/* Concentration */}
-                <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
-                  <p className="text-stone-400 text-sm mb-2">Concentration</p>
-                  <p className="text-3xl font-bold text-red-600">{concentration.toFixed(2)}</p>
-                  <p className="text-stone-500 text-sm mt-1">mg/mL</p>
-                </div>
-
-                {/* Doses in Vial */}
-                <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
-                  <p className="text-stone-400 text-sm mb-2">Doses in vial</p>
-                  <p className="text-3xl font-bold text-red-600">{dosesInVial}</p>
-                </div>
-
-                {drawAmount > currentWater && (
-                  <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-4 text-red-400 text-sm mt-6">
-                    ⚠️ Draw amount exceeds available volume. Adjust dose or water.
+                  {/* Draw Amount */}
+                  <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
+                    <p className="text-stone-400 text-sm mb-2">Draw to</p>
+                    <p className="text-3xl font-bold text-red-600">{drawAmount} mL</p>
                   </div>
-                )}
 
-                {/* Action Buttons */}
-                <div className="flex gap-3 mt-8 pt-6 border-t border-stone-700">
-                  <Button
-                    onClick={handleReset}
-                    variant="outline"
-                    className="flex-1 border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600"
+                  {/* Draw Units */}
+                  <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
+                    <p className="text-stone-400 text-sm mb-2">Or draw to</p>
+                    <p className="text-3xl font-bold text-red-600">{drawUnits} units</p>
+                    <p className="text-stone-500 text-xs mt-1">on {currentSyringeSize}mL syringe</p>
+                  </div>
+
+                  {/* Concentration */}
+                  <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
+                    <p className="text-stone-400 text-sm mb-2">Concentration</p>
+                    <p className="text-3xl font-bold text-red-600">{concentration.toFixed(2)}</p>
+                    <p className="text-stone-500 text-sm mt-1">mg/mL</p>
+                  </div>
+
+                  {/* Doses in Vial */}
+                  <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700">
+                    <p className="text-stone-400 text-sm mb-2">Doses in vial</p>
+                    <p className="text-3xl font-bold text-red-600">{dosesInVial}</p>
+                  </div>
+
+                  {/* Warning if draw exceeds water volume */}
+                  {parseFloat(drawAmount) > currentWater && (
+                    <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-4 text-red-400 text-sm mt-6">
+                      ⚠️ Draw amount exceeds available reconstituted volume. Adjust dose or add more water.
+                    </div>
+                  )}
+
+                  {/* Warning if draw exceeds syringe capacity */}
+                  {exceedsSyringeCapacity && (
+                    <div className="bg-yellow-600/20 border border-yellow-600/50 rounded-lg p-4 text-yellow-400 text-sm mt-6">
+                      ⚠️ Draw amount ({drawAmount} mL) exceeds your {currentSyringeSize}mL syringe capacity. Consider using a larger syringe or splitting into multiple draws.
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 mt-8 pt-6 border-t border-stone-700">
+                    <Button
+                      onClick={handleReset}
+                      variant="outline"
+                      className="flex-1 border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600"
+                    >
+                      <RotateCcw className="w-4 h-4 mr-2" />
+                      Reset
+                    </Button>
+                    <Button 
+                      onClick={handleDownload}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
+                    >
+                      Download Results
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Syringe Visualization */}
+      {isValid && (
+        <div className="max-w-6xl mx-auto px-4 mt-12">
+          <div className="bg-stone-800/50 rounded-lg p-6 border border-stone-700 overflow-x-auto">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-stone-400 text-sm font-semibold">
+                Syringe Markings ({currentSyringeSize}mL / {totalUnits} units)
+              </p>
+              <div className="flex items-center gap-2 text-xs text-stone-500">
+                <Syringe className="w-4 h-4" />
+                <span>{currentSyringeSize}mL syringe selected</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 1100 120" className="w-full h-40" style={{ minWidth: '900px' }}>
+              {/* Syringe barrel */}
+              <rect x="50" y="30" width="1000" height="60" rx="8" fill="none" stroke="currentColor" strokeWidth="3" className="text-red-600" />
+
+              {/* Fluid fill animation */}
+              <defs>
+                <linearGradient id="fluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(220, 38, 38, 0.5)" />
+                  <stop offset="50%" stopColor="rgba(239, 68, 68, 0.6)" />
+                  <stop offset="100%" stopColor="rgba(220, 38, 38, 0.7)" />
+                </linearGradient>
+                <filter id="fluidShadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+                </filter>
+              </defs>
+
+              {/* Fluid fill with wave effect */}
+              <motion.g>
+                {/* Main fluid body */}
+                <motion.rect
+                  x="50"
+                  y="30"
+                  width={Math.min(1000, (parseFloat(drawUnits) / totalUnits) * 1000)}
+                  height="60"
+                  rx="4"
+                  fill="url(#fluidGradient)"
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: Math.min(1000, (parseFloat(drawUnits) / totalUnits) * 1000), opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 80, damping: 20, duration: 1.2 }}
+                />
+                
+                {/* Shimmer effect */}
+                <motion.ellipse
+                  cx={50 + (parseFloat(drawUnits) / totalUnits) * 500}
+                  cy="40"
+                  rx="80"
+                  ry="15"
+                  fill="rgba(255, 255, 255, 0.15)"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 0.6, 0] }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                />
+              </motion.g>
+
+              {/* Major markings */}
+              {majorMarkings.map((units) => (
+                <g key={units}>
+                  <line
+                    x1={50 + (units / totalUnits) * 1000}
+                    y1="10"
+                    x2={50 + (units / totalUnits) * 1000}
+                    y2="25"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="text-red-600"
+                  />
+                  <text
+                    x={50 + (units / totalUnits) * 1000}
+                    y="8"
+                    textAnchor="middle"
+                    fontSize={currentSyringeSize === 3 ? "14" : "16"}
+                    fontWeight="700"
+                    fill="currentColor"
+                    className="text-red-600"
                   >
-                    <RotateCcw className="w-4 h-4 mr-2" />
-                    Reset
-                  </Button>
-                  <Button 
-                    onClick={handleDownload}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
-                  >
-                    Download Results
-                  </Button>
-                </div>
-                </div>
-                </div>
-                )}
-                </div>
-                </div>
-                </div>
+                    {units}
+                  </text>
+                </g>
+              ))}
 
-                {/* Syringe Visualization */}
-                {isValid && (
-                <div className="max-w-6xl mx-auto px-4 mt-12">
-                  <div className="bg-stone-800/50 rounded-lg p-6 border border-stone-700 overflow-x-auto">
-                    <p className="text-stone-400 text-sm mb-4 font-semibold">Syringe Markings (1mL)</p>
-                    <svg viewBox="0 0 1100 120" className="w-full h-40" style={{ minWidth: '900px' }}>
-                      {/* Syringe barrel */}
-                      <rect x="50" y="30" width="1000" height="60" rx="8" fill="none" stroke="currentColor" strokeWidth="3" className="text-red-600" />
+              {/* Minor markings */}
+              {minorMarkings.map((units) => (
+                <line
+                  key={`minor-${units}`}
+                  x1={50 + (units / totalUnits) * 1000}
+                  y1="15"
+                  x2={50 + (units / totalUnits) * 1000}
+                  y2="25"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="text-red-600"
+                />
+              ))}
 
-                      {/* Fluid fill animation */}
-                      <defs>
-                        <linearGradient id="fluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="rgba(220, 38, 38, 0.5)" />
-                          <stop offset="50%" stopColor="rgba(239, 68, 68, 0.6)" />
-                          <stop offset="100%" stopColor="rgba(220, 38, 38, 0.7)" />
-                        </linearGradient>
-                        <filter id="fluidShadow" x="-50%" y="-50%" width="200%" height="200%">
-                          <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-                        </filter>
-                      </defs>
+              {/* Current draw indicator */}
+              {parseFloat(drawUnits) <= totalUnits && (
+                <line
+                  x1={50 + (parseFloat(drawUnits) / totalUnits) * 1000}
+                  y1="30"
+                  x2={50 + (parseFloat(drawUnits) / totalUnits) * 1000}
+                  y2="90"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  className="text-amber-400"
+                  strokeDasharray="5,5"
+                />
+              )}
+            </svg>
+            <p className="text-center text-red-600 font-bold text-lg mt-4">
+              Draw to <span className="text-2xl">{drawUnits}</span> units ({drawAmount} mL) on your {currentSyringeSize}mL syringe
+            </p>
+          </div>
 
-                      {/* Fluid fill with wave effect */}
-                      <motion.g>
-                        {/* Main fluid body */}
-                        <motion.rect
-                          x="50"
-                          y="30"
-                          width={Math.min(1000, (drawUnits / 100) * 1000)}
-                          height="60"
-                          rx="4"
-                          fill="url(#fluidGradient)"
-                          initial={{ width: 0, opacity: 0 }}
-                          animate={{ width: Math.min(1000, (drawUnits / 100) * 1000), opacity: 1 }}
-                          transition={{ type: 'spring', stiffness: 80, damping: 20, duration: 1.2 }}
-                        />
-                        
-                        {/* Wave splash effect at top */}
-                        <motion.path
-                          d={`M 50 35 Q ${55 + (drawUnits / 100) * 1000 * 0.25} 20, ${100 + (drawUnits / 100) * 1000 * 0.5} 32 T ${Math.min(1050, 50 + (drawUnits / 100) * 1000)} 35`}
-                          fill="none"
-                          stroke="rgba(239, 68, 68, 0.8)"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          initial={{ opacity: 0, pathLength: 0 }}
-                          animate={{ opacity: 0, pathLength: 1 }}
-                          transition={{ delay: 0.4, duration: 0.6 }}
-                          filter="url(#fluidShadow)"
-                        />
+          {/* Reconstitution Steps */}
+          <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700 mt-6">
+            <p className="text-stone-400 text-sm font-semibold mb-3">Reconstitution Steps:</p>
+            <ol className="space-y-2 text-sm text-stone-300 list-decimal list-inside">
+              <li>Draw {currentWater} mL of bacteriostatic water into a syringe</li>
+              <li>Inject into the vial containing {currentStrength} mg peptide</li>
+              <li>Let the solution reconstitute for 5-10 minutes</li>
+              <li>Using your <span className="text-red-600 font-semibold">{currentSyringeSize}mL syringe</span>, draw {drawAmount} mL ({drawUnits} units) for your {currentDose} mg dose – <Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-red-600 hover:text-red-500 underline">Full Guide Here</Link></li>
+            </ol>
+          </div>
+        </div>
+      )}
 
-                        {/* Shimmer effect */}
-                        <motion.ellipse
-                          cx={50 + (drawUnits / 100) * 500}
-                          cy="40"
-                          rx="80"
-                          ry="15"
-                          fill="rgba(255, 255, 255, 0.15)"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: [0, 0.6, 0] }}
-                          transition={{ delay: 0.6, duration: 0.8 }}
-                        />
-                      </motion.g>
-
-                      {/* Major markings (every 10 units) */}
-                      {Array.from({ length: 11 }, (_, i) => i * 10).map((units) => (
-                        <g key={units}>
-                          <line
-                            x1={50 + (units / 100) * 1000}
-                            y1="10"
-                            x2={50 + (units / 100) * 1000}
-                            y2="25"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="text-red-600"
-                          />
-                          <text
-                            x={50 + (units / 100) * 1000}
-                            y="8"
-                            textAnchor="middle"
-                            fontSize="16"
-                            fontWeight="700"
-                            fill="currentColor"
-                            className="text-red-600"
-                          >
-                            {units}
-                          </text>
-                        </g>
-                      ))}
-
-                      {/* Minor markings (every 5 units) */}
-                      {Array.from({ length: 20 }, (_, i) => (i * 5)).filter(u => u % 10 !== 0).map((units) => (
-                        <line
-                          key={`minor-${units}`}
-                          x1={50 + (units / 100) * 1000}
-                          y1="15"
-                          x2={50 + (units / 100) * 1000}
-                          y2="25"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          className="text-red-600"
-                        />
-                      ))}
-
-                      {/* Current draw indicator */}
-                      <line
-                        x1={50 + (drawUnits / 100) * 1000}
-                        y1="30"
-                        x2={50 + (drawUnits / 100) * 1000}
-                        y2="90"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        className="text-amber-400"
-                        strokeDasharray="5,5"
-                      />
-                    </svg>
-                    <p className="text-center text-red-600 font-bold text-lg mt-4">Draw to <span className="text-2xl">{drawUnits}</span> units ({drawAmount} mL)</p>
-                  </div>
-
-                  {/* Reconstitution Steps */}
-                  <div className="bg-stone-800/50 rounded-lg p-5 border border-stone-700 mt-6">
-                    <p className="text-stone-400 text-sm font-semibold mb-3">Reconstitution Steps:</p>
-                    <ol className="space-y-2 text-sm text-stone-300 list-decimal list-inside">
-                      <li>Draw {currentWater} mL of bacteriostatic water into a syringe</li>
-                      <li>Inject into the vial containing {currentStrength} mg peptide</li>
-                      <li>Let the solution reconstitute for 5-10 minutes</li>
-                      <li>For your {currentDose} mg dose, draw {drawAmount} mL ({drawUnits} units) – <Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-red-600 hover:text-red-500 underline">Full Guide Here</Link></li>
-                    </ol>
-                  </div>
-                </div>
-                )}
-
-                {/* Footer Info */}
+      {/* Footer Info */}
       <div className="max-w-6xl mx-auto px-4 mt-16">
         <div className="bg-stone-900/30 border border-stone-700 rounded-lg p-8">
           <h3 className="text-xl font-bold text-amber-50 mb-4">How to use</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-stone-400 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-stone-400 text-sm">
             <div>
-              <p className="font-semibold text-amber-50 mb-2">1. Set your dose</p>
+              <p className="font-semibold text-amber-50 mb-2">1. Select syringe size</p>
+              <p>Choose the syringe you'll use (1mL, 2mL, or 3mL).</p>
+            </div>
+            <div>
+              <p className="font-semibold text-amber-50 mb-2">2. Set your dose</p>
               <p>The amount of peptide you want to administer in milligrams.</p>
             </div>
             <div>
-              <p className="font-semibold text-amber-50 mb-2">2. Enter peptide strength</p>
+              <p className="font-semibold text-amber-50 mb-2">3. Enter peptide strength</p>
               <p>Total milligrams in your vial from the manufacturer.</p>
             </div>
             <div>
-              <p className="font-semibold text-amber-50 mb-2">3. Choose water volume</p>
+              <p className="font-semibold text-amber-50 mb-2">4. Choose water volume</p>
               <p>The mL of bacteriostatic water you're using for reconstitution.</p>
             </div>
           </div>
