@@ -10,8 +10,8 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 
 const SourcesBubble = ({ productName }) => {
-  // Hide research for GLOW and BAC RESEARCH
-  if (productName.toUpperCase() === 'GLOW' || productName.toUpperCase() === 'BAC RESEARCH') {
+  // Hide research for GLOW only
+  if (productName.toUpperCase() === 'GLOW') {
     return null;
   }
 
@@ -45,7 +45,8 @@ export default function LearnMore() {
     // Deduplicate by name, keeping the most recent version
     const productMap = new Map();
     products.forEach(product => {
-      if (product.name.toUpperCase() === 'GLOW' || product.name.toUpperCase() === 'BAC RESEARCH') {
+      // Only exclude GLOW, keep BAC RESEARCH
+      if (product.name.toUpperCase() === 'GLOW') {
         return;
       }
       if (!productMap.has(product.name) || 
