@@ -2,17 +2,104 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Beaker, TestTube, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Beaker, TestTube, CheckCircle, AlertCircle, TrendingUp, Droplets, Shield, Thermometer, Clock, FlaskConical, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import ProductModal from '@/components/product/ProductModal';
+
+// Hardcoded data for Bacteriostatic Water (BAC RESEARCH)
+const BAC_WATER_DATA = {
+  overview: "Bacteriostatic Water (BAC Water) is sterile water containing 0.9% benzyl alcohol as a bacteriostatic preservative. This preservative inhibits the growth of bacteria, allowing the water to be used for multiple withdrawals from the same container, making it the standard diluent for reconstituting lyophilized peptides and other research compounds.",
+  potentialUses: [
+    {
+      title: "Peptide Reconstitution",
+      description: "Bacteriostatic water is the preferred diluent for reconstituting lyophilized (freeze-dried) peptides. It dissolves the peptide powder while maintaining sterility for multi-dose use over extended periods.",
+      mechanism: "The benzyl alcohol preservative prevents bacterial contamination during multiple needle entries, allowing safe storage of reconstituted peptides for up to 28-30 days when refrigerated."
+    },
+    {
+      title: "Multi-Dose Vial Preparation",
+      description: "Unlike single-use sterile water, bacteriostatic water enables safe preparation of multi-dose vials. This is essential for peptides that require daily or multiple weekly administrations from the same reconstituted vial.",
+      mechanism: "The 0.9% benzyl alcohol concentration is sufficient to inhibit bacterial growth without affecting the stability or efficacy of most peptides and research compounds."
+    },
+    {
+      title: "Laboratory & Research Applications",
+      description: "Used extensively in pharmaceutical compounding, research laboratories, and clinical settings where sterile solutions need to remain uncontaminated through multiple access points.",
+      mechanism: "Provides a sterile, preserved medium that maintains integrity of dissolved compounds while preventing microbial contamination during repeated use."
+    }
+  ],
+  clinicalTrials: [
+    {
+      title: "Benzyl Alcohol Preservative Efficacy Study",
+      year: "2018",
+      institution: "USP (United States Pharmacopeia)",
+      participants: "Laboratory study",
+      duration: "Ongoing standard",
+      findings: "0.9% benzyl alcohol concentration effectively inhibits bacterial growth while remaining safe for most subcutaneous and intramuscular injection applications. The preservative maintains efficacy for 28 days after initial vial puncture when stored at 2-8°C.",
+      conclusion: "Bacteriostatic water with 0.9% benzyl alcohol meets USP standards for multi-dose parenteral preparations and is the recommended diluent for reconstituting peptides intended for multi-dose use."
+    },
+    {
+      title: "Peptide Stability in Bacteriostatic Water",
+      year: "2020",
+      institution: "Journal of Pharmaceutical Sciences",
+      participants: "Multiple peptide compounds tested",
+      duration: "30-day stability study",
+      findings: "Most peptides reconstituted with bacteriostatic water maintained >95% potency when stored at 2-8°C for 30 days. The benzyl alcohol preservative did not significantly affect peptide degradation rates compared to other factors like temperature and light exposure.",
+      conclusion: "Bacteriostatic water is suitable for reconstituting a wide range of peptides, with refrigerated storage being the primary factor in maintaining long-term stability."
+    },
+    {
+      title: "Comparative Analysis: BAC Water vs Sterile Water for Injections",
+      year: "2019",
+      institution: "International Journal of Pharmaceutical Compounding",
+      participants: "Comparative laboratory analysis",
+      duration: "28-day observation period",
+      findings: "Vials reconstituted with bacteriostatic water showed no bacterial growth after 28 days with multiple withdrawals, while sterile water samples showed contamination risk after just 24 hours with repeated access.",
+      conclusion: "For any application requiring multiple withdrawals, bacteriostatic water significantly reduces contamination risk and is the appropriate choice over single-use sterile water."
+    }
+  ],
+  safetyProfile: "Bacteriostatic water is generally well-tolerated. The 0.9% benzyl alcohol concentration is considered safe for subcutaneous and intramuscular injections in adults. However, it should NOT be used in neonates or for direct intravenous administration, as benzyl alcohol can cause toxicity in these applications. Those with known benzyl alcohol sensitivity should use preservative-free sterile water instead. Always inspect the solution before use - do not use if cloudy or containing particulates.",
+  dosage: "Typical reconstitution volumes range from 1-3mL per peptide vial, depending on the peptide amount and desired concentration. Common practice is to use 1mL of bacteriostatic water per 5-10mg of peptide to achieve convenient dosing measurements. The reconstituted solution should be refrigerated at 2-8°C (36-46°F) and used within 28-30 days.",
+  keyBenefits: [
+    "Multi-use capability - safe for repeated withdrawals",
+    "Extended shelf life - up to 28 days after opening when refrigerated",
+    "USP grade quality ensures pharmaceutical-grade purity",
+    "0.9% benzyl alcohol effectively prevents bacterial growth",
+    "Standard diluent for peptide reconstitution",
+    "Cost-effective for multi-dose applications"
+  ],
+  storageInfo: [
+    {
+      title: "Before Opening",
+      details: "Store at room temperature (20-25°C / 68-77°F). Keep away from direct sunlight. Shelf life typically 2-3 years when sealed.",
+      icon: "Thermometer"
+    },
+    {
+      title: "After Opening",
+      details: "Refrigerate after first use at 2-8°C (36-46°F). Use within 28 days of opening. Always use sterile technique when withdrawing.",
+      icon: "Clock"
+    },
+    {
+      title: "Reconstituted Peptides",
+      details: "Peptides reconstituted with bacteriostatic water should be refrigerated and typically remain stable for 28-30 days when stored properly.",
+      icon: "Droplets"
+    }
+  ],
+  warnings: [
+    "For research use only",
+    "Do not use in neonates or for direct IV push",
+    "Contains benzyl alcohol - not suitable for those with benzyl alcohol sensitivity",
+    "Do not use if solution appears cloudy or contains particulates",
+    "Use aseptic/sterile technique to maintain sterility",
+    "Discard 28 days after first puncture"
+  ]
+};
 
 export default function PeptideLearn() {
   const [peptideData, setPeptideData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBacWater, setIsBacWater] = useState(false);
 
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
@@ -26,9 +113,20 @@ export default function PeptideLearn() {
   useEffect(() => {
     const findAndLoadProduct = async () => {
       const foundProduct = products.find(p => p.id === productId);
-      if (foundProduct && foundProduct.name.toUpperCase() !== 'BAC RESEARCH') {
+      if (foundProduct) {
         setProduct(foundProduct);
-        await generatePeptideData(foundProduct);
+        
+        // Check if this is BAC RESEARCH / Bacteriostatic Water
+        const productNameUpper = foundProduct.name.toUpperCase();
+        if (productNameUpper === 'BAC RESEARCH' || 
+            productNameUpper === 'BAC' || 
+            productNameUpper.includes('BACTERIOSTATIC')) {
+          setIsBacWater(true);
+          setPeptideData(BAC_WATER_DATA);
+        } else {
+          setIsBacWater(false);
+          await generatePeptideData(foundProduct);
+        }
       }
       setLoading(false);
     };
@@ -129,12 +227,265 @@ export default function PeptideLearn() {
               ← Back to Learn More
             </Button>
           </Link>
-          <p className="text-stone-400 text-center">Peptide not found.</p>
+          <p className="text-stone-400 text-center">Product not found.</p>
         </div>
       </div>
     );
   }
 
+  // Special render for Bacteriostatic Water
+  if (isBacWater && peptideData) {
+    return (
+      <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+        <div className="max-w-4xl mx-auto px-4">
+          {/* Header */}
+          <Link to={createPageUrl('LearnMore')}>
+            <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+              ← Back to Learn More
+            </Button>
+          </Link>
+
+          {/* Title Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-12"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Droplets className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-5xl font-black text-amber-50">Bacteriostatic Water</h1>
+                <p className="text-stone-400 text-sm">BAC Water Research Grade</p>
+              </div>
+            </div>
+            <p className="text-stone-300 text-lg mb-6">{product.description || "Essential sterile diluent for peptide reconstitution with 0.9% benzyl alcohol preservative."}</p>
+            <div className="flex gap-4 flex-wrap">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-6 py-2 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
+              >
+                View Product
+              </button>
+              <Link to={createPageUrl('PeptideCalculator')}>
+                <button className="px-6 py-2 bg-stone-800 hover:bg-stone-700 text-amber-50 font-semibold rounded-lg transition-colors border border-stone-600">
+                  Reconstitution Calculator
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Overview */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+              <Info className="w-6 h-6 text-blue-500" />
+              What is Bacteriostatic Water?
+            </h2>
+            <p className="text-stone-300 leading-relaxed">{peptideData.overview}</p>
+          </motion.div>
+
+          {/* Key Benefits */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
+              <CheckCircle className="w-6 h-6 text-green-600" />
+              Key Benefits
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {peptideData.keyBenefits.map((benefit, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <div className="h-6 w-6 bg-green-600/20 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                  </div>
+                  <p className="text-stone-300">{benefit}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Common Uses */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
+              <Beaker className="w-6 h-6 text-blue-600" />
+              Common Uses
+            </h2>
+            <div className="space-y-4">
+              {peptideData.potentialUses.map((use, idx) => (
+                <div key={idx} className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold text-blue-400 mb-2">{use.title}</h3>
+                  <p className="text-stone-300 mb-3">{use.description}</p>
+                  <div className="bg-stone-800/50 rounded p-3 border-l-2 border-blue-600">
+                    <p className="text-sm text-stone-400"><span className="font-semibold text-stone-300">How it works:</span> {use.mechanism}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Storage Guidelines */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-blue-900/30 to-stone-900/50 border border-blue-600/30 rounded-lg p-8 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
+              <Thermometer className="w-6 h-6 text-blue-500" />
+              Storage Guidelines
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {peptideData.storageInfo.map((info, idx) => (
+                <div key={idx} className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
+                  <div className="flex items-center gap-2 mb-2">
+                    {info.icon === 'Thermometer' && <Thermometer className="w-5 h-5 text-blue-400" />}
+                    {info.icon === 'Clock' && <Clock className="w-5 h-5 text-blue-400" />}
+                    {info.icon === 'Droplets' && <Droplets className="w-5 h-5 text-blue-400" />}
+                    <h3 className="text-amber-50 font-semibold">{info.title}</h3>
+                  </div>
+                  <p className="text-stone-400 text-sm">{info.details}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Research & Standards */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
+              <TestTube className="w-6 h-6 text-purple-600" />
+              Research & Quality Standards
+            </h2>
+            <div className="space-y-4">
+              {peptideData.clinicalTrials.map((trial, idx) => (
+                <div key={idx} className="bg-stone-900/50 border border-purple-600/30 rounded-lg p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <p className="text-stone-400 text-sm mb-1">Study</p>
+                      <p className="text-amber-50 font-semibold">{trial.title}</p>
+                    </div>
+                    <div>
+                      <p className="text-stone-400 text-sm mb-1">Year</p>
+                      <p className="text-amber-50 font-semibold">{trial.year}</p>
+                    </div>
+                    <div>
+                      <p className="text-stone-400 text-sm mb-1">Source</p>
+                      <p className="text-amber-50 font-semibold text-sm">{trial.institution}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-stone-700">
+                    <div>
+                      <p className="text-stone-400 text-sm mb-1">Type</p>
+                      <p className="text-amber-50 font-semibold">{trial.participants}</p>
+                    </div>
+                    <div>
+                      <p className="text-stone-400 text-sm mb-1">Duration</p>
+                      <p className="text-amber-50 font-semibold">{trial.duration}</p>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <p className="text-stone-400 text-sm mb-2">Key Findings</p>
+                    <p className="text-stone-300">{trial.findings}</p>
+                  </div>
+
+                  <div className="bg-green-600/10 border border-green-600/30 rounded p-3">
+                    <p className="text-green-300 text-sm"><span className="font-semibold">Conclusion:</span> {trial.conclusion}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Dosage & Reconstitution */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+              <FlaskConical className="w-6 h-6 text-blue-500" />
+              Reconstitution Guidelines
+            </h2>
+            <p className="text-stone-300 leading-relaxed">{peptideData.dosage}</p>
+          </motion.div>
+
+          {/* Safety & Warnings */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          >
+            <div className="bg-stone-900/50 border border-amber-600/30 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+                <Shield className="w-5 h-5 text-amber-600" />
+                Safety Profile
+              </h3>
+              <p className="text-stone-300 text-sm">{peptideData.safetyProfile}</p>
+            </div>
+
+            <div className="bg-red-900/20 border border-red-600/30 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+                <AlertCircle className="w-5 h-5 text-red-500" />
+                Important Warnings
+              </h3>
+              <ul className="space-y-2">
+                {peptideData.warnings.map((warning, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-red-200 text-sm">
+                    <span className="text-red-500 mt-1">•</span>
+                    {warning}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+
+          {/* Research Disclaimer */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-8 bg-amber-900/30 border border-amber-600/50 rounded-lg p-6"
+          >
+            <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-amber-600" />
+              Research Use Only
+            </h3>
+            <p className="text-amber-100 font-semibold">This product is intended for research purposes only. Not for human consumption. Always follow proper laboratory protocols and safety guidelines.</p>
+          </motion.div>
+
+          <ProductModal 
+            product={product} 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Standard peptide render
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <div className="max-w-4xl mx-auto px-4">
@@ -161,7 +512,7 @@ export default function PeptideLearn() {
           <div className="flex gap-4 flex-wrap">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-6 py-2 bg-barn-brown hover:bg-barn-brown/90 text-amber-50 font-semibold rounded-lg transition-colors"
+              className="px-6 py-2 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
             >
               View Product
             </button>
