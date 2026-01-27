@@ -1,61 +1,436 @@
-import About from './pages/About';
-import Account from './pages/Account';
-import AdminOrderManagement from './pages/AdminOrderManagement';
-import AdminPriceManagement from './pages/AdminPriceManagement';
-import AdminStockManagement from './pages/AdminStockManagement';
-import AdminSupport from './pages/AdminSupport';
-import COAReports from './pages/COAReports';
-import Cart from './pages/Cart';
-import Contact from './pages/Contact';
-import CryptoCheckout from './pages/CryptoCheckout';
-import CustomerInfo from './pages/CustomerInfo';
-import GrayMarketInsights from './pages/GrayMarketInsights';
-import GroupBuy from './pages/GroupBuy';
-import Home from './pages/Home';
-import LearnMore from './pages/LearnMore';
-import Login from './pages/Login';
-import OrderTracking from './pages/OrderTracking';
-import PaymentCompleted from './pages/PaymentCompleted';
-import PeppyBot from './pages/PeppyBot';
-import PeptideCalculator from './pages/PeptideCalculator';
-import PeptideLearn from './pages/PeptideLearn';
-import PeptideReconstitution from './pages/PeptideReconstitution';
-import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
-import VoiceAssistant from './pages/VoiceAssistant';
-import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import __Layout from './Layout.jsx';
+import React, { useState, useEffect } from 'react';
+import { base44 } from '@/api/base44Client';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+import { Button } from '@/components/ui/button';
+import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History, Truck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import DashboardStats from '@/components/account/DashboardStats';
+import FavoritePeptides from '@/components/account/FavoritePeptides';
+import RecommendedPeptides from '@/components/account/RecommendedPeptides';
+import RecentActivity from '@/components/account/RecentActivity';
+import QuickCategories from '@/components/account/QuickCategories';
 
+export default function Account() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const navigate = useNavigate();
 
-export const PAGES = {
-    "About": About,
-    "Account": Account,
-    "AdminOrderManagement": AdminOrderManagement,
-    "AdminPriceManagement": AdminPriceManagement,
-    "AdminStockManagement": AdminStockManagement,
-    "AdminSupport": AdminSupport,
-    "COAReports": COAReports,
-    "Cart": Cart,
-    "Contact": Contact,
-    "CryptoCheckout": CryptoCheckout,
-    "CustomerInfo": CustomerInfo,
-    "GrayMarketInsights": GrayMarketInsights,
-    "GroupBuy": GroupBuy,
-    "Home": Home,
-    "LearnMore": LearnMore,
-    "Login": Login,
-    "OrderTracking": OrderTracking,
-    "PaymentCompleted": PaymentCompleted,
-    "PeppyBot": PeppyBot,
-    "PeptideCalculator": PeptideCalculator,
-    "PeptideLearn": PeptideLearn,
-    "PeptideReconstitution": PeptideReconstitution,
-    "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
-    "VoiceAssistant": VoiceAssistant,
-    "VoiceAssistantNav": VoiceAssistantNav,
+  const { data: orders = [] } = useQuery({
+    queryKey: ['orders'],
+    queryFn: () => base44.entities.Order.filter({ created_by: user?.email }),
+    enabled: !!user
+  });
+
+  const { data: preferences, refetch: refetchPreferences } = useQuery({
+    queryKey: ['userPreferences', user?.email],
+    queryFn: async () => {
+      const prefs = await base44.entities.UserPreference.filter({ created_by: user?.email });
+      if (prefs.length === 0) {
+        const newPref = await base44.entities.UserPreference.create({
+          favorite_products: [],
+          viewed_products: [],
+          preferred_categories: [],
+          search_history: []
+        });
+        return newPref;
+      }
+      return prefs[0];
+    },
+    enabled: !!user
+  });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const currentUser = await base44.auth.me();
+        if (!currentUser) {
+          navigate(createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(createPageUrl('Account')));
+          return;
+        }
+        setUser(currentUser);
+      } catch (err) {
+        // Redirect to our custom login page
+        navigate(createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(createPageUrl('Account')));
+        return;
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [navigate]);
+
+  const handleRemoveFavorite = async (productId) => {
+    if (!preferences) return;
+    const updatedFavorites = preferences.favorite_products.filter(id => id !== productId);
+    await base44.entities.UserPreference.update(preferences.id, {
+      favorite_products: updatedFavorites
+    });
+    refetchPreferences();
+  };
+
+  const handleLogout = () => {
+    // ✅ FIXED: Let Base44 SDK handle logout properly
+    // Do NOT clear localStorage/sessionStorage - the SDK manages token cleanup internally
+    // Clearing storage before logout breaks the SDK's ability to properly clean up
+    // and removes important app configuration like appId
+    base44.auth.logout(createPageUrl('Home'));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
+        <p className="text-stone-400">Loading...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <div className="min-h-screen bg-stone-950 pt-24 pb-20">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Back Button */}
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8 transition-colors">
+          <Home className="w-4 h-4" />
+          Back to Shop
+        </Link>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-24"
+            >
+              <div className="flex flex-col items-center text-center mb-6 pb-6 border-b border-stone-700">
+                <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center mb-4">
+                  <User className="w-8 h-8 text-amber-50" />
+                </div>
+                <h3 className="text-amber-50 font-bold text-lg">{user.full_name || 'User'}</h3>
+                <p className="text-stone-400 text-xs mt-1">{user.email}</p>
+              </div>
+
+              <nav className="space-y-2 mb-8">
+                <button
+                  onClick={() => setActiveTab('dashboard')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'dashboard'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Dashboard</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('favorites')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'favorites'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <Heart className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Favorites</span>
+                  {preferences?.favorite_products?.length > 0 && (
+                    <span className="ml-auto text-xs px-2 py-0.5 bg-red-600/30 text-red-400 rounded-full">
+                      {preferences.favorite_products.length}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('recommendations')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'recommendations'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Recommended</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('activity')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'activity'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <History className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Activity</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('orders')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'orders'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <Package className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Orders</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('settings')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'settings'
+                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
+                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                  }`}
+                >
+                  <Settings className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Settings</span>
+                </button>
+              </nav>
+
+              <Button
+                onClick={handleLogout}
+                className="w-full bg-red-600 hover:bg-red-700 text-amber-50 gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              {activeTab === 'dashboard' && (
+                <div className="space-y-6">
+                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                    <h2 className="text-2xl font-black text-amber-50 mb-6">Research Dashboard</h2>
+                    <DashboardStats preferences={preferences} orders={orders} />
+                  </div>
+
+                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                    <h2 className="text-xl font-bold text-amber-50 mb-4">Quick Access Categories</h2>
+                    <QuickCategories preferences={preferences} />
+                  </div>
+
+                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                    <h2 className="text-xl font-bold text-amber-50 mb-4">Recommended For You</h2>
+                    <RecommendedPeptides preferences={preferences} orders={orders} />
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'favorites' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">My Favorite Peptides</h2>
+                  <FavoritePeptides preferences={preferences} onRemoveFavorite={handleRemoveFavorite} />
+                </div>
+              )}
+
+              {activeTab === 'recommendations' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Recommended For You</h2>
+                  <p className="text-stone-400 text-sm mb-6">Based on your browsing history and research interests</p>
+                  <RecommendedPeptides preferences={preferences} orders={orders} />
+                </div>
+              )}
+
+              {activeTab === 'activity' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Recent Activity</h2>
+                  <RecentActivity preferences={preferences} />
+                </div>
+              )}
+
+              {activeTab === 'orders' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Order History</h2>
+
+                  {orders.length === 0 ? (
+                    <div className="text-center py-16">
+                      <Package className="w-16 h-16 text-stone-600 mx-auto mb-4" />
+                      <p className="text-stone-400 mb-6 text-lg">No orders yet</p>
+                      <Link to={createPageUrl('Home')}>
+                        <Button className="bg-red-600 hover:bg-red-700">
+                          Start Shopping
+                        </Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {orders.map((order, idx) => {
+                        const getTrackingUrl = (trackingNum, carrierName) => {
+                          const carriers = {
+                            'ups': `https://www.ups.com/track?tracknum=${trackingNum}`,
+                            'fedex': `https://www.fedex.com/fedextrack/?tracknumbers=${trackingNum}`,
+                            'usps': `https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${trackingNum}`,
+                            'dhl': `https://www.dhl.com/en/express/tracking.html?AWB=${trackingNum}`,
+                          };
+                          
+                          const lowerCarrier = (carrierName || '').toLowerCase();
+                          return carriers[lowerCarrier] || `https://www.google.com/search?q=${trackingNum}+tracking`;
+                        };
+
+                        return (
+                          <motion.div
+                            key={order.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className="border border-stone-700 rounded-lg p-6 hover:border-red-600/50 hover:bg-stone-800/30 transition-all"
+                          >
+                            <div className="flex flex-col gap-4">
+                              {/* Order Header */}
+                              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                <div>
+                                  <p className="text-amber-50 font-black text-lg">Order #{order.order_number}</p>
+                                  <p className="text-stone-400 text-sm mt-1">
+                                    Placed {new Date(order.created_date).toLocaleDateString('en-US', { 
+                                      year: 'numeric', 
+                                      month: 'short', 
+                                      day: 'numeric' 
+                                    })}
+                                  </p>
+                                  {order.payment_method === 'cryptocurrency' && order.crypto_currency && (
+                                    <p className="text-stone-500 text-xs mt-1">
+                                      Paid with {order.crypto_currency}
+                                    </p>
+                                  )}
+                                </div>
+
+                                <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                                  <div className="text-right">
+                                    <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Total</p>
+                                    <p className="text-amber-50 font-black text-xl">${order.total_amount.toFixed(2)}</p>
+                                  </div>
+                                  <div className="h-px w-full md:w-px md:h-8 bg-stone-700"></div>
+                                  <div>
+                                    <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Status</p>
+                                    <p className="text-amber-50 font-bold capitalize">
+                                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                                        order.status === 'delivered' ? 'bg-green-600/20 text-green-400' :
+                                        order.status === 'shipped' ? 'bg-blue-600/20 text-blue-400' :
+                                        order.status === 'processing' ? 'bg-yellow-600/20 text-yellow-400' :
+                                        'bg-stone-700/50 text-stone-300'
+                                      }`}>
+                                        {order.status}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Tracking Information */}
+                              {order.tracking_number && (
+                                <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 mt-4">
+                                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                    <div>
+                                      <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Tracking Number</p>
+                                      <p className="text-amber-50 font-mono text-sm">{order.tracking_number}</p>
+                                      {order.carrier && (
+                                        <p className="text-stone-500 text-xs mt-1">via {order.carrier}</p>
+                                      )}
+                                    </div>
+                                    <a
+                                      href={getTrackingUrl(order.tracking_number, order.carrier)}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 px-4 py-2 bg-red-600/20 border border-red-600/50 rounded-lg text-red-400 hover:bg-red-600/30 hover:text-red-300 transition-colors text-sm font-semibold"
+                                    >
+                                      <Truck className="w-4 h-4" />
+                                      Track Package
+                                    </a>
+                                  </div>
+                                  
+                                  {order.estimated_delivery && (
+                                    <div className="mt-3 pt-3 border-t border-stone-700/50">
+                                      <p className="text-stone-400 text-xs">
+                                        Estimated Delivery: {new Date(order.estimated_delivery).toLocaleDateString('en-US', { 
+                                          year: 'numeric', 
+                                          month: 'short', 
+                                          day: 'numeric' 
+                                        })}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Order Items */}
+                              {order.items && order.items.length > 0 && (
+                                <div className="mt-4 pt-4 border-t border-stone-700/50">
+                                  <p className="text-stone-400 text-sm mb-2">{order.items.length} item{order.items.length !== 1 ? 's' : ''}:</p>
+                                  <div className="space-y-2">
+                                    {order.items.slice(0, 2).map((item, i) => (
+                                      <div key={i} className="flex justify-between items-center">
+                                        <div>
+                                          <p className="text-amber-50 text-sm font-semibold">{item.productName}</p>
+                                          <p className="text-stone-400 text-xs">{item.specification} × {item.quantity}</p>
+                                        </div>
+                                        <p className="text-red-400 font-semibold text-sm">${item.price}</p>
+                                      </div>
+                                    ))}
+                                    {order.items.length > 2 && (
+                                      <p className="text-stone-500 text-xs">+ {order.items.length - 2} more item{order.items.length - 2 !== 1 ? 's' : ''}</p>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'settings' && (
+                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
+                  <h2 className="text-2xl font-black text-amber-50 mb-6">Account Settings</h2>
+
+                  <div className="space-y-6">
+                    <div className="pb-6 border-b border-stone-700">
+                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Full Name</p>
+                      <p className="text-amber-50 text-lg font-semibold">{user.full_name || 'Not set'}</p>
+                    </div>
+
+                    <div className="pb-6 border-b border-stone-700">
+                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Email Address</p>
+                      <p className="text-amber-50 text-lg font-semibold">{user.email}</p>
+                    </div>
+
+                    <div className="pb-6">
+                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Account Type</p>
+                      <p className="text-amber-50 text-lg font-semibold capitalize">{user.role}</p>
+                    </div>
+
+                    <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 mt-8">
+                      <p className="text-stone-400 text-sm mb-4">Need to update your information?</p>
+                      <p className="text-stone-500 text-xs">Contact support at support@redditresearch.com</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export const pagesConfig = {
-    mainPage: "Home",
-    Pages: PAGES,
-    Layout: __Layout,
-};
