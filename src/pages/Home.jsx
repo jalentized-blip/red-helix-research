@@ -7,7 +7,7 @@ import ProductModal from '@/components/product/ProductModal';
 import AgeVerification from '@/components/AgeVerification';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
-import { Package, ClipboardList } from 'lucide-react';
+import { Package, ClipboardList, DollarSign } from 'lucide-react';
 
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
@@ -131,6 +131,11 @@ export default function Home() {
           <Link to={createPageUrl('AdminOrderManagement')}>
             <button className="fixed top-24 right-20 z-40 p-3 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-600/50 rounded-lg shadow-lg transition-all hover:scale-110">
               <ClipboardList className="w-5 h-5 text-blue-400" />
+            </button>
+          </Link>
+          <Link to={createPageUrl('AdminPriceManagement')}>
+            <button className="fixed top-24 right-34 z-40 p-3 bg-green-600/20 hover:bg-green-600/40 border border-green-600/50 rounded-lg shadow-lg transition-all hover:scale-110" style={{ right: '8.5rem' }}>
+              <DollarSign className="w-5 h-5 text-green-400" />
             </button>
           </Link>
         </>
