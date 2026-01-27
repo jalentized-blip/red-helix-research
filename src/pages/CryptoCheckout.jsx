@@ -107,6 +107,68 @@ export default function CryptoCheckout() {
     }, 100);
   };
 
+  const createConfirmedOrder = async (txId) => {
+    try {
+      // Get cart items from localStorage
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      if (cart.length === 0) return;
+
+      // Get user info if authenticated
+      let userEmail = null;
+      try {
+        const user = await base44.auth.me();
+        userEmail = user?.email;
+      } catch (error) {
+        // Not authenticated, use guest checkout
+      }
+
+      // Generate order number
+      const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
+      // Create the order
+      const order = await base44.entities.Order.create({
+        order_number: orderNumber,
+        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
+        customer_name: customerInfo?.name || 'Guest Customer',
+        items: cart,
+        subtotal: subtotal,
+        discount_amount: discount,
+        shipping_cost: SHIPPING_COST,
+        total_amount: finalTotal,
+        payment_method: 'cryptocurrency',
+        payment_status: 'completed',
+        transaction_id: txId,
+        crypto_currency: selectedCrypto,
+        crypto_amount: cryptoAmount,
+        crypto_address: paymentAddress,
+        status: 'processing',
+        shipping_address: customerInfo,
+        created_by: userEmail || 'guest@redhelix.com'
+      });
+
+      // Send admin notification about new order
+      await base44.entities.Notification.create({
+        type: 'new_order',
+        admin_email: 'admin@redhelix.com', // Replace with your admin email
+        customer_name: customerInfo?.name || 'Guest Customer',
+        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
+        order_id: order.id,
+        order_number: orderNumber,
+        total_amount: finalTotal,
+        message_preview: `New cryptocurrency order confirmed: ${orderNumber} ($${finalTotal.toFixed(2)}) - ${selectedCrypto}`,
+        order_link: `${createPageUrl('AdminOrderDetail')}?orderId=${order.id}`, // Link for admin to manage order
+        read: false
+      });
+
+      // Clear cart
+      localStorage.setItem('cart', '[]');
+      
+      console.log('Order created successfully:', orderNumber);
+    } catch (error) {
+      console.error('Failed to create order:', error);
+    }
+  };
+
   const handleCancelForm = () => {
     setFormApplied(false);
     setPaymentDetected(false);
@@ -140,6 +202,10 @@ export default function CryptoCheckout() {
           setPaymentDetected(true);
           if (result.confirmed && result.confirmations >= 1) {
             setPaymentCleared(true);
+            
+            // Create the order after blockchain confirmation
+            await createConfirmedOrder(result.transactionId);
+            
             setTimeout(() => {
               window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(result.transactionId)}`;
             }, 1500);
@@ -179,6 +245,10 @@ export default function CryptoCheckout() {
         if (result.valid && result.confirmed) {
           setPaymentCleared(true);
           setPaymentDetected(true);
+          
+          // Create the order after blockchain confirmation
+          await createConfirmedOrder(transactionId);
+          
           setTimeout(() => {
             window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
           }, 1500);
