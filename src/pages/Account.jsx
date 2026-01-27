@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History } from 'lucide-react';
+import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -273,55 +273,128 @@ export default function Account() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {orders.map((order, idx) => (
-                        <motion.div
-                          key={order.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className="border border-stone-700 rounded-lg p-6 hover:border-red-600/50 hover:bg-stone-800/30 transition-all"
-                        >
-                          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                            <div>
-                              <p className="text-amber-50 font-black text-lg">Order #{order.order_number}</p>
-                              <p className="text-stone-400 text-sm mt-1">
-                                Placed {new Date(order.created_date).toLocaleDateString('en-US', { 
-                                  year: 'numeric', 
-                                  month: 'short', 
-                                  day: 'numeric' 
-                                })}
-                              </p>
-                            </div>
+                      {orders.map((order, idx) => {
+                        const getTrackingUrl = (trackingNum, carrierName) => {
+                          const carriers = {
+                            'ups': `https://www.ups.com/track?tracknum=${trackingNum}`,
+                            'fedex': `https://www.fedex.com/fedextrack/?tracknumbers=${trackingNum}`,
+                            'usps': `https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${trackingNum}`,
+                            'dhl': `https://www.dhl.com/en/express/tracking.html?AWB=${trackingNum}`,
+                          };
+                          
+                          const lowerCarrier = (carrierName || '').toLowerCase();
+                          return carriers[lowerCarrier] || `https://www.google.com/search?q=${trackingNum}+tracking`;
+                        };
 
-                            <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                              <div className="text-right">
-                                <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Total</p>
-                                <p className="text-amber-50 font-black text-xl">${order.total_amount.toFixed(2)}</p>
-                              </div>
-                              <div className="h-px w-full md:w-px md:h-8 bg-stone-700"></div>
-                              <div>
-                                <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Status</p>
-                                <p className="text-amber-50 font-bold capitalize">
-                                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                                    order.status === 'delivered' ? 'bg-green-600/20 text-green-400' :
-                                    order.status === 'shipped' ? 'bg-blue-600/20 text-blue-400' :
-                                    order.status === 'processing' ? 'bg-yellow-600/20 text-yellow-400' :
-                                    'bg-stone-700/50 text-stone-300'
-                                  }`}>
-                                    {order.status}
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                        return (
+                          <motion.div
+                            key={order.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className="border border-stone-700 rounded-lg p-6 hover:border-red-600/50 hover:bg-stone-800/30 transition-all"
+                          >
+                            <div className="flex flex-col gap-4">
+                              {/* Order Header */}
+                              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                <div>
+                                  <p className="text-amber-50 font-black text-lg">Order #{order.order_number}</p>
+                                  <p className="text-stone-400 text-sm mt-1">
+                                    Placed {new Date(order.created_date).toLocaleDateString('en-US', { 
+                                      year: 'numeric', 
+                                      month: 'short', 
+                                      day: 'numeric' 
+                                    })}
+                                  </p>
+                                  {order.payment_method === 'cryptocurrency' && order.crypto_currency && (
+                                    <p className="text-stone-500 text-xs mt-1">
+                                      Paid with {order.crypto_currency}
+                                    </p>
+                                  )}
+                                </div>
 
-                          {order.items && order.items.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-stone-700/50 text-sm text-stone-400">
-                              {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                                <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                                  <div className="text-right">
+                                    <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Total</p>
+                                    <p className="text-amber-50 font-black text-xl">${order.total_amount.toFixed(2)}</p>
+                                  </div>
+                                  <div className="h-px w-full md:w-px md:h-8 bg-stone-700"></div>
+                                  <div>
+                                    <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Status</p>
+                                    <p className="text-amber-50 font-bold capitalize">
+                                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                                        order.status === 'delivered' ? 'bg-green-600/20 text-green-400' :
+                                        order.status === 'shipped' ? 'bg-blue-600/20 text-blue-400' :
+                                        order.status === 'processing' ? 'bg-yellow-600/20 text-yellow-400' :
+                                        'bg-stone-700/50 text-stone-300'
+                                      }`}>
+                                        {order.status}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Tracking Information */}
+                              {order.tracking_number && (
+                                <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 mt-4">
+                                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                    <div>
+                                      <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Tracking Number</p>
+                                      <p className="text-amber-50 font-mono text-sm">{order.tracking_number}</p>
+                                      {order.carrier && (
+                                        <p className="text-stone-500 text-xs mt-1">via {order.carrier}</p>
+                                      )}
+                                    </div>
+                                    <a
+                                      href={getTrackingUrl(order.tracking_number, order.carrier)}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 px-4 py-2 bg-red-600/20 border border-red-600/50 rounded-lg text-red-400 hover:bg-red-600/30 hover:text-red-300 transition-colors text-sm font-semibold"
+                                    >
+                                      <Truck className="w-4 h-4" />
+                                      Track Package
+                                    </a>
+                                  </div>
+                                  
+                                  {order.estimated_delivery && (
+                                    <div className="mt-3 pt-3 border-t border-stone-700/50">
+                                      <p className="text-stone-400 text-xs">
+                                        Estimated Delivery: {new Date(order.estimated_delivery).toLocaleDateString('en-US', { 
+                                          year: 'numeric', 
+                                          month: 'short', 
+                                          day: 'numeric' 
+                                        })}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Order Items */}
+                              {order.items && order.items.length > 0 && (
+                                <div className="mt-4 pt-4 border-t border-stone-700/50">
+                                  <p className="text-stone-400 text-sm mb-2">{order.items.length} item{order.items.length !== 1 ? 's' : ''}:</p>
+                                  <div className="space-y-2">
+                                    {order.items.slice(0, 2).map((item, i) => (
+                                      <div key={i} className="flex justify-between items-center">
+                                        <div>
+                                          <p className="text-amber-50 text-sm font-semibold">{item.productName}</p>
+                                          <p className="text-stone-400 text-xs">{item.specification} × {item.quantity}</p>
+                                        </div>
+                                        <p className="text-red-400 font-semibold text-sm">${item.price}</p>
+                                      </div>
+                                    ))}
+                                    {order.items.length > 2 && (
+                                      <p className="text-stone-500 text-xs">+ {order.items.length - 2} more item{order.items.length - 2 !== 1 ? 's' : ''}</p>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </motion.div>
-                      ))}
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
