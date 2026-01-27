@@ -71,7 +71,7 @@ export default function CryptoCheckout() {
   }, []);
 
   const cryptoAmount = exchangeRates ? (finalTotal / exchangeRates[selectedCrypto]).toFixed(8) : '0';
-  const paymentAddress = '1A1z7agoat2GPFH7g2oh3KfsTUxfzAXXXX'; // Placeholder address
+  const paymentAddress = '0x30eD305B89b6207A5fa907575B395c9189728EbC'; // Placeholder address
 
   // Calculate progress based on transaction stages
   let progress = 0;
