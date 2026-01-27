@@ -29,7 +29,7 @@ export default function CryptoCheckout() {
   });
   const progressRef = useRef(null);
 
-  const SHIPPING_COST = 15.00;
+  const SHIPPING_COST = 0.00;
   const subtotal = getCartTotal();
   const appliedPromo = getPromoCode();
   const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
