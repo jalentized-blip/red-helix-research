@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -39,7 +39,7 @@ export default function CryptoCheckout() {
     const fetchExchangeRates = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: 'Get the current exchange rates for BTC, ETH, USDT, and USDC in USD. For USDT and USDC return exactly 1.0 since they are stablecoins. Return ONLY a JSON object with keys "BTC", "ETH", "USDT", "USDC" and their current USD values as numbers.',
+          prompt: 'Get the current exchange rates for BTC, ETH, USDT, and USDC in USD. Return ONLY a JSON object with keys "BTC", "ETH", "USDT", "USDC" and their current USD values as numbers.',
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -59,8 +59,8 @@ export default function CryptoCheckout() {
         setExchangeRates({
           BTC: 42500,
           ETH: 2500,
-          USDT: 1.00,
-          USDC: 1.00,
+          USDT: 1,
+          USDC: 1,
         });
       } finally {
         setLoading(false);
@@ -70,18 +70,7 @@ export default function CryptoCheckout() {
     fetchExchangeRates();
   }, []);
 
-  // Calculate crypto amount with special handling for stablecoins
-  const cryptoAmount = useMemo(() => {
-    if (!exchangeRates) return '0';
-    
-    // For stablecoins (USDT, USDC), use 1:1 conversion with USD
-    if (selectedCrypto === 'USDT' || selectedCrypto === 'USDC') {
-      return finalTotal.toFixed(2); // 2 decimal places for stablecoins
-    }
-    
-    // For other cryptos, use exchange rate
-    return (finalTotal / exchangeRates[selectedCrypto]).toFixed(8);
-  }, [exchangeRates, selectedCrypto, finalTotal]);
+  const cryptoAmount = exchangeRates ? (finalTotal / exchangeRates[selectedCrypto]).toFixed(8) : '0';
   
   // Cryptocurrency-specific wallet addresses
   const walletAddresses = {
@@ -118,68 +107,6 @@ export default function CryptoCheckout() {
     }, 100);
   };
 
-  const createConfirmedOrder = async (txId) => {
-    try {
-      // Get cart items from localStorage
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      if (cart.length === 0) return;
-
-      // Get user info if authenticated
-      let userEmail = null;
-      try {
-        const user = await base44.auth.me();
-        userEmail = user?.email;
-      } catch (error) {
-        // Not authenticated, use guest checkout
-      }
-
-      // Generate order number
-      const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-
-      // Create the order
-      const order = await base44.entities.Order.create({
-        order_number: orderNumber,
-        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
-        customer_name: customerInfo?.name || 'Guest Customer',
-        items: cart,
-        subtotal: subtotal,
-        discount_amount: discount,
-        shipping_cost: SHIPPING_COST,
-        total_amount: finalTotal,
-        payment_method: 'cryptocurrency',
-        payment_status: 'completed',
-        transaction_id: txId,
-        crypto_currency: selectedCrypto,
-        crypto_amount: cryptoAmount,
-        crypto_address: paymentAddress,
-        status: 'processing',
-        shipping_address: customerInfo,
-        created_by: userEmail || 'guest@redhelix.com'
-      });
-
-      // Send admin notification about new order
-      await base44.entities.Notification.create({
-        type: 'new_order',
-        admin_email: 'admin@redhelix.com', // Replace with your admin email
-        customer_name: customerInfo?.name || 'Guest Customer',
-        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
-        order_id: order.id,
-        order_number: orderNumber,
-        total_amount: finalTotal,
-        message_preview: `New cryptocurrency order confirmed: ${orderNumber} ($${finalTotal.toFixed(2)}) - ${selectedCrypto}`,
-        order_link: `${createPageUrl('AdminOrderDetail')}?orderId=${order.id}`, // Link for admin to manage order
-        read: false
-      });
-
-      // Clear cart
-      localStorage.setItem('cart', '[]');
-      
-      console.log('Order created successfully:', orderNumber);
-    } catch (error) {
-      console.error('Failed to create order:', error);
-    }
-  };
-
   const handleCancelForm = () => {
     setFormApplied(false);
     setPaymentDetected(false);
@@ -193,7 +120,7 @@ export default function CryptoCheckout() {
     const pollWalletPayment = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Monitor ${selectedCrypto} wallet address "${walletAddress}" for incoming transactions. Check for transactions in the last 30 minutes with amount ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD). Return JSON with "paymentDetected" (boolean), "transactionId" (string or null), "amount" (number or null), "confirmed" (boolean), and "confirmations" (number or null).`,
+          prompt: `Monitor the ${selectedCrypto} wallet address "${walletAddress}" for incoming transactions. Check if any transaction has been received in the last 30 minutes with an amount equal to or greater than ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD). Return a JSON object with "paymentDetected" (boolean), "transactionId" (string or null), "amount" (number or null), "confirmed" (boolean), and "confirmations" (number or null). Only return true if amount matches and has at least 1 confirmation.`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -213,10 +140,6 @@ export default function CryptoCheckout() {
           setPaymentDetected(true);
           if (result.confirmed && result.confirmations >= 1) {
             setPaymentCleared(true);
-            
-            // Create the order after blockchain confirmation
-            await createConfirmedOrder(result.transactionId);
-            
             setTimeout(() => {
               window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(result.transactionId)}`;
             }, 1500);
@@ -239,7 +162,7 @@ export default function CryptoCheckout() {
     const pollTransactionId = async () => {
       try {
         const result = await base44.integrations.Core.InvokeLLM({
-          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals ${cryptoAmount} ${selectedCrypto}, 3) Has at least 1 confirmation. Return JSON with "valid" (boolean), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
+          prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals exactly ${cryptoAmount} ${selectedCrypto} (or ~${finalTotal.toFixed(2)} USD), 3) Has at least 1 confirmation. Return JSON with "valid" (boolean - true only if all 3 criteria met), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
           add_context_from_internet: true,
           response_json_schema: {
             type: 'object',
@@ -256,10 +179,6 @@ export default function CryptoCheckout() {
         if (result.valid && result.confirmed) {
           setPaymentCleared(true);
           setPaymentDetected(true);
-          
-          // Create the order after blockchain confirmation
-          await createConfirmedOrder(transactionId);
-          
           setTimeout(() => {
             window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
           }, 1500);
@@ -360,11 +279,6 @@ export default function CryptoCheckout() {
                 <p className="text-3xl font-black text-red-600 font-mono">{cryptoAmount}</p>
                 <p className="text-xs text-stone-500 mt-2">{selectedCrypto}</p>
                 <p className="text-xs text-stone-400 mt-1">≈ ${finalTotal.toFixed(2)} USD</p>
-                {(selectedCrypto === 'USDT' || selectedCrypto === 'USDC') && (
-                  <p className="text-xs text-green-400 mt-1">
-                    ✓ Stablecoin - amount matches USD value
-                  </p>
-                )}
               </div>
             </div>
 
@@ -391,11 +305,6 @@ export default function CryptoCheckout() {
               <p className="text-sm text-amber-600">
                 ⚠️ Send the exact amount from the address above. Incorrect amounts or addresses may result in lost funds.
               </p>
-              {(selectedCrypto === 'USDT' || selectedCrypto === 'USDC') && (
-                <p className="text-sm text-blue-400 mt-2">
-                  📝 Note: {selectedCrypto} should be sent on the Ethereum network (ERC-20). Do not use other networks like Tron or BSC.
-                </p>
-              )}
             </div>
           </motion.div>
 

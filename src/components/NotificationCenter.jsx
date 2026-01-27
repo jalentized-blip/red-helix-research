@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, X, MessageSquare, Package } from 'lucide-react';
+import { Bell, X, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -90,47 +90,17 @@ export default function NotificationCenter({ userEmail }) {
                   >
                     <div className="flex gap-3">
                       <div className="flex-shrink-0 mt-1">
-                        {notif.type === 'new_order' ? (
-                          <Package className="w-4 h-4 text-red-600" />
-                        ) : (
-                          <MessageSquare className="w-4 h-4 text-red-600" />
-                        )}
+                        <MessageSquare className="w-4 h-4 text-red-600" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium text-amber-50">
-                          {notif.type === 'new_order'
-                            ? 'New Order Received'
-                            : notif.type === 'new_session'
+                          {notif.type === 'new_session'
                             ? 'New chat session'
                             : 'New message'}
                         </div>
-                        {notif.type === 'new_order' && (
-                          <>
-                            <div className="text-xs text-stone-400 mt-1">
-                              Order #{notif.order_number} - ${notif.total_amount?.toFixed(2) || '0.00'}
-                            </div>
-                            <div className="text-xs text-stone-400">
-                              Customer: {notif.customer_name}
-                            </div>
-                            {notif.order_link && (
-                              <a
-                                href={`${window.location.origin}${notif.order_link}`}
-                                className="text-xs text-red-600 hover:text-red-500 font-medium inline-block mt-1"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  markAsRead(notif.id);
-                                }}
-                              >
-                                Manage Order →
-                              </a>
-                            )}
-                          </>
-                        )}
-                        {notif.type !== 'new_order' && (
-                          <div className="text-xs text-stone-400 mt-1">
-                            From {notif.customer_name}
-                          </div>
-                        )}
+                        <div className="text-xs text-stone-400 mt-1">
+                          From {notif.customer_name}
+                        </div>
                         {notif.message_preview && (
                           <div className="text-xs text-stone-400 mt-1 line-clamp-2">
                             {notif.message_preview}
