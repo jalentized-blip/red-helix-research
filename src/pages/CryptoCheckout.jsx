@@ -157,17 +157,19 @@ export default function CryptoCheckout() {
         created_by: userEmail || 'guest@redhelix.com'
       });
 
-      // Send admin notification about new order
+      // Send admin notification about blockchain confirmed order
       await base44.entities.Notification.create({
-        type: 'new_order',
-        admin_email: 'admin@redhelix.com', // Replace with your admin email
-        customer_name: customerInfo?.name || 'Guest Customer',
+        type: 'blockchain_confirmed',
+        admin_email: 'admin@redhelix.com',
+        customer_name: customerInfo?.name || customerInfo?.firstName + ' ' + customerInfo?.lastName || 'Guest Customer',
         customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
         order_id: order.id,
         order_number: orderNumber,
         total_amount: finalTotal,
-        message_preview: `New cryptocurrency order confirmed: ${orderNumber} ($${finalTotal.toFixed(2)}) - ${selectedCrypto}`,
-        order_link: `${createPageUrl('AdminOrderDetail')}?orderId=${order.id}`, // Link for admin to manage order
+        crypto_currency: selectedCrypto,
+        transaction_id: txId,
+        message_preview: `Blockchain confirmed: ${orderNumber} ($${finalTotal.toFixed(2)}) - ${selectedCrypto} - Needs tracking number`,
+        requires_tracking: true,
         read: false
       });
 
