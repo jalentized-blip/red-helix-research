@@ -298,7 +298,7 @@ If you cannot find either field, set it to null.`,
 
               <div>
                 <label className="block text-sm font-semibold text-amber-50 mb-3">
-                  Is this a COA for a Barn product? *
+                  Is this a COA for a Red Helix Research product? *
                 </label>
                 <div className="flex gap-3">
                   <button
