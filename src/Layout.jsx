@@ -458,7 +458,7 @@ const HeaderSearch = () => {
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 
-              src="https://i.ibb.co/GfSfXtWh/redhelixlogo.png"
+              src="https://i.ibb.co/M5CYvjkG/websitelogo.png"
               alt="Red Helix Research"
               className="h-40 w-auto object-contain"
               style={{ 
