@@ -71,7 +71,16 @@ export default function CryptoCheckout() {
   }, []);
 
   const cryptoAmount = exchangeRates ? (finalTotal / exchangeRates[selectedCrypto]).toFixed(8) : '0';
-  const paymentAddress = '0x30eD305B89b6207A5fa907575B395c9189728EbC'; // Placeholder address
+  
+  // Cryptocurrency-specific wallet addresses
+  const walletAddresses = {
+    BTC: '33QDmSuWizuiLr7aH5ZEDc6cn7dB4r11ZY',
+    ETH: '0x30eD305B89b6207A5fa907575B395c9189728EbC',
+    USDT: '0x30eD305B89b6207A5fa907575B395c9189728EbC',
+    USDC: '0x30eD305B89b6207A5fa907575B395c9189728EbC'
+  };
+  
+  const paymentAddress = walletAddresses[selectedCrypto];
 
   // Calculate progress based on transaction stages
   let progress = 0;
