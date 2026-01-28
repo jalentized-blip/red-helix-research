@@ -34,14 +34,14 @@ import { base44 } from '@/api/base44Client';
 
 // Supported wallet configurations
 const WALLET_CONFIGS = {
-  metamask: {
-    id: 'metamask',
-    name: 'MetaMask',
-    icon: '🦊',
-    color: '#F6851B',
-    deepLink: 'https://metamask.io/download/',
-    chains: ['ETH', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && window.ethereum?.isMetaMask,
+  kraken: {
+    id: 'kraken',
+    name: 'Kraken Wallet',
+    icon: '🐙',
+    color: '#5741D9',
+    deepLink: 'https://www.kraken.com/wallet/download',
+    chains: ['ETH', 'BTC', 'USDT', 'USDC'],
+    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isKraken || window.krakenwallet),
   },
   exodus: {
     id: 'exodus',
@@ -216,7 +216,7 @@ export default function CryptoCheckout() {
           detected.push({
             ...wallet,
             isInstalled,
-            isRecommended: wallet.id === 'metamask' || wallet.id === 'exodus',
+            isRecommended: wallet.id === 'kraken' || wallet.id === 'exodus',
           });
         }
       });
@@ -312,9 +312,10 @@ export default function CryptoCheckout() {
       if (typeof window === 'undefined') return null;
       
       let provider = null;
-      if (walletId === 'metamask') {
-        if (window.ethereum?.isMetaMask) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isMetaMask)) provider = window.ethereum.providers.find(p => p.isMetaMask);
+      if (walletId === 'kraken') {
+        if (window.krakenwallet) provider = window.krakenwallet;
+        else if (window.ethereum?.isKraken) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isKraken)) provider = window.ethereum.providers.find(p => p.isKraken);
       } else if (walletId === 'coinbase') {
         if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
         else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
