@@ -20,23 +20,40 @@ export default function NotificationCenter({ userEmail }) {
   const { data: notifications = [], refetch } = useQuery({
     queryKey: ['unread-notifications', userEmail],
     queryFn: async () => {
-      return await base44.entities.Notification.filter(
-        { admin_email: userEmail, read: false },
+      // Fetch notifications for this admin OR notifications sent to admin@redhelix.com
+      const adminNotifications = await base44.entities.Notification.filter(
+        { read: false },
         '-created_date',
-        20
+        50
+      );
+      // Filter for this user's email or the general admin email
+      return adminNotifications.filter(n =>
+        n.admin_email === userEmail ||
+        n.admin_email === 'admin@redhelix.com' ||
+        n.type === 'blockchain_confirmed'
       );
     },
+    refetchInterval: 5000, // Poll every 5 seconds for real-time updates
   });
 
   useEffect(() => {
+    // Subscribe to real-time notification updates
     const unsubscribe = base44.entities.Notification.subscribe((event) => {
-      if (event.data?.admin_email === userEmail) {
+      // Refetch on any notification event
+      if (event.type === 'create' || event.type === 'update') {
         refetch();
+        // Play notification sound for new blockchain confirmations
+        if (event.type === 'create' && event.data?.type === 'blockchain_confirmed') {
+          toast.success(`New order received: ${event.data?.order_number}`, {
+            description: 'Click the bell to add tracking number',
+            duration: 10000,
+          });
+        }
       }
     });
 
     return () => unsubscribe();
-  }, [userEmail, refetch]);
+  }, [refetch]);
 
   const markAsRead = async (notificationId) => {
     await base44.entities.Notification.update(notificationId, { read: true });
@@ -99,6 +116,58 @@ export default function NotificationCenter({ userEmail }) {
         status: 'shipped'
       }
     });
+
+    // Send tracking email notification to customer
+    try {
+      const trackingUrls = {
+        USPS: `https://tools.usps.com/go/TrackConfirmAction?tLabels=${trackingNumber}`,
+        UPS: `https://www.ups.com/track?tracknum=${trackingNumber}`,
+        FedEx: `https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}`,
+        DHL: `https://www.dhl.com/en/express/tracking.html?AWB=${trackingNumber}`
+      };
+
+      await base44.integrations.Core.SendEmail({
+        to: selectedOrder.customer_email,
+        subject: `Your Order Has Shipped! - ${selectedOrder.order_number} | Red Helix Research`,
+        body: `
+Hello ${selectedOrder.customer_name || 'Valued Customer'},
+
+Great news! Your order has been shipped and is on its way to you!
+
+ORDER DETAILS
+─────────────────────────────
+Order Number: ${selectedOrder.order_number}
+Status: SHIPPED
+
+TRACKING INFORMATION
+─────────────────────────────
+Carrier: ${carrier}
+Tracking Number: ${trackingNumber}
+
+Track your package: ${trackingUrls[carrier] || `Search "${trackingNumber}" on ${carrier}'s website`}
+
+SHIPPING ADDRESS
+─────────────────────────────
+${selectedOrder.shipping_address?.firstName || ''} ${selectedOrder.shipping_address?.lastName || ''}
+${selectedOrder.shipping_address?.shippingAddress || ''}
+${selectedOrder.shipping_address?.shippingCity || ''}, ${selectedOrder.shipping_address?.shippingState || ''} ${selectedOrder.shipping_address?.shippingZip || ''}
+
+You can also track your order on our website: ${window.location.origin}/OrderTracking
+
+Questions? Contact us on Discord: https://discord.gg/s78Jeajp
+
+Thank you for choosing Red Helix Research!
+
+Best regards,
+Red Helix Research Team
+        `.trim()
+      });
+      toast.success('Tracking email sent to customer');
+      console.log('Tracking email sent to:', selectedOrder.customer_email);
+    } catch (emailError) {
+      console.error('Failed to send tracking email:', emailError);
+      toast.error('Tracking updated but email failed to send');
+    }
 
     // Mark the notification as read and update requires_tracking
     if (selectedOrder.notification_id) {
