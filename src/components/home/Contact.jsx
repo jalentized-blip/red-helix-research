@@ -18,21 +18,21 @@ const contactMethods = [
     label: "Email",
     value: "Email us",
     color: "bg-red-700/20 text-red-600 hover:bg-red-700/30",
-    link: "mailto:reddirtresearch@gmail.com"
+    link: "mailto:jake@redhelixresearch.com"
   },
   {
     icon: DiscordIcon,
     label: "Discord",
     value: "Join our server",
     color: "bg-[#5865F2]/20 text-[#5865F2] hover:bg-[#5865F2]/30",
-    link: "https://discord.gg/s78Jeajp"
+    link: "https://discord.gg/zdn52v73"
   },
   {
     icon: Send,
     label: "Telegram",
     value: "Message us",
     color: "bg-[#0088cc]/20 text-[#0088cc] hover:bg-[#0088cc]/30",
-    link: "https://t.me/Reddirtresearch"
+    link: "t.me/Redhelixresearch"
   }
 ];
 
