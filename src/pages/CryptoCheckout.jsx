@@ -29,7 +29,7 @@ export default function CryptoCheckout() {
   });
   const progressRef = useRef(null);
 
-  const SHIPPING_COST = 0.00;
+  const SHIPPING_COST = 15.00;
   const subtotal = getCartTotal();
   const appliedPromo = getPromoCode();
   const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
@@ -133,25 +133,14 @@ export default function CryptoCheckout() {
         // Not authenticated, use guest checkout
       }
 
-      // Get customer email - prioritize user account, then customerInfo email
-      // Normalize email to lowercase for consistent lookups
-      const rawEmail = userEmail || customerInfo?.email || null;
-      const customerEmail = rawEmail ? rawEmail.toLowerCase().trim() : null;
-
-      // Build customer name from customerInfo
-      const customerName = customerInfo?.name ||
-        (customerInfo?.firstName && customerInfo?.lastName
-          ? `${customerInfo.firstName} ${customerInfo.lastName}`
-          : 'Guest Customer');
-
       // Generate order number
       const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-      // Create the order - use customer email for both fields so orders can be found by email
+      // Create the order
       const order = await base44.entities.Order.create({
         order_number: orderNumber,
-        customer_email: customerEmail,
-        customer_name: customerName,
+        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
+        customer_name: customerInfo?.name || 'Guest Customer',
         items: cart,
         subtotal: subtotal,
         discount_amount: discount,
@@ -165,15 +154,15 @@ export default function CryptoCheckout() {
         crypto_address: paymentAddress,
         status: 'processing',
         shipping_address: customerInfo,
-        created_by: customerEmail || userEmail || 'guest@redhelix.com'
+        created_by: userEmail || 'guest@redhelix.com'
       });
 
       // Send admin notification about blockchain confirmed order
       await base44.entities.Notification.create({
         type: 'blockchain_confirmed',
         admin_email: 'admin@redhelix.com',
-        customer_name: customerName,
-        customer_email: customerEmail,
+        customer_name: customerInfo?.name || customerInfo?.firstName + ' ' + customerInfo?.lastName || 'Guest Customer',
+        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
         order_id: order.id,
         order_number: orderNumber,
         total_amount: finalTotal,
@@ -183,55 +172,6 @@ export default function CryptoCheckout() {
         requires_tracking: true,
         read: false
       });
-
-      // Send confirmation email to customer
-      if (customerEmail) {
-        try {
-          await base44.integrations.Core.SendEmail({
-            to: customerEmail,
-            subject: `Order Confirmed - ${orderNumber} | Red Helix Research`,
-            body: `
-Hello ${customerName},
-
-Thank you for your order! Your payment has been confirmed on the blockchain.
-
-ORDER DETAILS
-─────────────────────────────
-Order Number: ${orderNumber}
-Status: Processing
-Payment Method: ${selectedCrypto}
-Transaction ID: ${txId}
-Total: $${finalTotal.toFixed(2)}
-
-ITEMS ORDERED
-─────────────────────────────
-${cart.map(item => `- ${item.productName} (${item.specification}) x${item.quantity} - $${item.price?.toFixed(2)}`).join('\n')}
-
-SHIPPING ADDRESS
-─────────────────────────────
-${customerInfo?.firstName || ''} ${customerInfo?.lastName || ''}
-${customerInfo?.shippingAddress || ''}
-${customerInfo?.shippingCity || ''}, ${customerInfo?.shippingState || ''} ${customerInfo?.shippingZip || ''}
-
-WHAT'S NEXT?
-─────────────────────────────
-Your tracking number will be provided within the next 48 hours. You'll receive another email once your order ships.
-
-Track your order anytime at: ${window.location.origin}/OrderTracking
-
-Questions? Contact us on Discord: https://discord.gg/s78Jeajp
-
-Thank you for choosing Red Helix Research!
-
-Best regards,
-Red Helix Research Team
-            `.trim()
-          });
-          console.log('Confirmation email sent to:', customerEmail);
-        } catch (emailError) {
-          console.error('Failed to send confirmation email:', emailError);
-        }
-      }
 
       // Clear cart
       localStorage.setItem('cart', '[]');

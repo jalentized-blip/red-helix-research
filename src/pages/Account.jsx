@@ -19,62 +19,10 @@ export default function Account() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
 
-  const { data: orders = [], refetch: refetchOrders } = useQuery({
-    queryKey: ['orders', user?.email],
-    queryFn: async () => {
-      if (!user?.email) return [];
-
-      const email = user.email.toLowerCase().trim();
-      let allOrders = [];
-
-      try {
-        // Fetch orders by created_by field
-        const ordersByCreator = await base44.entities.Order.filter(
-          { created_by: email },
-          '-created_date'
-        );
-        allOrders = [...allOrders, ...ordersByCreator];
-      } catch (e) {
-        console.error('Error fetching orders by created_by:', e);
-      }
-
-      try {
-        // Also fetch orders by customer_email in case it differs
-        const ordersByCustomerEmail = await base44.entities.Order.filter(
-          { customer_email: email },
-          '-created_date'
-        );
-        allOrders = [...allOrders, ...ordersByCustomerEmail];
-      } catch (e) {
-        console.error('Error fetching orders by customer_email:', e);
-      }
-
-      // Also try fetching all orders and filter client-side as backup
-      // This handles cases where field filters might not work as expected
-      try {
-        const recentOrders = await base44.entities.Order.list('-created_date', 100);
-        const matchingOrders = recentOrders.filter(order =>
-          order.created_by?.toLowerCase() === email ||
-          order.customer_email?.toLowerCase() === email
-        );
-        allOrders = [...allOrders, ...matchingOrders];
-      } catch (e) {
-        console.error('Error fetching recent orders:', e);
-      }
-
-      // Deduplicate orders by id
-      const uniqueOrders = allOrders.filter((order, index, self) =>
-        index === self.findIndex(o => o.id === order.id)
-      );
-
-      // Sort by created_date descending
-      return uniqueOrders.sort((a, b) =>
-        new Date(b.created_date) - new Date(a.created_date)
-      );
-    },
-    enabled: !!user,
-    refetchOnMount: true,
-    staleTime: 0
+  const { data: orders = [] } = useQuery({
+    queryKey: ['orders'],
+    queryFn: () => base44.entities.Order.filter({ created_by: user?.email }),
+    enabled: !!user
   });
 
   const { data: preferences, refetch: refetchPreferences } = useQuery({
