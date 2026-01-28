@@ -152,8 +152,12 @@ export default function WalletConnector({
       let provider = null;
       let accounts = [];
 
-      if (wallet.id === 'metamask' && window.ethereum?.isMetaMask) {
-        provider = window.ethereum;
+      if (wallet.id === 'metamask') {
+        if (window.ethereum?.isMetaMask) {
+          provider = window.ethereum;
+        } else if (window.ethereum) {
+          provider = window.ethereum;
+        }
       } else if (wallet.id === 'coinbase') {
         if (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension) {
           provider = window.ethereum;
@@ -162,8 +166,12 @@ export default function WalletConnector({
         }
       } else if (wallet.id === 'phantom' && window.phantom?.ethereum) {
         provider = window.phantom.ethereum;
-      } else if (wallet.id === 'trustwallet' && window.ethereum?.isTrust) {
-        provider = window.ethereum;
+      } else if (wallet.id === 'trustwallet') {
+        if (window.ethereum?.isTrust) {
+          provider = window.ethereum;
+        } else if (window.ethereum) {
+          provider = window.ethereum;
+        }
       } else if (wallet.id === 'walletconnect') {
         // WalletConnect would use its own modal - simplified here
         clearTimeout(timeout);
