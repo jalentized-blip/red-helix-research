@@ -253,7 +253,7 @@ export default function AdminStockManagement() {
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="bg-stone-900 border-stone-700">
-                              {product.specifications.map((spec) => (
+                              {product.specifications.filter(spec => spec.name && spec.name.trim() !== '').map((spec) => (
                                 <SelectItem 
                                   key={spec.name} 
                                   value={spec.name}
