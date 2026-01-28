@@ -100,6 +100,34 @@ export default function NotificationCenter({ userEmail }) {
       }
     });
 
+    // Send tracking email to customer
+    try {
+      await base44.integrations.Core.SendEmail({
+        from_name: 'Red Helix Research',
+        to: selectedOrder.customer_email,
+        subject: `Your Order Has Shipped - ${selectedOrder.order_number}`,
+        body: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #8B2635;">Your Order Has Shipped!</h2>
+            <p>Hi ${selectedOrder.customer_name},</p>
+            <p>Great news! Your order has been shipped and is on its way.</p>
+            
+            <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0;">Order #${selectedOrder.order_number}</h3>
+              <p><strong>Carrier:</strong> ${carrier}</p>
+              <p><strong>Tracking Number:</strong> ${trackingNumber}</p>
+            </div>
+
+            <p>You can track your package using the tracking number above on the ${carrier} website.</p>
+            
+            <p style="margin-top: 30px;">Questions? Contact us at <a href="mailto:reddirtresearch@gmail.com">reddirtresearch@gmail.com</a></p>
+          </div>
+        `
+      });
+    } catch (error) {
+      console.error('Failed to send tracking email:', error);
+    }
+
     // Mark the notification as read and update requires_tracking
     if (selectedOrder.notification_id) {
       await base44.entities.Notification.update(selectedOrder.notification_id, {
