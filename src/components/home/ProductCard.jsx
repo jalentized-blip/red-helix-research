@@ -31,6 +31,12 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
   const [isHovered, setIsHovered] = React.useState(false);
   const badge = product.badge ? badgeConfig[product.badge] : null;
   
+  // Filter out hidden specifications
+  const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
+  const lowestVisiblePrice = visibleSpecs.length > 0 
+    ? Math.min(...visibleSpecs.map(spec => spec.price))
+    : product.price_from;
+  
   // Use Red Dirt vial for all products except bacteriostatic water
   const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
                      product.name?.toLowerCase().includes('bac water');
@@ -116,7 +122,7 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
               {categoryLabels[product.category]}
             </span>
             <span className="text-lg font-bold text-amber-50">
-              From <span className="text-red-600">${product.price_from}</span>
+              From <span className="text-red-600">${lowestVisiblePrice}</span>
             </span>
           </div>
 
