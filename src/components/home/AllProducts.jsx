@@ -35,7 +35,8 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
       const isBacResearch = product.name.toUpperCase() === 'BAC RESEARCH';
-      return matchesCategory && matchesSearch && !isBacResearch;
+      const hasVisibleSpecs = product.specifications?.some(spec => !spec.hidden);
+      return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs;
     });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
