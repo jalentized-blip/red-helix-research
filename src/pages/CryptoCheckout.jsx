@@ -23,6 +23,9 @@ export default function CryptoCheckout() {
   const [submitting, setSubmitting] = useState(false);
   const [formApplied, setFormApplied] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [verificationError, setVerificationError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
+  const [manualVerifyLoading, setManualVerifyLoading] = useState(false);
   const [customerInfo] = useState(() => {
     const saved = localStorage.getItem('customerInfo');
     return saved ? JSON.parse(saved) : null;
@@ -280,6 +283,55 @@ export default function CryptoCheckout() {
     setFormApplied(false);
     setPaymentDetected(false);
     setPaymentCleared(false);
+    setVerificationError(null);
+    setRetryCount(0);
+  };
+
+  const handleManualVerify = async () => {
+    if (!transactionId) return;
+    
+    setManualVerifyLoading(true);
+    setVerificationError(null);
+    
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals ${cryptoAmount} ${selectedCrypto}, 3) Has at least 1 confirmation. Return JSON with "valid" (boolean), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
+        add_context_from_internet: true,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            valid: { type: 'boolean' },
+            confirmed: { type: 'boolean' },
+            amount: { type: ['number', 'null'] },
+            error: { type: ['string', 'null'] },
+          },
+          required: ['valid', 'confirmed', 'amount', 'error'],
+        },
+      });
+
+      if (result.valid && result.confirmed) {
+        setPaymentCleared(true);
+        setPaymentDetected(true);
+        
+        await createConfirmedOrder(transactionId);
+        
+        setTimeout(() => {
+          window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
+        }, 1500);
+      } else if (result.valid && !result.confirmed) {
+        setPaymentDetected(true);
+        setVerificationError('Transaction found but not yet confirmed. Please wait for blockchain confirmations and try again.');
+      } else if (result.error) {
+        setVerificationError(result.error);
+      } else {
+        setVerificationError('Transaction not found or invalid. Please check your transaction ID and try again.');
+      }
+    } catch (error) {
+      console.error('Manual verification error:', error);
+      setVerificationError('Verification failed. Please contact support with your transaction ID: ' + transactionId);
+    } finally {
+      setManualVerifyLoading(false);
+    }
   };
 
   // Auto-detect payment by monitoring wallet address for incoming transactions
@@ -288,6 +340,7 @@ export default function CryptoCheckout() {
 
     const pollWalletPayment = async () => {
       try {
+        setVerificationError(null);
         const result = await base44.integrations.Core.InvokeLLM({
           prompt: `Monitor ${selectedCrypto} wallet address "${walletAddress}" for incoming transactions. Check for transactions in the last 30 minutes with amount ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD). Return JSON with "paymentDetected" (boolean), "transactionId" (string or null), "amount" (number or null), "confirmed" (boolean), and "confirmations" (number or null).`,
           add_context_from_internet: true,
@@ -320,6 +373,8 @@ export default function CryptoCheckout() {
         }
       } catch (error) {
         console.error('Error monitoring wallet:', error);
+        setVerificationError('Verification service temporarily unavailable. Please enter your transaction ID manually.');
+        setRetryCount(prev => prev + 1);
       }
     };
 
@@ -334,6 +389,7 @@ export default function CryptoCheckout() {
 
     const pollTransactionId = async () => {
       try {
+        setVerificationError(null);
         const result = await base44.integrations.Core.InvokeLLM({
           prompt: `Verify cryptocurrency transaction ID "${transactionId}" on ${selectedCrypto} blockchain. Confirm: 1) Transaction exists, 2) Received amount equals ${cryptoAmount} ${selectedCrypto}, 3) Has at least 1 confirmation. Return JSON with "valid" (boolean), "confirmed" (boolean), "amount" (number or null), and "error" (string or null).`,
           add_context_from_internet: true,
@@ -359,11 +415,19 @@ export default function CryptoCheckout() {
           setTimeout(() => {
             window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${encodeURIComponent(transactionId)}`;
           }, 1500);
+        } else if (result.valid && !result.confirmed) {
+          setPaymentDetected(true);
+          setVerificationError('Transaction found but not yet confirmed. Waiting for blockchain confirmations...');
+        } else if (result.error) {
+          setVerificationError(result.error);
         } else if (result.amount && result.amount !== parseFloat(cryptoAmount)) {
           setPaymentDetected(true);
+          setVerificationError(`Amount mismatch: Expected ${cryptoAmount} ${selectedCrypto}, found ${result.amount} ${selectedCrypto}`);
         }
       } catch (error) {
         console.error('Error verifying transaction:', error);
+        setVerificationError('Verification service temporarily unavailable. Please try again or contact support.');
+        setRetryCount(prev => prev + 1);
       }
     };
 
@@ -568,36 +632,70 @@ export default function CryptoCheckout() {
               <p className="text-xs text-stone-500">Auto-verified against blockchain</p>
             </div>
 
-            <div className="flex gap-3">
-              {!formApplied && walletAddress && transactionId && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex gap-3 w-full"
-                >
-                  <Button
-                    onClick={handleApplyForm}
-                    className="flex-1 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
-                  >
-                    Apply
-                  </Button>
-                </motion.div>
+            <div className="space-y-3">
+              {verificationError && (
+                <div className="bg-amber-900/20 border border-amber-700/50 rounded-lg p-3">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs text-amber-600">{verificationError}</p>
+                      {retryCount > 3 && (
+                        <p className="text-xs text-stone-400 mt-2">
+                          Having issues? Contact support on <a href="https://discord.gg/s78Jeajp" target="_blank" className="underline hover:text-amber-400">Discord</a> with your transaction ID.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
               )}
-              {formApplied && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="w-full"
-                >
-                  <Button
-                    onClick={handleCancelForm}
-                    variant="outline"
-                    className="w-full border-stone-700 text-stone-300 hover:text-red-600"
+
+              <div className="flex gap-3">
+                {!formApplied && walletAddress && transactionId && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex gap-3 w-full"
                   >
-                    Cancel
-                  </Button>
-                </motion.div>
-              )}
+                    <Button
+                      onClick={handleApplyForm}
+                      className="flex-1 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
+                    >
+                      Apply
+                    </Button>
+                  </motion.div>
+                )}
+                {formApplied && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex gap-3 w-full"
+                  >
+                    <Button
+                      onClick={handleCancelForm}
+                      variant="outline"
+                      className="flex-1 border-stone-700 text-stone-300 hover:text-red-600"
+                    >
+                      Reset
+                    </Button>
+                    {transactionId && !paymentCleared && (
+                      <Button
+                        onClick={handleManualVerify}
+                        disabled={manualVerifyLoading}
+                        className="flex-1 bg-blue-700 hover:bg-blue-600 text-amber-50"
+                      >
+                        {manualVerifyLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Verifying...
+                          </>
+                        ) : (
+                          'Verify Now'
+                        )}
+                      </Button>
+                    )}
+                  </motion.div>
+                )}
+              </div>
             </div>
 
             <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
@@ -706,15 +804,25 @@ export default function CryptoCheckout() {
                   <span className="text-blue-600">✓</span> Transaction ID submitted
                 </p>
               )}
-              {paymentDetected && (
+              {paymentDetected && !paymentCleared && (
                 <p className="flex items-center gap-2">
-                  <span className="text-amber-600">⏳</span> Payment detected on blockchain - awaiting confirmations...
+                  <span className="text-amber-600">⏳</span> Payment detected - awaiting blockchain confirmations...
                 </p>
               )}
               {paymentCleared && (
                 <p className="flex items-center gap-2">
                   <span className="text-green-600">✓</span> Payment confirmed - processing order...
                 </p>
+              )}
+              {formApplied && !paymentDetected && retryCount > 2 && (
+                <div className="bg-blue-900/20 border border-blue-600/30 rounded p-3 mt-4">
+                  <p className="text-blue-400 font-semibold mb-2">Verification taking longer than expected?</p>
+                  <p className="text-stone-400">
+                    Click "Verify Now" to manually check your transaction, or contact support on{' '}
+                    <a href="https://discord.gg/s78Jeajp" target="_blank" className="underline hover:text-blue-300">Discord</a>{' '}
+                    with your transaction ID for assistance.
+                  </p>
+                </div>
               )}
             </div>
           </div>

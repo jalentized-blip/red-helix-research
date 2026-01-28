@@ -23,6 +23,7 @@ import OrderTracking from './pages/OrderTracking';
 import PaymentCompleted from './pages/PaymentCompleted';
 import Cart from './pages/Cart';
 import CryptoCheckout from './pages/CryptoCheckout';
+import AdminManualOrders from './pages/AdminManualOrders';
 import __Layout from './Layout.jsx';
 
 
@@ -52,6 +53,7 @@ export const PAGES = {
     "PaymentCompleted": PaymentCompleted,
     "Cart": Cart,
     "CryptoCheckout": CryptoCheckout,
+    "AdminManualOrders": AdminManualOrders,
 }
 
 export const pagesConfig = {
