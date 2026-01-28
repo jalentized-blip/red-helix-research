@@ -122,6 +122,56 @@ export default function WalletConnector({
     };
   }, [connectionTimeout]);
 
+  // Helper to find any available provider
+  const getAnyProvider = () => {
+    if (typeof window === 'undefined') return null;
+    if (window.ethereum) return window.ethereum;
+    if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+    if (window.phantom?.ethereum) return window.phantom.ethereum;
+    return null;
+  };
+
+  // Helper to find specific provider with retries
+  const findProvider = async (walletId) => {
+    const check = () => {
+      if (typeof window === 'undefined') return null;
+      
+      let provider = null;
+      if (walletId === 'metamask') {
+        if (window.ethereum?.isMetaMask) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isMetaMask)) provider = window.ethereum.providers.find(p => p.isMetaMask);
+      } else if (walletId === 'coinbase') {
+        if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
+        else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
+        else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
+      } else if (walletId === 'phantom') {
+        if (window.phantom?.ethereum) provider = window.phantom.ethereum;
+      } else if (walletId === 'trustwallet') {
+        if (window.ethereum?.isTrust) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isTrust)) provider = window.ethereum.providers.find(p => p.isTrust);
+      }
+      
+      return provider;
+    };
+
+    // Try immediately
+    let p = check();
+    if (p) return p;
+
+    // Retry for 1 second
+    for (let i = 0; i < 10; i++) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      p = check();
+      if (p) return p;
+    }
+    
+    // Fallback to generic window.ethereum
+    if (window.ethereum) return window.ethereum;
+    
+    // Last resort
+    return getAnyProvider();
+  };
+
   const connectWallet = useCallback(async (wallet) => {
     setSelectedWallet(wallet);
     setConnectionState(CONNECTION_STATE.CONNECTING);
@@ -152,28 +202,8 @@ export default function WalletConnector({
       let provider = null;
       let accounts = [];
 
-      if (wallet.id === 'metamask') {
-        if (window.ethereum?.isMetaMask) {
-          provider = window.ethereum;
-        } else if (window.ethereum) {
-          provider = window.ethereum;
-        }
-      } else if (wallet.id === 'coinbase') {
-        if (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension) {
-          provider = window.ethereum;
-        } else if (window.ethereum) {
-          provider = window.ethereum;
-        }
-      } else if (wallet.id === 'phantom' && window.phantom?.ethereum) {
-        provider = window.phantom.ethereum;
-      } else if (wallet.id === 'trustwallet') {
-        if (window.ethereum?.isTrust) {
-          provider = window.ethereum;
-        } else if (window.ethereum) {
-          provider = window.ethereum;
-        }
-      } else if (wallet.id === 'walletconnect') {
-        // WalletConnect would use its own modal - simplified here
+      // WalletConnect special case
+      if (wallet.id === 'walletconnect') {
         clearTimeout(timeout);
         setConnectionState(CONNECTION_STATE.CONNECTED);
         onWalletConnected({
@@ -184,6 +214,9 @@ export default function WalletConnector({
         });
         return;
       }
+
+      // Find provider with retry
+      provider = await findProvider(wallet.id);
 
       if (provider) {
         // Request account access

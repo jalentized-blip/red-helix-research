@@ -285,6 +285,27 @@ export default function CryptoCheckout() {
     fetchExchangeRate();
   }, [selectedCrypto, totalUSD]);
 
+  // Helper to find any available provider
+  const getAnyProvider = () => {
+    if (typeof window === 'undefined') return null;
+    
+    // Check for standard ethereum provider
+    if (window.ethereum) {
+      // If it's an array of providers (e.g. Coinbase + MetaMask both installed)
+      if (Array.isArray(window.ethereum.providers)) {
+        return window.ethereum; // The wallet selection logic usually handles this, or we just return the wrapper
+      }
+      return window.ethereum;
+    }
+    
+    // Check for specific injections
+    if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+    if (window.phantom?.ethereum) return window.phantom.ethereum;
+    if (window.solana) return window.solana; // Phantom often injects here too
+    
+    return null;
+  };
+
   // Connect wallet function
   const connectWallet = useCallback(async (wallet) => {
     setConnectionState('connecting');
@@ -300,55 +321,74 @@ export default function CryptoCheckout() {
 
       let provider = null;
 
+      // 1. Attempt to find specific provider first
       if (wallet.id === 'metamask') {
         if (window.ethereum?.isMetaMask) {
           provider = window.ethereum;
-        } else if (window.ethereum) {
-          provider = window.ethereum;
+        } else if (window.ethereum?.providers?.some(p => p.isMetaMask)) {
+          provider = window.ethereum.providers.find(p => p.isMetaMask);
         }
       } else if (wallet.id === 'coinbase') {
         if (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension) {
-          provider = window.ethereum;
-        } else if (window.ethereum) {
-          // Fallback to generic ethereum provider if specific flag is missing
-          provider = window.ethereum;
+          provider = window.ethereum || window.coinbaseWalletExtension;
+        } else if (window.ethereum?.providers?.some(p => p.isCoinbaseWallet)) {
+          provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
         }
-      } else if (wallet.id === 'phantom' && window.phantom?.ethereum) {
-        provider = window.phantom.ethereum;
+      } else if (wallet.id === 'phantom') {
+        if (window.phantom?.ethereum) {
+          provider = window.phantom.ethereum;
+        }
       } else if (wallet.id === 'trustwallet') {
         if (window.ethereum?.isTrust) {
           provider = window.ethereum;
-        } else if (window.ethereum) {
-          provider = window.ethereum;
+        } else if (window.ethereum?.providers?.some(p => p.isTrust)) {
+          provider = window.ethereum.providers.find(p => p.isTrust);
         }
       }
 
+      // 2. If no specific provider found, try generic window.ethereum fallback
+      if (!provider && window.ethereum) {
+        console.log('Falling back to generic window.ethereum');
+        provider = window.ethereum;
+      }
+
+      // 3. Last resort: check for any provider injection
+      if (!provider) {
+        provider = getAnyProvider();
+      }
+
       if (provider) {
-        const accounts = await provider.request({ method: 'eth_requestAccounts' });
+        try {
+          const accounts = await provider.request({ method: 'eth_requestAccounts' });
 
-        if (accounts && accounts.length > 0) {
-          const address = accounts[0];
-          setWalletAddress(address);
-          setConnectedWallet({ ...wallet, provider, address });
-          setStage(CHECKOUT_STAGE.PAYMENT);
-          setConnectionState('connected');
+          if (accounts && accounts.length > 0) {
+            const address = accounts[0];
+            setWalletAddress(address);
+            setConnectedWallet({ ...wallet, provider, address });
+            setStage(CHECKOUT_STAGE.PAYMENT);
+            setConnectionState('connected');
 
-          try {
-            const balanceHex = await provider.request({
-              method: 'eth_getBalance',
-              params: [address, 'latest'],
-            });
-            const balance = parseInt(balanceHex, 16) / 1e18;
-            setConnectedWallet(prev => ({ ...prev, balance }));
-          } catch (e) {
-            console.warn('Could not fetch balance');
+            try {
+              const balanceHex = await provider.request({
+                method: 'eth_getBalance',
+                params: [address, 'latest'],
+              });
+              const balance = parseInt(balanceHex, 16) / 1e18;
+              setConnectedWallet(prev => ({ ...prev, balance }));
+            } catch (e) {
+              console.warn('Could not fetch balance');
+            }
+          } else {
+            throw new Error('No accounts returned');
           }
-        } else {
-          throw new Error('No accounts returned');
+        } catch (reqError) {
+          // If the specific provider failed, maybe try the generic one again if it's different?
+          // But usually this means the user rejected the request.
+          throw reqError;
         }
       } else {
         setConnectionState('error');
-        setConnectionError(`${wallet.name} is not installed. Please install it first or use manual payment.`);
+        setConnectionError(`No wallet detected. Please install ${wallet.name} or use Manual Payment.`);
       }
     } catch (error) {
       setConnectionState('error');
@@ -724,6 +764,19 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
               <p className="text-xs text-red-400/70">{connectionError}</p>
             </div>
           </div>
+          
+          {availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink && (
+             <a 
+               href={availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink} 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="inline-flex items-center gap-2 text-xs text-red-400 hover:text-red-300 underline mt-2 mb-1"
+             >
+               <ExternalLink className="w-3 h-3" />
+               Install Extension
+             </a>
+          )}
+
           <div className="flex gap-4 mt-3">
             <button onClick={resetWalletConnection} className="text-xs text-red-400 hover:text-red-300 underline">Try again</button>
             <button onClick={() => connectWallet(WALLET_CONFIGS.manual)} className="text-xs text-amber-500 hover:text-amber-400 underline">Use Manual Payment</button>
