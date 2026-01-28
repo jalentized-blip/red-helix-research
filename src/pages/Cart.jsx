@@ -200,7 +200,7 @@ export default function Cart() {
                     </div>
                   )}
                   <div className="flex justify-between text-stone-300">
-                    <span>FedEx Shipping</span>
+                    <span>Shipping Fee</span>
                     <span>${SHIPPING_COST.toFixed(2)}</span>
                   </div>
                   <div className="border-t border-stone-700 pt-3 flex justify-between text-amber-50 font-bold text-lg">
