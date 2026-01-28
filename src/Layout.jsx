@@ -613,6 +613,10 @@ const HeaderSearch = () => {
                             <Mail className="w-4 h-4" />
                             Price Management
                           </Link>
+                          <Link to={createPageUrl('AdminStockManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                            <Package className="w-4 h-4" />
+                            Stock Management
+                          </Link>
                           <Link to={createPageUrl('AdminManualOrders')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
                             <Package className="w-4 h-4" />
                             Manual Orders

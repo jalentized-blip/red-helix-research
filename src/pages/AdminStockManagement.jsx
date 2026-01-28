@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Package, AlertCircle, CheckCircle, ArrowLeft, Save } from 'lucide-react';
+import { Package, AlertCircle, CheckCircle, ArrowLeft, Save, Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
@@ -64,7 +64,8 @@ export default function AdminStockManagement() {
         [productId]: {
           selectedSpec: product.specifications?.[0]?.name || null,
           stockQuantity: product.specifications?.[0]?.stock_quantity || 0,
-          inStock: product.specifications?.[0]?.in_stock !== false
+          inStock: product.specifications?.[0]?.in_stock !== false,
+          hidden: product.specifications?.[0]?.hidden || false
         }
       }));
     }
@@ -77,7 +78,8 @@ export default function AdminStockManagement() {
       [productId]: {
         selectedSpec: specName,
         stockQuantity: spec?.stock_quantity || 0,
-        inStock: spec?.in_stock !== false
+        inStock: spec?.in_stock !== false,
+        hidden: spec?.hidden || false
       }
     }));
   };
@@ -102,6 +104,16 @@ export default function AdminStockManagement() {
     }));
   };
 
+  const handleToggleHidden = (productId) => {
+    setEditingStates(prev => ({
+      ...prev,
+      [productId]: {
+        ...prev[productId],
+        hidden: !prev[productId].hidden
+      }
+    }));
+  };
+
   const handleApply = (product) => {
     const state = editingStates[product.id];
     if (!state || !state.selectedSpec) return;
@@ -111,7 +123,8 @@ export default function AdminStockManagement() {
         return {
           ...spec,
           stock_quantity: state.stockQuantity,
-          in_stock: state.inStock
+          in_stock: state.inStock,
+          hidden: state.hidden
         };
       }
       return spec;
@@ -227,7 +240,7 @@ export default function AdminStockManagement() {
 
                     {/* Stock Controls */}
                     {product.specifications && product.specifications.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                         <div className="md:col-span-1">
                           <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
                             Strength Option
@@ -288,6 +301,33 @@ export default function AdminStockManagement() {
                               <>
                                 <AlertCircle className="w-4 h-4 mr-2" />
                                 Out of Stock
+                              </>
+                            )}
+                          </Button>
+                        </div>
+
+                        <div className="md:col-span-1">
+                          <label className="text-stone-400 text-xs uppercase tracking-wide mb-2 block">
+                            Visibility
+                          </label>
+                          <Button
+                            onClick={() => handleToggleHidden(product.id)}
+                            variant="outline"
+                            className={`w-full ${
+                              state.hidden
+                                ? 'bg-stone-700/50 border-stone-600 text-stone-400 hover:bg-stone-700/70'
+                                : 'bg-blue-600/20 border-blue-600/50 text-blue-400 hover:bg-blue-600/30'
+                            }`}
+                          >
+                            {state.hidden ? (
+                              <>
+                                <EyeOff className="w-4 h-4 mr-2" />
+                                Hidden
+                              </>
+                            ) : (
+                              <>
+                                <Eye className="w-4 h-4 mr-2" />
+                                Visible
                               </>
                             )}
                           </Button>

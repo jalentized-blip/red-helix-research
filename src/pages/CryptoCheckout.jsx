@@ -736,7 +736,13 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             key={wallet.id}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            onClick={() => connectWallet(wallet)}
+            onClick={() => {
+              if (!wallet.isInstalled && wallet.deepLink) {
+                window.open(wallet.deepLink, '_blank');
+              } else {
+                connectWallet(wallet);
+              }
+            }}
             disabled={connectionState === 'connecting'}
             className={`w-full flex items-center gap-4 p-4 rounded-lg border transition-all ${wallet.isInstalled ? 'bg-stone-800/80 border-stone-600 hover:border-red-600/50' : 'bg-stone-800/40 border-stone-700/50 opacity-75 hover:opacity-100'} ${connectionState === 'connecting' ? 'opacity-50 cursor-wait' : ''}`}
           >
@@ -751,10 +757,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                 )}
               </div>
               <p className="text-xs text-stone-500">
-                {wallet.id === 'manual' ? 'Copy address and pay manually' : wallet.isInstalled ? 'Detected - Click to connect' : 'Not installed'}
+                {wallet.id === 'manual' ? 'Copy address and pay manually' : wallet.isInstalled ? 'Detected - Click to connect' : 'Click to download'}
               </p>
             </div>
-            {wallet.isInstalled && wallet.id !== 'manual' && <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />}
+            {wallet.isInstalled && wallet.id !== 'manual' ? (
+              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+            ) : !wallet.isInstalled && wallet.deepLink && wallet.id !== 'manual' ? (
+              <ExternalLink className="w-5 h-5 text-stone-500" />
+            ) : null}
           </motion.button>
         ))}
       </div>
