@@ -316,9 +316,73 @@ export default function Account() {
                           </div>
 
                           {order.items && order.items.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-stone-700/50 text-sm text-stone-400">
-                              {order.items.length} item{order.items.length !== 1 ? 's' : ''}
-                            </div>
+                           <div className="mt-4 pt-4 border-t border-stone-700/50">
+                             <p className="text-sm text-stone-400 mb-3">
+                               {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                             </p>
+
+                             {/* Tracking Information */}
+                             {order.tracking_number && (
+                               <div className="bg-blue-900/20 border border-blue-600/30 rounded-lg p-3 mb-3">
+                                 <p className="text-xs text-blue-400 font-semibold mb-1">Tracking Information</p>
+                                 <p className="text-sm text-amber-50 font-mono">{order.tracking_number}</p>
+                                 {order.carrier && (
+                                   <p className="text-xs text-stone-400 mt-1">Carrier: {order.carrier}</p>
+                                 )}
+                                 {order.estimated_delivery && (
+                                   <p className="text-xs text-stone-400">
+                                     Est. Delivery: {new Date(order.estimated_delivery).toLocaleDateString()}
+                                   </p>
+                                 )}
+                               </div>
+                             )}
+
+                             {/* Resend Confirmation Email */}
+                             <button
+                               onClick={async () => {
+                                 try {
+                                   await base44.integrations.Core.SendEmail({
+                                     from_name: 'Red Helix Research',
+                                     to: order.customer_email,
+                                     subject: `Order Confirmation - ${order.order_number}`,
+                                     body: `
+                                       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                                         <h2 style="color: #8B2635;">Order Confirmation</h2>
+                                         <p>Hi ${order.customer_name},</p>
+                                         <p>Here's a copy of your order confirmation:</p>
+
+                                         <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                           <h3 style="margin-top: 0;">Order #${order.order_number}</h3>
+                                           <p><strong>Total:</strong> $${order.total_amount.toFixed(2)}</p>
+                                           <p><strong>Status:</strong> ${order.status}</p>
+                                           ${order.tracking_number ? `
+                                             <p><strong>Tracking:</strong> ${order.tracking_number}</p>
+                                             <p><strong>Carrier:</strong> ${order.carrier || 'N/A'}</p>
+                                           ` : ''}
+                                         </div>
+
+                                         <h3>Order Items:</h3>
+                                         <ul>
+                                           ${order.items.map(item => `
+                                             <li>${item.productName} - ${item.specification} (Qty: ${item.quantity})</li>
+                                           `).join('')}
+                                         </ul>
+
+                                         <p style="margin-top: 30px;">Questions? Contact us at <a href="mailto:reddirtresearch@gmail.com">reddirtresearch@gmail.com</a></p>
+                                       </div>
+                                     `
+                                   });
+                                   alert('Confirmation email resent!');
+                                 } catch (error) {
+                                   console.error('Failed to resend email:', error);
+                                   alert('Failed to resend email. Please contact support.');
+                                 }
+                               }}
+                               className="text-xs text-red-600 hover:text-red-500 underline transition-colors"
+                             >
+                               Resend Confirmation Email
+                             </button>
+                           </div>
                           )}
                         </motion.div>
                       ))}

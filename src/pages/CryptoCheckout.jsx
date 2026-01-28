@@ -136,11 +136,40 @@ export default function CryptoCheckout() {
       // Generate order number
       const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
+      // Update stock for each product
+      const products = await base44.entities.Product.list();
+      for (const item of cart) {
+        const product = products.find(p => p.name === item.productName);
+        if (product) {
+          // Find the specific specification and decrease its stock
+          const updatedSpecs = product.specifications.map(spec => {
+            if (spec.name === item.specification) {
+              return {
+                ...spec,
+                stock_quantity: Math.max(0, (spec.stock_quantity || 0) - item.quantity),
+                in_stock: (spec.stock_quantity || 0) - item.quantity > 0
+              };
+            }
+            return spec;
+          });
+
+          // Update product stock status
+          const allOutOfStock = updatedSpecs.every(spec => !spec.in_stock);
+          
+          await base44.entities.Product.update(product.id, {
+            specifications: updatedSpecs,
+            in_stock: !allOutOfStock
+          });
+        }
+      }
+
       // Create the order
       const order = await base44.entities.Order.create({
         order_number: orderNumber,
         customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
-        customer_name: customerInfo?.name || 'Guest Customer',
+        customer_name: customerInfo?.firstName && customerInfo?.lastName 
+          ? `${customerInfo.firstName} ${customerInfo.lastName}` 
+          : customerInfo?.name || 'Guest Customer',
         items: cart,
         subtotal: subtotal,
         discount_amount: discount,
@@ -154,24 +183,89 @@ export default function CryptoCheckout() {
         crypto_address: paymentAddress,
         status: 'processing',
         shipping_address: customerInfo,
-        created_by: userEmail || 'guest@redhelix.com'
+        created_by: userEmail || customerInfo?.email || 'guest@redhelix.com'
       });
 
-      // Send admin notification about blockchain confirmed order
-      await base44.entities.Notification.create({
-        type: 'blockchain_confirmed',
-        admin_email: 'admin@redhelix.com',
-        customer_name: customerInfo?.name || customerInfo?.firstName + ' ' + customerInfo?.lastName || 'Guest Customer',
-        customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
-        order_id: order.id,
-        order_number: orderNumber,
-        total_amount: finalTotal,
-        crypto_currency: selectedCrypto,
-        transaction_id: txId,
-        message_preview: `Blockchain confirmed: ${orderNumber} ($${finalTotal.toFixed(2)}) - ${selectedCrypto} - Needs tracking number`,
-        requires_tracking: true,
-        read: false
-      });
+      // Send customer thank you email
+      const customerEmail = userEmail || customerInfo?.email;
+      const customerName = customerInfo?.firstName && customerInfo?.lastName 
+        ? `${customerInfo.firstName} ${customerInfo.lastName}` 
+        : customerInfo?.name || 'Valued Customer';
+      
+      if (customerEmail) {
+        await base44.integrations.Core.SendEmail({
+          from_name: 'Red Helix Research',
+          to: customerEmail,
+          subject: `Order Confirmation - ${orderNumber}`,
+          body: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #8B2635;">Thank You for Your Order!</h2>
+              <p>Hi ${customerName},</p>
+              <p>We've received your order and it's being processed. Here are your order details:</p>
+              
+              <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Order #${orderNumber}</h3>
+                <p><strong>Payment Method:</strong> Cryptocurrency (${selectedCrypto})</p>
+                <p><strong>Transaction ID:</strong> ${txId}</p>
+                <p><strong>Amount Paid:</strong> ${cryptoAmount} ${selectedCrypto} (≈$${finalTotal.toFixed(2)} USD)</p>
+                <p><strong>Status:</strong> Processing</p>
+              </div>
+
+              <h3>Order Items:</h3>
+              <ul>
+                ${cart.map(item => `
+                  <li>${item.productName} - ${item.specification} (Qty: ${item.quantity}) - $${item.price.toFixed(2)}</li>
+                `).join('')}
+              </ul>
+
+              <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd;">
+                <p><strong>Subtotal:</strong> $${subtotal.toFixed(2)}</p>
+                ${discount > 0 ? `<p><strong>Discount:</strong> -$${discount.toFixed(2)}</p>` : ''}
+                <p><strong>Shipping:</strong> $${SHIPPING_COST.toFixed(2)}</p>
+                <p style="font-size: 18px;"><strong>Total:</strong> $${finalTotal.toFixed(2)}</p>
+              </div>
+
+              ${customerInfo ? `
+                <h3>Shipping Address:</h3>
+                <p>
+                  ${customerInfo.firstName} ${customerInfo.lastName}<br>
+                  ${customerInfo.shippingAddress}<br>
+                  ${customerInfo.shippingCity}, ${customerInfo.shippingState} ${customerInfo.shippingZip}
+                </p>
+              ` : ''}
+
+              <p style="margin-top: 30px;">You will receive tracking information once your order ships.</p>
+              <p>Questions? Contact us at <a href="mailto:reddirtresearch@gmail.com">reddirtresearch@gmail.com</a></p>
+              
+              <p style="margin-top: 30px; color: #666; font-size: 12px;">
+                This is a research chemical order. For research purposes only.
+              </p>
+            </div>
+          `
+        });
+      }
+
+      // Get all admin users
+      const allUsers = await base44.entities.User.list();
+      const admins = allUsers.filter(u => u.role === 'admin');
+
+      // Send admin notifications to all admins
+      for (const admin of admins) {
+        await base44.entities.Notification.create({
+          type: 'blockchain_confirmed',
+          admin_email: admin.email,
+          customer_name: customerName,
+          customer_email: customerEmail || 'guest@redhelix.com',
+          order_id: order.id,
+          order_number: orderNumber,
+          total_amount: finalTotal,
+          crypto_currency: selectedCrypto,
+          transaction_id: txId,
+          message_preview: `Blockchain confirmed: ${orderNumber} ($${finalTotal.toFixed(2)}) - ${selectedCrypto} - Needs tracking`,
+          requires_tracking: true,
+          read: false
+        });
+      }
 
       // Clear cart
       localStorage.setItem('cart', '[]');
