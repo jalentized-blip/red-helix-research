@@ -94,7 +94,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
           {/* Product Image */}
           <div className="aspect-video w-full bg-stone-800 rounded-xl overflow-hidden">
             <img 
-              src="https://previews.dropbox.com/p/thumb/AC4QlhnwZoG34ki_vj2Bi1E6QgL33HtG3-06hqO-FkVfiy416VqyFvnitZ0L662svw5l7Bw7NHS1upO_Sd2sfbbnOV74JuJmE5n4hQpGzcK-ryMhFuRoUyQivdVsgRcZY-NHKBMCfarMdFu3_GeBwM__qHW7nqhhUpNJih5kfHfYfmH-yIBS0zvJiw7lpsOVwDrpgkg6zZoFRUQkB6U3Fa9vAsIFmyDFhrnasBmXQH8zrfFSz7xZUWb_PPP7TEqYxGa3tGribp6dh4ZrWSYuOrRcB-zEuMNxnLHPC_7MrfR_QfbTp3QBzwtY417d-IC_Ba4/p.jpeg" 
+              src="https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg" 
               alt={product.name}
               className="w-full h-full object-contain"
             />
