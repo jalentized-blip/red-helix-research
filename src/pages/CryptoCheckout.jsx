@@ -396,7 +396,11 @@ export default function CryptoCheckout() {
       }
     } catch (error) {
       setConnectionState('error');
-      if (error.code === 4001) {
+      
+      // Special handling for Trust Wallet dApp browser issue
+      if (wallet.id === 'trustwallet' && (error.message?.includes('disallowed') || error.code === -32603)) {
+        setConnectionError('Trust Wallet desktop extension has security restrictions. Please use Trust Wallet mobile app or select Manual Payment.');
+      } else if (error.code === 4001) {
         setConnectionError('Connection rejected. Please approve the connection request in your wallet.');
       } else if (error.code === -32002) {
         setConnectionError('Connection pending. Please check your wallet extension.');
@@ -773,13 +777,23 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
         <div className="bg-red-900/30 border border-red-600/50 rounded-lg p-4">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-red-500 mt-0.5" />
-            <div>
+            <div className="flex-1">
               <p className="text-sm font-semibold text-red-400">Connection Failed</p>
-              <p className="text-xs text-red-400/70">{connectionError}</p>
+              <p className="text-xs text-red-400/70 mt-1">{connectionError}</p>
+              
+              {connectionError.includes('Trust Wallet') && connectionError.includes('mobile app') && (
+                <div className="mt-3 p-3 bg-blue-900/20 border border-blue-600/30 rounded">
+                  <p className="text-xs text-blue-300 font-medium mb-2">💡 Recommended Solution:</p>
+                  <ol className="text-xs text-blue-300/80 space-y-1 list-decimal list-inside">
+                    <li>Use Trust Wallet mobile app with built-in browser</li>
+                    <li>Or select "Manual Payment" option below</li>
+                  </ol>
+                </div>
+              )}
             </div>
           </div>
           
-          {availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink && (
+          {availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink && !connectionError.includes('mobile app') && (
              <a 
                href={availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink} 
                target="_blank" 
@@ -793,7 +807,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
           <div className="flex gap-4 mt-3">
             <button onClick={resetWalletConnection} className="text-xs text-red-400 hover:text-red-300 underline">Try again</button>
-            <button onClick={() => connectWallet(WALLET_CONFIGS.manual)} className="text-xs text-amber-500 hover:text-amber-400 underline">Use Manual Payment</button>
+            <button onClick={() => connectWallet(WALLET_CONFIGS.manual)} className="text-xs text-amber-500 hover:text-amber-400 font-medium underline">Use Manual Payment Instead</button>
           </div>
         </div>
       )}
