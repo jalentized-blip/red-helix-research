@@ -74,25 +74,50 @@ export default function OrderTracking() {
   // Determine the email to use for filtering orders
   const filterEmail = userEmail || guestEmail;
 
-  const { data: orders, isLoading } = useQuery({
+  const { data: orders, isLoading, refetch: refetchOrders } = useQuery({
     queryKey: ['orders', filterEmail],
     queryFn: async () => {
       if (!filterEmail) return [];
 
-      // Try to filter by created_by (user email)
-      const ordersByCreator = await base44.entities.Order.filter(
-        { created_by: filterEmail },
-        '-created_date'
-      );
+      const email = filterEmail.toLowerCase().trim();
+      let allOrders = [];
 
-      // Also filter by customer_email in case it differs
-      const ordersByCustomerEmail = await base44.entities.Order.filter(
-        { customer_email: filterEmail },
-        '-created_date'
-      );
+      try {
+        // Try to filter by created_by (user email)
+        const ordersByCreator = await base44.entities.Order.filter(
+          { created_by: email },
+          '-created_date'
+        );
+        allOrders = [...allOrders, ...ordersByCreator];
+      } catch (e) {
+        console.error('Error fetching orders by created_by:', e);
+      }
+
+      try {
+        // Also filter by customer_email in case it differs
+        const ordersByCustomerEmail = await base44.entities.Order.filter(
+          { customer_email: email },
+          '-created_date'
+        );
+        allOrders = [...allOrders, ...ordersByCustomerEmail];
+      } catch (e) {
+        console.error('Error fetching orders by customer_email:', e);
+      }
+
+      // Also try fetching all orders and filter client-side as backup
+      // This handles cases where field filters might not work as expected
+      try {
+        const recentOrders = await base44.entities.Order.list('-created_date', 100);
+        const matchingOrders = recentOrders.filter(order =>
+          order.created_by?.toLowerCase() === email ||
+          order.customer_email?.toLowerCase() === email
+        );
+        allOrders = [...allOrders, ...matchingOrders];
+      } catch (e) {
+        console.error('Error fetching recent orders:', e);
+      }
 
       // Merge and deduplicate orders
-      const allOrders = [...ordersByCreator, ...ordersByCustomerEmail];
       const uniqueOrders = allOrders.filter((order, index, self) =>
         index === self.findIndex(o => o.id === order.id)
       );
@@ -104,6 +129,8 @@ export default function OrderTracking() {
     },
     enabled: !!filterEmail,
     initialData: [],
+    refetchOnMount: true,
+    staleTime: 0
   });
 
   // Subscribe to real-time order updates

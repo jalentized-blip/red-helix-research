@@ -134,7 +134,9 @@ export default function CryptoCheckout() {
       }
 
       // Get customer email - prioritize user account, then customerInfo email
-      const customerEmail = userEmail || customerInfo?.email || null;
+      // Normalize email to lowercase for consistent lookups
+      const rawEmail = userEmail || customerInfo?.email || null;
+      const customerEmail = rawEmail ? rawEmail.toLowerCase().trim() : null;
 
       // Build customer name from customerInfo
       const customerName = customerInfo?.name ||
