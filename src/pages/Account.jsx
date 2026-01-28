@@ -20,8 +20,33 @@ export default function Account() {
   const navigate = useNavigate();
 
   const { data: orders = [] } = useQuery({
-    queryKey: ['orders'],
-    queryFn: () => base44.entities.Order.filter({ created_by: user?.email }),
+    queryKey: ['orders', user?.email],
+    queryFn: async () => {
+      if (!user?.email) return [];
+
+      // Fetch orders by created_by field
+      const ordersByCreator = await base44.entities.Order.filter(
+        { created_by: user.email },
+        '-created_date'
+      );
+
+      // Also fetch orders by customer_email in case it differs
+      const ordersByCustomerEmail = await base44.entities.Order.filter(
+        { customer_email: user.email },
+        '-created_date'
+      );
+
+      // Merge and deduplicate orders
+      const allOrders = [...ordersByCreator, ...ordersByCustomerEmail];
+      const uniqueOrders = allOrders.filter((order, index, self) =>
+        index === self.findIndex(o => o.id === order.id)
+      );
+
+      // Sort by created_date descending
+      return uniqueOrders.sort((a, b) =>
+        new Date(b.created_date) - new Date(a.created_date)
+      );
+    },
     enabled: !!user
   });
 
