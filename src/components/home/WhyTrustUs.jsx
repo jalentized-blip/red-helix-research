@@ -17,7 +17,7 @@ const trustPoints = [
   },
   {
     icon: Building2,
-    title: "cGMP Certified Manufacturing",
+    title: "cGMP Certified Lyophilization",
     description: "Our compounds are produced in FDA-audited, cGMP-certified facilities to meet the highest standards for quality and safety."
   }
 ];
