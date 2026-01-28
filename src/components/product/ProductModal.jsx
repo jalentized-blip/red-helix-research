@@ -113,7 +113,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
               Select Kit Strength
             </h3>
             <div className="grid gap-3">
-              {product.specifications?.map((spec, index) => {
+              {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
                 const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
                 return (
                   <button
