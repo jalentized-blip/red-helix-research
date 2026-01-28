@@ -59,7 +59,7 @@ const WALLET_CONFIGS = {
     color: '#0052FF',
     deepLink: 'https://www.coinbase.com/wallet',
     chains: ['ETH', 'BTC', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && window.ethereum?.isCoinbaseWallet,
+    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension),
   },
   phantom: {
     id: 'phantom',
@@ -302,8 +302,13 @@ export default function CryptoCheckout() {
 
       if (wallet.id === 'metamask' && window.ethereum?.isMetaMask) {
         provider = window.ethereum;
-      } else if (wallet.id === 'coinbase' && window.ethereum?.isCoinbaseWallet) {
-        provider = window.ethereum;
+      } else if (wallet.id === 'coinbase') {
+        if (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension) {
+          provider = window.ethereum;
+        } else if (window.ethereum) {
+          // Fallback to generic ethereum provider if specific flag is missing
+          provider = window.ethereum;
+        }
       } else if (wallet.id === 'phantom' && window.phantom?.ethereum) {
         provider = window.phantom.ethereum;
       } else if (wallet.id === 'trustwallet' && window.ethereum?.isTrust) {
@@ -711,7 +716,10 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
               <p className="text-xs text-red-400/70">{connectionError}</p>
             </div>
           </div>
-          <button onClick={resetWalletConnection} className="mt-3 text-xs text-red-400 hover:text-red-300 underline">Try again</button>
+          <div className="flex gap-4 mt-3">
+            <button onClick={resetWalletConnection} className="text-xs text-red-400 hover:text-red-300 underline">Try again</button>
+            <button onClick={() => connectWallet(WALLET_CONFIGS.manual)} className="text-xs text-amber-500 hover:text-amber-400 underline">Use Manual Payment</button>
+          </div>
         </div>
       )}
 

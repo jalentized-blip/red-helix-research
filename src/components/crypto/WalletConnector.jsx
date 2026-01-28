@@ -31,7 +31,7 @@ const WALLET_CONFIGS = {
     color: '#0052FF',
     deepLink: 'https://www.coinbase.com/wallet',
     chains: ['ETH', 'BTC', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && window.ethereum?.isCoinbaseWallet,
+    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension),
   },
   phantom: {
     id: 'phantom',
@@ -154,8 +154,12 @@ export default function WalletConnector({
 
       if (wallet.id === 'metamask' && window.ethereum?.isMetaMask) {
         provider = window.ethereum;
-      } else if (wallet.id === 'coinbase' && window.ethereum?.isCoinbaseWallet) {
-        provider = window.ethereum;
+      } else if (wallet.id === 'coinbase') {
+        if (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension) {
+          provider = window.ethereum;
+        } else if (window.ethereum) {
+          provider = window.ethereum;
+        }
       } else if (wallet.id === 'phantom' && window.phantom?.ethereum) {
         provider = window.phantom.ethereum;
       } else if (wallet.id === 'trustwallet' && window.ethereum?.isTrust) {
