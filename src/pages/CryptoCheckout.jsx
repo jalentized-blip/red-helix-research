@@ -6,7 +6,7 @@ import { useAccount, useBalance, useSendTransaction, useWaitForTransactionReceip
 import { parseEther } from 'viem'
 import { mainnet } from 'wagmi/chains'
 
-const MERCHANT_ADDRESS = '0xYourRealReceivingWalletHere' // ← VERY IMPORTANT: CHANGE THIS!
+const MERCHANT_ADDRESS = '0x30eD305B89b6207A5fa907575B395c9189728EbC' // ← VERY IMPORTANT: CHANGE THIS!
 
 const CryptoCheckout = () => {
   const { state } = useLocation()
