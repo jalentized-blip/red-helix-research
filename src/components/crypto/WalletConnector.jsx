@@ -158,8 +158,8 @@ export default function WalletConnector({
     let p = check();
     if (p) return p;
 
-    // Retry for 1 second
-    for (let i = 0; i < 10; i++) {
+    // Retry for 2 seconds (20 attempts x 100ms)
+    for (let i = 0; i < 20; i++) {
       await new Promise(resolve => setTimeout(resolve, 100));
       p = check();
       if (p) return p;

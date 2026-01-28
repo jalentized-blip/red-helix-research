@@ -293,7 +293,7 @@ export default function CryptoCheckout() {
     if (window.ethereum) {
       // If it's an array of providers (e.g. Coinbase + MetaMask both installed)
       if (Array.isArray(window.ethereum.providers)) {
-        return window.ethereum; // The wallet selection logic usually handles this, or we just return the wrapper
+        return window.ethereum; 
       }
       return window.ethereum;
     }
@@ -301,9 +301,50 @@ export default function CryptoCheckout() {
     // Check for specific injections
     if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
     if (window.phantom?.ethereum) return window.phantom.ethereum;
-    if (window.solana) return window.solana; // Phantom often injects here too
+    if (window.solana) return window.solana; 
     
     return null;
+  };
+
+  // Helper to find specific provider with retries
+  const findProvider = async (walletId) => {
+    const check = () => {
+      if (typeof window === 'undefined') return null;
+      
+      let provider = null;
+      if (walletId === 'metamask') {
+        if (window.ethereum?.isMetaMask) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isMetaMask)) provider = window.ethereum.providers.find(p => p.isMetaMask);
+      } else if (walletId === 'coinbase') {
+        if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
+        else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
+        else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
+      } else if (walletId === 'phantom') {
+        if (window.phantom?.ethereum) provider = window.phantom.ethereum;
+      } else if (walletId === 'trustwallet') {
+        if (window.ethereum?.isTrust) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isTrust)) provider = window.ethereum.providers.find(p => p.isTrust);
+      }
+      
+      return provider;
+    };
+
+    // Try immediately
+    let p = check();
+    if (p) return p;
+
+    // Retry for 2 seconds (20 attempts x 100ms)
+    for (let i = 0; i < 20; i++) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      p = check();
+      if (p) return p;
+    }
+    
+    // Fallback to generic window.ethereum
+    if (window.ethereum) return window.ethereum;
+    
+    // Last resort
+    return getAnyProvider();
   };
 
   // Connect wallet function
@@ -319,43 +360,8 @@ export default function CryptoCheckout() {
         return;
       }
 
-      let provider = null;
-
-      // 1. Attempt to find specific provider first
-      if (wallet.id === 'metamask') {
-        if (window.ethereum?.isMetaMask) {
-          provider = window.ethereum;
-        } else if (window.ethereum?.providers?.some(p => p.isMetaMask)) {
-          provider = window.ethereum.providers.find(p => p.isMetaMask);
-        }
-      } else if (wallet.id === 'coinbase') {
-        if (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension) {
-          provider = window.ethereum || window.coinbaseWalletExtension;
-        } else if (window.ethereum?.providers?.some(p => p.isCoinbaseWallet)) {
-          provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
-        }
-      } else if (wallet.id === 'phantom') {
-        if (window.phantom?.ethereum) {
-          provider = window.phantom.ethereum;
-        }
-      } else if (wallet.id === 'trustwallet') {
-        if (window.ethereum?.isTrust) {
-          provider = window.ethereum;
-        } else if (window.ethereum?.providers?.some(p => p.isTrust)) {
-          provider = window.ethereum.providers.find(p => p.isTrust);
-        }
-      }
-
-      // 2. If no specific provider found, try generic window.ethereum fallback
-      if (!provider && window.ethereum) {
-        console.log('Falling back to generic window.ethereum');
-        provider = window.ethereum;
-      }
-
-      // 3. Last resort: check for any provider injection
-      if (!provider) {
-        provider = getAnyProvider();
-      }
+      // Find provider with retry logic
+      const provider = await findProvider(wallet.id);
 
       if (provider) {
         try {
@@ -382,13 +388,11 @@ export default function CryptoCheckout() {
             throw new Error('No accounts returned');
           }
         } catch (reqError) {
-          // If the specific provider failed, maybe try the generic one again if it's different?
-          // But usually this means the user rejected the request.
           throw reqError;
         }
       } else {
         setConnectionState('error');
-        setConnectionError(`No wallet detected. Please install ${wallet.name} or use Manual Payment.`);
+        setConnectionError(`${wallet.name} not detected. Please install it first.`);
       }
     } catch (error) {
       setConnectionState('error');
