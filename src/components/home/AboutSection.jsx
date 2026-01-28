@@ -58,7 +58,7 @@ export default function AboutSection() {
                 world with fast, reliable service.
               </p>
               <p>
-                Every batch is lyophilized in cGMP-certified facilities and verified through 
+                Every batch is produced in cGMP-certified facilities and verified through 
                 rigorous third-party testing by leading American labs. Certificates of 
                 Analysis (COAs) are provided with every compound, ensuring researchers have 
                 the confidence and clarity they need for consistent results.
