@@ -59,7 +59,7 @@ export default function Cart() {
     setShowAffiliateMessage(false);
   };
 
-  const SHIPPING_COST = 0;
+  const SHIPPING_COST = 15.00;
   const subtotal = getCartTotal();
   const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
   const finalTotal = subtotal - discount + SHIPPING_COST;
