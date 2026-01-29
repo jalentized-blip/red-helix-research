@@ -257,7 +257,6 @@ const PEPTIDE_RESEARCH_DATA = {
     clinicalNotes: 'Advanced dual-receptor metabolic peptide. Clinical evidence demonstrates superior efficacy to GLP-1 monotherapy. Strong safety profile in human studies with proven metabolic benefits.'
   }
 };
-};
 
 // Usage duration and cycle classification
 const PEPTIDE_USAGE_TYPE = {
