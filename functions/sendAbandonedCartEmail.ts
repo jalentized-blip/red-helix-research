@@ -1,16 +1,36 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
+import { rateLimit, sanitizeInput, createSecureResponse } from './securityUtils.js';
 
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
-    const { email, name, cartItems, totalAmount } = await req.json();
+    const body = await req.json();
+    const { email, name, cartItems, totalAmount } = body;
 
-    if (!email || !cartItems || cartItems.length === 0) {
-      return Response.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!email || typeof email !== 'string' || !cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
+      return createSecureResponse({ error: 'Invalid request data' }, 400);
     }
 
+    // Rate limiting: 3 emails per hour per email address
+    const rateLimitCheck = rateLimit(`abandoned-cart:${email}`, 3, 3600000);
+    if (!rateLimitCheck.allowed) {
+      return createSecureResponse({ 
+        error: 'Rate limit exceeded',
+        retryAfter: rateLimitCheck.retryAfter 
+      }, 429);
+    }
+
+    // Sanitize and limit cart items
+    const sanitizedCartItems = cartItems.slice(0, 50).map(item => ({
+      productName: String(item.productName || '').slice(0, 200),
+      specification: String(item.specification || '').slice(0, 200),
+      quantity: Math.min(Math.max(1, parseInt(item.quantity) || 1), 999),
+      price: Math.max(0, parseFloat(item.price) || 0)
+    }));
+
+    const base44 = createClientFromRequest(req);
+
     // Create cart items HTML
-    const cartItemsHtml = cartItems.map(item => `
+    const cartItemsHtml = sanitizedCartItems.map(item => `
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">
           <strong>${item.productName}</strong><br>

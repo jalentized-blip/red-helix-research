@@ -245,14 +245,23 @@ const HeaderSearch = () => {
               if (isAuth) {
                 const userData = await base44.auth.me();
                 setUser(userData);
+                // Double-check admin role from backend
                 setIsAdmin(userData?.role === 'admin');
+              } else {
+                setUser(null);
+                setIsAdmin(false);
               }
             } catch (error) {
               setIsAuthenticated(false);
               setIsAdmin(false);
+              setUser(null);
             }
           };
           checkAuth();
+
+          // Re-check auth periodically
+          const interval = setInterval(checkAuth, 300000); // Every 5 minutes
+          return () => clearInterval(interval);
         }, []);
 
         useEffect(() => {
