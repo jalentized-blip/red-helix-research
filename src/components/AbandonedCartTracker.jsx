@@ -22,11 +22,20 @@ export default function AbandonedCartTracker() {
         }
       }
 
-      // Check if we already sent an email for this cart
-      const abandonedCartSent = localStorage.getItem('abandonedCartSent');
-      const cartHash = JSON.stringify(cart.map(i => i.id).sort());
-      if (abandonedCartSent === cartHash) {
-        return; // Already sent email for this exact cart
+      // Check if we already sent an email today
+      const lastEmailSent = localStorage.getItem('abandonedCartLastSent');
+      if (lastEmailSent) {
+        const lastSentDate = new Date(parseInt(lastEmailSent));
+        const now = new Date();
+        
+        // Check if it's the same day
+        if (
+          lastSentDate.getFullYear() === now.getFullYear() &&
+          lastSentDate.getMonth() === now.getMonth() &&
+          lastSentDate.getDate() === now.getDate()
+        ) {
+          return; // Already sent an email today
+        }
       }
 
       // Send abandoned cart email
@@ -38,8 +47,8 @@ export default function AbandonedCartTracker() {
           totalAmount: getCartTotal() + 15.00 // Include shipping
         });
 
-        // Mark as sent
-        localStorage.setItem('abandonedCartSent', cartHash);
+        // Mark as sent with timestamp
+        localStorage.setItem('abandonedCartLastSent', Date.now().toString());
       } catch (error) {
         console.error('Failed to send abandoned cart email:', error);
       }
