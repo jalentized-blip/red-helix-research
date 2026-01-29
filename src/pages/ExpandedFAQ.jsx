@@ -43,8 +43,8 @@ export default function ExpandedFAQ() {
         },
         {
           id: 'order-cost',
-          question: 'Why is pricing higher than some competitors?',
-          answer: 'Our pricing reflects superior quality: 98%+ purity (vs 80-90% at cheaper vendors), 100% third-party testing (vs self-reported), and expert support. Cost per mg of pure peptide is actually lower.'
+          question: 'How are your prices so cheap compared to competitors?',
+          answer: 'We believe in transparency and fairness over insane markups. Most gray market vendors inflate prices 300-500%, but we\'ve chosen a different path. We make sustainable margins while prioritizing accessibility and building trust in the peptide community. Our philosophy is simple: fair pricing, verified quality, and honest business practices. We\'d rather be the transparent, reliable choice than prey on customers with inflated costs.'
         }
       ]
     },
