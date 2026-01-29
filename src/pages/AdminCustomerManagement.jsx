@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Search,
   Mail,
@@ -21,6 +22,9 @@ import {
   X,
   Package,
   Loader2,
+  Edit,
+  Check,
+  Truck,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -30,6 +34,10 @@ export default function AdminCustomerManagement() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [trackingNumber, setTrackingNumber] = useState('');
+  const [carrier, setCarrier] = useState('USPS');
+  const [orderStatus, setOrderStatus] = useState('processing');
 
   // Authentication check
   React.useEffect(() => {
@@ -49,10 +57,62 @@ export default function AdminCustomerManagement() {
   }, [navigate]);
 
   // Fetch all orders
-  const { data: orders = [], isLoading: ordersLoading } = useQuery({
+  const { data: orders = [], isLoading: ordersLoading, refetch: refetchOrders } = useQuery({
     queryKey: ['orders'],
     queryFn: () => base44.entities.Order.list('-created_date'),
   });
+
+  const handleUpdateOrder = async (orderId) => {
+    try {
+      const updates = {
+        status: orderStatus,
+      };
+
+      if (trackingNumber.trim()) {
+        updates.tracking_number = trackingNumber;
+        updates.carrier = carrier;
+        if (orderStatus === 'processing') {
+          updates.status = 'shipped';
+        }
+      }
+
+      await base44.entities.Order.update(orderId, updates);
+
+      // Send tracking email if tracking number was added
+      if (trackingNumber.trim()) {
+        const order = orders.find(o => o.id === orderId);
+        if (order && order.customer_email) {
+          await base44.integrations.Core.SendEmail({
+            from_name: 'Red Helix Research',
+            to: order.customer_email,
+            subject: `Your Order is on its way! - ${order.order_number}`,
+            body: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #8B2635;">Your Order Has Shipped!</h2>
+                <p>Hi ${order.customer_name || 'Customer'},</p>
+                <p>Great news! Your order <strong>${order.order_number}</strong> has been shipped.</p>
+                <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <p><strong>Tracking Number:</strong> ${trackingNumber}</p>
+                  <p><strong>Carrier:</strong> ${carrier}</p>
+                </div>
+                <p>You can track your package using the tracking number above on the ${carrier} website.</p>
+                <p>Thank you for your order!</p>
+              </div>
+            `
+          });
+        }
+      }
+
+      await refetchOrders();
+      setEditingOrder(null);
+      setTrackingNumber('');
+      setCarrier('USPS');
+      setOrderStatus('processing');
+    } catch (error) {
+      console.error('Failed to update order:', error);
+      alert('Failed to update order');
+    }
+  };
 
   // Extract and process unique customers
   const customers = useMemo(() => {
@@ -434,14 +494,31 @@ export default function AdminCustomerManagement() {
                               <Package className="w-4 h-4 text-stone-500" />
                               <span className="font-semibold text-amber-50">{order.order_number}</span>
                             </div>
-                            <Badge className={
-                              order.status === 'delivered' ? 'bg-green-600' :
-                              order.status === 'shipped' ? 'bg-blue-600' :
-                              order.status === 'processing' ? 'bg-yellow-600' :
-                              'bg-stone-600'
-                            }>
-                              {order.status}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <Badge className={
+                                order.status === 'delivered' ? 'bg-green-600' :
+                                order.status === 'shipped' ? 'bg-blue-600' :
+                                order.status === 'processing' ? 'bg-yellow-600' :
+                                'bg-stone-600'
+                              }>
+                                {order.status}
+                              </Badge>
+                              {editingOrder !== order.id && (
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => {
+                                    setEditingOrder(order.id);
+                                    setTrackingNumber(order.tracking_number || '');
+                                    setCarrier(order.carrier || 'USPS');
+                                    setOrderStatus(order.status || 'processing');
+                                  }}
+                                  className="h-6 px-2"
+                                >
+                                  <Edit className="w-3 h-3" />
+                                </Button>
+                              )}
+                            </div>
                           </div>
                           <div className="flex items-center justify-between text-sm">
                             <div className="flex items-center gap-2 text-stone-400">
@@ -453,6 +530,80 @@ export default function AdminCustomerManagement() {
                           <div className="mt-2 text-xs text-stone-500">
                             {order.items?.length || 0} items
                           </div>
+
+                          {/* Tracking Info Display */}
+                          {order.tracking_number && editingOrder !== order.id && (
+                            <div className="mt-2 pt-2 border-t border-stone-700 text-xs">
+                              <div className="flex items-center gap-2 text-stone-400">
+                                <Truck className="w-3 h-3" />
+                                <span>{order.carrier}: {order.tracking_number}</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Edit Order Form */}
+                          {editingOrder === order.id && (
+                            <div className="mt-3 pt-3 border-t border-stone-700 space-y-2">
+                              <div>
+                                <label className="text-xs text-stone-400 block mb-1">Status</label>
+                                <select
+                                  value={orderStatus}
+                                  onChange={(e) => setOrderStatus(e.target.value)}
+                                  className="w-full bg-stone-800 border border-stone-600 rounded px-2 py-1 text-xs text-amber-50"
+                                >
+                                  <option value="pending">Pending</option>
+                                  <option value="processing">Processing</option>
+                                  <option value="shipped">Shipped</option>
+                                  <option value="delivered">Delivered</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label className="text-xs text-stone-400 block mb-1">Carrier</label>
+                                <select
+                                  value={carrier}
+                                  onChange={(e) => setCarrier(e.target.value)}
+                                  className="w-full bg-stone-800 border border-stone-600 rounded px-2 py-1 text-xs text-amber-50"
+                                >
+                                  <option value="USPS">USPS</option>
+                                  <option value="UPS">UPS</option>
+                                  <option value="FedEx">FedEx</option>
+                                  <option value="DHL">DHL</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label className="text-xs text-stone-400 block mb-1">Tracking Number</label>
+                                <Input
+                                  value={trackingNumber}
+                                  onChange={(e) => setTrackingNumber(e.target.value)}
+                                  placeholder="Enter tracking number"
+                                  className="bg-stone-800 border-stone-600 text-amber-50 text-xs h-8"
+                                />
+                              </div>
+                              <div className="flex gap-2 pt-2">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleUpdateOrder(order.id)}
+                                  className="bg-green-700 hover:bg-green-600 text-xs h-7"
+                                >
+                                  <Check className="w-3 h-3 mr-1" />
+                                  Save
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => {
+                                    setEditingOrder(null);
+                                    setTrackingNumber('');
+                                    setCarrier('USPS');
+                                    setOrderStatus('processing');
+                                  }}
+                                  className="text-xs h-7"
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
