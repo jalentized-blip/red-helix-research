@@ -93,6 +93,9 @@ import EmailAutomationStrategy from './pages/EmailAutomationStrategy';
 import LaunchChecklist from './pages/LaunchChecklist';
 import CompetitivePositioning from './pages/CompetitivePositioning';
 import ResourceHub from './pages/ResourceHub';
+import ExpandedFAQ from './pages/ExpandedFAQ';
+import PaymentSecurity from './pages/PaymentSecurity';
+import SecurityCompliance from './pages/SecurityCompliance';
 import __Layout from './Layout.jsx';
 
 
@@ -143,6 +146,9 @@ export const PAGES = {
     "LaunchChecklist": LaunchChecklist,
     "CompetitivePositioning": CompetitivePositioning,
     "ResourceHub": ResourceHub,
+    "ExpandedFAQ": ExpandedFAQ,
+    "PaymentSecurity": PaymentSecurity,
+    "SecurityCompliance": SecurityCompliance,
 }
 
 export const pagesConfig = {
