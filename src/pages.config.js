@@ -87,6 +87,8 @@ import ProductSemaglutide from './pages/ProductSemaglutide';
 import ProductTirzepatide from './pages/ProductTirzepatide';
 import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
 import SEOMonitoring from './pages/SEOMonitoring';
+import ConversionTracking from './pages/ConversionTracking';
+import CustomerTestimonials from './pages/CustomerTestimonials';
 import __Layout from './Layout.jsx';
 
 
@@ -131,6 +133,8 @@ export const PAGES = {
     "ProductTirzepatide": ProductTirzepatide,
     "InternalLinkingStrategy": InternalLinkingStrategy,
     "SEOMonitoring": SEOMonitoring,
+    "ConversionTracking": ConversionTracking,
+    "CustomerTestimonials": CustomerTestimonials,
 }
 
 export const pagesConfig = {
