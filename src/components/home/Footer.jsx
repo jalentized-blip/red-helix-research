@@ -42,7 +42,7 @@ export default function Footer() {
             <a href="mailto:jake@redhelixresearch.com" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <Mail className="w-5 h-5" />
             </a>
-            <a href="https://discord.gg/s78Jeajp" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
+            <a href="https://discord.gg/zdn52v73" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
               <MessageCircle className="w-5 h-5" />
             </a>
             <a href="https://t.me/Redhelixresearch" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-stone-800/50 text-stone-300 hover:text-red-600 hover:bg-stone-800 transition-colors">
