@@ -699,6 +699,9 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('BacklinkStrategy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Backlink Strategy
                               </Link>
+                              <Link to={createPageUrl('EmailAutomationStrategy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Email Automation
+                              </Link>
                               </>
                               )}
                               </>
