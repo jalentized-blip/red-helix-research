@@ -573,7 +573,12 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
         crypto_amount: cryptoAmount,
         crypto_address: PAYMENT_ADDRESSES[selectedCrypto],
         status: 'processing',
-        shipping_address: customerInfo,
+        shipping_address: {
+          address: customerInfo?.shippingAddress || customerInfo?.address,
+          city: customerInfo?.shippingCity || customerInfo?.city,
+          state: customerInfo?.shippingState || customerInfo?.state,
+          zip: customerInfo?.shippingZip || customerInfo?.zip
+        },
         wallet_type: connectedWallet?.name || 'manual',
         promo_code: promoCode,
         created_by: userEmail || customerInfo?.email || 'guest@redhelix.com'
