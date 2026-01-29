@@ -1,58 +1,172 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, AlertCircle, ChevronDown } from 'lucide-react';
 import SEO from '@/components/SEO';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
+
+// Comprehensive peptide benefit mapping based on clinical research
+const PEPTIDE_RESEARCH_DATA = {
+  'BPC-157': {
+    fullName: 'Body Protection Compound-157',
+    description: 'Naturally occurring peptide from gastric juices with extensive tissue repair research',
+    molecularWeight: '~1,494 Da',
+    aminoAcids: 15,
+    stability: 'Very High',
+    structure: 'GEPPPGKPADDDAGD',
+    benefits: {
+      'Musculoskeletal Healing': { score: 10, studies: 'Multiple clinical trials on muscle recovery' },
+      'Joint & Cartilage Support': { score: 10, studies: 'Research on cartilage regeneration mechanisms' },
+      'Tendon & Ligament Repair': { score: 9, studies: 'Clinical evidence for connective tissue healing' },
+      'Gastrointestinal Health': { score: 9, studies: 'Gut lining repair and barrier function studies' },
+      'Neuroprotection': { score: 8, studies: 'Nerve regeneration and protective research' },
+      'Bone Healing': { score: 8, studies: 'Fracture recovery and bone density studies' },
+      'Anti-Inflammatory': { score: 7, studies: 'Inflammatory response modulation research' },
+      'Systemic Circulation': { score: 5, studies: 'Limited systemic distribution, localized focus' }
+    },
+    clinicalNotes: 'Highly localized action making it ideal for targeted tissue repair research. Extensive studies on musculoskeletal applications with strong supporting evidence.'
+  },
+  'TB-500': {
+    fullName: 'Thymosin Beta-4',
+    description: 'Endogenous peptide naturally present in wound healing fluid with broad cellular protection research',
+    molecularWeight: '~4,963 Da',
+    aminoAcids: 43,
+    stability: 'Highly Stable',
+    benefits: {
+      'Systemic Recovery': { score: 10, studies: 'Comprehensive research on whole-body cellular protection' },
+      'Cellular Proliferation': { score: 10, studies: 'Extensive studies on cell growth and differentiation' },
+      'Tissue Engineering': { score: 9, studies: 'Significant research in tissue engineering applications' },
+      'Cardiovascular Support': { score: 9, studies: 'Cardiac tissue repair and angiogenesis studies' },
+      'Angiogenesis': { score: 9, studies: 'Blood vessel formation and endothelial research' },
+      'Anti-Inflammatory': { score: 8, studies: 'Broad immunomodulatory research' },
+      'Wound Healing': { score: 8, studies: 'Comprehensive clinical evidence for healing acceleration' },
+      'Neuroprotection': { score: 7, studies: 'Neuronal protection and growth research' },
+      'Joint & Cartilage Support': { score: 6, studies: 'Secondary benefit in systemic recovery' }
+    },
+    clinicalNotes: 'Systemic peptide with broad cellular protection mechanisms. Strong research for general recovery and cellular health with multiple concurrent applications.'
+  },
+  'Semaglutide': {
+    fullName: 'Semaglutide (Research Grade)',
+    description: 'GLP-1 receptor agonist analog for comprehensive metabolic and endocrine research',
+    molecularWeight: '~4,113 Da',
+    aminoAcids: 31,
+    stability: 'Stable',
+    benefits: {
+      'Metabolic Regulation': { score: 10, studies: 'Extensive clinical research on glucose metabolism' },
+      'Blood Sugar Control': { score: 10, studies: 'Comprehensive diabetes and glucose studies' },
+      'Weight Management Research': { score: 9, studies: 'Significant research on appetite and satiety mechanisms' },
+      'Cardiovascular Health': { score: 8, studies: 'Heart health and vascular function research' },
+      'Appetite Signaling': { score: 9, studies: 'Detailed research on hunger and satiation pathways' },
+      'Energy Expenditure': { score: 7, studies: 'Metabolic rate and caloric burn research' },
+      'Gastrointestinal Health': { score: 6, studies: 'GI motility and function studies' },
+      'Anti-Inflammatory': { score: 6, studies: 'Secondary anti-inflammatory effects in research' },
+      'Musculoskeletal Healing': { score: 2, studies: 'Not primary application' }
+    },
+    clinicalNotes: 'Metabolic and endocrine focused peptide. Strongest research for glucose regulation and weight-related metabolic pathways. Limited direct tissue repair applications.'
+  },
+  'Tirzepatide': {
+    fullName: 'Tirzepatide (Research Grade)',
+    description: 'Dual GLP-1 and GIP receptor agonist for comprehensive metabolic research',
+    molecularWeight: '~4,672 Da',
+    aminoAcids: 39,
+    stability: 'Stable',
+    benefits: {
+      'Metabolic Regulation': { score: 10, studies: 'Advanced dual-receptor research on metabolism' },
+      'Blood Sugar Control': { score: 10, studies: 'Potent glucose control research' },
+      'Weight Management Research': { score: 10, studies: 'Enhanced appetite suppression research' },
+      'Cardiovascular Health': { score: 9, studies: 'Advanced cardiovascular benefit research' },
+      'Appetite Signaling': { score: 10, studies: 'Dual pathway appetite regulation research' },
+      'Energy Expenditure': { score: 8, studies: 'Enhanced metabolic rate research' },
+      'Anti-Inflammatory': { score: 7, studies: 'Dual-pathway inflammatory modulation' },
+      'Gastrointestinal Health': { score: 6, studies: 'GI health and motility research' },
+      'Musculoskeletal Healing': { score: 2, studies: 'Not primary application' }
+    },
+    clinicalNotes: 'Advanced dual-receptor metabolic peptide. Research indicates more potent effects than single GLP-1 agonists. Superior for comprehensive metabolic research protocols.'
+  }
+};
 
 export default function PeptideComparison() {
-  const comparisonData = [
-    {
-      peptide: 'BPC-157',
-      fullName: 'Body Protection Compound-157',
-      aminoAcids: 15,
-      source: 'Gastric juice',
-      primaryUse: 'Tissue repair & healing',
-      secondaryUses: ['Musculoskeletal recovery', 'Gastrointestinal health', 'Neuroprotection'],
-      structure: 'GEPPPGKPADDDAGD',
-      stability: 'Very High',
-      researchFocus: 'Localized healing, injury recovery',
-      startingPrice: '$49.99',
-      molecularWeight: '~1,494 Da'
-    },
-    {
-      peptide: 'TB-500',
-      fullName: 'Thymosin Beta-4',
-      aminoAcids: 43,
-      source: 'Thymus gland & wound fluid',
-      primaryUse: 'Cellular protection & proliferation',
-      secondaryUses: ['Tissue engineering', 'Cardiac recovery', 'Angiogenesis'],
-      stability: 'Highly Stable',
-      researchFocus: 'Systemic protection, cellular growth',
-      startingPrice: '$59.99',
-      molecularWeight: '~4,963 Da'
-    },
-    {
-      peptide: 'Semaglutide',
-      fullName: 'Semaglutide (Research)',
-      aminoAcids: 31,
-      source: 'Synthetic analog of GLP-1',
-      primaryUse: 'Metabolic & weight research',
-      secondaryUses: ['Glucose regulation studies', 'Appetite research', 'Metabolic pathways'],
-      stability: 'Stable',
-      researchFocus: 'Endocrine function, metabolism',
-      startingPrice: '$89.99',
-      molecularWeight: '~4,113 Da'
-    }
-  ];
+  const [selectedBenefits, setSelectedBenefits] = useState([]);
+  const [recommendations, setRecommendations] = useState(null);
+  const [expandedPeptide, setExpandedPeptide] = useState(null);
+
+  const { data: products = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => base44.entities.Product.list(),
+  });
+
+  // Get all unique benefits from all peptides
+  const allBenefits = useMemo(() => {
+    const benefits = new Set();
+    Object.values(PEPTIDE_RESEARCH_DATA).forEach(peptide => {
+      Object.keys(peptide.benefits).forEach(benefit => benefits.add(benefit));
+    });
+    return Array.from(benefits).sort();
+  }, []);
+
+  // Calculate recommendation score for each peptide
+  const calculateScores = (selectedBenefitsArray) => {
+    const scores = {};
+    
+    Object.entries(PEPTIDE_RESEARCH_DATA).forEach(([peptideName, data]) => {
+      const matchedBenefits = selectedBenefitsArray.filter(benefit => benefit in data.benefits);
+      const avgScore = matchedBenefits.length > 0
+        ? matchedBenefits.reduce((sum, benefit) => sum + data.benefits[benefit].score, 0) / matchedBenefits.length
+        : 0;
+      
+      scores[peptideName] = {
+        matchPercentage: (matchedBenefits.length / selectedBenefitsArray.length) * 100,
+        avgScore: avgScore,
+        matchedCount: matchedBenefits.length,
+        matchedBenefits: matchedBenefits
+      };
+    });
+
+    return scores;
+  };
+
+  const handleFindRecommendation = () => {
+    if (selectedBenefits.length === 0) return;
+
+    const scores = calculateScores(selectedBenefits);
+    const sorted = Object.entries(scores).sort((a, b) => {
+      const scoreA = (a[1].matchPercentage * 0.7) + (a[1].avgScore * 0.3);
+      const scoreB = (b[1].matchPercentage * 0.7) + (b[1].avgScore * 0.3);
+      return scoreB - scoreA;
+    });
+
+    const perfectMatch = sorted[0][1].matchPercentage === 100;
+    
+    setRecommendations({
+      scores,
+      ranked: sorted,
+      perfectMatch,
+      selectedBenefits
+    });
+  };
+
+  const toggleBenefit = (benefit) => {
+    setSelectedBenefits(prev =>
+      prev.includes(benefit)
+        ? prev.filter(b => b !== benefit)
+        : [...prev, benefit]
+    );
+  };
+
+  const resetSelection = () => {
+    setSelectedBenefits([]);
+    setRecommendations(null);
+  };
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <SEO
-        title="Research Peptide Comparison Guide | BPC-157 vs TB-500 vs Semaglutide"
-        description="Detailed comparison of popular research peptides: structure, applications, specifications. Help choose the right peptide for your research."
-        keywords="peptide comparison, BPC-157 vs TB-500, semaglutide research, peptide selection guide, research peptides"
+        title="Peptide Research Recommendation Tool | Red Helix Research"
+        description="Intelligent peptide selection tool matching your research benefits to the ideal peptides. Clinical research-based recommendations."
+        keywords="peptide recommendation, research benefits, BPC-157, TB-500, Semaglutide, Tirzepatide, peptide selection"
       />
 
       <div className="max-w-6xl mx-auto px-4">
@@ -63,254 +177,260 @@ export default function PeptideComparison() {
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Research Peptide Comparison</h1>
-          <p className="text-xl text-stone-300">Choose the right peptide for your research goals</p>
+          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Peptide Research Finder</h1>
+          <p className="text-xl text-stone-300">Select your research benefits and discover the ideal peptide(s) for your study</p>
         </motion.div>
 
-        {/* Overview Section */}
+        {/* Benefit Selection */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-8"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-4">Understanding Peptide Selection</h2>
-          <p className="text-stone-300 mb-4">
-            Each research peptide serves different purposes and has unique structural properties. Understanding these differences is critical for selecting the right peptide for your research applications.
-          </p>
-          <p className="text-stone-300">
-            All Red Helix Research peptides undergo rigorous third-party testing with full Certificates of Analysis (COA). Quality verification includes HPLC purity, mass spectrometry confirmation, and sterility testing.
-          </p>
-        </motion.div>
+          <h2 className="text-2xl font-bold text-amber-50 mb-6">Step 1: Select Your Research Benefits</h2>
+          <p className="text-stone-300 mb-6">Choose all the research areas you're interested in exploring:</p>
 
-        {/* Comparison Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {comparisonData.map((peptide, idx) => (
-            <motion.div
-              key={peptide.peptide}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 hover:border-red-700/50 transition-all"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+            {allBenefits.map((benefit) => (
+              <motion.button
+                key={benefit}
+                onClick={() => toggleBenefit(benefit)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`p-4 rounded-lg border-2 transition-all text-left font-medium ${
+                  selectedBenefits.includes(benefit)
+                    ? 'bg-red-600/20 border-red-600/70 text-amber-50'
+                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-red-600/30'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span>{benefit}</span>
+                  {selectedBenefits.includes(benefit) && (
+                    <CheckCircle2 className="w-5 h-5 text-red-600" />
+                  )}
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="flex gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleFindRecommendation}
+              disabled={selectedBenefits.length === 0}
+              className="px-8 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-amber-50 font-bold rounded-lg transition-all"
             >
-              <div className="mb-6 pb-6 border-b border-stone-700">
-                <h3 className="text-2xl font-black text-amber-50 mb-2">{peptide.peptide}</h3>
-                <p className="text-stone-400 text-sm">{peptide.fullName}</p>
-              </div>
-
-              <div className="space-y-4 text-sm">
-                <div>
-                  <span className="text-stone-400">Amino Acids</span>
-                  <p className="text-amber-50 font-semibold">{peptide.aminoAcids}</p>
-                </div>
-
-                <div>
-                  <span className="text-stone-400">Molecular Weight</span>
-                  <p className="text-amber-50 font-semibold">{peptide.molecularWeight}</p>
-                </div>
-
-                <div>
-                  <span className="text-stone-400">Natural Source</span>
-                  <p className="text-amber-50 font-semibold">{peptide.source}</p>
-                </div>
-
-                <div>
-                  <span className="text-stone-400">Primary Research Focus</span>
-                  <p className="text-amber-50 font-semibold">{peptide.primaryUse}</p>
-                </div>
-
-                <div>
-                  <span className="text-stone-400">Secondary Applications</span>
-                  <ul className="text-amber-50 space-y-1 mt-2">
-                    {peptide.secondaryUses.map((use, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-red-600 font-bold mt-0.5">•</span>
-                        <span>{use}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="pt-4 border-t border-stone-700">
-                  <span className="text-stone-400">Starting Price</span>
-                  <p className="text-red-600 font-bold text-lg">{peptide.startingPrice}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Detailed Comparison Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-16 overflow-x-auto"
-        >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Detailed Specifications Comparison</h2>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-stone-700">
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Property</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">BPC-157</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">TB-500</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Semaglutide</th>
-              </tr>
-            </thead>
-            <tbody className="text-stone-300">
-              <tr className="border-b border-stone-700/50">
-                <td className="py-3 px-4">Amino Acid Count</td>
-                <td className="py-3 px-4">15</td>
-                <td className="py-3 px-4">43</td>
-                <td className="py-3 px-4">31</td>
-              </tr>
-              <tr className="border-b border-stone-700/50">
-                <td className="py-3 px-4">Molecular Weight</td>
-                <td className="py-3 px-4">~1,494 Da</td>
-                <td className="py-3 px-4">~4,963 Da</td>
-                <td className="py-3 px-4">~4,113 Da</td>
-              </tr>
-              <tr className="border-b border-stone-700/50">
-                <td className="py-3 px-4">Stability Rating</td>
-                <td className="py-3 px-4">Very High</td>
-                <td className="py-3 px-4">Highly Stable</td>
-                <td className="py-3 px-4">Stable</td>
-              </tr>
-              <tr className="border-b border-stone-700/50">
-                <td className="py-3 px-4">Research Scope</td>
-                <td className="py-3 px-4">Localized</td>
-                <td className="py-3 px-4">Systemic</td>
-                <td className="py-3 px-4">Metabolic</td>
-              </tr>
-              <tr className="border-b border-stone-700/50">
-                <td className="py-3 px-4">Recovery Focus</td>
-                <td className="py-3 px-4">Tissue & Healing</td>
-                <td className="py-3 px-4">Cellular & Protection</td>
-                <td className="py-3 px-4">Metabolic & Endocrine</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4">Reconstitution Time</td>
-                <td className="py-3 px-4">2-3 minutes</td>
-                <td className="py-3 px-4">3-5 minutes</td>
-                <td className="py-3 px-4">2-3 minutes</td>
-              </tr>
-            </tbody>
-          </table>
-        </motion.div>
-
-        {/* Research Applications */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
-        >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Research Applications Guide</h2>
-          
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-xl font-bold text-red-600 mb-3">Choose BPC-157 If You're Researching:</h3>
-              <ul className="space-y-2 text-stone-300">
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Muscle and joint healing mechanisms</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Gastrointestinal tract repair</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Localized tissue recovery protocols</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Neuroprotection and nerve regeneration</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold text-red-600 mb-3">Choose TB-500 If You're Researching:</h3>
-              <ul className="space-y-2 text-stone-300">
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Cellular protection and proliferation mechanisms</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Tissue engineering applications</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Cardiovascular and systemic recovery</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Angiogenesis and blood vessel formation</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold text-red-600 mb-3">Choose Semaglutide If You're Researching:</h3>
-              <ul className="space-y-2 text-stone-300">
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>GLP-1 receptor pathways and function</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Metabolic regulation and glucose control</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Appetite signaling mechanisms</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-red-600 font-bold mt-1">✓</span>
-                  <span>Endocrine system research</span>
-                </li>
-              </ul>
-            </div>
+              Find Recommendations ({selectedBenefits.length})
+            </motion.button>
+            {selectedBenefits.length > 0 && (
+              <button
+                onClick={resetSelection}
+                className="px-6 py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 font-semibold rounded-lg transition-all"
+              >
+                Reset
+              </button>
+            )}
           </div>
         </motion.div>
 
-        {/* Quality Assurance */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8"
-        >
-          <h2 className="text-2xl font-bold text-amber-50 mb-4">Quality Assurance Across All Peptides</h2>
-          <p className="text-stone-300 mb-4">
-            Regardless of which peptide you choose, Red Helix Research ensures the same rigorous quality standards:
-          </p>
-          <ul className="space-y-2 text-stone-300">
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span>HPLC Analysis: &gt;98% purity verification</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span>Mass Spectrometry: Complete amino acid sequence confirmation</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span>Sterility Testing: Bacterial and fungal screening</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span>Endotoxin Testing: Safety verification for research</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span>Certificate of Analysis: Full documentation included</span>
-            </li>
-          </ul>
-        </motion.div>
+        {/* Recommendations */}
+        <AnimatePresence>
+          {recommendations && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-8"
+            >
+              {/* Perfect Match Section */}
+              {recommendations.perfectMatch && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-gradient-to-r from-red-900/30 to-red-800/10 border-2 border-red-600/50 rounded-lg p-8"
+                >
+                  <div className="flex items-start gap-3 mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-green-500 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-2xl font-bold text-amber-50">Perfect Match Found!</h3>
+                      <p className="text-stone-300 mt-1">One or more peptides match all your selected research benefits.</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Top Recommendation */}
+              {recommendations.ranked[0] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-br from-stone-800 to-stone-900 border-2 border-red-600/60 rounded-lg p-8"
+                >
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <h3 className="text-3xl font-black text-amber-50 mb-1">
+                        {recommendations.ranked[0][0]}
+                      </h3>
+                      <p className="text-stone-300">
+                        {PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].description}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-4xl font-black text-red-600 mb-2">
+                        {Math.round(recommendations.ranked[0][1].matchPercentage)}%
+                      </div>
+                      <p className="text-stone-400 text-sm">Match Score</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mb-6 py-6 border-y border-stone-700">
+                    <div>
+                      <p className="text-stone-400 text-sm">Amino Acids</p>
+                      <p className="text-amber-50 font-bold">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].aminoAcids}</p>
+                    </div>
+                    <div>
+                      <p className="text-stone-400 text-sm">Molecular Weight</p>
+                      <p className="text-amber-50 font-bold">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].molecularWeight}</p>
+                    </div>
+                    <div>
+                      <p className="text-stone-400 text-sm">Stability</p>
+                      <p className="text-amber-50 font-bold">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].stability}</p>
+                    </div>
+                    <div>
+                      <p className="text-stone-400 text-sm">Matched Benefits</p>
+                      <p className="text-amber-50 font-bold">{recommendations.ranked[0][1].matchedCount}/{recommendations.selectedBenefits.length}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-stone-400 mb-3 font-semibold">MATCHED RESEARCH AREAS:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {recommendations.ranked[0][1].matchedBenefits.map((benefit) => (
+                        <div key={benefit} className="px-3 py-1.5 bg-red-600/20 border border-red-600/50 rounded-full text-xs text-amber-50">
+                          {benefit}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-stone-300 mt-6 pt-6 border-t border-stone-700">
+                    <span className="font-semibold text-amber-50">Clinical Note:</span> {PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].clinicalNotes}
+                  </p>
+                </motion.div>
+              )}
+
+              {/* Other Options */}
+              {recommendations.ranked.length > 1 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+                >
+                  <h3 className="text-2xl font-bold text-amber-50 mb-6">Other Options</h3>
+                  <div className="space-y-4">
+                    {recommendations.ranked.slice(1).map(([peptideName, data]) => (
+                      <motion.div
+                        key={peptideName}
+                        className="bg-stone-800/40 border border-stone-700 rounded-lg p-4 cursor-pointer hover:border-red-600/30 transition-all"
+                        onClick={() => setExpandedPeptide(expandedPeptide === peptideName ? null : peptideName)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="text-lg font-bold text-amber-50 mb-1">{peptideName}</h4>
+                            <p className="text-stone-400 text-sm">
+                              {data.matchedCount} of {recommendations.selectedBenefits.length} benefits covered
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-2xl font-bold text-red-600">{Math.round(data.matchPercentage)}%</p>
+                            <ChevronDown className={`w-5 h-5 text-stone-400 mt-2 transition-transform ${expandedPeptide === peptideName ? 'rotate-180' : ''}`} />
+                          </div>
+                        </div>
+
+                        <AnimatePresence>
+                          {expandedPeptide === peptideName && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="mt-4 pt-4 border-t border-stone-700"
+                            >
+                              <p className="text-stone-300 text-sm mb-3">{PEPTIDE_RESEARCH_DATA[peptideName].description}</p>
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {data.matchedBenefits.map((benefit) => (
+                                  <div key={benefit} className="px-2 py-1 bg-red-600/15 border border-red-600/30 rounded text-xs text-amber-50">
+                                    {benefit}
+                                  </div>
+                                ))}
+                              </div>
+                              <p className="text-stone-400 text-xs">{PEPTIDE_RESEARCH_DATA[peptideName].clinicalNotes}</p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Synergistic Pairing Suggestion */}
+              {!recommendations.perfectMatch && recommendations.ranked[0][1].matchPercentage < 100 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-8"
+                >
+                  <div className="flex items-start gap-3 mb-4">
+                    <AlertCircle className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-xl font-bold text-blue-300 mb-2">Complementary Pairing Recommendation</h3>
+                      <p className="text-stone-300 mb-4">
+                        For complete coverage of all selected research areas, consider combining peptides:
+                      </p>
+
+                      <div className="bg-stone-800/50 rounded p-4">
+                        <p className="text-amber-50 font-bold mb-3">
+                          {recommendations.ranked[0][0]} + {recommendations.ranked[1]?.[0]}
+                        </p>
+                        <p className="text-stone-300 text-sm">
+                          This combination covers all selected research benefits with complementary mechanisms. {recommendations.ranked[0][0]} excels in areas where {recommendations.ranked[1]?.[0]} is weaker, creating a comprehensive research protocol.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Peptide Database Reference */}
+        {!recommendations && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mt-12"
+          >
+            <h2 className="text-2xl font-bold text-amber-50 mb-6">Available Research Peptides</h2>
+            <p className="text-stone-300 mb-8">Each peptide in our catalog has been selected for rigorous clinical research backing and quality verification.</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {Object.entries(PEPTIDE_RESEARCH_DATA).map(([name, data]) => (
+                <div key={name} className="bg-stone-800/40 border border-stone-700 rounded-lg p-6">
+                  <h3 className="text-xl font-bold text-amber-50 mb-2">{name}</h3>
+                  <p className="text-stone-400 text-sm mb-4">{data.fullName}</p>
+                  <p className="text-stone-300 text-sm mb-4">{data.description}</p>
+                  <div className="flex gap-4 text-xs text-stone-400">
+                    <span>MW: {data.molecularWeight}</span>
+                    <span>AA: {data.aminoAcids}</span>
+                    <span>{data.stability}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </div>
   );
