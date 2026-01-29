@@ -85,8 +85,9 @@ Deno.serve(async (req) => {
       `
     });
 
-    return Response.json({ success: true });
+    return createSecureResponse({ success: true });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Abandoned cart email error:', error);
+    return createSecureResponse({ error: 'Failed to send email' }, 500);
   }
 });
