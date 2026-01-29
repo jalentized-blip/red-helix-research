@@ -5,6 +5,7 @@ import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-rea
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -14,8 +15,22 @@ export default function Cart() {
   const [promoError, setPromoError] = useState('');
   const [promoFocused, setPromoFocused] = useState(false);
   const [showAffiliateMessage, setShowAffiliateMessage] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const authenticated = await base44.auth.isAuthenticated();
+        setIsAuthenticated(authenticated);
+      } catch (error) {
+        setIsAuthenticated(false);
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+    
+    checkAuth();
     setCartItems(getCart());
     setAppliedPromo(getPromoCode());
     const handleCartUpdate = () => setCartItems(getCart());
@@ -210,11 +225,22 @@ export default function Cart() {
                 </div>
 
                 <Button 
-                  onClick={() => navigate(createPageUrl('CustomerInfo'))}
-                  className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3 gap-2"
+                  onClick={() => {
+                    if (!isAuthenticated) {
+                      base44.auth.redirectToLogin(createPageUrl('Cart'));
+                      return;
+                    }
+                    navigate(createPageUrl('CustomerInfo'));
+                  }}
+                  className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3 gap-2 relative group"
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-4 h-4" />
+                  {!isAuthenticated && !isCheckingAuth && (
+                    <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-stone-800 text-amber-50 text-xs px-3 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg border border-stone-700">
+                      Please sign in to checkout
+                    </span>
+                  )}
                 </Button>
 
                 <Button
