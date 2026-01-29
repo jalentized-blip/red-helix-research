@@ -711,6 +711,15 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('CompetitivePositioning')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Competitive Positioning
                               </Link>
+
+                              <div className="border-t border-stone-800/30 my-2 pt-2" />
+
+                              <Link to={createPageUrl('PaymentSecurity')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Payment Security
+                              </Link>
+                              <Link to={createPageUrl('SecurityCompliance')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Security Audit
+                              </Link>
                               </>
                               )}
                               </>
@@ -728,6 +737,10 @@ const HeaderSearch = () => {
 
                       <Link to={createPageUrl('ResourceHub')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Resource Hub
+                      </Link>
+
+                      <Link to={createPageUrl('ExpandedFAQ')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        FAQ
                       </Link>
 
                       <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
