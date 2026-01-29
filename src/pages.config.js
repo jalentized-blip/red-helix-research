@@ -80,6 +80,9 @@ import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import SEOGuide from './pages/SEOGuide';
 import BlogGuide from './pages/BlogGuide';
 import ProductBPC157 from './pages/ProductBPC157';
+import ProductTB500 from './pages/ProductTB500';
+import PeptideComparison from './pages/PeptideComparison';
+import BacklinkStrategy from './pages/BacklinkStrategy';
 import __Layout from './Layout.jsx';
 
 
@@ -117,6 +120,9 @@ export const PAGES = {
     "SEOGuide": SEOGuide,
     "BlogGuide": BlogGuide,
     "ProductBPC157": ProductBPC157,
+    "ProductTB500": ProductTB500,
+    "PeptideComparison": PeptideComparison,
+    "BacklinkStrategy": BacklinkStrategy,
 }
 
 export const pagesConfig = {
