@@ -263,6 +263,14 @@ const PEPTIDE_RESEARCH_DATA = {
 const PEPTIDE_USAGE_TYPE = {
   'BPC-157': { type: 'LONG_TERM', duration: '12-16 weeks continuous or extended', protocol: 'Daily subcutaneous injection protocol' },
   'TB-500': { type: 'CYCLE_BASED', duration: '8-12 week cycles', protocol: 'Twice weekly protocol with scheduled breaks' },
+  'GHK-Cu': { type: 'LONG_TERM', duration: '12+ weeks continuous', protocol: 'Daily or 5x per week protocol' },
+  'Ipamorelin': { type: 'CYCLE_BASED', duration: '12-16 week cycles', protocol: '1-3x daily injection protocol' },
+  'CJC-1295': { type: 'CYCLE_BASED', duration: '12-16 week cycles', protocol: '2x weekly injection protocol' },
+  'Pinealon': { type: 'CYCLE_BASED', duration: '10 day cycles with breaks', protocol: 'Daily subcutaneous or intranasal' },
+  'DSIP': { type: 'CYCLE_BASED', duration: '8-10 week cycles', protocol: 'Evening injection before sleep' },
+  'Gonadorelin': { type: 'CYCLE_BASED', duration: '8-12 week cycles', protocol: 'Multiple daily injections' },
+  'KPV': { type: 'LONG_TERM', duration: '8-12 weeks continuous', protocol: 'Daily or every other day' },
+  'Oxytocin': { type: 'CYCLE_BASED', duration: '4-8 week cycles', protocol: '1-2x daily nasal spray or injection' },
   'Semaglutide': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' },
   'Tirzepatide': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' }
 };
