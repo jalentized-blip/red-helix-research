@@ -17,20 +17,25 @@ Deno.serve(async (req) => {
 
     // Use LLM to fetch real-time tracking information
     const trackingData = await base44.integrations.Core.InvokeLLM({
-      prompt: `Get the current shipping status for tracking number "${tracking_number}" with carrier "${carrier || 'auto-detect'}". 
+      prompt: `IMPORTANT: Fetch the LATEST, REAL-TIME tracking information right now (as of ${new Date().toISOString()}) for tracking number "${tracking_number}" with carrier "${carrier || 'auto-detect'}".
+      
+      Do NOT use cached data. Look up the CURRENT status directly from the carrier's tracking system.
       
       Return detailed tracking information including:
       - Current status (in transit, delivered, out for delivery, etc.)
-      - Location history with timestamps
+      - Complete location history with timestamps (ordered from most recent to oldest)
+      - Current/latest location where the package is RIGHT NOW
       - Estimated delivery date
       - Any exceptions or delays
+      
+      Make sure the "current_location" field shows where the package is RIGHT NOW, not where it was previously.
       
       Format as JSON with this structure:
       {
         "status": "in_transit" | "delivered" | "out_for_delivery" | "exception" | "pending",
         "status_description": "human readable status",
         "estimated_delivery": "ISO date string or null",
-        "current_location": "city, state",
+        "current_location": "city, state (the LATEST/CURRENT location)",
         "last_update": "ISO datetime string",
         "events": [
           {
