@@ -588,7 +588,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
       const customerEmail = userEmail || customerInfo?.email;
       if (customerEmail) {
         await base44.integrations.Core.SendEmail({
-          from_name: 'Red Helix Research',
+          from_name: 'Jake - Red Helix Research',
           to: customerEmail,
           subject: `Order Confirmation - ${orderNumber}`,
           body: `
@@ -642,7 +642,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
         // Send email to admin
         await base44.integrations.Core.SendEmail({
-          from_name: 'Red Helix Research',
+          from_name: 'Jake - Red Helix Research',
           to: admin.email,
           subject: `New Order Received - ${orderNumber}`,
           body: `
