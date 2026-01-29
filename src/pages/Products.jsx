@@ -236,7 +236,19 @@ export default function Products() {
               </button>
             ))}
           </div>
-        </div>
+
+          {/* In Stock Filter */}
+          <button
+            onClick={() => setShowInStockOnly(!showInStockOnly)}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+              showInStockOnly
+                ? 'bg-green-600 text-amber-50'
+                : 'bg-stone-800 text-stone-300 hover:bg-stone-700 border border-stone-700'
+            }`}
+          >
+            {showInStockOnly ? '✓ In Stock Only' : 'In Stock Only'}
+          </button>
+          </div>
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
