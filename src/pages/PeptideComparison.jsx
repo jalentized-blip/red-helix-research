@@ -545,7 +545,7 @@ export default function PeptideComparison() {
                                     <div className={`rounded-lg p-3 border ${topUsage.type === 'LONG_TERM' ? 'bg-green-900/20 border-green-700/50' : 'bg-amber-900/20 border-amber-700/50'}`}>
                                       <p className="text-red-400 font-semibold mb-2">{topPeptide}</p>
                                       <div className="mb-2">
-                                        <span className={`inline-block text-xs px-1.5 py-0.5 rounded font-bold whitespace-nowrap ${topUsage.type === 'LONG_TERM' ? 'bg-green-600/30 text-green-300' : 'bg-amber-600/30 text-amber-300'}`}>
+                                        <span className={`inline-block text-xs px-1.5 py-0.5 rounded font-bold ${topUsage.type === 'LONG_TERM' ? 'bg-green-600/30 text-green-300' : 'bg-amber-600/30 text-amber-300'}`}>
                                           {topUsage.type === 'LONG_TERM' ? '🔄 Continuous' : `⚡ ${topUsage.duration}`}
                                         </span>
                                       </div>
