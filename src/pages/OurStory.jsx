@@ -110,7 +110,7 @@ export default function OurStory() {
         </Section>
 
         {/* Forcing Transparency */}
-        <Section icon={Eye} title="Forcing Transparency Into a Gray Market" delay={0.5}>
+        <Section icon={Eye} title="Forcing Transparency Into the Gray Market" delay={0.5}>
           <p>
             The gray market thrives on opacity. We're trying to change that by being radically transparent ourselves. Every COA we receive gets published. We share feedback and criticism. We admit when we make mistakes. We publish our sourcing information where we can.
           </p>
