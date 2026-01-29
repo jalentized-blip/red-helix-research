@@ -514,9 +514,16 @@ export default function PeptideComparison() {
                               const topUsage = PEPTIDE_USAGE_TYPE[topPeptide];
                               const partnerUsage = PEPTIDE_USAGE_TYPE[stackOption.peptide];
                               
-                              // Find which selected benefits each covers
+                              // Find which selected benefits each covers (only if score > 0)
                               const topPeptideBenefits = recommendations.ranked[0][1].matchedBenefits;
-                              const partnerBenefits = recommendations.selectedBenefits.filter(benefit => benefit in partnerPeptideData.benefits);
+                              const partnerBenefits = recommendations.selectedBenefits.filter(benefit => 
+                                benefit in partnerPeptideData.benefits && partnerPeptideData.benefits[benefit].score > 0
+                              );
+                              
+                              // Skip this stack option if partner doesn't cover any selected benefits
+                              if (partnerBenefits.length === 0) {
+                                return null;
+                              }
                               
                               return (
                                 <div key={stackOption.peptide} className="bg-stone-800/50 rounded-lg p-4 border border-blue-600/30 space-y-3">
