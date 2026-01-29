@@ -490,6 +490,9 @@ const HeaderSearch = () => {
               <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 About
               </Link>
+              <Link to={createPageUrl('OurStory')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
+                Our Story
+              </Link>
               <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Contact
               </Link>
