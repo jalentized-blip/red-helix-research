@@ -83,6 +83,9 @@ import ProductBPC157 from './pages/ProductBPC157';
 import ProductTB500 from './pages/ProductTB500';
 import PeptideComparison from './pages/PeptideComparison';
 import BacklinkStrategy from './pages/BacklinkStrategy';
+import ProductSemaglutide from './pages/ProductSemaglutide';
+import ProductTirzepatide from './pages/ProductTirzepatide';
+import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
 import __Layout from './Layout.jsx';
 
 
@@ -123,6 +126,9 @@ export const PAGES = {
     "ProductTB500": ProductTB500,
     "PeptideComparison": PeptideComparison,
     "BacklinkStrategy": BacklinkStrategy,
+    "ProductSemaglutide": ProductSemaglutide,
+    "ProductTirzepatide": ProductTirzepatide,
+    "InternalLinkingStrategy": InternalLinkingStrategy,
 }
 
 export const pagesConfig = {
