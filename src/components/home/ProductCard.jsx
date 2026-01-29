@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
 import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell, Lock } from "lucide-react";
 import { base44 } from '@/api/base44Client';
@@ -27,9 +28,16 @@ const categoryLabels = {
   general_health: "General Health"
 };
 
-export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true }) {
+export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) {
   const [isHovered, setIsHovered] = React.useState(false);
   const badge = product.badge ? badgeConfig[product.badge] : null;
+
+  const handleVisibilityToggle = async (e) => {
+    e.stopPropagation();
+    if (onVisibilityToggle) {
+      onVisibilityToggle(product.id, !product.hidden);
+    }
+  };
   
   // Filter out hidden specifications
   const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
@@ -81,6 +89,20 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
       <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20">
         {/* Hover glow */}
         <div className="absolute inset-0 bg-gradient-to-t from-red-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Admin Visibility Toggle */}
+        {isAdmin && (
+          <div className="absolute top-3 right-3 z-20" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-2 bg-stone-900/90 backdrop-blur-sm border border-stone-700 rounded-lg px-3 py-2">
+              <Checkbox
+                checked={!product.hidden}
+                onCheckedChange={handleVisibilityToggle}
+                className="border-stone-500 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
+              />
+              <span className="text-xs text-stone-400 font-medium">Visible</span>
+            </div>
+          </div>
+        )}
         
         {/* Badge */}
         {badge && (
