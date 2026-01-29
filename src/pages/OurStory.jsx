@@ -57,7 +57,7 @@ export default function OurStory() {
         {/* The Problem */}
         <Section icon={Eye} title="The Problem We Saw" delay={0.1}>
           <p>
-            The peptide gray market is a wild west. Vendors operate with minimal accountability. Manufacturers price their products at costs far below what American resellers charge, yet customers have no way to verify quality, purity, or authenticity. Worse, there's no unified voice calling out bad actors.
+            The peptide gray market is the wild west. Vendors operate with minimal accountability. Manufacturers price their products at costs far below what American resellers charge, yet customers have no way to verify quality, purity, or authenticity. Worse, there's no unified voice calling out bad actors.
           </p>
           <p>
             Customers are left guessing. Some get legitimate products. Others get underdosed vials, contaminated batches, or nothing at all. There's no community vetting system. No transparency about where products actually come from. No pressure on vendors to be honest about their pricing structure.
