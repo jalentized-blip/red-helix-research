@@ -365,47 +365,69 @@ export default function PeptideComparison() {
                 >
                   <h3 className="text-2xl font-bold text-amber-50 mb-6">Other Options</h3>
                   <div className="space-y-4">
-                    {recommendations.ranked.slice(1).map(([peptideName, data]) => (
-                      <motion.div
-                        key={peptideName}
-                        className="bg-stone-800/40 border border-stone-700 rounded-lg p-4 cursor-pointer hover:border-red-600/30 transition-all"
-                        onClick={() => setExpandedPeptide(expandedPeptide === peptideName ? null : peptideName)}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="text-lg font-bold text-amber-50 mb-1">{peptideName}</h4>
-                            <p className="text-stone-400 text-sm">
-                              {data.matchedCount} of {recommendations.selectedBenefits.length} benefits covered
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-2xl font-bold text-red-600">{Math.round(data.matchPercentage)}%</p>
-                            <ChevronDown className={`w-5 h-5 text-stone-400 mt-2 transition-transform ${expandedPeptide === peptideName ? 'rotate-180' : ''}`} />
-                          </div>
-                        </div>
-
-                        <AnimatePresence>
-                          {expandedPeptide === peptideName && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="mt-4 pt-4 border-t border-stone-700"
-                            >
-                              <p className="text-stone-300 text-sm mb-3">{PEPTIDE_RESEARCH_DATA[peptideName].description}</p>
-                              <div className="flex flex-wrap gap-2 mb-3">
-                                {data.matchedBenefits.map((benefit) => (
-                                  <div key={benefit} className="px-2 py-1 bg-red-600/15 border border-red-600/30 rounded text-xs text-amber-50">
-                                    {benefit}
-                                  </div>
-                                ))}
+                    {recommendations.ranked.slice(1).map(([peptideName, data]) => {
+                      const topPeptide = recommendations.ranked[0][0];
+                      const contraindication = PEPTIDE_RESEARCH_DATA[topPeptide]?.contraindications.find(c => c.peptide === peptideName);
+                      
+                      return (
+                        <motion.div
+                          key={peptideName}
+                          className={`rounded-lg p-4 cursor-pointer transition-all ${
+                            contraindication
+                              ? 'bg-red-900/20 border border-red-700/50'
+                              : 'bg-stone-800/40 border border-stone-700 hover:border-red-600/30'
+                          }`}
+                          onClick={() => setExpandedPeptide(expandedPeptide === peptideName ? null : peptideName)}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <h4 className="text-lg font-bold text-amber-50">{peptideName}</h4>
+                                {contraindication && (
+                                  <span className="px-2 py-1 bg-red-700/40 text-red-300 text-xs font-bold rounded">
+                                    ⚠️ {contraindication.severity}
+                                  </span>
+                                )}
                               </div>
-                              <p className="text-stone-400 text-xs">{PEPTIDE_RESEARCH_DATA[peptideName].clinicalNotes}</p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    ))}
+                              <p className="text-stone-400 text-sm">
+                                {data.matchedCount} of {recommendations.selectedBenefits.length} benefits covered
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-2xl font-bold text-red-600">{Math.round(data.matchPercentage)}%</p>
+                              <ChevronDown className={`w-5 h-5 text-stone-400 mt-2 transition-transform ${expandedPeptide === peptideName ? 'rotate-180' : ''}`} />
+                            </div>
+                          </div>
+
+                          <AnimatePresence>
+                            {expandedPeptide === peptideName && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                className="mt-4 pt-4 border-t border-stone-700"
+                              >
+                                {contraindication && (
+                                  <div className="mb-4 p-3 bg-red-900/30 border border-red-700/50 rounded-lg">
+                                    <p className="text-red-300 text-sm font-bold mb-2">⚠️ CONTRAINDICATION WARNING</p>
+                                    <p className="text-red-200 text-xs">{contraindication.reason}</p>
+                                  </div>
+                                )}
+                                <p className="text-stone-300 text-sm mb-3">{PEPTIDE_RESEARCH_DATA[peptideName].description}</p>
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                  {data.matchedBenefits.map((benefit) => (
+                                    <div key={benefit} className="px-2 py-1 bg-red-600/15 border border-red-600/30 rounded text-xs text-amber-50">
+                                      {benefit}
+                                    </div>
+                                  ))}
+                                </div>
+                                <p className="text-stone-400 text-xs">{PEPTIDE_RESEARCH_DATA[peptideName].clinicalNotes}</p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 </motion.div>
               )}
