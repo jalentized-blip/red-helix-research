@@ -46,8 +46,8 @@ export default function LearnMore() {
     // Deduplicate by name, keeping the most recent version
     const productMap = new Map();
     products.forEach(product => {
-      // Only exclude GLOW, keep BAC RESEARCH
-      if (product.name.toUpperCase() === 'GLOW') {
+      // Only exclude GLOW, keep BAC RESEARCH; filter for in-stock
+      if (product.name.toUpperCase() === 'GLOW' || !product.in_stock || product.hidden) {
         return;
       }
       if (!productMap.has(product.name) || 
