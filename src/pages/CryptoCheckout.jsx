@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import {
@@ -164,6 +164,20 @@ export default function CryptoCheckout() {
   // Refs for intervals
   const walletMonitorRef = useRef(null);
   const txVerifyRef = useRef(null);
+  
+  // Redirect effect for completed stage
+  useEffect(() => {
+    if (stage === CHECKOUT_STAGE.COMPLETED) {
+      const orderNumber = localStorage.getItem('lastOrderNumber');
+      const txHash = localStorage.getItem('lastTransactionId');
+      
+      const timer = setTimeout(() => {
+        window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${txHash}&order=${orderNumber}`;
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [stage]);
 
   // Initialize data on mount
   useEffect(() => {
@@ -663,10 +677,8 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
       localStorage.removeItem('customerInfo');
       localStorage.removeItem('abandonedCartSent');
       localStorage.setItem('lastOrderComplete', Date.now().toString());
-
-      setTimeout(() => {
-        navigate(`${createPageUrl('PaymentCompleted')}?txid=${txHash}&order=${orderNumber}`);
-      }, 3000);
+      localStorage.setItem('lastOrderNumber', orderNumber);
+      localStorage.setItem('lastTransactionId', txHash);
 
     } catch (error) {
       console.error('Order processing error:', error);
