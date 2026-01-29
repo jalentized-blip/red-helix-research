@@ -59,7 +59,7 @@ const goals = [
   }
 ];
 
-export default function ShopByGoal({ products = [], onSelectStrength, isAuthenticated = true }) {
+export default function ShopByGoal({ products = [], onSelectStrength, isAuthenticated = true, isAdmin = false }) {
   const [hoveredPeptide, setHoveredPeptide] = useState(null);
 
   return (

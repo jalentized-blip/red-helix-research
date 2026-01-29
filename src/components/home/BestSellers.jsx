@@ -5,7 +5,7 @@ import ProductCard from './ProductCard';
 import { base44 } from '@/api/base44Client';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function BestSellers({ products, onSelectStrength, isAuthenticated = true, isAdmin = false }) {
+export default function BestSellers({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp = false }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const queryClient = useQueryClient();
 
@@ -13,7 +13,7 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
     const checkAdmin = async () => {
       try {
         const user = await base44.auth.me();
-        setIsAdmin(user?.role === 'admin');
+        setIsAdmin(isAdminProp !== undefined ? isAdminProp : (user?.role === 'admin'));
       } catch (error) {
         setIsAdmin(false);
       }
