@@ -67,9 +67,9 @@ export default function About() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 relative">
       <SEO 
-        title="About Red Helix Research - Transparent Research Peptide Supplier"
-        description="Red Helix Research provides premium research peptides with verified COAs, competitive pricing, and exceptional customer service. Learn about our commitment to transparency and quality."
-        keywords="about red helix research, peptide supplier transparency, verified peptides, COA peptides, research peptide company"
+        title="About Red Helix Research - Transparent Gray Market Peptide Supplier"
+        description="Red Helix Research: Trusted alternative peptide supplier in the research peptide community. Verified COAs, competitive pricing, and transparent sourcing. Learn why researchers choose us as their peptide vendor for gray market research chemicals."
+        keywords="about red helix research, gray market peptide supplier, peptide vendor transparency, alternative peptide source, underground peptide supplier, verified research peptides, COA peptides, research peptide company, peptide community, trusted peptide source"
         schema={aboutSchema}
       />
       <TechGrid />

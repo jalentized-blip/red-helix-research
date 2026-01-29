@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 export default function SEO({ 
-  title = 'Red Helix Research - Premium Research Peptides & Lab-Tested Products',
-  description = 'Leading supplier of research-grade peptides for weight loss, recovery, cognitive enhancement, and performance. Lab-tested, third-party verified, with Certificate of Analysis for every product.',
-  keywords = 'research peptides, peptide research, lab tested peptides, peptide supplier, weight loss peptides, recovery peptides, cognitive peptides, performance peptides, certificate of analysis, COA, peptide reconstitution',
+  title = 'Red Helix Research - Gray Market Research Peptides | Verified Lab-Tested Supplier',
+  description = 'Trusted gray market peptide supplier with transparent COA verification. Alternative research peptide source for weight loss, recovery, cognitive enhancement. Underground peptide vendor with third-party lab testing for BPC-157, TB-500, semaglutide, tirzepatide.',
+  keywords = 'gray market peptides, research peptides, peptide supplier, peptide vendor, underground peptides, research chemical supplier, alternative peptide source, lab tested peptides, peptide marketplace, BPC-157, TB-500, semaglutide, tirzepatide, peptide COA, verified peptides, research grade peptides, peptide community, peptide research chemicals',
   canonical,
   schema,
   image = 'https://i.ibb.co/M5CYvjkG/websitelogo.png'

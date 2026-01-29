@@ -147,9 +147,9 @@ export default function Home({ adminViewAsUser = false }) {
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50 relative">
       <SEO 
-        title="Red Helix Research - Premium Research Peptides | Lab-Tested & Verified"
-        description="Shop premium research-grade peptides for weight loss, recovery, cognitive enhancement, and performance. Every product third-party lab tested with Certificate of Analysis. Fast shipping, competitive prices."
-        keywords="research peptides, lab tested peptides, peptide supplier, weight loss peptides, BPC-157, TB-500, semaglutide, tirzepatide, cognitive peptides, recovery peptides, peptide COA, certificate of analysis, research chemicals"
+        title="Red Helix Research - Premium Research Peptides | Lab-Tested Gray Market Supplier"
+        description="Trusted research peptide supplier with verified COAs. Alternative peptide source for weight loss, recovery, cognitive enhancement. Gray market research peptides with transparent third-party testing. BPC-157, TB-500, semaglutide, tirzepatide available."
+        keywords="research peptides, gray market peptides, peptide supplier, peptide vendor, underground peptides, research chemical supplier, peptide source, alternative peptide supplier, BPC-157, TB-500, semaglutide research, tirzepatide peptides, lab tested peptides, peptide COA, verified peptides, research grade peptides, peptide marketplace, peptide community, peptide research chemicals"
         schema={[organizationSchema, websiteSchema]}
       />
       <TechGrid />

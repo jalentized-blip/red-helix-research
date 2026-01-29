@@ -96,9 +96,9 @@ export default function LearnMore() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <SEO 
-        title="Peptide Research & Education - Scientific Information | Red Helix Research"
-        description="Comprehensive peptide research guide covering weight loss peptides, recovery peptides, cognitive enhancers, and performance peptides. Evidence-based information with scientific references."
-        keywords="peptide research, peptide education, weight loss peptides, BPC-157 research, TB-500 studies, semaglutide research, peptide science, peptide clinical trials, peptide benefits"
+        title="Peptide Research Guide - Gray Market Research Chemicals & Clinical Studies"
+        description="Comprehensive peptide research database for gray market research chemicals. Scientific studies on BPC-157, TB-500, semaglutide, tirzepatide, and performance peptides. Evidence-based information for peptide researchers and underground research community."
+        keywords="peptide research, gray market peptide research, research chemical studies, peptide education, weight loss peptides research, BPC-157 research, TB-500 studies, semaglutide research, peptide science, peptide clinical trials, underground peptide research, research peptide community, peptide vendor research, alternative medicine peptides"
       />
       {/* Disclaimer Modal */}
       <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>

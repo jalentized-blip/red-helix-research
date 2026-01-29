@@ -115,9 +115,9 @@ export default function COAReports() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-8">
       <SEO 
-        title="Peptide COA Database - Community Certificate of Analysis Reports"
-        description="Browse verified peptide Certificates of Analysis (COA) uploaded by our community. Third-party lab testing results for research peptides including purity, potency, and batch information."
-        keywords="peptide COA, certificate of analysis, peptide lab testing, third party testing, peptide purity, peptide verification, research peptide COA, community COA database"
+        title="Gray Market Peptide COA Database - Community Lab Testing Verification"
+        description="Comprehensive database of verified peptide COAs from gray market suppliers. Community-uploaded third-party lab testing results for research peptides. Verify peptide purity, potency, and authenticity before purchase."
+        keywords="peptide COA, gray market peptide testing, certificate of analysis, peptide lab testing, third party peptide testing, peptide purity verification, research peptide COA, community COA database, underground peptide testing, peptide vendor verification, research chemical COA, peptide source verification"
       />
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
