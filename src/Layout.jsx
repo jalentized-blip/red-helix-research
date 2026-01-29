@@ -702,6 +702,15 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('EmailAutomationStrategy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Email Automation
                               </Link>
+
+                              <div className="border-t border-stone-800/30 my-2 pt-2" />
+
+                              <Link to={createPageUrl('LaunchChecklist')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Launch Checklist
+                              </Link>
+                              <Link to={createPageUrl('CompetitivePositioning')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Competitive Positioning
+                              </Link>
                               </>
                               )}
                               </>
