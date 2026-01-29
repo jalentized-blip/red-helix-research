@@ -164,6 +164,27 @@ export default function AdminStockManagement() {
     }
   };
 
+  const handleToggleProductVisibility = async (productId, currentlyHidden) => {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const updatedSpecs = product.specifications?.map(spec => ({
+      ...spec,
+      hidden: !currentlyHidden
+    })) || [];
+
+    try {
+      await base44.entities.Product.update(productId, { specifications: updatedSpecs });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      toast.success(
+        currentlyHidden ? 'Product shown' : 'Product hidden',
+        { description: 'All strength options updated' }
+      );
+    } catch (error) {
+      toast.error('Failed to update product visibility');
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
