@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package } from 'lucide-react';
+import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -620,6 +620,10 @@ const HeaderSearch = () => {
                           <Link to={createPageUrl('AdminManualOrders')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
                             <Package className="w-4 h-4" />
                             Manual Orders
+                          </Link>
+                          <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                            <User className="w-4 h-4" />
+                            Customer Management
                           </Link>
                           <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                             Customer Support
