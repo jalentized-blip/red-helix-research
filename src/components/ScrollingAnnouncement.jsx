@@ -8,7 +8,7 @@ export default function ScrollingAnnouncement() {
     <div className="w-full bg-gradient-to-r from-red-600/10 to-red-700/10 backdrop-blur-sm border-b border-red-600/20 overflow-hidden py-2.5">
       <motion.div
         animate={{ x: [0, -2000] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         className="whitespace-nowrap text-sm font-semibold text-amber-50"
       >
         {message}
