@@ -8,7 +8,7 @@ import AgeVerificationBot from '@/components/AgeVerificationBot';
 import { generateOrganizationSchema, generateWebsiteSchema, generateProductSchema } from '@/components/utils/schemaHelpers';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
-import { Package, ClipboardList, DollarSign } from 'lucide-react';
+import { Package, ClipboardList, DollarSign, User } from 'lucide-react';
 import SEO from '@/components/SEO';
 
 import Hero from '@/components/home/Hero';
@@ -132,6 +132,17 @@ export default function Home({ adminViewAsUser = false }) {
         isOpen={showAgeVerification} 
         onVerify={handleAgeVerification} 
       />
+
+      {/* User Auth Button */}
+      {!isAuthenticated && (
+        <button
+          onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
+          className="fixed top-24 right-6 z-40 p-3 bg-red-600/20 hover:bg-red-600/40 border border-red-600/50 rounded-lg shadow-lg transition-all hover:scale-110"
+          title="Sign In"
+        >
+          <User className="w-5 h-5 text-red-400" />
+        </button>
+      )}
 
       {/* Admin Buttons */}
       {isAdmin && (
