@@ -7,6 +7,7 @@ import { Info, RotateCcw, ExternalLink, Syringe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 
 export default function PeptideCalculator() {
   const [dose, setDose] = useState('1');
