@@ -341,34 +341,46 @@ export default function Account() {
                              <button
                                onClick={async () => {
                                  try {
+                                   const orderItemsList = order.items.map(item => 
+                                     `<li>${item.product_name || item.productName} (${item.specification}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</li>`
+                                   ).join('');
+
                                    await base44.integrations.Core.SendEmail({
                                      from_name: 'Red Helix Research',
                                      to: order.customer_email,
                                      subject: `Order Confirmation - ${order.order_number}`,
                                      body: `
                                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                                         <h2 style="color: #8B2635;">Order Confirmation</h2>
-                                         <p>Hi ${order.customer_name},</p>
-                                         <p>Here's a copy of your order confirmation:</p>
-
+                                         <h2 style="color: #8B2635;">Thank You for Your Order!</h2>
+                                         <p>Hi ${order.customer_name || 'Customer'},</p>
+                                         <p>We've received your order and it's being processed.</p>
                                          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
                                            <h3 style="margin-top: 0;">Order #${order.order_number}</h3>
-                                           <p><strong>Total:</strong> $${order.total_amount.toFixed(2)}</p>
+                                           ${order.crypto_amount && order.crypto_currency ? `
+                                             <p><strong>Payment:</strong> ${order.crypto_amount} ${order.crypto_currency}</p>
+                                           ` : ''}
+                                           ${order.transaction_id ? `
+                                             <p><strong>Transaction ID:</strong> ${order.transaction_id}</p>
+                                           ` : ''}
+                                           <p><strong>Total:</strong> $${order.total_amount.toFixed(2)} USD</p>
                                            <p><strong>Status:</strong> ${order.status}</p>
                                            ${order.tracking_number ? `
-                                             <p><strong>Tracking:</strong> ${order.tracking_number}</p>
+                                             <p><strong>Tracking Number:</strong> ${order.tracking_number}</p>
                                              <p><strong>Carrier:</strong> ${order.carrier || 'N/A'}</p>
+                                             ${order.estimated_delivery ? `<p><strong>Est. Delivery:</strong> ${new Date(order.estimated_delivery).toLocaleDateString()}</p>` : ''}
                                            ` : ''}
                                          </div>
-
                                          <h3>Order Items:</h3>
                                          <ul>
-                                           ${order.items.map(item => `
-                                             <li>${item.productName} - ${item.specification} (Qty: ${item.quantity})</li>
-                                           `).join('')}
+                                           ${orderItemsList}
                                          </ul>
-
-                                         <p style="margin-top: 30px;">Questions? Contact us at <a href="mailto:reddirtresearch@gmail.com">reddirtresearch@gmail.com</a></p>
+                                         ${order.shipping_address ? `
+                                           <h3>Shipping Address:</h3>
+                                           <p>${order.customer_name}<br>
+                                           ${order.shipping_address.address || order.shipping_address.shippingAddress}<br>
+                                           ${order.shipping_address.city || order.shipping_address.shippingCity}, ${order.shipping_address.state || order.shipping_address.shippingState} ${order.shipping_address.zip || order.shipping_address.shippingZip}</p>
+                                         ` : ''}
+                                         <p style="margin-top: 20px;">You will receive tracking information once your order ships.</p>
                                        </div>
                                      `
                                    });
