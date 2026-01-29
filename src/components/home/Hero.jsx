@@ -75,7 +75,7 @@ export default function Hero() {
 
           {/* Tagline */}
           <p className="text-xl md:text-2xl font-semibold text-amber-100 mb-3 tracking-wide">
-            USA's Most Transparent Peptide Supplier
+            Most Transparent US Vendor
           </p>
           <p className="text-sm md:text-base text-red-600/90 font-medium uppercase tracking-widest mb-10">
             Verified Third-Party Testing • Discreet Shipping • Premium Quality
