@@ -117,11 +117,11 @@ export default function Products() {
     }
   };
 
-  // Deduplicate products by name, keeping the most recent
+  // Deduplicate products by name, keeping the most recent (exclude hidden items)
   const uniqueProducts = useMemo(() => {
     const productMap = new Map();
     products.forEach(product => {
-      if (!product.hidden && product.in_stock) {
+      if (!product.hidden) {
         if (!productMap.has(product.name) || 
             new Date(product.updated_date) > new Date(productMap.get(product.name).updated_date)) {
           productMap.set(product.name, product);
