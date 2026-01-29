@@ -77,6 +77,15 @@ export default function AdminCustomerManagement() {
       }
 
       const customer = customerMap.get(email);
+      
+      // Update name and phone if current order has them and customer doesn't
+      if (order.customer_name && customer.name === 'Unknown') {
+        customer.name = order.customer_name;
+      }
+      if (order.customer_phone && !customer.phone) {
+        customer.phone = order.customer_phone;
+      }
+      
       customer.orders.push(order);
       customer.totalSpent += order.total_amount || 0;
       customer.orderCount++;
@@ -88,11 +97,25 @@ export default function AdminCustomerManagement() {
         customer.firstOrder = order.created_date;
       }
 
-      // Collect shipping addresses
-      if (order.shipping_address && !customer.shippingAddresses.some(addr => 
-        JSON.stringify(addr) === JSON.stringify(order.shipping_address)
-      )) {
-        customer.shippingAddresses.push(order.shipping_address);
+      // Collect shipping addresses - handle both nested object and flat format
+      const shippingAddr = order.shipping_address;
+      if (shippingAddr) {
+        const normalizedAddr = {
+          firstName: shippingAddr.firstName || shippingAddr.first_name || '',
+          lastName: shippingAddr.lastName || shippingAddr.last_name || '',
+          shippingAddress: shippingAddr.shippingAddress || shippingAddr.shipping_address || shippingAddr.address || '',
+          shippingCity: shippingAddr.shippingCity || shippingAddr.shipping_city || shippingAddr.city || '',
+          shippingState: shippingAddr.shippingState || shippingAddr.shipping_state || shippingAddr.state || '',
+          shippingZip: shippingAddr.shippingZip || shippingAddr.shipping_zip || shippingAddr.zip || '',
+        };
+        
+        // Only add if it has actual address data and isn't duplicate
+        if (normalizedAddr.shippingAddress && !customer.shippingAddresses.some(addr => 
+          addr.shippingAddress === normalizedAddr.shippingAddress &&
+          addr.shippingZip === normalizedAddr.shippingZip
+        )) {
+          customer.shippingAddresses.push(normalizedAddr);
+        }
       }
     });
 
