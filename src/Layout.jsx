@@ -15,10 +15,12 @@ import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
 import AbandonedCartTracker from '@/components/AbandonedCartTracker';
+import FloatingChatButton from '@/components/chat/FloatingChatButton';
+import CustomerChatWindow from '@/components/chat/CustomerChatWindow';
 
 
-const navLinks = [
-        { label: "Peptides", href: "#products" },
+      const navLinks = [
+              { label: "Peptides", href: "#products" },
         { label: "Peptide Blends", href: "#goals" },
         { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
         { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
@@ -233,8 +235,9 @@ const HeaderSearch = () => {
                                const [showUploadModal, setShowUploadModal] = useState(false);
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
-                               const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
-                               const [user, setUser] = useState(null);
+                                               const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
+                                               const [user, setUser] = useState(null);
+                                               const [chatOpen, setChatOpen] = useState(false);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -682,6 +685,20 @@ const HeaderSearch = () => {
       }}
       />
       <AbandonedCartTracker />
+
+      {/* Live Chat Widget */}
+      {isAuthenticated && (
+        <>
+          <FloatingChatButton 
+            onClick={() => setChatOpen(!chatOpen)} 
+            isOpen={chatOpen}
+          />
+          <CustomerChatWindow 
+            isOpen={chatOpen} 
+            onClose={() => setChatOpen(false)}
+          />
+        </>
+      )}
       </div>
       );
       }

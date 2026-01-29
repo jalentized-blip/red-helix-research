@@ -49,6 +49,7 @@
  */
 import About from './pages/About';
 import Account from './pages/Account';
+import AdminCustomerManagement from './pages/AdminCustomerManagement';
 import AdminManualOrders from './pages/AdminManualOrders';
 import AdminOrderManagement from './pages/AdminOrderManagement';
 import AdminPriceManagement from './pages/AdminPriceManagement';
@@ -73,13 +74,13 @@ import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import AdminCustomerManagement from './pages/AdminCustomerManagement';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
     "Account": Account,
+    "AdminCustomerManagement": AdminCustomerManagement,
     "AdminManualOrders": AdminManualOrders,
     "AdminOrderManagement": AdminOrderManagement,
     "AdminPriceManagement": AdminPriceManagement,
@@ -104,7 +105,6 @@ export const PAGES = {
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "AdminCustomerManagement": AdminCustomerManagement,
 }
 
 export const pagesConfig = {
