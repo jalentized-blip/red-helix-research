@@ -239,16 +239,17 @@ export default function Products() {
           </div>
 
           {/* In Stock Filter */}
-          <button
-            onClick={() => setShowInStockOnly(!showInStockOnly)}
-            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              showInStockOnly
-                ? 'bg-green-600 text-amber-50'
-                : 'bg-stone-800 text-stone-300 hover:bg-stone-700 border border-stone-700'
-            }`}
-          >
-            {showInStockOnly ? '✓ In Stock Only' : 'In Stock Only'}
-          </button>
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="instock"
+              checked={showInStockOnly}
+              onCheckedChange={setShowInStockOnly}
+              className="border-stone-600"
+            />
+            <label htmlFor="instock" className="text-stone-300 font-semibold cursor-pointer">
+              In Stock Only
+            </label>
+          </div>
           </div>
 
         {/* Products Grid */}
