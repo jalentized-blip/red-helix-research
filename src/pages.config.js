@@ -77,6 +77,7 @@ import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import Policies from './pages/Policies';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
+import SEOGuide from './pages/SEOGuide';
 import __Layout from './Layout.jsx';
 
 
@@ -111,6 +112,7 @@ export const PAGES = {
     "Policies": Policies,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
+    "SEOGuide": SEOGuide,
 }
 
 export const pagesConfig = {
