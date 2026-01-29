@@ -706,6 +706,14 @@ const HeaderSearch = () => {
 
                               <div className="border-t border-stone-800/30 my-4 pt-4" />
 
+                      <Link to={createPageUrl('CustomerTestimonials')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Customer Testimonials
+                      </Link>
+
+                      <Link to={createPageUrl('ConversionTracking')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Conversion Tracking
+                      </Link>
+
                       <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Policies & Terms
                       </Link>
