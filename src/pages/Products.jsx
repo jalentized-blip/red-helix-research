@@ -119,7 +119,7 @@ export default function Products() {
   const uniqueProducts = useMemo(() => {
     const productMap = new Map();
     products.forEach(product => {
-      if (!product.hidden) {
+      if (!product.hidden && product.in_stock) {
         if (!productMap.has(product.name) || 
             new Date(product.updated_date) > new Date(productMap.get(product.name).updated_date)) {
           productMap.set(product.name, product);
