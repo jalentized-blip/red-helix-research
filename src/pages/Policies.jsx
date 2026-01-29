@@ -23,9 +23,9 @@ Testing is performed by independent accredited laboratories to ensure accuracy a
     },
     {
       title: 'Shipping & Delivery',
-      content: `We ship worldwide with tracking. Delivery times vary by location. Orders are carefully packaged to ensure product integrity during transit.
+      content: `We ship within the United States only. All orders include tracking and are carefully packaged to ensure product integrity during transit. Delivery times typically range from 2-7 business days depending on your location.
 
-Customers are responsible for understanding import regulations in their country. We recommend reviewing local laws before ordering. International shipments may be subject to customs inspection.`
+We do not ship internationally at this time.`
     },
     {
       title: 'Returns & Refunds',
