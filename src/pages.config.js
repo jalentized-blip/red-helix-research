@@ -76,6 +76,7 @@ import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import Policies from './pages/Policies';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
+import OurStory from './pages/OurStory';
 import __Layout from './Layout.jsx';
 
 
@@ -109,6 +110,7 @@ export const PAGES = {
     "Policies": Policies,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
+    "OurStory": OurStory,
 }
 
 export const pagesConfig = {
