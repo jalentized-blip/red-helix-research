@@ -678,17 +678,17 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Customer Support
                               </Link>
-                              </>
-                              )}
-                              </>
-                              )}
+                            </>
+                          )}
+                        </>
+                      )}
 
-                              <div className="border-t border-stone-800/30 my-4 pt-4" />
+                      <div className="border-t border-stone-800/30 my-4 pt-4" />
 
-                              <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
-                              Policies & Terms
-                              </Link>
-                              </nav>
+                      <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Policies & Terms
+                      </Link>
+                    </nav>
                     
                     <div className="border-t border-stone-800/50 pt-4 mt-auto">
                       {isAuthenticated && (
