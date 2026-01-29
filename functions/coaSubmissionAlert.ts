@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
 
     // Send email to site admin
     await base44.integrations.Core.SendEmail({
-      to: 'jakehboen95@gmail.com',
+      to: 'jake@redhelixresearch.com',
       subject: `New COA Submission Pending Approval: ${coa.peptide_name}`,
       body: `A new Certificate of Analysis has been submitted and is pending your approval.
 
