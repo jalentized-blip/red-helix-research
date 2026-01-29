@@ -86,6 +86,7 @@ import BacklinkStrategy from './pages/BacklinkStrategy';
 import ProductSemaglutide from './pages/ProductSemaglutide';
 import ProductTirzepatide from './pages/ProductTirzepatide';
 import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
+import SEOMonitoring from './pages/SEOMonitoring';
 import __Layout from './Layout.jsx';
 
 
@@ -129,6 +130,7 @@ export const PAGES = {
     "ProductSemaglutide": ProductSemaglutide,
     "ProductTirzepatide": ProductTirzepatide,
     "InternalLinkingStrategy": InternalLinkingStrategy,
+    "SEOMonitoring": SEOMonitoring,
 }
 
 export const pagesConfig = {
