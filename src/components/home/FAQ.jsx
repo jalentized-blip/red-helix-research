@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     question: "Do you ship to my country?",
-    answer: "We ship to most countries worldwide. However, some regions have restrictions. Contact our support team to verify if we can ship to your specific location."
+    answer: "Unfortunately, we currently only ship to customers within the United States."
   }
 ];
 
