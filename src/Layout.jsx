@@ -15,7 +15,7 @@ import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
 import AbandonedCartTracker from '@/components/AbandonedCartTracker';
-import ScrollingAnnouncement from '@/components/ScrollingAnnouncement';
+
 
 
       const navLinks = [
