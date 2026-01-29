@@ -24,36 +24,19 @@ export default function CustomerChatWindow({ isOpen, onClose }) {
       const currentUser = await base44.auth.me();
       setUser(currentUser);
 
-      // Gather user context
-      const currentPage = window.location.pathname;
-      const orders = await base44.entities.Order.filter({
-        customer_email: currentUser.email
-      });
-      const userContext = {
-        current_page: currentPage,
-        total_orders: orders.length,
-        last_order: orders[0]?.order_number || 'None',
-      };
-
       // Find or create conversation
       const conversations = await base44.entities.SupportConversation.filter({
-        customer_email: currentUser.email,
-        status: 'open'
+        customer_email: currentUser.email
       });
 
       let conv;
       if (conversations.length > 0) {
         conv = conversations[0];
-        // Update context
-        await base44.entities.SupportConversation.update(conv.id, {
-          user_context: userContext
-        });
       } else {
         conv = await base44.entities.SupportConversation.create({
           customer_email: currentUser.email,
           customer_name: currentUser.full_name,
-          status: 'open',
-          user_context: userContext
+          status: 'open'
         });
       }
       setConversation(conv);

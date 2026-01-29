@@ -240,31 +240,14 @@ export default function AdminSupport() {
             {selectedConversation ? (
               <>
                 {/* Header */}
-                <div className="p-4 border-b border-stone-700">
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <h3 className="font-bold text-amber-50">{selectedConversation.customer_name}</h3>
-                      <p className="text-xs text-stone-400">{selectedConversation.customer_email}</p>
-                    </div>
-                    <Badge variant={selectedConversation.status === 'open' ? 'default' : 'secondary'}>
-                      {selectedConversation.status}
-                    </Badge>
+                <div className="p-4 border-b border-stone-700 flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-amber-50">{selectedConversation.customer_name}</h3>
+                    <p className="text-xs text-stone-400">{selectedConversation.customer_email}</p>
                   </div>
-                  
-                  {/* User Context */}
-                  {selectedConversation.user_context && (
-                    <div className="bg-stone-800/50 rounded-lg p-3 mt-2 text-xs space-y-1">
-                      <p className="text-stone-300">
-                        <span className="text-stone-500">Current Page:</span> {selectedConversation.user_context.current_page}
-                      </p>
-                      <p className="text-stone-300">
-                        <span className="text-stone-500">Total Orders:</span> {selectedConversation.user_context.total_orders}
-                      </p>
-                      <p className="text-stone-300">
-                        <span className="text-stone-500">Last Order:</span> {selectedConversation.user_context.last_order}
-                      </p>
-                    </div>
-                  )}
+                  <Badge variant={selectedConversation.status === 'open' ? 'default' : 'secondary'}>
+                    {selectedConversation.status}
+                  </Badge>
                 </div>
 
                 {/* Messages */}

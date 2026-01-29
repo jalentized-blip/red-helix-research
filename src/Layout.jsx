@@ -15,8 +15,6 @@ import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
 import AbandonedCartTracker from '@/components/AbandonedCartTracker';
-import FloatingChatButton from '@/components/chat/FloatingChatButton';
-import CustomerChatWindow from '@/components/chat/CustomerChatWindow';
 
 
       const navLinks = [
@@ -237,7 +235,6 @@ const HeaderSearch = () => {
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
                                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
                                                const [user, setUser] = useState(null);
-                                               const [chatOpen, setChatOpen] = useState(false);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -685,20 +682,6 @@ const HeaderSearch = () => {
       }}
       />
       <AbandonedCartTracker />
-
-      {/* Live Chat Widget */}
-      {isAuthenticated && (
-        <>
-          <FloatingChatButton 
-            onClick={() => setChatOpen(!chatOpen)} 
-            isOpen={chatOpen}
-          />
-          <CustomerChatWindow 
-            isOpen={chatOpen} 
-            onClose={() => setChatOpen(false)}
-          />
-        </>
-      )}
       </div>
       );
       }
