@@ -4,7 +4,8 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate, Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ProductModal from '@/components/product/ProductModal';
-import AgeVerification from '@/components/AgeVerification';
+import AgeVerificationBot from '@/components/AgeVerificationBot';
+import { generateOrganizationSchema, generateWebsiteSchema, generateProductSchema } from '@/components/utils/schemaHelpers';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
 import { Package, ClipboardList, DollarSign } from 'lucide-react';
@@ -112,49 +113,22 @@ export default function Home({ adminViewAsUser = false }) {
     );
   }
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Red Helix Research",
-    "url": typeof window !== 'undefined' ? window.location.origin : '',
-    "logo": "https://i.ibb.co/M5CYvjkG/websitelogo.png",
-    "description": "Premium research-grade peptides supplier. Lab-tested products with Certificate of Analysis. Specializing in weight loss, recovery, cognitive, and performance peptides.",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "Customer Service",
-      "availableLanguage": "English"
-    },
-    "sameAs": [
-      "https://discord.gg/s78Jeajp"
-    ]
-  };
-
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Red Helix Research",
-    "url": typeof window !== 'undefined' ? window.location.origin : '',
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": typeof window !== 'undefined' ? `${window.location.origin}?search={search_term_string}` : ''
-      },
-      "query-input": "required name=search_term_string"
-    }
-  };
+  const schemas = [
+    generateOrganizationSchema(),
+    generateWebsiteSchema()
+  ];
 
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50 relative">
       <SEO 
-        title="Red Helix Research - Premium Research Peptides | Lab-Tested Gray Market Supplier"
-        description="Trusted research peptide supplier with verified COAs. Alternative peptide source for weight loss, recovery, cognitive enhancement. Gray market research peptides with transparent third-party testing. BPC-157, TB-500, semaglutide, tirzepatide available."
-        keywords="research peptides, gray market peptides, peptide supplier, peptide vendor, underground peptides, research chemical supplier, peptide source, alternative peptide supplier, BPC-157, TB-500, semaglutide research, tirzepatide peptides, lab tested peptides, peptide COA, verified peptides, research grade peptides, peptide marketplace, peptide community, peptide research chemicals"
-        schema={[organizationSchema, websiteSchema]}
+        title="Red Helix Research - Buy Research Peptides USA | Lab-Tested Supplier"
+        description="Premium research peptides USA with verified COA. High purity lab-tested semaglutide, tirzepatide, BPC-157, TB-500. For research use only. Transparent third-party testing."
+        keywords="research peptides USA, buy research peptides, peptide supplier USA, high purity peptides, lab tested peptides, research grade peptides, BPC-157, TB-500, semaglutide for research, tirzepatide research, research chemicals USA"
+        schema={schemas}
       />
       <TechGrid />
       <ParticleField />
-      <AgeVerification 
+      <AgeVerificationBot 
         isOpen={showAgeVerification} 
         onVerify={handleAgeVerification} 
       />
