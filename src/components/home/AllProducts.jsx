@@ -68,6 +68,11 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       const isBacResearch = product.name.toUpperCase() === 'BAC RESEARCH';
       const hasVisibleSpecs = product.specifications?.some(spec => !spec.hidden);
       const isVisible = isAdmin || !product.hidden;
+      
+      // Admins see all products; regular users only see visible products with visible specs
+      if (isAdmin) {
+        return matchesCategory && matchesSearch && !isBacResearch;
+      }
       return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs && isVisible;
     });
 
