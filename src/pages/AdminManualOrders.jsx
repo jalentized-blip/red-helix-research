@@ -164,7 +164,7 @@ export default function AdminManualOrders() {
               </div>
 
               <p>You will receive tracking information once your order ships.</p>
-              <p>Questions? Contact us at <a href="mailto:reddirtresearch@gmail.com">reddirtresearch@gmail.com</a></p>
+              <p>Questions? Contact us at <a href="mailto:jake@redhelixresearch.com">jake@redhelixresearch.com</a></p>
             </div>
           `
         });
