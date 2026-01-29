@@ -12,6 +12,7 @@ import FavoritePeptides from '@/components/account/FavoritePeptides';
 import RecommendedPeptides from '@/components/account/RecommendedPeptides';
 import RecentActivity from '@/components/account/RecentActivity';
 import QuickCategories from '@/components/account/QuickCategories';
+import OrderTrackingDetails from '@/components/account/OrderTrackingDetails';
 
 export default function Account() {
   const [user, setUser] = useState(null);
@@ -321,21 +322,8 @@ export default function Account() {
                                {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                              </p>
 
-                             {/* Tracking Information */}
-                             {order.tracking_number && (
-                               <div className="bg-blue-900/20 border border-blue-600/30 rounded-lg p-3 mb-3">
-                                 <p className="text-xs text-blue-400 font-semibold mb-1">Tracking Information</p>
-                                 <p className="text-sm text-amber-50 font-mono">{order.tracking_number}</p>
-                                 {order.carrier && (
-                                   <p className="text-xs text-stone-400 mt-1">Carrier: {order.carrier}</p>
-                                 )}
-                                 {order.estimated_delivery && (
-                                   <p className="text-xs text-stone-400">
-                                     Est. Delivery: {new Date(order.estimated_delivery).toLocaleDateString()}
-                                   </p>
-                                 )}
-                               </div>
-                             )}
+                             {/* Real-time Tracking Information */}
+                             <OrderTrackingDetails order={order} />
 
                              {/* Resend Confirmation Email */}
                              <button
