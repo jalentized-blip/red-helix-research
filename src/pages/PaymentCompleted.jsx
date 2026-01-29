@@ -15,8 +15,11 @@ export default function PaymentCompleted() {
     const order = params.get('order');
     
     // Try URL params first, then fallback to localStorage
-    setTransactionId(txid || localStorage.getItem('lastTransactionId') || '');
-    setOrderNumber(order || localStorage.getItem('lastOrderNumber') || '');
+    const finalTxId = (txid && txid !== 'null') ? txid : (localStorage.getItem('lastTransactionId') || '');
+    const finalOrder = (order && order !== 'null') ? order : (localStorage.getItem('lastOrderNumber') || '');
+    
+    setTransactionId(finalTxId);
+    setOrderNumber(finalOrder);
   }, []);
 
   return (
