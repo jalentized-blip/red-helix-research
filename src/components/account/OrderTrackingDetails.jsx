@@ -11,6 +11,13 @@ export default function OrderTrackingDetails({ order }) {
   useEffect(() => {
     if (order.tracking_number) {
       fetchTrackingInfo();
+      
+      // Poll for updates every 60 seconds
+      const interval = setInterval(() => {
+        fetchTrackingInfo();
+      }, 60000);
+      
+      return () => clearInterval(interval);
     }
   }, [order.tracking_number]);
 
@@ -208,11 +215,20 @@ export default function OrderTrackingDetails({ order }) {
         )}
       </div>
 
-      {trackingData.last_update && (
-        <p className="text-xs text-stone-500 text-center">
-          Last updated: {new Date(trackingData.last_update).toLocaleString()}
-        </p>
-      )}
+      <div className="flex items-center justify-between">
+        {trackingData.last_update && (
+          <p className="text-xs text-stone-500">
+            Last updated: {new Date(trackingData.last_update).toLocaleString()}
+          </p>
+        )}
+        <button
+          onClick={fetchTrackingInfo}
+          disabled={loading}
+          className="text-xs text-red-600 hover:text-red-500 underline disabled:opacity-50"
+        >
+          {loading ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
     </motion.div>
   );
 }
