@@ -589,11 +589,17 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
         });
       }
 
-      // Admin notifications
+      // Admin notifications and emails
       const allUsers = await base44.entities.User.list();
       const admins = allUsers.filter(u => u.role === 'admin');
 
+      // Create order items list for email
+      const orderItemsList = cartItems.map(item => 
+        `<li>${item.productName} (${item.specification}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</li>`
+      ).join('');
+
       for (const admin of admins) {
+        // Create notification in database
         await base44.entities.Notification.create({
           type: 'blockchain_confirmed',
           admin_email: admin.email,
@@ -607,6 +613,43 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           message_preview: `Blockchain confirmed: ${orderNumber} ($${totalUSD.toFixed(2)}) - ${selectedCrypto} - Needs tracking`,
           requires_tracking: true,
           read: false
+        });
+
+        // Send email to admin
+        await base44.integrations.Core.SendEmail({
+          from_name: 'Red Helix Research',
+          to: admin.email,
+          subject: `New Order Received - ${orderNumber}`,
+          body: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #8B2635;">New Order Notification</h2>
+              <p>A new order has been placed and confirmed on the blockchain.</p>
+              <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Order #${orderNumber}</h3>
+                <p><strong>Customer:</strong> ${customerName}</p>
+                <p><strong>Email:</strong> ${customerEmail || 'guest@redhelix.com'}</p>
+                <p><strong>Phone:</strong> ${customerInfo?.phone || 'N/A'}</p>
+                <p><strong>Payment Method:</strong> ${selectedCrypto}</p>
+                <p><strong>Payment Amount:</strong> ${cryptoAmount} ${selectedCrypto}</p>
+                <p><strong>Transaction ID:</strong> ${txHash}</p>
+                <p><strong>Total:</strong> $${totalUSD.toFixed(2)} USD</p>
+                <p><strong>Status:</strong> Processing - Needs Tracking</p>
+              </div>
+              <h3>Order Items:</h3>
+              <ul>
+                ${orderItemsList}
+              </ul>
+              ${customerInfo ? `
+                <h3>Shipping Address:</h3>
+                <p>${customerInfo.firstName} ${customerInfo.lastName}<br>
+                ${customerInfo.shippingAddress}<br>
+                ${customerInfo.shippingCity}, ${customerInfo.shippingState} ${customerInfo.shippingZip}</p>
+              ` : ''}
+              <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; color: #666;">
+                Please process this order and add tracking information as soon as possible.
+              </p>
+            </div>
+          `
         });
       }
 
