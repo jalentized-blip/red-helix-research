@@ -726,6 +726,10 @@ const HeaderSearch = () => {
                         Conversion Tracking
                       </Link>
 
+                      <Link to={createPageUrl('ResourceHub')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Resource Hub
+                      </Link>
+
                       <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Policies & Terms
                       </Link>
