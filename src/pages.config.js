@@ -69,14 +69,14 @@ import OrderTracking from './pages/OrderTracking';
 import PaymentCompleted from './pages/PaymentCompleted';
 import PeppyBot from './pages/PeppyBot';
 import PeptideCalculator from './pages/PeptideCalculator';
+import PeptideCategory from './pages/PeptideCategory';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
+import Policies from './pages/Policies';
+import Products from './pages/Products';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import Products from './pages/Products';
-import PeptideCategory from './pages/PeptideCategory';
-import Policies from './pages/Policies';
 import __Layout from './Layout.jsx';
 
 
@@ -103,14 +103,14 @@ export const PAGES = {
     "PaymentCompleted": PaymentCompleted,
     "PeppyBot": PeppyBot,
     "PeptideCalculator": PeptideCalculator,
+    "PeptideCategory": PeptideCategory,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
+    "Policies": Policies,
+    "Products": Products,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "Products": Products,
-    "PeptideCategory": PeptideCategory,
-    "Policies": Policies,
 }
 
 export const pagesConfig = {

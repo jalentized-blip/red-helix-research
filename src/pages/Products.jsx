@@ -65,6 +65,7 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [aiSearchLoading, setAiSearchLoading] = useState(false);
+  const [showInStockOnly, setShowInStockOnly] = useState(false);
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
