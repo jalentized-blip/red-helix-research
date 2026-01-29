@@ -74,7 +74,6 @@ import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import Policies from './pages/Policies';
-import Products from './pages/Products';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import __Layout from './Layout.jsx';
@@ -108,7 +107,6 @@ export const PAGES = {
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "Policies": Policies,
-    "Products": Products,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
 }
