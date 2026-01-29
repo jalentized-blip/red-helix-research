@@ -55,50 +55,50 @@ import AdminOrderManagement from './pages/AdminOrderManagement';
 import AdminPriceManagement from './pages/AdminPriceManagement';
 import AdminStockManagement from './pages/AdminStockManagement';
 import AdminSupport from './pages/AdminSupport';
+import BacklinkStrategy from './pages/BacklinkStrategy';
+import BlogGuide from './pages/BlogGuide';
 import COAReports from './pages/COAReports';
 import Cart from './pages/Cart';
+import CompetitivePositioning from './pages/CompetitivePositioning';
 import Contact from './pages/Contact';
+import ConversionTracking from './pages/ConversionTracking';
 import CryptoCheckout from './pages/CryptoCheckout';
 import CustomerInfo from './pages/CustomerInfo';
+import CustomerTestimonials from './pages/CustomerTestimonials';
+import DeploymentGuide from './pages/DeploymentGuide';
+import EmailAutomationStrategy from './pages/EmailAutomationStrategy';
+import ExpandedFAQ from './pages/ExpandedFAQ';
 import GrayMarketInsights from './pages/GrayMarketInsights';
 import GroupBuy from './pages/GroupBuy';
 import Home from './pages/Home';
+import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
+import LaunchChecklist from './pages/LaunchChecklist';
 import LearnMore from './pages/LearnMore';
 import Login from './pages/Login';
+import MonitoringSetup from './pages/MonitoringSetup';
 import OrderTracking from './pages/OrderTracking';
 import OurStory from './pages/OurStory';
 import PaymentCompleted from './pages/PaymentCompleted';
+import PaymentSecurity from './pages/PaymentSecurity';
 import PeppyBot from './pages/PeppyBot';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideCategory from './pages/PeptideCategory';
+import PeptideComparison from './pages/PeptideComparison';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import Policies from './pages/Policies';
+import ProductBPC157 from './pages/ProductBPC157';
+import ProductSemaglutide from './pages/ProductSemaglutide';
+import ProductTB500 from './pages/ProductTB500';
+import ProductTirzepatide from './pages/ProductTirzepatide';
+import ProductionChecklist from './pages/ProductionChecklist';
+import ResourceHub from './pages/ResourceHub';
+import SEOGuide from './pages/SEOGuide';
+import SEOMonitoring from './pages/SEOMonitoring';
+import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import SEOGuide from './pages/SEOGuide';
-import BlogGuide from './pages/BlogGuide';
-import ProductBPC157 from './pages/ProductBPC157';
-import ProductTB500 from './pages/ProductTB500';
-import PeptideComparison from './pages/PeptideComparison';
-import BacklinkStrategy from './pages/BacklinkStrategy';
-import ProductSemaglutide from './pages/ProductSemaglutide';
-import ProductTirzepatide from './pages/ProductTirzepatide';
-import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
-import SEOMonitoring from './pages/SEOMonitoring';
-import ConversionTracking from './pages/ConversionTracking';
-import CustomerTestimonials from './pages/CustomerTestimonials';
-import EmailAutomationStrategy from './pages/EmailAutomationStrategy';
-import LaunchChecklist from './pages/LaunchChecklist';
-import CompetitivePositioning from './pages/CompetitivePositioning';
-import ResourceHub from './pages/ResourceHub';
-import ExpandedFAQ from './pages/ExpandedFAQ';
-import PaymentSecurity from './pages/PaymentSecurity';
-import SecurityCompliance from './pages/SecurityCompliance';
-import DeploymentGuide from './pages/DeploymentGuide';
-import MonitoringSetup from './pages/MonitoringSetup';
-import ProductionChecklist from './pages/ProductionChecklist';
 import __Layout from './Layout.jsx';
 
 
@@ -111,50 +111,50 @@ export const PAGES = {
     "AdminPriceManagement": AdminPriceManagement,
     "AdminStockManagement": AdminStockManagement,
     "AdminSupport": AdminSupport,
+    "BacklinkStrategy": BacklinkStrategy,
+    "BlogGuide": BlogGuide,
     "COAReports": COAReports,
     "Cart": Cart,
+    "CompetitivePositioning": CompetitivePositioning,
     "Contact": Contact,
+    "ConversionTracking": ConversionTracking,
     "CryptoCheckout": CryptoCheckout,
     "CustomerInfo": CustomerInfo,
+    "CustomerTestimonials": CustomerTestimonials,
+    "DeploymentGuide": DeploymentGuide,
+    "EmailAutomationStrategy": EmailAutomationStrategy,
+    "ExpandedFAQ": ExpandedFAQ,
     "GrayMarketInsights": GrayMarketInsights,
     "GroupBuy": GroupBuy,
     "Home": Home,
+    "InternalLinkingStrategy": InternalLinkingStrategy,
+    "LaunchChecklist": LaunchChecklist,
     "LearnMore": LearnMore,
     "Login": Login,
+    "MonitoringSetup": MonitoringSetup,
     "OrderTracking": OrderTracking,
     "OurStory": OurStory,
     "PaymentCompleted": PaymentCompleted,
+    "PaymentSecurity": PaymentSecurity,
     "PeppyBot": PeppyBot,
     "PeptideCalculator": PeptideCalculator,
     "PeptideCategory": PeptideCategory,
+    "PeptideComparison": PeptideComparison,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
     "Policies": Policies,
+    "ProductBPC157": ProductBPC157,
+    "ProductSemaglutide": ProductSemaglutide,
+    "ProductTB500": ProductTB500,
+    "ProductTirzepatide": ProductTirzepatide,
+    "ProductionChecklist": ProductionChecklist,
+    "ResourceHub": ResourceHub,
+    "SEOGuide": SEOGuide,
+    "SEOMonitoring": SEOMonitoring,
+    "SecurityCompliance": SecurityCompliance,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "SEOGuide": SEOGuide,
-    "BlogGuide": BlogGuide,
-    "ProductBPC157": ProductBPC157,
-    "ProductTB500": ProductTB500,
-    "PeptideComparison": PeptideComparison,
-    "BacklinkStrategy": BacklinkStrategy,
-    "ProductSemaglutide": ProductSemaglutide,
-    "ProductTirzepatide": ProductTirzepatide,
-    "InternalLinkingStrategy": InternalLinkingStrategy,
-    "SEOMonitoring": SEOMonitoring,
-    "ConversionTracking": ConversionTracking,
-    "CustomerTestimonials": CustomerTestimonials,
-    "EmailAutomationStrategy": EmailAutomationStrategy,
-    "LaunchChecklist": LaunchChecklist,
-    "CompetitivePositioning": CompetitivePositioning,
-    "ResourceHub": ResourceHub,
-    "ExpandedFAQ": ExpandedFAQ,
-    "PaymentSecurity": PaymentSecurity,
-    "SecurityCompliance": SecurityCompliance,
-    "DeploymentGuide": DeploymentGuide,
-    "MonitoringSetup": MonitoringSetup,
-    "ProductionChecklist": ProductionChecklist,
 }
 
 export const pagesConfig = {

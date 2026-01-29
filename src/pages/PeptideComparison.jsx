@@ -102,23 +102,79 @@ const PEPTIDE_RESEARCH_DATA = {
   }
 };
 
-// Safe stacking combinations based on clinical evidence and mechanism compatibility
+// Usage duration and cycle classification
+const PEPTIDE_USAGE_TYPE = {
+  'BPC-157': { type: 'LONG_TERM', duration: '12-16 weeks continuous or extended', protocol: 'Daily subcutaneous injection protocol' },
+  'TB-500': { type: 'CYCLE_BASED', duration: '8-12 week cycles', protocol: 'Twice weekly protocol with scheduled breaks' },
+  'Semaglutide': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' },
+  'Tirzepatide': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' }
+};
+
+// Safe stacking combinations based on clinical evidence, community protocols, and mechanism compatibility
 const SAFE_STACKS = {
   'BPC-157': {
-    compatible: ['TB-500'],
-    reason: 'BPC-157 + TB-500: Complementary tissue repair. BPC-157 provides localized healing while TB-500 supports systemic cellular proliferation and protection. Different mechanisms with proven safety record in research.'
+    compatible: [
+      {
+        peptide: 'TB-500',
+        protocol: 'TB-500 (2x weekly) + BPC-157 (daily): Synergistic recovery protocol. TB-500 establishes systemic cellular foundation while BPC-157 targets localized healing. Both can run long-term. Popular in fitness recovery community.',
+        compatibilityReason: 'Complementary tissue repair mechanisms without receptor overlap',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'Semaglutide',
+        protocol: 'Semaglutide (weekly) + BPC-157 (daily): Recovery + metabolic management. Extended BPC-157 cycle paired with Semaglutide for weight management. Common in comprehensive health protocols.',
+        compatibilityReason: 'Separate pathways - repair focused vs metabolic focused',
+        usageCompatibility: true
+      }
+    ]
   },
   'TB-500': {
-    compatible: ['BPC-157'],
-    reason: 'TB-500 + BPC-157: Synergistic recovery protocol. TB-500 establishes systemic cellular foundation while BPC-157 targets localized healing. Well-researched combination with additive benefits.'
+    compatible: [
+      {
+        peptide: 'BPC-157',
+        protocol: 'TB-500 (2x weekly) + BPC-157 (daily): Dual-peptide recovery protocol. Proven combination in athletic recovery community. Run TB-500 in 8-12 week cycles with continuous BPC-157.',
+        compatibilityReason: 'Synergistic healing - systemic + localized support',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'Tirzepatide',
+        protocol: 'TB-500 (2x weekly, 8-12 week cycles) + Tirzepatide (weekly, long-term): Comprehensive protocol for recovery + metabolic health. TB-500 cycles support tissue while Tirzepatide maintains metabolic benefits.',
+        compatibilityReason: 'Cellular repair complemented by metabolic optimization',
+        usageCompatibility: true
+      }
+    ]
   },
   'Semaglutide': {
-    compatible: ['BPC-157', 'TB-500'],
-    reason: 'GLP-1 metabolic peptide pairs well with repair peptides. Separate mechanisms of action allow for comprehensive research covering metabolic and recovery pathways without contraindications.'
+    compatible: [
+      {
+        peptide: 'BPC-157',
+        protocol: 'Semaglutide (weekly, long-term) + BPC-157 (daily, long-term): Metabolic + tissue repair protocol. Extended combined protocol for comprehensive health. BPC-157 supports GI health which complements Semaglutide.',
+        compatibilityReason: 'Metabolic optimization with tissue repair support',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'TB-500',
+        protocol: 'Semaglutide (weekly) + TB-500 (2x weekly, 8-12 week cycles): Metabolic foundation with periodic cellular repair. Run TB-500 in cycles during extended Semaglutide use.',
+        compatibilityReason: 'Long-term metabolic support with periodic recovery cycles',
+        usageCompatibility: true
+      }
+    ]
   },
   'Tirzepatide': {
-    compatible: ['BPC-157', 'TB-500'],
-    reason: 'Dual-receptor metabolic peptide pairs well with repair peptides. Distinct mechanism allows metabolic research alongside tissue repair without safety concerns.'
+    compatible: [
+      {
+        peptide: 'BPC-157',
+        protocol: 'Tirzepatide (weekly, long-term) + BPC-157 (daily, long-term): Enhanced metabolic + tissue support. Both long-term protocols can run continuously. BPC-157 provides recovery support alongside aggressive metabolic management.',
+        compatibilityReason: 'Dual long-term protocols with complementary benefits',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'TB-500',
+        protocol: 'Tirzepatide (weekly, long-term) + TB-500 (2x weekly, 8-12 week cycles): Metabolic dominance with recovery support. TB-500 in periodic cycles complements continuous Tirzepatide use.',
+        compatibilityReason: 'Long-term metabolic with periodic cellular support',
+        usageCompatibility: true
+      }
+    ]
   }
 };
 
