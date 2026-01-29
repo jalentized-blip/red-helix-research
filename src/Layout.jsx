@@ -447,7 +447,12 @@ const HeaderSearch = () => {
         <FloatingMolecularFormulas />
 
         {/* Fixed Announcement Banner */}
-        <div className="fixed top-0 left-0 right-0 z-[60]">
+        <div 
+          className="fixed left-0 right-0 z-[60] transition-all duration-300"
+          style={{
+            top: headerVisible ? '140px' : '0px'
+          }}
+        >
           <ScrollingAnnouncement />
         </div>
 
