@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
+import AbandonedCartTracker from '@/components/AbandonedCartTracker';
 
 
 const navLinks = [
@@ -680,6 +681,7 @@ const HeaderSearch = () => {
       window.location.href = createPageUrl('COAReports');
       }}
       />
+      <AbandonedCartTracker />
       </div>
       );
       }

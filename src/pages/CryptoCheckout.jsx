@@ -655,6 +655,8 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
       clearCart();
       localStorage.removeItem('customerInfo');
+      localStorage.removeItem('abandonedCartSent');
+      localStorage.setItem('lastOrderComplete', Date.now().toString());
 
       setTimeout(() => {
         navigate(`${createPageUrl('PaymentCompleted')}?txid=${txHash}&order=${orderNumber}`);
