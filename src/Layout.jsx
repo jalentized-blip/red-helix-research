@@ -448,10 +448,7 @@ const HeaderSearch = () => {
 
         {/* Fixed Announcement Banner */}
         <div 
-          className="fixed left-0 right-0 z-[60] transition-all duration-300"
-          style={{
-            top: headerVisible ? '140px' : '0px'
-          }}
+          className="fixed left-0 right-0 z-[65] pointer-events-none"
         >
           <ScrollingAnnouncement />
         </div>
