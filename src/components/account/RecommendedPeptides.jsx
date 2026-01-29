@@ -38,8 +38,10 @@ export default function RecommendedPeptides({ preferences, orders }) {
 
         // Boost if similar to purchased products
         if (purchasedProductNames.some(name => 
-          name.toLowerCase().includes(product.name.toLowerCase()) ||
-          product.name.toLowerCase().includes(name.toLowerCase())
+          name && product.name && (
+            name.toLowerCase().includes(product.name.toLowerCase()) ||
+            product.name.toLowerCase().includes(name.toLowerCase())
+          )
         )) {
           score += 3;
         }
