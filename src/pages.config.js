@@ -79,6 +79,7 @@ import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import SEOGuide from './pages/SEOGuide';
 import BlogGuide from './pages/BlogGuide';
+import ProductBPC157 from './pages/ProductBPC157';
 import __Layout from './Layout.jsx';
 
 
@@ -115,6 +116,7 @@ export const PAGES = {
     "VoiceAssistantNav": VoiceAssistantNav,
     "SEOGuide": SEOGuide,
     "BlogGuide": BlogGuide,
+    "ProductBPC157": ProductBPC157,
 }
 
 export const pagesConfig = {
