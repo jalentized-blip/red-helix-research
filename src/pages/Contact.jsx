@@ -31,7 +31,7 @@ export default function Contact() {
 
     try {
       await base44.integrations.Core.SendEmail({
-        to: 'jakehboen95@gmail.com',
+        to: 'jake@redhelixresearch.com',
         subject: `New Contact Form Submission from ${formData.name}`,
         body: `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.description}`
       });
