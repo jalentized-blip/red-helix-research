@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
 
 export default function CustomerInfo() {
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const authenticated = await base44.auth.isAuthenticated();
+        if (!authenticated) {
+          base44.auth.redirectToLogin(createPageUrl('Cart'));
+        }
+      } catch (error) {
+        base44.auth.redirectToLogin(createPageUrl('Cart'));
+      }
+    };
+    checkAuth();
+  }, []);
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('customerInfo');
     return saved ? JSON.parse(saved) : {
