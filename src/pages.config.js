@@ -77,7 +77,6 @@ import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import Products from './pages/Products';
 import PeptideCategory from './pages/PeptideCategory';
 import Policies from './pages/Policies';
-import Blog from './pages/Blog';
 import __Layout from './Layout.jsx';
 
 
@@ -112,7 +111,6 @@ export const PAGES = {
     "Products": Products,
     "PeptideCategory": PeptideCategory,
     "Policies": Policies,
-    "Blog": Blog,
 }
 
 export const pagesConfig = {
