@@ -542,8 +542,13 @@ export default function PeptideComparison() {
                                   </div>
 
                                   <div className="grid grid-cols-2 gap-3 text-xs">
-                                    <div className="bg-stone-700/40 rounded p-2">
-                                      <p className="text-red-400 font-semibold mb-1">{topPeptide} covers:</p>
+                                    <div className={`rounded-lg p-3 border ${topUsage.type === 'LONG_TERM' ? 'bg-green-900/20 border-green-700/50' : 'bg-amber-900/20 border-amber-700/50'}`}>
+                                      <div className="flex items-start justify-between mb-2">
+                                        <p className="text-red-400 font-semibold">{topPeptide}</p>
+                                        <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${topUsage.type === 'LONG_TERM' ? 'bg-green-600/30 text-green-300' : 'bg-amber-600/30 text-amber-300'}`}>
+                                          {topUsage.type === 'LONG_TERM' ? '🔄 Continuous' : `⚡ ${topUsage.duration}`}
+                                        </span>
+                                      </div>
                                       <div className="space-y-1">
                                         {topPeptideBenefits.slice(0, 2).map(benefit => (
                                           <span key={benefit} className="block text-amber-50 text-xs">✓ {benefit}</span>
@@ -553,8 +558,13 @@ export default function PeptideComparison() {
                                         )}
                                       </div>
                                     </div>
-                                    <div className="bg-stone-700/40 rounded p-2">
-                                      <p className="text-green-400 font-semibold mb-1">{stackOption.peptide} covers:</p>
+                                    <div className={`rounded-lg p-3 border ${partnerUsage.type === 'LONG_TERM' ? 'bg-green-900/20 border-green-700/50' : 'bg-amber-900/20 border-amber-700/50'}`}>
+                                      <div className="flex items-start justify-between mb-2">
+                                        <p className="text-green-400 font-semibold">{stackOption.peptide}</p>
+                                        <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${partnerUsage.type === 'LONG_TERM' ? 'bg-green-600/30 text-green-300' : 'bg-amber-600/30 text-amber-300'}`}>
+                                          {partnerUsage.type === 'LONG_TERM' ? '🔄 Continuous' : `⚡ ${partnerUsage.duration}`}
+                                        </span>
+                                      </div>
                                       <div className="space-y-1">
                                         {partnerBenefits.slice(0, 2).map(benefit => (
                                           <span key={benefit} className="block text-amber-50 text-xs">✓ {benefit}</span>
