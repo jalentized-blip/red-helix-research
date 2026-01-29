@@ -508,16 +508,57 @@ export default function PeptideComparison() {
                         
                         return (
                           <div className="space-y-4">
-                            {safeOptions.map(compatiblePeptide => {
-                              const stackInfo = SAFE_STACKS[topPeptide];
+                            {safeOptions.map((stackOption) => {
+                              const topPeptideData = PEPTIDE_RESEARCH_DATA[topPeptide];
+                              const partnerPeptideData = PEPTIDE_RESEARCH_DATA[stackOption.peptide];
+                              const topUsage = PEPTIDE_USAGE_TYPE[topPeptide];
+                              const partnerUsage = PEPTIDE_USAGE_TYPE[stackOption.peptide];
+                              
+                              // Find which selected benefits each covers
+                              const topPeptideBenefits = recommendations.ranked[0][1].matchedBenefits;
+                              const partnerBenefits = recommendations.selectedBenefits.filter(benefit => benefit in partnerPeptideData.benefits);
+                              
                               return (
-                                <div key={compatiblePeptide} className="bg-stone-800/50 rounded-lg p-4 border border-blue-600/30">
-                                  <p className="text-amber-50 font-bold mb-2">
-                                    {topPeptide} + {compatiblePeptide}
-                                  </p>
-                                  <p className="text-stone-300 text-sm">
-                                    {stackInfo.reason}
-                                  </p>
+                                <div key={stackOption.peptide} className="bg-stone-800/50 rounded-lg p-4 border border-blue-600/30 space-y-3">
+                                  <div>
+                                    <p className="text-amber-50 font-bold mb-1">
+                                      {topPeptide} + {stackOption.peptide}
+                                    </p>
+                                    <p className="text-xs text-blue-300 bg-blue-900/20 inline-block px-2 py-1 rounded mt-1">
+                                      {topUsage.type === 'LONG_TERM' ? '🔄 Long-term' : '⚡ Cycle-based'} + {partnerUsage.type === 'LONG_TERM' ? '🔄 Long-term' : '⚡ Cycle-based'}
+                                    </p>
+                                  </div>
+
+                                  <div className="text-stone-300 text-sm space-y-2">
+                                    <p className="font-semibold text-amber-100">Community Protocol:</p>
+                                    <p className="text-xs text-stone-400">{stackOption.protocol}</p>
+                                  </div>
+
+                                  <div className="grid grid-cols-2 gap-3 text-xs">
+                                    <div className="bg-stone-700/40 rounded p-2">
+                                      <p className="text-red-400 font-semibold mb-1">{topPeptide} covers:</p>
+                                      <div className="space-y-1">
+                                        {topPeptideBenefits.slice(0, 2).map(benefit => (
+                                          <span key={benefit} className="block text-amber-50 text-xs">✓ {benefit}</span>
+                                        ))}
+                                        {topPeptideBenefits.length > 2 && (
+                                          <span className="text-stone-400 text-xs">+{topPeptideBenefits.length - 2} more</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div className="bg-stone-700/40 rounded p-2">
+                                      <p className="text-green-400 font-semibold mb-1">{stackOption.peptide} covers:</p>
+                                      <div className="space-y-1">
+                                        {partnerBenefits.slice(0, 2).map(benefit => (
+                                          <span key={benefit} className="block text-amber-50 text-xs">✓ {benefit}</span>
+                                        ))}
+                                        {partnerBenefits.length > 2 && (
+                                          <span className="text-stone-400 text-xs">+{partnerBenefits.length - 2} more</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+
                                   <div className="mt-3 p-2 bg-green-900/20 border border-green-700/30 rounded text-xs text-green-300">
                                     ✓ Clinically compatible - no known contraindications
                                   </div>
