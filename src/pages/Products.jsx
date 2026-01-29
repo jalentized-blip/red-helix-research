@@ -138,6 +138,10 @@ export default function Products() {
       filtered = filtered.filter(p => p.category === selectedCategory);
     }
 
+    if (showInStockOnly) {
+      filtered = filtered.filter(p => p.in_stock && !p.hidden);
+    }
+
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(p =>
@@ -147,7 +151,7 @@ export default function Products() {
     }
 
     return filtered;
-  }, [uniqueProducts, searchQuery, selectedCategory]);
+  }, [uniqueProducts, searchQuery, selectedCategory, showInStockOnly]);
 
   const categories = [
     { value: 'all', label: 'All Products' },
