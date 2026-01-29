@@ -420,19 +420,37 @@ export default function PeptideComparison() {
                   <div className="flex items-start gap-3 mb-4">
                     <AlertCircle className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-bold text-blue-300 mb-2">Complementary Pairing Recommendation</h3>
-                      <p className="text-stone-300 mb-4">
-                        For complete coverage of all selected research areas, consider combining peptides:
+                      <h3 className="text-xl font-bold text-blue-300 mb-2">Safe Stacking Recommendation</h3>
+                      <p className="text-stone-300 mb-6">
+                        For complete coverage of all selected research areas, here are clinically-supported peptide combinations:
                       </p>
 
-                      <div className="bg-stone-800/50 rounded p-4">
-                        <p className="text-amber-50 font-bold mb-3">
-                          {recommendations.ranked[0][0]} + {recommendations.ranked[1]?.[0]}
-                        </p>
-                        <p className="text-stone-300 text-sm">
-                          This combination covers all selected research benefits with complementary mechanisms. {recommendations.ranked[0][0]} excels in areas where {recommendations.ranked[1]?.[0]} is weaker, creating a comprehensive research protocol.
-                        </p>
-                      </div>
+                      {/* Generate safe stack options */}
+                      {(() => {
+                        const topPeptide = recommendations.ranked[0][0];
+                        const safeOptions = SAFE_STACKS[topPeptide]?.compatible || [];
+                        
+                        return (
+                          <div className="space-y-4">
+                            {safeOptions.map(compatiblePeptide => {
+                              const stackInfo = SAFE_STACKS[topPeptide];
+                              return (
+                                <div key={compatiblePeptide} className="bg-stone-800/50 rounded-lg p-4 border border-blue-600/30">
+                                  <p className="text-amber-50 font-bold mb-2">
+                                    {topPeptide} + {compatiblePeptide}
+                                  </p>
+                                  <p className="text-stone-300 text-sm">
+                                    {stackInfo.reason}
+                                  </p>
+                                  <div className="mt-3 p-2 bg-green-900/20 border border-green-700/30 rounded text-xs text-green-300">
+                                    ✓ Clinically compatible - no known contraindications
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </motion.div>
