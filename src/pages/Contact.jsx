@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { base44 } from '@/api/base44Client';
 import { MessageCircle, Send, Loader2 } from "lucide-react";
+import SEO from '@/components/SEO';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
