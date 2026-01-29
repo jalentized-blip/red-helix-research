@@ -188,6 +188,15 @@ export default function PeptideComparison() {
     queryFn: () => base44.entities.Product.list(),
   });
 
+  // Normalize peptide names for matching (convert "BPC 157" to "BPC-157")
+  const normalizePeptideName = (name) => {
+    return name
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/(?<!^)(?=[A-Z])/g, '-')
+      .toUpperCase();
+  };
+
   // Get all unique benefits from all peptides
   const allBenefits = useMemo(() => {
     const benefits = new Set();
