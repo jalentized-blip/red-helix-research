@@ -720,6 +720,18 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('SecurityCompliance')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Security Audit
                               </Link>
+
+                              <div className="border-t border-stone-800/30 my-2 pt-2" />
+
+                              <Link to={createPageUrl('ProductionChecklist')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Production Checklist
+                              </Link>
+                              <Link to={createPageUrl('DeploymentGuide')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Deployment Guide
+                              </Link>
+                              <Link to={createPageUrl('MonitoringSetup')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Monitoring Setup
+                              </Link>
                               </>
                               )}
                               </>
