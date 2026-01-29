@@ -184,6 +184,12 @@ export default function CryptoCheckout() {
     setCartItems(cart);
     setCustomerInfo(customer);
     setPromoCode(promo);
+
+    // Check if this is a test order
+    const isTestOrder = cart.every(item => item.productName.includes('TEST PRODUCT'));
+    if (isTestOrder) {
+      window.__isTestOrder = true;
+    }
   }, [navigate]);
 
   // Detect available wallets when crypto is selected
@@ -675,6 +681,21 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
   const handleManualVerification = () => {
     if (!transactionId.trim()) return;
+    
+    // Auto-complete test orders
+    if (window.__isTestOrder) {
+      const testTxId = transactionId || `TEST-${Date.now().toString(36).toUpperCase()}`;
+      setTransactionId(testTxId);
+      setStage(CHECKOUT_STAGE.CONFIRMING);
+      setVerificationStatus('checking');
+      setTimeout(() => {
+        setVerificationStatus('verified');
+        setVerificationMessage('Test payment confirmed!');
+        processSuccessfulPayment(testTxId);
+      }, 2000);
+      return;
+    }
+    
     handleTransactionDetected(transactionId);
   };
 
@@ -947,19 +968,42 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
         )}
 
         <div className="border-t border-stone-700 pt-4">
-          <p className="text-sm text-stone-400 mb-3">Already sent? Enter your transaction ID:</p>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={transactionId}
-              onChange={(e) => setTransactionId(e.target.value)}
-              placeholder="Enter transaction ID/hash"
-              className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
-            />
-            <Button onClick={handleManualVerification} disabled={!transactionId.trim()} className="bg-red-700 hover:bg-red-600 text-amber-50 px-6">
-              Verify
-            </Button>
-          </div>
+          {window.__isTestOrder ? (
+            <>
+              <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 mb-3">
+                <p className="text-sm font-semibold text-yellow-200">🧪 Test Mode Active</p>
+                <p className="text-xs text-yellow-200/70 mt-1">Click verify with any text to complete test order</p>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={transactionId}
+                  onChange={(e) => setTransactionId(e.target.value)}
+                  placeholder="Enter any test transaction ID"
+                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
+                />
+                <Button onClick={handleManualVerification} className="bg-red-700 hover:bg-red-600 text-amber-50 px-6">
+                  Complete Test Order
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-stone-400 mb-3">Already sent? Enter your transaction ID:</p>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={transactionId}
+                  onChange={(e) => setTransactionId(e.target.value)}
+                  placeholder="Enter transaction ID/hash"
+                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
+                />
+                <Button onClick={handleManualVerification} disabled={!transactionId.trim()} className="bg-red-700 hover:bg-red-600 text-amber-50 px-6">
+                  Verify
+                </Button>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="bg-stone-800/30 rounded-lg p-4">
