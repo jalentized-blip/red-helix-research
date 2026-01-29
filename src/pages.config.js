@@ -89,6 +89,7 @@ import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
 import SEOMonitoring from './pages/SEOMonitoring';
 import ConversionTracking from './pages/ConversionTracking';
 import CustomerTestimonials from './pages/CustomerTestimonials';
+import EmailAutomationStrategy from './pages/EmailAutomationStrategy';
 import __Layout from './Layout.jsx';
 
 
@@ -135,6 +136,7 @@ export const PAGES = {
     "SEOMonitoring": SEOMonitoring,
     "ConversionTracking": ConversionTracking,
     "CustomerTestimonials": CustomerTestimonials,
+    "EmailAutomationStrategy": EmailAutomationStrategy,
 }
 
 export const pagesConfig = {

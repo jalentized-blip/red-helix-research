@@ -1,113 +1,65 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
-import { rateLimit, sanitizeInput, createSecureResponse } from './securityUtils.js';
 
 Deno.serve(async (req) => {
   try {
-    const body = await req.json();
-    const { email, name, cartItems, totalAmount } = body;
-
-    if (!email || typeof email !== 'string' || !cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
-      return createSecureResponse({ error: 'Invalid request data' }, 400);
-    }
-
-    // Rate limiting: 3 emails per hour per email address
-    const rateLimitCheck = rateLimit(`abandoned-cart:${email}`, 3, 3600000);
-    if (!rateLimitCheck.allowed) {
-      return createSecureResponse({ 
-        error: 'Rate limit exceeded',
-        retryAfter: rateLimitCheck.retryAfter 
-      }, 429);
-    }
-
-    // Sanitize and limit cart items
-    const sanitizedCartItems = cartItems.slice(0, 50).map(item => ({
-      productName: String(item.productName || '').slice(0, 200),
-      specification: String(item.specification || '').slice(0, 200),
-      quantity: Math.min(Math.max(1, parseInt(item.quantity) || 1), 999),
-      price: Math.max(0, parseFloat(item.price) || 0)
-    }));
-
     const base44 = createClientFromRequest(req);
+    const body = await req.json();
+    
+    const { email, cartItems, cartValue, firstName = 'Researcher' } = body;
 
-    // Create cart items HTML
-    const cartItemsHtml = sanitizedCartItems.map(item => `
-      <tr>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-          <strong>${item.productName}</strong><br>
-          <span style="color: #666; font-size: 14px;">${item.specification}</span>
-        </td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
-          ${item.quantity}
-        </td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">
-          $${(item.price * item.quantity).toFixed(2)}
-        </td>
-      </tr>
-    `).join('');
+    if (!email || !cartItems || cartItems.length === 0) {
+      return Response.json({ error: 'Missing required fields' }, { status: 400 });
+    }
 
-    await base44.integrations.Core.SendEmail({
-      from_name: 'Jake - Red Helix Research',
+    const itemsList = cartItems.map(item => `- ${item.name} (${item.quantity}x @ $${item.price})`).join('\n');
+
+    const emailBody = `Hi ${firstName},
+
+We noticed you left some high-quality research peptides in your cart! Don't miss out on verified, third-party tested products.
+
+Your Cart:
+${itemsList}
+
+Cart Total: $${cartValue.toFixed(2)}
+
+Your research deserves the best. All Red Helix peptides come with:
+✓ >98% Purity (HPLC Verified)
+✓ Third-Party Certificate of Analysis
+✓ USA-Based, Discreet Shipping
+✓ 24/7 Research Support
+
+Complete your order: https://redhelixresearch.com/Cart
+
+Questions? Our research team is here to help.
+
+Best regards,
+Red Helix Research
+jake@redhelixresearch.com`;
+
+    const result = await base44.integrations.Core.SendEmail({
       to: email,
-      subject: 'Did you forget something?',
-      body: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
-          <div style="background: #8B2635; padding: 30px; text-align: center;">
-            <h1 style="color: #F5E6D3; margin: 0; font-size: 24px;">You left items in your cart</h1>
-          </div>
-          
-          <div style="padding: 30px;">
-            <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
-              Hi${name ? ` ${name}` : ''},
-            </p>
-            
-            <p style="font-size: 16px; color: #333; line-height: 1.6;">
-              You have items waiting in your cart. Ready to complete your order?
-            </p>
-
-            <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 25px 0;">
-              <h3 style="margin-top: 0; color: #8B2635;">Your Cart:</h3>
-              <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                  <tr style="background: #e5e5e5;">
-                    <th style="padding: 10px; text-align: left;">Product</th>
-                    <th style="padding: 10px; text-align: center;">Qty</th>
-                    <th style="padding: 10px; text-align: right;">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${cartItemsHtml}
-                </tbody>
-              </table>
-              <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #8B2635; text-align: right;">
-                <strong style="font-size: 18px; color: #8B2635;">Total: $${totalAmount.toFixed(2)}</strong>
-              </div>
-            </div>
-
-            <div style="text-align: center; margin: 30px 0;">
-              <a href="https://redhelixresearch.com/Cart" 
-                 style="display: inline-block; background: #8B2635; color: #F5E6D3; padding: 15px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
-                Complete Purchase
-              </a>
-            </div>
-
-            <div style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 30px;">
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">Same-day shipping</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">Lab-tested with COAs</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">Secure payment</p>
-            </div>
-          </div>
-
-          <div style="background: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #999;">
-            <p style="margin: 0;">Red Helix Research</p>
-            <p style="margin: 5px 0 0 0;">Questions? Contact us on Discord or Telegram</p>
-          </div>
-        </div>
-      `
+      subject: `Complete Your Research Order - ${firstName}'s Cart (${itemsList.split('\n').length} items)`,
+      body: emailBody,
+      from_name: 'Red Helix Research'
     });
 
-    return createSecureResponse({ success: true });
+    // Track email sent
+    base44.analytics.track({
+      eventName: 'abandoned_cart_email_sent',
+      properties: { 
+        email: email,
+        cart_value: cartValue,
+        item_count: cartItems.length
+      }
+    });
+
+    return Response.json({ 
+      success: true, 
+      message: 'Abandoned cart email sent',
+      result 
+    });
+
   } catch (error) {
-    console.error('Abandoned cart email error:', error);
-    return createSecureResponse({ error: 'Failed to send email' }, 500);
+    return Response.json({ error: error.message }, { status: 500 });
   }
 });
