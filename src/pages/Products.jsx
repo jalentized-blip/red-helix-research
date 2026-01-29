@@ -9,6 +9,8 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import ProductModal from '@/components/product/ProductModal';
 import SEO from '@/components/SEO';
+import ResearchDisclaimer from '@/components/ResearchDisclaimer';
+import { generateOrganizationSchema } from '@/components/utils/schemaHelpers';
 
 const AISearchAssistant = ({ onSearch, isLoading }) => {
   const [query, setQuery] = useState('');
@@ -168,12 +170,15 @@ export default function Products() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <SEO 
-        title="Shop All Products - Research Peptides & Blends"
-        description="Browse our complete selection of research peptides and peptide blends with AI-powered search. Find products by category, use case, or let our AI assistant help you."
-        keywords="buy peptides, research peptides, peptide shop, peptide products, weight loss peptides, recovery peptides, cognitive peptides"
+        title="Buy Research Peptides USA | Lab-Tested Products with COA"
+        description="Premium research peptides USA with verified COA. High purity lab-tested semaglutide, tirzepatide, BPC-157, TB-500. Filter by category or use AI search."
+        keywords="research peptides USA, buy research peptides, lab tested peptides, high purity peptides, semaglutide research, tirzepatide research"
+        schema={generateOrganizationSchema()}
       />
 
       <div className="max-w-7xl mx-auto px-4">
+        <ResearchDisclaimer />
+        
         {/* Header */}
         <div className="mb-12">
           <Link to={createPageUrl('Home')}>
@@ -186,10 +191,10 @@ export default function Products() {
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-3">
               <Beaker className="w-8 h-8 text-red-600" />
-              <h1 className="text-5xl font-black text-amber-50">All Products</h1>
+              <h1 className="text-5xl font-black text-amber-50">Research Peptides USA</h1>
             </div>
             <p className="text-stone-300 text-lg max-w-2xl">
-              Browse our complete selection of research peptides and peptide blends. Use the AI search assistant or filter by category.
+              Lab-tested research peptides with verified COA. High purity compounds for research. Use AI search or filter by intended use.
             </p>
           </div>
         </div>
