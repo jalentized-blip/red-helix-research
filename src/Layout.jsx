@@ -485,9 +485,6 @@ const HeaderSearch = () => {
               <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Home
               </Link>
-              <Link to={createPageUrl('Products')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                Products
-              </Link>
 
               <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 About
@@ -586,9 +583,6 @@ const HeaderSearch = () => {
                     <nav className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden">
                       <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Home
-                      </Link>
-                      <Link to={createPageUrl('Products')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
-                        Products
                       </Link>
 
                       <div className="border-t border-stone-800/30 my-2 pt-2" />
