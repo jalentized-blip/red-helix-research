@@ -120,7 +120,7 @@ export default function NotificationCenter({ userEmail }) {
 
             <p>You can track your package using the tracking number above on the ${carrier} website.</p>
             
-            <p style="margin-top: 30px;">Questions? Contact us at <a href="mailto:reddirtresearch@gmail.com">reddirtresearch@gmail.com</a></p>
+            <p style="margin-top: 30px;">Questions? Contact us at <a href="mailto:jake@redhelixresearch.com">jake@redhelixresearch.com</a></p>
           </div>
         `
       });
