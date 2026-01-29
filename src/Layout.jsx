@@ -488,6 +488,9 @@ const HeaderSearch = () => {
               <Link to={createPageUrl('Products')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 Products
               </Link>
+              <Link to={createPageUrl('Blog')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
+                Blog
+              </Link>
               <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
                 About
               </Link>
@@ -619,6 +622,9 @@ const HeaderSearch = () => {
                       <Link to={createPageUrl('LearnMore')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Research & Education
                       </Link>
+                      <Link to={createPageUrl('Blog')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Blog
+                      </Link>
                       <button onClick={() => scrollTo('#certificates')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 w-full">
                         Certificates of Analysis
                       </button>
@@ -676,11 +682,17 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Customer Support
                               </Link>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </nav>
+                              </>
+                              )}
+                              </>
+                              )}
+
+                              <div className="border-t border-stone-800/30 my-4 pt-4" />
+
+                              <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              Policies & Terms
+                              </Link>
+                              </nav>
                     
                     <div className="border-t border-stone-800/50 pt-4 mt-auto">
                       {isAuthenticated && (
