@@ -316,7 +316,7 @@ export default function Products() {
 
         {/* Results Count */}
         <div className="mt-12 text-center text-stone-400">
-          <p>Showing {filteredProducts.length} of {products.filter(p => !p.hidden && p.in_stock).length} products</p>
+          <p>Showing {filteredProducts.length} of {uniqueProducts.length} products</p>
         </div>
       </div>
 
