@@ -96,6 +96,9 @@ import ResourceHub from './pages/ResourceHub';
 import ExpandedFAQ from './pages/ExpandedFAQ';
 import PaymentSecurity from './pages/PaymentSecurity';
 import SecurityCompliance from './pages/SecurityCompliance';
+import DeploymentGuide from './pages/DeploymentGuide';
+import MonitoringSetup from './pages/MonitoringSetup';
+import ProductionChecklist from './pages/ProductionChecklist';
 import __Layout from './Layout.jsx';
 
 
@@ -149,6 +152,9 @@ export const PAGES = {
     "ExpandedFAQ": ExpandedFAQ,
     "PaymentSecurity": PaymentSecurity,
     "SecurityCompliance": SecurityCompliance,
+    "DeploymentGuide": DeploymentGuide,
+    "MonitoringSetup": MonitoringSetup,
+    "ProductionChecklist": ProductionChecklist,
 }
 
 export const pagesConfig = {
