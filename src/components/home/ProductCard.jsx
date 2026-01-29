@@ -30,13 +30,24 @@ const categoryLabels = {
 
 export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) {
   const [isHovered, setIsHovered] = React.useState(false);
+  const [isUpdating, setIsUpdating] = React.useState(false);
+  const [localHidden, setLocalHidden] = React.useState(product.hidden);
   const badge = product.badge ? badgeConfig[product.badge] : null;
 
-  const handleVisibilityToggle = async (e) => {
-    e.stopPropagation();
+  React.useEffect(() => {
+    setLocalHidden(product.hidden);
+  }, [product.hidden]);
+
+  const handleVisibilityToggle = async (checked) => {
+    setIsUpdating(true);
+    const newHiddenState = !checked;
+    setLocalHidden(newHiddenState);
+    
     if (onVisibilityToggle) {
-      onVisibilityToggle(product.id, !product.hidden);
+      await onVisibilityToggle(product.id, newHiddenState);
     }
+    
+    setIsUpdating(false);
   };
   
   // Filter out hidden specifications
@@ -86,20 +97,31 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
         className="relative z-50"
       >
       
-      <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20">
+      <Card className={`group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20 ${
+        isAdmin && localHidden ? 'opacity-60 border-red-500/30' : ''
+      }`}>
         {/* Hover glow */}
         <div className="absolute inset-0 bg-gradient-to-t from-red-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
         {/* Admin Visibility Toggle */}
         {isAdmin && (
           <div className="absolute top-3 right-3 z-20" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-2 bg-stone-900/90 backdrop-blur-sm border border-stone-700 rounded-lg px-3 py-2">
+            <div className={`flex items-center gap-2 bg-stone-900/90 backdrop-blur-sm border rounded-lg px-3 py-2 transition-all ${
+              isUpdating ? 'border-yellow-500/50 animate-pulse' : 
+              localHidden ? 'border-red-500/50' : 'border-green-500/50'
+            }`}>
               <Checkbox
-                checked={!product.hidden}
+                checked={!localHidden}
                 onCheckedChange={handleVisibilityToggle}
-                className="border-stone-500 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
+                disabled={isUpdating}
+                className="border-stone-500 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
               />
-              <span className="text-xs text-stone-400 font-medium">Visible</span>
+              <span className={`text-xs font-medium transition-colors ${
+                isUpdating ? 'text-yellow-400' :
+                localHidden ? 'text-red-400' : 'text-green-400'
+              }`}>
+                {isUpdating ? 'Updating...' : localHidden ? 'Hidden' : 'Visible'}
+              </span>
             </div>
           </div>
         )}
