@@ -28,11 +28,11 @@ Deno.serve(async (req) => {
     await base44.integrations.Core.SendEmail({
       from_name: 'Red Helix Research',
       to: email,
-      subject: 'You Left Something Behind... 🧪',
+      subject: 'Did you forget something?',
       body: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
-          <div style="background: linear-gradient(135deg, #8B2635 0%, #6B1827 100%); padding: 30px; text-align: center;">
-            <h1 style="color: #F5E6D3; margin: 0; font-size: 28px;">Don't Miss Out!</h1>
+          <div style="background: #8B2635; padding: 30px; text-align: center;">
+            <h1 style="color: #F5E6D3; margin: 0; font-size: 24px;">You left items in your cart</h1>
           </div>
           
           <div style="padding: 30px;">
@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
             </p>
             
             <p style="font-size: 16px; color: #333; line-height: 1.6;">
-              We noticed you left some premium research peptides in your cart. These lab-tested compounds are in high demand and stock is limited!
+              You have items waiting in your cart. Ready to complete your order?
             </p>
 
             <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 25px 0;">
@@ -63,29 +63,22 @@ Deno.serve(async (req) => {
               </div>
             </div>
 
-            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 25px 0;">
-              <p style="margin: 0; color: #856404; font-weight: bold;">⚠️ Stock Alert</p>
-              <p style="margin: 5px 0 0 0; color: #856404; font-size: 14px;">
-                These products are moving fast! Complete your order before they're gone.
-              </p>
-            </div>
-
             <div style="text-align: center; margin: 30px 0;">
               <a href="https://redhelixresearch.com/Cart" 
                  style="display: inline-block; background: #8B2635; color: #F5E6D3; padding: 15px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
-                Complete Your Order →
+                Complete Purchase
               </a>
             </div>
 
             <div style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 30px;">
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">✓ Same-day shipping on all orders</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">✓ Lab-tested with COAs provided</p>
-              <p style="color: #666; font-size: 14px; margin: 5px 0;">✓ Secure crypto payment accepted</p>
+              <p style="color: #666; font-size: 14px; margin: 5px 0;">Same-day shipping</p>
+              <p style="color: #666; font-size: 14px; margin: 5px 0;">Lab-tested with COAs</p>
+              <p style="color: #666; font-size: 14px; margin: 5px 0;">Secure payment</p>
             </div>
           </div>
 
           <div style="background: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #999;">
-            <p style="margin: 0;">Red Helix Research - Premium Research Peptides</p>
+            <p style="margin: 0;">Red Helix Research</p>
             <p style="margin: 5px 0 0 0;">Questions? Contact us on Discord or Telegram</p>
           </div>
         </div>
