@@ -38,20 +38,20 @@ export default function AbandonedCartTracker() {
         }
       }
 
-      // Send abandoned cart email
-      try {
-        await base44.functions.invoke('sendAbandonedCartEmail', {
-          email: customerInfo.email,
-          name: customerInfo.firstName,
-          cartItems: cart,
-          totalAmount: getCartTotal() + 15.00 // Include shipping
-        });
+      // Mark as sent BEFORE attempting to send to prevent spam on refresh
+      const now = Date.now();
+      localStorage.setItem('abandonedCartLastSent', now.toString());
 
-        // Mark as sent with timestamp
-        localStorage.setItem('abandonedCartLastSent', Date.now().toString());
-      } catch (error) {
+      // Send abandoned cart email in background
+      base44.functions.invoke('sendAbandonedCartEmail', {
+        email: customerInfo.email,
+        name: customerInfo.firstName,
+        cartItems: cart,
+        totalAmount: getCartTotal() + 15.00 // Include shipping
+      }).catch(error => {
         console.error('Failed to send abandoned cart email:', error);
-      }
+        // Don't clear the timestamp on error to prevent retry spam
+      });
     };
 
     // Listen for page unload
