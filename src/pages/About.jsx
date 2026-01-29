@@ -8,6 +8,7 @@ import TechGrid from '@/components/effects/TechGrid';
 import HolographicText from '@/components/effects/HolographicText';
 import GlowingCard from '@/components/effects/GlowingCard';
 import ParticleField from '@/components/effects/ParticleField';
+import SEO from '@/components/SEO';
 
 const StorySection = ({ icon: Icon, title, description, highlight, highlightSecondary }) => (
   <GlowingCard>
@@ -51,8 +52,26 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
 );
 
 export default function About() {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Red Helix Research",
+    "description": "Learn about Red Helix Research's commitment to transparency, quality, and affordable research peptides with verified COAs.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Red Helix Research",
+      "description": "Leading supplier of research-grade peptides with third-party verification and Certificate of Analysis for every product."
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 relative">
+      <SEO 
+        title="About Red Helix Research - Transparent Research Peptide Supplier"
+        description="Red Helix Research provides premium research peptides with verified COAs, competitive pricing, and exceptional customer service. Learn about our commitment to transparency and quality."
+        keywords="about red helix research, peptide supplier transparency, verified peptides, COA peptides, research peptide company"
+        schema={aboutSchema}
+      />
       <TechGrid />
       <ParticleField />
       {/* Hero Section */}

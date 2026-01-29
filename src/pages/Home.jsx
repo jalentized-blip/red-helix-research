@@ -8,6 +8,7 @@ import AgeVerification from '@/components/AgeVerification';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
 import { Package, ClipboardList, DollarSign } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
@@ -111,8 +112,46 @@ export default function Home({ adminViewAsUser = false }) {
     );
   }
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Red Helix Research",
+    "url": typeof window !== 'undefined' ? window.location.origin : '',
+    "logo": "https://i.ibb.co/M5CYvjkG/websitelogo.png",
+    "description": "Premium research-grade peptides supplier. Lab-tested products with Certificate of Analysis. Specializing in weight loss, recovery, cognitive, and performance peptides.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "availableLanguage": "English"
+    },
+    "sameAs": [
+      "https://discord.gg/s78Jeajp"
+    ]
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Red Helix Research",
+    "url": typeof window !== 'undefined' ? window.location.origin : '',
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": typeof window !== 'undefined' ? `${window.location.origin}?search={search_term_string}` : ''
+      },
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50 relative">
+      <SEO 
+        title="Red Helix Research - Premium Research Peptides | Lab-Tested & Verified"
+        description="Shop premium research-grade peptides for weight loss, recovery, cognitive enhancement, and performance. Every product third-party lab tested with Certificate of Analysis. Fast shipping, competitive prices."
+        keywords="research peptides, lab tested peptides, peptide supplier, weight loss peptides, BPC-157, TB-500, semaglutide, tirzepatide, cognitive peptides, recovery peptides, peptide COA, certificate of analysis, research chemicals"
+        schema={[organizationSchema, websiteSchema]}
+      />
       <TechGrid />
       <ParticleField />
       <AgeVerification 
