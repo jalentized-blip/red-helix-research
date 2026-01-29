@@ -34,24 +34,6 @@ import { base44 } from '@/api/base44Client';
 
 // Supported wallet configurations
 const WALLET_CONFIGS = {
-  rabby: {
-    id: 'rabby',
-    name: 'Rabby Wallet',
-    icon: '🐰',
-    color: '#8697FF',
-    deepLink: 'https://rabby.io/',
-    chains: ['ETH', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isRabby || window.rabby),
-  },
-  rainbow: {
-    id: 'rainbow',
-    name: 'Rainbow Wallet',
-    icon: '🌈',
-    color: '#FF6B6B',
-    deepLink: 'https://rainbow.me/download',
-    chains: ['ETH', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isRainbow || window.rainbow),
-  },
   coinbase: {
     id: 'coinbase',
     name: 'Coinbase Wallet',
@@ -61,14 +43,14 @@ const WALLET_CONFIGS = {
     chains: ['ETH', 'BTC', 'USDT', 'USDC'],
     detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension),
   },
-  phantom: {
-    id: 'phantom',
-    name: 'Phantom',
-    icon: '👻',
-    color: '#AB9FF2',
-    deepLink: 'https://phantom.app/download',
-    chains: ['ETH', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && window.phantom?.ethereum,
+  cashapp: {
+    id: 'cashapp',
+    name: 'Cash App',
+    icon: '💚',
+    color: '#00D632',
+    deepLink: null,
+    chains: ['BTC'],
+    detectProvider: () => true,
   },
   manual: {
     id: 'manual',
@@ -216,7 +198,7 @@ export default function CryptoCheckout() {
           detected.push({
             ...wallet,
             isInstalled,
-            isRecommended: wallet.id === 'rabby' || wallet.id === 'rainbow',
+            isRecommended: wallet.id === 'coinbase',
           });
         }
       });
@@ -312,20 +294,10 @@ export default function CryptoCheckout() {
       if (typeof window === 'undefined') return null;
       
       let provider = null;
-      if (walletId === 'rabby') {
-        if (window.rabby) provider = window.rabby;
-        else if (window.ethereum?.isRabby) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isRabby)) provider = window.ethereum.providers.find(p => p.isRabby);
-      } else if (walletId === 'rainbow') {
-        if (window.rainbow) provider = window.rainbow;
-        else if (window.ethereum?.isRainbow) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isRainbow)) provider = window.ethereum.providers.find(p => p.isRainbow);
-      } else if (walletId === 'coinbase') {
+      if (walletId === 'coinbase') {
         if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
         else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
         else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
-      } else if (walletId === 'phantom') {
-        if (window.phantom?.ethereum) provider = window.phantom.ethereum;
       }
       
       return provider;
@@ -355,8 +327,8 @@ export default function CryptoCheckout() {
     setConnectionError('');
 
     try {
-      if (wallet.id === 'manual') {
-        setConnectedWallet({ ...wallet, isManual: true });
+      if (wallet.id === 'manual' || wallet.id === 'cashapp') {
+        setConnectedWallet({ ...wallet, isManual: true, isCashApp: wallet.id === 'cashapp' });
         setStage(CHECKOUT_STAGE.PAYMENT);
         setConnectionState('connected');
         return;
@@ -815,6 +787,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
   const renderPayment = () => {
     const crypto = CRYPTO_OPTIONS.find(c => c.id === selectedCrypto);
     const paymentAddress = PAYMENT_ADDRESSES[selectedCrypto];
+    const isCashApp = connectedWallet?.isCashApp;
 
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
@@ -829,6 +802,12 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             <div className="flex items-center gap-2 text-green-500 text-sm">
               <CheckCircle2 className="w-4 h-4" />
               <span>{connectedWallet.name} Connected</span>
+            </div>
+          )}
+          {isCashApp && (
+            <div className="flex items-center gap-2 text-green-500 text-sm">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Cash App Payment</span>
             </div>
           )}
         </div>
@@ -852,6 +831,25 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
               <Copy className="w-5 h-5 text-white" />
             </button>
           </div>
+          
+          {isCashApp && (
+            <div className="mt-4 p-4 bg-stone-900 rounded-lg border border-green-600/30">
+              <div className="flex items-center gap-2 mb-3">
+                <QrCode className="w-5 h-5 text-green-500" />
+                <p className="text-sm font-semibold text-green-400">Scan with Cash App</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg inline-block">
+                <img 
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bitcoin:${paymentAddress}?amount=${cryptoAmount}`}
+                  alt="Bitcoin QR Code"
+                  className="w-48 h-48"
+                />
+              </div>
+              <p className="text-xs text-stone-400 mt-3">
+                Open Cash App → Tap Bitcoin → Scan QR Code
+              </p>
+            </div>
+          )}
         </div>
 
         {crypto?.isStablecoin && (
@@ -881,17 +879,24 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           </div>
         )}
 
-        {connectedWallet?.isManual && (
+        {(connectedWallet?.isManual || isCashApp) && (
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-semibold text-stone-300 block mb-2">Your Wallet Address (optional)</label>
+              <label className="text-sm font-semibold text-stone-300 block mb-2">
+                {isCashApp ? 'Your Cash App Bitcoin Address (optional)' : 'Your Wallet Address (optional)'}
+              </label>
               <input
                 type="text"
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
-                placeholder="Enter your sending wallet address"
+                placeholder={isCashApp ? "Enter your Cash App Bitcoin address" : "Enter your sending wallet address"}
                 className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
               />
+              {isCashApp && (
+                <p className="text-xs text-stone-500 mt-2">
+                  Find this in Cash App → Bitcoin → ⚙️ → Copy Bitcoin Address
+                </p>
+              )}
             </div>
           </div>
         )}
