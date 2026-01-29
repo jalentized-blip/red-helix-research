@@ -7,10 +7,16 @@ import { motion } from 'framer-motion';
 
 export default function PaymentCompleted() {
   const [transactionId, setTransactionId] = useState('');
+  const [orderNumber, setOrderNumber] = useState('');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setTransactionId(params.get('txid') || '');
+    const txid = params.get('txid');
+    const order = params.get('order');
+    
+    // Try URL params first, then fallback to localStorage
+    setTransactionId(txid || localStorage.getItem('lastTransactionId') || '');
+    setOrderNumber(order || localStorage.getItem('lastOrderNumber') || '');
   }, []);
 
   return (
@@ -37,10 +43,20 @@ export default function PaymentCompleted() {
             Your transaction has been successfully detected and confirmed on the blockchain.
           </p>
 
-          {transactionId && (
-            <div className="bg-stone-800/50 rounded-lg p-4 mb-8">
-              <p className="text-xs text-stone-500 mb-1">Transaction ID</p>
-              <p className="text-amber-50 font-mono text-sm break-all">{transactionId}</p>
+          {(transactionId || orderNumber) && (
+            <div className="bg-stone-800/50 rounded-lg p-4 mb-8 space-y-3">
+              {orderNumber && (
+                <div>
+                  <p className="text-xs text-stone-500 mb-1">Order Number</p>
+                  <p className="text-amber-50 font-mono text-sm break-all">{orderNumber}</p>
+                </div>
+              )}
+              {transactionId && (
+                <div>
+                  <p className="text-xs text-stone-500 mb-1">Transaction ID</p>
+                  <p className="text-amber-50 font-mono text-sm break-all">{transactionId}</p>
+                </div>
+              )}
             </div>
           )}
 
