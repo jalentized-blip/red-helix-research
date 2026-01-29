@@ -10,7 +10,7 @@ const features = [
   {
     number: "2",
     title: "cGMP Certified Manufacturing",
-    description: "Produced in FDA-audited, cGMP-certified facilities to meet the highest global standards for quality and safety."
+    description: "lyophilized in FDA-audited, cGMP-certified facilities to meet the highest global standards for quality and safety."
   },
   {
     number: "3",
