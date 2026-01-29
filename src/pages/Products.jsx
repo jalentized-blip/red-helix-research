@@ -113,9 +113,23 @@ export default function Products() {
     }
   };
 
+  // Deduplicate products by name, keeping the most recent
+  const uniqueProducts = useMemo(() => {
+    const productMap = new Map();
+    products.forEach(product => {
+      if (!product.hidden) {
+        if (!productMap.has(product.name) || 
+            new Date(product.updated_date) > new Date(productMap.get(product.name).updated_date)) {
+          productMap.set(product.name, product);
+        }
+      }
+    });
+    return Array.from(productMap.values());
+  }, [products]);
+
   // Filter products based on search and category
   const filteredProducts = useMemo(() => {
-    let filtered = products.filter(p => !p.hidden);
+    let filtered = [...uniqueProducts];
 
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(p => p.category === selectedCategory);
@@ -130,7 +144,7 @@ export default function Products() {
     }
 
     return filtered;
-  }, [products, searchQuery, selectedCategory]);
+  }, [uniqueProducts, searchQuery, selectedCategory]);
 
   const categories = [
     { value: 'all', label: 'All Products' },
