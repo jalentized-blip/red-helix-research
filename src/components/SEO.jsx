@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 export default function SEO({ 
-  title = 'Red Helix Research - Gray Market Research Peptides | Verified Lab-Tested Supplier',
-  description = 'Trusted gray market peptide supplier with transparent COA verification. Alternative research peptide source for weight loss, recovery, cognitive enhancement. Underground peptide vendor with third-party lab testing for BPC-157, TB-500, semaglutide, tirzepatide.',
-  keywords = 'gray market peptides, research peptides, peptide supplier, peptide vendor, underground peptides, research chemical supplier, alternative peptide source, lab tested peptides, peptide marketplace, BPC-157, TB-500, semaglutide, tirzepatide, peptide COA, verified peptides, research grade peptides, peptide community, peptide research chemicals',
+  title = 'Red Helix Research - Research Peptides USA | Lab-Tested Gray Market Supplier',
+  description = 'Buy research peptides USA with verified COA. Premium research-grade peptides for lab research. High purity semaglutide, tirzepatide, BPC-157, TB-500. Lab tested with transparent third-party verification.',
+  keywords = 'research peptides USA, buy research peptides, research peptides, peptide supplier USA, high purity peptides, lab tested peptides, research grade peptides, peptide vendor, BPC-157, TB-500, semaglutide research, tirzepatide research, research chemicals',
   canonical,
   schema,
   image = 'https://i.ibb.co/M5CYvjkG/websitelogo.png'
@@ -27,6 +27,8 @@ export default function SEO({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:site_name" content="Red Helix Research" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
@@ -35,18 +37,27 @@ export default function SEO({
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={image} />
 
-      {/* Additional SEO */}
-      <meta name="robots" content="index, follow" />
+      {/* Mobile & Additional SEO */}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="language" content="English" />
       <meta name="revisit-after" content="7 days" />
       <meta name="author" content="Red Helix Research" />
+      <meta name="rating" content="safe for kids" />
+      <link rel="alternate" hrefLang="en-us" href={url} />
 
       {/* Schema.org structured data */}
-      {schema && (
+      {Array.isArray(schema) ? (
+        schema.map((schemaItem, idx) => (
+          <script key={idx} type="application/ld+json">
+            {JSON.stringify(schemaItem)}
+          </script>
+        ))
+      ) : schema ? (
         <script type="application/ld+json">
           {JSON.stringify(schema)}
         </script>
-      )}
+      ) : null}
     </Helmet>
   );
 }
