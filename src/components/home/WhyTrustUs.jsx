@@ -12,8 +12,8 @@ const trustPoints = [
   },
   {
     icon: Truck,
-    title: "Free Shipping For Orders Over $300",
-    description: "We offer free FedEx Expedited Shipping for orders over $300 within the US, and international orders over $500."
+    title: "Fast US Shipping",
+    description: "We ship to the United States only. All orders include tracking and fast, reliable delivery."
   },
   {
     icon: Building2,
@@ -48,7 +48,7 @@ export default function WhyTrustUs() {
             Transparent. Tested. Trusted.
           </p>
           <p className="text-stone-400 text-sm mt-2">
-            Premium Quality. Same Day Worldwide Shipping. Rigorously 3rd Party Tested.
+            Premium Quality. Fast US Shipping. Rigorously 3rd Party Tested.
           </p>
         </motion.div>
 

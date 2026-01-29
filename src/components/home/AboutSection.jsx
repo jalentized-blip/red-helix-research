@@ -54,8 +54,8 @@ export default function AboutSection() {
               <p>
                 Red Helix Research is a trusted supplier of premium research-use compounds, 
                 dedicated to unmatched quality, safety, and transparency. We proudly serve 
-                laboratories, academic institutions, and professional researchers across the 
-                world with fast, reliable service.
+                laboratories, academic institutions, and professional researchers across the US 
+                with fast, reliable service.
               </p>
               <p>
                 Every batch is lyophilized in cGMP-certified facilities and verified through 
