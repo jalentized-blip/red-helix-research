@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
+import { rateLimit, sanitizeInput, createSecureResponse } from './securityUtils.js';
 
 Deno.serve(async (req) => {
   try {
@@ -6,13 +7,23 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
 
     if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return createSecureResponse({ error: 'Unauthorized' }, 401);
     }
 
-    const { tracking_number, carrier } = await req.json();
+    // Rate limiting: 20 requests per minute per user
+    const rateLimitCheck = rateLimit(`tracking:${user.email}`, 20, 60000);
+    if (!rateLimitCheck.allowed) {
+      return createSecureResponse({ 
+        error: 'Too many requests',
+        retryAfter: rateLimitCheck.retryAfter 
+      }, 429);
+    }
 
-    if (!tracking_number) {
-      return Response.json({ error: 'Tracking number is required' }, { status: 400 });
+    const body = await req.json();
+    const { tracking_number, carrier } = sanitizeInput(body);
+
+    if (!tracking_number || typeof tracking_number !== 'string' || tracking_number.length > 100) {
+      return createSecureResponse({ error: 'Invalid tracking number' }, 400);
     }
 
     // Use LLM to fetch real-time tracking information
@@ -74,12 +85,11 @@ Deno.serve(async (req) => {
       }
     });
 
-    return Response.json(trackingData);
+    return createSecureResponse(trackingData);
   } catch (error) {
     console.error('Tracking error:', error);
-    return Response.json({ 
-      error: 'Failed to fetch tracking information',
-      details: error.message 
-    }, { status: 500 });
+    return createSecureResponse({ 
+      error: 'Failed to fetch tracking information'
+    }, 500);
   }
 });
