@@ -206,12 +206,23 @@ export default function PeptideComparison() {
     return Array.from(benefits).sort();
   }, []);
 
+  // Map database product names to research peptide names
+  const getPeptideNameFromProduct = (productName) => {
+    const nameMap = {
+      'BPC 157': 'BPC-157',
+      'TB 500': 'TB-500',
+      'Semaglutide': 'Semaglutide',
+      'Tirzepatide': 'Tirzepatide'
+    };
+    return nameMap[productName] || productName;
+  };
+
   // Calculate recommendation score for each peptide
   const calculateScores = (selectedBenefitsArray) => {
     const scores = {};
     
     Object.entries(PEPTIDE_RESEARCH_DATA).forEach(([peptideName, data]) => {
-      const matchedBenefits = selectedBenefitsArray.filter(benefit => benefit in data.benefits);
+      const matchedBenefits = selectedBenefitsArray.filter(benefit => benefit in data.benefits && data.benefits[benefit].score > 0);
       const avgScore = matchedBenefits.length > 0
         ? matchedBenefits.reduce((sum, benefit) => sum + data.benefits[benefit].score, 0) / matchedBenefits.length
         : 0;
