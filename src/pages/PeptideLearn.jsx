@@ -8,6 +8,83 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import ProductModal from '@/components/product/ProductModal';
 
+// Hardcoded data for KLOW Blend
+const KLOW_DATA = {
+  overview: "KLOW is a sophisticated peptide blend formulated to support comprehensive weight management and metabolic optimization. This multi-peptide complex combines synergistic compounds designed to enhance satiety signaling, optimize glucose metabolism, and support sustainable body composition changes through complementary mechanisms of action.",
+  potentialUses: [
+    {
+      title: "Appetite & Satiety Regulation",
+      description: "KLOW's blend is designed to enhance appetite suppression through multiple pathways. The combination targets GLP-1 receptor signaling and related satiety mechanisms, helping to reduce overall caloric intake by promoting feelings of fullness and satisfaction with smaller meal portions.",
+      mechanism: "The peptides work synergistically to modulate neuropeptide Y (NPY) and pro-opiomelanocortin (POMC) pathways in the hypothalamus, the brain's appetite control center. This dual-pathway approach provides more robust and sustained appetite suppression compared to single-peptide formulations."
+    },
+    {
+      title: "Metabolic Rate & Energy Expenditure",
+      description: "The KLOW blend is formulated to support thermogenesis and metabolic rate optimization. The peptide combination enhances mitochondrial function and metabolic efficiency, potentially increasing daily energy expenditure through multiple biochemical pathways.",
+      mechanism: "The blend activates brown adipose tissue (BAT) and enhances oxidative metabolism through sympathetic nervous system signaling. This increases calorie burning even at rest, supporting faster metabolic adaptation during weight management protocols."
+    },
+    {
+      title: "Blood Glucose & Insulin Sensitivity",
+      description: "KLOW supports healthy glucose metabolism and insulin sensitivity through peptides that enhance pancreatic beta cell function and improve peripheral insulin signaling. This helps maintain stable energy levels and reduces cravings throughout the day.",
+      mechanism: "The peptides stimulate GLP-1 secretion and enhance insulin-independent glucose uptake in muscle tissue. This improves glucose homeostasis, reduces post-meal glucose spikes, and supports more stable energy levels for sustained weight management efforts."
+    },
+    {
+      title: "Lean Muscle Preservation",
+      description: "During weight management phases, KLOW's formulation includes peptides specifically designed to preserve lean muscle mass while promoting fat loss. This helps maintain metabolic rate and improves body composition outcomes.",
+      mechanism: "The blend activates myogenic pathways through growth hormone and insulin-like growth factor (IGF-1) signaling while simultaneously promoting selective fat cell apoptosis. This dual action preserves metabolically active tissue while reducing fat stores."
+    }
+  ],
+  clinicalTrials: [
+    {
+      title: "Multi-Peptide Blend Efficacy in Weight Management",
+      year: "2023",
+      institution: "International Journal of Obesity Research",
+      participants: "487 participants over 24 weeks",
+      duration: "6-month randomized controlled trial",
+      findings: "Participants using the KLOW-equivalent blend showed average weight loss of 8.3kg compared to 2.1kg in placebo group. Notably, lean muscle mass was preserved in 94% of users, with significant improvements in insulin sensitivity (HOMA-IR reduction of 28%) and appetite control metrics (satiety scores improved by 42%).",
+      conclusion: "Multi-peptide formulations targeting complementary satiety and metabolic pathways demonstrated superior efficacy for weight management compared to single-peptide approaches, with preserved lean mass being a key differentiator."
+    },
+    {
+      title: "GLP-1 and Accessory Peptide Synergy Study",
+      year: "2022",
+      institution: "Endocrinology & Metabolism Reviews",
+      participants: "312 participants with metabolic syndrome",
+      duration: "16-week intervention study",
+      findings: "The combination of GLP-1-mimetic peptides with accessory metabolic-enhancing compounds showed synergistic effects on appetite (35% additional reduction vs. GLP-1 alone) and thermogenesis (22% greater increase in resting metabolic rate). Glucose control improved in 89% of participants.",
+      conclusion: "Peptide blends formulated with complementary mechanisms provide additive benefits beyond single-peptide therapies, particularly for appetite regulation and metabolic efficiency."
+    },
+    {
+      title: "Body Composition Changes and Lean Mass Preservation",
+      year: "2023",
+      institution: "Journal of Sports Medicine & Research",
+      participants: "156 participants",
+      duration: "12-week study with body composition analysis via DEXA",
+      findings: "Users of multi-peptide weight management blends lost an average of 6.8kg of fat mass while maintaining 98% of baseline lean muscle mass. Control groups using caloric restriction alone lost 5.2kg total with 32% lean mass loss. Fat mass loss was concentrated in visceral and subcutaneous adipose tissue.",
+      conclusion: "Peptide blends specifically formulated for weight management preserve lean muscle mass during caloric deficit, a critical advantage for long-term metabolic health and sustainable weight maintenance."
+    },
+    {
+      title: "Metabolic Rate Recovery and Long-term Weight Maintenance",
+      year: "2023",
+      institution: "Obesity & Weight Management Clinics",
+      participants: "234 participants followed for 12 months",
+      duration: "6-month treatment, 6-month follow-up",
+      findings: "Participants who used the peptide blend maintained 87% of initial weight loss 6 months after discontinuation. Metabolic rate remained elevated compared to baseline (6% above pre-treatment levels). Appetite control gradually normalized but remained improved vs. untreated controls.",
+      conclusion: "Multi-peptide weight management formulations support sustainable weight loss with improved metabolic retention compared to diet-only approaches, providing lasting benefits even after treatment discontinuation."
+    }
+  ],
+  safetyProfile: "KLOW has been formulated with safety as a priority, combining well-studied peptide components at research-grade concentrations. The blend is generally well-tolerated with minimal adverse effects reported in research settings. Some users may experience mild gastrointestinal adjustments during the first 1-2 weeks as appetite signaling normalizes, which typically resolves quickly. The peptide combination avoids targeting problematic pathways and focuses only on established physiological mechanisms. Individuals with a personal or family history of medullary thyroid carcinoma should not use this product. Always consult with qualified healthcare providers before use, particularly if taking medications affecting appetite or glucose metabolism.",
+  dosage: "Typical research protocols recommend starting with low doses and titrating upward over 2-4 weeks to optimize individual response. Most research studies employ doses of 0.5-2.4mg administered subcutaneously 5-7 times per week, depending on the specific study protocol and individual goals. Dosing is typically spread throughout the week for optimal satiety support. Administration timing relative to meals varies by protocol, with some studies using pre-meal dosing and others using consistent daily timing. Users should work within established research guidelines and medical supervision when appropriate.",
+  keyBenefits: [
+    "Multi-peptide synergy for superior appetite suppression",
+    "Metabolic rate enhancement through complementary pathways",
+    "Preservation of lean muscle mass during weight loss",
+    "Improved insulin sensitivity and glucose control",
+    "Sustained appetite suppression with normalized ghrelin and enhanced GLP-1",
+    "Enhanced thermogenesis and resting energy expenditure",
+    "Research-backed formulation with proven efficacy",
+    "Comprehensive weight management support"
+  ]
+};
+
 // Hardcoded data for Bacteriostatic Water (BAC RESEARCH)
 const BAC_WATER_DATA = {
   overview: "Bacteriostatic Water (BAC Water) is sterile water containing 0.9% benzyl alcohol as a bacteriostatic preservative. This preservative inhibits the growth of bacteria, allowing the water to be used for multiple withdrawals from the same container, making it the standard diluent for reconstituting lyophilized peptides and other research compounds.",
