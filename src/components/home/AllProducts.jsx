@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
+import { base44 } from '@/api/base44Client';
+import { useQueryClient } from '@tanstack/react-query';
 
 const categories = [
   { id: "all", label: "All" },
@@ -21,6 +23,35 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
     const [searchQuery, setSearchQuery] = useState("");
     const [showAll, setShowAll] = useState(false);
     const [sortBy, setSortBy] = useState("featured");
+    const [isAdmin, setIsAdmin] = useState(false);
+    const queryClient = useQueryClient();
+
+    useEffect(() => {
+      const checkAdmin = async () => {
+        try {
+          const user = await base44.auth.me();
+          setIsAdmin(user?.role === 'admin');
+        } catch (error) {
+          setIsAdmin(false);
+        }
+      };
+      checkAdmin();
+
+      // Subscribe to product changes for real-time updates
+      const unsubscribe = base44.entities.Product.subscribe(() => {
+        queryClient.invalidateQueries({ queryKey: ['products'] });
+      });
+
+      return unsubscribe;
+    }, [queryClient]);
+
+    const handleVisibilityToggle = async (productId, newHiddenState) => {
+      try {
+        await base44.entities.Product.update(productId, { hidden: newHiddenState });
+      } catch (error) {
+        console.error('Failed to update product visibility:', error);
+      }
+    };
 
     // Deduplicate products by name - keep only the most recent version
     const deduplicatedProducts = Array.from(
@@ -36,7 +67,8 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
         (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
       const isBacResearch = product.name.toUpperCase() === 'BAC RESEARCH';
       const hasVisibleSpecs = product.specifications?.some(spec => !spec.hidden);
-      return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs;
+      const isVisible = isAdmin || !product.hidden;
+      return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs && isVisible;
     });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -139,7 +171,15 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {displayedProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} onSelectStrength={onSelectStrength} isAuthenticated={isAuthenticated} />
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              index={index} 
+              onSelectStrength={onSelectStrength} 
+              isAuthenticated={isAuthenticated}
+              isAdmin={isAdmin}
+              onVisibilityToggle={handleVisibilityToggle}
+            />
           ))}
         </div>
 

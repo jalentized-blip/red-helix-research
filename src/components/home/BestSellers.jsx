@@ -1,10 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
+import { base44 } from '@/api/base44Client';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function BestSellers({ products, onSelectStrength, isAuthenticated = true }) {
-  const featuredProducts = products.filter(p => p.is_featured && !p.is_deleted).slice(0, 7);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const user = await base44.auth.me();
+        setIsAdmin(user?.role === 'admin');
+      } catch (error) {
+        setIsAdmin(false);
+      }
+    };
+    checkAdmin();
+
+    // Subscribe to product changes for real-time updates
+    const unsubscribe = base44.entities.Product.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    });
+
+    return unsubscribe;
+  }, [queryClient]);
+
+  const handleVisibilityToggle = async (productId, newHiddenState) => {
+    try {
+      await base44.entities.Product.update(productId, { hidden: newHiddenState });
+    } catch (error) {
+      console.error('Failed to update product visibility:', error);
+    }
+  };
+
+  const featuredProducts = products
+    .filter(p => {
+      const isFeatured = p.is_featured && !p.is_deleted;
+      const isVisible = isAdmin || !p.hidden;
+      return isFeatured && isVisible;
+    })
+    .slice(0, 7);
 
   return (
     <section id="bestsellers" className="py-20 px-4 relative">
@@ -49,7 +87,15 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {featuredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} onSelectStrength={onSelectStrength} isAuthenticated={isAuthenticated} />
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              index={index} 
+              onSelectStrength={onSelectStrength} 
+              isAuthenticated={isAuthenticated}
+              isAdmin={isAdmin}
+              onVisibilityToggle={handleVisibilityToggle}
+            />
           ))}
         </div>
       </div>
