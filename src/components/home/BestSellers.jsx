@@ -6,20 +6,14 @@ import { base44 } from '@/api/base44Client';
 import { useQueryClient } from '@tanstack/react-query';
 
 export default function BestSellers({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp = false }) {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [effectiveIsAdmin, setEffectiveIsAdmin] = useState(isAdminProp);
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const checkAdmin = async () => {
-      try {
-        const user = await base44.auth.me();
-        setIsAdmin(isAdminProp !== undefined ? isAdminProp : (user?.role === 'admin'));
-      } catch (error) {
-        setIsAdmin(false);
-      }
-    };
-    checkAdmin();
+    setEffectiveIsAdmin(isAdminProp);
+  }, [isAdminProp]);
 
+  useEffect(() => {
     // Subscribe to product changes for real-time updates
     const unsubscribe = base44.entities.Product.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
@@ -39,7 +33,7 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
   const featuredProducts = products
     .filter(p => {
       const isFeatured = p.is_featured && !p.is_deleted;
-      const isVisible = isAdmin || !p.hidden;
+      const isVisible = effectiveIsAdmin || !p.hidden;
       return isFeatured && isVisible;
     })
     .slice(0, 7);
@@ -93,7 +87,7 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
               index={index} 
               onSelectStrength={onSelectStrength} 
               isAuthenticated={isAuthenticated}
-              isAdmin={isAdmin}
+              isAdmin={effectiveIsAdmin}
               onVisibilityToggle={handleVisibilityToggle}
             />
           ))}

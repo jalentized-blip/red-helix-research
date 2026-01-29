@@ -27,15 +27,20 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
     const queryClient = useQueryClient();
 
     useEffect(() => {
-      const checkAdmin = async () => {
-        try {
-          const user = await base44.auth.me();
-          setIsAdmin(isAdminProp !== undefined ? isAdminProp : (user?.role === 'admin'));
-        } catch (error) {
-          setIsAdmin(false);
-        }
-      };
-      checkAdmin();
+      if (isAdminProp !== undefined) {
+        setIsAdmin(isAdminProp);
+      } else {
+        const checkAdmin = async () => {
+          try {
+            const user = await base44.auth.me();
+            setIsAdmin(user?.role === 'admin');
+          } catch (error) {
+            setIsAdmin(false);
+          }
+        };
+        checkAdmin();
+      }
+    }, [isAdminProp]);
 
       // Subscribe to product changes for real-time updates
       const unsubscribe = base44.entities.Product.subscribe(() => {
@@ -43,7 +48,11 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       });
 
       return unsubscribe;
-    }, [queryClient]);
+    }, []);
+    
+    useEffect(() => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    }, [isAdmin, queryClient]);
 
     const handleVisibilityToggle = async (productId, newHiddenState) => {
       try {
