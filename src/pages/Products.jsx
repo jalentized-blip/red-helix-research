@@ -134,12 +134,14 @@ export default function Products() {
   const filteredProducts = useMemo(() => {
     let filtered = [...uniqueProducts];
 
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(p => p.category === selectedCategory);
-    }
-
     if (showInStockOnly) {
+      // In-stock override: ignore category filter
       filtered = filtered.filter(p => p.in_stock && !p.hidden);
+    } else {
+      // Only apply category when in-stock is not active
+      if (selectedCategory !== 'all') {
+        filtered = filtered.filter(p => p.category === selectedCategory);
+      }
     }
 
     if (searchQuery.trim()) {
