@@ -187,8 +187,7 @@ const PEPTIDE_RESEARCH_DATA = {
     },
     contraindications: [],
     clinicalNotes: 'Well-researched neurohormone with strong safety profile. Supports emotional and relational wellness.'
-  }
-};
+  },
   'TB-500': {
     fullName: 'Thymosin Beta-4',
     description: 'Endogenous peptide naturally present in wound healing fluid with broad cellular protection research',
