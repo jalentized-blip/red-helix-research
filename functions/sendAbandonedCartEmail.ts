@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     `).join('');
 
     await base44.integrations.Core.SendEmail({
-      from_name: 'Red Helix Research',
+      from_name: 'Jake - Red Helix Research',
       to: email,
       subject: 'Did you forget something?',
       body: `
