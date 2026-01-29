@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package, User } from 'lucide-react';
+import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package, User, ToggleLeft, ToggleRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -233,6 +233,7 @@ const HeaderSearch = () => {
                                const [showUploadModal, setShowUploadModal] = useState(false);
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
+                               const [viewAsUser, setViewAsUser] = useState(false);
                                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
                                                const [user, setUser] = useState(null);
 
@@ -506,7 +507,7 @@ const HeaderSearch = () => {
               </>
             )}
 
-            {isAdmin && (
+            {isAdmin && !viewAsUser && (
               <>
                 <div className="h-6 w-px bg-stone-700/50" />
                 <Link to={createPageUrl('GrayMarketInsights')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm flex items-center gap-1.5">
@@ -519,12 +520,29 @@ const HeaderSearch = () => {
           
           {/* Actions */}
           <div className="flex items-center gap-3">
-            {isAuthenticated && isAdmin && (
+            {isAuthenticated && isAdmin && !viewAsUser && (
               <NotificationCenter userEmail={user?.email} />
             )}
 
-            {isAuthenticated && (
+            {isAuthenticated && !viewAsUser && (
               <AlertsDropdown />
+            )}
+
+            {isAdmin && (
+              <button
+                onClick={() => setViewAsUser(!viewAsUser)}
+                className={`hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
+                  viewAsUser 
+                    ? 'bg-blue-600/20 border-blue-600/50 text-blue-400 hover:bg-blue-600/30' 
+                    : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
+                }`}
+                title={viewAsUser ? 'Viewing as User' : 'Viewing as Admin'}
+              >
+                {viewAsUser ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
+                <span className="text-xs font-semibold">
+                  {viewAsUser ? 'User View' : 'Admin View'}
+                </span>
+              </button>
             )}
 
             <Link to={createPageUrl('Cart')}>
@@ -606,29 +624,45 @@ const HeaderSearch = () => {
                       {isAdmin && (
                         <>
                           <div className="border-t border-stone-800/30 my-2 pt-2" />
-                          <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
-                            <Eye className="w-4 h-4" />
-                            Market Intelligence
-                          </Link>
-                          <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
-                            <Mail className="w-4 h-4" />
-                            Price Management
-                          </Link>
-                          <Link to={createPageUrl('AdminStockManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
-                            <Package className="w-4 h-4" />
-                            Stock Management
-                          </Link>
-                          <Link to={createPageUrl('AdminManualOrders')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
-                            <Package className="w-4 h-4" />
-                            Manual Orders
-                          </Link>
-                          <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
-                            <User className="w-4 h-4" />
-                            Customer Management
-                          </Link>
-                          <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
-                            Customer Support
-                          </Link>
+                          <button
+                            onClick={() => setViewAsUser(!viewAsUser)}
+                            className={`w-full text-left text-base font-semibold px-4 py-3 transition-all rounded-lg border flex items-center gap-2 ${
+                              viewAsUser 
+                                ? 'bg-blue-600/20 border-blue-600/50 text-blue-400 hover:bg-blue-600/30' 
+                                : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
+                            }`}
+                          >
+                            {viewAsUser ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
+                            {viewAsUser ? 'User View (ON)' : 'Admin View'}
+                          </button>
+
+                          {!viewAsUser && (
+                            <>
+                              <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                                <Eye className="w-4 h-4" />
+                                Market Intelligence
+                              </Link>
+                              <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                                <Mail className="w-4 h-4" />
+                                Price Management
+                              </Link>
+                              <Link to={createPageUrl('AdminStockManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                                <Package className="w-4 h-4" />
+                                Stock Management
+                              </Link>
+                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                                <Package className="w-4 h-4" />
+                                Manual Orders
+                              </Link>
+                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                                <User className="w-4 h-4" />
+                                Customer Management
+                              </Link>
+                              <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Customer Support
+                              </Link>
+                            </>
+                          )}
                         </>
                       )}
                     </nav>
@@ -668,7 +702,7 @@ const HeaderSearch = () => {
       
       {/* Main Content */}
       <main>
-        {children}
+        {React.cloneElement(children, { adminViewAsUser: viewAsUser })}
       </main>
 
 

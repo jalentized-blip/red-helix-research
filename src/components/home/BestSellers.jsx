@@ -5,7 +5,7 @@ import ProductCard from './ProductCard';
 import { base44 } from '@/api/base44Client';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function BestSellers({ products, onSelectStrength, isAuthenticated = true }) {
+export default function BestSellers({ products, onSelectStrength, isAuthenticated = true, isAdmin = false }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const queryClient = useQueryClient();
 

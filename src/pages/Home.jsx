@@ -25,7 +25,7 @@ import FAQ from '@/components/home/FAQ';
 import Contact from '@/components/home/Contact';
 import Footer from '@/components/home/Footer';
 
-export default function Home() {
+export default function Home({ adminViewAsUser = false }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showAgeVerification, setShowAgeVerification] = useState(false);
@@ -146,9 +146,9 @@ export default function Home() {
       <ValueProposition />
       <NumberedFeatures />
       <AboutSection />
-      <BestSellers products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} />
-      <ShopByGoal products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} />
-      <AllProducts products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} />
+      <BestSellers products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} isAdmin={isAdmin && !adminViewAsUser} />
+      <ShopByGoal products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} isAdmin={isAdmin && !adminViewAsUser} />
+      <AllProducts products={products} onSelectStrength={handleSelectStrength} isAuthenticated={isAuthenticated} isAdmin={isAdmin && !adminViewAsUser} />
       <WhyTrustUs />
       <ProductModal 
         product={selectedProduct} 

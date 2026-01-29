@@ -18,7 +18,7 @@ const categories = [
   { id: "general_health", label: "General Health" },
 ];
 
-export default function AllProducts({ products, onSelectStrength, isAuthenticated = true }) {
+export default function AllProducts({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp }) {
     const [activeCategory, setActiveCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [showAll, setShowAll] = useState(false);
@@ -30,7 +30,7 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       const checkAdmin = async () => {
         try {
           const user = await base44.auth.me();
-          setIsAdmin(user?.role === 'admin');
+          setIsAdmin(isAdminProp !== undefined ? isAdminProp : (user?.role === 'admin'));
         } catch (error) {
           setIsAdmin(false);
         }
