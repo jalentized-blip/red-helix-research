@@ -446,8 +446,6 @@ const HeaderSearch = () => {
         <MolecularBackground />
         <FloatingMolecularFormulas />
 
-        <ScrollingAnnouncement />
-
         {/* Mobile Header Toggle (when collapsed on home page) */}
         {isHomePage && mobileHeaderCollapsed && (
           <div 
@@ -716,6 +714,8 @@ const HeaderSearch = () => {
 
               {/* Global Search - Centered Under Navigation */}
               <HeaderSearch />
+
+              <ScrollingAnnouncement />
               </header>
       
 
