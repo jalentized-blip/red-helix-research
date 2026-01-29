@@ -32,6 +32,163 @@ const PEPTIDE_RESEARCH_DATA = {
     contraindications: [],
     clinicalNotes: 'Highly localized action making it ideal for targeted tissue and injury repair. Strong clinical evidence for musculoskeletal applications and gut health restoration.'
   },
+  'GHK-Cu': {
+    fullName: 'GHK-Cu (Copper Tripeptide)',
+    description: 'Copper peptide naturally found in plasma and saliva supporting collagen production and wound healing',
+    molecularWeight: '~517 Da',
+    aminoAcids: 3,
+    stability: 'High',
+    mechanism: 'Collagen synthesis and tissue remodeling',
+    class: 'Anti-Aging & Tissue',
+    benefits: {
+      'Collagen & Skin Health': { score: 10, studies: 'Clinical evidence for collagen synthesis and skin elasticity improvement' },
+      'Wound Healing': { score: 9, studies: 'Research demonstrating accelerated wound closure and tissue remodeling' },
+      'Anti-Aging & Wrinkles': { score: 9, studies: 'Studies on skin firmness, elasticity, and reduction of fine lines' },
+      'Hair Growth & Thickness': { score: 8, studies: 'Clinical data on hair follicle stimulation and growth acceleration' },
+      'Bone Healing & Density': { score: 8, studies: 'Research on bone formation and mineralization' },
+      'Muscle Soreness & Recovery': { score: 7, studies: 'Secondary benefit through tissue repair mechanisms' },
+      'Joint Pain & Arthritis': { score: 7, studies: 'Studies on cartilage remodeling and joint health' },
+      'General Healing': { score: 8, studies: 'Broad-spectrum tissue repair and regeneration' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Well-established safety profile with decades of clinical use. Synergizes effectively with other repair peptides.'
+  },
+  'Ipamorelin': {
+    fullName: 'Ipamorelin (Growth Hormone Secretagogue)',
+    description: 'Selective growth hormone-releasing peptide stimulating natural GH production without cortisol increase',
+    molecularWeight: '~711 Da',
+    aminoAcids: 5,
+    stability: 'Stable',
+    mechanism: 'Selective GH receptor agonism',
+    class: 'GH Secretagogue',
+    benefits: {
+      'Muscle Growth & Strength': { score: 10, studies: 'Clinical trials showing increased lean muscle mass and strength gains' },
+      'Athletic Performance': { score: 9, studies: 'Research on performance enhancement and recovery' },
+      'Body Composition': { score: 9, studies: 'Studies on fat reduction and lean mass increase' },
+      'Energy & Vitality': { score: 8, studies: 'Clinical evidence for improved energy levels and stamina' },
+      'Recovery & Healing': { score: 8, studies: 'Research on tissue repair acceleration' },
+      'Sleep Quality': { score: 7, studies: 'Studies on sleep architecture improvement' },
+      'Anti-Aging & Longevity': { score: 7, studies: 'Data on cellular regeneration and aging markers' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Superior selectivity compared to other GH secretagogues. Minimal cortisol elevation. Ideal for cycling protocols.'
+  },
+  'CJC-1295': {
+    fullName: 'CJC-1295 (Growth Hormone-Releasing Hormone)',
+    description: 'Synthetic GHRH analog providing sustained growth hormone elevation for extended periods',
+    molecularWeight: '~3,649 Da',
+    aminoAcids: 30,
+    stability: 'Very High (with DAC)',
+    mechanism: 'GHRH receptor agonism',
+    class: 'GH Secretagogue',
+    benefits: {
+      'Muscle Growth & Strength': { score: 10, studies: 'Clinical evidence for sustained lean muscle development' },
+      'Body Composition': { score: 9, studies: 'Research on fat reduction and muscle preservation' },
+      'Athletic Performance': { score: 9, studies: 'Studies on endurance and recovery enhancement' },
+      'Collagen & Skin Health': { score: 8, studies: 'Research on skin thickness and elasticity through GH effects' },
+      'Bone Density': { score: 8, studies: 'Clinical data on bone mineral density improvement' },
+      'Recovery & Healing': { score: 8, studies: 'Evidence for accelerated tissue repair' },
+      'Energy & Vitality': { score: 7, studies: 'Studies on metabolic rate and energy production' },
+      'Sleep Quality': { score: 6, studies: 'Research on deep sleep architecture' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Provides sustained GH elevation over extended periods. Synergizes powerfully with Ipamorelin.'
+  },
+  'Pinealon': {
+    fullName: 'Pinealon (Epitalon Bioregulator)',
+    description: 'Pineal gland peptide bioregulator supporting cellular regeneration and neuroprotection',
+    molecularWeight: '~518 Da',
+    aminoAcids: 3,
+    stability: 'High',
+    mechanism: 'Pineal function optimization and telomerase regulation',
+    class: 'Cellular Bioregulator',
+    benefits: {
+      'Anti-Aging & Longevity': { score: 10, studies: 'Clinical research on telomerase activity and cellular aging' },
+      'Sleep Quality': { score: 9, studies: 'Studies on circadian rhythm regulation and sleep architecture' },
+      'Cognitive Function': { score: 8, studies: 'Research on neuroprotection and mental clarity' },
+      'Neurological Health': { score: 8, studies: 'Evidence for brain health and neural protection' },
+      'Immune Support': { score: 7, studies: 'Studies on immune system regulation and optimization' },
+      'Stress Management': { score: 7, studies: 'Research on cortisol regulation and stress response' },
+      'Cellular Health': { score: 8, studies: 'Data on mitochondrial function and cellular vitality' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Russian bioregulator with decades of safety data. Supports deep cellular regeneration and longevity pathways.'
+  },
+  'DSIP': {
+    fullName: 'DSIP (Delta Sleep-Inducing Peptide)',
+    description: 'Endogenous peptide regulating sleep quality and hormonal balance',
+    molecularWeight: '~848 Da',
+    aminoAcids: 9,
+    stability: 'Moderate',
+    mechanism: 'Sleep regulation and hormonal modulation',
+    class: 'Sleep & Recovery',
+    benefits: {
+      'Sleep Quality': { score: 10, studies: 'Clinical evidence for deep sleep enhancement and sleep architecture' },
+      'Stress Management': { score: 9, studies: 'Research on cortisol reduction and stress resilience' },
+      'Recovery & Healing': { score: 8, studies: 'Studies on sleep-dependent tissue repair and recovery' },
+      'Hormonal Balance': { score: 8, studies: 'Clinical data on hormone normalization during sleep' },
+      'Pain Management': { score: 7, studies: 'Research on pain perception reduction through sleep improvement' },
+      'Mental Clarity': { score: 7, studies: 'Studies on cognitive function improvement' },
+      'Immune Support': { score: 6, studies: 'Evidence for immune enhancement during deep sleep' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Endogenous peptide with strong sleep regulatory mechanisms. Excellent for sleep optimization protocols.'
+  },
+  'Gonadorelin': {
+    fullName: 'Gonadorelin (GnRH - Gonadotropin-Releasing Hormone)',
+    description: 'Natural hormone regulating reproductive and hormonal function',
+    molecularWeight: '~1,182 Da',
+    aminoAcids: 10,
+    stability: 'Moderate',
+    mechanism: 'GnRH receptor agonism and reproductive axis regulation',
+    class: 'Hormonal Regulator',
+    benefits: {
+      'Sexual Health & Performance': { score: 10, studies: 'Clinical evidence for reproductive function optimization' },
+      'Hormonal Balance': { score: 9, studies: 'Research on testosterone and reproductive hormone regulation' },
+      'Fertility Support': { score: 9, studies: 'Studies on fertility restoration and sperm production' },
+      'Mood & Confidence': { score: 7, studies: 'Clinical data on mood improvement through hormone balance' },
+      'Energy & Vitality': { score: 6, studies: 'Secondary benefit through hormonal optimization' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Regulatory hormone with strong clinical evidence for reproductive health. Works upstream on hormone axis.'
+  },
+  'KPV': {
+    fullName: 'KPV (Lysine-Proline-Valine)',
+    description: 'Tripeptide from alpha-melanocyte-stimulating hormone with anti-inflammatory properties',
+    molecularWeight: '~345 Da',
+    aminoAcids: 3,
+    stability: 'High',
+    mechanism: 'Anti-inflammatory and immune modulation',
+    class: 'Anti-Inflammatory',
+    benefits: {
+      'Chronic Inflammation': { score: 10, studies: 'Clinical evidence for inflammatory marker reduction' },
+      'Gut Health & Leaky Gut': { score: 9, studies: 'Research on intestinal barrier integrity and inflammation' },
+      'Immune Support': { score: 8, studies: 'Studies on immune system optimization' },
+      'Joint Pain & Arthritis': { score: 8, studies: 'Clinical data on inflammatory joint conditions' },
+      'Skin Health': { score: 7, studies: 'Research on inflammatory skin conditions' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Potent anti-inflammatory with broad systemic benefits. Commonly stacked with tissue repair peptides.'
+  },
+  'Oxytocin': {
+    fullName: 'Oxytocin (Love & Bonding Hormone)',
+    description: 'Neurohormone regulating social bonding, mood, and sexual function',
+    molecularWeight: '~1,007 Da',
+    aminoAcids: 9,
+    stability: 'Moderate',
+    mechanism: 'Oxytocin receptor agonism',
+    class: 'Neurohormonal',
+    benefits: {
+      'Mood & Emotional Wellness': { score: 9, studies: 'Clinical evidence for mood enhancement and social connection' },
+      'Sexual Health & Performance': { score: 9, studies: 'Research on sexual function and arousal' },
+      'Stress Management': { score: 8, studies: 'Studies on anxiety reduction and stress resilience' },
+      'Social Wellness': { score: 8, studies: 'Clinical data on bonding, trust, and social interaction' },
+      'Pain Management': { score: 7, studies: 'Research on pain perception and threshold' }
+    },
+    contraindications: [],
+    clinicalNotes: 'Well-researched neurohormone with strong safety profile. Supports emotional and relational wellness.'
+  }
+};
   'TB-500': {
     fullName: 'Thymosin Beta-4',
     description: 'Endogenous peptide naturally present in wound healing fluid with broad cellular protection research',
