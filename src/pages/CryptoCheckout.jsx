@@ -181,29 +181,50 @@ export default function CryptoCheckout() {
 
   // Initialize data on mount
   useEffect(() => {
-    const cart = getCart();
-    const customer = JSON.parse(localStorage.getItem('customerInfo') || 'null');
-    const promo = getPromoCode();
+    const checkAuth = async () => {
+      try {
+        const authenticated = await base44.auth.isAuthenticated();
+        if (!authenticated) {
+          base44.auth.redirectToLogin(createPageUrl('Cart'));
+          return false;
+        }
+        return true;
+      } catch (error) {
+        base44.auth.redirectToLogin(createPageUrl('Cart'));
+        return false;
+      }
+    };
 
-    if (cart.length === 0) {
-      navigate(createPageUrl('Cart'));
-      return;
-    }
+    const init = async () => {
+      const isAuth = await checkAuth();
+      if (!isAuth) return;
 
-    if (!customer) {
-      navigate(createPageUrl('CustomerInfo'));
-      return;
-    }
+      const cart = getCart();
+      const customer = JSON.parse(localStorage.getItem('customerInfo') || 'null');
+      const promo = getPromoCode();
 
-    setCartItems(cart);
-    setCustomerInfo(customer);
-    setPromoCode(promo);
+      if (cart.length === 0) {
+        navigate(createPageUrl('Cart'));
+        return;
+      }
 
-    // Check if this is a test order
-    const isTestOrder = cart.every(item => item.productName.includes('TEST PRODUCT'));
-    if (isTestOrder) {
-      window.__isTestOrder = true;
-    }
+      if (!customer) {
+        navigate(createPageUrl('CustomerInfo'));
+        return;
+      }
+
+      setCartItems(cart);
+      setCustomerInfo(customer);
+      setPromoCode(promo);
+
+      // Check if this is a test order
+      const isTestOrder = cart.every(item => item.productName.includes('TEST PRODUCT'));
+      if (isTestOrder) {
+        window.__isTestOrder = true;
+      }
+    };
+
+    init();
   }, [navigate]);
 
   // Detect available wallets when crypto is selected
