@@ -193,9 +193,12 @@ export default function PeptideLearn() {
       if (foundProduct) {
         setProduct(foundProduct);
         
-        // Check if this is BAC RESEARCH / Bacteriostatic Water
+        // Check if this is KLOW blend
         const productNameUpper = foundProduct.name.toUpperCase();
-        if (productNameUpper === 'BAC RESEARCH' || 
+        if (productNameUpper === 'KLOW' || productNameUpper === 'KLOW80') {
+          setIsBacWater(false);
+          setPeptideData(KLOW_DATA);
+        } else if (productNameUpper === 'BAC RESEARCH' || 
             productNameUpper === 'BAC' || 
             productNameUpper.includes('BACTERIOSTATIC')) {
           setIsBacWater(true);
