@@ -625,6 +625,14 @@ const HeaderSearch = () => {
                         Research & Education
                       </Link>
 
+                      <Link to={createPageUrl('BlogGuide')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Research Guides
+                      </Link>
+
+                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Compare Peptides
+                      </Link>
+
                       <button onClick={() => scrollTo('#certificates')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 w-full">
                         Certificates of Analysis
                       </button>
@@ -682,12 +690,21 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                                 Customer Support
                               </Link>
-                            </>
-                          )}
-                        </>
-                      )}
 
-                      <div className="border-t border-stone-800/30 my-4 pt-4" />
+                              <div className="border-t border-stone-800/30 my-2 pt-2" />
+
+                              <Link to={createPageUrl('SEOMonitoring')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                SEO Monitoring
+                              </Link>
+                              <Link to={createPageUrl('BacklinkStrategy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                                Backlink Strategy
+                              </Link>
+                              </>
+                              )}
+                              </>
+                              )}
+
+                              <div className="border-t border-stone-800/30 my-4 pt-4" />
 
                       <Link to={createPageUrl('Policies')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Policies & Terms
