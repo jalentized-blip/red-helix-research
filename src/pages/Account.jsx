@@ -345,6 +345,34 @@ export default function Account() {
                                      `<li>${item.product_name || item.productName} (${item.specification}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</li>`
                                    ).join('');
 
+                                   let paymentInfo = '';
+                                   if (order.crypto_amount && order.crypto_currency) {
+                                     paymentInfo = `<p><strong>Payment:</strong> ${order.crypto_amount} ${order.crypto_currency}</p>`;
+                                   }
+                                   if (order.transaction_id) {
+                                     paymentInfo += `<p><strong>Transaction ID:</strong> ${order.transaction_id}</p>`;
+                                   }
+
+                                   let trackingInfo = '';
+                                   if (order.tracking_number) {
+                                     trackingInfo = `<p><strong>Tracking Number:</strong> ${order.tracking_number}</p>`;
+                                     trackingInfo += `<p><strong>Carrier:</strong> ${order.carrier || 'N/A'}</p>`;
+                                     if (order.estimated_delivery) {
+                                       trackingInfo += `<p><strong>Est. Delivery:</strong> ${new Date(order.estimated_delivery).toLocaleDateString()}</p>`;
+                                     }
+                                   }
+
+                                   let shippingInfo = '';
+                                   if (order.shipping_address) {
+                                     const addr = order.shipping_address;
+                                     shippingInfo = `
+                                       <h3>Shipping Address:</h3>
+                                       <p>${order.customer_name}<br>
+                                       ${addr.address || addr.shippingAddress}<br>
+                                       ${addr.city || addr.shippingCity}, ${addr.state || addr.shippingState} ${addr.zip || addr.shippingZip}</p>
+                                     `;
+                                   }
+
                                    await base44.integrations.Core.SendEmail({
                                      from_name: 'Red Helix Research',
                                      to: order.customer_email,
@@ -356,30 +384,16 @@ export default function Account() {
                                          <p>We've received your order and it's being processed.</p>
                                          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
                                            <h3 style="margin-top: 0;">Order #${order.order_number}</h3>
-                                           ${order.crypto_amount && order.crypto_currency ? `
-                                             <p><strong>Payment:</strong> ${order.crypto_amount} ${order.crypto_currency}</p>
-                                           ` : ''}
-                                           ${order.transaction_id ? `
-                                             <p><strong>Transaction ID:</strong> ${order.transaction_id}</p>
-                                           ` : ''}
+                                           ${paymentInfo}
                                            <p><strong>Total:</strong> $${order.total_amount.toFixed(2)} USD</p>
                                            <p><strong>Status:</strong> ${order.status}</p>
-                                           ${order.tracking_number ? `
-                                             <p><strong>Tracking Number:</strong> ${order.tracking_number}</p>
-                                             <p><strong>Carrier:</strong> ${order.carrier || 'N/A'}</p>
-                                             ${order.estimated_delivery ? `<p><strong>Est. Delivery:</strong> ${new Date(order.estimated_delivery).toLocaleDateString()}</p>` : ''}
-                                           ` : ''}
+                                           ${trackingInfo}
                                          </div>
                                          <h3>Order Items:</h3>
                                          <ul>
                                            ${orderItemsList}
                                          </ul>
-                                         ${order.shipping_address ? `
-                                           <h3>Shipping Address:</h3>
-                                           <p>${order.customer_name}<br>
-                                           ${order.shipping_address.address || order.shipping_address.shippingAddress}<br>
-                                           ${order.shipping_address.city || order.shipping_address.shippingCity}, ${order.shipping_address.state || order.shipping_address.shippingState} ${order.shipping_address.zip || order.shipping_address.shippingZip}</p>
-                                         ` : ''}
+                                         ${shippingInfo}
                                          <p style="margin-top: 20px;">You will receive tracking information once your order ships.</p>
                                        </div>
                                      `
