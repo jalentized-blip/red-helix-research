@@ -411,7 +411,7 @@ export default function PeptideComparison() {
               )}
 
               {/* Other Options */}
-              {recommendations.ranked.length > 1 && (
+              {recommendations.ranked.filter(p => p[1].matchPercentage > 0).length > 1 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -419,7 +419,7 @@ export default function PeptideComparison() {
                 >
                   <h3 className="text-2xl font-bold text-amber-50 mb-6">Other Options</h3>
                   <div className="space-y-4">
-                    {recommendations.ranked.slice(1).map(([peptideName, data]) => {
+                    {recommendations.ranked.slice(1).filter(([_, data]) => data.matchPercentage > 0).map(([peptideName, data]) => {
                       const topPeptide = recommendations.ranked[0][0];
                       const contraindication = PEPTIDE_RESEARCH_DATA[topPeptide]?.contraindications.find(c => c.peptide === peptideName);
                       
