@@ -189,7 +189,7 @@ export default function PeptideLearn() {
 
   useEffect(() => {
     const findAndLoadProduct = async () => {
-      const foundProduct = products.find(p => p.id === productId);
+      const foundProduct = products.find(p => p.id === productId && p.in_stock && !p.hidden);
       if (foundProduct) {
         setProduct(foundProduct);
         
