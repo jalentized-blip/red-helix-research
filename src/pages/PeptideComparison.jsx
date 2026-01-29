@@ -17,6 +17,8 @@ const PEPTIDE_RESEARCH_DATA = {
     aminoAcids: 15,
     stability: 'Very High',
     structure: 'GEPPPGKPADDDAGD',
+    mechanism: 'Localized tissue repair and regeneration',
+    class: 'Tissue Repair',
     benefits: {
       'Musculoskeletal Healing': { score: 10, studies: 'Multiple clinical trials on muscle recovery' },
       'Joint & Cartilage Support': { score: 10, studies: 'Research on cartilage regeneration mechanisms' },
@@ -27,6 +29,7 @@ const PEPTIDE_RESEARCH_DATA = {
       'Anti-Inflammatory': { score: 7, studies: 'Inflammatory response modulation research' },
       'Systemic Circulation': { score: 5, studies: 'Limited systemic distribution, localized focus' }
     },
+    contraindications: [],
     clinicalNotes: 'Highly localized action making it ideal for targeted tissue repair research. Extensive studies on musculoskeletal applications with strong supporting evidence.'
   },
   'TB-500': {
@@ -35,6 +38,8 @@ const PEPTIDE_RESEARCH_DATA = {
     molecularWeight: '~4,963 Da',
     aminoAcids: 43,
     stability: 'Highly Stable',
+    mechanism: 'Systemic cellular protection and proliferation',
+    class: 'Cellular Protection',
     benefits: {
       'Systemic Recovery': { score: 10, studies: 'Comprehensive research on whole-body cellular protection' },
       'Cellular Proliferation': { score: 10, studies: 'Extensive studies on cell growth and differentiation' },
@@ -46,6 +51,7 @@ const PEPTIDE_RESEARCH_DATA = {
       'Neuroprotection': { score: 7, studies: 'Neuronal protection and growth research' },
       'Joint & Cartilage Support': { score: 6, studies: 'Secondary benefit in systemic recovery' }
     },
+    contraindications: [],
     clinicalNotes: 'Systemic peptide with broad cellular protection mechanisms. Strong research for general recovery and cellular health with multiple concurrent applications.'
   },
   'Semaglutide': {
@@ -54,6 +60,8 @@ const PEPTIDE_RESEARCH_DATA = {
     molecularWeight: '~4,113 Da',
     aminoAcids: 31,
     stability: 'Stable',
+    mechanism: 'GLP-1 receptor agonism for metabolic regulation',
+    class: 'GLP-1 Agonist',
     benefits: {
       'Metabolic Regulation': { score: 10, studies: 'Extensive clinical research on glucose metabolism' },
       'Blood Sugar Control': { score: 10, studies: 'Comprehensive diabetes and glucose studies' },
@@ -65,6 +73,9 @@ const PEPTIDE_RESEARCH_DATA = {
       'Anti-Inflammatory': { score: 6, studies: 'Secondary anti-inflammatory effects in research' },
       'Musculoskeletal Healing': { score: 2, studies: 'Not primary application' }
     },
+    contraindications: [
+      { peptide: 'Tirzepatide', severity: 'HIGH', reason: 'Combining two GLP-1 pathway agonists significantly increases risk of adverse effects. Dual GLP-1 activation can cause severe nausea, vomiting, pancreatitis risk, and hypoglycemia. No clinical evidence supports this combination.' }
+    ],
     clinicalNotes: 'Metabolic and endocrine focused peptide. Strongest research for glucose regulation and weight-related metabolic pathways. Limited direct tissue repair applications.'
   },
   'Tirzepatide': {
@@ -73,6 +84,8 @@ const PEPTIDE_RESEARCH_DATA = {
     molecularWeight: '~4,672 Da',
     aminoAcids: 39,
     stability: 'Stable',
+    mechanism: 'Dual GLP-1/GIP receptor agonism for enhanced metabolic effects',
+    class: 'GLP-1/GIP Agonist',
     benefits: {
       'Metabolic Regulation': { score: 10, studies: 'Advanced dual-receptor research on metabolism' },
       'Blood Sugar Control': { score: 10, studies: 'Potent glucose control research' },
@@ -84,7 +97,30 @@ const PEPTIDE_RESEARCH_DATA = {
       'Gastrointestinal Health': { score: 6, studies: 'GI health and motility research' },
       'Musculoskeletal Healing': { score: 2, studies: 'Not primary application' }
     },
+    contraindications: [
+      { peptide: 'Semaglutide', severity: 'HIGH', reason: 'Combining two GLP-1 pathway agonists significantly increases risk of adverse effects. Dual GLP-1 activation can cause severe nausea, vomiting, pancreatitis risk, and hypoglycemia. No clinical evidence supports this combination.' }
+    ],
     clinicalNotes: 'Advanced dual-receptor metabolic peptide. Research indicates more potent effects than single GLP-1 agonists. Superior for comprehensive metabolic research protocols.'
+  }
+};
+
+// Safe stacking combinations based on clinical evidence and mechanism compatibility
+const SAFE_STACKS = {
+  'BPC-157': {
+    compatible: ['TB-500'],
+    reason: 'BPC-157 + TB-500: Complementary tissue repair. BPC-157 provides localized healing while TB-500 supports systemic cellular proliferation and protection. Different mechanisms with proven safety record in research.'
+  },
+  'TB-500': {
+    compatible: ['BPC-157'],
+    reason: 'TB-500 + BPC-157: Synergistic recovery protocol. TB-500 establishes systemic cellular foundation while BPC-157 targets localized healing. Well-researched combination with additive benefits.'
+  },
+  'Semaglutide': {
+    compatible: ['BPC-157', 'TB-500'],
+    reason: 'GLP-1 metabolic peptide pairs well with repair peptides. Separate mechanisms of action allow for comprehensive research covering metabolic and recovery pathways without contraindications.'
+  },
+  'Tirzepatide': {
+    compatible: ['BPC-157', 'TB-500'],
+    reason: 'Dual-receptor metabolic peptide pairs well with repair peptides. Distinct mechanism allows metabolic research alongside tissue repair without safety concerns.'
   }
 };
 
