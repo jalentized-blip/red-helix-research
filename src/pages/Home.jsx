@@ -121,9 +121,9 @@ export default function Home({ adminViewAsUser = false }) {
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50 relative">
       <SEO 
-        title="Red Helix Research - Buy Research Peptides USA | Lab-Tested Supplier"
-        description="Premium research peptides USA with verified COA. High purity lab-tested semaglutide, tirzepatide, BPC-157, TB-500. For research use only. Transparent third-party testing."
-        keywords="research peptides USA, buy research peptides, peptide supplier USA, high purity peptides, lab tested peptides, research grade peptides, BPC-157, TB-500, semaglutide for research, tirzepatide research, research chemicals USA"
+        title="Buy Lab-Tested Research Peptides USA | Red Helix Research | BPC-157, TB-500, Semaglutide"
+        description="Premium research-grade peptides with verified third-party COA. BPC-157, TB-500, semaglutide, tirzepatide. USA-based supplier. High purity, discreet shipping. For research use only."
+        keywords="buy research peptides USA, BPC-157 peptide, TB-500 research peptide, semaglutide research, tirzepatide peptide, lab-tested peptides, high purity peptides, research chemical supplier USA, peptide supplier, certified peptides"
         schema={schemas}
       />
       <TechGrid />

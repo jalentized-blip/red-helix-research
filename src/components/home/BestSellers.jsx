@@ -70,11 +70,11 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
           
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Best Sellers
+              Best-Selling Research Peptides
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-2xl mx-auto">
-            Top-rated peptides trusted by thousands of researchers worldwide
+            Premium lab-tested peptides including BPC-157, TB-500, semaglutide, and tirzepatide. Third-party verified for purity and potency.
           </p>
         </motion.div>
 

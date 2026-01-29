@@ -68,17 +68,17 @@ export default function Hero() {
         >
           {/* Main Title */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
-            <span className="text-amber-50">PREMIUM QUALITY,</span>
+            <span className="text-amber-50">Research-Grade Peptides</span>
             <br />
-            <span className="text-red-600" style={{ textShadow: '0 2px 8px rgba(139, 38, 53, 0.5), 0 0 15px rgba(139, 38, 53, 0.2)' }}>LAB VERIFIED.</span>
+            <span className="text-red-600" style={{ textShadow: '0 2px 8px rgba(139, 38, 53, 0.5), 0 0 15px rgba(139, 38, 53, 0.2)' }}>Lab-Tested & Verified.</span>
           </h1>
 
           {/* Tagline */}
           <p className="text-xl md:text-2xl font-semibold text-amber-100 mb-3 tracking-wide">
-            Every Batch Tested. Every Result Trusted.
+            USA's Most Transparent Peptide Supplier
           </p>
           <p className="text-sm md:text-base text-red-600/90 font-medium uppercase tracking-widest mb-10">
-            For Research and Laboratory Use Only
+            Verified Third-Party Testing • Discreet Shipping • Premium Quality
           </p>
 
           {/* CTA Buttons */}

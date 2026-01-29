@@ -124,11 +124,11 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              All Products
+              Complete Peptide Catalog
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-2xl mx-auto mb-6">
-            Browse our complete catalog of research-grade peptides
+            Browse our complete catalog of research-grade peptides: BPC-157, TB-500, semaglutide, tirzepatide, and more. All verified with third-party testing and certificates of analysis (COA).
           </p>
           
           {/* Search Bar */}

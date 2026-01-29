@@ -66,6 +66,7 @@ import Home from './pages/Home';
 import LearnMore from './pages/LearnMore';
 import Login from './pages/Login';
 import OrderTracking from './pages/OrderTracking';
+import OurStory from './pages/OurStory';
 import PaymentCompleted from './pages/PaymentCompleted';
 import PeppyBot from './pages/PeppyBot';
 import PeptideCalculator from './pages/PeptideCalculator';
@@ -76,7 +77,6 @@ import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
 import Policies from './pages/Policies';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import OurStory from './pages/OurStory';
 import __Layout from './Layout.jsx';
 
 
@@ -100,6 +100,7 @@ export const PAGES = {
     "LearnMore": LearnMore,
     "Login": Login,
     "OrderTracking": OrderTracking,
+    "OurStory": OurStory,
     "PaymentCompleted": PaymentCompleted,
     "PeppyBot": PeppyBot,
     "PeptideCalculator": PeptideCalculator,
@@ -110,7 +111,6 @@ export const PAGES = {
     "Policies": Policies,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "OurStory": OurStory,
 }
 
 export const pagesConfig = {
