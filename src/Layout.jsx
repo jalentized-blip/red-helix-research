@@ -446,13 +446,6 @@ const HeaderSearch = () => {
         <MolecularBackground />
         <FloatingMolecularFormulas />
 
-        {/* Fixed Announcement Banner */}
-        <div 
-          className="fixed left-0 right-0 z-[65] pointer-events-none"
-        >
-          <ScrollingAnnouncement />
-        </div>
-
         {/* Mobile Header Toggle (when collapsed on home page) */}
         {isHomePage && mobileHeaderCollapsed && (
           <div 
