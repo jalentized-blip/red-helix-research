@@ -1,12 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, BarChart3, Target, Zap, Code } from 'lucide-react';
+import { ArrowLeft, BarChart3, Target, Zap, Code, Lock } from 'lucide-react';
 import SEO from '@/components/SEO';
+import { base44 } from '@/api/base44Client';
 
 export default function ConversionTracking() {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const isAuth = await base44.auth.isAuthenticated();
+        if (isAuth) {
+          const user = await base44.auth.me();
+          setIsAdmin(user?.role === 'admin');
+        }
+      } catch (error) {
+        setIsAdmin(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAdmin();
+  }, []);
+
+  if (loading) {
+    return <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center"><p className="text-amber-50">Loading...</p></div>;
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <Lock className="w-16 h-16 text-red-600 mx-auto mb-6" />
+          <h1 className="text-4xl font-black text-amber-50 mb-4">Admin Only</h1>
+          <p className="text-stone-300 mb-8">Conversion tracking data is restricted to administrators.</p>
+          <Link to={createPageUrl('Home')}>
+            <Button className="bg-red-700 hover:bg-red-600">Back to Home</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
   const trackingEvents = [
     {
       event: 'Product Page View',
