@@ -74,17 +74,37 @@ export default function Products() {
     try {
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: `User is searching for: "${query}". 
+
+        Available products with details: ${products.map(p => `${p.name} (${p.category}, $${p.price_from}): ${p.description}`).join(' | ')}
         
-        Available products: ${products.map(p => `${p.name} (${p.category}, $${p.price_from}): ${p.description}`).join(' | ')}
+        Based on the user's search query, determine which product categories and product names match their intent. Consider their language, intent, and what problems they might be trying to solve.
         
-        Based on the user's search query, suggest which products match their needs. Consider their language, intent, and what problems they might be trying to solve.
+        Return a JSON object with:
+        - "matchedProducts": array of ALL product names that match or relate to the user's query
+        - "category": the main category that matches (or "all" if multiple), use values like: weight_loss, recovery_healing, cognitive_focus, performance_longevity, sexual_health, general_health
         
-        Return ONLY the product names that match, comma-separated. If no products match, return an empty string.`,
-        add_context_from_internet: false
+        Example: {"matchedProducts": ["BPC-157", "TB-500"], "category": "recovery_healing"}
+        
+        Return ONLY valid JSON, no other text.`,
+        add_context_from_internet: false,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            matchedProducts: {
+              type: "array",
+              items: { type: "string" }
+            },
+            category: { type: "string" }
+          }
+        }
       });
       
-      if (response && typeof response === 'string') {
-        setSearchQuery(response);
+      if (response && response.matchedProducts && response.matchedProducts.length > 0) {
+        // Set both the search query and category to filter all matching products
+        setSearchQuery(response.matchedProducts.join(' '));
+        if (response.category && response.category !== 'all') {
+          setSelectedCategory(response.category);
+        }
       }
     } catch (error) {
       console.error('AI search error:', error);
