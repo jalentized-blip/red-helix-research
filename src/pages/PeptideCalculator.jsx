@@ -151,6 +151,11 @@ www.reddirtresearch.com`;
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      <SEO 
+        title="Peptide Dosage Calculator - Reconstitution Calculation Tool"
+        description="Easy-to-use peptide reconstitution calculator for research. Calculate exact dosing, concentrations, and syringe measurements for peptide administration. Step-by-step reconstitution guide included."
+        keywords="peptide calculator, reconstitution calculator, dosage calculator, peptide dosing, syringe calculator, concentration calculator, peptide mixing guide, reconstitution guide, peptide preparation"
+      />
       {/* Header */}
       <div className="max-w-6xl mx-auto px-4 mb-12">
         <div className="text-center mb-8">
