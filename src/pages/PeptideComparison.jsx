@@ -339,6 +339,116 @@ const SAFE_STACKS = {
         usageCompatibility: true
       }
     ]
+  },
+  'GHK-Cu': {
+    compatible: [
+      {
+        peptide: 'BPC-157',
+        protocol: 'GHK-Cu (daily, long-term) + BPC-157 (daily, long-term): Synergistic tissue repair protocol. Both support collagen and tissue remodeling. Excellent combination for anti-aging and healing.',
+        compatibilityReason: 'Complementary collagen and tissue repair mechanisms',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'TB-500',
+        protocol: 'GHK-Cu (daily, long-term) + TB-500 (2x weekly, 8-12 week cycles): Anti-aging + systemic repair. GHK-Cu continuous with TB-500 cycling for comprehensive tissue support.',
+        compatibilityReason: 'Collagen synthesis + systemic tissue protection',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'CJC-1295',
+        protocol: 'CJC-1295 (2x weekly) + GHK-Cu (daily): Growth hormone + collagen synthesis. Enhanced muscle growth with superior skin and tissue quality.',
+        compatibilityReason: 'GH elevation enhancing collagen production',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'Ipamorelin': {
+    compatible: [
+      {
+        peptide: 'CJC-1295',
+        protocol: 'Ipamorelin (3x daily) + CJC-1295 (2x weekly, 12-16 week cycles): Synergistic GH secretagogue protocol. Ipamorelin provides sharp GH spikes, CJC-1295 sustains elevation. Gold standard growth protocol.',
+        compatibilityReason: 'Complementary GH stimulation mechanisms - acute + sustained',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'BPC-157',
+        protocol: 'Ipamorelin (3x daily) + BPC-157 (daily): Muscle building + recovery protocol. Growth hormone elevation supports lean muscle while BPC-157 supports recovery and healing.',
+        compatibilityReason: 'Growth stimulus with tissue repair support',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'GHK-Cu',
+        protocol: 'Ipamorelin (3x daily) + GHK-Cu (daily): Muscle growth + collagen synthesis. Superior tissue quality with lean muscle development.',
+        compatibilityReason: 'GH elevation with collagen enhancement',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'CJC-1295': {
+    compatible: [
+      {
+        peptide: 'Ipamorelin',
+        protocol: 'CJC-1295 (2x weekly) + Ipamorelin (3x daily, 12-16 week cycles): Gold standard GH enhancement protocol. Sustained elevation + acute spikes for maximum growth stimulus.',
+        compatibilityReason: 'Synergistic GH axis stimulation',
+        usageCompatibility: true
+      },
+      {
+        peptide: 'GHK-Cu',
+        protocol: 'CJC-1295 (2x weekly) + GHK-Cu (daily): Growth hormone + collagen synthesis. Enhanced muscle growth with superior skin and tissue quality.',
+        compatibilityReason: 'GH elevation enhancing collagen production',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'Pinealon': {
+    compatible: [
+      {
+        peptide: 'DSIP',
+        protocol: 'Pinealon (daily, 10 day cycles) + DSIP (evening, 8-10 week cycles): Sleep optimization protocol. Pinealon supports circadian rhythm, DSIP deepens sleep quality.',
+        compatibilityReason: 'Synergistic sleep and cellular regeneration',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'DSIP': {
+    compatible: [
+      {
+        peptide: 'Pinealon',
+        protocol: 'DSIP (evening, 8-10 week cycles) + Pinealon (daily, 10 day cycles): Sleep optimization protocol. DSIP deepens sleep quality while Pinealon supports circadian rhythm and cellular regeneration.',
+        compatibilityReason: 'Synergistic sleep and recovery enhancement',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'KPV': {
+    compatible: [
+      {
+        peptide: 'BPC-157',
+        protocol: 'KPV (daily) + BPC-157 (daily): Anti-inflammatory + tissue repair. KPV reduces inflammation while BPC-157 repairs and regenerates tissue for optimal healing.',
+        compatibilityReason: 'Inflammatory modulation + tissue repair synergy',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'Gonadorelin': {
+    compatible: [
+      {
+        peptide: 'Oxytocin',
+        protocol: 'Gonadorelin (daily) + Oxytocin (daily): Hormonal + emotional wellness. Gonadorelin optimizes reproductive hormones while Oxytocin enhances mood and bonding.',
+        compatibilityReason: 'Complementary hormonal and neurochemical balance',
+        usageCompatibility: true
+      }
+    ]
+  },
+  'Oxytocin': {
+    compatible: [
+      {
+        peptide: 'Gonadorelin',
+        protocol: 'Oxytocin (daily) + Gonadorelin (daily): Emotional wellness + hormonal balance. Synergistic support for mood, sexual health, and overall wellbeing.',
+        compatibilityReason: 'Neurohormonal and reproductive axis synergy',
+        usageCompatibility: true
+      }
+    ]
   }
 };
 
