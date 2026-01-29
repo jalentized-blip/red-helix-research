@@ -468,7 +468,7 @@ const HeaderSearch = () => {
                 setMobileHeaderCollapsed(true);
               }
             }}
-            className="fixed top-0 left-0 right-0 z-50 bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" 
+            className="fixed top-0 left-0 right-0 z-[70] bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" 
             style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
           >
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
