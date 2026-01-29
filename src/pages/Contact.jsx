@@ -48,6 +48,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
+      <SEO 
+        title="Contact Red Helix Research - Customer Support & Inquiries"
+        description="Get in touch with Red Helix Research for product questions, order support, and research inquiries. Fast response times via Discord, Telegram, or WhatsApp."
+        keywords="contact red helix research, peptide supplier contact, research peptide support, customer service, peptide questions"
+      />
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

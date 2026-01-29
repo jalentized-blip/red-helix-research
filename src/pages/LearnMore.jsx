@@ -8,6 +8,7 @@ import { ArrowLeft, BookOpen, Beaker, Youtube, ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 
 const SourcesBubble = ({ productName }) => {
   // Hide research for GLOW only
@@ -94,6 +95,11 @@ export default function LearnMore() {
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      <SEO 
+        title="Peptide Research & Education - Scientific Information | Red Helix Research"
+        description="Comprehensive peptide research guide covering weight loss peptides, recovery peptides, cognitive enhancers, and performance peptides. Evidence-based information with scientific references."
+        keywords="peptide research, peptide education, weight loss peptides, BPC-157 research, TB-500 studies, semaglutide research, peptide science, peptide clinical trials, peptide benefits"
+      />
       {/* Disclaimer Modal */}
       <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>
         <DialogContent className="bg-stone-900 border border-stone-700 max-w-md">
