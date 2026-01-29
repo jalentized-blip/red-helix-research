@@ -40,7 +40,7 @@ export default function OrderTrackingDetails({ order }) {
     }
   };
 
-  if (!order.tracking_number) {
+  if (!order.tracking_number || order.status === 'delivered') {
     return null;
   }
 
