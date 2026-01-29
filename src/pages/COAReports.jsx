@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { motion } from 'framer-motion';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
+import SEO from '@/components/SEO';
 
 export default function COAReports() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -113,6 +114,11 @@ export default function COAReports() {
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-8">
+      <SEO 
+        title="Peptide COA Database - Community Certificate of Analysis Reports"
+        description="Browse verified peptide Certificates of Analysis (COA) uploaded by our community. Third-party lab testing results for research peptides including purity, potency, and batch information."
+        keywords="peptide COA, certificate of analysis, peptide lab testing, third party testing, peptide purity, peptide verification, research peptide COA, community COA database"
+      />
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
