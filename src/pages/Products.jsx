@@ -100,11 +100,11 @@ export default function Products() {
       });
       
       if (response && response.matchedProducts && response.matchedProducts.length > 0) {
-        // Set both the search query and category to filter all matching products
-        setSearchQuery(response.matchedProducts.join(' '));
+        // Set category filter and clear search to show all products in that category
         if (response.category && response.category !== 'all') {
           setSelectedCategory(response.category);
         }
+        setSearchQuery('');
       }
     } catch (error) {
       console.error('AI search error:', error);
