@@ -34,23 +34,23 @@ import { base44 } from '@/api/base44Client';
 
 // Supported wallet configurations
 const WALLET_CONFIGS = {
-  metamask: {
-    id: 'metamask',
-    name: 'MetaMask',
-    icon: '🦊',
-    color: '#F6851B',
-    deepLink: 'https://metamask.io/download/',
+  rabby: {
+    id: 'rabby',
+    name: 'Rabby Wallet',
+    icon: '🐰',
+    color: '#8697FF',
+    deepLink: 'https://rabby.io/',
     chains: ['ETH', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && window.ethereum?.isMetaMask,
+    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isRabby || window.rabby),
   },
-  trustwallet: {
-    id: 'trustwallet',
-    name: 'Trust Wallet',
-    icon: '🛡️',
-    color: '#3375BB',
-    deepLink: 'https://trustwallet.com/download',
-    chains: ['ETH', 'BTC', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && window.ethereum?.isTrust,
+  rainbow: {
+    id: 'rainbow',
+    name: 'Rainbow Wallet',
+    icon: '🌈',
+    color: '#FF6B6B',
+    deepLink: 'https://rainbow.me/download',
+    chains: ['ETH', 'USDT', 'USDC'],
+    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isRainbow || window.rainbow),
   },
   coinbase: {
     id: 'coinbase',
@@ -216,7 +216,7 @@ export default function CryptoCheckout() {
           detected.push({
             ...wallet,
             isInstalled,
-            isRecommended: wallet.id === 'metamask' || wallet.id === 'trustwallet',
+            isRecommended: wallet.id === 'rabby' || wallet.id === 'rainbow',
           });
         }
       });
@@ -312,18 +312,20 @@ export default function CryptoCheckout() {
       if (typeof window === 'undefined') return null;
       
       let provider = null;
-      if (walletId === 'metamask') {
-        if (window.ethereum?.isMetaMask) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isMetaMask)) provider = window.ethereum.providers.find(p => p.isMetaMask);
+      if (walletId === 'rabby') {
+        if (window.rabby) provider = window.rabby;
+        else if (window.ethereum?.isRabby) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isRabby)) provider = window.ethereum.providers.find(p => p.isRabby);
+      } else if (walletId === 'rainbow') {
+        if (window.rainbow) provider = window.rainbow;
+        else if (window.ethereum?.isRainbow) provider = window.ethereum;
+        else if (window.ethereum?.providers?.find(p => p.isRainbow)) provider = window.ethereum.providers.find(p => p.isRainbow);
       } else if (walletId === 'coinbase') {
         if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
         else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
         else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
       } else if (walletId === 'phantom') {
         if (window.phantom?.ethereum) provider = window.phantom.ethereum;
-      } else if (walletId === 'trustwallet') {
-        if (window.ethereum?.isTrust) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isTrust)) provider = window.ethereum.providers.find(p => p.isTrust);
       }
       
       return provider;
@@ -397,10 +399,7 @@ export default function CryptoCheckout() {
     } catch (error) {
       setConnectionState('error');
       
-      // Special handling for Trust Wallet dApp browser issue
-      if (wallet.id === 'trustwallet' && (error.message?.includes('disallowed') || error.code === -32603)) {
-        setConnectionError('Trust Wallet desktop extension has security restrictions. Please use Trust Wallet mobile app or select Manual Payment.');
-      } else if (error.code === 4001) {
+      if (error.code === 4001) {
         setConnectionError('Connection rejected. Please approve the connection request in your wallet.');
       } else if (error.code === -32002) {
         setConnectionError('Connection pending. Please check your wallet extension.');
@@ -780,20 +779,10 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             <div className="flex-1">
               <p className="text-sm font-semibold text-red-400">Connection Failed</p>
               <p className="text-xs text-red-400/70 mt-1">{connectionError}</p>
-              
-              {connectionError.includes('Trust Wallet') && connectionError.includes('mobile app') && (
-                <div className="mt-3 p-3 bg-blue-900/20 border border-blue-600/30 rounded">
-                  <p className="text-xs text-blue-300 font-medium mb-2">💡 Recommended Solution:</p>
-                  <ol className="text-xs text-blue-300/80 space-y-1 list-decimal list-inside">
-                    <li>Use Trust Wallet mobile app with built-in browser</li>
-                    <li>Or select "Manual Payment" option below</li>
-                  </ol>
-                </div>
-              )}
             </div>
           </div>
           
-          {availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink && !connectionError.includes('mobile app') && (
+          {availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink && (
              <a 
                href={availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink} 
                target="_blank" 
