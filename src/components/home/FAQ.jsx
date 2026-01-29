@@ -14,11 +14,11 @@ const faqs = [
   },
   {
     question: "What does shipping cost?",
-    answer: "Shipping costs vary based on your location. US domestic orders typically cost $15-25, while international shipping ranges from $25-45. Exact costs will be calculated at checkout."
+    answer: "Shipping is a flat rate of $15."
   },
   {
     question: "How fast will my order arrive?",
-    answer: "US domestic orders typically arrive within 3-5 business days. International orders take 7-14 business days depending on your location and customs processing times."
+    answer: "orders typically arrive within 3-5 business days."
   },
   {
     question: "Is my order discreet?",
