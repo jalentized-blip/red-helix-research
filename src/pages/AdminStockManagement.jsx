@@ -244,19 +244,46 @@ export default function AdminStockManagement() {
                 >
                   <div className="flex flex-col gap-6">
                     {/* Product Info */}
-                    <div className="flex items-start gap-4">
-                      {product.image_url && (
-                        <img 
-                          src={product.image_url} 
-                          alt={product.name}
-                          className="w-16 h-16 object-cover rounded-lg border border-stone-700"
-                        />
-                      )}
-                      <div>
-                        <h3 className="text-xl font-bold text-amber-50 mb-1">{product.name}</h3>
-                        <p className="text-stone-400 text-sm mb-2">{product.description}</p>
-                        <span className="text-red-600 font-semibold">From ${product.price_from}</span>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-4 flex-1">
+                        {product.image_url && (
+                          <img 
+                            src={product.image_url} 
+                            alt={product.name}
+                            className="w-16 h-16 object-cover rounded-lg border border-stone-700"
+                          />
+                        )}
+                        <div>
+                          <h3 className="text-xl font-bold text-amber-50 mb-1">{product.name}</h3>
+                          <p className="text-stone-400 text-sm mb-2">{product.description}</p>
+                          <span className="text-red-600 font-semibold">From ${product.price_from}</span>
+                        </div>
                       </div>
+                      <Button
+                        onClick={() => handleToggleProductVisibility(
+                          product.id,
+                          product.specifications?.every(s => s.hidden)
+                        )}
+                        variant="outline"
+                        size="sm"
+                        className={
+                          product.specifications?.every(s => s.hidden)
+                            ? 'bg-stone-700/50 border-stone-600 text-stone-400 hover:bg-stone-700/70'
+                            : 'bg-blue-600/20 border-blue-600/50 text-blue-400 hover:bg-blue-600/30'
+                        }
+                      >
+                        {product.specifications?.every(s => s.hidden) ? (
+                          <>
+                            <EyeOff className="w-4 h-4 mr-2" />
+                            Show Product
+                          </>
+                        ) : (
+                          <>
+                            <Eye className="w-4 h-4 mr-2" />
+                            Hide Product
+                          </>
+                        )}
+                      </Button>
                     </div>
 
                     {/* Stock Controls */}
