@@ -568,7 +568,13 @@ const HeaderSearch = () => {
             </Link>
 
             {/* User Menu */}
-              <Sheet onOpenChange={(open) => setMobileHeaderCollapsed(open)}>
+              <Sheet onOpenChange={(open) => {
+                if (open) {
+                  setHeaderVisible(false);
+                } else {
+                  setHeaderVisible(true);
+                }
+              }}>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="text-stone-300 hover:text-amber-50">
                     <Menu className="w-6 h-6" />
