@@ -42,17 +42,14 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       }
     }, [isAdminProp]);
 
+    useEffect(() => {
       // Subscribe to product changes for real-time updates
       const unsubscribe = base44.entities.Product.subscribe(() => {
         queryClient.invalidateQueries({ queryKey: ['products'] });
       });
 
       return unsubscribe;
-    }, []);
-    
-    useEffect(() => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
-    }, [isAdmin, queryClient]);
+    }, [queryClient]);
 
     const handleVisibilityToggle = async (productId, newHiddenState) => {
       try {
