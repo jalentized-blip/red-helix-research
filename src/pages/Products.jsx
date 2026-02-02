@@ -132,15 +132,13 @@ export default function Products() {
                     onClick={() => handleSelectStrength(product)}
                     className="group cursor-pointer bg-stone-900/60 border border-stone-700 rounded-xl p-6 hover:border-red-600/50 transition-all hover:shadow-lg hover:shadow-red-600/10"
                   >
-                    {product.image_url && (
-                      <div className="mb-4 rounded-lg overflow-hidden bg-stone-800/50">
-                        <img
-                          src={product.image_url}
-                          alt={product.name}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
+                    <div className="mb-4 rounded-lg overflow-hidden bg-stone-800/50">
+                      <img
+                        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/7cabb1c33_image.png"
+                        alt={product.name}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
 
                     <div className="mb-3">
                       {product.badge && (
