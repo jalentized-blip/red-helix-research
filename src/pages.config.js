@@ -93,13 +93,13 @@ import ProductSemaglutide from './pages/ProductSemaglutide';
 import ProductTB500 from './pages/ProductTB500';
 import ProductTirzepatide from './pages/ProductTirzepatide';
 import ProductionChecklist from './pages/ProductionChecklist';
+import Products from './pages/Products';
 import ResourceHub from './pages/ResourceHub';
 import SEOGuide from './pages/SEOGuide';
 import SEOMonitoring from './pages/SEOMonitoring';
 import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import Products from './pages/Products';
 import __Layout from './Layout.jsx';
 
 
@@ -150,13 +150,13 @@ export const PAGES = {
     "ProductTB500": ProductTB500,
     "ProductTirzepatide": ProductTirzepatide,
     "ProductionChecklist": ProductionChecklist,
+    "Products": Products,
     "ResourceHub": ResourceHub,
     "SEOGuide": SEOGuide,
     "SEOMonitoring": SEOMonitoring,
     "SecurityCompliance": SecurityCompliance,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "Products": Products,
 }
 
 export const pagesConfig = {

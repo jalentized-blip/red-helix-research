@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package, User, ToggleLeft, ToggleRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -356,6 +357,17 @@ const HeaderSearch = () => {
 
   return (
     <div className="min-h-screen bg-stone-950 relative">
+        <Helmet>
+          <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>
+          <script>
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17926557903');
+            `}
+          </script>
+        </Helmet>
         <style>{`
           :root {
             --red-dirt-red: #8B2635;
