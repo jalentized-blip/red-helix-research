@@ -494,6 +494,10 @@ const HeaderSearch = () => {
                 <span className="relative z-10">Home</span>
               </Link>
 
+              <Link to={createPageUrl('Products')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
+                <span className="relative z-10">Shop</span>
+              </Link>
+
               <Link to={createPageUrl('About')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">About</span>
               </Link>
@@ -602,6 +606,9 @@ const HeaderSearch = () => {
                     <nav className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden">
                       <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Home
+                      </Link>
+                      <Link to={createPageUrl('Products')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                        Shop Products
                       </Link>
                       <Link to={createPageUrl('OurStory')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                         Our Story

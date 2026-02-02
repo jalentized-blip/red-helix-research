@@ -99,6 +99,7 @@ import SEOMonitoring from './pages/SEOMonitoring';
 import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
+import Products from './pages/Products';
 import __Layout from './Layout.jsx';
 
 
@@ -155,6 +156,7 @@ export const PAGES = {
     "SecurityCompliance": SecurityCompliance,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
+    "Products": Products,
 }
 
 export const pagesConfig = {
