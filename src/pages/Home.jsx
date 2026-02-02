@@ -10,6 +10,7 @@ import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
 import { Package, ClipboardList, DollarSign, User } from 'lucide-react';
 import SEO from '@/components/SEO';
+import QuickShop from '@/components/QuickShop';
 
 import Hero from '@/components/home/Hero';
 import TrustBar from '@/components/home/TrustBar';
@@ -128,6 +129,7 @@ export default function Home({ adminViewAsUser = false }) {
       />
       <TechGrid />
       <ParticleField />
+      <QuickShop />
       <AgeVerificationBot 
         isOpen={showAgeVerification} 
         onVerify={handleAgeVerification} 
