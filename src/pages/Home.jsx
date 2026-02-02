@@ -139,7 +139,7 @@ export default function Home({ adminViewAsUser = false }) {
       {!isAuthenticated && (
         <button
           onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
-          className="fixed top-24 right-6 z-40 p-3 bg-red-600/20 hover:bg-red-600/40 border border-red-600/50 rounded-lg shadow-lg transition-all hover:scale-110"
+          className="fixed top-24 right-6 z-40 p-3 bg-gradient-to-br from-red-600/20 to-red-700/10 hover:from-red-600/30 hover:to-red-700/20 border border-red-600/50 hover:border-red-500 rounded-xl shadow-lg hover:shadow-red-600/20 transition-all hover:scale-110"
           title="Sign In"
         >
           <User className="w-5 h-5 text-red-400" />
@@ -150,17 +150,17 @@ export default function Home({ adminViewAsUser = false }) {
       {isAdmin && (
         <>
           <Link to={createPageUrl('AdminStockManagement')}>
-            <button className="fixed top-24 right-6 z-40 p-3 bg-red-600/20 hover:bg-red-600/40 border border-red-600/50 rounded-lg shadow-lg transition-all hover:scale-110">
+            <button className="fixed top-24 right-6 z-40 p-3 bg-gradient-to-br from-red-600/20 to-red-700/10 hover:from-red-600/30 hover:to-red-700/20 border border-red-600/50 hover:border-red-500 rounded-xl shadow-lg hover:shadow-red-600/20 transition-all hover:scale-110">
               <Package className="w-5 h-5 text-red-400" />
             </button>
           </Link>
           <Link to={createPageUrl('AdminOrderManagement')}>
-            <button className="fixed top-24 right-20 z-40 p-3 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-600/50 rounded-lg shadow-lg transition-all hover:scale-110">
+            <button className="fixed top-24 right-20 z-40 p-3 bg-gradient-to-br from-blue-600/20 to-blue-700/10 hover:from-blue-600/30 hover:to-blue-700/20 border border-blue-600/50 hover:border-blue-500 rounded-xl shadow-lg hover:shadow-blue-600/20 transition-all hover:scale-110">
               <ClipboardList className="w-5 h-5 text-blue-400" />
             </button>
           </Link>
           <Link to={createPageUrl('AdminPriceManagement')}>
-            <button className="fixed top-24 right-34 z-40 p-3 bg-green-600/20 hover:bg-green-600/40 border border-green-600/50 rounded-lg shadow-lg transition-all hover:scale-110" style={{ right: '8.5rem' }}>
+            <button className="fixed top-24 right-34 z-40 p-3 bg-gradient-to-br from-green-600/20 to-green-700/10 hover:from-green-600/30 hover:to-green-700/20 border border-green-600/50 hover:border-green-500 rounded-xl shadow-lg hover:shadow-green-600/20 transition-all hover:scale-110" style={{ right: '8.5rem' }}>
               <DollarSign className="w-5 h-5 text-green-400" />
             </button>
           </Link>

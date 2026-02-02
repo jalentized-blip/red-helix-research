@@ -555,7 +555,7 @@ export default function PeptideComparison() {
 
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -603,14 +603,14 @@ export default function PeptideComparison() {
               whileTap={{ scale: 0.95 }}
               onClick={handleFindRecommendation}
               disabled={selectedBenefits.length === 0}
-              className="px-8 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-amber-50 font-bold rounded-lg transition-all"
+              className="px-8 py-3 bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed text-amber-50 font-bold rounded-xl border border-red-600/40 hover:border-red-500 shadow-lg hover:shadow-red-600/20 transition-all"
             >
               Find Recommendations ({selectedBenefits.length})
             </motion.button>
             {selectedBenefits.length > 0 && (
               <button
                 onClick={resetSelection}
-                className="px-6 py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 font-semibold rounded-lg transition-all"
+                className="px-6 py-3 bg-gradient-to-br from-stone-700 to-stone-800 hover:from-stone-600 hover:to-stone-700 text-amber-50 font-semibold rounded-xl border border-stone-600/50 hover:border-stone-500 shadow-lg hover:shadow-stone-600/20 transition-all hover:scale-105"
               >
                 Reset
               </button>
