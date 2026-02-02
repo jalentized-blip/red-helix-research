@@ -480,15 +480,24 @@ const HeaderSearch = () => {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-3 flex-1 justify-center">
+            <style>{`
+              @keyframes pulse-glow {
+                0%, 100% { box-shadow: 0 0 8px rgba(220, 38, 38, 0.15), 0 0 16px rgba(220, 38, 38, 0.1); }
+                50% { box-shadow: 0 0 12px rgba(220, 38, 38, 0.25), 0 0 24px rgba(220, 38, 38, 0.15); }
+              }
+              .pulse-glow {
+                animation: pulse-glow 3s ease-in-out infinite;
+              }
+            `}</style>
             <div className="flex items-center gap-2">
-              <Link to={createPageUrl('Home')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+              <Link to={createPageUrl('Home')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">Home</span>
               </Link>
 
-              <Link to={createPageUrl('About')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+              <Link to={createPageUrl('About')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">About</span>
               </Link>
-              <Link to={createPageUrl('Contact')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+              <Link to={createPageUrl('Contact')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">Contact</span>
               </Link>
             </div>
@@ -496,13 +505,13 @@ const HeaderSearch = () => {
             <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
 
             <div className="flex items-center gap-2">
-              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">Calculator</span>
               </Link>
-              <Link to={createPageUrl('LearnMore')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+              <Link to={createPageUrl('LearnMore')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">Research</span>
               </Link>
-              <button onClick={() => scrollTo('#certificates')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+              <button onClick={() => scrollTo('#certificates')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                 <span className="relative z-10">COAs</span>
               </button>
             </div>
@@ -510,7 +519,7 @@ const HeaderSearch = () => {
             {isAuthenticated && (
               <>
                 <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
-                <Link to={createPageUrl('Account')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <Link to={createPageUrl('Account')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
                   <span className="relative z-10">Account</span>
                 </Link>
               </>
@@ -519,7 +528,7 @@ const HeaderSearch = () => {
             {isAdmin && !viewAsUser && (
               <>
                 <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
-                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 flex items-center gap-1.5">
+                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow flex items-center gap-1.5">
                   <Eye className="w-4 h-4 transition-transform group-hover:scale-110" />
                   <span className="relative z-10">Market Intel</span>
                 </Link>
