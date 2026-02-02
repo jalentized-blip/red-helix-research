@@ -60,7 +60,7 @@ const HeaderSearch = () => {
   const hasResults = searchQuery.length > 0 && (filteredProducts.length > 0 || filteredPages.length > 0);
 
   return (
-    <div className="flex justify-center pb-3 pt-2 border-t border-stone-800/30">
+    <div className="relative">
       <motion.div
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => {
@@ -71,28 +71,26 @@ const HeaderSearch = () => {
             }, 300);
           }
         }}
-        className="relative px-8 py-4 pb-8"
+        className="relative"
       >
         {/* Magnifying Glass Icon */}
         <motion.div
           animate={{
-            y: [0, -3, 0],
-            opacity: isExpanded ? 0 : 0.4,
+            opacity: isExpanded ? 0 : 1,
           }}
           transition={{
-            y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
             opacity: { duration: 0.3 }
           }}
-          className="absolute left-0 top-0"
+          className="absolute left-0 top-1/2 -translate-y-1/2"
         >
-          <Search className="w-6 h-6 text-amber-50" />
+          <Search className="w-5 h-5 text-stone-400" />
         </motion.div>
 
         {/* Expanded Search Bar */}
         <motion.div
           initial={false}
           animate={{
-            width: isExpanded ? '400px' : '24px',
+            width: isExpanded ? '320px' : '40px',
             opacity: isExpanded ? 1 : 0,
           }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -103,7 +101,7 @@ const HeaderSearch = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
               <input
                 type="text"
-                placeholder="Search products, pages..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -137,7 +135,7 @@ const HeaderSearch = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
               onMouseEnter={() => setIsExpanded(true)}
-              className="absolute top-full mt-2 w-[400px] max-h-[60vh] overflow-y-auto bg-stone-900/95 backdrop-blur-md border border-stone-700 rounded-lg shadow-2xl"
+              className="absolute top-full mt-2 w-[320px] max-h-[60vh] overflow-y-auto bg-stone-900/95 backdrop-blur-md border border-stone-700 rounded-lg shadow-2xl z-50"
             >
               {!hasResults ? (
                 <div className="p-6 text-center text-stone-400 text-sm">
@@ -528,7 +526,12 @@ const HeaderSearch = () => {
               </>
             )}
           </nav>
-          
+
+          {/* Desktop Search */}
+          <div className="hidden lg:block flex-shrink-0 mx-4">
+            <HeaderSearch />
+          </div>
+
           {/* Actions */}
           <div className="flex items-center gap-3">
             {isAuthenticated && isAdmin && !viewAsUser && (
@@ -788,9 +791,6 @@ const HeaderSearch = () => {
               </Sheet>
               </div>
               </div>
-
-              {/* Global Search - Centered Under Navigation */}
-              <HeaderSearch />
               </header>
       
 
