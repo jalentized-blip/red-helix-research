@@ -21,7 +21,7 @@ const CATEGORIES = [
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [stockFilter, setStockFilter] = useState('all');
+  const [hideOutOfStock, setHideOutOfStock] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,7 +40,7 @@ export default function Products() {
 
   const filteredProducts = products.filter(p => {
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
-    const stockMatch = stockFilter === 'all' || (stockFilter === 'in_stock' ? p.in_stock : !p.in_stock);
+    const stockMatch = hideOutOfStock ? p.in_stock : true;
     return categoryMatch && stockMatch;
   });
 
@@ -87,42 +87,23 @@ export default function Products() {
         >
           {/* Stock Filter */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Filter className="w-5 h-5 text-stone-400" />
-              <h2 className="text-lg font-bold text-amber-50">Availability</h2>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setStockFilter('all')}
-                className={`px-6 py-3 rounded-xl border-2 transition-all ${
-                  stockFilter === 'all'
-                    ? 'bg-red-600/20 border-red-600/70 text-amber-50 font-bold'
-                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-red-600/30'
-                }`}
-              >
-                All Products
-              </button>
-              <button
-                onClick={() => setStockFilter('in_stock')}
-                className={`px-6 py-3 rounded-xl border-2 transition-all ${
-                  stockFilter === 'in_stock'
-                    ? 'bg-green-600/20 border-green-600/70 text-green-300 font-bold'
-                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-green-600/30'
-                }`}
-              >
-                In Stock
-              </button>
-              <button
-                onClick={() => setStockFilter('out_of_stock')}
-                className={`px-6 py-3 rounded-xl border-2 transition-all ${
-                  stockFilter === 'out_of_stock'
-                    ? 'bg-stone-600/20 border-stone-600/70 text-stone-300 font-bold'
-                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-stone-600/30'
-                }`}
-              >
-                Out of Stock
-              </button>
-            </div>
+            <button
+              onClick={() => setHideOutOfStock(!hideOutOfStock)}
+              className="flex items-center gap-3 px-5 py-3 rounded-xl border-2 transition-all bg-stone-800/30 border-stone-700 hover:border-red-600/30"
+            >
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                hideOutOfStock 
+                  ? 'bg-red-600 border-red-600' 
+                  : 'border-stone-500'
+              }`}>
+                {hideOutOfStock && (
+                  <svg className="w-3 h-3 text-amber-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <span className="text-stone-300 font-semibold">Hide out of stock</span>
+            </button>
           </div>
 
           {/* Category Filter */}
