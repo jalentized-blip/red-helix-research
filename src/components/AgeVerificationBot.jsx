@@ -3,6 +3,18 @@ import { AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function AgeVerificationBot({ isOpen, onVerify }) {
+  // Bot detection bypass for search engine crawlers
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isCrawler = /bot|crawler|spider|crawling|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|semrush|ahrefs|mj12bot|dotbot|rogerbot|ahrefsbot|screaming frog/i.test(userAgent);
+      
+      if (isCrawler) {
+        localStorage.setItem('ageVerified', 'true');
+        onVerify();
+      }
+    }
+  }, [onVerify]);
   const [isBot, setIsBot] = useState(false);
   const [ageVerified, setAgeVerified] = useState(false);
 
