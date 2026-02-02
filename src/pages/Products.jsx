@@ -25,10 +25,18 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: products = [], isLoading } = useQuery({
+  const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
   });
+
+  // Real-time stock updates
+  useEffect(() => {
+    const unsubscribe = base44.entities.Product.subscribe(() => {
+      refetch();
+    });
+    return unsubscribe;
+  }, [refetch]);
 
   const filteredProducts = products.filter(p => {
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
