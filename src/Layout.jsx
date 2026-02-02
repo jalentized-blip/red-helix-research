@@ -235,6 +235,7 @@ const HeaderSearch = () => {
                                const [mouseNearTop, setMouseNearTop] = useState(false);
                                const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
                                const [viewAsUser, setViewAsUser] = useState(false);
+                               const [headerCollapsed, setHeaderCollapsed] = useState(false);
                                                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
                                                const [user, setUser] = useState(null);
 
@@ -446,6 +447,33 @@ const HeaderSearch = () => {
         <MolecularBackground />
         <FloatingMolecularFormulas />
 
+        {/* iPhone-style Collapsed Header Pill */}
+        <AnimatePresence>
+          {headerCollapsed && (
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              onClick={() => setHeaderCollapsed(false)}
+              className="fixed top-4 left-1/2 -translate-x-1/2 z-[80] px-6 py-3 bg-stone-900/95 backdrop-blur-xl border border-stone-700/50 rounded-full shadow-2xl cursor-pointer hover:scale-105 active:scale-95 transition-transform"
+            >
+              <div className="flex items-center gap-3">
+                <img 
+                  src="https://i.ibb.co/M5CYvjkG/websitelogo.png"
+                  alt="Red Helix"
+                  className="h-8 w-auto object-contain"
+                />
+                <div className="w-1 h-1 rounded-full bg-red-600 animate-pulse" />
+                <motion.div
+                  animate={{ rotate: 180 }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  className="w-4 h-4 border-2 border-stone-600 border-t-red-600 rounded-full"
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Mobile Header Toggle (when collapsed on home page) */}
         {isHomePage && mobileHeaderCollapsed && (
           <div 
@@ -457,14 +485,20 @@ const HeaderSearch = () => {
         )}
 
         {/* Fixed Header */}
-          <header 
+          <motion.header 
+            initial={false}
+            animate={{ 
+              y: headerCollapsed ? -200 : 0,
+              opacity: headerCollapsed ? 0 : 1
+            }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
             onClick={() => {
               if (isHomePage && window.innerWidth < 1024) {
                 setMobileHeaderCollapsed(true);
               }
             }}
-            className="fixed top-0 left-0 right-0 z-[70] bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" 
-            style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
+            className="fixed top-0 left-0 right-0 z-[70] bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 shadow-lg" 
+            style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) && !headerCollapsed ? 'translateY(0)' : 'translateY(-100%)' }}
           >
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
@@ -531,6 +565,19 @@ const HeaderSearch = () => {
           
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {/* Hide Header Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setHeaderCollapsed(true);
+              }}
+              className="hidden lg:flex items-center gap-2 p-2.5 rounded-lg bg-stone-900/50 border border-stone-700/50 text-stone-400 hover:text-amber-50 hover:border-stone-600 transition-all"
+              title="Hide header"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+            </button>
             {isAuthenticated && isAdmin && !viewAsUser && (
               <NotificationCenter userEmail={user?.email} />
             )}
@@ -791,7 +838,7 @@ const HeaderSearch = () => {
 
               {/* Global Search - Centered Under Navigation */}
               <HeaderSearch />
-              </header>
+              </motion.header>
       
 
       
