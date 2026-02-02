@@ -481,47 +481,47 @@ const HeaderSearch = () => {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-3 flex-1 justify-center">
             <div className="flex items-center gap-2">
-              <Link to={createPageUrl('Home')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                Home
+              <Link to={createPageUrl('Home')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <span className="relative z-10">Home</span>
               </Link>
 
-              <Link to={createPageUrl('About')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                About
+              <Link to={createPageUrl('About')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <span className="relative z-10">About</span>
               </Link>
-              <Link to={createPageUrl('Contact')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                Contact
+              <Link to={createPageUrl('Contact')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <span className="relative z-10">Contact</span>
               </Link>
             </div>
 
-            <div className="h-6 w-px bg-stone-700/50" />
+            <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
 
             <div className="flex items-center gap-2">
-              <Link to={createPageUrl('PeptideCalculator')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                Calculator
+              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <span className="relative z-10">Calculator</span>
               </Link>
-              <Link to={createPageUrl('LearnMore')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                Research
+              <Link to={createPageUrl('LearnMore')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <span className="relative z-10">Research</span>
               </Link>
-              <button onClick={() => scrollTo('#certificates')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                COAs
+              <button onClick={() => scrollTo('#certificates')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                <span className="relative z-10">COAs</span>
               </button>
             </div>
 
             {isAuthenticated && (
               <>
-                <div className="h-6 w-px bg-stone-700/50" />
-                <Link to={createPageUrl('Account')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm">
-                  Account
+                <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
+                <Link to={createPageUrl('Account')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105">
+                  <span className="relative z-10">Account</span>
                 </Link>
               </>
             )}
 
             {isAdmin && !viewAsUser && (
               <>
-                <div className="h-6 w-px bg-stone-700/50" />
-                <Link to={createPageUrl('GrayMarketInsights')} className="text-sm font-semibold text-stone-300 hover:text-amber-50 px-3 py-2 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 backdrop-blur-sm flex items-center gap-1.5">
-                  <Eye className="w-4 h-4" />
-                  Market Intel
+                <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
+                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 flex items-center gap-1.5">
+                  <Eye className="w-4 h-4 transition-transform group-hover:scale-110" />
+                  <span className="relative z-10">Market Intel</span>
                 </Link>
               </>
             )}
@@ -545,25 +545,25 @@ const HeaderSearch = () => {
             {isAdmin && (
               <button
                 onClick={() => setViewAsUser(!viewAsUser)}
-                className={`hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
+                className={`hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all hover:scale-105 hover:shadow-lg ${
                   viewAsUser 
-                    ? 'bg-blue-600/20 border-blue-600/50 text-blue-400 hover:bg-blue-600/30' 
-                    : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
+                    ? 'bg-gradient-to-br from-blue-600/20 to-blue-700/10 border-blue-600/50 text-blue-400 hover:from-blue-600/30 hover:to-blue-700/20 hover:border-blue-500 hover:shadow-blue-600/20' 
+                    : 'bg-gradient-to-br from-red-600/20 to-red-700/10 border-red-600/50 text-red-400 hover:from-red-600/30 hover:to-red-700/20 hover:border-red-500 hover:shadow-red-600/20'
                 }`}
                 title={viewAsUser ? 'Viewing as User' : 'Viewing as Admin'}
               >
-                {viewAsUser ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
-                <span className="text-xs font-semibold">
+                {viewAsUser ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
+                <span className="text-xs font-bold tracking-wide">
                   {viewAsUser ? 'User View' : 'Admin View'}
                 </span>
               </button>
             )}
 
             <Link to={createPageUrl('Cart')}>
-              <button className="relative p-2.5 rounded-lg bg-stone-900/50 border border-red-600/30 text-amber-50 hover:bg-red-600/10 hover:border-red-600/70 hover:text-red-400 transition-all duration-300 group">
+              <button className="relative p-3 rounded-xl bg-gradient-to-br from-red-600/20 to-red-700/10 border border-red-600/40 text-amber-50 hover:from-red-600/30 hover:to-red-700/20 hover:border-red-600/70 hover:text-red-400 transition-all duration-300 group hover:scale-110 hover:shadow-lg hover:shadow-red-600/20">
                 <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-red-600">
+                  <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border-2 border-stone-950 animate-pulse">
                     {cartCount}
                   </span>
                 )}
@@ -579,9 +579,9 @@ const HeaderSearch = () => {
                 }
               }}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-stone-300 hover:text-amber-50">
-                    <Menu className="w-6 h-6" />
-                  </Button>
+                  <button className="p-3 rounded-xl bg-stone-800/50 border border-stone-700/50 text-stone-300 hover:text-amber-50 hover:bg-stone-800 hover:border-stone-600 transition-all hover:scale-110 hover:shadow-lg">
+                    <Menu className="w-5 h-5" />
+                  </button>
                 </SheetTrigger>
                 <SheetContent side="right" className="bg-stone-950 border-stone-700 w-80">
                   <div className="h-full flex flex-col">
