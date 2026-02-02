@@ -163,7 +163,7 @@ TB-500 is the synthetic version of Thymosin Beta-4 (Tβ4), a naturally occurring
    - Sharps disposal container
 
 2. **Reconstitution Steps:**
-   ```
+   
    Step 1: Sanitize work area and wash hands thoroughly
    Step 2: Remove caps from TB-500 vial and bacteriostatic water
    Step 3: Wipe both rubber stoppers with alcohol
@@ -172,7 +172,6 @@ TB-500 is the synthetic version of Thymosin Beta-4 (Tβ4), a naturally occurring
    Step 6: Gently rotate vial (do NOT shake)
    Step 7: Allow 3-5 minutes for complete dissolution
    Step 8: Inspect for clarity - should be clear with no particles
-   ```
 
 3. **Final Concentration:** 2mg/mL (5mg in 2.5mL)
 
@@ -674,7 +673,6 @@ Lyophilization (freeze-drying) is the process of removing water from peptide sol
 
 **Phase 1: Preparation (5 minutes)**
 
-```
 Step 1: Remove peptide from refrigerator/freezer
 Step 2: Allow to reach room temperature (15-20 minutes)
         - Prevents condensation inside vial
@@ -685,11 +683,9 @@ Step 3: Inspect powder visually
         - No discoloration or melting
 Step 4: Calculate required volume for desired concentration
 Step 5: Gather all materials on clean surface
-```
 
 **Phase 2: Solvent Addition (2 minutes)**
 
-```
 Step 1: Draw calculated volume of bacteriostatic water
 Step 2: Expel air from syringe (hold upright, tap, press plunger)
 Step 3: Wipe peptide vial stopper with alcohol (let dry 30 sec)
@@ -700,11 +696,9 @@ Step 5: Inject solvent slowly down the WALL of the vial
         - Aim for vial wall, let liquid run down
 Step 6: Remove needle carefully
 Step 7: Gently rotate vial (do NOT shake vigorously)
-```
 
 **Phase 3: Dissolution (5-10 minutes)**
 
-```
 Step 1: Place vial upright on clean surface
 Step 2: Allow to sit undisturbed (3-5 minutes)
 Step 3: Gently rotate every 1-2 minutes
@@ -716,11 +710,9 @@ Step 5: If not fully dissolved after 10 minutes:
         - Gently swirl (avoid creating foam)
         - Let sit 5 more minutes
         - Do NOT shake vigorously
-```
 
 **Phase 4: Verification and Storage (2 minutes)**
 
-```
 Step 1: Inspect final solution:
         - Should be crystal clear
         - No particles or precipitate
@@ -733,7 +725,6 @@ Step 2: Label vial with:
 Step 3: Store immediately at 2-8°C (refrigerator)
 Step 4: Protect from light (amber vial or foil wrap)
 Step 5: Store upright, away from freezer section
-```
 
 ## Concentration Calculations
 
@@ -907,7 +898,7 @@ Step 5: Store upright, away from freezer section
 ### Aliquoting for Extended Stability:
 
 **Protocol for Multi-Month Storage:**
-```
+
 1. Reconstitute entire vial with bacteriostatic water
 2. Draw solution into multiple sterile syringes
 3. Expel air completely from each syringe
@@ -915,7 +906,6 @@ Step 5: Store upright, away from freezer section
 5. Freeze individual syringes at -20°C
 6. Thaw one syringe as needed
 7. Do NOT refreeze thawed aliquots
-```
 
 **Benefits:**
 - Reduces freeze-thaw cycles
