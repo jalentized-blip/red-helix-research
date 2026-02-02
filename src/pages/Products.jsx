@@ -21,6 +21,7 @@ const CATEGORIES = [
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [stockFilter, setStockFilter] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,9 +30,11 @@ export default function Products() {
     queryFn: () => base44.entities.Product.list(),
   });
 
-  const filteredProducts = selectedCategory === 'all'
-    ? products
-    : products.filter(p => p.category === selectedCategory);
+  const filteredProducts = products.filter(p => {
+    const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
+    const stockMatch = stockFilter === 'all' || (stockFilter === 'in_stock' ? p.in_stock : !p.in_stock);
+    return categoryMatch && stockMatch;
+  });
 
   const handleSelectStrength = (product) => {
     setSelectedProduct(product);
@@ -67,32 +70,75 @@ export default function Products() {
           </p>
         </motion.div>
 
-        {/* Category Filter */}
+        {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-12"
+          className="mb-12 space-y-6"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <Filter className="w-5 h-5 text-stone-400" />
-            <h2 className="text-lg font-bold text-amber-50">Filter by Category</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {CATEGORIES.map((category) => (
+          {/* Stock Filter */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <Filter className="w-5 h-5 text-stone-400" />
+              <h2 className="text-lg font-bold text-amber-50">Availability</h2>
+            </div>
+            <div className="flex gap-3">
               <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`p-4 rounded-xl border-2 transition-all text-center ${
-                  selectedCategory === category.id
-                    ? 'bg-red-600/20 border-red-600/70 text-amber-50'
+                onClick={() => setStockFilter('all')}
+                className={`px-6 py-3 rounded-xl border-2 transition-all ${
+                  stockFilter === 'all'
+                    ? 'bg-red-600/20 border-red-600/70 text-amber-50 font-bold'
                     : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-red-600/30'
                 }`}
               >
-                <div className="text-3xl mb-2">{category.icon}</div>
-                <div className="text-sm font-semibold">{category.label}</div>
+                All Products
               </button>
-            ))}
+              <button
+                onClick={() => setStockFilter('in_stock')}
+                className={`px-6 py-3 rounded-xl border-2 transition-all ${
+                  stockFilter === 'in_stock'
+                    ? 'bg-green-600/20 border-green-600/70 text-green-300 font-bold'
+                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-green-600/30'
+                }`}
+              >
+                In Stock
+              </button>
+              <button
+                onClick={() => setStockFilter('out_of_stock')}
+                className={`px-6 py-3 rounded-xl border-2 transition-all ${
+                  stockFilter === 'out_of_stock'
+                    ? 'bg-stone-600/20 border-stone-600/70 text-stone-300 font-bold'
+                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-stone-600/30'
+                }`}
+              >
+                Out of Stock
+              </button>
+            </div>
+          </div>
+
+          {/* Category Filter */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <Filter className="w-5 h-5 text-stone-400" />
+              <h2 className="text-lg font-bold text-amber-50">Filter by Category</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`p-4 rounded-xl border-2 transition-all text-center ${
+                    selectedCategory === category.id
+                      ? 'bg-red-600/20 border-red-600/70 text-amber-50'
+                      : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-red-600/30'
+                  }`}
+                >
+                  <div className="text-3xl mb-2">{category.icon}</div>
+                  <div className="text-sm font-semibold">{category.label}</div>
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
 
@@ -130,14 +176,22 @@ export default function Products() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => handleSelectStrength(product)}
-                    className="group cursor-pointer bg-stone-900/60 border border-stone-700 rounded-xl p-6 hover:border-red-600/50 transition-all hover:shadow-lg hover:shadow-red-600/10"
+                    className="group cursor-pointer bg-stone-900/60 border border-stone-700 rounded-xl p-6 hover:border-red-600/50 transition-all hover:shadow-lg hover:shadow-red-600/10 relative"
                   >
-                    <div className="mb-4 rounded-lg overflow-hidden bg-stone-800/50">
+                    <div className="mb-4 rounded-lg overflow-hidden bg-stone-800/50 relative">
                       <img
                         src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/7cabb1c33_image.png"
                         alt={product.name}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className={`w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 ${!product.in_stock ? 'opacity-40' : ''}`}
                       />
+                      {!product.in_stock && (
+                        <div className="absolute inset-0 bg-stone-900/80 flex items-center justify-center">
+                          <div className="text-center">
+                            <p className="text-2xl font-black text-stone-400 tracking-wider">OUT OF STOCK</p>
+                            <p className="text-sm text-stone-500 mt-1">Check back soon</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="mb-3">
@@ -160,20 +214,18 @@ export default function Products() {
                     <div className="flex items-center justify-between pt-4 border-t border-stone-700">
                       <div>
                         <p className="text-stone-500 text-xs">Starting at</p>
-                        <p className="text-2xl font-bold text-red-600">
+                        <p className={`text-2xl font-bold ${product.in_stock ? 'text-red-600' : 'text-stone-500'}`}>
                           ${product.price_from}
                         </p>
                       </div>
-                      <Button variant="outline" size="sm" className="group-hover:bg-red-600 group-hover:text-amber-50 group-hover:border-red-600">
-                        View Options
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className={`${product.in_stock ? 'group-hover:bg-red-600 group-hover:text-amber-50 group-hover:border-red-600' : 'opacity-50'}`}
+                      >
+                        {product.in_stock ? 'View Options' : 'Unavailable'}
                       </Button>
                     </div>
-
-                    {!product.in_stock && (
-                      <div className="mt-3 px-3 py-2 bg-amber-900/20 border border-amber-700/50 rounded-lg text-center">
-                        <p className="text-xs text-amber-400 font-semibold">Out of Stock</p>
-                      </div>
-                    )}
                   </motion.div>
                 ))}
               </motion.div>
