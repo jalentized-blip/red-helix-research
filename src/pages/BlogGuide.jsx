@@ -357,7 +357,6 @@ Semaglutide is a synthetic glucagon-like peptide-1 (GLP-1) receptor agonist that
 
 **Step-by-Step Reconstitution:**
 
-```
 1. Preparation Phase:
    - Bring peptide to room temperature (15-20 minutes)
    - Sanitize work surface with 70% isopropyl alcohol
@@ -374,7 +373,6 @@ Semaglutide is a synthetic glucagon-like peptide-1 (GLP-1) receptor agonist that
    - Inspect for complete clarity (no particles or cloudiness)
    - Check for proper dissolution
    - Label vial with reconstitution date and concentration
-```
 
 **Final Concentration:** 2mg/mL (5mg in 2.5mL)  
 **Alternative:** 1.25mg/mL (5mg in 4mL) for lower concentration needs
@@ -647,13 +645,11 @@ Lyophilization (freeze-drying) is the process of removing water from peptide sol
 
 ### Hand Hygiene Protocol:
 
-```
 1. Wash hands thoroughly with antimicrobial soap (30 seconds)
 2. Dry with clean paper towel
 3. Don sterile gloves
 4. Avoid touching non-sterile surfaces
 5. Change gloves if contamination suspected
-```
 
 ### Aseptic Technique Steps:
 
