@@ -101,6 +101,7 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import PeptideInstructions from './pages/PeptideInstructions';
+import Instructions from './pages/Instructions';
 import __Layout from './Layout.jsx';
 
 
@@ -159,6 +160,7 @@ export const PAGES = {
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
     "PeptideInstructions": PeptideInstructions,
+    "Instructions": Instructions,
 }
 
 export const pagesConfig = {
