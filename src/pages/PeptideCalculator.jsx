@@ -123,7 +123,9 @@ www.redhelixresearch.com`;
       water: currentWater.toString(),
       syringeSize: currentSyringeSize.toString()
     });
-    return `https://www.redhelixresearch.com/page/PeptideInstructions?${params.toString()}`;
+    // Use full production URL with proper Base44 page routing
+    const pagePath = createPageUrl('PeptideInstructions').replace(/^\//, '');
+    return `https://www.redhelixresearch.com/${pagePath}?${params.toString()}`;
   };
 
   // Generate syringe markings based on size
