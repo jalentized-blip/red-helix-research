@@ -124,7 +124,7 @@ www.redhelixresearch.com`;
       water: currentWater.toString(),
       syringeSize: currentSyringeSize.toString()
     });
-    return `${baseUrl}${createPageUrl('PeptideInstructions')}?${params.toString()}`;
+    return `${baseUrl}/PeptideInstructions?${params.toString()}`;
   };
 
   // Generate syringe markings based on size
