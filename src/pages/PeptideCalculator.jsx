@@ -3,11 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Info, RotateCcw, ExternalLink, Syringe } from 'lucide-react';
+import { Info, RotateCcw, ExternalLink, Syringe, QrCode } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import SEO from '@/components/SEO';
+import { QRCodeSVG } from 'qrcode.react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 export default function PeptideCalculator() {
   const [dose, setDose] = useState('1');
@@ -17,6 +19,7 @@ export default function PeptideCalculator() {
   const [water, setWater] = useState('1.0');
   const [waterCustom, setWaterCustom] = useState('');
   const [syringeSize, setSyringeSize] = useState('1'); // '1', '2', or '3' mL
+  const [showQRCode, setShowQRCode] = useState(false);
 
   // Fetch products
   const { data: products = [] } = useQuery({
@@ -111,6 +114,17 @@ www.redhelixresearch.com`;
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
+  };
+
+  const generateQRCodeURL = () => {
+    const baseUrl = window.location.origin;
+    const params = new URLSearchParams({
+      dose: currentDose.toString(),
+      strength: currentStrength.toString(),
+      water: currentWater.toString(),
+      syringeSize: currentSyringeSize.toString()
+    });
+    return `${baseUrl}${createPageUrl('PeptideInstructions')}?${params.toString()}`;
   };
 
   // Generate syringe markings based on size
@@ -422,20 +436,30 @@ www.redhelixresearch.com`;
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3 mt-8 pt-6 border-t border-stone-700">
+                  <div className="space-y-3 mt-8 pt-6 border-t border-stone-700">
+                    <div className="flex gap-3">
+                      <Button
+                        onClick={handleReset}
+                        variant="outline"
+                        className="flex-1 border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600"
+                      >
+                        <RotateCcw className="w-4 h-4 mr-2" />
+                        Reset
+                      </Button>
+                      <Button 
+                        onClick={handleDownload}
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
+                      >
+                        Download Results
+                      </Button>
+                    </div>
                     <Button
-                      onClick={handleReset}
+                      onClick={() => setShowQRCode(true)}
                       variant="outline"
-                      className="flex-1 border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600"
+                      className="w-full border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600"
                     >
-                      <RotateCcw className="w-4 h-4 mr-2" />
-                      Reset
-                    </Button>
-                    <Button 
-                      onClick={handleDownload}
-                      className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
-                    >
-                      Download Results
+                      <QrCode className="w-4 h-4 mr-2" />
+                      Generate QR Code for Phone
                     </Button>
                   </div>
                 </div>
@@ -598,6 +622,48 @@ www.redhelixresearch.com`;
           </div>
         </div>
       </div>
+
+      {/* QR Code Modal */}
+      <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
+        <DialogContent className="bg-stone-900 border-stone-700 max-w-md">
+          <div className="text-center p-6">
+            <h2 className="text-2xl font-bold text-amber-50 mb-4">
+              Scan with Your Phone
+            </h2>
+            <p className="text-stone-400 text-sm mb-6">
+              This QR code will take you to a mobile-friendly instruction page with your calculations
+            </p>
+            
+            {/* QR Code */}
+            <div className="bg-white p-6 rounded-xl inline-block mb-6">
+              <QRCodeSVG
+                value={generateQRCodeURL()}
+                size={256}
+                level="H"
+                includeMargin={true}
+              />
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 text-left">
+              <p className="text-stone-300 text-sm mb-2">📱 How to use:</p>
+              <ol className="text-stone-400 text-xs space-y-1 list-decimal list-inside">
+                <li>Open your phone's camera</li>
+                <li>Point it at the QR code</li>
+                <li>Tap the notification to open the link</li>
+                <li>Follow the step-by-step instructions</li>
+              </ol>
+            </div>
+
+            <Button
+              onClick={() => setShowQRCode(false)}
+              className="w-full mt-6 bg-red-600 hover:bg-red-700"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
