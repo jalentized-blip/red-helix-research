@@ -117,7 +117,7 @@ www.redhelixresearch.com`;
   };
 
   const generateQRCodeURL = () => {
-    const baseUrl = window.location.origin;
+    const baseUrl = 'https://www.redhelixresearch.com';
     const params = new URLSearchParams({
       dose: currentDose.toString(),
       strength: currentStrength.toString(),
