@@ -117,14 +117,14 @@ www.redhelixresearch.com`;
   };
 
   const generateQRCodeURL = () => {
+    const baseUrl = window.location.origin;
     const params = new URLSearchParams({
       dose: currentDose.toString(),
       strength: currentStrength.toString(),
       water: currentWater.toString(),
       syringeSize: currentSyringeSize.toString()
     });
-    const pagePath = createPageUrl('Instructions').replace(/^\//, '');
-    return `https://www.redhelixresearch.com/${pagePath}?${params.toString()}`;
+    return `${baseUrl}${createPageUrl('PeptideInstructions')}?${params.toString()}`;
   };
 
   // Generate syringe markings based on size
