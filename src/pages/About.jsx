@@ -67,9 +67,9 @@ export default function About() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20 relative">
       <SEO 
-        title="About Red Helix Research - Transparent Gray Market Peptide Supplier"
-        description="Red Helix Research: Trusted alternative peptide supplier in the research peptide community. Verified COAs, competitive pricing, and transparent sourcing. Learn why researchers choose us as their peptide vendor for gray market research chemicals."
-        keywords="about red helix research, gray market peptide supplier, peptide vendor transparency, alternative peptide source, underground peptide supplier, verified research peptides, COA peptides, research peptide company, peptide community, trusted peptide source"
+        title="About Red Helix Research - Research Peptide Supplier"
+        description="Red Helix Research supplies research-grade peptides for laboratory use only. Verified COAs, transparent documentation, supporting scientific research. All products for in vitro research, not for human consumption."
+        keywords="about red helix research, research peptide supplier, laboratory peptides, peptide vendor, research chemicals, verified research peptides, COA peptides, research peptide company, in vitro research, scientific research peptides"
         schema={aboutSchema}
       />
       <TechGrid />
@@ -103,7 +103,7 @@ export default function About() {
             Red Helix Research: Transparency, Affordability & Exceptional Service
           </HolographicText>
           <motion.p 
-            className="text-xl text-amber-50 leading-relaxed"
+            className="text-xl text-amber-50 leading-relaxed mb-4"
             animate={{ 
               textShadow: [
                 '0 0 5px rgba(125, 74, 43, 0.3)',
@@ -113,8 +113,13 @@ export default function About() {
             }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            We're reimagining the peptide market with verified products, fair pricing, and customer service that actually cares.
+            We provide research-grade peptides for laboratory and scientific research purposes only.
           </motion.p>
+          <div className="bg-yellow-950/40 border border-yellow-700/50 rounded-lg px-6 py-4">
+            <p className="text-yellow-100 text-sm font-semibold">
+              ⚠️ FOR RESEARCH AND LABORATORY USE ONLY - All products are intended strictly for in vitro research and are not approved for human consumption, therapeutic use, or any clinical application.
+            </p>
+          </div>
         </motion.div>
       </div>
 
@@ -124,8 +129,8 @@ export default function About() {
         <StorySection
           icon={Beaker}
           title="A Better Way Forward"
-          description="Red Helix Research emerged to compete in the peptide market on what matters most: transparency, reliability, and genuine care for our community. We refused to follow the playbook of inflated margins and empty promises. Instead, we built something different—a company that puts customers first."
-          highlight="Integrity Over Margins"
+          description="Red Helix Research supplies research-grade peptides to the scientific research community. We provide transparent, verified products for laboratory use with proper documentation and COAs. Our peptides are intended strictly for in vitro research and non-clinical laboratory applications."
+          highlight="Research Use Only"
         />
 
         {/* Chapter 2 */}
@@ -157,7 +162,7 @@ export default function About() {
             Our Commitment to You
           </HolographicText>
           <p className="text-amber-50 leading-relaxed mb-6">
-            We're competing to be the most trusted peptide source in the market. Here's what we stand for:
+            We provide research-grade peptides for laboratory and scientific research. Here's our commitment to the research community:
           </p>
           <ul className="space-y-3 text-amber-50">
             <li className="flex items-start gap-3">
@@ -170,7 +175,7 @@ export default function About() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Helping Others Advance:</strong> We believe in the research community. By providing affordable, verified peptides, we're enabling more researchers to contribute to the field.</span>
+              <span><strong>Supporting Scientific Research:</strong> We supply verified peptides for legitimate laboratory research, enabling researchers to conduct in vitro studies and non-clinical investigations.</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-red-600 font-bold mt-1">✓</span>
@@ -184,8 +189,8 @@ export default function About() {
         <StorySection
           icon={Eye}
           title="Why We're Different"
-          description="In a market full of shortcuts and hype, Red Helix Research stands out because we genuinely care about your success. We're not trying to maximize margins—we're trying to build a community of trusted researchers with access to verified products at fair prices. Every decision we make is guided by one question: Is this in the best interest of our customers?"
-          highlight="Excellence in Every Interaction"
+          description="Red Helix Research provides verified, lab-tested research peptides with transparent documentation. All products are intended for laboratory research purposes only and are not approved for human consumption. We support the scientific research community with quality materials for in vitro studies."
+          highlight="Research Grade Quality"
         />
       </div>
 
@@ -197,10 +202,10 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <HolographicText className="text-3xl font-bold text-amber-50 mb-4 block">
-            Ready to Experience Real Transparency?
+            Research-Grade Peptides for Laboratory Use
           </HolographicText>
           <p className="text-amber-50 mb-8 text-lg">
-            Explore our products and see exactly what you're getting.
+            Explore our research peptides with verified COAs for laboratory applications.
           </p>
           <Link to={createPageUrl('Home')}>
             <motion.div

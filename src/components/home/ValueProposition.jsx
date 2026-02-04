@@ -18,8 +18,13 @@ export default function ValueProposition() {
             </span>
           </h2>
           <p className="text-stone-300 text-lg max-w-4xl mx-auto leading-relaxed">
-            At Red Helix Research, we're committed to transforming the peptide industry with radical transparency and fair pricing. For years, US vendors have tripled peptide prices with little difference from the big pharma they're supposedly rebelling against—hiding costs, supply chains, and quality to prioritize profits over progress. We're different: We pledge full openness, empowering researchers with accessible, high-quality peptides.
+            At Red Helix Research, we provide research-grade peptides for laboratory and scientific research purposes only. All products are intended for in vitro research and are not approved for human or veterinary use. We're committed to transparency, fair pricing, and supporting the scientific research community with verified, lab-tested peptides.
           </p>
+          <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg px-6 py-4 max-w-3xl mx-auto mt-6">
+            <p className="text-yellow-100 text-sm font-semibold text-center">
+              ⚠️ RESEARCH USE ONLY - These products are intended strictly for laboratory research and are not approved by the FDA for human consumption, therapeutic use, or any clinical application.
+            </p>
+          </div>
         </motion.div>
 
         {/* Product Mockup */}

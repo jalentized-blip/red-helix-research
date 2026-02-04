@@ -62,9 +62,9 @@ export default function Products() {
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <SEO
-        title="Research Peptides Catalog | Red Helix Research"
-        description="Browse our complete catalog of research-grade peptides. BPC-157, TB-500, Semaglutide, Tirzepatide and more with verified COAs."
-        keywords="research peptides catalog, buy peptides, peptide shop, BPC-157, TB-500, semaglutide, tirzepatide"
+        title="Research Peptides Catalog - For Laboratory Use Only | Red Helix Research"
+        description="Research-grade peptides for laboratory and scientific research. BPC-157, TB-500, Semaglutide, Tirzepatide with verified COAs. For research use only, not for human consumption."
+        keywords="research peptides, laboratory peptides, research chemicals, BPC-157 research, TB-500 research, peptide research supplies, in vitro research, scientific peptides"
       />
 
       <div className="max-w-7xl mx-auto px-4">

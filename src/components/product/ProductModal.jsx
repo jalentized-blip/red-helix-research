@@ -277,6 +277,14 @@ export default function ProductModal({ product, isOpen, onClose }) {
               <span className="text-red-600">✓</span> Includes Certificate of Analysis
             </p>
           </div>
+
+          {/* Research Use Disclaimer */}
+          <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg p-4 text-xs text-yellow-100">
+            <p className="font-bold mb-2">⚠️ IMPORTANT DISCLAIMER</p>
+            <p className="leading-relaxed">
+              This product is for research and laboratory use only. Not intended for human consumption, therapeutic use, or any clinical application. Not for use in humans or animals. Purchaser assumes all responsibility for compliance with applicable laws and regulations.
+            </p>
+          </div>
         </div>
       </DialogContent>
 

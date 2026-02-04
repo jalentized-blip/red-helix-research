@@ -68,18 +68,23 @@ export default function Hero() {
         >
           {/* Main Title */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
-            <span className="text-amber-50">Research-Grade Peptides</span>
+            <span className="text-amber-50">Research Peptides</span>
             <br />
-            <span className="text-red-600" style={{ textShadow: '0 2px 8px rgba(139, 38, 53, 0.5), 0 0 15px rgba(139, 38, 53, 0.2)' }}>Lab-Tested & Verified.</span>
+            <span className="text-red-600" style={{ textShadow: '0 2px 8px rgba(139, 38, 53, 0.5), 0 0 15px rgba(139, 38, 53, 0.2)' }}>For Laboratory Use Only</span>
           </h1>
 
           {/* Tagline */}
           <p className="text-xl md:text-2xl font-semibold text-amber-100 mb-3 tracking-wide">
-            Most Transparent US Vendor
+            Research Chemical Supplier
           </p>
-          <p className="text-sm md:text-base text-red-600/90 font-medium uppercase tracking-widest mb-10">
-            Verified Third-Party Testing • Discreet Shipping • Premium Quality
+          <p className="text-sm md:text-base text-red-600/90 font-medium uppercase tracking-widest mb-4">
+            Verified Third-Party Testing • Research Grade • Not For Human Consumption
           </p>
+          <div className="bg-yellow-950/40 border border-yellow-700/50 rounded-lg px-4 py-3 mb-10">
+            <p className="text-yellow-100 text-xs md:text-sm font-semibold">
+              ⚠️ FOR RESEARCH AND LABORATORY USE ONLY - NOT INTENDED FOR HUMAN CONSUMPTION
+            </p>
+          </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
