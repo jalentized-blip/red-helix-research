@@ -84,6 +84,7 @@ import PeppyBot from './pages/PeppyBot';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideCategory from './pages/PeptideCategory';
 import PeptideComparison from './pages/PeptideComparison';
+import PeptideInstructions from './pages/PeptideInstructions';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
@@ -100,7 +101,6 @@ import SEOMonitoring from './pages/SEOMonitoring';
 import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import PeptideInstructions from './pages/PeptideInstructions';
 import __Layout from './Layout.jsx';
 
 
@@ -142,6 +142,7 @@ export const PAGES = {
     "PeptideCalculator": PeptideCalculator,
     "PeptideCategory": PeptideCategory,
     "PeptideComparison": PeptideComparison,
+    "PeptideInstructions": PeptideInstructions,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
@@ -158,7 +159,6 @@ export const PAGES = {
     "SecurityCompliance": SecurityCompliance,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "PeptideInstructions": PeptideInstructions,
 }
 
 export const pagesConfig = {

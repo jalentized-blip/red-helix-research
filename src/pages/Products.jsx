@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Filter } from 'lucide-react';
+import { ArrowLeft, Filter, Search, X } from 'lucide-react';
 import ProductModal from '@/components/product/ProductModal';
 import SEO from '@/components/SEO';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,6 +24,7 @@ export default function Products() {
   const [hideOutOfStock, setHideOutOfStock] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products'],
@@ -40,8 +41,17 @@ export default function Products() {
 
   const filteredProducts = products.filter(p => {
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
-    const stockMatch = hideOutOfStock ? p.in_stock : true;
-    return categoryMatch && stockMatch;
+    
+    // Check if any specification is in stock and not hidden
+    const hasAvailableSpec = p.specifications?.some(spec => spec.in_stock && !spec.hidden) || false;
+    const productInStock = p.in_stock || hasAvailableSpec;
+    const stockMatch = hideOutOfStock ? productInStock : true;
+    
+    const searchMatch = searchQuery === '' || 
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    return categoryMatch && stockMatch && searchMatch;
   });
 
   const handleSelectStrength = (product) => {
@@ -85,6 +95,26 @@ export default function Products() {
           transition={{ delay: 0.1 }}
           className="mb-12 space-y-6"
         >
+          {/* Search Bar */}
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search products..."
+              className="w-full pl-12 pr-12 py-4 bg-stone-900/50 border-2 border-stone-700 rounded-xl text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600/50 transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-50 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+
           {/* Stock Filter */}
           <div>
             <button
@@ -158,7 +188,11 @@ export default function Products() {
                 transition={{ duration: 0.3 }}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
               >
-                {filteredProducts.map((product, index) => (
+                {filteredProducts.map((product, index) => {
+                  const hasAvailableSpec = product.specifications?.some(spec => spec.in_stock && !spec.hidden) || false;
+                  const productInStock = product.in_stock || hasAvailableSpec;
+
+                  return (
                   <motion.div
                     key={product.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -171,9 +205,9 @@ export default function Products() {
                       <img
                         src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/7cabb1c33_image.png"
                         alt={product.name}
-                        className={`w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 ${!product.in_stock ? 'opacity-40' : ''}`}
+                        className={`w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 ${!productInStock ? 'opacity-40' : ''}`}
                       />
-                      {!product.in_stock && (
+                      {!productInStock && (
                         <div className="absolute inset-0 bg-stone-900/80 flex items-center justify-center">
                           <div className="text-center">
                             <p className="text-2xl font-black text-stone-400 tracking-wider">OUT OF STOCK</p>
@@ -203,20 +237,21 @@ export default function Products() {
                     <div className="flex items-center justify-between pt-4 border-t border-stone-700">
                       <div>
                         <p className="text-stone-500 text-xs">Starting at</p>
-                        <p className={`text-2xl font-bold ${product.in_stock ? 'text-red-600' : 'text-stone-500'}`}>
+                        <p className={`text-2xl font-bold ${productInStock ? 'text-red-600' : 'text-stone-500'}`}>
                           ${product.price_from}
                         </p>
                       </div>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className={`${product.in_stock ? 'group-hover:bg-red-600 group-hover:text-amber-50 group-hover:border-red-600' : 'opacity-50'}`}
+                        className={`${productInStock ? 'group-hover:bg-red-600 group-hover:text-amber-50 group-hover:border-red-600' : 'opacity-50'}`}
                       >
-                        {product.in_stock ? 'View Options' : 'Unavailable'}
+                        {productInStock ? 'View Options' : 'Unavailable'}
                       </Button>
                     </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                    );
+                    })}
               </motion.div>
             </AnimatePresence>
 
