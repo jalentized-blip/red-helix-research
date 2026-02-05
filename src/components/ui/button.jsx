@@ -5,12 +5,12 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:scale-105 hover:shadow-lg",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:scale-105 hover:shadow-lg [&_svg]:drop-shadow-[0_0_2px_rgba(255,255,255,0.5)]",
   {
     variants: {
       variant: {
         default:
-          "bg-gradient-to-br from-red-600 to-red-700 text-amber-50 border border-red-600/40 hover:from-red-700 hover:to-red-800 hover:border-red-500 hover:shadow-red-600/20",
+          "bg-gradient-to-br from-red-600 to-red-700 text-amber-50 border border-red-600/40 hover:from-red-700 hover:to-red-800 hover:border-red-500 hover:shadow-red-600/20 [&_svg]:text-white [&_svg]:drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]",
         destructive:
           "bg-gradient-to-br from-red-600 to-red-700 text-amber-50 border border-red-600/40 hover:from-red-700 hover:to-red-800 hover:shadow-red-600/20",
         outline:
