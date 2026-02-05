@@ -31,6 +31,7 @@ import {
 } from '@/components/utils/cart';
 import CryptoWalletHelp from '@/components/crypto/CryptoWalletHelp';
 import { base44 } from '@/api/base44Client';
+import PCIComplianceBadge from '@/components/PCIComplianceBadge';
 
 // Supported wallet configurations
 const WALLET_CONFIGS = {
@@ -790,6 +791,10 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           </div>
         </div>
       </div>
+      
+      <div className="mt-4">
+        <PCIComplianceBadge variant="compact" />
+      </div>
     </motion.div>
   );
 
@@ -1131,6 +1136,10 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
         <p className="flex items-center gap-2"><span className="text-red-600">✓</span> Same-day shipping</p>
         <p className="flex items-center gap-2"><span className="text-red-600">✓</span> Lab tested products</p>
         <p className="flex items-center gap-2"><span className="text-red-600">✓</span> Money-back guarantee</p>
+      </div>
+      
+      <div className="mt-4">
+        <PCIComplianceBadge variant="compact" />
       </div>
     </div>
   );

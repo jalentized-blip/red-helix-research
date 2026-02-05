@@ -40,6 +40,24 @@ Items damaged during shipping are replaced at no cost. Please contact us immedia
 We never share customer information with third parties without consent. All data is encrypted and securely stored.`
     },
     {
+      title: 'Payment Security & PCI Compliance',
+      content: `Red Helix Research maintains PCI-DSS compliance for secure payment processing:
+
+• NO credit card data is stored on our servers
+• All payment transactions use cryptocurrency blockchain technology
+• Customer billing information is encrypted using industry-standard SSL/TLS
+• We never have access to your wallet private keys or seed phrases
+• Transaction data is securely transmitted and verified on-chain
+
+For cryptocurrency payments:
+- Transactions are processed directly on blockchain networks
+- No payment card data ever touches our systems
+- Your wallet maintains full custody of funds
+- We only receive the necessary transaction hash for order verification
+
+We audit our security practices regularly and maintain strict data protection protocols.`
+    },
+    {
       title: 'Age Verification',
       content: `Red Helix Research requires age verification (18+) for all customers. This is a legal requirement for research chemical vendors.
 
