@@ -585,8 +585,8 @@ const HeaderSearch = () => {
             )}
 
             <Link to={createPageUrl('Cart')}>
-              <button className="relative p-3 rounded-xl bg-gradient-to-br from-red-600/20 to-red-700/10 border border-red-600/40 text-amber-50 hover:from-red-600/30 hover:to-red-700/20 hover:border-red-600/70 hover:text-red-400 transition-all duration-300 group hover:scale-110 hover:shadow-lg hover:shadow-red-600/20">
-                <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <button className="relative p-3 rounded-xl bg-gradient-to-br from-red-600/20 to-red-700/10 border border-red-600/40 text-white hover:from-red-600/30 hover:to-red-700/20 hover:border-red-600/70 hover:text-white transition-all duration-300 group hover:scale-110 hover:shadow-lg hover:shadow-red-600/20">
+                <ShoppingCart className="w-6 h-6 group-hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]" strokeWidth={2.5} />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border-2 border-stone-950 animate-pulse">
                     {cartCount}
