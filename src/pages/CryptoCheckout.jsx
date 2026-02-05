@@ -312,19 +312,23 @@ export default function CryptoCheckout() {
   const getAnyProvider = () => {
     if (typeof window === 'undefined') return null;
     
-    // Check for standard ethereum provider
-    if (window.ethereum) {
-      // If it's an array of providers (e.g. Coinbase + MetaMask both installed)
-      if (Array.isArray(window.ethereum.providers)) {
-        return window.ethereum; 
+    try {
+      // Check for standard ethereum provider
+      if (window.ethereum) {
+        // If it's an array of providers (e.g. Coinbase + MetaMask both installed)
+        if (Array.isArray(window.ethereum.providers)) {
+          return window.ethereum; 
+        }
+        return window.ethereum;
       }
-      return window.ethereum;
+      
+      // Check for specific injections
+      if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+      if (window.phantom?.ethereum) return window.phantom.ethereum;
+      if (window.solana) return window.solana; 
+    } catch (error) {
+      console.warn('Provider detection error:', error);
     }
-    
-    // Check for specific injections
-    if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
-    if (window.phantom?.ethereum) return window.phantom.ethereum;
-    if (window.solana) return window.solana; 
     
     return null;
   };
@@ -334,14 +338,19 @@ export default function CryptoCheckout() {
     const check = () => {
       if (typeof window === 'undefined') return null;
       
-      let provider = null;
-      if (walletId === 'coinbase') {
-        if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
-        else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
-        else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
+      try {
+        let provider = null;
+        if (walletId === 'coinbase') {
+          if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
+          else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
+          else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
+        }
+        
+        return provider;
+      } catch (error) {
+        console.warn('Provider check error:', error);
+        return null;
       }
-      
-      return provider;
     };
 
     // Try immediately

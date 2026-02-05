@@ -125,9 +125,13 @@ export default function WalletConnector({
   // Helper to find any available provider
   const getAnyProvider = () => {
     if (typeof window === 'undefined') return null;
-    if (window.ethereum) return window.ethereum;
-    if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
-    if (window.phantom?.ethereum) return window.phantom.ethereum;
+    try {
+      if (window.ethereum) return window.ethereum;
+      if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+      if (window.phantom?.ethereum) return window.phantom.ethereum;
+    } catch (error) {
+      console.warn('Provider detection error:', error);
+    }
     return null;
   };
 
@@ -136,22 +140,27 @@ export default function WalletConnector({
     const check = () => {
       if (typeof window === 'undefined') return null;
       
-      let provider = null;
-      if (walletId === 'metamask') {
-        if (window.ethereum?.isMetaMask) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isMetaMask)) provider = window.ethereum.providers.find(p => p.isMetaMask);
-      } else if (walletId === 'coinbase') {
-        if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
-        else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
-        else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
-      } else if (walletId === 'phantom') {
-        if (window.phantom?.ethereum) provider = window.phantom.ethereum;
-      } else if (walletId === 'trustwallet') {
-        if (window.ethereum?.isTrust) provider = window.ethereum;
-        else if (window.ethereum?.providers?.find(p => p.isTrust)) provider = window.ethereum.providers.find(p => p.isTrust);
+      try {
+        let provider = null;
+        if (walletId === 'metamask') {
+          if (window.ethereum?.isMetaMask) provider = window.ethereum;
+          else if (window.ethereum?.providers?.find(p => p.isMetaMask)) provider = window.ethereum.providers.find(p => p.isMetaMask);
+        } else if (walletId === 'coinbase') {
+          if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
+          else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
+          else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
+        } else if (walletId === 'phantom') {
+          if (window.phantom?.ethereum) provider = window.phantom.ethereum;
+        } else if (walletId === 'trustwallet') {
+          if (window.ethereum?.isTrust) provider = window.ethereum;
+          else if (window.ethereum?.providers?.find(p => p.isTrust)) provider = window.ethereum.providers.find(p => p.isTrust);
+        }
+        
+        return provider;
+      } catch (error) {
+        console.warn('Provider check error:', error);
+        return null;
       }
-      
-      return provider;
     };
 
     // Try immediately
