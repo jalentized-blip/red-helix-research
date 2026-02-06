@@ -236,7 +236,7 @@ export default function Products() {
 
                     <div className="mb-3 p-2 bg-stone-800/50 border border-stone-700/50 rounded-lg">
                       <p className="text-[10px] text-stone-400 leading-tight">
-                        *Pricing reflects complete kit configurations. Individual vials available exclusively for GLP-3-R and GLP-2-T products.
+                        *Pricing reflects complete kit configurations (10 vials). Individual vials available exclusively for GLP-3-R and GLP-2-T products.
                       </p>
                     </div>
 
