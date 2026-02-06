@@ -234,11 +234,23 @@ export default function Products() {
                       </p>
                     )}
 
+                    <div className="mb-3 p-2 bg-stone-800/50 border border-stone-700/50 rounded-lg">
+                      <p className="text-[10px] text-stone-400 leading-tight">
+                        *Price shown is for kits. We mainly sell kits. Single vials available only for GLP-3-R and GLP-2-T.
+                      </p>
+                    </div>
+
                     <div className="flex items-center justify-between pt-4 border-t border-stone-700">
                       <div>
                         <p className="text-stone-500 text-xs">Starting at</p>
                         <p className={`text-2xl font-bold ${productInStock ? 'text-red-600' : 'text-stone-500'}`}>
-                          ${product.price_from}
+                          ${(() => {
+                            const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
+                            const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+                            return inStockSpecs.length > 0 
+                              ? Math.min(...inStockSpecs.map(spec => spec.price))
+                              : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
+                          })()}
                         </p>
                       </div>
                       <Button 
