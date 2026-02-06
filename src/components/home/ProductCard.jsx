@@ -50,11 +50,12 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
     setIsUpdating(false);
   };
   
-  // Filter out hidden specifications
+  // Filter out hidden specifications and only show in-stock items
   const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-  const lowestVisiblePrice = visibleSpecs.length > 0 
-    ? Math.min(...visibleSpecs.map(spec => spec.price))
-    : product.price_from;
+  const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+  const lowestVisiblePrice = inStockSpecs.length > 0 
+    ? Math.min(...inStockSpecs.map(spec => spec.price))
+    : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
   
   // Use Red Dirt vial for all products except bacteriostatic water
   const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
