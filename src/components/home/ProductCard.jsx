@@ -170,6 +170,12 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
             </span>
           </div>
 
+          <div className={`mb-3 p-2 bg-stone-800/50 border border-stone-700/50 rounded-lg ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className="text-[10px] text-stone-400 leading-tight">
+              *Price shown is for kits. We mainly sell kits. Single vials available only for GLP-3-R and GLP-2-T.
+            </p>
+          </div>
+
           {!isAuthenticated ? (
             <Link to={createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(window.location.href)}>
               <Button 
