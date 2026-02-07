@@ -1,30 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 import { 
   Shield, CreditCard, AlertTriangle, FileText, Trash2, 
-  CheckCircle, XCircle, Clock, Search, RefreshCw, Download 
+  CheckCircle, XCircle, Clock, Search, RefreshCw, Download, Fingerprint 
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SEO from '@/components/SEO';
+import { useMFA } from '@/components/security/MFAProvider';
+import { createPageUrl } from '@/utils';
 
 export default function PlaidAdminDashboard() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('payment-methods');
+  const [mfaVerified, setMfaVerified] = useState(false);
+  const { requireMFA } = useMFA();
 
-  // Check admin auth
+  // Check admin auth and require phishing-resistant MFA
   const { data: user } = useQuery({
     queryKey: ['user'],
     queryFn: () => base44.auth.me(),
   });
 
-  if (user && user.role !== 'admin') {
-    navigate('/');
-    return null;
+  useEffect(() => {
+    const verifyAdminMFA = async () => {
+      if (!user) return;
+      
+      if (user.role !== 'admin') {
+        navigate(createPageUrl('Home'));
+        return;
+      }
+
+      // Require phishing-resistant MFA for accessing financial data
+      try {
+        await requireMFA('admin_access', async () => {
+          setMfaVerified(true);
+        }, true); // true = phishing-resistant required
+      } catch (error) {
+        console.error('MFA verification failed:', error);
+        navigate(createPageUrl('Home'));
+      }
+    };
+
+    verifyAdminMFA();
+  }, [user, requireMFA, navigate]);
+
+  // Show loading state until MFA is verified
+  if (!user || !mfaVerified) {
+    return (
+      <div className="min-h-screen bg-stone-950 text-white flex items-center justify-center">
+        <div className="text-center">
+          <Fingerprint className="w-16 h-16 text-green-500 mx-auto mb-4 animate-pulse" />
+          <h2 className="text-xl font-bold mb-2">Phishing-Resistant Authentication Required</h2>
+          <p className="text-stone-400">Verifying administrator access to financial data...</p>
+        </div>
+      </div>
+    );
   }
 
   // Fetch payment methods
@@ -148,7 +184,11 @@ export default function PlaidAdminDashboard() {
               <h1 className="text-4xl font-black text-white mb-2">Plaid Admin Dashboard</h1>
               <p className="text-stone-400">Manage Plaid payment methods, fraud detection, and compliance</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="bg-green-950/30 border-green-700/30 text-green-400">
+                <Fingerprint className="w-3 h-3 mr-1" />
+                MFA Verified
+              </Badge>
               <Button onClick={() => window.location.reload()} variant="outline" size="sm">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Refresh
