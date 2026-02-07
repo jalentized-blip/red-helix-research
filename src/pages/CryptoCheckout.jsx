@@ -121,9 +121,11 @@ const PAYMENT_ADDRESSES = {
 
 // Checkout stages
 const CHECKOUT_STAGE = {
+  SELECT_PAYMENT: 'select_payment',
   SELECT_CRYPTO: 'select_crypto',
   CONNECT_WALLET: 'connect_wallet',
   PAYMENT: 'payment',
+  BANK_ACH: 'bank_ach',
   CONFIRMING: 'confirming',
   COMPLETED: 'completed',
   FAILED: 'failed',
