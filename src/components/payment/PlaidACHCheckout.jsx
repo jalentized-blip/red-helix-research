@@ -99,10 +99,10 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     }
   };
 
-  const handleConsentGiven = () => {
+  const handleConsentGiven = async () => {
     setConsentGiven(true);
     setShowConsent(false);
-    createLinkToken();
+    await createLinkToken();
   };
 
   useEffect(() => {
