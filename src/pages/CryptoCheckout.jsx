@@ -1229,33 +1229,35 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           <p className="text-stone-400 mt-2">Choose your preferred payment method - bank account or cryptocurrency</p>
         </div>
 
-        <div className="mb-8">
-          <div className="flex items-center gap-2">
-            {[
-              { stage: CHECKOUT_STAGE.SELECT_CRYPTO, label: 'Select' },
-              { stage: CHECKOUT_STAGE.CONNECT_WALLET, label: 'Connect' },
-              { stage: CHECKOUT_STAGE.PAYMENT, label: 'Pay' },
-              { stage: CHECKOUT_STAGE.CONFIRMING, label: 'Confirm' },
-            ].map((step, index) => {
-              const stages = [CHECKOUT_STAGE.SELECT_CRYPTO, CHECKOUT_STAGE.CONNECT_WALLET, CHECKOUT_STAGE.PAYMENT, CHECKOUT_STAGE.CONFIRMING, CHECKOUT_STAGE.COMPLETED];
-              const currentIndex = stages.indexOf(stage);
-              const stepIndex = stages.indexOf(step.stage);
-              const isActive = stepIndex <= currentIndex;
+        {paymentMethod === 'crypto' && (
+          <div className="mb-8">
+            <div className="flex items-center gap-2">
+              {[
+                { stage: CHECKOUT_STAGE.SELECT_PAYMENT, label: 'Select' },
+                { stage: CHECKOUT_STAGE.CONNECT_WALLET, label: 'Connect' },
+                { stage: CHECKOUT_STAGE.PAYMENT, label: 'Pay' },
+                { stage: CHECKOUT_STAGE.CONFIRMING, label: 'Confirm' },
+              ].map((step, index) => {
+                const stages = [CHECKOUT_STAGE.SELECT_PAYMENT, CHECKOUT_STAGE.CONNECT_WALLET, CHECKOUT_STAGE.PAYMENT, CHECKOUT_STAGE.CONFIRMING, CHECKOUT_STAGE.COMPLETED];
+                const currentIndex = stages.indexOf(stage);
+                const stepIndex = stages.indexOf(step.stage);
+                const isActive = stepIndex <= currentIndex;
 
-              return (
-                <React.Fragment key={step.stage}>
-                  <div className="flex flex-col items-center">
-                    <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${isActive ? 'bg-red-600 text-white' : 'bg-stone-800 text-stone-500'}`}>
-                      {isActive && stepIndex < currentIndex ? <Check className="w-4 h-4" /> : index + 1}
+                return (
+                  <React.Fragment key={step.stage}>
+                    <div className="flex flex-col items-center">
+                      <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${isActive ? 'bg-red-600 text-white' : 'bg-stone-800 text-stone-500'}`}>
+                        {isActive && stepIndex < currentIndex ? <Check className="w-4 h-4" /> : index + 1}
+                      </div>
+                      <span className={`text-xs mt-1 ${isActive ? 'text-amber-50' : 'text-stone-500'}`}>{step.label}</span>
                     </div>
-                    <span className={`text-xs mt-1 ${isActive ? 'text-amber-50' : 'text-stone-500'}`}>{step.label}</span>
-                  </div>
-                  {index < 3 && <div className={`flex-1 h-1 rounded ${stepIndex < currentIndex ? 'bg-red-600' : 'bg-stone-800'}`} />}
-                </React.Fragment>
-              );
-            })}
+                    {index < 3 && <div className={`flex-1 h-1 rounded ${stepIndex < currentIndex ? 'bg-red-600' : 'bg-stone-800'}`} />}
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
