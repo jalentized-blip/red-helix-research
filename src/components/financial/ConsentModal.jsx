@@ -74,7 +74,7 @@ export default function ConsentModal({ isOpen, onClose, onConsent, consentType =
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-stone-900 border-stone-700 max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="bg-stone-900 border-stone-700 max-w-2xl max-h-[80vh] overflow-y-auto" aria-describedby="consent-description">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-white text-xl">
             {consent.icon}
@@ -84,6 +84,7 @@ export default function ConsentModal({ isOpen, onClose, onConsent, consentType =
 
         <div className="space-y-6">
           {/* Important Notice */}
+          <p id="consent-description" className="sr-only">Financial data consent form for Plaid ACH payment processing</p>
           <div className="p-4 bg-blue-950/30 border border-blue-700/30 rounded-xl">
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />

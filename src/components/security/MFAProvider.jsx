@@ -157,7 +157,7 @@ export function MFAProvider({ children }) {
       {children}
 
       <Dialog open={showMFAChallenge} onOpenChange={setShowMFAChallenge}>
-        <DialogContent className="bg-stone-900 border-stone-700 max-w-md">
+        <DialogContent className="bg-stone-900 border-stone-700 max-w-md" aria-describedby="mfa-description">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3 text-white text-xl">
               {mfaMethod === 'webauthn' ? (
@@ -167,7 +167,7 @@ export function MFAProvider({ children }) {
               )}
               {mfaMethod === 'webauthn' ? 'Phishing-Resistant Authentication' : 'Multi-Factor Authentication'}
             </DialogTitle>
-            <DialogDescription className="text-stone-400 mt-2">
+            <DialogDescription id="mfa-description" className="text-stone-400 mt-2">
               {getChallengeDescription()}
             </DialogDescription>
           </DialogHeader>

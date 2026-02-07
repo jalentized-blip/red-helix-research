@@ -47,9 +47,6 @@ Deno.serve(async (req) => {
           depository: {
             account_subtypes: ['checking', 'savings']
           }
-        },
-        payment_initiation: {
-          payment_id: null // Set when initiating specific payment
         }
       })
     });
