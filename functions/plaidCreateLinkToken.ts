@@ -11,7 +11,6 @@ Deno.serve(async (req) => {
 
     const PLAID_CLIENT_ID = Deno.env.get("PLAID_CLIENT_ID");
     const PLAID_SECRET = Deno.env.get("PLAID_SECRET");
-    const PLAID_ENV = Deno.env.get("PLAID_ENVIRONMENT") || "sandbox";
 
     if (!PLAID_CLIENT_ID || !PLAID_SECRET) {
       return Response.json({ 
@@ -19,9 +18,8 @@ Deno.serve(async (req) => {
       }, { status: 500 });
     }
 
-    const plaidUrl = PLAID_ENV === "production" 
-      ? "https://production.plaid.com"
-      : "https://sandbox.plaid.com";
+    // Always use sandbox for now
+    const plaidUrl = "https://sandbox.plaid.com";
 
     // Create link token for ACH payment authorization
     const response = await fetch(`${plaidUrl}/link/token/create`, {
@@ -45,10 +43,11 @@ Deno.serve(async (req) => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('Plaid Link Token Error:', data);
+      console.error('Plaid Link Token Error:', JSON.stringify(data));
       return Response.json({ 
-        error: data.error_message || 'Failed to create link token' 
-      }, { status: 500 });
+        error: data.error_message || data.display_message || 'Failed to create link token',
+        details: data
+      }, { status: response.status });
     }
 
     return Response.json({ 
