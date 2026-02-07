@@ -95,11 +95,11 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
 
   const { open, ready } = usePlaidLink(config);
 
-  const handleConnectBank = () => {
+  const handleConnectBank = async () => {
     if (!consentGiven) {
       setShowConsent(true);
     } else {
-      createLinkToken();
+      await createLinkToken();
     }
   };
 
