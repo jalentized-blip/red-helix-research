@@ -65,6 +65,7 @@ import ConversionTracking from './pages/ConversionTracking';
 import CryptoCheckout from './pages/CryptoCheckout';
 import CustomerInfo from './pages/CustomerInfo';
 import CustomerTestimonials from './pages/CustomerTestimonials';
+import DataRetentionPolicy from './pages/DataRetentionPolicy';
 import DeploymentGuide from './pages/DeploymentGuide';
 import EmailAutomationStrategy from './pages/EmailAutomationStrategy';
 import ExpandedFAQ from './pages/ExpandedFAQ';
@@ -89,6 +90,9 @@ import PeptideInstructions from './pages/PeptideInstructions';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
+import PlaidCompliance from './pages/PlaidCompliance';
+import PlaidDataRetention from './pages/PlaidDataRetention';
+import PlaidPrivacy from './pages/PlaidPrivacy';
 import Policies from './pages/Policies';
 import ProductBPC157 from './pages/ProductBPC157';
 import ProductSemaglutide from './pages/ProductSemaglutide';
@@ -100,13 +104,10 @@ import ResourceHub from './pages/ResourceHub';
 import SEOGuide from './pages/SEOGuide';
 import SEOMonitoring from './pages/SEOMonitoring';
 import SecurityCompliance from './pages/SecurityCompliance';
+import SecurityDashboard from './pages/SecurityDashboard';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import SecurityDashboard from './pages/SecurityDashboard';
-import PlaidPrivacy from './pages/PlaidPrivacy';
-import DataRetentionPolicy from './pages/DataRetentionPolicy';
-import PlaidCompliance from './pages/PlaidCompliance';
-import PlaidDataRetention from './pages/PlaidDataRetention';
+import PlaidAdminDashboard from './pages/PlaidAdminDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -129,6 +130,7 @@ export const PAGES = {
     "CryptoCheckout": CryptoCheckout,
     "CustomerInfo": CustomerInfo,
     "CustomerTestimonials": CustomerTestimonials,
+    "DataRetentionPolicy": DataRetentionPolicy,
     "DeploymentGuide": DeploymentGuide,
     "EmailAutomationStrategy": EmailAutomationStrategy,
     "ExpandedFAQ": ExpandedFAQ,
@@ -153,6 +155,9 @@ export const PAGES = {
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
+    "PlaidCompliance": PlaidCompliance,
+    "PlaidDataRetention": PlaidDataRetention,
+    "PlaidPrivacy": PlaidPrivacy,
     "Policies": Policies,
     "ProductBPC157": ProductBPC157,
     "ProductSemaglutide": ProductSemaglutide,
@@ -164,13 +169,10 @@ export const PAGES = {
     "SEOGuide": SEOGuide,
     "SEOMonitoring": SEOMonitoring,
     "SecurityCompliance": SecurityCompliance,
+    "SecurityDashboard": SecurityDashboard,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "SecurityDashboard": SecurityDashboard,
-    "PlaidPrivacy": PlaidPrivacy,
-    "DataRetentionPolicy": DataRetentionPolicy,
-    "PlaidCompliance": PlaidCompliance,
-    "PlaidDataRetention": PlaidDataRetention,
+    "PlaidAdminDashboard": PlaidAdminDashboard,
 }
 
 export const pagesConfig = {

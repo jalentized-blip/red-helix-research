@@ -41,6 +41,21 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
+    // Run fraud detection
+    const fraudCheck = await base44.functions.invoke('plaidFraudDetection', {
+      order_id,
+      amount,
+      plaid_item_id
+    });
+
+    if (fraudCheck.data?.requires_review) {
+      return Response.json({
+        error: 'Payment flagged for review',
+        risk_score: fraudCheck.data.risk_score,
+        requires_manual_review: true
+      }, { status: 403 });
+    }
+
     const PLAID_CLIENT_ID = Deno.env.get("PLAID_CLIENT_ID");
     const PLAID_SECRET = Deno.env.get("PLAID_SECRET");
     const PLAID_ENV = Deno.env.get("PLAID_ENVIRONMENT") || "sandbox";

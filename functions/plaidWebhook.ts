@@ -18,6 +18,17 @@ Deno.serve(async (req) => {
 
     console.log('Plaid webhook received:', webhook.webhook_type, webhook.webhook_code);
 
+    // Log webhook event
+    await base44.asServiceRole.entities.PlaidWebhookLog.create({
+      webhook_type: webhook.webhook_type,
+      webhook_code: webhook.webhook_code,
+      item_id: webhook.item_id || '',
+      transfer_id: webhook.transfer_id || '',
+      status: webhook.transfer_status || webhook.webhook_code,
+      payload: webhookBody,
+      processed: true
+    });
+
     // Handle different webhook types
     switch (webhook.webhook_type) {
       case 'TRANSFER':

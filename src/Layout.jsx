@@ -781,6 +781,9 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('PlaidDataRetention')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                               Plaid Data Disposal
                               </Link>
+                              <Link to={createPageUrl('PlaidAdminDashboard')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              Plaid Admin Dashboard
+                              </Link>
                               </>
                               )}
                               </>
