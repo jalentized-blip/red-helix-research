@@ -103,6 +103,8 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
 import SecurityDashboard from './pages/SecurityDashboard';
+import PlaidPrivacy from './pages/PlaidPrivacy';
+import DataRetentionPolicy from './pages/DataRetentionPolicy';
 import __Layout from './Layout.jsx';
 
 
@@ -163,6 +165,8 @@ export const PAGES = {
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
     "SecurityDashboard": SecurityDashboard,
+    "PlaidPrivacy": PlaidPrivacy,
+    "DataRetentionPolicy": DataRetentionPolicy,
 }
 
 export const pagesConfig = {

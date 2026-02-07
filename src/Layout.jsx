@@ -19,6 +19,7 @@ import AbandonedCartTracker from '@/components/AbandonedCartTracker';
 import { Shield } from 'lucide-react';
 import { ZeroTrustProvider } from '@/components/security/ZeroTrustProvider';
 import SecurityMonitor from '@/components/security/SecurityMonitor';
+import { MFAProvider } from '@/components/security/MFAProvider';
 
 
 
@@ -353,6 +354,7 @@ const HeaderSearch = () => {
 
   return (
     <ZeroTrustProvider>
+    <MFAProvider>
     <div className="min-h-screen bg-stone-950 relative">
         <Helmet>
           <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>
@@ -767,6 +769,12 @@ const HeaderSearch = () => {
                               <Shield className="w-4 h-4" />
                               Zero Trust Security
                               </Link>
+                              <Link to={createPageUrl('PlaidPrivacy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              Financial Privacy
+                              </Link>
+                              <Link to={createPageUrl('DataRetentionPolicy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              Data Retention
+                              </Link>
                               </>
                               )}
                               </>
@@ -845,6 +853,7 @@ const HeaderSearch = () => {
       <AbandonedCartTracker />
       <SecurityMonitor />
       </div>
+      </MFAProvider>
       </ZeroTrustProvider>
       );
       }
