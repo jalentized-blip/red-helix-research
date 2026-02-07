@@ -110,13 +110,11 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
   };
 
   useEffect(() => {
-    if (ready && linkToken && !loading) {
-      // Small delay to ensure modal is closed
-      setTimeout(() => {
-        open();
-      }, 100);
+    if (ready && linkToken) {
+      console.log('Opening Plaid Link - ready:', ready, 'linkToken:', !!linkToken);
+      open();
     }
-  }, [ready, linkToken, loading, open]);
+  }, [ready, linkToken, open]);
 
   const handlePayment = async () => {
     if (!paymentMethod) return;
