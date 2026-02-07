@@ -23,6 +23,21 @@ Deno.serve(async (req) => {
       ? "https://production.plaid.com"
       : "https://sandbox.plaid.com";
 
+    // Construct user object with validation
+    const plaidUser: any = {
+      client_user_id: user.id
+    };
+
+    if (user.email && user.email.includes('@')) {
+      plaidUser.email_address = user.email;
+    }
+
+    // Plaid requires E.164 format (e.g., +14155552671)
+    // Only include phone number if it matches the strict format to avoid 400 errors
+    if (user.phone_number && /^\+[1-9]\d{1,14}$/.test(user.phone_number)) {
+      plaidUser.phone_number = user.phone_number;
+    }
+
     // Create link token for ACH payment authorization
     const response = await fetch(`${plaidUrl}/link/token/create`, {
       method: 'POST',
@@ -32,11 +47,7 @@ Deno.serve(async (req) => {
         'PLAID-SECRET': PLAID_SECRET,
       },
       body: JSON.stringify({
-        user: {
-          client_user_id: user.id,
-          email_address: user.email, // Recommended for better conversion
-          phone_number: user.phone_number || undefined // Pass if available
-        },
+        user: plaidUser,
         client_name: 'Red Helix Research',
         products: ['auth'], // Add 'transfer' here if using Transfer UI flow, but 'auth' is sufficient for auth-then-transfer
         country_codes: ['US'],
