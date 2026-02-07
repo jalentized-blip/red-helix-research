@@ -45,7 +45,11 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     try {
       setLoading(true);
       const { data } = await base44.functions.invoke('plaidCreateLinkToken', {});
-      setLinkToken(data.link_token);
+      if (data?.link_token) {
+        setLinkToken(data.link_token);
+      } else {
+        throw new Error('No link token received');
+      }
     } catch (error) {
       console.error('Error creating link token:', error);
       onError?.(error.message || 'Failed to initialize payment');
