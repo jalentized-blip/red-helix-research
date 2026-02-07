@@ -36,7 +36,8 @@ Deno.serve(async (req) => {
         client_name: 'Red Helix Research',
         products: ['auth'],
         country_codes: ['US'],
-        language: 'en'
+        language: 'en',
+        redirect_uri: 'https://localhost:3000'
       })
     });
 
