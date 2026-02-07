@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, CheckCircle, Circle, ChevronRight, BookOpen, Award } from 'lucide-react';
+import { EDUCATIONAL_CONTENT } from './educationalContent';
 
 // Memoized topic item
 const TopicItem = React.memo(({ topic, isCompleted, isActive, moduleColor, onClick }) => (
@@ -41,61 +42,128 @@ const TopicItem = React.memo(({ topic, isCompleted, isActive, moduleColor, onCli
   </button>
 ));
 
-const TopicModal = React.memo(({ topic, moduleColor, moduleLevel, onComplete, onClose }) => (
-  <div 
-    className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-    onClick={onClose}
-  >
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className="bg-stone-900 border-2 border-stone-700 rounded-2xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+const TopicModal = React.memo(({ topic, moduleColor, moduleLevel, onComplete, onClose }) => {
+  const content = EDUCATIONAL_CONTENT[topic];
+  
+  if (!content) {
+    return (
+      <div 
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={onClose}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-stone-900 border-2 border-stone-700 rounded-2xl p-8 max-w-2xl w-full"
+        >
+          <p className="text-stone-300">Content not available for this topic.</p>
+          <Button onClick={onClose} className="mt-4">Close</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      onClick={onClose}
     >
-      <div className="flex items-start gap-4 mb-6">
-        <div className={`w-12 h-12 bg-gradient-to-br ${moduleColor} rounded-xl flex items-center justify-center flex-shrink-0`}>
-          <BookOpen className="w-6 h-6 text-white" />
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-stone-900 border-2 border-stone-700 rounded-2xl p-8 max-w-4xl w-full max-h-[85vh] overflow-y-auto"
+      >
+        <div className="flex items-start gap-4 mb-6">
+          <div className={`w-12 h-12 bg-gradient-to-br ${moduleColor} rounded-xl flex items-center justify-center flex-shrink-0`}>
+            <BookOpen className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-amber-50 mb-2">
+              {topic}
+            </h2>
+            <p className="text-stone-400">
+              {moduleLevel} Level Topic
+            </p>
+          </div>
         </div>
-        <div className="flex-1">
-          <h2 className="text-2xl font-bold text-amber-50 mb-2">
-            {topic}
-          </h2>
-          <p className="text-stone-400">
-            {moduleLevel} Level Topic
-          </p>
+
+        <div className="space-y-6 mb-8">
+          {/* Overview */}
+          <div>
+            <h3 className="text-lg font-bold text-amber-50 mb-3">Overview</h3>
+            <p className="text-stone-300 leading-relaxed">{content.overview}</p>
+          </div>
+
+          {/* Key Points */}
+          <div>
+            <h3 className="text-lg font-bold text-amber-50 mb-3">Key Points</h3>
+            <ul className="space-y-2">
+              {content.keyPoints.map((point, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-stone-300">
+                  <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Mechanism */}
+          <div>
+            <h3 className="text-lg font-bold text-amber-50 mb-3">Mechanism of Action</h3>
+            <p className="text-stone-300 leading-relaxed">{content.mechanism}</p>
+          </div>
+
+          {/* Examples */}
+          <div>
+            <h3 className="text-lg font-bold text-amber-50 mb-3">Practical Examples</h3>
+            <div className="space-y-3">
+              {content.examples.map((example, idx) => (
+                <div key={idx} className="bg-stone-800/50 border border-stone-700 rounded-lg p-4">
+                  <p className="text-stone-300">{example}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Safety */}
+          <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-yellow-100 mb-2 flex items-center gap-2">
+              <span>⚠️</span> Safety & Quality Considerations
+            </h3>
+            <p className="text-yellow-100/80 leading-relaxed">{content.safety}</p>
+          </div>
+
+          {/* Common Mistakes */}
+          <div>
+            <h3 className="text-lg font-bold text-amber-50 mb-3">Common Mistakes to Avoid</h3>
+            <ul className="space-y-2">
+              {content.commonMistakes.map((mistake, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-stone-300">
+                  <span className="text-red-500 mt-0.5">✗</span>
+                  <span>{mistake}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div className="prose prose-invert max-w-none mb-8">
-        <p className="text-stone-300 leading-relaxed">
-          This is where the detailed educational content for "{topic}" would appear. 
-          In a full implementation, this would include:
-        </p>
-        <ul className="text-stone-300 space-y-2 mt-4">
-          <li>Comprehensive explanations of the concept</li>
-          <li>Visual diagrams and illustrations</li>
-          <li>Practical examples and applications</li>
-          <li>Common mistakes to avoid</li>
-          <li>Additional resources for deeper learning</li>
-        </ul>
-      </div>
-
-      <div className="flex gap-3">
-        <Button
-          onClick={onComplete}
-          className="flex-1"
-        >
-          <CheckCircle className="w-4 h-4 mr-2" />
-          Mark as Complete
-        </Button>
-        <Button
-          variant="outline"
-          onClick={onClose}
-        >
-          Close
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            onClick={onComplete}
+            className="flex-1"
+          >
+            <CheckCircle className="w-4 h-4 mr-2" />
+            Mark as Complete
+          </Button>
+          <Button
+            variant="outline"
+            onClick={onClose}
+          >
+            Close
+          </Button>
+        </div>
       </div>
     </div>
-  </div>
-));
+  );
+});
 
 export default function LearningPathway({ module, onBack, onComplete }) {
   const [completedTopics, setCompletedTopics] = useState([]);
