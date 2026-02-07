@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Play, Pause, RotateCcw, Zap, Activity, TrendingUp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Play, Pause, RotateCcw, Zap, Activity } from 'lucide-react';
 
 const MECHANISMS = [
   {
@@ -14,25 +13,25 @@ const MECHANISMS = [
         step: 1,
         title: 'Receptor Binding',
         description: 'BPC-157 binds to growth factor receptors on cell surface',
-        duration: 2
+        duration: 2000
       },
       {
         step: 2,
         title: 'VEGF Upregulation',
         description: 'Activates VEGF pathway, stimulating new blood vessel formation',
-        duration: 3
+        duration: 3000
       },
       {
         step: 3,
         title: 'Fibroblast Migration',
         description: 'Enhances fibroblast movement to injury site for collagen synthesis',
-        duration: 3
+        duration: 3000
       },
       {
         step: 4,
         title: 'Tissue Regeneration',
         description: 'Promotes organized tissue repair and reduces inflammation',
-        duration: 4
+        duration: 4000
       }
     ],
     color: 'from-green-600 to-green-700'
@@ -47,25 +46,25 @@ const MECHANISMS = [
         step: 1,
         title: 'GLP-1R Binding',
         description: 'Peptide binds to GLP-1 receptors on pancreatic beta cells',
-        duration: 2
+        duration: 2000
       },
       {
         step: 2,
         title: 'cAMP Cascade',
         description: 'Activates adenylyl cyclase, increasing intracellular cAMP',
-        duration: 3
+        duration: 3000
       },
       {
         step: 3,
         title: 'Insulin Secretion',
         description: 'Glucose-dependent insulin release from beta cells',
-        duration: 3
+        duration: 3000
       },
       {
         step: 4,
         title: 'Appetite Modulation',
         description: 'Central nervous system effects on hypothalamic appetite centers',
-        duration: 4
+        duration: 4000
       }
     ],
     color: 'from-blue-600 to-blue-700'
@@ -80,73 +79,114 @@ const MECHANISMS = [
         step: 1,
         title: 'Actin Sequestration',
         description: 'TB-500 binds to G-actin, regulating polymerization',
-        duration: 2
+        duration: 2000
       },
       {
         step: 2,
         title: 'Cell Migration',
         description: 'Facilitates directional cell movement to damaged areas',
-        duration: 3
+        duration: 3000
       },
       {
         step: 3,
         title: 'Differentiation Signals',
         description: 'Promotes stem cell differentiation into target tissue types',
-        duration: 3
+        duration: 3000
       },
       {
         step: 4,
         title: 'Anti-Inflammatory Effects',
         description: 'Modulates inflammatory response for optimal healing',
-        duration: 4
+        duration: 4000
       }
     ],
     color: 'from-purple-600 to-purple-700'
   }
 ];
 
+// Memoized pathway step
+const PathwayStep = React.memo(({ pathway, isActive, isComplete, color }) => (
+  <div className={`relative flex items-start gap-6 p-6 rounded-xl border-2 transition-all ${
+    isComplete
+      ? `bg-gradient-to-r ${color}/10 border-white/20`
+      : 'bg-stone-800/30 border-stone-700'
+  }`}>
+    <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 ${
+      isComplete
+        ? `bg-gradient-to-br ${color} text-white`
+        : 'bg-stone-700 text-stone-400'
+    }`}>
+      {pathway.step}
+    </div>
+    <div className="flex-1">
+      <h3 className="text-xl font-bold text-amber-50 mb-2">
+        {pathway.title}
+      </h3>
+      <p className="text-stone-300">
+        {pathway.description}
+      </p>
+    </div>
+    {isActive && (
+      <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0 animate-pulse" />
+    )}
+  </div>
+));
+
 export default function MechanismVisualizer({ onBack }) {
   const [selectedMechanism, setSelectedMechanism] = useState(MECHANISMS[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const timeoutsRef = useRef([]);
 
-  const handlePlay = () => {
+  useEffect(() => {
+    return () => {
+      timeoutsRef.current.forEach(clearTimeout);
+    };
+  }, []);
+
+  const handlePlay = useCallback(() => {
     setIsPlaying(true);
-    animateSteps();
-  };
-
-  const handlePause = () => {
-    setIsPlaying(false);
-  };
-
-  const handleReset = () => {
-    setIsPlaying(false);
     setCurrentStep(0);
     setProgress(0);
-  };
-
-  const animateSteps = () => {
-    // This would be enhanced with actual animation timing
-    setCurrentStep(0);
+    
+    let cumulativeTime = 0;
+    timeoutsRef.current = [];
+    
     selectedMechanism.pathways.forEach((pathway, idx) => {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setCurrentStep(idx + 1);
         setProgress(((idx + 1) / selectedMechanism.pathways.length) * 100);
         if (idx === selectedMechanism.pathways.length - 1) {
           setIsPlaying(false);
         }
-      }, pathway.duration * 1000);
+      }, cumulativeTime);
+      timeoutsRef.current.push(timeout);
+      cumulativeTime += pathway.duration;
     });
-  };
+  }, [selectedMechanism]);
+
+  const handlePause = useCallback(() => {
+    setIsPlaying(false);
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setIsPlaying(false);
+    setCurrentStep(0);
+    setProgress(0);
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+  }, []);
+
+  const handleMechanismChange = useCallback((mechanism) => {
+    handleReset();
+    setSelectedMechanism(mechanism);
+  }, [handleReset]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="max-w-6xl mx-auto"
-    >
+    <div className="max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <Button variant="outline" onClick={onBack}>
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -163,13 +203,10 @@ export default function MechanismVisualizer({ onBack }) {
         {MECHANISMS.map((mechanism) => (
           <button
             key={mechanism.id}
-            onClick={() => {
-              setSelectedMechanism(mechanism);
-              handleReset();
-            }}
+            onClick={() => handleMechanismChange(mechanism)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
               selectedMechanism.id === mechanism.id
-                ? 'bg-gradient-to-br ' + mechanism.color + ' border-white/30'
+                ? `bg-gradient-to-br ${mechanism.color} border-white/30`
                 : 'bg-stone-900/60 border-stone-700 hover:border-stone-600'
             }`}
           >
@@ -192,60 +229,22 @@ export default function MechanismVisualizer({ onBack }) {
         <div className="relative">
           {/* Progress Bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-stone-800 rounded-full overflow-hidden mb-8">
-            <motion.div
-              className={`h-full bg-gradient-to-r ${selectedMechanism.color}`}
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5 }}
+            <div
+              className={`h-full bg-gradient-to-r ${selectedMechanism.color} transition-all duration-500`}
+              style={{ width: `${progress}%` }}
             />
           </div>
 
           {/* Steps */}
           <div className="space-y-6 mt-8">
             {selectedMechanism.pathways.map((pathway, idx) => (
-              <motion.div
+              <PathwayStep
                 key={idx}
-                initial={{ opacity: 0.3, x: -20 }}
-                animate={{
-                  opacity: currentStep >= pathway.step ? 1 : 0.3,
-                  x: currentStep >= pathway.step ? 0 : -20,
-                  scale: currentStep === pathway.step ? 1.02 : 1
-                }}
-                transition={{ duration: 0.5 }}
-                className={`relative flex items-start gap-6 p-6 rounded-xl border-2 transition-all ${
-                  currentStep >= pathway.step
-                    ? 'bg-gradient-to-r ' + selectedMechanism.color + '/10 border-white/20'
-                    : 'bg-stone-800/30 border-stone-700'
-                }`}
-              >
-                {/* Step Number */}
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 ${
-                  currentStep >= pathway.step
-                    ? 'bg-gradient-to-br ' + selectedMechanism.color + ' text-white'
-                    : 'bg-stone-700 text-stone-400'
-                }`}>
-                  {pathway.step}
-                </div>
-
-                {/* Content */}
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-amber-50 mb-2">
-                    {pathway.title}
-                  </h3>
-                  <p className="text-stone-300">
-                    {pathway.description}
-                  </p>
-                </div>
-
-                {/* Active Indicator */}
-                {currentStep === pathway.step && isPlaying && (
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"
-                  />
-                )}
-              </motion.div>
+                pathway={pathway}
+                isActive={currentStep === pathway.step && isPlaying}
+                isComplete={currentStep >= pathway.step}
+                color={selectedMechanism.color}
+              />
             ))}
           </div>
         </div>
@@ -297,6 +296,6 @@ export default function MechanismVisualizer({ onBack }) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

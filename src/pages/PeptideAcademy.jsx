@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import React, { useState, useMemo, lazy, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { 
-  Brain, Microscope, FlaskConical, Dna, Target, Shield, 
+  Brain, Microscope, FlaskConical, Dna, Target,
   ChevronRight, Sparkles, BookOpen, GraduationCap, Zap,
-  TrendingUp, Activity, AlertCircle, CheckCircle, ArrowLeft
+  Activity, AlertCircle, CheckCircle, ArrowLeft
 } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { motion, AnimatePresence } from 'framer-motion';
-import LearningPathway from '@/components/academy/LearningPathway';
-import AIResearchAssistant from '@/components/academy/AIResearchAssistant';
-import MechanismVisualizer from '@/components/academy/MechanismVisualizer';
-import InteractiveQuiz from '@/components/academy/InteractiveQuiz';
+
+// Lazy load heavy components
+const LearningPathway = lazy(() => import('@/components/academy/LearningPathway'));
+const AIResearchAssistant = lazy(() => import('@/components/academy/AIResearchAssistant'));
+const MechanismVisualizer = lazy(() => import('@/components/academy/MechanismVisualizer'));
 
 const LEARNING_MODULES = [
   {
@@ -106,11 +105,93 @@ const POPULAR_QUESTIONS = [
   }
 ];
 
+// Memoized components
+const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
+  const Icon = module.icon;
+  return (
+    <button
+      onClick={onClick}
+      className="text-left bg-stone-900/60 border-2 border-stone-700 rounded-2xl p-6 hover:border-red-600/50 transition-all group"
+    >
+      <div className={`w-14 h-14 bg-gradient-to-br ${module.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+        <Icon className="w-7 h-7 text-white" />
+      </div>
+      <div className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
+        {module.level}
+      </div>
+      <h3 className="text-xl font-bold text-amber-50 mb-3 group-hover:text-red-400 transition-colors">
+        {module.title}
+      </h3>
+      <ul className="space-y-2 mb-4">
+        {module.topics.slice(0, 3).map((topic, idx) => (
+          <li key={idx} className="text-sm text-stone-400 flex items-start gap-2">
+            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+            {topic}
+          </li>
+        ))}
+        {module.topics.length > 3 && (
+          <li className="text-sm text-stone-500 italic">
+            +{module.topics.length - 3} more topics
+          </li>
+        )}
+      </ul>
+      <div className="flex items-center justify-between pt-4 border-t border-stone-700">
+        <span className="text-sm text-stone-400">
+          {userProgress}% Complete
+        </span>
+        <ChevronRight className="w-5 h-5 text-stone-600 group-hover:text-red-400 group-hover:translate-x-1 transition-all" />
+      </div>
+    </button>
+  );
+});
+
+const QuestionSection = React.memo(({ section, onQuestionClick }) => (
+  <div className="bg-stone-900/60 border border-stone-700 rounded-2xl p-6">
+    <h3 className="text-lg font-bold text-amber-50 mb-4 flex items-center gap-2">
+      <FlaskConical className="w-5 h-5 text-red-400" />
+      {section.category}
+    </h3>
+    <ul className="space-y-3">
+      {section.questions.map((question, qIdx) => (
+        <li key={qIdx}>
+          <button
+            onClick={() => onQuestionClick(question)}
+            className="text-left text-sm text-stone-300 hover:text-red-400 transition-colors flex items-start gap-2 group w-full"
+          >
+            <ChevronRight className="w-4 h-4 mt-0.5 text-stone-600 group-hover:text-red-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+            {question}
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+));
+
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center py-20">
+    <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+  </div>
+);
+
 export default function PeptideAcademy() {
   const [selectedModule, setSelectedModule] = useState(null);
-  const [activeView, setActiveView] = useState('overview'); // overview, pathway, assistant, visualizer, quiz
+  const [activeView, setActiveView] = useState('overview');
   const [userProgress, setUserProgress] = useState({ beginner: 0, intermediate: 0, advanced: 0 });
   const [showQuickStart, setShowQuickStart] = useState(true);
+
+  const selectedModuleData = useMemo(
+    () => LEARNING_MODULES.find(m => m.id === selectedModule),
+    [selectedModule]
+  );
+
+  const handleModuleClick = (moduleId) => {
+    setSelectedModule(moduleId);
+    setActiveView('pathway');
+  };
+
+  const handleQuestionClick = (question) => {
+    setActiveView('assistant');
+  };
 
   return (
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
@@ -128,118 +209,104 @@ export default function PeptideAcademy() {
           </Button>
         </Link>
 
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600/20 to-purple-600/20 border border-red-600/30 rounded-full mb-6">
-            <Sparkles className="w-4 h-4 text-red-400" />
-            <span className="text-sm font-bold text-amber-50">AI-Powered Learning Experience</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-black text-amber-50 mb-6">
-            Peptide Research
-            <span className="block bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-              Academy
-            </span>
-          </h1>
-          
-          <p className="text-xl text-stone-300 max-w-3xl mx-auto mb-8">
-            Master the science of research peptides through interactive AI-guided learning, 
-            visual mechanism diagrams, and personalized study paths tailored to your knowledge level.
-          </p>
+        {/* Hero Section - Static, no animation on mount */}
+        {activeView === 'overview' && (
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600/20 to-purple-600/20 border border-red-600/30 rounded-full mb-6">
+              <Sparkles className="w-4 h-4 text-red-400" />
+              <span className="text-sm font-bold text-amber-50">AI-Powered Learning Experience</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-black text-amber-50 mb-6">
+              Peptide Research
+              <span className="block bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+                Academy
+              </span>
+            </h1>
+            
+            <p className="text-xl text-stone-300 max-w-3xl mx-auto mb-8">
+              Master the science of research peptides through interactive AI-guided learning, 
+              visual mechanism diagrams, and personalized study paths tailored to your knowledge level.
+            </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button 
-              size="lg"
-              className="bg-gradient-to-r from-red-600 to-red-700"
-              onClick={() => setActiveView('assistant')}
-            >
-              <Brain className="w-5 h-5 mr-2" />
-              Start AI Assistant
-            </Button>
-            <Button 
-              size="lg"
-              variant="outline"
-              onClick={() => setActiveView('visualizer')}
-            >
-              <Dna className="w-5 h-5 mr-2" />
-              Explore Mechanisms
-            </Button>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-red-600 to-red-700"
+                onClick={() => setActiveView('assistant')}
+              >
+                <Brain className="w-5 h-5 mr-2" />
+                Start AI Assistant
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline"
+                onClick={() => setActiveView('visualizer')}
+              >
+                <Dna className="w-5 h-5 mr-2" />
+                Explore Mechanisms
+              </Button>
+            </div>
           </div>
-        </motion.div>
+        )}
 
         {/* Quick Start Guide */}
-        <AnimatePresence>
-          {showQuickStart && activeView === 'overview' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border-2 border-blue-600/30 rounded-2xl p-8 mb-12 relative"
+        {showQuickStart && activeView === 'overview' && (
+          <div className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border-2 border-blue-600/30 rounded-2xl p-8 mb-12 relative">
+            <button
+              onClick={() => setShowQuickStart(false)}
+              className="absolute top-4 right-4 text-stone-400 hover:text-amber-50 text-2xl leading-none"
             >
-              <button
-                onClick={() => setShowQuickStart(false)}
-                className="absolute top-4 right-4 text-stone-400 hover:text-amber-50"
-              >
-                ×
-              </button>
-              
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-6 h-6 text-blue-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-amber-50 mb-3">
-                    Welcome to Your Learning Journey
-                  </h3>
-                  <p className="text-stone-300 mb-4">
-                    Choose your starting point based on your current knowledge level, or dive straight 
-                    into our AI Research Assistant for personalized guidance.
-                  </p>
-                  <div className="grid md:grid-cols-3 gap-3">
-                    <button
-                      onClick={() => setSelectedModule('beginner')}
-                      className="text-left p-4 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-green-600/50 transition-all group"
-                    >
-                      <BookOpen className="w-5 h-5 text-green-400 mb-2 group-hover:scale-110 transition-transform" />
-                      <div className="font-semibold text-amber-50 mb-1">New to Peptides?</div>
-                      <div className="text-xs text-stone-400">Start with fundamentals</div>
-                    </button>
-                    <button
-                      onClick={() => setActiveView('assistant')}
-                      className="text-left p-4 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-blue-600/50 transition-all group"
-                    >
-                      <Brain className="w-5 h-5 text-blue-400 mb-2 group-hover:scale-110 transition-transform" />
-                      <div className="font-semibold text-amber-50 mb-1">Have Questions?</div>
-                      <div className="text-xs text-stone-400">Ask our AI assistant</div>
-                    </button>
-                    <button
-                      onClick={() => setActiveView('visualizer')}
-                      className="text-left p-4 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-purple-600/50 transition-all group"
-                    >
-                      <Dna className="w-5 h-5 text-purple-400 mb-2 group-hover:scale-110 transition-transform" />
-                      <div className="font-semibold text-amber-50 mb-1">Visual Learner?</div>
-                      <div className="text-xs text-stone-400">See mechanisms in action</div>
-                    </button>
-                  </div>
+              ×
+            </button>
+            
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Zap className="w-6 h-6 text-blue-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-amber-50 mb-3">
+                  Welcome to Your Learning Journey
+                </h3>
+                <p className="text-stone-300 mb-4">
+                  Choose your starting point based on your current knowledge level, or dive straight 
+                  into our AI Research Assistant for personalized guidance.
+                </p>
+                <div className="grid md:grid-cols-3 gap-3">
+                  <button
+                    onClick={() => handleModuleClick('beginner')}
+                    className="text-left p-4 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-green-600/50 transition-all group"
+                  >
+                    <BookOpen className="w-5 h-5 text-green-400 mb-2 group-hover:scale-110 transition-transform" />
+                    <div className="font-semibold text-amber-50 mb-1">New to Peptides?</div>
+                    <div className="text-xs text-stone-400">Start with fundamentals</div>
+                  </button>
+                  <button
+                    onClick={() => setActiveView('assistant')}
+                    className="text-left p-4 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-blue-600/50 transition-all group"
+                  >
+                    <Brain className="w-5 h-5 text-blue-400 mb-2 group-hover:scale-110 transition-transform" />
+                    <div className="font-semibold text-amber-50 mb-1">Have Questions?</div>
+                    <div className="text-xs text-stone-400">Ask our AI assistant</div>
+                  </button>
+                  <button
+                    onClick={() => setActiveView('visualizer')}
+                    className="text-left p-4 bg-stone-900/50 border border-stone-700 rounded-lg hover:border-purple-600/50 transition-all group"
+                  >
+                    <Dna className="w-5 h-5 text-purple-400 mb-2 group-hover:scale-110 transition-transform" />
+                    <div className="font-semibold text-amber-50 mb-1">Visual Learner?</div>
+                    <div className="text-xs text-stone-400">See mechanisms in action</div>
+                  </button>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </div>
+        )}
 
         {/* Main Content Switcher */}
-        <AnimatePresence mode="wait">
+        <Suspense fallback={<LoadingFallback />}>
           {activeView === 'overview' && (
-            <motion.div
-              key="overview"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
+            <>
               {/* Learning Modules */}
               <div className="mb-16">
                 <h2 className="text-3xl font-bold text-amber-50 mb-8 flex items-center gap-3">
@@ -247,49 +314,14 @@ export default function PeptideAcademy() {
                   Structured Learning Paths
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6">
-                  {LEARNING_MODULES.map((module) => {
-                    const Icon = module.icon;
-                    return (
-                      <motion.button
-                        key={module.id}
-                        whileHover={{ scale: 1.02 }}
-                        onClick={() => {
-                          setSelectedModule(module.id);
-                          setActiveView('pathway');
-                        }}
-                        className="text-left bg-stone-900/60 border-2 border-stone-700 rounded-2xl p-6 hover:border-red-600/50 transition-all group"
-                      >
-                        <div className={`w-14 h-14 bg-gradient-to-br ${module.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                          <Icon className="w-7 h-7 text-white" />
-                        </div>
-                        <div className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
-                          {module.level}
-                        </div>
-                        <h3 className="text-xl font-bold text-amber-50 mb-3 group-hover:text-red-400 transition-colors">
-                          {module.title}
-                        </h3>
-                        <ul className="space-y-2 mb-4">
-                          {module.topics.slice(0, 3).map((topic, idx) => (
-                            <li key={idx} className="text-sm text-stone-400 flex items-start gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                              {topic}
-                            </li>
-                          ))}
-                          {module.topics.length > 3 && (
-                            <li className="text-sm text-stone-500 italic">
-                              +{module.topics.length - 3} more topics
-                            </li>
-                          )}
-                        </ul>
-                        <div className="flex items-center justify-between pt-4 border-t border-stone-700">
-                          <span className="text-sm text-stone-400">
-                            {userProgress[module.id]}% Complete
-                          </span>
-                          <ChevronRight className="w-5 h-5 text-stone-600 group-hover:text-red-400 group-hover:translate-x-1 transition-all" />
-                        </div>
-                      </motion.button>
-                    );
-                  })}
+                  {LEARNING_MODULES.map((module) => (
+                    <ModuleCard
+                      key={module.id}
+                      module={module}
+                      userProgress={userProgress[module.id]}
+                      onClick={() => handleModuleClick(module.id)}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -300,8 +332,7 @@ export default function PeptideAcademy() {
                   Interactive Learning Tools
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
+                  <button
                     onClick={() => setActiveView('assistant')}
                     className="text-left bg-gradient-to-br from-blue-600/10 to-blue-700/5 border-2 border-blue-600/30 rounded-2xl p-8 hover:border-blue-500/50 transition-all group"
                   >
@@ -317,10 +348,9 @@ export default function PeptideAcademy() {
                       Start Conversation
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-                  </motion.button>
+                  </button>
 
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
+                  <button
                     onClick={() => setActiveView('visualizer')}
                     className="text-left bg-gradient-to-br from-purple-600/10 to-purple-700/5 border-2 border-purple-600/30 rounded-2xl p-8 hover:border-purple-500/50 transition-all group"
                   >
@@ -336,7 +366,7 @@ export default function PeptideAcademy() {
                       Explore Mechanisms
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-                  </motion.button>
+                  </button>
                 </div>
               </div>
 
@@ -348,37 +378,20 @@ export default function PeptideAcademy() {
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   {POPULAR_QUESTIONS.map((section, idx) => (
-                    <div key={idx} className="bg-stone-900/60 border border-stone-700 rounded-2xl p-6">
-                      <h3 className="text-lg font-bold text-amber-50 mb-4 flex items-center gap-2">
-                        <FlaskConical className="w-5 h-5 text-red-400" />
-                        {section.category}
-                      </h3>
-                      <ul className="space-y-3">
-                        {section.questions.map((question, qIdx) => (
-                          <li key={qIdx}>
-                            <button
-                              onClick={() => {
-                                setActiveView('assistant');
-                                // Will pre-populate question in assistant
-                              }}
-                              className="text-left text-sm text-stone-300 hover:text-red-400 transition-colors flex items-start gap-2 group w-full"
-                            >
-                              <ChevronRight className="w-4 h-4 mt-0.5 text-stone-600 group-hover:text-red-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
-                              {question}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <QuestionSection
+                      key={idx}
+                      section={section}
+                      onQuestionClick={handleQuestionClick}
+                    />
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </>
           )}
 
-          {activeView === 'pathway' && selectedModule && (
+          {activeView === 'pathway' && selectedModuleData && (
             <LearningPathway 
-              module={LEARNING_MODULES.find(m => m.id === selectedModule)}
+              module={selectedModuleData}
               onBack={() => setActiveView('overview')}
               onComplete={(progress) => {
                 setUserProgress(prev => ({ ...prev, [selectedModule]: progress }));
@@ -393,18 +406,10 @@ export default function PeptideAcademy() {
           {activeView === 'visualizer' && (
             <MechanismVisualizer onBack={() => setActiveView('overview')} />
           )}
-
-          {activeView === 'quiz' && (
-            <InteractiveQuiz onBack={() => setActiveView('overview')} />
-          )}
-        </AnimatePresence>
+        </Suspense>
 
         {/* Disclaimer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mt-16 p-6 bg-stone-900/60 border border-stone-700 rounded-xl"
-        >
+        <div className="mt-16 p-6 bg-stone-900/60 border border-stone-700 rounded-xl">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
             <div className="text-sm text-stone-400">
@@ -413,7 +418,7 @@ export default function PeptideAcademy() {
               laboratory research use only. Not intended for human consumption or medical advice.
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

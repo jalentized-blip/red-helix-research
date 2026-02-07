@@ -81,6 +81,7 @@ import OurStory from './pages/OurStory';
 import PaymentCompleted from './pages/PaymentCompleted';
 import PaymentSecurity from './pages/PaymentSecurity';
 import PeppyBot from './pages/PeppyBot';
+import PeptideAcademy from './pages/PeptideAcademy';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideCategory from './pages/PeptideCategory';
 import PeptideComparison from './pages/PeptideComparison';
@@ -101,7 +102,6 @@ import SEOMonitoring from './pages/SEOMonitoring';
 import SecurityCompliance from './pages/SecurityCompliance';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import PeptideAcademy from './pages/PeptideAcademy';
 import __Layout from './Layout.jsx';
 
 
@@ -140,6 +140,7 @@ export const PAGES = {
     "PaymentCompleted": PaymentCompleted,
     "PaymentSecurity": PaymentSecurity,
     "PeppyBot": PeppyBot,
+    "PeptideAcademy": PeptideAcademy,
     "PeptideCalculator": PeptideCalculator,
     "PeptideCategory": PeptideCategory,
     "PeptideComparison": PeptideComparison,
@@ -160,7 +161,6 @@ export const PAGES = {
     "SecurityCompliance": SecurityCompliance,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "PeptideAcademy": PeptideAcademy,
 }
 
 export const pagesConfig = {
