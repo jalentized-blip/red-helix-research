@@ -21,6 +21,12 @@ Any change pushed to the repo will also be reflected in the Base44 Builder.
 VITE_BASE44_APP_ID=your_app_id
 VITE_BASE44_APP_BASE_URL=your_backend_url
 
+# Plaid Configuration (Required for Payments)
+# Set these in your Base44 Project Settings -> Secrets / Environment Variables
+PLAID_CLIENT_ID=your_plaid_client_id
+PLAID_SECRET=your_plaid_secret
+PLAID_ENVIRONMENT=sandbox # or 'production' or 'development'
+
 e.g.
 VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
 VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
