@@ -1225,8 +1225,8 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             <ArrowLeft className="w-4 h-4" />
             Back to Shipping Info
           </Link>
-          <h1 className="text-4xl font-black text-amber-50">Crypto Checkout</h1>
-          <p className="text-stone-400 mt-2">Fast, secure cryptocurrency payment with automatic wallet detection</p>
+          <h1 className="text-4xl font-black text-amber-50">Secure Checkout</h1>
+          <p className="text-stone-400 mt-2">Choose your preferred payment method - bank account or cryptocurrency</p>
         </div>
 
         <div className="mb-8">
