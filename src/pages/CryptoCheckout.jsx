@@ -145,7 +145,8 @@ export default function CryptoCheckout() {
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [cryptoAmount, setCryptoAmount] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
-  const [stage, setStage] = useState(CHECKOUT_STAGE.SELECT_CRYPTO);
+  const [stage, setStage] = useState(CHECKOUT_STAGE.SELECT_PAYMENT);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   // Wallet connection
   const [availableWallets, setAvailableWallets] = useState([]);
