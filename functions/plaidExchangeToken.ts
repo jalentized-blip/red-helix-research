@@ -20,9 +20,12 @@ Deno.serve(async (req) => {
     const PLAID_SECRET = Deno.env.get("PLAID_SECRET");
     const PLAID_ENV = Deno.env.get("PLAID_ENVIRONMENT") || "sandbox";
 
-    const plaidUrl = PLAID_ENV === "production" 
-      ? "https://production.plaid.com"
-      : "https://sandbox.plaid.com";
+    let plaidUrl = "https://sandbox.plaid.com";
+    if (PLAID_ENV === "production") {
+      plaidUrl = "https://production.plaid.com";
+    } else if (PLAID_ENV === "development") {
+      plaidUrl = "https://development.plaid.com";
+    }
 
     // Exchange public token for access token
     const tokenResponse = await fetch(`${plaidUrl}/item/public_token/exchange`, {

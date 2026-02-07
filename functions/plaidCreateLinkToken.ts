@@ -19,9 +19,12 @@ Deno.serve(async (req) => {
       }, { status: 500 });
     }
 
-    const plaidUrl = PLAID_ENV === "production" 
-      ? "https://production.plaid.com"
-      : "https://sandbox.plaid.com";
+    let plaidUrl = "https://sandbox.plaid.com";
+    if (PLAID_ENV === "production") {
+      plaidUrl = "https://production.plaid.com";
+    } else if (PLAID_ENV === "development") {
+      plaidUrl = "https://development.plaid.com";
+    }
 
     // Construct user object with validation
     const plaidUser: any = {
