@@ -11,7 +11,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const reportType = new URL(req.url).searchParams.get('type') || 'data_retention';
+    const { type } = await req.json();
+    const reportType = type || 'data_retention';
 
     let report;
     switch (reportType) {
