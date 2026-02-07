@@ -1206,12 +1206,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
   const renderStage = () => {
     switch (stage) {
+      case CHECKOUT_STAGE.SELECT_PAYMENT: return renderPaymentMethodSelection();
       case CHECKOUT_STAGE.SELECT_CRYPTO: return renderCryptoSelection();
+      case CHECKOUT_STAGE.BANK_ACH: return renderBankACH();
       case CHECKOUT_STAGE.CONNECT_WALLET: return renderWalletConnection();
       case CHECKOUT_STAGE.PAYMENT: return renderPayment();
       case CHECKOUT_STAGE.CONFIRMING: return renderConfirming();
       case CHECKOUT_STAGE.COMPLETED: return renderCompleted();
-      default: return renderCryptoSelection();
+      default: return renderPaymentMethodSelection();
     }
   };
 
