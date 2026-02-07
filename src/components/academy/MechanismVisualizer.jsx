@@ -37,37 +37,70 @@ const MECHANISMS = [
     color: 'from-green-600 to-green-700'
   },
   {
-    id: 'glp1',
-    name: 'GLP-1 Agonists',
-    title: 'Metabolic Regulation Pathway',
-    description: 'How Semaglutide/Tirzepatide affect cellular metabolism',
+    id: 'semaglutide',
+    name: 'Semaglutide',
+    title: 'GLP-1 Metabolic Regulation',
+    description: 'GLP-1 receptor agonist for metabolic research applications',
     pathways: [
       {
         step: 1,
         title: 'GLP-1R Binding',
-        description: 'Peptide binds to GLP-1 receptors on pancreatic beta cells',
+        description: 'Semaglutide binds to GLP-1 receptors on pancreatic beta cells',
         duration: 2000
       },
       {
         step: 2,
         title: 'cAMP Cascade',
-        description: 'Activates adenylyl cyclase, increasing intracellular cAMP',
+        description: 'Activates adenylyl cyclase, increasing intracellular cAMP levels',
         duration: 3000
       },
       {
         step: 3,
         title: 'Insulin Secretion',
-        description: 'Glucose-dependent insulin release from beta cells',
+        description: 'Glucose-dependent insulin release from pancreatic beta cells',
         duration: 3000
       },
       {
         step: 4,
-        title: 'Appetite Modulation',
-        description: 'Central nervous system effects on hypothalamic appetite centers',
+        title: 'Appetite Regulation',
+        description: 'CNS effects on hypothalamic appetite and satiety centers',
         duration: 4000
       }
     ],
     color: 'from-blue-600 to-blue-700'
+  },
+  {
+    id: 'tirzepatide',
+    name: 'Tirzepatide',
+    title: 'Dual GLP-1/GIP Agonist',
+    description: 'Dual incretin receptor activation for enhanced metabolic effects',
+    pathways: [
+      {
+        step: 1,
+        title: 'Dual Receptor Binding',
+        description: 'Activates both GLP-1 and GIP receptors simultaneously',
+        duration: 2000
+      },
+      {
+        step: 2,
+        title: 'Enhanced Insulin Response',
+        description: 'Synergistic glucose-dependent insulin secretion',
+        duration: 3000
+      },
+      {
+        step: 3,
+        title: 'Glucagon Suppression',
+        description: 'Reduces inappropriate glucagon secretion from alpha cells',
+        duration: 3000
+      },
+      {
+        step: 4,
+        title: 'Multi-Target Effects',
+        description: 'Combined appetite suppression, gastric emptying delay, energy expenditure',
+        duration: 4000
+      }
+    ],
+    color: 'from-cyan-600 to-cyan-700'
   },
   {
     id: 'tb500',
@@ -101,6 +134,171 @@ const MECHANISMS = [
       }
     ],
     color: 'from-purple-600 to-purple-700'
+  },
+  {
+    id: 'nad',
+    name: 'NAD+',
+    title: 'Cellular Energy & Longevity',
+    description: 'Nicotinamide adenine dinucleotide for mitochondrial function',
+    pathways: [
+      {
+        step: 1,
+        title: 'Cellular Uptake',
+        description: 'NAD+ precursors enter cells and convert to active NAD+',
+        duration: 2000
+      },
+      {
+        step: 2,
+        title: 'Mitochondrial Function',
+        description: 'Powers electron transport chain for ATP production',
+        duration: 3000
+      },
+      {
+        step: 3,
+        title: 'Sirtuin Activation',
+        description: 'Activates sirtuins (SIRT1-7) for cellular maintenance and longevity',
+        duration: 3000
+      },
+      {
+        step: 4,
+        title: 'DNA Repair',
+        description: 'Supports PARP enzymes in DNA damage repair mechanisms',
+        duration: 4000
+      }
+    ],
+    color: 'from-orange-600 to-orange-700'
+  },
+  {
+    id: 'ghkcu',
+    name: 'GHK-Cu',
+    title: 'Copper Peptide Regeneration',
+    description: 'Copper-binding peptide for collagen synthesis and wound healing',
+    pathways: [
+      {
+        step: 1,
+        title: 'Copper Binding',
+        description: 'GHK binds copper ions, forming active copper-peptide complex',
+        duration: 2000
+      },
+      {
+        step: 2,
+        title: 'Collagen Stimulation',
+        description: 'Enhances type I and III collagen synthesis in fibroblasts',
+        duration: 3000
+      },
+      {
+        step: 3,
+        title: 'Growth Factor Modulation',
+        description: 'Regulates TGF-β and VEGF expression for balanced healing',
+        duration: 3000
+      },
+      {
+        step: 4,
+        title: 'Matrix Remodeling',
+        description: 'Promotes organized extracellular matrix formation and remodeling',
+        duration: 4000
+      }
+    ],
+    color: 'from-amber-600 to-amber-700'
+  },
+  {
+    id: 'cjcipa',
+    name: 'CJC-1295/Ipamorelin',
+    title: 'Growth Hormone Secretagogue Synergy',
+    description: 'Combined peptides for sustained GH release without cortisol spike',
+    pathways: [
+      {
+        step: 1,
+        title: 'Receptor Activation',
+        description: 'CJC-1295 extends GH pulse, Ipamorelin selectively activates ghrelin receptors',
+        duration: 2000
+      },
+      {
+        step: 2,
+        title: 'Pituitary Stimulation',
+        description: 'Coordinated stimulation of somatotroph cells for GH release',
+        duration: 3000
+      },
+      {
+        step: 3,
+        title: 'Sustained Elevation',
+        description: 'CJC-1295 prolongs GH elevation, maintaining physiological pulses',
+        duration: 3000
+      },
+      {
+        step: 4,
+        title: 'Downstream Effects',
+        description: 'IGF-1 production, protein synthesis, lipolysis, tissue repair',
+        duration: 4000
+      }
+    ],
+    color: 'from-indigo-600 to-indigo-700'
+  },
+  {
+    id: 'pt141',
+    name: 'PT-141',
+    title: 'Melanocortin Receptor Activation',
+    description: 'MC4R agonist affecting libido through CNS pathways',
+    pathways: [
+      {
+        step: 1,
+        title: 'CNS Penetration',
+        description: 'Crosses blood-brain barrier to access melanocortin receptors',
+        duration: 2000
+      },
+      {
+        step: 2,
+        title: 'MC4R Activation',
+        description: 'Selectively activates melanocortin-4 receptors in hypothalamus',
+        duration: 3000
+      },
+      {
+        step: 3,
+        title: 'Neural Pathway Modulation',
+        description: 'Affects dopaminergic and noradrenergic neurotransmission',
+        duration: 3000
+      },
+      {
+        step: 4,
+        title: 'Physiological Response',
+        description: 'Enhances sexual arousal and desire through central mechanisms',
+        duration: 4000
+      }
+    ],
+    color: 'from-pink-600 to-pink-700'
+  },
+  {
+    id: 'semax',
+    name: 'Semax',
+    title: 'Nootropic BDNF Enhancement',
+    description: 'ACTH analog promoting neuroplasticity and cognitive function',
+    pathways: [
+      {
+        step: 1,
+        title: 'BBB Transport',
+        description: 'Crosses blood-brain barrier via active transport mechanisms',
+        duration: 2000
+      },
+      {
+        step: 2,
+        title: 'BDNF Upregulation',
+        description: 'Increases brain-derived neurotrophic factor expression',
+        duration: 3000
+      },
+      {
+        step: 3,
+        title: 'Neurotransmitter Modulation',
+        description: 'Enhances dopamine, serotonin, and acetylcholine activity',
+        duration: 3000
+      },
+      {
+        step: 4,
+        title: 'Cognitive Enhancement',
+        description: 'Improves attention, memory formation, and neuroprotection',
+        duration: 4000
+      }
+    ],
+    color: 'from-teal-600 to-teal-700'
   }
 ];
 

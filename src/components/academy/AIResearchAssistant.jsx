@@ -7,7 +7,10 @@ import ReactMarkdown from 'react-markdown';
 const SUGGESTED_PROMPTS = [
   'Explain how BPC-157 promotes tissue repair',
   'What is the proper reconstitution protocol?',
-  'Compare TB-500 vs BPC-157 for recovery research'
+  'Compare Semaglutide vs Tirzepatide for metabolic research',
+  'How does TB-500 work for tissue recovery?',
+  'What are the benefits of CJC/Ipamorelin blend?',
+  'Explain NAD+ mechanisms for cellular health'
 ];
 
 // Memoized message component
@@ -86,13 +89,45 @@ What would you like to learn about today?`
 
   const generateResponse = useCallback(async (question) => {
     try {
-      const prompt = `You are an expert peptide research educator. Answer this question about research peptides with scientific accuracy and educational focus. Include mechanisms of action when relevant, safety considerations, and practical research applications.
+      const knowledgeContext = `
+Available Research Peptides Knowledge Base:
+
+**Weight Loss & Metabolic:**
+- Semaglutide (GLP-1 agonist): Activates GLP-1 receptors, regulates insulin secretion, slows gastric emptying, affects appetite centers
+- Tirzepatide (GLP-1/GIP dual agonist): Dual receptor activation for enhanced metabolic effects
+- AOD 9604: Modified growth hormone fragment targeting lipolysis without growth effects
+
+**Recovery & Healing:**
+- BPC-157: Promotes angiogenesis via VEGF pathway, enhances fibroblast migration, accelerates tissue repair
+- TB-500 (Thymosin Beta-4): Regulates actin polymerization, cell migration, reduces inflammation
+- GHK-Cu: Copper peptide stimulating collagen synthesis, wound healing, anti-inflammatory effects
+
+**Performance & Longevity:**
+- CJC-1295/Ipamorelin: Growth hormone secretagogue combination for sustained GH release
+- Ipamorelin: Selective ghrelin receptor agonist, minimal cortisol/prolactin elevation
+- NAD+: Cellular energy metabolism, DNA repair, sirtuin activation
+- MOTS-c: Mitochondrial-derived peptide, metabolic regulation, exercise mimetic
+- Epithalon: Telomerase activator, circadian rhythm regulation
+
+**Cognitive & Focus:**
+- Semax: Nootropic with BDNF enhancement, cognitive performance
+- Selank: Anxiolytic with immune modulation, stress reduction
+- Dihexa: Neurogenesis promoter, synapse formation
+- P21: CREB pathway activator, memory formation
+
+**Sexual Health:**
+- PT-141 (Bremelanotide): MC4R agonist for libido enhancement
+- Kisspeptin-10: Gonadotropin regulation, reproductive function
+
+**Blends:**
+- KLOW80: KPV+GHK-Cu+BPC+TB500 multi-pathway healing blend
+- NAD+ Stack: Comprehensive cellular health combination
 
 Question: ${question}
 
 Provide a comprehensive, well-structured answer that:
 1. Explains the core concept clearly
-2. Includes relevant mechanisms of action
+2. Includes relevant mechanisms of action from the knowledge base
 3. Mentions safety/quality considerations
 4. Uses scientific terminology appropriately
 5. Maintains focus on research applications only
@@ -100,7 +135,7 @@ Provide a comprehensive, well-structured answer that:
 Keep response under 500 words but be thorough and educational.`;
 
       const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt,
+        prompt: knowledgeContext,
         add_context_from_internet: false
       });
 
