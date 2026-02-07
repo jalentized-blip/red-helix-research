@@ -775,6 +775,9 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('DataRetentionPolicy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
                               Data Retention
                               </Link>
+                              <Link to={createPageUrl('PlaidCompliance')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              Plaid Compliance
+                              </Link>
                               </>
                               )}
                               </>
