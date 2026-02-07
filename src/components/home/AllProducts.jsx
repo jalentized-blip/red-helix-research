@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -18,7 +18,7 @@ const categories = [
   { id: "general_health", label: "General Health" },
 ];
 
-export default function AllProducts({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp }) {
+const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp }) => {
     const [activeCategory, setActiveCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [showAll, setShowAll] = useState(false);
@@ -51,22 +51,32 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       return unsubscribe;
     }, [queryClient]);
 
-    const handleVisibilityToggle = async (productId, newHiddenState) => {
+    const handleVisibilityToggle = useCallback(async (productId, newHiddenState) => {
       try {
         await base44.entities.Product.update(productId, { hidden: newHiddenState });
       } catch (error) {
         console.error('Failed to update product visibility:', error);
       }
-    };
+    }, []);
 
-    // Deduplicate products by name - keep only the most recent version
-    const deduplicatedProducts = Array.from(
-      new Map(
-        products.map(product => [product.name, product])
-      ).values()
-    ).sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date));
+    const handleSearchChange = useCallback((e) => {
+      setSearchQuery(e.target.value);
+    }, []);
 
-    const filteredProducts = deduplicatedProducts.filter(product => {
+    const handleShowAllToggle = useCallback(() => {
+      setShowAll(prev => !prev);
+    }, []);
+
+    // Memoize expensive filtering and sorting
+    const { displayedProducts, hasMore } = useMemo(() => {
+      // Deduplicate products by name
+      const deduped = Array.from(
+        new Map(
+          products.map(product => [product.name, product])
+        ).values()
+      ).sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date));
+
+      const filtered = deduped.filter(product => {
       const matchesCategory = activeCategory === "all" || product.category === activeCategory;
       const matchesSearch = searchQuery === "" || 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -79,26 +89,32 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       if (isAdmin) {
         return matchesCategory && matchesSearch && !isBacResearch;
       }
-      return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs && isVisible;
-    });
+        return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs && isVisible;
+      });
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch(sortBy) {
-      case "price-low":
-        return a.price_from - b.price_from;
-      case "price-high":
-        return b.price_from - a.price_from;
-      case "name-asc":
-        return a.name.localeCompare(b.name);
-      case "name-desc":
-        return b.name.localeCompare(a.name);
-      case "featured":
-      default:
-        return (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0);
-    }
-  });
+      const sorted = [...filtered].sort((a, b) => {
+        switch(sortBy) {
+          case "price-low":
+            return a.price_from - b.price_from;
+          case "price-high":
+            return b.price_from - a.price_from;
+          case "name-asc":
+            return a.name.localeCompare(b.name);
+          case "name-desc":
+            return b.name.localeCompare(a.name);
+          case "featured":
+          default:
+            return (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0);
+        }
+      });
 
-  const displayedProducts = showAll ? sortedProducts : sortedProducts.slice(0, 9);
+      const displayed = showAll ? sorted : sorted.slice(0, 9);
+      return { 
+        displayedProducts: displayed, 
+        hasMore: sorted.length > 9,
+        totalFiltered: sorted.length 
+      };
+    }, [products, activeCategory, searchQuery, isAdmin, sortBy, showAll]);
 
   return (
     <section id="products" className="py-20 px-4 relative">
@@ -139,7 +155,7 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
                 type="text"
                 placeholder="Search peptides..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 className="pl-10 bg-stone-900 border-stone-700 text-amber-50 placeholder:text-stone-400 focus:border-red-700/50"
               />
             </div>
@@ -194,14 +210,14 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
           ))}
         </div>
 
-        {filteredProducts.length === 0 && (
+        {displayedProducts.length === 0 && (
           <div className="text-center py-12 text-stone-400">
             No products found in this category.
           </div>
         )}
 
         {/* Show More/Hide Button */}
-        {filteredProducts.length > 9 && (
+        {hasMore && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -209,7 +225,7 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
             className="text-center mt-12"
           >
             <button
-              onClick={() => setShowAll(!showAll)}
+              onClick={handleShowAllToggle}
               className="px-8 py-3 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
             >
               {showAll ? 'HIDE' : 'SHOW MORE..'}
@@ -219,4 +235,8 @@ export default function AllProducts({ products, onSelectStrength, isAuthenticate
       </div>
     </section>
   );
-}
+});
+
+AllProducts.displayName = 'AllProducts';
+
+export default AllProducts;

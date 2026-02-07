@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
 import { base44 } from '@/api/base44Client';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function BestSellers({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp = false }) {
+const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp = false }) => {
   const [effectiveIsAdmin, setEffectiveIsAdmin] = useState(isAdminProp);
   const queryClient = useQueryClient();
 
@@ -22,21 +22,23 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
     return unsubscribe;
   }, [queryClient]);
 
-  const handleVisibilityToggle = async (productId, newHiddenState) => {
+  const handleVisibilityToggle = useCallback(async (productId, newHiddenState) => {
     try {
       await base44.entities.Product.update(productId, { hidden: newHiddenState });
     } catch (error) {
       console.error('Failed to update product visibility:', error);
     }
-  };
+  }, []);
 
-  const featuredProducts = products
-    .filter(p => {
-      const isFeatured = p.is_featured && !p.is_deleted;
-      const isVisible = effectiveIsAdmin || !p.hidden;
-      return isFeatured && isVisible;
-    })
-    .slice(0, 7);
+  const featuredProducts = useMemo(() => {
+    return products
+      .filter(p => {
+        const isFeatured = p.is_featured && !p.is_deleted;
+        const isVisible = effectiveIsAdmin || !p.hidden;
+        return isFeatured && isVisible;
+      })
+      .slice(0, 7);
+  }, [products, effectiveIsAdmin]);
 
   return (
     <section id="bestsellers" className="py-20 px-4 relative">
@@ -95,4 +97,8 @@ export default function BestSellers({ products, onSelectStrength, isAuthenticate
       </div>
     </section>
   );
-}
+});
+
+BestSellers.displayName = 'BestSellers';
+
+export default BestSellers;

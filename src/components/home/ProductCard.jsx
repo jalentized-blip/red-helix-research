@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,17 +28,18 @@ const categoryLabels = {
   general_health: "General Health"
 };
 
-export default function ProductCard({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) {
+const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const [isUpdating, setIsUpdating] = React.useState(false);
   const [localHidden, setLocalHidden] = React.useState(product.hidden);
-  const badge = product.badge ? badgeConfig[product.badge] : null;
+  
+  const badge = useMemo(() => product.badge ? badgeConfig[product.badge] : null, [product.badge]);
 
   React.useEffect(() => {
     setLocalHidden(product.hidden);
   }, [product.hidden]);
 
-  const handleVisibilityToggle = async (checked) => {
+  const handleVisibilityToggle = useCallback(async (checked) => {
     setIsUpdating(true);
     const newHiddenState = !checked;
     setLocalHidden(newHiddenState);
@@ -48,21 +49,28 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
     }
     
     setIsUpdating(false);
-  };
+  }, [onVisibilityToggle, product.id]);
   
-  // Filter out hidden specifications and only show in-stock items
-  const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-  const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
-  const lowestVisiblePrice = inStockSpecs.length > 0 
-    ? Math.min(...inStockSpecs.map(spec => spec.price))
-    : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
-  
-  // Use Red Dirt vial for all products except bacteriostatic water
-  const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
-                     product.name?.toLowerCase().includes('bac water');
-  const displayImage = isBacWater 
-    ? product.image_url 
-    : 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg';
+  // Memoize expensive calculations
+  const { lowestVisiblePrice, displayImage } = useMemo(() => {
+    const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
+    const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+    const price = inStockSpecs.length > 0 
+      ? Math.min(...inStockSpecs.map(spec => spec.price))
+      : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
+    
+    const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
+                       product.name?.toLowerCase().includes('bac water');
+    const image = isBacWater 
+      ? product.image_url 
+      : 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg';
+    
+    return { lowestVisiblePrice: price, displayImage: image };
+  }, [product.specifications, product.price_from, product.name, product.image_url]);
+
+  const handleSelectStrength = useCallback(() => {
+    onSelectStrength?.(product);
+  }, [onSelectStrength, product]);
 
   return (
     <>
@@ -145,6 +153,8 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
                 src={displayImage} 
                 alt={product.name}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="w-24 h-32 bg-gradient-to-b from-red-700/20 to-red-800/10 rounded-lg flex items-center justify-center border border-red-700/20">
@@ -188,7 +198,7 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
             </Link>
           ) : (
             <Button 
-              onClick={() => onSelectStrength?.(product)}
+              onClick={handleSelectStrength}
               className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
             >
               Select strength
@@ -199,4 +209,8 @@ export default function ProductCard({ product, index = 0, onSelectStrength, isAu
     </motion.div>
     </>
   );
-}
+});
+
+ProductCard.displayName = 'ProductCard';
+
+export default ProductCard;

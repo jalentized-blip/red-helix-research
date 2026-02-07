@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { FileText, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function Hero() {
-  const scrollTo = (id) => {
+const Hero = React.memo(() => {
+  const scrollTo = useCallback((id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   return (
     <section className="relative min-h-[100vh] flex items-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Image with Overlay - Lazy loaded */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&q=80')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&q=80&auto=format')`,
+          willChange: 'auto'
         }}
+        loading="lazy"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/95 to-stone-950/70" />
+      <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/95 to-stone-950/70" style={{ willChange: 'auto' }} />
       
       {/* Animated accent line */}
        <motion.div 

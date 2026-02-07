@@ -19,13 +19,7 @@ import AbandonedCartTracker from '@/components/AbandonedCartTracker';
 
 
 
-      const navLinks = [
-              { label: "Peptides", href: "#products" },
-        { label: "Peptide Blends", href: "#goals" },
-        { label: "Peptide Calculator", href: createPageUrl('PeptideCalculator'), isPage: true },
-        { label: "LEARN MORE", href: createPageUrl('LearnMore'), isPage: true },
-        { label: "COAs", href: "#certificates" },
-      ];
+
 
 const HeaderSearch = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -345,15 +339,14 @@ const HeaderSearch = () => {
 
           const telegramLink = 'https://t.me/+UYRVjzIFDy9iYzc9';
 
-          const scrollTo = (id) => {
-    const element = document.getElementById(id.replace('#', ''));
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // If element doesn't exist on current page, navigate to home with section param
-      window.location.href = `${createPageUrl('Home')}?section=${id.replace('#', '')}`;
-    }
-  };
+          const scrollTo = React.useCallback((id) => {
+          const element = document.getElementById(id.replace('#', ''));
+          if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          } else {
+          window.location.href = `${createPageUrl('Home')}?section=${id.replace('#', '')}`;
+          }
+          }, []);
 
   return (
     <div className="min-h-screen bg-stone-950 relative">
