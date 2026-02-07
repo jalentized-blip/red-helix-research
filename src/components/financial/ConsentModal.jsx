@@ -52,15 +52,16 @@ export default function ConsentModal({ isOpen, onClose, onConsent, consentType =
       const user = await base44.auth.me();
 
       // Record consent with full audit trail
-      await base44.entities.FinancialConsent.create({
+      const consentRecord = {
         user_email: user.email,
         consent_type: consentType,
         consent_given: true,
         consent_text: JSON.stringify(consent),
-        ip_address: 'client-side', // In production, get from server
-        user_agent: navigator.userAgent,
-        consent_timestamp: new Date().toISOString()
-      });
+        ip_address: 'client-side',
+        user_agent: navigator.userAgent
+      };
+
+      await base44.entities.FinancialConsent.create(consentRecord);
 
       onConsent();
     } catch (error) {
