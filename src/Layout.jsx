@@ -16,6 +16,9 @@ import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
 import AbandonedCartTracker from '@/components/AbandonedCartTracker';
+import { Shield } from 'lucide-react';
+import { ZeroTrustProvider } from '@/components/security/ZeroTrustProvider';
+import SecurityMonitor from '@/components/security/SecurityMonitor';
 
 
 
@@ -349,6 +352,7 @@ const HeaderSearch = () => {
           }, []);
 
   return (
+    <ZeroTrustProvider>
     <div className="min-h-screen bg-stone-950 relative">
         <Helmet>
           <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>
@@ -757,7 +761,11 @@ const HeaderSearch = () => {
                                 Deployment Guide
                               </Link>
                               <Link to={createPageUrl('MonitoringSetup')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
-                                Monitoring Setup
+                              Monitoring Setup
+                              </Link>
+                              <Link to={createPageUrl('SecurityDashboard')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                              <Shield className="w-4 h-4" />
+                              Zero Trust Security
                               </Link>
                               </>
                               )}
@@ -835,6 +843,8 @@ const HeaderSearch = () => {
       }}
       />
       <AbandonedCartTracker />
+      <SecurityMonitor />
       </div>
+      </ZeroTrustProvider>
       );
       }
