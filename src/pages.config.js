@@ -106,6 +106,7 @@ import SecurityDashboard from './pages/SecurityDashboard';
 import PlaidPrivacy from './pages/PlaidPrivacy';
 import DataRetentionPolicy from './pages/DataRetentionPolicy';
 import PlaidCompliance from './pages/PlaidCompliance';
+import PlaidDataRetention from './pages/PlaidDataRetention';
 import __Layout from './Layout.jsx';
 
 
@@ -169,6 +170,7 @@ export const PAGES = {
     "PlaidPrivacy": PlaidPrivacy,
     "DataRetentionPolicy": DataRetentionPolicy,
     "PlaidCompliance": PlaidCompliance,
+    "PlaidDataRetention": PlaidDataRetention,
 }
 
 export const pagesConfig = {
