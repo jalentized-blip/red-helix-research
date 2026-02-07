@@ -121,4 +121,8 @@ const Hero = React.memo(() => {
       </motion.div>
     </section>
   );
-}
+});
+
+Hero.displayName = 'Hero';
+
+export default Hero;
