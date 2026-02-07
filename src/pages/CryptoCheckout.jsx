@@ -32,6 +32,7 @@ import {
 import CryptoWalletHelp from '@/components/crypto/CryptoWalletHelp';
 import { base44 } from '@/api/base44Client';
 import PCIComplianceBadge from '@/components/PCIComplianceBadge';
+import PlaidACHCheckout from '@/components/payment/PlaidACHCheckout';
 
 // Supported wallet configurations
 const WALLET_CONFIGS = {
