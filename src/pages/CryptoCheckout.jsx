@@ -147,6 +147,12 @@ export default function CryptoCheckout() {
   const [exchangeRate, setExchangeRate] = useState(null);
   const [stage, setStage] = useState(CHECKOUT_STAGE.SELECT_PAYMENT);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [orderData] = useState(() => ({
+    order_number: `ORD-${Date.now()}`,
+    total_amount: 0,
+    items: [],
+    shipping_address: null
+  }));
 
   // Wallet connection
   const [availableWallets, setAvailableWallets] = useState([]);
@@ -221,6 +227,15 @@ export default function CryptoCheckout() {
       setCartItems(cart);
       setCustomerInfo(customer);
       setPromoCode(promo);
+
+      // Update order data
+      const subtotal = getCartTotal();
+      const discount = promo ? getDiscountAmount(promo, subtotal) : 0;
+      const total = subtotal - discount + SHIPPING_COST;
+      
+      orderData.total_amount = total;
+      orderData.items = cart;
+      orderData.shipping_address = customer;
 
       // Check if this is a test order
       const isTestOrder = cart.every(item => item.productName.includes('TEST PRODUCT'));
@@ -846,14 +861,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
         <h2 className="text-xl font-bold text-amber-50">Bank Account Payment</h2>
       </div>
       <PlaidACHCheckout 
-        order={orderNumber}
+        order={orderData}
         onSuccess={(data) => {
           clearCart();
           localStorage.removeItem('customerInfo');
           navigate(createPageUrl('PaymentCompleted'));
         }}
         onError={(error) => {
-          toast.error(error || 'Payment failed. Please try again.');
+          console.error('Payment error:', error);
         }}
       />
     </motion.div>
