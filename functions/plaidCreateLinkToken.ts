@@ -38,11 +38,9 @@ Deno.serve(async (req) => {
           name: user.full_name || user.email
         },
         client_name: 'Red Helix Research',
-        products: ['auth', 'transactions'],
+        products: ['auth'],
         country_codes: ['US'],
         language: 'en',
-        redirect_uri: null,
-        webhook: `${req.headers.get('origin')}/api/plaidWebhook`,
         account_filters: {
           depository: {
             account_subtypes: ['checking', 'savings']
