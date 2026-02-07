@@ -837,10 +837,31 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
   const renderCryptoSelection = () => renderPaymentMethodSelection();
 
+  const renderBankACH = () => (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <button onClick={() => { setPaymentMethod(null); setStage(CHECKOUT_STAGE.SELECT_PAYMENT); }} className="text-stone-400 hover:text-amber-50">
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-xl font-bold text-amber-50">Bank Account Payment</h2>
+      </div>
+      <PlaidACHCheckout 
+        amount={totalUSD}
+        customerInfo={customerInfo}
+        cartItems={cartItems}
+        onSuccess={(orderId) => {
+          clearCart();
+          localStorage.removeItem('customerInfo');
+          navigate(createPageUrl('PaymentCompleted'));
+        }}
+      />
+    </motion.div>
+  );
+
   const renderWalletConnection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       <div className="flex items-center gap-2 mb-4">
-        <button onClick={() => { setSelectedCrypto(null); setStage(CHECKOUT_STAGE.SELECT_CRYPTO); resetWalletConnection(); }} className="text-stone-400 hover:text-amber-50">
+        <button onClick={() => { setSelectedCrypto(null); setPaymentMethod(null); setStage(CHECKOUT_STAGE.SELECT_PAYMENT); resetWalletConnection(); }} className="text-stone-400 hover:text-amber-50">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <h2 className="text-xl font-bold text-amber-50">Connect Your Wallet</h2>
