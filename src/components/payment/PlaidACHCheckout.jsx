@@ -99,7 +99,10 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     if (!consentGiven) {
       setShowConsent(true);
     } else {
-      await createLinkToken();
+      // Require MFA BEFORE showing Plaid Link
+      await requireMFA('plaid_link', async () => {
+        await createLinkToken();
+      });
     }
   };
 
