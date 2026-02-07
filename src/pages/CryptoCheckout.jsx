@@ -1261,9 +1261,13 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
+            {stage === CHECKOUT_STAGE.BANK_ACH ? (
               <AnimatePresence mode="wait">{renderStage()}</AnimatePresence>
-            </div>
+            ) : (
+              <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
+                <AnimatePresence mode="wait">{renderStage()}</AnimatePresence>
+              </div>
+            )}
           </div>
           <div className="lg:col-span-1">{renderOrderSummary()}</div>
         </div>
