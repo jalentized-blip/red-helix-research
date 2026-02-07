@@ -758,9 +758,50 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
     setWalletAddress('');
   };
 
-  const renderCryptoSelection = () => (
+  const renderPaymentMethodSelection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       <h2 className="text-xl font-bold text-amber-50 mb-4">Select Payment Method</h2>
+      
+      {/* Bank ACH Option */}
+      <motion.button
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
+        onClick={() => {
+          setPaymentMethod('bank_ach');
+          setStage(CHECKOUT_STAGE.BANK_ACH);
+        }}
+        className="w-full p-6 rounded-lg border-2 transition-all text-left border-stone-700 bg-stone-800/50 hover:border-green-600/50 group"
+      >
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-green-600/20">
+              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-amber-50 text-lg">Bank Account (ACH)</p>
+              <p className="text-xs text-stone-400">Direct bank transfer via Plaid</p>
+            </div>
+          </div>
+          <span className="text-xs bg-green-600/30 text-green-400 px-3 py-1 rounded-full font-semibold">
+            Recommended
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-stone-400 mt-3">
+          <Shield className="w-3 h-3 text-green-500" />
+          <span>Secure • Fast • No fees</span>
+        </div>
+      </motion.button>
+
+      {/* Divider */}
+      <div className="flex items-center gap-3 my-6">
+        <div className="flex-1 h-px bg-stone-700" />
+        <span className="text-xs text-stone-500 font-semibold">OR PAY WITH CRYPTO</span>
+        <div className="flex-1 h-px bg-stone-700" />
+      </div>
+
+      {/* Crypto Options */}
       <div className="grid grid-cols-2 gap-3">
         {CRYPTO_OPTIONS.map((crypto) => (
           <motion.button
@@ -768,6 +809,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => {
+              setPaymentMethod('crypto');
               setSelectedCrypto(crypto.id);
               setStage(CHECKOUT_STAGE.CONNECT_WALLET);
             }}
@@ -786,21 +828,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           </motion.button>
         ))}
       </div>
-      <div className="bg-stone-800/50 rounded-lg p-4 mt-6">
-        <div className="flex items-start gap-3">
-          <Shield className="w-5 h-5 text-green-500 mt-0.5" />
-          <div>
-            <p className="text-sm font-semibold text-amber-50">Secure & Fast Payment</p>
-            <p className="text-xs text-stone-400">Connect your wallet for automatic payment detection, or pay manually.</p>
-          </div>
-        </div>
-      </div>
       
       <div className="mt-4">
         <PCIComplianceBadge variant="compact" />
       </div>
     </motion.div>
   );
+
+  const renderCryptoSelection = () => renderPaymentMethodSelection();
 
   const renderWalletConnection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
