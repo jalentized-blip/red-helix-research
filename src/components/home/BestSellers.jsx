@@ -63,19 +63,23 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-700/10 rounded-full border border-red-700/30 mb-6">
-            <TrendingUp className="w-4 h-4 text-red-600" />
-            <span className="text-sm font-medium text-red-600">Most Popular</span>
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-red-950/50 to-red-900/30 backdrop-blur-sm rounded-full border border-red-700/40 mb-8 shadow-lg shadow-red-900/20">
+            <TrendingUp className="w-5 h-5 text-red-500" />
+            <span className="text-sm font-semibold text-red-400">Most Popular</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Best-Selling Research Peptides
+          <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-amber-50 via-white to-amber-50 bg-clip-text text-transparent">
+              Best-Selling
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 bg-clip-text text-transparent">
+              Research Peptides
             </span>
           </h2>
-          <p className="text-stone-300 text-lg max-w-2xl mx-auto">
+          <p className="text-stone-400 text-lg max-w-2xl mx-auto leading-relaxed">
             Premium lab-tested peptides including BPC-157, TB-500, semaglutide, and tirzepatide. Third-party verified for purity and potency.
           </p>
         </motion.div>

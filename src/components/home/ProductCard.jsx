@@ -106,11 +106,12 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         className="relative z-50"
       >
       
-      <Card className={`group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20 ${
+      <Card className={`group relative bg-gradient-to-br from-stone-900/80 to-stone-900/60 backdrop-blur-sm border-stone-700/50 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20 rounded-3xl ${
         isAdmin && localHidden ? 'opacity-60 border-red-500/30' : ''
       }`}>
-        {/* Hover glow */}
-        <div className="absolute inset-0 bg-gradient-to-t from-red-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Modern hover glow */}
+        <div className="absolute inset-0 bg-gradient-to-t from-red-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute -inset-[1px] bg-gradient-to-br from-red-600/20 via-transparent to-blue-600/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500 -z-10" />
         
         {/* Admin Visibility Toggle */}
         {isAdmin && (
@@ -145,9 +146,9 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           </div>
         )}
 
-        <div className="p-5 relative">
+        <div className="p-6 relative">
           {/* Product Image */}
-          <div className={`relative mb-4 aspect-square flex items-center justify-center bg-stone-800/50 rounded-xl overflow-hidden ${!isAuthenticated ? 'blur-sm' : ''}`}>
+          <div className={`relative mb-5 aspect-square flex items-center justify-center bg-gradient-to-br from-stone-800/50 to-stone-900/50 rounded-2xl overflow-hidden ring-1 ring-stone-700/30 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             {displayImage ? (
               <img 
                 src={displayImage} 
@@ -164,25 +165,25 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           </div>
 
           {/* Product Info */}
-          <h3 className={`text-lg font-bold text-amber-50 mb-2 group-hover:text-red-600 transition-colors ${!isAuthenticated ? 'blur-sm' : ''}`}>
+          <h3 className={`text-xl font-bold bg-gradient-to-r from-amber-50 to-white bg-clip-text text-transparent mb-3 group-hover:from-red-500 group-hover:to-red-600 transition-all ${!isAuthenticated ? 'blur-sm' : ''}`}>
             {product.name}
           </h3>
           
-          <p className={`text-sm text-stone-300 mb-3 line-clamp-2 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+          <p className={`text-sm text-stone-400 mb-4 line-clamp-2 leading-relaxed ${!isAuthenticated ? 'blur-sm' : ''}`}>
             {product.description}
           </p>
 
-          <div className={`flex items-center justify-between mb-4 ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            <span className="text-xs text-red-600/80 font-medium">
+          <div className={`flex items-center justify-between mb-5 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <span className="px-3 py-1 bg-red-950/30 border border-red-800/30 rounded-full text-xs text-red-400 font-medium">
               {categoryLabels[product.category]}
             </span>
-            <span className="text-lg font-bold text-amber-50">
-              From <span className="text-red-600">${lowestVisiblePrice}</span>
+            <span className="text-2xl font-bold bg-gradient-to-r from-amber-50 to-red-400 bg-clip-text text-transparent">
+              ${lowestVisiblePrice}
             </span>
           </div>
 
-          <div className={`mb-3 p-2 bg-stone-800/50 border border-stone-700/50 rounded-lg ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            <p className="text-[10px] text-stone-400 leading-tight">
+          <div className={`mb-4 p-3 bg-stone-800/30 backdrop-blur-sm border border-stone-700/30 rounded-xl ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className="text-[10px] text-stone-500 leading-tight">
               *Pricing reflects complete kit configurations (10 vials). Individual vials available exclusively for GLP-3-R and GLP-2-T products.
             </p>
           </div>
@@ -190,7 +191,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           {!isAuthenticated ? (
             <Link to={createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(window.location.href)}>
               <Button 
-                className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold gap-2"
+                className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold gap-2 rounded-xl py-6 shadow-lg shadow-red-900/20"
               >
                 <Lock className="w-4 h-4" />
                 Sign in to Access
@@ -199,7 +200,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           ) : (
             <Button 
               onClick={handleSelectStrength}
-              className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold"
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-xl py-6 shadow-lg shadow-red-900/20 group-hover:shadow-xl group-hover:shadow-red-900/30 transition-all"
             >
               Select strength
             </Button>

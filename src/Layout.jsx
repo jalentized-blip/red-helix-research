@@ -461,15 +461,15 @@ const HeaderSearch = () => {
 
         {/* Fixed Header */}
           <header 
-            onClick={() => {
-              if (isHomePage && window.innerWidth < 1024) {
-                setMobileHeaderCollapsed(true);
-              }
-            }}
-            className="fixed top-0 left-0 right-0 z-[70] bg-stone-950/80 backdrop-blur-md border-b border-stone-800/50 transition-transform duration-300 shadow-lg" 
-            style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
-          >
-          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+              onClick={() => {
+                if (isHomePage && window.innerWidth < 1024) {
+                  setMobileHeaderCollapsed(true);
+                }
+              }}
+              className="fixed top-0 left-0 right-0 z-[70] bg-stone-950/70 backdrop-blur-xl border-b border-stone-700/30 transition-transform duration-300 shadow-2xl shadow-black/20" 
+              style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
+            >
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 

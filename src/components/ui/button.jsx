@@ -5,26 +5,26 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:scale-105 hover:shadow-lg [&_svg]:drop-shadow-[0_0_2px_rgba(255,255,255,0.5)]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:scale-[1.02] active:scale-[0.98]",
   {
     variants: {
       variant: {
         default:
-          "bg-gradient-to-br from-red-600 to-red-700 text-amber-50 border border-red-600/40 hover:from-red-700 hover:to-red-800 hover:border-red-500 hover:shadow-red-600/20 [&_svg]:text-white [&_svg]:drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]",
+          "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 hover:from-red-700 hover:to-red-800 border border-red-500/20",
         destructive:
-          "bg-gradient-to-br from-red-600 to-red-700 text-amber-50 border border-red-600/40 hover:from-red-700 hover:to-red-800 hover:shadow-red-600/20",
+          "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 hover:from-red-700 hover:to-red-800",
         outline:
-          "border border-stone-700/50 bg-stone-800/50 text-stone-300 hover:text-amber-50 hover:bg-stone-800 hover:border-red-600/50 backdrop-blur-sm hover:shadow-red-600/10",
+          "border-2 border-stone-700/50 bg-stone-900/50 backdrop-blur-sm text-stone-200 hover:text-white hover:bg-stone-800/80 hover:border-stone-600 shadow-lg shadow-black/10",
         secondary:
-          "bg-gradient-to-br from-stone-700 to-stone-800 text-amber-50 border border-stone-600/50 hover:from-stone-600 hover:to-stone-700 hover:border-stone-500 hover:shadow-stone-600/20",
-        ghost: "hover:bg-stone-800/70 hover:text-amber-50 border border-transparent hover:border-red-600/30",
-        link: "text-red-400 underline-offset-4 hover:underline hover:text-red-300",
+          "bg-gradient-to-br from-stone-800 to-stone-900 text-white border border-stone-700/50 hover:from-stone-700 hover:to-stone-800 hover:border-stone-600 shadow-lg shadow-black/20",
+        ghost: "hover:bg-stone-800/60 hover:text-white transition-colors",
+        link: "text-red-400 underline-offset-4 hover:underline hover:text-red-300 hover:scale-100",
       },
       size: {
-        default: "h-10 px-5 py-2.5",
-        sm: "h-9 rounded-lg px-4 text-xs",
-        lg: "h-12 rounded-xl px-8 text-base",
-        icon: "h-10 w-10",
+        default: "h-11 px-6 py-3",
+        sm: "h-9 rounded-xl px-4 text-xs",
+        lg: "h-14 rounded-2xl px-10 text-base",
+        icon: "h-11 w-11",
       },
     },
     defaultVariants: {

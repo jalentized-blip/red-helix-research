@@ -10,56 +10,22 @@ const Hero = React.memo(() => {
 
   return (
     <section className="relative min-h-[100vh] flex items-center overflow-hidden">
-      {/* Background Image with Overlay - Lazy loaded */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&q=80&auto=format')`,
-          willChange: 'auto'
-        }}
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/95 to-stone-950/70" style={{ willChange: 'auto' }} />
+      {/* Background with modern gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-stone-950 via-stone-900 to-stone-950" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-red-950/20 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItMnptMCAwdi0yIDJ6bTAtMnYyLTJ6bTItMnYyLTJ6bS0yIDJ2LTIgMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40" />
       
-      {/* Animated accent line */}
+      {/* Modern geometric accents */}
        <motion.div 
-         className="absolute left-0 top-1/4 w-1 h-32 bg-gradient-to-b from-red-700 to-transparent"
-         initial={{ height: 0 }}
-         animate={{ height: 128 }}
-         transition={{ duration: 1, delay: 0.5 }}
-       />
-
-       {/* Floating peptide molecules */}
-       <motion.div 
-         className="absolute right-20 top-20 text-red-600/30 text-8xl"
-         animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
+         className="absolute right-[10%] top-[15%] w-96 h-96 bg-red-600/5 rounded-full blur-3xl"
+         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
          transition={{ duration: 8, repeat: Infinity }}
-       >
-         <svg width="120" height="120" viewBox="0 0 100 100" className="opacity-50">
-           <circle cx="50" cy="30" r="8" fill="currentColor" />
-           <circle cx="25" cy="65" r="7" fill="currentColor" />
-           <circle cx="75" cy="65" r="7" fill="currentColor" />
-           <circle cx="50" cy="85" r="6" fill="currentColor" />
-           <line x1="50" y1="38" x2="30" y2="60" stroke="currentColor" strokeWidth="2" />
-           <line x1="50" y1="38" x2="70" y2="60" stroke="currentColor" strokeWidth="2" />
-           <line x1="25" y1="72" x2="50" y2="79" stroke="currentColor" strokeWidth="2" />
-           <line x1="75" y1="72" x2="50" y2="79" stroke="currentColor" strokeWidth="2" />
-         </svg>
-       </motion.div>
-
+       />
        <motion.div 
-         className="absolute left-1/3 bottom-20 text-red-600/25 text-6xl"
-         animate={{ y: [0, 15, 0], rotate: [-10, 10, -10] }}
-         transition={{ duration: 6, repeat: Infinity, delay: 1 }}
-       >
-         <svg width="80" height="80" viewBox="0 0 100 100" className="opacity-40">
-           <circle cx="50" cy="30" r="6" fill="currentColor" />
-           <circle cx="30" cy="60" r="5" fill="currentColor" />
-           <circle cx="70" cy="60" r="5" fill="currentColor" />
-           <line x1="50" y1="36" x2="35" y2="55" stroke="currentColor" strokeWidth="1.5" />
-           <line x1="50" y1="36" x2="65" y2="55" stroke="currentColor" strokeWidth="1.5" />
-         </svg>
-       </motion.div>
+         className="absolute left-[15%] bottom-[20%] w-64 h-64 bg-blue-600/5 rounded-full blur-3xl"
+         animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
+         transition={{ duration: 10, repeat: Infinity, delay: 2 }}
+       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-32">
         <motion.div 
@@ -69,41 +35,54 @@ const Hero = React.memo(() => {
           className="max-w-2xl"
         >
           {/* Main Title */}
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
-            <span className="text-amber-50">Research Peptides</span>
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-8 leading-[0.95]">
+            <span className="bg-gradient-to-r from-amber-50 via-white to-amber-50 bg-clip-text text-transparent">
+              Research Peptides
+            </span>
             <br />
-            <span className="text-red-600" style={{ textShadow: '0 2px 8px rgba(139, 38, 53, 0.5), 0 0 15px rgba(139, 38, 53, 0.2)' }}>For Laboratory Use Only</span>
+            <span className="text-5xl md:text-6xl bg-gradient-to-r from-red-600 via-red-500 to-red-600 bg-clip-text text-transparent">
+              For Laboratory Use Only
+            </span>
           </h1>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl font-semibold text-amber-100 mb-3 tracking-wide">
-            Research Chemical Supplier
+          <p className="text-xl md:text-2xl font-medium text-stone-300 mb-2 tracking-wide">
+            Premium Research Chemical Supplier
           </p>
-          <p className="text-sm md:text-base text-red-600/90 font-medium uppercase tracking-widest mb-4">
-            Verified Third-Party Testing • Research Grade • Not For Human Consumption
-          </p>
-          <div className="bg-yellow-950/40 border border-yellow-700/50 rounded-lg px-4 py-3 mb-10">
-            <p className="text-yellow-100 text-xs md:text-sm font-semibold">
-              ⚠️ FOR RESEARCH AND LABORATORY USE ONLY - NOT INTENDED FOR HUMAN CONSUMPTION
+          <div className="flex flex-wrap gap-3 mb-8">
+            <span className="px-4 py-1.5 bg-stone-800/50 backdrop-blur-sm border border-stone-700/50 rounded-full text-xs font-medium text-stone-300">
+              Third-Party Tested
+            </span>
+            <span className="px-4 py-1.5 bg-stone-800/50 backdrop-blur-sm border border-stone-700/50 rounded-full text-xs font-medium text-stone-300">
+              Research Grade
+            </span>
+            <span className="px-4 py-1.5 bg-stone-800/50 backdrop-blur-sm border border-stone-700/50 rounded-full text-xs font-medium text-stone-300">
+              Lab Use Only
+            </span>
+          </div>
+          <div className="bg-gradient-to-r from-yellow-950/30 via-yellow-900/20 to-yellow-950/30 backdrop-blur-sm border border-yellow-700/30 rounded-2xl px-6 py-4 mb-10">
+            <p className="text-yellow-100/90 text-sm font-medium flex items-start gap-3">
+              <span className="text-xl mt-0.5">⚠️</span>
+              <span>FOR RESEARCH AND LABORATORY USE ONLY - NOT INTENDED FOR HUMAN CONSUMPTION</span>
             </p>
           </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Button 
+              onClick={() => scrollTo('products')}
+              className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-7 text-base font-semibold rounded-2xl shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 transition-all border border-red-500/20"
+            >
+              <ShoppingBag className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+              Shop Peptides
+            </Button>
+            <Button 
               variant="outline"
               onClick={() => scrollTo('certificates')}
-              className="bg-transparent border-2 border-amber-50 text-amber-50 hover:bg-amber-50 hover:text-stone-900 px-8 py-6 text-base font-semibold uppercase tracking-wide transition-all"
+              className="bg-stone-900/50 backdrop-blur-sm border-2 border-stone-700/50 text-stone-200 hover:bg-stone-800/80 hover:border-stone-600 px-10 py-7 text-base font-semibold rounded-2xl transition-all"
             >
               <FileText className="w-5 h-5 mr-2" />
               View Test Reports
-            </Button>
-            <Button 
-              onClick={() => scrollTo('products')}
-              className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 py-6 text-base font-semibold uppercase tracking-wide"
-            >
-              <ShoppingBag className="w-5 h-5 mr-2" />
-              Shop Peptides
             </Button>
           </div>
         </motion.div>
