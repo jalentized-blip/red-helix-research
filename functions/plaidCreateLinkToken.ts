@@ -33,19 +33,12 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         user: {
-          client_user_id: user.id,
-          email_address: user.email,
-          name: user.full_name || user.email
+          client_user_id: user.id
         },
         client_name: 'Red Helix Research',
         products: ['auth'],
         country_codes: ['US'],
-        language: 'en',
-        account_filters: {
-          depository: {
-            account_subtypes: ['checking', 'savings']
-          }
-        }
+        language: 'en'
       })
     });
 
