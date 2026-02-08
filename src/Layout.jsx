@@ -116,7 +116,7 @@ const HeaderSearch = () => {
                     setShowResults(false);
                     setIsExpanded(false);
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-50 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-red-500 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -129,39 +129,39 @@ const HeaderSearch = () => {
         <AnimatePresence>
           {isExpanded && showResults && searchQuery && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={() => setIsExpanded(true)}
-              className="absolute top-full mt-2 w-[320px] max-h-[60vh] overflow-y-auto bg-stone-900/95 backdrop-blur-md border border-stone-700 rounded-lg shadow-2xl z-50"
+              className="absolute top-full mt-3 w-[400px] -right-4 max-h-[70vh] overflow-y-auto bg-stone-900/98 backdrop-blur-xl border border-stone-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50 p-2"
             >
               {!hasResults ? (
-                <div className="p-6 text-center text-stone-400 text-sm">
-                  No results found for "{searchQuery}"
+                <div className="p-8 text-center text-stone-500 text-sm italic">
+                  No matches found for "{searchQuery}"
                 </div>
               ) : (
-                <div className="p-3">
+                <div className="space-y-4 p-2">
                   {/* Pages Section */}
                   {filteredPages.length > 0 && (
-                    <div className="mb-3">
-                      <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2 px-2">
-                        Pages
+                    <div>
+                      <h3 className="text-[10px] font-black text-stone-500 uppercase tracking-[0.2em] mb-2 px-3">
+                        Quick Links
                       </h3>
-                      <div className="space-y-1">
+                      <div className="grid grid-cols-1 gap-1">
                         {filteredPages.map((page) => (
                           <a
                             key={page.name}
                             href={page.url}
-                            className="block px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
+                            className="group flex flex-col px-3 py-2.5 rounded-lg hover:bg-stone-800/40 transition-all duration-200 border border-transparent hover:border-stone-700/50"
                             onClick={() => {
                               setSearchQuery('');
                               setShowResults(false);
                               setIsExpanded(false);
                             }}
                           >
-                            <div className="font-semibold text-amber-50 text-sm">{page.name}</div>
-                            <div className="text-xs text-stone-400">{page.description}</div>
+                            <div className="font-bold text-stone-200 text-sm group-hover:text-red-500 transition-colors">{page.name}</div>
+                            <div className="text-[11px] text-stone-500 group-hover:text-stone-400 transition-colors">{page.description}</div>
                           </a>
                         ))}
                       </div>
@@ -171,14 +171,15 @@ const HeaderSearch = () => {
                   {/* Products Section */}
                   {filteredProducts.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2 px-2">
+                      <div className="h-px bg-stone-800/50 my-3 mx-2" />
+                      <h3 className="text-[10px] font-black text-stone-500 uppercase tracking-[0.2em] mb-2 px-3">
                         Products
                       </h3>
-                      <div className="space-y-1">
+                      <div className="grid grid-cols-1 gap-1">
                         {filteredProducts.slice(0, 8).map((product) => (
                           <button
                             key={product.id}
-                            className="block w-full text-left px-3 py-2 rounded-lg hover:bg-stone-800/50 transition-colors"
+                            className="group flex items-center justify-between w-full text-left px-3 py-2.5 rounded-lg hover:bg-stone-800/40 transition-all duration-200 border border-transparent hover:border-stone-700/50"
                             onClick={() => {
                               setSearchQuery('');
                               setShowResults(false);
@@ -192,16 +193,20 @@ const HeaderSearch = () => {
                               }, 100);
                             }}
                           >
-                            <div className="font-semibold text-amber-50 text-sm">{product.name}</div>
-                            {product.description && (
-                              <div className="text-xs text-stone-400 line-clamp-1">{product.description}</div>
-                            )}
-                            <div className="text-xs text-red-600 mt-1">From ${product.price_from}</div>
+                            <div className="flex-1">
+                              <div className="font-bold text-stone-200 text-sm group-hover:text-red-500 transition-colors">{product.name}</div>
+                              {product.description && (
+                                <div className="text-[11px] text-stone-500 group-hover:text-stone-400 line-clamp-1">{product.description}</div>
+                              )}
+                            </div>
+                            <div className="text-xs font-black text-red-600 ml-4">
+                              ${product.price_from}
+                            </div>
                           </button>
                         ))}
                         {filteredProducts.length > 8 && (
-                          <div className="px-3 py-2 text-xs text-stone-400">
-                            +{filteredProducts.length - 8} more products
+                          <div className="px-3 py-2 text-[10px] text-stone-600 font-bold italic">
+                            +{filteredProducts.length - 8} additional products
                           </div>
                         )}
                       </div>
@@ -490,62 +495,63 @@ const HeaderSearch = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-3 flex-1 justify-center">
-            <style>{`
-              @keyframes pulse-glow {
-                0%, 100% { box-shadow: 0 0 8px rgba(220, 38, 38, 0.15), 0 0 16px rgba(220, 38, 38, 0.1); }
-                50% { box-shadow: 0 0 12px rgba(220, 38, 38, 0.25), 0 0 24px rgba(220, 38, 38, 0.15); }
-              }
-              .pulse-glow {
-                animation: pulse-glow 3s ease-in-out infinite;
-              }
-            `}</style>
-            <div className="flex items-center gap-2">
-              <Link to={createPageUrl('Home')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                <span className="relative z-10">Home</span>
+          <nav className="hidden lg:flex items-center gap-6 flex-1 justify-center">
+            <div className="flex items-center gap-1">
+              <Link to={createPageUrl('Home')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <span className="relative z-10">HOME</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
 
-              <Link to={createPageUrl('Products')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                <span className="relative z-10">Shop</span>
+              <Link to={createPageUrl('Products')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <span className="relative z-10">SHOP</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
 
-              <Link to={createPageUrl('About')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                <span className="relative z-10">About</span>
+              <Link to={createPageUrl('About')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <span className="relative z-10">ABOUT</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
-              <Link to={createPageUrl('Contact')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                <span className="relative z-10">Contact</span>
+              
+              <Link to={createPageUrl('Contact')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <span className="relative z-10">CONTACT</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
             </div>
 
-            <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
+            <div className="h-4 w-px bg-stone-800" />
 
-            <div className="flex items-center gap-2">
-              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                <span className="relative z-10">Calculator</span>
+            <div className="flex items-center gap-1">
+              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <span className="relative z-10">CALCULATOR</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
-              <Link to={createPageUrl('LearnMore')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                <span className="relative z-10">Research</span>
+              <Link to={createPageUrl('LearnMore')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <span className="relative z-10">RESEARCH</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
-              <button onClick={() => scrollTo('#certificates')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
+              <button onClick={() => scrollTo('#certificates')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">COAs</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </button>
             </div>
 
             {isAuthenticated && (
               <>
-                <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
-                <Link to={createPageUrl('Account')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow">
-                  <span className="relative z-10">Account</span>
+                <div className="h-4 w-px bg-stone-800" />
+                <Link to={createPageUrl('Account')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                  <span className="relative z-10">ACCOUNT</span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </Link>
               </>
             )}
 
             {isAdmin && !viewAsUser && (
               <>
-                <div className="h-6 w-px bg-gradient-to-b from-transparent via-stone-600 to-transparent" />
-                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-sm font-semibold text-stone-300 hover:text-amber-50 px-4 py-2.5 transition-all rounded-xl hover:bg-gradient-to-br hover:from-stone-800/90 hover:to-stone-800/60 border border-stone-700/50 hover:border-red-600/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-600/10 hover:scale-105 pulse-glow flex items-center gap-1.5">
-                  <Eye className="w-4 h-4 transition-transform group-hover:scale-110" />
-                  <span className="relative z-10">Market Intel</span>
+                <div className="h-4 w-px bg-stone-800" />
+                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300 flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5" />
+                  <span className="relative z-10 uppercase">Market Intel</span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </Link>
               </>
             )}
@@ -557,7 +563,7 @@ const HeaderSearch = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {isAuthenticated && isAdmin && !viewAsUser && (
               <NotificationCenter userEmail={user?.email} />
             )}
@@ -569,29 +575,29 @@ const HeaderSearch = () => {
             {isAdmin && (
               <button
                 onClick={() => setViewAsUser(!viewAsUser)}
-                className={`hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all hover:scale-105 hover:shadow-lg ${
+                className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-md border transition-all duration-300 ${
                   viewAsUser 
-                    ? 'bg-gradient-to-br from-blue-600/20 to-blue-700/10 border-blue-600/50 text-blue-400 hover:from-blue-600/30 hover:to-blue-700/20 hover:border-blue-500 hover:shadow-blue-600/20' 
-                    : 'bg-gradient-to-br from-red-600/20 to-red-700/10 border-red-600/50 text-red-400 hover:from-red-600/30 hover:to-red-700/20 hover:border-red-500 hover:shadow-red-600/20'
+                    ? 'bg-blue-600/10 border-blue-600/40 text-blue-400 hover:bg-blue-600/20 hover:border-blue-500' 
+                    : 'bg-red-600/10 border-red-600/40 text-red-400 hover:bg-red-600/20 hover:border-red-500'
                 }`}
                 title={viewAsUser ? 'Viewing as User' : 'Viewing as Admin'}
               >
-                {viewAsUser ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
-                <span className="text-xs font-bold tracking-wide">
-                  {viewAsUser ? 'User View' : 'Admin View'}
+                <div className={`w-2 h-2 rounded-full animate-pulse ${viewAsUser ? 'bg-blue-500' : 'bg-red-500'}`} />
+                <span className="text-[11px] font-bold tracking-widest uppercase">
+                  {viewAsUser ? 'USER' : 'ADMIN'}
                 </span>
               </button>
             )}
 
-            <Link to={createPageUrl('Cart')}>
-              <button className="relative p-3 rounded-xl bg-gradient-to-br from-red-600/20 to-red-700/10 border border-red-600/40 text-white hover:from-red-600/30 hover:to-red-700/20 hover:border-red-600/70 hover:text-white transition-all duration-300 group hover:scale-110 hover:shadow-lg hover:shadow-red-600/20">
-                <ShoppingCart className="w-6 h-6 group-hover:scale-110 transition-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]" strokeWidth={2.5} />
+            <Link to={createPageUrl('Cart')} className="relative group">
+              <div className="p-2.5 rounded-lg border border-stone-800 bg-stone-900/50 hover:border-red-600/50 transition-all duration-300">
+                <ShoppingCart className="w-5 h-5 text-stone-400 group-hover:text-red-500 transition-colors" strokeWidth={2} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border-2 border-stone-950 animate-pulse">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-4.5 px-1 bg-red-600 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg shadow-red-900/20 border border-stone-950">
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </div>
             </Link>
 
             {/* User Menu */}
@@ -603,7 +609,7 @@ const HeaderSearch = () => {
                 }
               }}>
                 <SheetTrigger asChild>
-                  <button className="p-3 rounded-xl bg-stone-800/50 border border-stone-700/50 text-stone-300 hover:text-amber-50 hover:bg-stone-800 hover:border-stone-600 transition-all hover:scale-110 hover:shadow-lg">
+                  <button className="p-2.5 rounded-lg border border-stone-800 bg-stone-900/50 hover:border-stone-600 text-stone-400 hover:text-white transition-all duration-300">
                     <Menu className="w-5 h-5" />
                   </button>
                 </SheetTrigger>
