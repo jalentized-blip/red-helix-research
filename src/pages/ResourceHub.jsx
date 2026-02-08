@@ -153,7 +153,7 @@ export default function ResourceHub() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Resource Hub | Red Helix Research"
         description="Complete guide to all Red Helix Research tools, guides, and resources. Find calculators, education, support, and community."
@@ -162,14 +162,15 @@ export default function ResourceHub() {
 
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
-            ← Back to Home
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 rounded-full font-bold uppercase tracking-wider text-xs">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Resource Hub</h1>
-          <p className="text-xl text-stone-300">Everything you need for research, learning, and success</p>
+          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Resource <span className="text-red-600">Hub</span></h1>
+          <p className="text-xl text-slate-500 font-medium">Everything you need for research, learning, and success</p>
         </motion.div>
 
         {/* Resource Categories */}
@@ -185,8 +186,10 @@ export default function ResourceHub() {
                 viewport={{ once: true }}
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <IconComponent className={`w-8 h-8 ${category.color}`} />
-                  <h2 className="text-3xl font-bold text-amber-50">{category.category}</h2>
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    <IconComponent className={`w-6 h-6 ${category.color}`} />
+                  </div>
+                  <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">{category.category}</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -198,14 +201,14 @@ export default function ResourceHub() {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: itemIdx * 0.05 }}
                       viewport={{ once: true }}
-                      className="group bg-stone-900/60 border border-stone-700 rounded-lg p-6 hover:border-red-700/50 hover:bg-stone-800/60 transition-all"
+                      className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-red-600 hover:shadow-xl transition-all shadow-sm"
                     >
-                      <h3 className="font-bold text-amber-50 mb-2 group-hover:text-red-400 transition">
+                      <h3 className="font-black text-slate-900 mb-2 group-hover:text-red-600 transition uppercase tracking-tight text-lg">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-stone-400 mb-4">{item.description}</p>
-                      <span className="text-xs font-semibold text-red-600 flex items-center gap-1">
-                        Access Resource →
+                      <p className="text-sm text-slate-500 mb-4 font-medium">{item.description}</p>
+                      <span className="text-xs font-black text-red-600 flex items-center gap-1 uppercase tracking-widest">
+                        Access Resource <ChevronRight className="w-3 h-3" />
                       </span>
                     </motion.a>
                   ))}
@@ -220,31 +223,52 @@ export default function ResourceHub() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8 mt-16"
+          className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 mt-16 relative overflow-hidden"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Quick Start for New Researchers</h2>
-          <ol className="space-y-4 text-stone-300">
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold min-w-fit">1. Learn</span>
-              <span>Start with our <Link to={createPageUrl('LearnMore')} className="text-red-600 hover:text-red-400 underline">Research Database</Link> to understand available peptides</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold min-w-fit">2. Calculate</span>
-              <span>Use the <Link to={createPageUrl('PeptideCalculator')} className="text-red-600 hover:text-red-400 underline">Peptide Calculator</Link> to plan your protocol</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold min-w-fit">3. Choose</span>
-              <span>Compare options using our <Link to={createPageUrl('PeptideComparison')} className="text-red-600 hover:text-red-400 underline">Comparison Tool</Link></span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold min-w-fit">4. Order</span>
-              <span>Place your order knowing every batch is 100% third-party tested</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold min-w-fit">5. Execute</span>
-              <span>Follow our <Link to={createPageUrl('BlogGuide')} className="text-red-600 hover:text-red-400 underline">Reconstitution Guides</Link> for perfect results</span>
-            </li>
-          </ol>
+          <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
+            <Zap className="w-64 h-64 text-slate-900" />
+          </div>
+          
+          <div className="relative z-10">
+            <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tight">Quick Start for New Researchers</h2>
+            <ol className="space-y-6">
+              <li className="flex items-start gap-4">
+                <span className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">1</span>
+                <div>
+                  <span className="text-slate-900 font-bold block mb-1">Learn Basics</span>
+                  <span className="text-slate-500 font-medium">Start with our <Link to={createPageUrl('LearnMore')} className="text-red-600 hover:text-red-700 underline font-bold">Research Database</Link> to understand available peptides</span>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">2</span>
+                <div>
+                  <span className="text-slate-900 font-bold block mb-1">Calculate Protocol</span>
+                  <span className="text-slate-500 font-medium">Use the <Link to={createPageUrl('PeptideCalculator')} className="text-red-600 hover:text-red-700 underline font-bold">Peptide Calculator</Link> to plan your research</span>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">3</span>
+                <div>
+                  <span className="text-slate-900 font-bold block mb-1">Compare Options</span>
+                  <span className="text-slate-500 font-medium">Compare efficacy using our <Link to={createPageUrl('PeptideComparison')} className="text-red-600 hover:text-red-700 underline font-bold">Comparison Tool</Link></span>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">4</span>
+                <div>
+                  <span className="text-slate-900 font-bold block mb-1">Verify Quality</span>
+                  <span className="text-slate-500 font-medium">Review <Link to={createPageUrl('COAReports')} className="text-red-600 hover:text-red-700 underline font-bold">COA Reports</Link> to ensure batch purity</span>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">5</span>
+                <div>
+                  <span className="text-slate-900 font-bold block mb-1">Execute Research</span>
+                  <span className="text-slate-500 font-medium">Follow our <Link to={createPageUrl('BlogGuide')} className="text-red-600 hover:text-red-700 underline font-bold">Reconstitution Guides</Link> for precise results</span>
+                </div>
+              </li>
+            </ol>
+          </div>
         </motion.div>
       </div>
     </div>

@@ -180,7 +180,6 @@ export default function PeptideLearn() {
 
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
-  const productName = params.get('name');
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
@@ -290,9 +289,9 @@ export default function PeptideLearn() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      <div className="min-h-screen bg-white pt-32 pb-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-stone-400">Loading research data...</p>
+          <p className="text-slate-500">Loading research data...</p>
         </div>
       </div>
     );
@@ -300,14 +299,14 @@ export default function PeptideLearn() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      <div className="min-h-screen bg-white pt-32 pb-20">
         <div className="max-w-4xl mx-auto px-4">
           <Link to={createPageUrl('LearnMore')}>
-            <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6">
               ← Back to Learn More
             </Button>
           </Link>
-          <p className="text-stone-400 text-center">Product not found.</p>
+          <p className="text-slate-500 text-center">Product not found.</p>
         </div>
       </div>
     );
@@ -316,11 +315,11 @@ export default function PeptideLearn() {
   // Special render for Bacteriostatic Water
   if (isBacWater && peptideData) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      <div className="min-h-screen bg-white pt-32 pb-20">
         <div className="max-w-4xl mx-auto px-4">
           {/* Header */}
           <Link to={createPageUrl('LearnMore')}>
-            <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6">
               ← Back to Learn More
             </Button>
           </Link>
@@ -332,435 +331,390 @@ export default function PeptideLearn() {
             className="mb-12"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Droplets className="w-6 h-6 text-white" />
+              <div className="p-3 bg-red-600/10 rounded-xl border border-red-600/20">
+                <Droplets className="w-8 h-8 text-red-600" />
               </div>
               <div>
-                <h1 className="text-5xl font-black text-amber-50">Bacteriostatic Water</h1>
-                <p className="text-stone-400 text-sm">BAC Water Research Grade</p>
+                <h1 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
+                  {product.name}
+                </h1>
+                <p className="text-red-600 font-bold tracking-widest text-sm uppercase mt-1">
+                  Research Grade Reconstitution Diluent
+                </p>
               </div>
             </div>
-            <p className="text-stone-300 text-lg mb-6">{product.description || "Essential sterile diluent for peptide reconstitution with 0.9% benzyl alcohol preservative."}</p>
-            <div className="flex gap-4 flex-wrap">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="px-6 py-2 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
-              >
-                View Product
-              </button>
-              <Link to={createPageUrl('PeptideCalculator')}>
-                <button className="px-6 py-2 bg-stone-800 hover:bg-stone-700 text-amber-50 font-semibold rounded-lg transition-colors border border-stone-600">
-                  Reconstitution Calculator
-                </button>
-              </Link>
+            
+            <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100">
+              <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <Info className="w-5 h-5 text-red-600" />
+                Overview
+              </h2>
+              <p className="text-slate-600 leading-relaxed">
+                {peptideData.overview}
+              </p>
             </div>
           </motion.div>
 
-          {/* Overview */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
-          >
-            <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-              <Info className="w-6 h-6 text-blue-500" />
-              What is Bacteriostatic Water?
-            </h2>
-            <p className="text-stone-300 leading-relaxed">{peptideData.overview}</p>
-          </motion.div>
-
-          {/* Key Benefits */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
-          >
-            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-              <CheckCircle className="w-6 h-6 text-green-600" />
-              Key Benefits
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {peptideData.keyBenefits.map((benefit, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <div className="h-6 w-6 bg-green-600/20 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                    <CheckCircle className="w-4 h-4 text-green-400" />
-                  </div>
-                  <p className="text-stone-300">{benefit}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Common Uses */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-8"
-          >
-            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-              <Beaker className="w-6 h-6 text-blue-600" />
-              Common Uses
-            </h2>
-            <div className="space-y-4">
-              {peptideData.potentialUses.map((use, idx) => (
-                <div key={idx} className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold text-blue-400 mb-2">{use.title}</h3>
-                  <p className="text-stone-300 mb-3">{use.description}</p>
-                  <div className="bg-stone-800/50 rounded p-3 border-l-2 border-blue-600">
-                    <p className="text-sm text-stone-400"><span className="font-semibold text-stone-300">How it works:</span> {use.mechanism}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Storage Guidelines */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-blue-900/30 to-stone-900/50 border border-blue-600/30 rounded-lg p-8 mb-8"
-          >
-            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-              <Thermometer className="w-6 h-6 text-blue-500" />
-              Storage Guidelines
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {peptideData.storageInfo.map((info, idx) => (
-                <div key={idx} className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
-                  <div className="flex items-center gap-2 mb-2">
-                    {info.icon === 'Thermometer' && <Thermometer className="w-5 h-5 text-blue-400" />}
-                    {info.icon === 'Clock' && <Clock className="w-5 h-5 text-blue-400" />}
-                    {info.icon === 'Droplets' && <Droplets className="w-5 h-5 text-blue-400" />}
-                    <h3 className="text-amber-50 font-semibold">{info.title}</h3>
-                  </div>
-                  <p className="text-stone-400 text-sm">{info.details}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Research & Standards */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-8"
-          >
-            <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-              <TestTube className="w-6 h-6 text-purple-600" />
-              Research & Quality Standards
-            </h2>
-            <div className="space-y-4">
-              {peptideData.clinicalTrials.map((trial, idx) => (
-                <div key={idx} className="bg-stone-900/50 border border-purple-600/30 rounded-lg p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Study</p>
-                      <p className="text-amber-50 font-semibold">{trial.title}</p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Year</p>
-                      <p className="text-amber-50 font-semibold">{trial.year}</p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Source</p>
-                      <p className="text-amber-50 font-semibold text-sm">{trial.institution}</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-stone-700">
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Type</p>
-                      <p className="text-amber-50 font-semibold">{trial.participants}</p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm mb-1">Duration</p>
-                      <p className="text-amber-50 font-semibold">{trial.duration}</p>
-                    </div>
-                  </div>
-
-                  <div className="mb-4">
-                    <p className="text-stone-400 text-sm mb-2">Key Findings</p>
-                    <p className="text-stone-300">{trial.findings}</p>
-                  </div>
-
-                  <div className="bg-green-600/10 border border-green-600/30 rounded p-3">
-                    <p className="text-green-300 text-sm"><span className="font-semibold">Conclusion:</span> {trial.conclusion}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Dosage & Reconstitution */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
-          >
-            <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-              <FlaskConical className="w-6 h-6 text-blue-500" />
-              Reconstitution Guidelines
-            </h2>
-            <p className="text-stone-300 leading-relaxed">{peptideData.dosage}</p>
-          </motion.div>
-
-          {/* Safety & Warnings */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
-            <div className="bg-stone-900/50 border border-amber-600/30 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                <Shield className="w-5 h-5 text-amber-600" />
-                Safety Profile
+          {/* Key Benefits Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-xl shadow-slate-100"
+            >
+              <h3 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-3">
+                <CheckCircle className="w-6 h-6 text-red-600" />
+                Key Benefits
               </h3>
-              <p className="text-stone-300 text-sm">{peptideData.safetyProfile}</p>
-            </div>
-
-            <div className="bg-red-900/20 border border-red-600/30 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-red-500" />
-                Important Warnings
-              </h3>
-              <ul className="space-y-2">
-                {peptideData.warnings.map((warning, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-red-200 text-sm">
-                    <span className="text-red-500 mt-1">•</span>
-                    {warning}
+              <ul className="space-y-4">
+                {peptideData.keyBenefits.map((benefit, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-slate-600">
+                    <div className="w-1.5 h-1.5 rounded-full bg-red-600 mt-2.5 flex-shrink-0" />
+                    <span className="text-sm font-medium">{benefit}</span>
                   </li>
                 ))}
               </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-slate-50 border border-slate-200 text-slate-900 rounded-[32px] p-8 shadow-xl shadow-slate-100"
+            >
+              <h3 className="text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-3">
+                <Shield className="w-6 h-6 text-red-600" />
+                Storage & Handling
+              </h3>
+              <div className="space-y-6">
+                {peptideData.storageInfo.map((info, idx) => (
+                  <div key={idx} className="flex gap-4">
+                    <div className="p-2 bg-white border border-slate-200 rounded-lg h-fit shadow-sm">
+                      {info.icon === 'Thermometer' && <Thermometer className="w-5 h-5 text-red-600" />}
+                      {info.icon === 'Clock' && <Clock className="w-5 h-5 text-red-600" />}
+                      {info.icon === 'Droplets' && <Droplets className="w-5 h-5 text-red-600" />}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-sm mb-1">{info.title}</h4>
+                      <p className="text-slate-500 text-xs leading-relaxed">{info.details}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Applications */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter text-center">
+              Research <span className="text-red-600">Applications</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {peptideData.potentialUses.map((use, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 + (idx * 0.1) }}
+                  className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-red-600/30 transition-all hover:shadow-lg hover:shadow-red-600/5"
+                >
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">{use.title}</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4">{use.description}</p>
+                  <div className="pt-4 border-t border-slate-100">
+                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Mechanism</p>
+                    <p className="text-xs text-slate-400 italic">{use.mechanism}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Research Disclaimer */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-8 bg-amber-900/30 border border-amber-600/50 rounded-lg p-6"
-          >
-            <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-amber-600" />
-              Research Use Only
-            </h3>
-            <p className="text-amber-100 font-semibold">This product is intended for research purposes only. Not for human consumption. Always follow proper laboratory protocols and safety guidelines.</p>
-          </motion.div>
+          {/* Clinical Data */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter text-center">
+              Clinical <span className="text-red-600">Data</span>
+            </h2>
+            <div className="space-y-4">
+              {peptideData.clinicalTrials.map((trial, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-red-600/20 transition-all"
+                >
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-900">{trial.title}</h3>
+                      <p className="text-sm text-slate-500">{trial.institution} • {trial.year}</p>
+                    </div>
+                    <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-full whitespace-nowrap">
+                      {trial.participants}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-slate-50 rounded-xl p-4">
+                      <p className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Key Findings</p>
+                      <p className="text-sm text-slate-600 leading-relaxed">{trial.findings}</p>
+                    </div>
+                    <div className="bg-red-50 rounded-xl p-4 border border-red-100">
+                      <p className="text-xs font-bold text-red-700 uppercase tracking-wider mb-2">Conclusion</p>
+                      <p className="text-sm text-slate-700 leading-relaxed">{trial.conclusion}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
 
-          <ProductModal 
-            product={product} 
-            isOpen={isModalOpen} 
-            onClose={() => setIsModalOpen(false)} 
-          />
+          {/* Safety & Warnings */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            <div className="bg-white border border-slate-200 rounded-[32px] p-8">
+              <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-2">
+                <Shield className="w-5 h-5 text-red-600" />
+                Safety Profile
+              </h3>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {peptideData.safetyProfile}
+              </p>
+              <div className="bg-red-50 border border-red-100 rounded-xl p-4">
+                <h4 className="text-red-800 font-bold text-sm mb-2 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" />
+                  Important Warnings
+                </h4>
+                <ul className="space-y-1">
+                  {peptideData.warnings.map((warning, idx) => (
+                    <li key={idx} className="text-xs text-red-700/80 flex items-start gap-2">
+                      <span className="mt-1">•</span>
+                      <span>{warning}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-slate-900 rounded-[32px] p-8 text-white">
+              <h3 className="text-xl font-black mb-6 uppercase tracking-tight flex items-center gap-2">
+                <FlaskConical className="w-5 h-5 text-red-600" />
+                Usage Guidelines
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-slate-800 rounded-xl border border-slate-700">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Standard Dosage</p>
+                  <p className="text-sm text-slate-200">{peptideData.dosage}</p>
+                </div>
+                <Button 
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent('openProductModal', { 
+                      detail: { product } 
+                    }));
+                  }}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 rounded-xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02]"
+                >
+                  Initialize Order
+                </Button>
+                <p className="text-[10px] text-center text-slate-500 uppercase tracking-wider">
+                  Strictly for research and laboratory use only
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Standard peptide render
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
         <Link to={createPageUrl('LearnMore')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6">
             ← Back to Learn More
           </Button>
         </Link>
 
-        {/* Title Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-12 w-12 bg-red-600 rounded-lg flex items-center justify-center">
-              <Beaker className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-5xl font-black text-amber-50">{product.name}</h1>
-          </div>
-          <p className="text-stone-300 text-lg mb-6">{product.description}</p>
-          <div className="flex gap-4 flex-wrap">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-6 py-2 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
-            >
-              View Product
-            </button>
-          </div>
-        </motion.div>
-
-        {peptideData && (
-          <>
-            {/* Overview */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
-            >
-              <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                <TrendingUp className="w-6 h-6 text-red-600" />
-                Overview
-              </h2>
-              <p className="text-stone-300 leading-relaxed">{peptideData.overview}</p>
-            </motion.div>
-
-            {/* Key Benefits */}
-            {peptideData.keyBenefits && peptideData.keyBenefits.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 mb-8"
-              >
-                <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
-                  Key Benefits
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {peptideData.keyBenefits.map((benefit, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <div className="h-6 w-6 bg-green-600/20 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                        <CheckCircle className="w-4 h-4 text-green-400" />
-                      </div>
-                      <p className="text-stone-300">{benefit}</p>
-                    </div>
-                  ))}
+        {peptideData ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-4 bg-slate-50 rounded-[24px] border border-slate-200">
+                <Beaker className="w-10 h-10 text-red-600" />
+              </div>
+              <div>
+                <h1 className="text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter">
+                  {product.name}
+                </h1>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="px-3 py-1 bg-red-50 border border-red-100 text-red-600 text-xs font-bold uppercase tracking-wider rounded-full">
+                    Research Compound
+                  </span>
+                  <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-full">
+                    High Purity >99%
+                  </span>
                 </div>
-              </motion.div>
-            )}
+              </div>
+            </div>
+
+            {/* Overview Card */}
+            <div className="bg-white border border-slate-200 rounded-[32px] p-8 md:p-10 shadow-xl shadow-slate-100 mb-12 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-50" />
+              <h2 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight relative z-10">
+                Compound <span className="text-red-600">Overview</span>
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed relative z-10">
+                {peptideData.overview}
+              </p>
+            </div>
 
             {/* Potential Uses */}
-            {peptideData.potentialUses && peptideData.potentialUses.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-                  <Beaker className="w-6 h-6 text-blue-600" />
-                  Potential Uses
-                </h2>
-                <div className="space-y-4">
-                  {peptideData.potentialUses.map((use, idx) => (
-                    <div key={idx} className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
-                      <h3 className="text-xl font-semibold text-blue-400 mb-2">{use.title}</h3>
-                      <p className="text-stone-300 mb-3">{use.description}</p>
-                      <div className="bg-stone-800/50 rounded p-3 border-l-2 border-blue-600">
-                        <p className="text-sm text-stone-400"><span className="font-semibold text-stone-300">Mechanism:</span> {use.mechanism}</p>
+            <div className="mb-16">
+              <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
+                <TestTube className="w-8 h-8 text-red-600" />
+                Research Applications
+              </h2>
+              <div className="grid grid-cols-1 gap-6">
+                {peptideData.potentialUses.map((use, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="bg-white border border-slate-200 rounded-[32px] p-8 hover:border-red-600/30 transition-all group"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                        {use.title}
+                      </h3>
+                      <div className="p-2 bg-slate-50 rounded-full group-hover:bg-red-50 transition-colors">
+                        <TrendingUp className="w-5 h-5 text-slate-400 group-hover:text-red-600 transition-colors" />
                       </div>
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+                    <p className="text-slate-600 leading-relaxed mb-6">
+                      {use.description}
+                    </p>
+                    <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Mechanism of Action</p>
+                      <p className="text-sm text-slate-700 font-medium leading-relaxed">
+                        {use.mechanism}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
 
             {/* Clinical Trials */}
-            {peptideData.clinicalTrials && peptideData.clinicalTrials.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-                  <TestTube className="w-6 h-6 text-purple-600" />
-                  Clinical Trial Findings
-                </h2>
-                <div className="space-y-4">
-                  {peptideData.clinicalTrials.map((trial, idx) => (
-                    <div key={idx} className="bg-stone-900/50 border border-purple-600/30 rounded-lg p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div>
-                          <p className="text-stone-400 text-sm mb-1">Study</p>
-                          <p className="text-amber-50 font-semibold">{trial.title}</p>
-                        </div>
-                        <div>
-                          <p className="text-stone-400 text-sm mb-1">Year</p>
-                          <p className="text-amber-50 font-semibold">{trial.year}</p>
-                        </div>
-                        <div>
-                          <p className="text-stone-400 text-sm mb-1">Institution</p>
-                          <p className="text-amber-50 font-semibold text-sm">{trial.institution}</p>
+            <div className="mb-16">
+              <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
+                <CheckCircle className="w-8 h-8 text-red-600" />
+                Clinical Data
+              </h2>
+              <div className="grid grid-cols-1 gap-6">
+                {peptideData.clinicalTrials.map((trial, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8 pb-8 border-b border-slate-200">
+                      <div>
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">{trial.title}</h3>
+                        <div className="flex items-center gap-4 text-sm text-slate-500">
+                          <span>{trial.year}</span>
+                          <span>•</span>
+                          <span>{trial.institution}</span>
                         </div>
                       </div>
-
-                      <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-stone-700">
-                        <div>
-                          <p className="text-stone-400 text-sm mb-1">Participants</p>
-                          <p className="text-amber-50 font-semibold">{trial.participants}</p>
-                        </div>
-                        <div>
-                          <p className="text-stone-400 text-sm mb-1">Duration</p>
-                          <p className="text-amber-50 font-semibold">{trial.duration}</p>
-                        </div>
-                      </div>
-
-                      <div className="mb-4">
-                        <p className="text-stone-400 text-sm mb-2">Key Findings</p>
-                        <p className="text-stone-300">{trial.findings}</p>
-                      </div>
-
-                      <div className="bg-green-600/10 border border-green-600/30 rounded p-3">
-                        <p className="text-green-300 text-sm"><span className="font-semibold">Conclusion:</span> {trial.conclusion}</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-3 py-1 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600">
+                          {trial.participants}
+                        </span>
+                        <span className="px-3 py-1 bg-red-50 text-red-600 border border-red-100 rounded-full text-xs font-bold">
+                          {trial.duration}
+                        </span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Safety & Dosage */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            >
-              {peptideData.safetyProfile && (
-                <div className="bg-stone-900/50 border border-amber-600/30 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5 text-amber-600" />
-                    Safety Profile
-                  </h3>
-                  <p className="text-stone-300">{peptideData.safetyProfile}</p>
-                </div>
-              )}
-
-              <div className="bg-amber-900/30 border border-amber-600/50 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5 text-amber-600" />
-                  Research Use Only
-                </h3>
-                <p className="text-amber-100 font-semibold">This peptide is intended for research purposes only. Not for human consumption. Always consult with qualified healthcare professionals before use.</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Key Findings</p>
+                        <p className="text-slate-600 leading-relaxed text-sm">
+                          {trial.findings}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-red-600 uppercase tracking-wider mb-3">Conclusion</p>
+                        <p className="text-slate-900 font-medium leading-relaxed text-sm">
+                          {trial.conclusion}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </motion.div>
-          </>
-        )}
+            </div>
 
-        {!peptideData && (
+            {/* Safety & Dosage Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100">
+                <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-3">
+                  <AlertCircle className="w-6 h-6 text-red-600" />
+                  Safety Profile
+                </h3>
+                <p className="text-slate-600 leading-relaxed text-sm mb-6">
+                  {peptideData.safetyProfile}
+                </p>
+                <div className="p-4 bg-red-50 border border-red-100 rounded-2xl">
+                  <p className="text-red-800 text-xs font-bold leading-relaxed flex gap-2">
+                    <Shield className="w-4 h-4 flex-shrink-0" />
+                    For laboratory research use only. Not for human consumption.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-3">
+                    <FlaskConical className="w-6 h-6 text-red-600" />
+                    Research Dosage
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed text-sm mb-8">
+                    {peptideData.dosage}
+                  </p>
+                </div>
+                <Button 
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent('openProductModal', { 
+                      detail: { product } 
+                    }));
+                  }}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 rounded-xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02]"
+                >
+                  Initialize Research Order
+                </Button>
+              </div>
+            </div>
+
+          </motion.div>
+        ) : (
           <div className="text-center py-20">
-            <p className="text-stone-400 text-lg">Loading research data...</p>
+            <div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full mx-auto mb-4" />
+            <p className="text-slate-500">Generating research data...</p>
           </div>
         )}
-
-        <ProductModal 
-          product={product} 
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
-        />
       </div>
+
+      <ProductModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        product={product} 
+      />
     </div>
   );
 }

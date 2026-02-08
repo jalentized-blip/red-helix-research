@@ -223,22 +223,18 @@ const HeaderSearch = () => {
 };
 
       export default function Layout({ children }) {
-               const [scrolled, setScrolled] = useState(false);
-               const [cartCount, setCartCount] = useState(0);
-               const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-               const [logoOpacity, setLogoOpacity] = useState(1);
-               const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
-               const [logoScale, setLogoScale] = useState(1);
-               const [lastScrollY, setLastScrollY] = useState(0);
-                               const [headerVisible, setHeaderVisible] = useState(true);
-                               const [isAuthenticated, setIsAuthenticated] = useState(false);
-                               const [isAdmin, setIsAdmin] = useState(false);
-                               const [showUploadModal, setShowUploadModal] = useState(false);
-                               const [mouseNearTop, setMouseNearTop] = useState(false);
-                               const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
-                               const [viewAsUser, setViewAsUser] = useState(false);
-                                               const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
-                                               const [user, setUser] = useState(null);
+        const [scrolled, setScrolled] = useState(false);
+        const [cartCount, setCartCount] = useState(0);
+        const [lastScrollY, setLastScrollY] = useState(0);
+        const [headerVisible, setHeaderVisible] = useState(true);
+        const [isAuthenticated, setIsAuthenticated] = useState(false);
+        const [isAdmin, setIsAdmin] = useState(false);
+        const [showUploadModal, setShowUploadModal] = useState(false);
+        const [mouseNearTop, setMouseNearTop] = useState(false);
+        const [mobileHeaderCollapsed, setMobileHeaderCollapsed] = useState(false);
+        const [viewAsUser, setViewAsUser] = useState(false);
+        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
+        const [user, setUser] = useState(null);
 
         useEffect(() => {
           const checkAuth = async () => {
@@ -273,30 +269,7 @@ const HeaderSearch = () => {
 
             // Hide/show header based on scroll direction
             setHeaderVisible(window.scrollY < 50 || window.scrollY < lastScrollY);
-
-            // Calculate scroll speed and update magnifying glass
-            const scrollSpeed = Math.abs(window.scrollY - lastScrollY);
             setLastScrollY(window.scrollY);
-
-
-
-            // Find the DollarSign icons in ValueProposition
-            const dollarSigns = document.querySelectorAll('[data-testid="dollar-icon"]');
-            if (dollarSigns.length > 0) {
-              const firstDollar = dollarSigns[0];
-              const rect = firstDollar.getBoundingClientRect();
-              const dollarTop = window.scrollY + rect.top;
-
-              if (window.scrollY > dollarTop) {
-                // Past the dollar signs - minimize and fade
-                setLogoScale(0.3);
-                setLogoOpacity(0);
-              } else {
-                // Before dollar signs - normal
-                setLogoScale(1);
-                setLogoOpacity(1);
-              }
-            }
           };
           window.addEventListener('scroll', handleScroll);
           return () => window.removeEventListener('scroll', handleScroll);
@@ -311,40 +284,15 @@ const HeaderSearch = () => {
 
         useEffect(() => {
           const handleMouseMove = (e) => {
-            setMousePos({ x: e.clientX, y: e.clientY });
-
             // Show/hide header based on mouse position on non-home pages
             if (!isHomePage) {
               setMouseNearTop(e.clientY < 100);
-            }
-
-            // Calculate distance from logo (approximate center position)
-            const logoX = 100;
-            const logoY = 60;
-            const distance = Math.sqrt(
-              Math.pow(e.clientX - logoX, 2) + Math.pow(e.clientY - logoY, 2)
-            );
-
-            // Opacity decreases as mouse gets closer
-            const opacity = Math.min(1, Math.max(0, distance / 150));
-            setLogoOpacity(opacity);
-
-            // Calculate repulsion - logo moves away from cursor
-            if (distance < 250) {
-              const angle = Math.atan2(logoY - e.clientY, logoX - e.clientX);
-              const force = Math.max(0, 100 - distance) * 0.3;
-              setLogoOffset({
-                x: Math.cos(angle) * force,
-                y: Math.sin(angle) * force
-              });
-            } else {
-              setLogoOffset({ x: 0, y: 0 });
             }
           };
 
           window.addEventListener('mousemove', handleMouseMove);
           return () => window.removeEventListener('mousemove', handleMouseMove);
-                }, [isHomePage]);
+        }, [isHomePage]);
 
           const telegramLink = 'https://t.me/+UYRVjzIFDy9iYzc9';
 
@@ -427,13 +375,13 @@ const HeaderSearch = () => {
           }
 
           /* Handle hover/active states where background turns red: make text white */
-          .group:hover .group-hover\:text-slate-400,
-          .group:hover .group-hover\:text-slate-500,
-          .group:hover .group-hover\:text-slate-600,
-          .group:hover .group-hover\:text-slate-900,
-          .group:hover .group-hover\:text-red-600,
-          .group:hover h3,
-          .group:hover p {
+          .group.bg-red-600:hover .group-hover\:text-slate-400,
+          .group.bg-red-600:hover .group-hover\:text-slate-500,
+          .group.bg-red-600:hover .group-hover\:text-slate-600,
+          .group.bg-red-600:hover .group-hover\:text-slate-900,
+          .group.bg-red-600:hover .group-hover\:text-red-600,
+          .group.bg-red-600:hover h3,
+          .group.bg-red-600:hover p {
             color: white !important;
           }
 
@@ -512,10 +460,7 @@ const HeaderSearch = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col" style={{ 
-                opacity: logoOpacity,
-                transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
-              }}>
+              <div className="flex flex-col">
                 <span className="text-xl font-black text-slate-900 tracking-tighter leading-none">RED HELIX</span>
                 <span className="text-[10px] font-black text-red-600 tracking-[0.3em] leading-none mt-1">RESEARCH</span>
               </div>
@@ -641,77 +586,82 @@ const HeaderSearch = () => {
                     <Menu className="w-5 h-5" />
                   </button>
                 </SheetTrigger>
-                <SheetContent side="right" className="bg-white border-slate-200 w-80">
+                <SheetContent side="right" className="bg-white border-l border-slate-200 w-80 shadow-2xl">
                   <div className="h-full flex flex-col">
-                    <div className="border-b border-slate-100 pb-6 mb-8">
-                      <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Menu</h2>
-                      <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Research & Education</p>
+                    <div className="border-b border-slate-100 pb-6 mb-8 px-4">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center rotate-45">
+                          <div className="w-4 h-4 border-2 border-white rounded-full -rotate-45" />
+                        </div>
+                        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Menu</h2>
+                      </div>
+                      <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Research & Education</p>
                     </div>
                     
-                    <nav className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden">
-                      <Link to={createPageUrl('Home')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                    <nav className="flex flex-col gap-1 flex-1 overflow-y-auto overflow-x-hidden px-2 pb-8">
+                      <Link to={createPageUrl('Home')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Home
                       </Link>
-                      <Link to={createPageUrl('Products')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('Products')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Shop Products
                       </Link>
-                      <Link to={createPageUrl('OurStory')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('OurStory')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Our Story
                       </Link>
 
-                      <div className="border-t border-slate-100 my-2 pt-2" />
+                      <div className="border-t border-slate-100 my-3 mx-4" />
 
-                      <Link to={createPageUrl('GroupBuy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('GroupBuy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Group Buy
                       </Link>
                       
-                      <div className="border-t border-slate-100 my-2 pt-2" />
+                      <div className="border-t border-slate-100 my-3 mx-4" />
                       
                       <button
                         onClick={() => setShowUploadModal(true)}
-                        className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 w-full"
+                        className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full"
                       >
                         Upload Your COA
                       </button>
-                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         COA Reports
                       </Link>
                       
-                      <div className="border-t border-slate-100 my-2 pt-2" />
+                      <div className="border-t border-slate-100 my-3 mx-4" />
                       
-                      <Link to={createPageUrl('PeppyBot')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('PeppyBot')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         PeppyBot
                       </Link>
-                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Peptide Calculator
                       </Link>
-                      <Link to={createPageUrl('PeptideAcademy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('PeptideAcademy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Peptide Academy
                       </Link>
-                      <Link to={createPageUrl('LearnMore')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('LearnMore')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Research & Education
                       </Link>
 
-                      <Link to={createPageUrl('BlogGuide')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('BlogGuide')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Research Guides
                       </Link>
 
-                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Compare Peptides
                       </Link>
 
-                      <button onClick={() => scrollTo('#certificates')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 w-full">
+                      <button onClick={() => scrollTo('#certificates')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full">
                         Certificates of Analysis
                       </button>
                       
-                      <div className="border-t border-slate-100 my-4 pt-4" />
+                      <div className="border-t border-slate-100 my-4 mx-4 pt-4" />
                       
                       {isAuthenticated && (
                         <>
-                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                             Account Profile
                           </Link>
-                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                             Order History
                           </Link>
                         </>
@@ -719,14 +669,14 @@ const HeaderSearch = () => {
 
                       {isAdmin && (
                         <>
-                          <div className="border-t border-slate-100 my-2 pt-2" />
+                          <div className="border-t border-slate-100 my-3 mx-4" />
                           <button
                             onClick={() => setViewAsUser(!viewAsUser)}
-                            className={`w-full text-left text-sm font-black uppercase tracking-widest px-4 py-3 transition-all rounded-lg border flex items-center gap-2 ${
+                            className={`w-full text-left text-sm font-black uppercase tracking-widest px-4 py-3.5 transition-all rounded-lg border flex items-center gap-2 ${
                               viewAsUser 
-                                ? 'bg-blue-600/10 border-blue-600/30 text-blue-600 hover:bg-blue-600/20' 
-                                : 'bg-red-600/10 border-red-600/30 text-red-600 hover:bg-red-600/20'
-                            }`}
+                                ? 'bg-blue-600 text-white border-blue-700 shadow-blue-200' 
+                                : 'bg-red-600 text-white border-red-700 shadow-red-200'
+                            } shadow-sm`}
                           >
                             {viewAsUser ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
                             {viewAsUser ? 'User View (ON)' : 'Admin View'}
@@ -734,23 +684,23 @@ const HeaderSearch = () => {
 
                           {!viewAsUser && (
                             <>
-                              <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
+                              <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
                                 <Eye className="w-4 h-4" />
                                 Market Intelligence
                               </Link>
-                              <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
                                 <Mail className="w-4 h-4" />
                                 Price Management
                               </Link>
-                              <Link to={createPageUrl('AdminStockManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminStockManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
                                 <Package className="w-4 h-4" />
                                 Stock Management
                               </Link>
-                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
                                 <Package className="w-4 h-4" />
                                 Manual Orders
                               </Link>
-                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-red-600 px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
                                 <User className="w-4 h-4" />
                                 Customer Management
                               </Link>

@@ -133,34 +133,34 @@ export default function PaymentSecurity() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-slate-50 pt-32 pb-20">
       <SEO
-        title="Payment Security & Compliance | Red Helix Research Admin"
+        title="Payment Security & Compliance | Bright Medical Admin"
         description="Payment processing security, PCI compliance, and fraud prevention systems."
         keywords="payment security, PCI compliance, fraud prevention, payment processing"
       />
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#8B2635] hover:border-[#8B2635] mb-8 hover:bg-slate-50">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Payment Security</h1>
-          <p className="text-xl text-stone-300">Enterprise-grade payment processing & fraud prevention</p>
+          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">Payment Security</h1>
+          <p className="text-xl text-slate-600">Enterprise-grade payment processing & fraud prevention</p>
         </motion.div>
 
         {/* Quick Status */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-700/30 rounded-lg p-6 mb-12 flex items-center justify-between"
+          className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-lg p-6 mb-12 flex items-center justify-between shadow-sm"
         >
           <div>
-            <h2 className="text-2xl font-bold text-amber-50">Payment Processing Status</h2>
-            <p className="text-stone-300 mt-1">All systems operational and compliant</p>
+            <h2 className="text-2xl font-bold text-slate-900">Payment Processing Status</h2>
+            <p className="text-slate-700 mt-1">All systems operational and compliant</p>
           </div>
           <Shield className="w-12 h-12 text-green-600" />
         </motion.div>
@@ -172,7 +172,7 @@ export default function PaymentSecurity() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Supported Payment Methods</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Supported Payment Methods</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {paymentMethods.map((method, idx) => (
               <motion.div
@@ -181,29 +181,29 @@ export default function PaymentSecurity() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-stone-900/60 border border-stone-700 rounded-lg p-6"
+                className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="font-bold text-amber-50">{method.method}</h3>
+                  <h3 className="font-bold text-slate-900">{method.method}</h3>
                   <span className={`text-xs font-bold px-2 py-1 rounded ${
-                    method.status === 'ACTIVE' ? 'bg-green-700/30 text-green-400' : 'bg-blue-700/30 text-blue-400'
+                    method.status === 'ACTIVE' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-blue-50 text-blue-700 border border-blue-200'
                   }`}>
                     {method.status}
                   </span>
                 </div>
 
-                <div className="space-y-2 text-sm text-stone-300 mb-4">
+                <div className="space-y-2 text-sm text-slate-600 mb-4">
                   <p><strong>Setup:</strong> {method.setup}</p>
                   <p><strong>Security:</strong> {method.security}</p>
                   <p><strong>Fees:</strong> {method.fees}</p>
                   <p><strong>Payout:</strong> {method.payout}</p>
                 </div>
 
-                <div className="pt-4 border-t border-stone-700">
-                  <p className="text-xs text-stone-400 font-semibold mb-2">Advantages:</p>
+                <div className="pt-4 border-t border-slate-100">
+                  <p className="text-xs text-slate-500 font-semibold mb-2">Advantages:</p>
                   <ul className="space-y-1">
                     {method.advantages.map((adv, i) => (
-                      <li key={i} className="text-xs text-stone-400">✓ {adv}</li>
+                      <li key={i} className="text-xs text-slate-500">✓ {adv}</li>
                     ))}
                   </ul>
                 </div>
@@ -221,15 +221,15 @@ export default function PaymentSecurity() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+              className="bg-white border border-slate-200 rounded-lg p-8 shadow-sm"
             >
-              <h3 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-                <Lock className="w-5 h-5 text-red-600" />
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <Lock className="w-5 h-5 text-[#8B2635]" />
                 {category.category}
               </h3>
               <ul className="space-y-2">
                 {category.measures.map((measure, i) => (
-                  <li key={i} className="text-stone-300 flex items-start gap-3">
+                  <li key={i} className="text-slate-600 flex items-start gap-3">
                     <span className="text-green-600 font-bold mt-1">✓</span>
                     <span>{measure}</span>
                   </li>
@@ -244,20 +244,20 @@ export default function PaymentSecurity() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-white border border-slate-200 rounded-lg p-8 mb-12 shadow-sm"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Payment Processing Flow</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Payment Processing Flow</h2>
           <div className="space-y-4">
             {processingSteps.map((item, idx) => (
               <div key={idx} className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-red-700 text-amber-50 font-bold">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-[#8B2635] text-white font-bold">
                     {item.step}
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-amber-50 mb-1">{item.title}</h3>
-                  <p className="text-sm text-stone-300 mb-2">{item.details}</p>
+                  <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
+                  <p className="text-sm text-slate-600 mb-2">{item.details}</p>
                   <p className="text-xs text-green-600 font-semibold">🔒 {item.security}</p>
                 </div>
               </div>
@@ -270,14 +270,14 @@ export default function PaymentSecurity() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-white border border-slate-200 rounded-lg p-8 mb-12 shadow-sm"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Compliance Checklist</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Compliance Checklist</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {complianceChecklist.map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 bg-stone-800/30 rounded-lg">
-                <span className="text-stone-300">{item.item}</span>
-                <span className="text-green-500 font-bold">{item.status}</span>
+              <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100">
+                <span className="text-slate-700">{item.item}</span>
+                <span className="text-green-600 font-bold">{item.status}</span>
               </div>
             ))}
           </div>
@@ -288,35 +288,35 @@ export default function PaymentSecurity() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8"
+          className="bg-gradient-to-r from-red-50 to-red-100 border border-red-200 rounded-lg p-8 shadow-sm"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-            <AlertCircle className="w-6 h-6 text-red-600" />
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <AlertCircle className="w-6 h-6 text-[#8B2635]" />
             Fraud Prevention Systems
           </h2>
-          <ul className="space-y-3 text-stone-300">
+          <ul className="space-y-3 text-slate-700">
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-[#8B2635] font-bold">•</span>
               <span><strong>Real-time monitoring:</strong> All transactions scanned for suspicious patterns</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-[#8B2635] font-bold">•</span>
               <span><strong>Velocity checks:</strong> Multiple rapid transactions from same account flagged</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-[#8B2635] font-bold">•</span>
               <span><strong>Geolocation verification:</strong> IP address vs billing address checked</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-[#8B2635] font-bold">•</span>
               <span><strong>3D Secure/CVV verification:</strong> Enhanced card verification</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-[#8B2635] font-bold">•</span>
               <span><strong>Chargeback protection:</strong> Stripe handles disputes and fraud claims</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-[#8B2635] font-bold">•</span>
               <span><strong>Manual review triggers:</strong> High-risk transactions manually reviewed</span>
             </li>
           </ul>

@@ -153,9 +153,9 @@ export default function About() {
 
       {/* Final Commitment Box */}
       <div className="max-w-5xl mx-auto px-4 relative z-10">
-        <div className="bg-slate-900 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 p-20 opacity-10 pointer-events-none">
-            <ShieldCheck className="w-64 h-64 text-white" />
+        <div className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden shadow-xl shadow-slate-200/50">
+          <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
+            <ShieldCheck className="w-64 h-64 text-slate-900" />
           </div>
           
           <motion.div
@@ -164,10 +164,10 @@ export default function About() {
             viewport={{ once: true }}
             className="relative z-10"
           >
-            <h2 className="text-4xl md:text-6xl font-black text-white mb-8 uppercase tracking-tighter leading-none">
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
               The Red Helix <span className="text-red-600">Standard</span>
             </h2>
-            <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
               Our commitment to the scientific community is unwavering. We provide the tools, 
               you provide the discovery. Together, we advance the boundaries of research.
             </p>
@@ -179,11 +179,11 @@ export default function About() {
                 'Secure Research Supply',
                 '24/7 Technical Support'
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 text-left p-4 bg-white/5 border border-white/10 rounded-2xl">
+                <div key={idx} className="flex items-center gap-3 text-left p-4 bg-slate-50 border border-slate-200 rounded-2xl hover:border-red-600/30 transition-colors">
                   <div className="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center flex-shrink-0">
                     <ShieldCheck className="w-4 h-4 text-white" />
                   </div>
-                  <span className="text-sm font-bold text-white uppercase tracking-wide">{item}</span>
+                  <span className="text-sm font-bold text-slate-900 uppercase tracking-wide">{item}</span>
                 </div>
               ))}
             </div>

@@ -10,7 +10,7 @@ export default function PlaidCompliance() {
   const complianceFeatures = [
     {
       category: 'Data Security',
-      icon: <Lock className="w-6 h-6 text-green-500" />,
+      icon: <Lock className="w-6 h-6 text-green-600" />,
       features: [
         'TLS 1.3 encryption for all data in-transit',
         'AES-256-GCM encryption for financial data at-rest',
@@ -22,7 +22,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Consent & Authorization',
-      icon: <FileText className="w-6 h-6 text-blue-500" />,
+      icon: <FileText className="w-6 h-6 text-blue-600" />,
       features: [
         'Explicit user consent before Plaid Link initialization',
         'Clear disclosure of data collection practices',
@@ -34,7 +34,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Privacy Compliance',
-      icon: <Shield className="w-6 h-6 text-purple-500" />,
+      icon: <Shield className="w-6 h-6 text-purple-600" />,
       features: [
         'GLBA compliance for financial data privacy',
         'CCPA compliance (California residents)',
@@ -46,7 +46,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Data Retention',
-      icon: <FileText className="w-6 h-6 text-yellow-500" />,
+      icon: <FileText className="w-6 h-6 text-amber-500" />,
       features: [
         '7-year retention for transaction records (IRS requirement)',
         '90-day retention for Plaid access tokens after disconnection',
@@ -58,7 +58,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Payment Security',
-      icon: <Shield className="w-6 h-6 text-red-500" />,
+      icon: <Shield className="w-6 h-6 text-red-600" />,
       features: [
         'PCI DSS compliant infrastructure',
         'Fraud detection and monitoring',
@@ -70,7 +70,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'User Rights',
-      icon: <CheckCircle className="w-6 h-6 text-green-500" />,
+      icon: <CheckCircle className="w-6 h-6 text-green-600" />,
       features: [
         'Right to access stored financial data',
         'Right to data portability',
@@ -94,7 +94,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Incident Response',
-      icon: <Shield className="w-6 h-6 text-red-500" />,
+      icon: <Shield className="w-6 h-6 text-red-600" />,
       features: [
         '72-hour breach notification',
         'Documented incident response plan',
@@ -107,7 +107,7 @@ export default function PlaidCompliance() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 py-24 px-6">
+    <div className="min-h-screen bg-white py-24 px-6">
       <SEO 
         title="Plaid ACH Compliance Features - Red Helix Research"
         description="Comprehensive overview of Red Helix Research's Plaid ACH payment compliance features including security, privacy, and regulatory compliance."
@@ -118,54 +118,54 @@ export default function PlaidCompliance() {
         <Button
           variant="outline"
           onClick={() => navigate(-1)}
-          className="mb-8"
+          className="mb-8 text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-red-600"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
 
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-950/30 border border-blue-700/30 rounded-full mb-6">
-            <Shield className="w-4 h-4 text-blue-400" />
-            <span className="text-sm font-medium text-blue-300">Plaid ACH Compliance</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full mb-6">
+            <Shield className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-bold text-blue-700 uppercase tracking-wide">Plaid ACH Compliance</span>
           </div>
 
-          <h1 className="text-5xl font-black text-white mb-4">
+          <h1 className="text-5xl font-black text-slate-900 mb-4 uppercase tracking-tight">
             Plaid Payment Compliance
           </h1>
-          <p className="text-stone-400 text-lg leading-relaxed">
+          <p className="text-slate-500 text-lg leading-relaxed font-medium max-w-3xl">
             Our comprehensive implementation of Plaid ACH payment processing with full regulatory compliance, security best practices, and user privacy protection.
           </p>
         </div>
 
         {/* Compliance Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-stone-900/60 border border-green-700/50 rounded-2xl p-6">
-            <div className="w-12 h-12 bg-green-600/20 border border-green-600/30 rounded-xl flex items-center justify-center mb-4">
-              <CheckCircle className="w-6 h-6 text-green-400" />
+          <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 bg-green-50 border border-green-100 rounded-xl flex items-center justify-center mb-4">
+              <CheckCircle className="w-6 h-6 text-green-600" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Fully Compliant</h3>
-            <p className="text-sm text-stone-400">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Fully Compliant</h3>
+            <p className="text-sm text-slate-500 font-medium">
               Meets all Plaid, PCI DSS, GLBA, and CCPA requirements
             </p>
           </div>
 
-          <div className="bg-stone-900/60 border border-blue-700/50 rounded-2xl p-6">
-            <div className="w-12 h-12 bg-blue-600/20 border border-blue-600/30 rounded-xl flex items-center justify-center mb-4">
-              <Lock className="w-6 h-6 text-blue-400" />
+          <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center mb-4">
+              <Lock className="w-6 h-6 text-blue-600" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Bank-Level Security</h3>
-            <p className="text-sm text-stone-400">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Bank-Level Security</h3>
+            <p className="text-sm text-slate-500 font-medium">
               AES-256 encryption and zero-trust architecture
             </p>
           </div>
 
-          <div className="bg-stone-900/60 border border-purple-700/50 rounded-2xl p-6">
-            <div className="w-12 h-12 bg-purple-600/20 border border-purple-600/30 rounded-xl flex items-center justify-center mb-4">
-              <Shield className="w-6 h-6 text-purple-400" />
+          <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center mb-4">
+              <Shield className="w-6 h-6 text-purple-600" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">User Privacy</h3>
-            <p className="text-sm text-stone-400">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">User Privacy</h3>
+            <p className="text-sm text-slate-500 font-medium">
               Transparent data practices with user control
             </p>
           </div>
@@ -176,25 +176,25 @@ export default function PlaidCompliance() {
           {complianceFeatures.map((category, idx) => (
             <div
               key={idx}
-              className="bg-stone-900/60 border border-stone-700/50 rounded-2xl p-8"
+              className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-stone-800/50 rounded-xl">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                   {category.icon}
                 </div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">
                   {category.category}
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {category.features.map((feature, fIdx) => (
                   <div
                     key={fIdx}
-                    className="flex items-start gap-3 p-3 bg-stone-800/30 rounded-lg"
+                    className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100"
                   >
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-stone-300">{feature}</span>
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-slate-600 font-medium">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -204,45 +204,63 @@ export default function PlaidCompliance() {
 
         {/* Implementation Details */}
         <div className="mt-12 space-y-6">
-          <div className="bg-stone-900/60 border border-stone-700/50 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-white mb-4">Technical Implementation</h3>
-            <div className="space-y-3 text-stone-400">
+          <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm">
+            <h3 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Technical Implementation</h3>
+            <div className="space-y-4 text-slate-600 font-medium">
               <p>Our Plaid ACH integration includes:</p>
-              <ul className="ml-6 space-y-2">
-                <li>• <strong className="text-white">Plaid Link:</strong> Secure bank account connection via Plaid's official SDK</li>
-                <li>• <strong className="text-white">Token Exchange:</strong> Secure server-side public token to access token exchange</li>
-                <li>• <strong className="text-white">ACH Transfers:</strong> Direct ACH debit processing through Plaid's Transfer API</li>
-                <li>• <strong className="text-white">Webhooks:</strong> Real-time payment status updates with signature verification</li>
-                <li>• <strong className="text-white">Encryption:</strong> All financial data encrypted at-rest using Web Crypto API</li>
-                <li>• <strong className="text-white">MFA:</strong> Multi-factor authentication required for payment operations</li>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <li className="flex items-start gap-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span><strong className="text-slate-900">Plaid Link:</strong> Secure bank account connection via Plaid's official SDK</span>
+                </li>
+                <li className="flex items-start gap-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span><strong className="text-slate-900">Token Exchange:</strong> Secure server-side public token to access token exchange</span>
+                </li>
+                <li className="flex items-start gap-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span><strong className="text-slate-900">ACH Transfers:</strong> Direct ACH debit processing through Plaid's Transfer API</span>
+                </li>
+                <li className="flex items-start gap-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span><strong className="text-slate-900">Webhooks:</strong> Real-time payment status updates with signature verification</span>
+                </li>
+                <li className="flex items-start gap-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span><strong className="text-slate-900">Encryption:</strong> All financial data encrypted at-rest using Web Crypto API</span>
+                </li>
+                <li className="flex items-start gap-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span><strong className="text-slate-900">MFA:</strong> Multi-factor authentication required for payment operations</span>
+                </li>
               </ul>
             </div>
           </div>
 
-          <div className="bg-stone-900/60 border border-stone-700/50 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-white mb-4">Regulatory Compliance</h3>
+          <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm">
+            <h3 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Regulatory Compliance</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="text-lg font-bold text-white mb-2">GLBA Compliance</h4>
-                <p className="text-sm text-stone-400">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-900 mb-2">GLBA Compliance</h4>
+                <p className="text-sm text-slate-500 font-medium">
                   Gramm-Leach-Bliley Act requirements for financial data privacy and security safeguards.
                 </p>
               </div>
-              <div>
-                <h4 className="text-lg font-bold text-white mb-2">CCPA Compliance</h4>
-                <p className="text-sm text-stone-400">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-900 mb-2">CCPA Compliance</h4>
+                <p className="text-sm text-slate-500 font-medium">
                   California Consumer Privacy Act rights for data access, deletion, and non-discrimination.
                 </p>
               </div>
-              <div>
-                <h4 className="text-lg font-bold text-white mb-2">PCI DSS</h4>
-                <p className="text-sm text-stone-400">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-900 mb-2">PCI DSS</h4>
+                <p className="text-sm text-slate-500 font-medium">
                   Payment Card Industry Data Security Standard compliant infrastructure and practices.
                 </p>
               </div>
-              <div>
-                <h4 className="text-lg font-bold text-white mb-2">IRS Requirements</h4>
-                <p className="text-sm text-stone-400">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-900 mb-2">IRS Requirements</h4>
+                <p className="text-sm text-slate-500 font-medium">
                   7-year retention of financial transaction records as required by federal tax law.
                 </p>
               </div>
@@ -251,36 +269,36 @@ export default function PlaidCompliance() {
         </div>
 
         {/* Related Policies */}
-        <div className="mt-12 p-6 bg-stone-900/60 border border-stone-700/50 rounded-2xl">
-          <h3 className="text-lg font-bold text-white mb-4">Related Policies & Documentation</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="mt-12 p-8 bg-slate-50 border border-slate-200 rounded-[24px]">
+          <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight">Related Policies & Documentation</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a
               href="/PlaidPrivacy"
-              className="p-3 bg-stone-800/50 border border-stone-700 rounded-lg hover:border-blue-600/50 transition-colors"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-white mb-1">Plaid Privacy Policy</h4>
-              <p className="text-xs text-stone-400">Detailed financial data privacy policy</p>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Plaid Privacy Policy</h4>
+              <p className="text-xs text-slate-500 font-medium">Detailed financial data privacy policy</p>
             </a>
             <a
               href="/DataRetentionPolicy"
-              className="p-3 bg-stone-800/50 border border-stone-700 rounded-lg hover:border-blue-600/50 transition-colors"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-white mb-1">Data Retention Policy</h4>
-              <p className="text-xs text-stone-400">Retention schedules and deletion procedures</p>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Data Retention Policy</h4>
+              <p className="text-xs text-slate-500 font-medium">Retention schedules and deletion procedures</p>
             </a>
             <a
               href="/SecurityDashboard"
-              className="p-3 bg-stone-800/50 border border-stone-700 rounded-lg hover:border-blue-600/50 transition-colors"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-white mb-1">Security Dashboard</h4>
-              <p className="text-xs text-stone-400">Real-time security monitoring (Admin only)</p>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Security Dashboard</h4>
+              <p className="text-xs text-slate-500 font-medium">Real-time security monitoring (Admin only)</p>
             </a>
             <a
               href="/Policies"
-              className="p-3 bg-stone-800/50 border border-stone-700 rounded-lg hover:border-blue-600/50 transition-colors"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-white mb-1">Terms & Privacy</h4>
-              <p className="text-xs text-stone-400">General terms of service and privacy policy</p>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Terms & Privacy</h4>
+              <p className="text-xs text-slate-500 font-medium">General terms of service and privacy policy</p>
             </a>
           </div>
         </div>

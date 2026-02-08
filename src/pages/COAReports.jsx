@@ -316,7 +316,7 @@ export default function COAReports() {
                         href={coa.coa_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 bg-slate-900 text-white hover:bg-red-600 transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-lg shadow-slate-900/10"
+                        className="flex-1 flex items-center justify-center gap-2 bg-red-600 text-white hover:bg-red-700 transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-lg shadow-red-600/20"
                       >
                         Verification
                         <ExternalLink className="w-4 h-4" />

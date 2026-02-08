@@ -93,18 +93,15 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-red-600/30 transition-all">
+                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-red-600/30 transition-all cursor-pointer" onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}>
                   <div className="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <MessageCircle className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
                     <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Discord Community</div>
-                    <button 
-                      onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}
-                      className="text-lg font-black text-slate-900 hover:text-red-600 transition-colors"
-                    >
+                    <div className="text-lg font-black text-slate-900 group-hover:text-red-600 transition-colors">
                       Join Official Server
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -188,7 +185,7 @@ export default function Contact() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-red-600/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
               >
                 {loading ? (
                   <>

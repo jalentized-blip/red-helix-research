@@ -644,7 +644,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
         <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
-        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-400 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -952,14 +952,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                   </div>
 
                   {/* Manual TX Input */}
-                  <div className="bg-slate-900 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-                      <RefreshCw className="w-32 h-32 text-white" />
+                  <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-12 opacity-[0.05] pointer-events-none">
+                      <RefreshCw className="w-32 h-32 text-slate-900" />
                     </div>
                     
                     <div className="relative z-10">
-                      <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">Manual Verification</h3>
-                      <p className="text-slate-300 font-medium mb-8">If your wallet doesn't auto-verify, enter your transaction hash below.</p>
+                      <h3 className="text-2xl font-black text-slate-900 mb-4 uppercase tracking-tight">Manual Verification</h3>
+                      <p className="text-slate-500 font-medium mb-8">If your wallet doesn't auto-verify, enter your transaction hash below.</p>
                       
                       <div className="flex flex-col md:flex-row gap-4">
                         <input
@@ -967,7 +967,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           value={transactionId}
                           onChange={(e) => setTransactionId(e.target.value)}
                           placeholder="Enter Transaction ID / Hash"
-                          className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-red-600 transition-all font-bold"
+                          className="flex-1 bg-white border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-red-600 transition-all font-bold"
                         />
                         <Button
                           onClick={() => setStage(CHECKOUT_STAGE.CONFIRMING)}

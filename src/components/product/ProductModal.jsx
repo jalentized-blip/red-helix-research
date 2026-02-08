@@ -47,7 +47,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white border-slate-200 max-w-4xl p-0 overflow-hidden rounded-[40px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
+      <DialogContent className="bg-white border-slate-200 max-w-4xl p-0 overflow-hidden rounded-[40px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] [&>button]:hidden">
         <div className="flex flex-col lg:flex-row max-h-[90vh]">
           {/* Left Side: Product Image & Technical Info */}
           <div className="w-full lg:w-1/2 bg-slate-50 p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-slate-100 relative overflow-hidden">
@@ -283,7 +283,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                  <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Strict Compliance Protocol</p>
+                  <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Research Use Notification</p>
                 </div>
                 <p className="text-[11px] font-bold text-slate-700 leading-relaxed">
                   This product is supplied for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. 

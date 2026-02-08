@@ -39,12 +39,12 @@ export default function AlertsDropdown() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2.5 rounded-lg bg-stone-900/50 border border-stone-700 text-amber-50 hover:bg-stone-800 transition-colors"
+        className="relative p-2.5 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600/30 transition-all shadow-sm"
         title="COA Submission Alerts"
       >
         <Mail className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -57,13 +57,13 @@ export default function AlertsDropdown() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-2 w-80 max-h-96 bg-stone-900 border border-stone-700 rounded-lg shadow-xl z-50 overflow-hidden flex flex-col"
+            className="absolute right-0 mt-2 w-80 max-h-96 bg-white border border-slate-100 rounded-2xl shadow-xl shadow-slate-200/50 z-50 overflow-hidden flex flex-col"
           >
-            <div className="p-4 border-b border-stone-700 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-amber-50">COA Submissions ({unreadCount})</h3>
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide">COA Submissions ({unreadCount})</h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-stone-400 hover:text-amber-50 transition-colors"
+                className="text-slate-400 hover:text-red-600 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -71,9 +71,14 @@ export default function AlertsDropdown() {
 
             <div className="flex-1 overflow-y-auto">
               {isLoading ? (
-                <div className="p-4 text-center text-stone-400 text-sm">Loading alerts...</div>
+                <div className="p-4 text-center text-slate-400 text-sm font-medium">Loading alerts...</div>
               ) : unreadCount === 0 ? (
-                <div className="p-4 text-center text-stone-400 text-sm">No pending submissions</div>
+                <div className="p-8 text-center">
+                   <div className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Mail className="w-5 h-5 text-slate-300" />
+                   </div>
+                   <p className="text-slate-400 text-sm font-medium">No pending submissions</p>
+                </div>
               ) : (
                 <div className="space-y-2 p-3">
                   {alerts.map((alert) => (
@@ -81,23 +86,23 @@ export default function AlertsDropdown() {
                       key={alert.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="p-3 bg-stone-800/50 border border-stone-700 rounded-lg hover:bg-stone-800 transition-colors cursor-pointer group"
+                      className="p-3 bg-white border border-slate-100 rounded-xl hover:border-red-600/30 hover:shadow-md transition-all cursor-pointer group"
                     >
                       <Link to={createPageUrl('COAReports')}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1" onClick={() => handleMarkAsRead(alert.id)}>
-                            <p className="text-sm font-semibold text-amber-50">{alert.peptide_name}</p>
-                            <p className="text-xs text-stone-400 mt-1">by {alert.uploaded_by.split('@')[0]}</p>
+                            <p className="text-sm font-black text-slate-900">{alert.peptide_name}</p>
+                            <p className="text-xs text-slate-500 mt-1 font-medium">by {alert.uploaded_by.split('@')[0]}</p>
                           </div>
                           <button
                             onClick={(e) => {
                               e.preventDefault();
                               handleMarkAsRead(alert.id);
                             }}
-                            className="p-1 rounded hover:bg-stone-700 transition-colors opacity-0 group-hover:opacity-100"
+                            className="p-1 rounded hover:bg-slate-100 transition-colors opacity-0 group-hover:opacity-100"
                             title="Mark as read"
                           >
-                            <X className="w-3 h-3 text-stone-400" />
+                            <X className="w-3 h-3 text-slate-400 hover:text-red-600" />
                           </button>
                         </div>
                       </Link>
@@ -108,11 +113,11 @@ export default function AlertsDropdown() {
             </div>
 
             {unreadCount > 0 && (
-              <div className="p-3 border-t border-stone-700 text-center">
+              <div className="p-3 border-t border-slate-100 bg-slate-50/50 text-center">
                 <Link to={createPageUrl('COAReports')}>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="w-full px-3 py-2 bg-barn-brown hover:bg-barn-brown/90 text-amber-50 text-sm font-semibold rounded transition-colors"
+                    className="w-full px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-colors shadow-lg shadow-red-600/20"
                   >
                     Review Submissions
                   </button>

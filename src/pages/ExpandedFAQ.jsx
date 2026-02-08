@@ -239,7 +239,7 @@ export default function ExpandedFAQ() {
   const totalResults = filteredCategories.reduce((sum, cat) => sum + cat.questions.length, 0);
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Frequently Asked Questions | Red Helix Research"
         description="Complete FAQ about Red Helix Research peptides, ordering, reconstitution, shipping, quality, and customer support."
@@ -248,32 +248,32 @@ export default function ExpandedFAQ() {
 
       <div className="max-w-4xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 rounded-full">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Frequently Asked Questions</h1>
-          <p className="text-xl text-stone-300">Find answers to common questions about our peptides and services</p>
+          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tight">Frequently Asked Questions</h1>
+          <p className="text-xl text-slate-500 font-medium">Find answers to common questions about our peptides and services</p>
         </motion.div>
 
         {/* Search */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 relative"
+          className="mb-12 relative"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input
             type="text"
             placeholder="Search FAQs..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-stone-900/60 border-stone-700 text-amber-50"
+            className="pl-12 bg-slate-50 border-slate-200 text-slate-900 h-14 rounded-2xl text-lg shadow-sm focus:ring-red-600/20"
           />
           {searchQuery && (
-            <p className="text-xs text-stone-400 mt-2">
+            <p className="text-xs text-slate-400 mt-2 font-medium">
               Found {totalResults} result{totalResults !== 1 ? 's' : ''} in {filteredCategories.length} categor{filteredCategories.length !== 1 ? 'ies' : 'y'}
             </p>
           )}
@@ -285,9 +285,9 @@ export default function ExpandedFAQ() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 text-center"
+              className="bg-slate-50 border border-slate-200 rounded-[32px] p-12 text-center"
             >
-              <p className="text-stone-400">No results found for "{searchQuery}". Try a different search term.</p>
+              <p className="text-slate-500 font-medium">No results found for "{searchQuery}". Try a different search term.</p>
             </motion.div>
           ) : (
             filteredCategories.map((category, catIdx) => (
@@ -297,47 +297,45 @@ export default function ExpandedFAQ() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: catIdx * 0.05 }}
                 viewport={{ once: true }}
+                className="mb-12"
               >
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <span className="text-3xl">{category.icon}</span>
-                  <h2 className="text-2xl font-bold text-amber-50">{category.category}</h2>
+                  <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{category.category}</h2>
                 </div>
 
-                <div className="space-y-3">
-                  {category.questions.map((question) => (
-                    <motion.div
-                      key={question.id}
-                      initial={false}
-                      className="bg-stone-900/60 border border-stone-700 rounded-lg overflow-hidden hover:border-red-700/30 transition"
+                <div className="space-y-4">
+                  {category.questions.map((item, qIdx) => (
+                    <div 
+                      key={item.id}
+                      className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                     >
                       <button
-                        onClick={() => toggleItem(question.id)}
-                        className="w-full px-6 py-4 flex items-center justify-between hover:bg-stone-800/30 transition text-left"
+                        onClick={() => toggleItem(item.id)}
+                        className="w-full text-left p-6 flex justify-between items-start gap-4"
                       >
-                        <h3 className="font-semibold text-amber-50 pr-4">{question.question}</h3>
-                        <ChevronDown
-                          className={`w-5 h-5 text-red-600 flex-shrink-0 transition-transform ${
-                            expandedItems[question.id] ? 'rotate-180' : ''
-                          }`}
+                        <span className="font-bold text-lg text-slate-900">{item.question}</span>
+                        <ChevronDown 
+                          className={`w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0 mt-1 ${
+                            expandedItems[item.id] ? 'rotate-180 text-red-600' : ''
+                          }`} 
                         />
                       </button>
-
                       <AnimatePresence>
-                        {expandedItems[question.id] && (
+                        {expandedItems[item.id] && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="border-t border-stone-700"
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
                           >
-                            <p className="px-6 py-4 text-stone-300 leading-relaxed">
-                              {question.answer}
-                            </p>
+                            <div className="px-6 pb-6 pt-0 text-slate-600 leading-relaxed font-medium border-t border-slate-100 mt-2">
+                              {item.answer}
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </motion.div>
@@ -350,13 +348,17 @@ export default function ExpandedFAQ() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8 mt-16 text-center"
+          className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 mt-16 text-center relative overflow-hidden"
         >
-          <h3 className="text-2xl font-bold text-amber-50 mb-3">Still need help?</h3>
-          <p className="text-stone-300 mb-6">Our support team is here to answer any questions</p>
-          <Link to={createPageUrl('Contact')}>
-            <Button className="bg-red-700 hover:bg-red-600">Contact Support</Button>
-          </Link>
+          <div className="relative z-10">
+            <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight">Still need help?</h3>
+            <p className="text-slate-500 mb-8 font-medium">Our support team is here to answer any questions</p>
+            <Link to={createPageUrl('Contact')}>
+              <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
+                Contact Support
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </div>
     </div>

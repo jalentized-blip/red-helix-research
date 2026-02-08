@@ -85,16 +85,16 @@ export default function LearnMore() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+      <div className="min-h-screen bg-white pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-stone-400">Loading peptides...</p>
+          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Loading Research Database...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO 
         title="Peptide Research Guide - Gray Market Research Chemicals & Clinical Studies"
         description="Comprehensive peptide research database for gray market research chemicals. Scientific studies on BPC-157, TB-500, semaglutide, tirzepatide, and performance peptides. Evidence-based information for peptide researchers and underground research community."
@@ -102,22 +102,22 @@ export default function LearnMore() {
       />
       {/* Disclaimer Modal */}
       <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>
-        <DialogContent className="bg-stone-900 border border-stone-700 max-w-md">
+        <DialogContent className="bg-white border border-slate-200 max-w-md rounded-[32px] p-8">
           <DialogHeader>
-            <DialogTitle className="text-amber-50 text-xl">Important Disclaimer</DialogTitle>
+            <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tight">Research <span className="text-red-600">Protocol</span></DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <DialogDescription className="text-stone-300 text-base leading-relaxed">
-              The information on this page is for <span className="font-semibold">educational and research purposes only</span>. It is <span className="font-semibold">not medical advice</span> and should not be taken as a substitute for professional medical consultation.
+            <DialogDescription className="text-slate-500 text-base leading-relaxed font-medium">
+              The information on this page is for <span className="font-black text-slate-900 uppercase text-xs">educational and research purposes only</span>. It is <span className="font-black text-slate-900 uppercase text-xs">not medical advice</span> and should not be taken as a substitute for professional medical consultation.
             </DialogDescription>
-            <p className="text-stone-400 text-sm">
+            <p className="text-slate-400 text-xs font-bold">
               Always consult with a qualified healthcare provider before using any research chemicals or peptides.
             </p>
           </div>
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3 mt-8">
             <Button
               onClick={() => setDisclaimerAccepted(true)}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50"
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs h-14 rounded-2xl shadow-lg shadow-red-600/20"
             >
               I Understand
             </Button>
@@ -127,44 +127,46 @@ export default function LearnMore() {
 
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-16">
           <Link to={createPageUrl('Home')}>
-            <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+            <Button variant="outline" className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 mb-8 rounded-xl font-black uppercase tracking-widest text-[10px]">
               ← Back to Shop
             </Button>
           </Link>
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-3">
-              <BookOpen className="w-8 h-8 text-red-600" />
-              <h1 className="text-5xl font-black text-amber-50">Learn More</h1>
+          <div className="mb-12">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="p-3 bg-red-600/10 rounded-2xl">
+                <BookOpen className="w-8 h-8 text-red-600" />
+              </div>
+              <h1 className="text-6xl font-black text-slate-900 uppercase tracking-tighter">Learn <span className="text-red-600">More</span></h1>
             </div>
-            <p className="text-stone-300 text-lg max-w-2xl">
-              Explore the science behind our peptides. Discover potential uses, clinical research, and key findings for each product.
+            <p className="text-slate-500 text-xl font-medium max-w-2xl leading-relaxed">
+              Explore the science behind our research reagents. Discover clinical findings and laboratory data for each product.
             </p>
           </div>
 
           {/* Sort by Intended Use */}
-          <div className="mb-8">
-            <label className="block text-stone-400 text-sm font-semibold mb-2">Sort by Intended Use</label>
+          <div className="mb-12">
+            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-3 ml-1">Research Category</label>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-64 bg-stone-900 border-stone-700 text-amber-50">
-                <SelectValue placeholder="All Products" />
+              <SelectTrigger className="w-full md:w-72 bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl font-black uppercase tracking-widest text-xs">
+                <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent className="bg-stone-900 border-stone-700">
-                <SelectItem value="all" className="text-amber-50">All Products</SelectItem>
-                <SelectItem value="weight_loss" className="text-amber-50">Weight Loss</SelectItem>
-                <SelectItem value="recovery_healing" className="text-amber-50">Recovery & Healing</SelectItem>
-                <SelectItem value="cognitive_focus" className="text-amber-50">Cognitive Focus</SelectItem>
-                <SelectItem value="performance_longevity" className="text-amber-50">Performance & Longevity</SelectItem>
-                <SelectItem value="sexual_health" className="text-amber-50">Sexual Health</SelectItem>
-                <SelectItem value="general_health" className="text-amber-50">General Health</SelectItem>
+              <SelectContent className="bg-white border-slate-200">
+                <SelectItem value="all" className="text-slate-900 font-bold">All Products</SelectItem>
+                <SelectItem value="weight_loss" className="text-slate-900 font-bold">Weight Loss</SelectItem>
+                <SelectItem value="recovery_healing" className="text-slate-900 font-bold">Recovery & Healing</SelectItem>
+                <SelectItem value="cognitive_focus" className="text-slate-900 font-bold">Cognitive Focus</SelectItem>
+                <SelectItem value="performance_longevity" className="text-slate-900 font-bold">Performance & Longevity</SelectItem>
+                <SelectItem value="sexual_health" className="text-slate-900 font-bold">Sexual Health</SelectItem>
+                <SelectItem value="general_health" className="text-slate-900 font-bold">General Health</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         {/* Peptide Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product, idx) => (
             <motion.div
               key={product.id}
@@ -175,54 +177,53 @@ export default function LearnMore() {
               className="group"
             >
               <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`}>
-                <div className={`bg-gradient-to-br ${categoryColors[product.category] || 'from-stone-700 to-stone-800'} rounded-lg p-6 h-full cursor-pointer overflow-hidden relative`}>
-                  {/* Animated background */}
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300" />
+                <div className="bg-white border border-slate-100 rounded-[32px] p-8 h-full cursor-pointer relative overflow-hidden shadow-sm hover:shadow-xl hover:border-red-600/20 transition-all duration-500">
+                  {/* Category Accent */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${categoryColors[product.category] || 'from-slate-100 to-slate-200'} opacity-5 -translate-y-16 translate-x-16 rounded-full group-hover:scale-150 transition-transform duration-700`} />
                   
                   {/* Content */}
-                  <div className="relative z-10">
-                    <div className="mb-4">
-                      <span className="inline-block px-3 py-1 bg-black/40 rounded-full text-xs font-semibold text-amber-50 mb-3">
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="mb-6">
+                      <span className="inline-block px-3 py-1 bg-red-600/10 rounded-full text-[10px] font-black text-red-600 uppercase tracking-widest mb-4">
                         {categoryLabels[product.category]}
                       </span>
-                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-amber-50 transition-colors">
+                      <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight group-hover:text-red-600 transition-colors">
                         {product.name}
                       </h3>
+                      <p className="text-slate-500 text-sm leading-relaxed font-medium line-clamp-3">
+                        {product.description}
+                      </p>
                     </div>
 
-                    <p className="text-white/90 text-sm leading-relaxed mb-6">
-                      {product.description}
-                    </p>
+                    <div className="mt-auto pt-6 border-t border-slate-50 flex flex-col gap-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Pricing</span>
+                        <span className="text-lg font-black text-slate-900">
+                          From ${product.price_from}
+                        </span>
+                      </div>
 
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm font-semibold text-amber-300">
-                        From ${product.price_from}
-                      </span>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
-                          setTimeout(() => {
-                            window.location.href = createPageUrl('Home');
-                          }, 100);
-                        }}
-                        className="flex-1 px-3 py-2 bg-red-700 hover:bg-red-600 text-amber-50 text-xs font-semibold rounded-lg transition-colors"
-                      >
-                        View Product
-                      </button>
-                      <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} onClick={(e) => e.stopPropagation()}>
-                        <button className="px-3 py-2 bg-black/40 hover:bg-black/60 text-amber-50 text-xs font-semibold rounded-lg transition-colors">
-                          Research
+                      <div className="flex gap-3">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
+                            setTimeout(() => {
+                              window.location.href = createPageUrl('Home');
+                            }, 100);
+                          }}
+                          className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-red-600/10"
+                        >
+                          Initialize Order
                         </button>
-                      </Link>
+                        <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} onClick={(e) => e.stopPropagation()} className="flex-1">
+                          <button className="w-full px-4 py-3 bg-slate-900 hover:bg-black text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
+                            Research Data
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
-
-                  {/* Hover effect */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               </Link>
             </motion.div>

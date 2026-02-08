@@ -147,7 +147,7 @@ export default function AdminManualOrders() {
       // Send confirmation email
       if (orderForm.customerEmail) {
         await base44.integrations.Core.SendEmail({
-          from_name: 'Red Helix Research',
+          from_name: 'Bright Medical',
           to: orderForm.customerEmail,
           subject: `Order Confirmation - ${orderNumber}`,
           body: `
@@ -156,15 +156,15 @@ export default function AdminManualOrders() {
               <p>Hi ${orderForm.customerName || 'Valued Customer'},</p>
               <p>Your payment has been verified and your order has been confirmed.</p>
               
-              <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Order #${orderNumber}</h3>
+              <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
+                <h3 style="margin-top: 0; color: #1e293b;">Order #${orderNumber}</h3>
                 <p><strong>Transaction ID:</strong> ${orderForm.transactionId}</p>
                 <p><strong>Amount:</strong> $${orderForm.totalAmount}</p>
                 <p><strong>Status:</strong> Processing</p>
               </div>
 
               <p>You will receive tracking information once your order ships.</p>
-              <p>Questions? Contact us at <a href="mailto:jake@redhelixresearch.com">jake@redhelixresearch.com</a></p>
+              <p>Questions? Contact us at <a href="mailto:support@brightmedical.com">support@brightmedical.com</a></p>
             </div>
           `
         });
@@ -218,46 +218,46 @@ export default function AdminManualOrders() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-red-600 animate-spin" />
+      <div className="min-h-screen bg-slate-50 pt-32 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#8B2635] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
+    <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-4">
       <div className="max-w-4xl mx-auto">
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-[#8B2635] hover:text-[#7A2230] mb-6">
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-black text-amber-50 mb-2">Manual Order Creation</h1>
-          <p className="text-stone-400">Search for transactions and manually create orders when automated verification fails</p>
+          <h1 className="text-4xl font-black text-slate-900 mb-2">Manual Order Creation</h1>
+          <p className="text-slate-500">Search for transactions and manually create orders when automated verification fails</p>
         </div>
 
         {/* Search Section */}
-        <Card className="bg-stone-900/50 border-stone-700 p-6 mb-6">
-          <h2 className="text-xl font-bold text-amber-50 mb-4">Search Blockchain Transaction</h2>
+        <Card className="bg-white border-slate-200 p-6 mb-6 shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Search Blockchain Transaction</h2>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-1">
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Search Type</label>
+                <label className="text-sm font-semibold text-slate-600 block mb-2">Search Type</label>
                 <Select value={searchType} onValueChange={setSearchType}>
-                  <SelectTrigger className="bg-stone-800 border-stone-700 text-amber-50">
+                  <SelectTrigger className="bg-white border-slate-200 text-slate-900">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-stone-900 border-stone-700">
-                    <SelectItem value="transaction" className="text-amber-50">Transaction ID</SelectItem>
-                    <SelectItem value="wallet" className="text-amber-50">Wallet Address</SelectItem>
+                  <SelectContent className="bg-white border-slate-200">
+                    <SelectItem value="transaction" className="text-slate-900">Transaction ID</SelectItem>
+                    <SelectItem value="wallet" className="text-slate-900">Wallet Address</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="md:col-span-2">
-                <label className="text-sm font-semibold text-stone-300 block mb-2">
+                <label className="text-sm font-semibold text-slate-600 block mb-2">
                   {searchType === 'transaction' ? 'Transaction ID' : 'Wallet Address'}
                 </label>
                 <div className="flex gap-2">
@@ -265,12 +265,12 @@ export default function AdminManualOrders() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={searchType === 'transaction' ? 'Enter transaction ID' : 'Enter wallet address'}
-                    className="bg-stone-800 border-stone-700 text-amber-50 font-mono"
+                    className="bg-white border-slate-200 text-slate-900 font-mono"
                   />
                   <Button
                     onClick={handleSearch}
                     disabled={searching || !searchQuery.trim()}
-                    className="bg-blue-700 hover:bg-blue-600"
+                    className="bg-[#8B2635] hover:bg-[#7A2230] text-white"
                   >
                     {searching ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -288,43 +288,43 @@ export default function AdminManualOrders() {
                 animate={{ opacity: 1, y: 0 }}
                 className={`rounded-lg p-4 border ${
                   searchResults.found
-                    ? 'bg-green-900/20 border-green-700/50'
-                    : 'bg-red-900/20 border-red-700/50'
+                    ? 'bg-green-50 border-green-200'
+                    : 'bg-red-50 border-red-200'
                 }`}
               >
                 {searchResults.found ? (
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-green-400 font-semibold mb-3">
+                    <div className="flex items-center gap-2 text-green-700 font-semibold mb-3">
                       <CheckCircle className="w-5 h-5" />
                       Transaction Found
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-sm">
                       <div>
-                        <p className="text-stone-400">Transaction ID</p>
-                        <p className="text-amber-50 font-mono text-xs break-all">{searchResults.transactionId}</p>
+                        <p className="text-slate-500">Transaction ID</p>
+                        <p className="text-slate-900 font-mono text-xs break-all">{searchResults.transactionId}</p>
                       </div>
                       <div>
-                        <p className="text-stone-400">Blockchain</p>
-                        <p className="text-amber-50">{searchResults.blockchain || 'N/A'}</p>
+                        <p className="text-slate-500">Blockchain</p>
+                        <p className="text-slate-900">{searchResults.blockchain || 'N/A'}</p>
                       </div>
                       <div>
-                        <p className="text-stone-400">Amount</p>
-                        <p className="text-amber-50">{searchResults.amount} {searchResults.currency}</p>
+                        <p className="text-slate-500">Amount</p>
+                        <p className="text-slate-900">{searchResults.amount} {searchResults.currency}</p>
                       </div>
                       <div>
-                        <p className="text-stone-400">Confirmations</p>
-                        <p className="text-amber-50">{searchResults.confirmations || 'N/A'}</p>
+                        <p className="text-slate-500">Confirmations</p>
+                        <p className="text-slate-900">{searchResults.confirmations || 'N/A'}</p>
                       </div>
                       {searchResults.fromAddress && (
                         <div className="col-span-2">
-                          <p className="text-stone-400">From Address</p>
-                          <p className="text-amber-50 font-mono text-xs break-all">{searchResults.fromAddress}</p>
+                          <p className="text-slate-500">From Address</p>
+                          <p className="text-slate-900 font-mono text-xs break-all">{searchResults.fromAddress}</p>
                         </div>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 text-red-400">
+                  <div className="flex items-center gap-2 text-red-600">
                     <AlertCircle className="w-5 h-5" />
                     {searchResults.error || 'Transaction not found'}
                   </div>
@@ -335,95 +335,95 @@ export default function AdminManualOrders() {
         </Card>
 
         {/* Manual Order Form */}
-        <Card className="bg-stone-900/50 border-stone-700 p-6">
-          <h2 className="text-xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-            <Package className="w-5 h-5" />
+        <Card className="bg-white border-slate-200 p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <Package className="w-5 h-5 text-[#8B2635]" />
             Create Manual Order
           </h2>
 
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Customer Email *</label>
+                <label className="text-sm font-semibold text-slate-600 block mb-2">Customer Email *</label>
                 <Input
                   value={orderForm.customerEmail}
                   onChange={(e) => setOrderForm({ ...orderForm, customerEmail: e.target.value })}
                   placeholder="customer@example.com"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
+                  className="bg-white border-slate-200 text-slate-900"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Customer Name</label>
+                <label className="text-sm font-semibold text-slate-600 block mb-2">Customer Name</label>
                 <Input
                   value={orderForm.customerName}
                   onChange={(e) => setOrderForm({ ...orderForm, customerName: e.target.value })}
                   placeholder="John Doe"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
+                  className="bg-white border-slate-200 text-slate-900"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Transaction ID *</label>
+                <label className="text-sm font-semibold text-slate-600 block mb-2">Transaction ID *</label>
                 <Input
                   value={orderForm.transactionId}
                   onChange={(e) => setOrderForm({ ...orderForm, transactionId: e.target.value })}
                   placeholder="0x..."
-                  className="bg-stone-800 border-stone-700 text-amber-50 font-mono"
+                  className="bg-white border-slate-200 text-slate-900 font-mono"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Cryptocurrency</label>
+                <label className="text-sm font-semibold text-slate-600 block mb-2">Cryptocurrency</label>
                 <Select value={orderForm.cryptoCurrency} onValueChange={(value) => setOrderForm({ ...orderForm, cryptoCurrency: value })}>
-                  <SelectTrigger className="bg-stone-800 border-stone-700 text-amber-50">
+                  <SelectTrigger className="bg-white border-slate-200 text-slate-900">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-stone-900 border-stone-700">
-                    <SelectItem value="BTC" className="text-amber-50">BTC</SelectItem>
-                    <SelectItem value="ETH" className="text-amber-50">ETH</SelectItem>
-                    <SelectItem value="USDT" className="text-amber-50">USDT</SelectItem>
-                    <SelectItem value="USDC" className="text-amber-50">USDC</SelectItem>
+                  <SelectContent className="bg-white border-slate-200">
+                    <SelectItem value="BTC" className="text-slate-900">BTC</SelectItem>
+                    <SelectItem value="ETH" className="text-slate-900">ETH</SelectItem>
+                    <SelectItem value="USDT" className="text-slate-900">USDT</SelectItem>
+                    <SelectItem value="USDC" className="text-slate-900">USDC</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Crypto Amount</label>
+                <label className="text-sm font-semibold text-slate-600 block mb-2">Crypto Amount</label>
                 <Input
                   value={orderForm.cryptoAmount}
                   onChange={(e) => setOrderForm({ ...orderForm, cryptoAmount: e.target.value })}
                   placeholder="0.001"
                   type="number"
                   step="any"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
+                  className="bg-white border-slate-200 text-slate-900"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-stone-300 block mb-2">Total Amount (USD) *</label>
+              <label className="text-sm font-semibold text-slate-600 block mb-2">Total Amount (USD) *</label>
               <Input
                 value={orderForm.totalAmount}
                 onChange={(e) => setOrderForm({ ...orderForm, totalAmount: e.target.value })}
                 placeholder="100.00"
                 type="number"
                 step="0.01"
-                className="bg-stone-800 border-stone-700 text-amber-50"
+                className="bg-white border-slate-200 text-slate-900"
               />
             </div>
 
-            <div className="border-t border-stone-700 pt-4">
-              <h3 className="text-sm font-semibold text-stone-300 mb-3">Shipping Address (Optional)</h3>
+            <div className="border-t border-slate-100 pt-4">
+              <h3 className="text-sm font-semibold text-slate-600 mb-3">Shipping Address (Optional)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
                   <Input
                     value={orderForm.shippingAddress}
                     onChange={(e) => setOrderForm({ ...orderForm, shippingAddress: e.target.value })}
                     placeholder="Street Address"
-                    className="bg-stone-800 border-stone-700 text-amber-50"
+                    className="bg-white border-slate-200 text-slate-900"
                   />
                 </div>
                 <div>
@@ -431,7 +431,7 @@ export default function AdminManualOrders() {
                     value={orderForm.shippingCity}
                     onChange={(e) => setOrderForm({ ...orderForm, shippingCity: e.target.value })}
                     placeholder="City"
-                    className="bg-stone-800 border-stone-700 text-amber-50"
+                    className="bg-white border-slate-200 text-slate-900"
                   />
                 </div>
                 <div>
@@ -439,7 +439,7 @@ export default function AdminManualOrders() {
                     value={orderForm.shippingState}
                     onChange={(e) => setOrderForm({ ...orderForm, shippingState: e.target.value })}
                     placeholder="State"
-                    className="bg-stone-800 border-stone-700 text-amber-50"
+                    className="bg-white border-slate-200 text-slate-900"
                   />
                 </div>
                 <div>
@@ -447,7 +447,7 @@ export default function AdminManualOrders() {
                     value={orderForm.shippingZip}
                     onChange={(e) => setOrderForm({ ...orderForm, shippingZip: e.target.value })}
                     placeholder="ZIP Code"
-                    className="bg-stone-800 border-stone-700 text-amber-50"
+                    className="bg-white border-slate-200 text-slate-900"
                   />
                 </div>
               </div>
@@ -456,7 +456,7 @@ export default function AdminManualOrders() {
             <Button
               onClick={handleCreateOrder}
               disabled={creatingOrder || !orderForm.customerEmail || !orderForm.transactionId || !orderForm.totalAmount}
-              className="w-full bg-green-700 hover:bg-green-600 text-amber-50 font-semibold"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold"
             >
               {creatingOrder ? (
                 <>

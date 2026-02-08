@@ -110,10 +110,10 @@ By purchasing from Red Helix Research, you acknowledge full understanding and ac
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="bg-slate-50 border border-slate-100 rounded-[32px] p-10 shadow-sm"
+              className="bg-slate-50 border border-slate-100 rounded-[32px] p-10 shadow-xl shadow-slate-200/50"
             >
               <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">{section.title}</h2>
-              <div className="text-slate-600 space-y-3 whitespace-pre-wrap text-sm leading-relaxed font-medium">
+              <div className="text-slate-500 space-y-3 whitespace-pre-wrap text-sm leading-relaxed font-medium">
                 {section.content}
               </div>
             </motion.div>

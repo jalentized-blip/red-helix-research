@@ -71,9 +71,9 @@ export default function PeptideCategory() {
 
   if (!config) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
+      <div className="min-h-screen bg-white pt-32 pb-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl text-amber-50">Category not found</h1>
+          <h1 className="text-3xl text-slate-900 font-black uppercase tracking-tight">Category not found</h1>
         </div>
       </div>
     );

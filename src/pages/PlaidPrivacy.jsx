@@ -9,7 +9,7 @@ export default function PlaidPrivacy() {
 
   const sections = [
     {
-      icon: <Shield className="w-6 h-6 text-blue-500" />,
+      icon: <Shield className="w-6 h-6 text-blue-600" />,
       title: 'Financial Data We Collect via Plaid',
       content: [
         'When you connect your bank account through Plaid, we collect the following information:',
@@ -23,7 +23,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Lock className="w-6 h-6 text-green-500" />,
+      icon: <Lock className="w-6 h-6 text-green-600" />,
       title: 'How We Protect Your Financial Data',
       content: [
         'Security Measures:',
@@ -39,7 +39,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Database className="w-6 h-6 text-purple-500" />,
+      icon: <Database className="w-6 h-6 text-purple-600" />,
       title: 'How We Use Your Financial Data',
       content: [
         'Your financial data is used exclusively for:',
@@ -56,7 +56,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <FileText className="w-6 h-6 text-yellow-500" />,
+      icon: <FileText className="w-6 h-6 text-amber-600" />,
       title: 'Third-Party Data Sharing',
       content: [
         'Plaid, Inc.:',
@@ -74,7 +74,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Trash2 className="w-6 h-6 text-red-500" />,
+      icon: <Trash2 className="w-6 h-6 text-red-600" />,
       title: 'Data Retention & Deletion Policy',
       content: [
         'Retention Periods:',
@@ -92,7 +92,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Eye className="w-6 h-6 text-orange-500" />,
+      icon: <Eye className="w-6 h-6 text-orange-600" />,
       title: 'Your Rights & Data Control',
       content: [
         'You have the right to:',
@@ -110,7 +110,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Shield className="w-6 h-6 text-blue-500" />,
+      icon: <Shield className="w-6 h-6 text-blue-600" />,
       title: 'Consent & Authorization',
       content: [
         'By connecting your bank account via Plaid, you explicitly consent to:',
@@ -128,7 +128,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Lock className="w-6 h-6 text-red-500" />,
+      icon: <Lock className="w-6 h-6 text-red-600" />,
       title: 'Security Incident Response',
       content: [
         'In the unlikely event of a data breach affecting financial data:',
@@ -146,7 +146,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <FileText className="w-6 h-6 text-green-500" />,
+      icon: <FileText className="w-6 h-6 text-green-600" />,
       title: 'Compliance & Regulations',
       content: [
         'We comply with:',
@@ -166,7 +166,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Shield className="w-6 h-6 text-purple-500" />,
+      icon: <Shield className="w-6 h-6 text-purple-600" />,
       title: 'Contact Information',
       content: [
         'For questions about financial data privacy:',
@@ -187,7 +187,7 @@ export default function PlaidPrivacy() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 py-24 px-6">
+    <div className="min-h-screen bg-white py-24 px-6">
       <SEO 
         title="Plaid Financial Data Privacy Policy - Red Helix Research"
         description="Learn how Red Helix Research protects your financial data collected through Plaid ACH payment processing. Comprehensive privacy policy for financial information."
@@ -196,40 +196,40 @@ export default function PlaidPrivacy() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <Button
-          variant="outline"
+          variant="ghost"
           onClick={() => navigate(-1)}
-          className="mb-8"
+          className="mb-8 text-slate-500 hover:text-red-600 font-bold uppercase tracking-widest text-xs"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
 
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-950/30 border border-blue-700/30 rounded-full mb-6">
-            <Shield className="w-4 h-4 text-blue-400" />
-            <span className="text-sm font-medium text-blue-300">Financial Data Privacy</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
+            <Shield className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-bold text-blue-700 uppercase tracking-wide">Financial Data Privacy</span>
           </div>
 
-          <h1 className="text-5xl font-black text-white mb-4">
+          <h1 className="text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter">
             Plaid Financial Data Privacy Policy
           </h1>
-          <p className="text-stone-400 text-lg leading-relaxed">
+          <p className="text-slate-500 text-lg leading-relaxed font-medium">
             Our commitment to protecting your financial information collected through Plaid ACH payment processing.
           </p>
-          <p className="text-stone-500 text-sm mt-4">
+          <p className="text-slate-400 text-sm mt-4 font-medium">
             Last Updated: February 7, 2026 | Effective Date: February 7, 2026
           </p>
         </div>
 
         {/* Important Notice */}
-        <div className="p-6 bg-gradient-to-r from-blue-950/30 via-blue-900/20 to-blue-950/30 backdrop-blur-sm border border-blue-700/30 rounded-2xl mb-12">
+        <div className="p-8 bg-gradient-to-r from-blue-50 via-white to-blue-50 border border-blue-100 rounded-[24px] mb-12 shadow-sm">
           <div className="flex items-start gap-4">
-            <Lock className="w-6 h-6 text-blue-400 mt-1 flex-shrink-0" />
+            <Lock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
             <div>
-              <h3 className="text-lg font-bold text-blue-300 mb-2">
+              <h3 className="text-lg font-bold text-blue-800 mb-2 uppercase tracking-wide">
                 Your Financial Data is Protected
               </h3>
-              <p className="text-sm text-stone-400 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed font-medium">
                 This policy specifically addresses how we collect, use, store, and protect financial data obtained through Plaid for ACH payment processing. All financial data is encrypted at-rest and in-transit with bank-level security.
               </p>
             </div>
@@ -241,21 +241,21 @@ export default function PlaidPrivacy() {
           {sections.map((section, idx) => (
             <div
               key={idx}
-              className="bg-stone-900/60 border border-stone-700/50 rounded-2xl p-8"
+              className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-stone-800/50 rounded-xl">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                   {section.icon}
                 </div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
                   {section.title}
                 </h2>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {section.content.map((paragraph, pIdx) => (
                   <p
                     key={pIdx}
-                    className={`text-stone-400 ${
+                    className={`text-slate-600 font-medium ${
                       paragraph.startsWith('•') ? 'ml-4' : ''
                     } ${paragraph === '' ? 'h-2' : ''}`}
                   >
@@ -268,16 +268,16 @@ export default function PlaidPrivacy() {
         </div>
 
         {/* Footer */}
-        <div className="mt-12 p-6 bg-stone-900/60 border border-stone-700/50 rounded-2xl text-center">
-          <p className="text-stone-400 text-sm">
+        <div className="mt-12 p-8 bg-slate-50 border border-slate-200 rounded-[24px] text-center">
+          <p className="text-slate-600 text-sm font-medium">
             Questions about this policy? Contact us at{' '}
-            <a href="mailto:privacy@redhelixresearch.com" className="text-blue-400 hover:underline">
+            <a href="mailto:privacy@redhelixresearch.com" className="text-red-600 hover:underline font-bold">
               privacy@redhelixresearch.com
             </a>
           </p>
-          <p className="text-stone-500 text-xs mt-2">
+          <p className="text-slate-400 text-xs mt-3 font-medium">
             This policy is part of our overall{' '}
-            <a href="/Policies" className="text-blue-400 hover:underline">
+            <a href="/Policies" className="text-red-600 hover:underline">
               Terms of Service and Privacy Policy
             </a>
           </p>

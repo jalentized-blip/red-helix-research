@@ -170,37 +170,37 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           {/* Product Info */}
           <div className="flex-grow">
             <div className="flex justify-between items-start mb-3">
-              <span className="text-[10px] font-black tracking-[0.2em] text-red-600 uppercase group-hover:text-white transition-colors">
+              <span className="text-[10px] font-black tracking-[0.2em] text-red-600 uppercase transition-colors">
                 {categoryLabels[product.category]}
               </span>
               <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-green-600 group-hover:text-white transition-colors" />
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter group-hover:text-white transition-colors">99%+ Purity</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-green-600 transition-colors" />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter transition-colors">99%+ Purity</span>
               </div>
             </div>
 
-            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-white transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-red-600 transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.name}
             </h3>
             
-            <p className={`text-sm text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium group-hover:text-white transition-colors ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className={`text-sm text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.description}
             </p>
           </div>
 
           <div className={`flex items-end justify-between mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover:text-white transition-colors">Acquisition Cost</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Acquisition Cost</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-white transition-colors">
+                <span className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-red-600 transition-colors">
                   ${lowestVisiblePrice}
                 </span>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">USD</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest transition-colors">USD</span>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover:text-white transition-colors">Thermal Stability</span>
-              <span className="text-[10px] font-black text-red-600 uppercase block tracking-widest group-hover:text-white transition-colors">-20°C Verified</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Thermal Stability</span>
+              <span className="text-[10px] font-black text-red-600 uppercase block tracking-widest transition-colors">-20°C Verified</span>
             </div>
           </div>
 
@@ -215,8 +215,8 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           </Button>
           
           <div className="mt-8 flex items-center justify-center gap-2">
-            <div className="w-1 h-1 rounded-full bg-red-600 group-hover:bg-white transition-colors" />
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Clinical Grade Logistics</span>
+            <div className="w-1 h-1 rounded-full bg-red-600 transition-colors" />
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Clinical Grade Logistics</span>
           </div>
         </div>
       </Card>

@@ -149,20 +149,20 @@ export default function Products() {
           </div>
 
           <div className="lg:col-span-4">
-            <div className="bg-slate-900 rounded-[32px] p-8 text-white h-full flex flex-col justify-between">
+            <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 text-slate-900 h-full flex flex-col justify-between shadow-xl shadow-slate-200/50">
               <div>
                 <h3 className="text-xl font-black uppercase tracking-tight mb-4">Inventory Filters</h3>
                 <button
                   onClick={() => setHideOutOfStock(!hideOutOfStock)}
-                  className="w-full flex items-center justify-between p-4 rounded-2xl border border-white/10 hover:bg-white/5 transition-all group"
+                  className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-200 bg-white hover:border-red-600/30 transition-all group"
                 >
-                  <span className="text-sm font-bold text-slate-300 group-hover:text-white">Hide Unavailable Stock</span>
-                  <div className={`w-10 h-5 rounded-full relative transition-colors ${hideOutOfStock ? 'bg-red-600' : 'bg-slate-700'}`}>
+                  <span className="text-sm font-bold text-slate-500 group-hover:text-red-600">Hide Unavailable Stock</span>
+                  <div className={`w-10 h-5 rounded-full relative transition-colors ${hideOutOfStock ? 'bg-red-600' : 'bg-slate-200'}`}>
                     <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${hideOutOfStock ? 'left-6' : 'left-1'}`} />
                   </div>
                 </button>
               </div>
-              <div className="mt-8 pt-8 border-t border-white/10">
+              <div className="mt-8 pt-8 border-t border-slate-200">
                 <div className="flex items-center gap-3 text-slate-400">
                   <Package className="w-5 h-5" />
                   <p className="text-xs font-medium">

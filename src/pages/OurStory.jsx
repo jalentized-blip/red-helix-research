@@ -15,12 +15,12 @@ const Section = ({ icon: Icon, title, children, delay = 0 }) => (
     className="mb-16"
   >
     <div className="flex items-start gap-4 mb-6">
-      <div className="p-3 bg-red-600/20 rounded-lg flex-shrink-0">
+      <div className="p-3 bg-red-600/10 rounded-xl flex-shrink-0 shadow-sm border border-red-100">
         <Icon className="w-6 h-6 text-red-600" />
       </div>
-      <h2 className="text-3xl lg:text-4xl font-bold text-amber-50">{title}</h2>
+      <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">{title}</h2>
     </div>
-    <div className="text-stone-300 text-lg leading-relaxed space-y-4">
+    <div className="text-slate-600 text-lg leading-relaxed space-y-4 font-medium">
       {children}
     </div>
   </motion.div>
@@ -28,7 +28,7 @@ const Section = ({ icon: Icon, title, children, delay = 0 }) => (
 
 export default function OurStory() {
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Our Story - Red Helix Research | Building a Transparent Peptide Community"
         description="Learn how Red Helix Research is building a transparent, community-driven peptide marketplace. We're focused on fair pricing, vendor accountability, and accessible research peptides for everyone."
@@ -38,7 +38,7 @@ export default function OurStory() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 bg-white shadow-sm">
             ← Back to Home
           </Button>
         </Link>
@@ -48,9 +48,9 @@ export default function OurStory() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-16"
         >
-          <h1 className="text-5xl lg:text-6xl font-black text-amber-50 mb-6">Our Story</h1>
-          <p className="text-xl text-stone-300 leading-relaxed">
-            Red Helix Research wasn't built to maximize profit margins. We were built to solve a problem in the gray market that has plagued researchers, athletes, and health-conscious individuals for years: <span className="text-red-400 font-semibold">lack of transparency, vendor accountability, and fair pricing.</span>
+          <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tighter">Our Story</h1>
+          <p className="text-xl text-slate-600 leading-relaxed font-medium">
+            Red Helix Research wasn't built to maximize profit margins. We were built to solve a problem in the gray market that has plagued researchers, athletes, and health-conscious individuals for years: <span className="text-red-600 font-bold">lack of transparency, vendor accountability, and fair pricing.</span>
           </p>
         </motion.div>
 
@@ -63,14 +63,14 @@ export default function OurStory() {
             Customers are left guessing. Some get legitimate products. Others get underdosed vials, contaminated batches, or nothing at all. There's no community vetting system. No transparency about where products actually come from. No pressure on vendors to be honest about their pricing structure.
           </p>
           <p>
-            We realized that the biggest barrier to the gray market improving wasn't regulations—it was <span className="font-semibold text-amber-100">community standards and collective accountability.</span>
+            We realized that the biggest barrier to the gray market improving wasn't regulations—it was <span className="font-bold text-slate-900">community standards and collective accountability.</span>
           </p>
         </Section>
 
         {/* Our Vision */}
         <Section icon={Heart} title="What We Actually Want to Build" delay={0.2}>
           <p>
-            Our primary mission isn't to become the biggest peptide vendor. It's to create a <span className="font-semibold text-amber-100">transparent, trustworthy community</span> where researchers, athletes, and health-conscious people feel confident in their purchases and supported by their peers.
+            Our primary mission isn't to become the biggest peptide vendor. It's to create a <span className="font-bold text-slate-900">transparent, trustworthy community</span> where researchers, athletes, and health-conscious people feel confident in their purchases and supported by their peers.
           </p>
           <p>
             We want to be the vendor that proves the gray market can operate with integrity. We publish our COAs publicly. We share our margins openly. We listen to community feedback and actually change based on it. We're not hiding behind anonymity—we're building in the open.
@@ -86,7 +86,7 @@ export default function OurStory() {
             Here's the reality: as a US-based vendor, we can get close to manufacturer costs on bulk orders. Some vendors charge 300-500% markups. We've decided our model is different.
           </p>
           <p>
-            We price aggressively to pass savings directly to our customers. Not because we're altruistic—but because we believe <span className="font-semibold text-amber-100">if prices are fair, people will trust us, stay loyal, and help us build something bigger.</span>
+            We price aggressively to pass savings directly to our customers. Not because we're altruistic—but because we believe <span className="font-bold text-slate-900">if prices are fair, people will trust us, stay loyal, and help us build something bigger.</span>
           </p>
           <p>
             We'd rather have 1,000 satisfied customers buying consistently at fair prices than 100 customers paying premium markups. Sustainable business built on trust beats short-term profit extraction every single time. Our margins are tight, but our growth is strong because our customers believe in what we're doing.
@@ -156,9 +156,9 @@ export default function OurStory() {
           viewport={{ once: true }}
           className="mt-20 text-center"
         >
-          <p className="text-stone-400 mb-6">Ready to be part of this community?</p>
+          <p className="text-slate-500 font-bold mb-6">Ready to be part of this community?</p>
           <Link to={createPageUrl('Home')}>
-            <Button className="bg-red-600 hover:bg-red-700 text-amber-50 px-8 py-6 text-lg">
+            <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg font-black shadow-lg shadow-red-200">
               Shop With Us
             </Button>
           </Link>
