@@ -12,34 +12,51 @@ import {
   FlaskConical,
   Binary,
   ScanLine,
-  Beaker
+  Beaker,
+  Scale,
+  Brain,
+  Zap,
+  Heart,
+  Shield,
+  Clock,
+  Flame,
+  Droplet
 } from 'lucide-react';
 
 const protocols = {
   metabolic: {
     id: 'metabolic',
     name: 'Metabolic Optimization',
-    icon: Activity,
-    description: 'Targeted GLP-1/GIP receptor research pathways.',
+    icon: Scale,
+    description: 'Targeted GLP-1/GIP/Glucagon receptor research pathways.',
     primary: 'Retatrutide',
-    synergistic: ['MOTS-c', 'Tesofensine'],
+    synergistic: [
+      { name: 'Tirzepatide', effect: 'Dual agonist reinforcement' },
+      { name: 'Semaglutide', effect: 'Established GLP-1 baseline' },
+      { name: 'MOTS-c', effect: 'Mitochondrial biogenesis support' }
+    ],
     stats: {
-      'Receptor Affinity': '98.4%',
-      'Half-Life': '144h',
-      'Bioavailability': 'High'
+      'Receptor Affinity': 'Triple Agonist',
+      'Metabolic Rate': 'Enhanced',
+      'Insulin Sensitivity': 'Optimized'
     },
     citations: [
       'PMID: 37385285 - Triple hormone receptor agonist effects',
-      'PMID: 34135111 - Novel mechanisms in metabolic regulation'
+      'PMID: 34135111 - Novel mechanisms in metabolic regulation',
+      'PMID: 33581776 - GIP and GLP-1 receptor agonist efficacy'
     ]
   },
   recovery: {
     id: 'recovery',
     name: 'Tissue Regeneration',
-    icon: Dna,
-    description: 'Accelerated cellular repair and angiogenesis protocols.',
+    icon: Heart,
+    description: 'Accelerated cellular repair, angiogenesis, and anti-inflammatory protocols.',
     primary: 'BPC-157',
-    synergistic: ['TB-500', 'GHK-Cu'],
+    synergistic: [
+      { name: 'TB-500', effect: 'Actin upregulation for mobility' },
+      { name: 'BPC 157 + TB500 Blend', effect: 'Combined systemic healing' },
+      { name: 'GHK-Cu', effect: 'Collagen synthesis activation' }
+    ],
     stats: {
       'Angiogenesis': '+400%',
       'Fibroblast Activity': 'Enhanced',
@@ -47,24 +64,139 @@ const protocols = {
     },
     citations: [
       'PMID: 21030672 - Pentadecapeptide BPC 157 and tissue healing',
-      'PMID: 20534562 - Thymosin beta 4 in wound repair'
+      'PMID: 20534562 - Thymosin beta 4 in wound repair',
+      'PMID: 25411603 - BPC 157 accelerates healing'
     ]
   },
   cognitive: {
     id: 'cognitive',
     name: 'Neuro-Enhancement',
     icon: Brain,
-    description: 'Nootropic pathways for cognitive resilience and plasticity.',
+    description: 'Nootropic pathways for cognitive resilience, plasticity, and focus.',
     primary: 'Semax',
-    synergistic: ['Selank', 'Pinealon'],
+    synergistic: [
+      { name: 'Selank', effect: 'Anxiolytic modulation' },
+      { name: 'Pinealon', effect: 'Peptide bioregulation of cortex' },
+      { name: 'Epithalon', effect: 'Circadian normalization' }
+    ],
     stats: {
       'BDNF Expression': 'Upregulated',
       'Neuroprotection': 'Verified',
-      'Focus Index': '9.8/10'
+      'Anxiolytic Action': 'Significant'
     },
     citations: [
       'PMID: 16996699 - Semax effects on brain ischemia',
-      'PMID: 18577961 - Selank anxiolytic mechanisms'
+      'PMID: 18577961 - Selank anxiolytic mechanisms',
+      'PMID: 12596526 - Peptide regulation of brain function'
+    ]
+  },
+  performance: {
+    id: 'performance',
+    name: 'Athletic Performance',
+    icon: Zap,
+    description: 'Enhancement of physical output, endurance, and muscle synthesis.',
+    primary: 'Tesofensine',
+    synergistic: [
+      { name: 'MOTS-c', effect: 'AICAR-like endurance boost' },
+      { name: 'CJC-1295', effect: 'Sustained GH release' },
+      { name: 'Ipamorelin', effect: 'Selective pulse secretion' }
+    ],
+    stats: {
+      'Mitochondrial Function': 'Optimized',
+      'Endurance Capacity': 'Increased',
+      'Recovery Rate': 'Accelerated'
+    },
+    citations: [
+      'PMID: 26970087 - Mitochondrial-derived peptide MOTS-c',
+      'PMID: 16866631 - Tesofensine in weight management',
+      'PMID: 16365538 - GH secretagogues and muscle growth'
+    ]
+  },
+  longevity: {
+    id: 'longevity',
+    name: 'Longevity & Anti-Aging',
+    icon: Clock,
+    description: 'Telomere maintenance and circadian rhythm regulation.',
+    primary: 'Epithalon',
+    synergistic: [
+      { name: 'Pinealon', effect: 'Neuro-protective synergy' },
+      { name: 'MOTS-c', effect: 'Metabolic flexibility' },
+      { name: 'GHK-Cu', effect: 'Skin & tissue remodeling' }
+    ],
+    stats: {
+      'Telomerase Activity': 'Restored',
+      'Circadian Rhythm': 'Normalized',
+      'Oxidative Stress': 'Reduced'
+    },
+    citations: [
+      'PMID: 14501183 - Epithalon and telomerase activity',
+      'PMID: 12374972 - Peptide bioregulators in aging',
+      'PMID: 29938167 - GHK peptide as a natural modulator'
+    ]
+  },
+  immune: {
+    id: 'immune',
+    name: 'Immune Modulation',
+    icon: Shield,
+    description: 'Enhancement of host defense mechanisms and immune regulation.',
+    primary: 'Thymosin Alpha-1',
+    synergistic: [
+      { name: 'LL-37', effect: 'Antimicrobial peptide defense' },
+      { name: 'BPC-157', effect: 'Gut barrier integrity' },
+      { name: 'Selank', effect: 'Stress-immune axis regulation' }
+    ],
+    stats: {
+      'T-Cell Maturation': 'Stimulated',
+      'Cytokine Balance': 'Regulated',
+      'Viral Defense': 'Enhanced'
+    },
+    citations: [
+      'PMID: 28405156 - Thymosin alpha 1 mechanism of action',
+      'PMID: 28695123 - LL-37 immunomodulatory properties',
+      'PMID: 19164227 - Peptides in immune regulation'
+    ]
+  },
+  sexual_health: {
+    id: 'sexual_health',
+    name: 'Sexual Health',
+    icon: Flame,
+    description: 'Pathways involved in libido and reproductive function.',
+    primary: 'PT-141',
+    synergistic: [
+      { name: 'Kisspeptin', effect: 'Hormonal signaling initiator' },
+      { name: 'Melanotan 2', effect: 'MC receptor cross-activation' }
+    ],
+    stats: {
+      'Receptor Activation': 'MC3/MC4',
+      'Libido Index': 'Enhanced',
+      'Circulation': 'Improved'
+    },
+    citations: [
+      'PMID: 15155948 - PT-141 for sexual dysfunction',
+      'PMID: 16893393 - Kisspeptin and reproductive function',
+      'PMID: 12956551 - Melanocortin agonists'
+    ]
+  },
+  general: {
+    id: 'general',
+    name: 'General Research',
+    icon: Beaker,
+    description: 'Fundamental research tools including reconstitution supplies.',
+    primary: 'BAC Water',
+    synergistic: [
+      { name: 'Sterile Vials', effect: 'Secure compound storage' },
+      { name: 'Syringes', effect: 'Precision measurement tools' },
+      { name: 'Alcohol Prep', effect: 'Aseptic technique protocol' }
+    ],
+    stats: {
+      'Purity': 'USP Grade',
+      'Sterility': 'Verified',
+      'Compatibility': 'Universal'
+    },
+    citations: [
+      'USP <797> - Pharmaceutical Compounding - Sterile Preparations',
+      'USP <71> - Sterility Tests',
+      'Standard Laboratory Protocols'
     ]
   }
 };
@@ -132,8 +264,8 @@ export default function ProtocolEngine() {
                 <h3 className="font-mono text-sm text-slate-400 tracking-widest">PROTOCOL_ENGINE_V2.1</h3>
               </div>
               
-              <div className="space-y-4">
-                <p className="text-slate-400 text-sm mb-4 font-mono">SELECT RESEARCH OBJECTIVE:</p>
+              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900/50">
+                <p className="text-slate-400 text-sm mb-4 font-mono sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10 py-2 border-b border-slate-800">SELECT RESEARCH OBJECTIVE:</p>
                 {Object.entries(protocols).map(([key, protocol]) => (
                   <button
                     key={key}
@@ -147,13 +279,13 @@ export default function ProtocolEngine() {
                     <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20' : 'bg-slate-700 group-hover:bg-slate-600'}`}>
                       <protocol.icon className="w-5 h-5" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <div className="font-bold">{protocol.name}</div>
                       <div className={`text-xs ${activeProtocol?.id === key ? 'text-red-100' : 'text-slate-500'}`}>
                         Initialize Simulation
                       </div>
                     </div>
-                    <ChevronRight className={`w-4 h-4 ml-auto transition-transform ${activeProtocol?.id === key ? 'rotate-90' : ''}`} />
+                    <ChevronRight className={`w-4 h-4 transition-transform ${activeProtocol?.id === key ? 'rotate-90' : ''}`} />
                   </button>
                 ))}
               </div>
@@ -277,17 +409,22 @@ export default function ProtocolEngine() {
                       <h4 className="font-mono text-xs text-slate-500 uppercase mb-2">Synergistic Compounds Detected:</h4>
                       {activeProtocol.synergistic.map((compound, idx) => (
                         <motion.div
-                          key={compound}
+                          key={compound.name}
                           initial={{ x: 20, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: idx * 0.2 }}
                           className="bg-slate-800/50 border border-slate-700 p-4 rounded-xl flex items-center justify-between group hover:border-red-500/50 transition-colors"
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-red-500" />
-                            <span className="font-bold text-slate-200">{compound}</span>
+                            <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
+                            <div>
+                              <div className="font-bold text-slate-200">{compound.name}</div>
+                              <div className="text-xs text-slate-500 font-mono group-hover:text-red-400 transition-colors">
+                                {compound.effect}
+                              </div>
+                            </div>
                           </div>
-                          <div className="text-xs text-slate-500 font-mono group-hover:text-red-400">
+                          <div className="text-[10px] text-slate-600 font-mono uppercase tracking-wider hidden sm:block">
                             + SYNERGY
                           </div>
                         </motion.div>
