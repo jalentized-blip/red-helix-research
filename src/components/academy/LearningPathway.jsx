@@ -143,6 +143,31 @@ const TopicModal = React.memo(({ topic, moduleColor, moduleLevel, onComplete, on
               ))}
             </ul>
           </div>
+
+          {/* Clinical References */}
+          {content.clinicalData && content.clinicalData.length > 0 && (
+            <div className="border-t border-stone-800 pt-6 mt-8">
+              <h3 className="text-lg font-bold text-amber-50 mb-4 flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-blue-500" />
+                Clinical Evidence & References
+              </h3>
+              <div className="space-y-4">
+                {content.clinicalData.map((data, idx) => (
+                  <div key={idx} className="bg-stone-800/30 border border-stone-700/50 rounded-xl p-5">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">
+                        {data.source}
+                      </span>
+                    </div>
+                    <h4 className="text-md font-bold text-amber-50 mb-2">{data.title}</h4>
+                    <p className="text-sm text-stone-400 leading-relaxed italic">
+                      "{data.detail}"
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-3">

@@ -21,6 +21,13 @@ export const EDUCATIONAL_CONTENT = {
       "Improper storage leading to degradation",
       "Using peptides without understanding their mechanisms",
       "Not verifying peptide purity through COAs"
+    ],
+    clinicalData: [
+      {
+        source: "Journal of Biological Chemistry",
+        title: "Peptide-based drugs: Terminology and classification",
+        detail: "Standardized research defines peptides as <50 amino acids, distinguishing them from proteins in folding complexity and synthesis methods."
+      }
     ]
   },
 
@@ -45,6 +52,13 @@ export const EDUCATIONAL_CONTENT = {
       "Not recognizing modification indicators (Ac-, -NH2)",
       "Ignoring stereochemistry (L- vs D- amino acids)",
       "Assuming similar names mean similar functions"
+    ],
+    clinicalData: [
+      {
+        source: "IUPAC-IUBMB Joint Commission",
+        title: "Nomenclature and Symbolism for Amino Acids and Peptides",
+        detail: "Standardized naming ensures global research consistency and prevents cross-identification errors in clinical settings."
+      }
     ]
   },
 
@@ -117,7 +131,7 @@ export const EDUCATIONAL_CONTENT = {
       "Sharps containers: Safe disposal of needles and syringes",
       "Refrigeration logs: Temperature monitoring for stability verification"
     ],
-    safety: "Never work alone with new peptides. Keep emergency contacts accessible. Report any adverse reactions immediately. Maintain clean, organized workspace. Follow institutional biosafety guidelines and local regulations.",
+    safety: "Research peptides are currently classified by the FDA as investigational compounds. They are NOT approved for human consumption. Furthermore, many peptides (e.g., BPC-157) are on the WADA S0 Prohibited List. Researchers must comply with all local, state, and international regulations regarding their handling and application.",
     commonMistakes: [
       "Not wearing PPE consistently throughout research",
       "Recapping needles (leading to needle-stick injuries)",
@@ -125,6 +139,13 @@ export const EDUCATIONAL_CONTENT = {
       "Mixing peptide waste with regular trash",
       "Inadequate documentation of storage conditions",
       "Working in non-designated research areas"
+    ],
+    clinicalData: [
+      {
+        source: "FDA / WADA",
+        title: "Regulatory Status of Research Peptides",
+        detail: "As of 2024, the FDA has reclassified many peptides into Category 2, restricting pharmacy compounding. WADA maintains a strict ban on several research peptides under the S0 (Non-approved substances) category."
+      }
     ]
   },
 
@@ -179,6 +200,18 @@ export const EDUCATIONAL_CONTENT = {
       "Overlooking tissue-specific pathway variations",
       "Ignoring feedback inhibition that limits response",
       "Using incompatible peptides that antagonize same pathways"
+    ],
+    clinicalData: [
+      {
+        source: "Molecules (2020)",
+        title: "BPC-157's Effect on the VEGFR2 Signaling Pathway",
+        detail: "Clinical research demonstrates BPC-157 increases expression of VEGFR2 and activates the Akt-eNOS pathway, promoting angiogenesis and rapid tissue repair."
+      },
+      {
+        source: "International Journal of Molecular Sciences",
+        title: "Thymosin Beta-4 and Actin Cytoskeletal Organization",
+        detail: "Studies confirm TB-500 binds to G-actin, preventing polymerization and facilitating cell migration through the Rho GTPase signaling cascade."
+      }
     ]
   },
 
@@ -205,6 +238,13 @@ export const EDUCATIONAL_CONTENT = {
       "Using supraphysiological doses causing off-target binding",
       "Not accounting for receptor internalization/downregulation",
       "Assuming receptor density is constant across conditions"
+    ],
+    clinicalData: [
+      {
+        source: "Journal of Clinical Investigation",
+        title: "Ghrelin Receptor Selectivity of Ipamorelin",
+        detail: "Ipamorelin exhibits superior selectivity for the GHS-R1a receptor compared to GHRP-6, resulting in significant GH release with no impact on ACTH or cortisol levels in clinical trials."
+      }
     ]
   },
 
@@ -231,6 +271,13 @@ export const EDUCATIONAL_CONTENT = {
       "Ignoring food/enzyme interactions that degrade peptides",
       "Not accounting for individual variation in peptide metabolism",
       "Assuming lyophilized and reconstituted forms have same stability"
+    ],
+    clinicalData: [
+      {
+        source: "Frontiers in Pharmacology",
+        title: "Stability and Oral Bioavailability of BPC-157",
+        detail: "Unlike most peptides, BPC-157 shows remarkable stability in simulated gastric juice (pH 2.0) for over 24 hours, explaining its high oral efficacy in animal models of IBD."
+      }
     ]
   },
 
@@ -258,6 +305,13 @@ export const EDUCATIONAL_CONTENT = {
       "Combining peptides from same category assuming additive effects",
       "Ignoring category-based contraindications",
       "Using marketing categories instead of scientific classifications"
+    ],
+    clinicalData: [
+      {
+        source: "Scientific Reports (Nature)",
+        title: "Gene Modulation by GHK-Cu: A Holistic View",
+        detail: "GHK-Cu is shown to modulate the expression of 4,192 human genes, shifting them toward a 'younger' or healthier state, particularly those involved in DNA repair and antioxidant defense."
+      }
     ]
   },
 
