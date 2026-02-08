@@ -8,6 +8,7 @@ import AgeVerificationBot from '@/components/AgeVerificationBot';
 import { generateOrganizationSchema, generateWebsiteSchema, generateProductSchema } from '@/components/utils/schemaHelpers';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
+import RedHelixBackground from '@/components/effects/RedHelixBackground';
 import { Package, ClipboardList, DollarSign, User } from 'lucide-react';
 import SEO from '@/components/SEO';
 import QuickShop from '@/components/QuickShop';
