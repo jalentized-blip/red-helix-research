@@ -27,7 +27,6 @@ import Reviews from '@/components/home/Reviews';
 import FAQ from '@/components/home/FAQ';
 import Contact from '@/components/home/Contact';
 import Footer from '@/components/home/Footer';
-import InteractiveRoadmap from '@/components/home/InteractiveRoadmap';
 
 export default function Home({ adminViewAsUser = false }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -168,7 +167,6 @@ export default function Home({ adminViewAsUser = false }) {
         </>
       )}
       
-      <InteractiveRoadmap />
       <Hero />
       <TrustBar />
       <ValueProposition />
