@@ -54,46 +54,69 @@ export default function RedHelixBackground() {
 
 function HelixSVG() {
   return (
-    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
       <defs>
-        <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#DC2626" />
-          <stop offset="100%" stopColor="#991B1B" />
+        <linearGradient id="helixGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#DC2626" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#991B1B" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#DC2626" stopOpacity="0.8" />
         </linearGradient>
       </defs>
-      
-      {/* Abstract Helix Shape */}
+
+      {/* Rungs (Base Pairs) */}
+      <g stroke="#DC2626" strokeWidth="3" strokeOpacity="0.5" strokeLinecap="round">
+        <line x1="100" y1="20" x2="100" y2="20" />
+        <line x1="135" y1="40" x2="65" y2="40" />
+        <line x1="150" y1="60" x2="50" y2="60" />
+        <line x1="135" y1="80" x2="65" y2="80" />
+        <line x1="100" y1="100" x2="100" y2="100" />
+        <line x1="65" y1="120" x2="135" y2="120" />
+        <line x1="50" y1="140" x2="150" y2="140" />
+        <line x1="65" y1="160" x2="135" y2="160" />
+        <line x1="100" y1="180" x2="100" y2="180" />
+        <line x1="135" y1="200" x2="65" y2="200" />
+        <line x1="150" y1="220" x2="50" y2="220" />
+        <line x1="135" y1="240" x2="65" y2="240" />
+        <line x1="100" y1="260" x2="100" y2="260" />
+        <line x1="65" y1="280" x2="135" y2="280" />
+        <line x1="50" y1="300" x2="150" y2="300" />
+        <line x1="65" y1="320" x2="135" y2="320" />
+        <line x1="100" y1="340" x2="100" y2="340" />
+      </g>
+
+      {/* Strand 1 */}
       <path 
         d="M100 20 
-           C 140 20, 160 50, 160 80 
-           C 160 110, 130 130, 100 130 
-           C 70 130, 40 150, 40 180" 
+           C 130 20, 150 40, 150 60 
+           S 130 100, 100 100
+           S 50 140, 50 140
+           S 20 180, 100 180
+           S 150 220, 150 220
+           S 180 260, 100 260
+           S 50 300, 50 300
+           S 20 340, 100 340"
         stroke="url(#helixGradient)" 
-        strokeWidth="20" 
+        strokeWidth="6" 
         strokeLinecap="round"
-        opacity="0.8"
+        fill="none"
       />
+
+      {/* Strand 2 */}
       <path 
-        d="M100 180 
-           C 60 180, 40 150, 40 120 
-           C 40 90, 70 70, 100 70 
-           C 130 70, 160 50, 160 20" 
+        d="M100 20 
+           C 70 20, 50 40, 50 60 
+           S 70 100, 100 100
+           S 150 140, 150 140
+           S 180 180, 100 180
+           S 50 220, 50 220
+           S 20 260, 100 260
+           S 150 300, 150 300
+           S 180 340, 100 340"
         stroke="url(#helixGradient)" 
-        strokeWidth="20" 
+        strokeWidth="6" 
         strokeLinecap="round"
-        opacity="0.4"
+        fill="none"
       />
-      
-      {/* Connecting rungs/dots */}
-      <circle cx="100" cy="20" r="8" fill="#DC2626" />
-      <circle cx="160" cy="80" r="8" fill="#DC2626" />
-      <circle cx="100" cy="130" r="8" fill="#DC2626" />
-      <circle cx="40" cy="180" r="8" fill="#DC2626" />
-      
-      <circle cx="100" cy="180" r="8" fill="#DC2626" opacity="0.5" />
-      <circle cx="40" cy="120" r="8" fill="#DC2626" opacity="0.5" />
-      <circle cx="100" cy="70" r="8" fill="#DC2626" opacity="0.5" />
-      <circle cx="160" cy="20" r="8" fill="#DC2626" opacity="0.5" />
     </svg>
   );
 }
