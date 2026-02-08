@@ -258,7 +258,7 @@ export default function ProtocolEngine() {
                         : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:bg-white hover:border-red-200 hover:shadow-md'
                     }`}
                   >
-                    <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20' : 'bg-neutral-200 group-hover:bg-red-600 group-hover:text-white'}`}>
+                    <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20 text-white' : 'bg-neutral-200 text-neutral-600 group-hover:bg-red-600 group-hover:text-white'}`}>
                       <protocol.icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
