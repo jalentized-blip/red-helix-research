@@ -35,7 +35,15 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
       .filter(p => {
         const isFeatured = p.is_featured && !p.is_deleted;
         const isVisible = effectiveIsAdmin || !p.hidden;
-        return isFeatured && isVisible;
+        
+        // Stock logic: Check if any specification is in stock
+        const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
+        const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+        
+        if (effectiveIsAdmin) {
+          return isFeatured;
+        }
+        return isFeatured && isVisible && inStock;
       })
       .slice(0, 7);
   }, [products, effectiveIsAdmin]);

@@ -6,6 +6,7 @@ import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Filter, Search, X, Package, ShieldCheck, Beaker } from 'lucide-react';
 import ProductModal from '@/components/product/ProductModal';
+import ProductCard from '@/components/home/ProductCard';
 import SEO from '@/components/SEO';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -194,77 +195,14 @@ export default function Products() {
                 transition={{ duration: 0.3 }}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
               >
-                {filteredProducts.map((product, index) => {
-                  const hasAvailableSpec = product.specifications?.some(spec => spec.in_stock && !spec.hidden) || false;
-                  const productInStock = product.in_stock || hasAvailableSpec;
-
-                  return (
-                    <motion.div
-                      key={product.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      onClick={() => handleSelectStrength(product)}
-                      className="group cursor-pointer bg-slate-50 border border-slate-200 rounded-[40px] p-8 hover:bg-white hover:border-red-600/30 transition-all hover:shadow-2xl hover:shadow-red-600/10 relative overflow-hidden flex flex-col h-full"
-                    >
-                      {/* Product Badge */}
-                      <div className="mb-6 flex items-start justify-between relative z-10">
-                        {product.badge ? (
-                          <span className="px-4 py-1.5 bg-red-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">
-                            {product.badge.replace('_', ' ')}
-                          </span>
-                        ) : (
-                          <div />
-                        )}
-                        {!productInStock && (
-                          <span className="px-4 py-1.5 bg-slate-200 text-slate-600 text-[10px] font-black rounded-full uppercase tracking-widest">
-                            Out of Stock
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 relative z-10">
-                        <h3 className="text-2xl font-black text-slate-900 group-hover:text-red-600 transition-colors uppercase tracking-tighter leading-tight mb-3">
-                          {product.name}
-                        </h3>
-                        {product.description && (
-                          <p className="text-slate-500 text-sm font-medium leading-relaxed mb-6 line-clamp-3">
-                            {product.description}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Footer */}
-                      <div className="mt-auto pt-8 border-t border-slate-200/50 relative z-10">
-                        <div className="flex items-end justify-between">
-                          <div>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Price from</p>
-                            <p className={`text-3xl font-black tracking-tighter ${productInStock ? 'text-slate-900' : 'text-slate-400'}`}>
-                              ${(() => {
-                                const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-                                const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
-                                return inStockSpecs.length > 0 
-                                  ? Math.min(...inStockSpecs.map(spec => spec.price))
-                                  : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
-                              })()}
-                            </p>
-                          </div>
-                          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
-                            productInStock ? 'bg-red-600 text-white group-hover:scale-110' : 'bg-slate-200 text-slate-400'
-                          }`}>
-                            <ArrowLeft className="w-5 h-5 rotate-180" />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Decorative Background Icon */}
-                      <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity pointer-events-none -mr-12">
-                        <Beaker className="w-48 h-48" />
-                      </div>
-                    </motion.div>
-                  );
-                })}
+                {filteredProducts.map((product, index) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    index={index}
+                    onSelectStrength={handleSelectStrength}
+                  />
+                ))}
               </motion.div>
             </AnimatePresence>
 

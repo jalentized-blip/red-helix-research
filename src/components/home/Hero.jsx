@@ -77,8 +77,8 @@ const Hero = React.memo(() => {
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/50 rounded-2xl border border-slate-100 lg:bg-transparent lg:border-0 lg:p-0">
                 <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-red-600 mb-1" />
-                <span className="text-xs md:text-sm font-bold text-slate-900">{stat.label}</span>
-                <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-tighter font-bold">{stat.sub}</span>
+                <span className="text-xs md:text-sm font-black text-slate-900">{stat.label}</span>
+                <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-tighter font-black">{stat.sub}</span>
               </div>
             ))}
           </div>

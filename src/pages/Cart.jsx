@@ -116,7 +116,7 @@ export default function Cart() {
                     </div>
                     <button
                       onClick={() => handleRemoveItem(item.id)}
-                      className="text-slate-300 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-xl"
+                      className="text-red-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-xl"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -179,7 +179,7 @@ export default function Cart() {
                           onFocus={() => setPromoFocused(true)}
                           onBlur={() => setPromoFocused(false)}
                           placeholder="CODE"
-                          className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-300 font-bold focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600/20 transition-all"
+                          className="min-w-0 flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-300 font-bold focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600/20 transition-all"
                         />
                         {(promoCode || promoFocused) && (
                           <motion.div

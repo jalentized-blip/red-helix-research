@@ -77,19 +77,23 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
       ).sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date));
 
       const filtered = deduped.filter(product => {
-      const matchesCategory = activeCategory === "all" || product.category === activeCategory;
-      const matchesSearch = searchQuery === "" || 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
-      const isBacResearch = product.name.toUpperCase() === 'BAC RESEARCH';
-      const hasVisibleSpecs = product.specifications?.some(spec => !spec.hidden);
-      const isVisible = isAdmin || !product.hidden;
-      
-      // Admins see all products; regular users only see visible products with visible specs
-      if (isAdmin) {
-        return matchesCategory && matchesSearch && !isBacResearch;
-      }
-        return matchesCategory && matchesSearch && !isBacResearch && hasVisibleSpecs && isVisible;
+        const matchesCategory = activeCategory === "all" || product.category === activeCategory;
+        const matchesSearch = searchQuery === "" || 
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
+        const isBacResearch = product.name.toUpperCase() === 'BAC RESEARCH';
+        
+        // Stock logic: Check if any specification is in stock
+        const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
+        const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+        
+        const isVisible = isAdmin || !product.hidden;
+        
+        // Admins see all products; regular users only see visible products that are in stock
+        if (isAdmin) {
+          return matchesCategory && matchesSearch && !isBacResearch;
+        }
+        return matchesCategory && matchesSearch && !isBacResearch && isVisible && inStock;
       });
 
       const sorted = [...filtered].sort((a, b) => {
@@ -186,15 +190,18 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
 
           {/* Sort Dropdown */}
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full md:w-56 h-14 bg-white border-slate-200 text-slate-900 font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-red-600/20">
-              <SelectValue />
+            <SelectTrigger className="w-full md:w-64 h-14 bg-white border-slate-200 text-slate-900 font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-red-600/20 group">
+              <div className="flex items-center gap-3">
+                <span className="text-slate-400 group-hover:text-red-600 transition-colors">Sort:</span>
+                <SelectValue placeholder="Featured Priority" />
+              </div>
             </SelectTrigger>
-            <SelectContent className="bg-white border-slate-200 rounded-2xl shadow-2xl">
-              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Featured Priority</SelectItem>
-              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Value: Low to High</SelectItem>
-              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Value: High to Low</SelectItem>
-              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Nomenclature: A-Z</SelectItem>
-              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Nomenclature: Z-A</SelectItem>
+            <SelectContent className="bg-white border-slate-200 rounded-2xl shadow-2xl p-2">
+              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Featured Priority</SelectItem>
+              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Value: Low to High</SelectItem>
+              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Value: High to Low</SelectItem>
+              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: A-Z</SelectItem>
+              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: Z-A</SelectItem>
             </SelectContent>
           </Select>
         </div>

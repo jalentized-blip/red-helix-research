@@ -96,272 +96,266 @@ export default function CustomerInfo() {
     };
 
     localStorage.setItem('customerInfo', JSON.stringify(customerData));
-    navigate(createPageUrl('CryptoCheckout'));
+    
+    // Check if we came from Account page or Cart
+    const isUpdatingFromAccount = document.referrer.includes('Account') || window.location.search.includes('source=account');
+    
+    if (isUpdatingFromAccount) {
+      alert('Information updated successfully!');
+      navigate(createPageUrl('Account'));
+    } else {
+      navigate(createPageUrl('CryptoCheckout'));
+    }
   };
 
   const shippingData = formData.sameAsShipping ? 
     { city: formData.billingCity, state: formData.billingState, zip: formData.billingZip, address: formData.billingAddress } :
     { city: formData.shippingCity, state: formData.shippingState, zip: formData.shippingZip, address: formData.shippingAddress };
 
+  const isFromAccount = window.location.search.includes('source=account');
+
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-white pt-32 pb-20 px-4 relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="max-w-2xl mx-auto relative z-10">
         {/* Header */}
-        <div className="mb-8">
-          <Link to={createPageUrl('Cart')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
+        <div className="mb-12">
+          <Link to={isFromAccount ? createPageUrl('Account') : createPageUrl('Cart')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6 font-bold uppercase tracking-widest text-xs">
             <ArrowLeft className="w-4 h-4" />
-            Back to Cart
+            Back to {isFromAccount ? 'Account' : 'Cart'}
           </Link>
-          <h1 className="text-4xl font-black text-amber-50">Billing & Shipping</h1>
-          <p className="text-stone-400 mt-2">Complete your information before checkout</p>
+          <h1 className="text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+            {isFromAccount ? 'Update' : 'Billing &'} <span className="text-red-600">{isFromAccount ? 'Profile' : 'Shipping'}</span>
+          </h1>
+          <p className="text-slate-500 mt-4 font-medium">
+            {isFromAccount ? 'Manage your default research fulfillment information.' : 'Complete your research fulfillment information before checkout.'}
+          </p>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 space-y-6"
+          className="bg-white border border-slate-100 rounded-[40px] p-10 space-y-10 shadow-sm"
         >
           {/* Contact Information */}
-          <div>
-            <h2 className="text-xl font-bold text-amber-50 mb-4">Contact Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">First Name *</label>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
+                <span className="text-red-600 font-black text-xs">01</span>
+              </div>
+              <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Contact Information</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">First Name *</label>
                 <Input
                   type="text"
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                   placeholder="John"
                 />
-                {errors.firstName && <p className="text-red-600 text-xs mt-1">{errors.firstName}</p>}
+                {errors.firstName && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.firstName}</p>}
               </div>
-              <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Last Name *</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Last Name *</label>
                 <Input
                   type="text"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                   placeholder="Doe"
                 />
-                {errors.lastName && <p className="text-red-600 text-xs mt-1">{errors.lastName}</p>}
+                {errors.lastName && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.lastName}</p>}
               </div>
-              <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Email *</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Email *</label>
                 <Input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                   placeholder="john@example.com"
                 />
-                {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
+                {errors.email && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.email}</p>}
               </div>
-              <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Phone *</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Phone *</label>
                 <Input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                   placeholder="+1 (555) 123-4567"
                 />
-                {errors.phone && <p className="text-red-600 text-xs mt-1">{errors.phone}</p>}
+                {errors.phone && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.phone}</p>}
               </div>
             </div>
           </div>
 
           {/* Billing Address */}
-          <div className="border-t border-stone-700 pt-6">
-            <h2 className="text-xl font-bold text-amber-50 mb-4">Billing Address</h2>
+          <div className="border-t border-slate-100 pt-10 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
+                <span className="text-red-600 font-black text-xs">02</span>
+              </div>
+              <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Billing Address</h2>
+            </div>
             <div className="space-y-4">
-              <div>
-                <label className="text-sm font-semibold text-stone-300 block mb-2">Address *</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Address *</label>
                 <Input
                   type="text"
                   name="billingAddress"
                   value={formData.billingAddress}
                   onChange={handleChange}
-                  className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                   placeholder="123 Main Street"
                 />
-                {errors.billingAddress && <p className="text-red-600 text-xs mt-1">{errors.billingAddress}</p>}
+                {errors.billingAddress && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingAddress}</p>}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-sm font-semibold text-stone-300 block mb-2">City *</label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">City *</label>
                   <Input
                     type="text"
                     name="billingCity"
                     value={formData.billingCity}
                     onChange={handleChange}
-                    className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                     placeholder="New York"
                   />
-                  {errors.billingCity && <p className="text-red-600 text-xs mt-1">{errors.billingCity}</p>}
+                  {errors.billingCity && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingCity}</p>}
                 </div>
-                <div>
-                  <label className="text-sm font-semibold text-stone-300 block mb-2">State *</label>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">State *</label>
                   <Input
                     type="text"
                     name="billingState"
                     value={formData.billingState}
                     onChange={handleChange}
-                    className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                     placeholder="NY"
-                    maxLength="2"
                   />
-                  {errors.billingState && <p className="text-red-600 text-xs mt-1">{errors.billingState}</p>}
+                  {errors.billingState && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingState}</p>}
                 </div>
-                <div>
-                  <label className="text-sm font-semibold text-stone-300 block mb-2">ZIP Code *</label>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">ZIP Code *</label>
                   <Input
                     type="text"
                     name="billingZip"
                     value={formData.billingZip}
                     onChange={handleChange}
-                    className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
+                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
                     placeholder="10001"
                   />
-                  {errors.billingZip && <p className="text-red-600 text-xs mt-1">{errors.billingZip}</p>}
+                  {errors.billingZip && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingZip}</p>}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Shipping Address Toggle */}
-          <div className="border-t border-stone-700 pt-6">
-            <label className="flex items-center gap-3 cursor-pointer">
+          {/* Shipping Option */}
+          <div className="border-t border-slate-100 pt-10 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
+                <span className="text-red-600 font-black text-xs">03</span>
+              </div>
+              <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Shipping Address</h2>
+            </div>
+            
+            <label className="flex items-center gap-3 p-6 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer group hover:border-red-600/20 transition-all">
               <input
                 type="checkbox"
                 name="sameAsShipping"
                 checked={formData.sameAsShipping}
                 onChange={handleChange}
-                className="w-4 h-4 rounded accent-red-600"
+                className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-600/20"
               />
-              <span className="text-sm font-semibold text-stone-300">Shipping address same as billing</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wide group-hover:text-red-600 transition-colors">Same as billing address</span>
             </label>
-          </div>
 
-          {/* Shipping Address */}
-          {!formData.sameAsShipping && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="border-t border-stone-700 pt-6"
-            >
-              <h2 className="text-xl font-bold text-amber-50 mb-4">Shipping Address</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-semibold text-stone-300 block mb-2">Address *</label>
+            {!formData.sameAsShipping && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="space-y-6 pt-6"
+              >
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">Address *</label>
                   <Input
                     type="text"
                     name="shippingAddress"
                     value={formData.shippingAddress}
                     onChange={handleChange}
-                    className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                    placeholder="123 Main Street"
+                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
+                    placeholder="456 Shipping Lane"
                   />
-                  {errors.shippingAddress && <p className="text-red-600 text-xs mt-1">{errors.shippingAddress}</p>}
+                  {errors.shippingAddress && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingAddress}</p>}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="text-sm font-semibold text-stone-300 block mb-2">City *</label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">City *</label>
                     <Input
                       type="text"
                       name="shippingCity"
                       value={formData.shippingCity}
                       onChange={handleChange}
-                      className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                      placeholder="New York"
+                      className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
+                      placeholder="Los Angeles"
                     />
-                    {errors.shippingCity && <p className="text-red-600 text-xs mt-1">{errors.shippingCity}</p>}
+                    {errors.shippingCity && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingCity}</p>}
                   </div>
-                  <div>
-                    <label className="text-sm font-semibold text-stone-300 block mb-2">State *</label>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">State *</label>
                     <Input
                       type="text"
                       name="shippingState"
                       value={formData.shippingState}
                       onChange={handleChange}
-                      className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                      placeholder="NY"
-                      maxLength="2"
+                      className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
+                      placeholder="CA"
                     />
-                    {errors.shippingState && <p className="text-red-600 text-xs mt-1">{errors.shippingState}</p>}
+                    {errors.shippingState && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingState}</p>}
                   </div>
-                  <div>
-                    <label className="text-sm font-semibold text-stone-300 block mb-2">ZIP Code *</label>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block">ZIP Code *</label>
                     <Input
                       type="text"
                       name="shippingZip"
                       value={formData.shippingZip}
                       onChange={handleChange}
-                      className="bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-500"
-                      placeholder="10001"
+                      className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-red-600 focus:ring-red-600/20"
+                      placeholder="90001"
                     />
-                    {errors.shippingZip && <p className="text-red-600 text-xs mt-1">{errors.shippingZip}</p>}
+                    {errors.shippingZip && <p className="text-red-600 text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingZip}</p>}
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Address Summary */}
-          <div className="border-t border-stone-700 pt-6 bg-stone-800/30 rounded-lg p-4">
-            <h3 className="text-sm font-bold text-amber-50 mb-3">Address Summary</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-stone-300">
-              <div>
-                <p className="font-semibold text-stone-400 mb-1">Billing</p>
-                <p>{formData.firstName} {formData.lastName}</p>
-                <p>{formData.billingAddress}</p>
-                <p>{formData.billingCity}, {formData.billingState} {formData.billingZip}</p>
-              </div>
-              <div>
-                <p className="font-semibold text-stone-400 mb-1">Shipping</p>
-                <p>{formData.firstName} {formData.lastName}</p>
-                <p>{shippingData.address}</p>
-                <p>{shippingData.city}, {shippingData.state} {shippingData.zip}</p>
-              </div>
-            </div>
+              </motion.div>
+            )}
           </div>
 
-          {/* Security Notice */}
-          <div className="border-t border-stone-700 pt-6">
-            <div className="bg-green-900/20 border border-green-700/50 rounded-lg p-4 mb-6">
-              <div className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <div>
-                  <p className="text-sm font-bold text-green-400 mb-1">Your Information is Secure</p>
-                  <p className="text-xs text-green-500/80">
-                    PCI-DSS compliant • SSL encrypted • No card data stored • Blockchain payments only
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Continue Button */}
-          <div className="flex gap-3">
-            <Link to={createPageUrl('Cart')} className="flex-1">
-              <Button variant="outline" className="w-full border-stone-700 text-stone-300 hover:text-amber-50">
-                Back
-              </Button>
-            </Link>
+          {/* Action Button */}
+          <div className="pt-6">
             <Button
               onClick={handleContinue}
-              className="flex-1 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold gap-2"
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-8 rounded-[24px] text-sm uppercase tracking-[0.2em] shadow-xl shadow-red-600/20 transition-all flex items-center justify-center gap-3"
             >
-              Continue to Checkout
+              {isFromAccount ? 'Save Changes' : 'Continue to Payment'}
               <ArrowRight className="w-4 h-4" />
             </Button>
+            <p className="text-center text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mt-6">
+              SECURE 256-BIT ENCRYPTED RESEARCH {isFromAccount ? 'DATA MANAGEMENT' : 'CHECKOUT'}
+            </p>
           </div>
         </motion.div>
       </div>

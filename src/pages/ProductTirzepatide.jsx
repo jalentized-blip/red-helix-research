@@ -14,7 +14,7 @@ export default function ProductTirzepatide() {
     name: 'Tirzepatide',
     fullName: 'Tirzepatide (Research Grade)',
     description: 'Premium research-grade tirzepatide peptide with verified third-party COA',
-    image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?w=800&q=80',
+    image: 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg',
     price_from: 119.99,
     specifications: [
       { name: '5mg vial', price: 119.99, in_stock: true },

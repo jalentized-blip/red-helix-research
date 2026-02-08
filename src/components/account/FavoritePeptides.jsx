@@ -20,11 +20,11 @@ export default function FavoritePeptides({ preferences, onRemoveFavorite }) {
   if (favoriteProducts.length === 0) {
     return (
       <div className="text-center py-16">
-        <Heart className="w-16 h-16 text-stone-600 mx-auto mb-4" />
-        <p className="text-stone-400 text-lg mb-2">No favorite peptides yet</p>
-        <p className="text-stone-500 text-sm mb-6">Start exploring and save your favorites</p>
+        <Heart className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+        <p className="text-slate-900 text-lg mb-2 font-bold uppercase tracking-tight">No favorite peptides yet</p>
+        <p className="text-slate-500 text-sm mb-6 font-medium">Start exploring and save your favorites</p>
         <Link to={createPageUrl('Home')}>
-          <Button className="bg-red-600 hover:bg-red-700">
+          <Button className="bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs px-8 py-6">
             Browse Products
           </Button>
         </Link>
@@ -40,41 +40,41 @@ export default function FavoritePeptides({ preferences, onRemoveFavorite }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: idx * 0.05 }}
-          className="bg-stone-800/30 border border-stone-700 rounded-lg p-5 hover:border-red-600/50 transition-all group"
+          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-red-600/30 hover:shadow-lg transition-all group"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
-              <h3 className="text-amber-50 font-bold text-lg mb-2 group-hover:text-red-600 transition-colors">
+              <h3 className="text-slate-900 font-black text-lg mb-2 group-hover:text-red-600 transition-colors uppercase tracking-tight">
                 {product.name}
               </h3>
-              <p className="text-stone-400 text-sm line-clamp-2 mb-3">
+              <p className="text-slate-500 text-sm line-clamp-2 mb-4 font-medium">
                 {product.description}
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-red-600 font-bold">From ${product.price_from}</span>
-                <span className="text-stone-500 text-xs px-2 py-1 bg-stone-900/50 rounded-full capitalize">
+                <span className="text-red-600 font-black">From ${product.price_from}</span>
+                <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-slate-50 rounded-full">
                   {product.category?.replace('_', ' ')}
                 </span>
               </div>
             </div>
             <button
               onClick={() => onRemoveFavorite(product.id)}
-              className="p-2 rounded-lg hover:bg-stone-700/50 transition-colors"
+              className="p-2 rounded-xl hover:bg-red-50 transition-colors"
             >
               <Heart className="w-5 h-5 text-red-600 fill-red-600" />
             </button>
           </div>
 
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-3 mt-6">
             <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} className="flex-1">
-              <Button variant="outline" size="sm" className="w-full border-stone-600 text-stone-300 hover:text-amber-50">
+              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:text-red-600 hover:border-red-600 rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
                 <ExternalLink className="w-3 h-3 mr-2" />
                 Research
               </Button>
             </Link>
             <Button
               size="sm"
-              className="flex-1 bg-red-600 hover:bg-red-700"
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl font-black uppercase tracking-widest text-[10px] py-5"
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
               }}

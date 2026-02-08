@@ -14,7 +14,7 @@ export default function ProductBPC157() {
     name: 'BPC-157',
     fullName: 'Body Protection Compound-157',
     description: 'Premium research-grade BPC-157 peptide with verified third-party COA',
-    image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f26f0d?w=800&q=80',
+    image: 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg',
     price_from: 49.99,
     specifications: [
       { name: '5mg vial', price: 49.99, in_stock: true },

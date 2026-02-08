@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import ResearchDisclaimer from '@/components/ResearchDisclaimer';
 import ProductModal from '@/components/product/ProductModal';
+import ProductCard from '@/components/home/ProductCard';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { generateOrganizationSchema } from '@/components/utils/schemaHelpers';
@@ -79,7 +80,7 @@ export default function PeptideCategory() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title={config.title}
         description={config.description}
@@ -87,59 +88,45 @@ export default function PeptideCategory() {
         schema={generateOrganizationSchema()}
       />
 
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Navigation */}
         <Link to={createPageUrl('Products')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
-            ← Back to All Products
+          <Button variant="ghost" className="mb-8 hover:bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-xs">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Catalog
           </Button>
         </Link>
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">{config.h1}</h1>
-          <p className="text-xl text-stone-300 max-w-2xl">{config.description}</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
+          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
+            {config.h1.split(' ').map((word, i) => i === 0 ? <span key={i}>{word} </span> : <span key={i} className="text-red-600">{word} </span>)}
+          </h1>
+          <p className="text-xl text-slate-500 font-medium max-w-2xl">{config.description}</p>
         </motion.div>
 
         {/* Research Disclaimer */}
-        <ResearchDisclaimer />
+        <div className="mb-16">
+          <ResearchDisclaimer />
+        </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {categoryProducts.length > 0 ? (
             categoryProducts.map((product, idx) => (
-              <motion.div
+              <ProductCard
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                onClick={() => {
-                  setSelectedProduct(product);
+                product={product}
+                index={idx}
+                onSelectStrength={(p) => {
+                  setSelectedProduct(p);
                   setIsModalOpen(true);
                 }}
-                className="bg-stone-900/60 border border-stone-700 rounded-lg p-6 hover:border-red-600/50 cursor-pointer transition-all group"
-              >
-                <div className="aspect-square bg-stone-800 rounded-lg overflow-hidden mb-4">
-                  {product.image_url && (
-                    <img
-                      src={product.image_url}
-                      alt={`${product.name} - research peptide`}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  )}
-                </div>
-                <h3 className="text-xl font-bold text-amber-50 mb-2">{product.name}</h3>
-                <p className="text-stone-400 text-sm mb-4 line-clamp-2">{product.description}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-red-600 font-semibold">From ${product.price_from}</span>
-                  <Button className="bg-red-600 hover:bg-red-700">View Details</Button>
-                </div>
-              </motion.div>
+              />
             ))
           ) : (
-            <div className="col-span-full text-center py-20">
-              <p className="text-stone-400 text-lg">No products available in this category.</p>
+            <div className="col-span-full text-center py-40 bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">No research subjects found in this category</p>
             </div>
           )}
         </div>

@@ -15,12 +15,12 @@ export default function RecentActivity({ preferences }) {
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Eye className="w-5 h-5 text-red-600" />
-          <h3 className="text-amber-50 font-bold text-lg">Recently Viewed</h3>
+          <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight">Recently Viewed</h3>
         </div>
 
         {recentViews.length === 0 ? (
-          <div className="text-center py-8 bg-stone-800/20 rounded-lg border border-stone-700/50">
-            <p className="text-stone-500 text-sm">No recently viewed peptides</p>
+          <div className="text-center py-8 bg-slate-50 rounded-2xl border border-slate-100">
+            <p className="text-slate-400 text-sm font-medium">No recently viewed peptides</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -33,11 +33,11 @@ export default function RecentActivity({ preferences }) {
               >
                 <Link
                   to={`${createPageUrl('PeptideLearn')}?id=${view.product_id}&name=${encodeURIComponent(view.product_name)}`}
-                  className="block bg-stone-800/30 border border-stone-700 rounded-lg p-3 hover:border-red-600/50 hover:bg-stone-800/50 transition-all"
+                  className="block bg-white border border-slate-100 rounded-2xl p-4 hover:border-red-600/30 hover:bg-slate-50 transition-all group"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-amber-50 font-semibold text-sm">{view.product_name}</p>
-                    <p className="text-stone-500 text-xs">
+                    <p className="text-slate-900 font-bold text-sm group-hover:text-red-600 transition-colors">{view.product_name}</p>
+                    <p className="text-slate-400 text-xs font-medium">
                       {format(new Date(view.viewed_at), 'MMM d')}
                     </p>
                   </div>
@@ -52,12 +52,12 @@ export default function RecentActivity({ preferences }) {
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Search className="w-5 h-5 text-red-600" />
-          <h3 className="text-amber-50 font-bold text-lg">Recent Searches</h3>
+          <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight">Recent Searches</h3>
         </div>
 
         {recentSearches.length === 0 ? (
-          <div className="text-center py-8 bg-stone-800/20 rounded-lg border border-stone-700/50">
-            <p className="text-stone-500 text-sm">No search history</p>
+          <div className="text-center py-8 bg-slate-50 rounded-2xl border border-slate-100">
+            <p className="text-slate-400 text-sm font-medium">No search history</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -67,11 +67,11 @@ export default function RecentActivity({ preferences }) {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="bg-stone-800/30 border border-stone-700 rounded-lg p-3"
+                className="bg-white border border-slate-100 rounded-2xl p-4"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-stone-300 text-sm">{search.query}</p>
-                  <p className="text-stone-500 text-xs">
+                  <p className="text-slate-700 font-bold text-sm">{search.query}</p>
+                  <p className="text-slate-400 text-xs font-medium">
                     {format(new Date(search.searched_at), 'MMM d')}
                   </p>
                 </div>

@@ -278,16 +278,16 @@ export default function ProductModal({ product, isOpen, onClose }) {
             </div>
 
             {/* Compliance Disclaimer - Non-bypassable */}
-            <div className="mt-8 p-6 bg-red-50 rounded-[32px] border border-red-100 relative overflow-hidden">
+            <div className="mt-8 p-6 bg-red-50 rounded-[32px] border border-red-100 relative overflow-hidden shadow-inner">
               <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rounded-full -mr-12 -mt-12" />
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                  <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Strict Compliance</p>
+                  <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Strict Compliance Protocol</p>
                 </div>
-                <p className="text-[11px] font-bold text-slate-600 leading-relaxed">
+                <p className="text-[11px] font-bold text-slate-700 leading-relaxed">
                   This product is supplied for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. 
-                  Strictly <span className="text-red-600 underline">NOT FOR HUMAN CONSUMPTION</span>. 
+                  Strictly <span className="text-red-600 underline decoration-2 underline-offset-2">NOT FOR HUMAN CONSUMPTION</span>. 
                   By ordering, you certify you are 21+ and a qualified researcher.
                 </p>
               </div>

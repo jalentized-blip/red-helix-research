@@ -70,16 +70,16 @@ export default function QuickCategories({ preferences }) {
             transition={{ delay: idx * 0.05 }}
           >
             <Link to={`${createPageUrl('LearnMore')}?category=${categoryKey}`}>
-              <div className={`relative bg-stone-800/30 border ${isPreferred ? 'border-red-600/50' : 'border-stone-700'} rounded-lg p-5 ${config.hoverColor} transition-all cursor-pointer group`}>
+              <div className={`relative bg-white border ${isPreferred ? 'border-red-600/30 shadow-lg shadow-red-600/5' : 'border-slate-100'} rounded-2xl p-6 ${config.hoverColor} transition-all cursor-pointer group hover:shadow-xl`}>
                 {isPreferred && (
-                  <div className="absolute top-2 right-2">
-                    <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
+                  <div className="absolute top-4 right-4">
+                    <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-sm" />
                   </div>
                 )}
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${config.color} mb-3`}>
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${config.color} mb-4 shadow-lg shadow-red-600/10`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-amber-50 font-semibold text-sm group-hover:text-red-600 transition-colors">
+                <h3 className="text-slate-900 font-black text-xs uppercase tracking-widest group-hover:text-red-600 transition-colors">
                   {config.label}
                 </h3>
               </div>

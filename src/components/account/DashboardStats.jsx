@@ -42,13 +42,13 @@ export default function DashboardStats({ preferences, orders }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: idx * 0.1 }}
-          className="bg-stone-900/50 border border-stone-700 rounded-lg p-5 hover:border-red-600/30 transition-all"
+          className="bg-white border border-slate-100 rounded-lg p-5 hover:border-red-600/30 transition-all shadow-sm"
         >
           <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${stat.bgColor} mb-3`}>
             <stat.icon className={`w-5 h-5 ${stat.color}`} />
           </div>
-          <p className="text-3xl font-black text-amber-50 mb-1">{stat.value}</p>
-          <p className="text-stone-400 text-xs uppercase tracking-wide">{stat.label}</p>
+          <p className="text-3xl font-black text-slate-900 mb-1">{stat.value}</p>
+          <p className="text-slate-500 text-xs uppercase tracking-wide font-bold">{stat.label}</p>
         </motion.div>
       ))}
     </div>

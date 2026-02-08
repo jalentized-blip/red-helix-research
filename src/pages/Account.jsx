@@ -200,13 +200,24 @@ export default function Account() {
                 </button>
               </nav>
 
-              <Button
-                onClick={handleLogout}
-                className="w-full bg-slate-900 hover:bg-red-600 text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </Button>
+              <div className="space-y-4">
+                <Link to={createPageUrl('CustomerInfo') + '?source=account'}>
+                  <Button
+                    className="w-full bg-slate-100 hover:bg-slate-200 text-slate-900 gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
+                  >
+                    <User className="w-4 h-4" />
+                    Customer Info
+                  </Button>
+                </Link>
+
+                <Button
+                  onClick={handleLogout}
+                  className="w-full bg-slate-900 hover:bg-red-600 text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </Button>
+              </div>
             </motion.div>
           </div>
 

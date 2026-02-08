@@ -14,7 +14,7 @@ export default function ProductTB500() {
     name: 'TB-500',
     fullName: 'Thymosin Beta-4',
     description: 'Premium research-grade TB-500 peptide with verified third-party COA',
-    image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?w=800&q=80',
+    image: 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg',
     price_from: 59.99,
     specifications: [
       { name: '5mg vial', price: 59.99, in_stock: true },

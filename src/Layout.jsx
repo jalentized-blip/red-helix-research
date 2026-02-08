@@ -82,7 +82,7 @@ const HeaderSearch = () => {
           }}
           className="absolute left-0 top-1/2 -translate-y-1/2"
         >
-          <Search className="w-5 h-5 text-stone-400" />
+          <Search className="w-5 h-5 text-slate-400" />
         </motion.div>
 
         {/* Expanded Search Bar */}
@@ -97,7 +97,7 @@ const HeaderSearch = () => {
         >
           {isExpanded && (
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search..."
@@ -106,7 +106,7 @@ const HeaderSearch = () => {
                   setSearchQuery(e.target.value);
                   setShowResults(true);
                 }}
-                className="w-full pl-10 pr-10 py-2 bg-stone-900/90 backdrop-blur-md border border-stone-700 rounded-full text-amber-50 text-sm placeholder:text-stone-400 focus:outline-none focus:border-red-700/50"
+                className="w-full pl-10 pr-10 py-2 bg-white backdrop-blur-md border border-slate-200 rounded-full text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:border-red-600/50"
                 autoFocus
               />
               {searchQuery && (
@@ -116,7 +116,7 @@ const HeaderSearch = () => {
                     setShowResults(false);
                     setIsExpanded(false);
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-red-500 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-600 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -134,10 +134,10 @@ const HeaderSearch = () => {
               exit={{ opacity: 0, y: 10, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={() => setIsExpanded(true)}
-              className="absolute top-full mt-3 w-[400px] -right-4 max-h-[70vh] overflow-y-auto bg-stone-900/98 backdrop-blur-xl border border-stone-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50 p-2"
+              className="absolute top-full mt-3 w-[400px] -right-4 max-h-[70vh] overflow-y-auto bg-white/98 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-2xl z-50 p-2"
             >
               {!hasResults ? (
-                <div className="p-8 text-center text-stone-500 text-sm italic">
+                <div className="p-8 text-center text-slate-400 text-sm italic">
                   No matches found for "{searchQuery}"
                 </div>
               ) : (
@@ -145,7 +145,7 @@ const HeaderSearch = () => {
                   {/* Pages Section */}
                   {filteredPages.length > 0 && (
                     <div>
-                      <h3 className="text-[10px] font-black text-stone-500 uppercase tracking-[0.2em] mb-2 px-3">
+                      <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 px-3">
                         Quick Links
                       </h3>
                       <div className="grid grid-cols-1 gap-1">
@@ -153,15 +153,15 @@ const HeaderSearch = () => {
                           <a
                             key={page.name}
                             href={page.url}
-                            className="group flex flex-col px-3 py-2.5 rounded-lg hover:bg-stone-800/40 transition-all duration-200 border border-transparent hover:border-stone-700/50"
+                            className="group flex flex-col px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-200 border border-transparent hover:border-slate-100"
                             onClick={() => {
                               setSearchQuery('');
                               setShowResults(false);
                               setIsExpanded(false);
                             }}
                           >
-                            <div className="font-bold text-stone-200 text-sm group-hover:text-red-500 transition-colors">{page.name}</div>
-                            <div className="text-[11px] text-stone-500 group-hover:text-stone-400 transition-colors">{page.description}</div>
+                            <div className="font-bold text-slate-900 text-sm group-hover:text-red-600 transition-colors">{page.name}</div>
+                            <div className="text-[11px] text-slate-500 group-hover:text-slate-400 transition-colors">{page.description}</div>
                           </a>
                         ))}
                       </div>
@@ -171,15 +171,15 @@ const HeaderSearch = () => {
                   {/* Products Section */}
                   {filteredProducts.length > 0 && (
                     <div>
-                      <div className="h-px bg-stone-800/50 my-3 mx-2" />
-                      <h3 className="text-[10px] font-black text-stone-500 uppercase tracking-[0.2em] mb-2 px-3">
+                      <div className="h-px bg-slate-100 my-3 mx-2" />
+                      <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 px-3">
                         Products
                       </h3>
                       <div className="grid grid-cols-1 gap-1">
                         {filteredProducts.slice(0, 8).map((product) => (
                           <button
                             key={product.id}
-                            className="group flex items-center justify-between w-full text-left px-3 py-2.5 rounded-lg hover:bg-stone-800/40 transition-all duration-200 border border-transparent hover:border-stone-700/50"
+                            className="group flex items-center justify-between w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-200 border border-transparent hover:border-slate-100"
                             onClick={() => {
                               setSearchQuery('');
                               setShowResults(false);
@@ -194,9 +194,9 @@ const HeaderSearch = () => {
                             }}
                           >
                             <div className="flex-1">
-                              <div className="font-bold text-stone-200 text-sm group-hover:text-red-500 transition-colors">{product.name}</div>
+                              <div className="font-bold text-slate-900 text-sm group-hover:text-red-600 transition-colors">{product.name}</div>
                               {product.description && (
-                                <div className="text-[11px] text-stone-500 group-hover:text-stone-400 line-clamp-1">{product.description}</div>
+                                <div className="text-[11px] text-slate-500 group-hover:text-slate-400 line-clamp-1">{product.description}</div>
                               )}
                             </div>
                             <div className="text-xs font-black text-red-600 ml-4">
@@ -205,7 +205,7 @@ const HeaderSearch = () => {
                           </button>
                         ))}
                         {filteredProducts.length > 8 && (
-                          <div className="px-3 py-2 text-[10px] text-stone-600 font-bold italic">
+                          <div className="px-3 py-2 text-[10px] text-slate-400 font-bold italic">
                             +{filteredProducts.length - 8} additional products
                           </div>
                         )}
@@ -360,7 +360,7 @@ const HeaderSearch = () => {
   return (
     <ZeroTrustProvider>
     <MFAProvider>
-    <div className="min-h-screen bg-stone-950 relative">
+    <div className="min-h-screen bg-white relative">
         <Helmet>
           <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>
           <script>
@@ -377,7 +377,7 @@ const HeaderSearch = () => {
             --red-dirt-red: #8B2635;
             --red-dirt-dark: #6B1827;
             --red-dirt-gold: #C4955B;
-            --red-dirt-cream: #F5E6D3;
+            --red-dirt-slate: #0f172a; /* Slate 900 */
           }
 
           /* Override ALL red and crimson colors with Red Dirt red */
@@ -420,9 +420,30 @@ const HeaderSearch = () => {
             --tw-gradient-via: var(--red-dirt-red) !important;
           }
 
-          /* Update amber text to Red Dirt cream */
-          .text-amber-50, [class*="text-amber-50"] {
-            color: var(--red-dirt-cream) !important;
+          /* Update amber/cream text to Red Dirt slate for visibility on white */
+          .text-amber-50, [class*="text-amber-50"], .text-red-dirt-cream, [class*="text-red-dirt-cream"] {
+            color: var(--red-dirt-slate) !important;
+            opacity: 1 !important;
+          }
+
+          /* Handle hover/active states where background turns red: make text white */
+          .group:hover .group-hover\:text-slate-400,
+          .group:hover .group-hover\:text-slate-500,
+          .group:hover .group-hover\:text-slate-600,
+          .group:hover .group-hover\:text-slate-900,
+          .group:hover .group-hover\:text-red-600,
+          .group:hover h3,
+          .group:hover p {
+            color: white !important;
+          }
+
+          /* Ensure white text on red buttons and badges */
+          .bg-red-600, .bg-red-700, .hover\:bg-red-600:hover, .hover\:bg-red-700:hover {
+            color: white !important;
+          }
+          
+          .bg-red-600 svg, .bg-red-700 svg {
+            color: white !important;
           }
 
           /* SVG and icon colors */
@@ -446,7 +467,7 @@ const HeaderSearch = () => {
             width: 8px;
           }
           ::-webkit-scrollbar-track {
-            background: rgba(28, 25, 23, 0.5);
+            background: rgba(248, 250, 252, 0.5); /* slate-50 */
             border-radius: 4px;
           }
           ::-webkit-scrollbar-thumb {
@@ -464,9 +485,9 @@ const HeaderSearch = () => {
         {isHomePage && mobileHeaderCollapsed && (
           <div 
             onClick={() => setMobileHeaderCollapsed(false)}
-            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-12 bg-stone-950/60 backdrop-blur-sm border-b border-stone-800/30 flex items-center justify-center cursor-pointer active:bg-stone-900/60 transition-colors"
+            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-12 bg-white/60 backdrop-blur-sm border-b border-slate-200/30 flex items-center justify-center cursor-pointer active:bg-slate-50/60 transition-colors"
           >
-            <div className="w-12 h-1 bg-stone-600 rounded-full" />
+            <div className="w-12 h-1 bg-slate-300 rounded-full" />
           </div>
         )}
 
@@ -477,59 +498,66 @@ const HeaderSearch = () => {
                   setMobileHeaderCollapsed(true);
                 }
               }}
-              className="fixed top-0 left-0 right-0 z-[70] bg-stone-950/70 backdrop-blur-xl border-b border-stone-700/30 transition-transform duration-300 shadow-2xl shadow-black/20" 
+              className="fixed top-0 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-b border-slate-100 transition-transform duration-300 shadow-sm" 
               style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
             >
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
-            <img 
-              src="https://i.ibb.co/M5CYvjkG/websitelogo.png"
-              alt="Red Helix Research"
-              className="h-40 w-auto object-contain"
-              style={{ 
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center rotate-45 group-hover:rotate-90 transition-transform duration-500 shadow-lg shadow-red-600/20">
+                  <div className="w-5 h-5 border-2 border-white rounded-full -rotate-45 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col" style={{ 
                 opacity: logoOpacity,
                 transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
-              }}
-            />
+              }}>
+                <span className="text-xl font-black text-slate-900 tracking-tighter leading-none">RED HELIX</span>
+                <span className="text-[10px] font-black text-red-600 tracking-[0.3em] leading-none mt-1">RESEARCH</span>
+              </div>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-6 flex-1 justify-center">
             <div className="flex items-center gap-1">
-              <Link to={createPageUrl('Home')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('Home')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">HOME</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
 
-              <Link to={createPageUrl('Products')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('Products')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">SHOP</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
 
-              <Link to={createPageUrl('About')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('About')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">ABOUT</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
               
-              <Link to={createPageUrl('Contact')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('Contact')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">CONTACT</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
             </div>
 
-            <div className="h-4 w-px bg-stone-800" />
+            <div className="h-4 w-px bg-slate-200" />
 
             <div className="flex items-center gap-1">
-              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('PeptideCalculator')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">CALCULATOR</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
-              <Link to={createPageUrl('LearnMore')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('LearnMore')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">RESEARCH</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
-              <button onClick={() => scrollTo('#certificates')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+              <button onClick={() => scrollTo('#certificates')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">COAs</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </button>
@@ -537,8 +565,8 @@ const HeaderSearch = () => {
 
             {isAuthenticated && (
               <>
-                <div className="h-4 w-px bg-stone-800" />
-                <Link to={createPageUrl('Account')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300">
+                <div className="h-4 w-px bg-slate-200" />
+                <Link to={createPageUrl('Account')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300">
                   <span className="relative z-10">ACCOUNT</span>
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </Link>
@@ -547,8 +575,8 @@ const HeaderSearch = () => {
 
             {isAdmin && !viewAsUser && (
               <>
-                <div className="h-4 w-px bg-stone-800" />
-                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-[13px] font-bold tracking-tight text-stone-400 hover:text-red-500 px-3 py-2 transition-all duration-300 flex items-center gap-1.5">
+                <div className="h-4 w-px bg-slate-200" />
+                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-red-600 px-3 py-2 transition-all duration-300 flex items-center gap-1.5">
                   <Eye className="w-3.5 h-3.5" />
                   <span className="relative z-10 uppercase">Market Intel</span>
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -577,12 +605,12 @@ const HeaderSearch = () => {
                 onClick={() => setViewAsUser(!viewAsUser)}
                 className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-md border transition-all duration-300 ${
                   viewAsUser 
-                    ? 'bg-blue-600/10 border-blue-600/40 text-blue-400 hover:bg-blue-600/20 hover:border-blue-500' 
-                    : 'bg-red-600/10 border-red-600/40 text-red-400 hover:bg-red-600/20 hover:border-red-500'
+                    ? 'bg-blue-600/10 border-blue-600/40 text-blue-600 hover:bg-blue-600/20 hover:border-blue-500' 
+                    : 'bg-red-600/10 border-red-600/40 text-red-600 hover:bg-red-600/20 hover:border-red-500'
                 }`}
                 title={viewAsUser ? 'Viewing as User' : 'Viewing as Admin'}
               >
-                <div className={`w-2 h-2 rounded-full animate-pulse ${viewAsUser ? 'bg-blue-500' : 'bg-red-500'}`} />
+                <div className={`w-2 h-2 rounded-full animate-pulse ${viewAsUser ? 'bg-blue-600' : 'bg-red-600'}`} />
                 <span className="text-[11px] font-bold tracking-widest uppercase">
                   {viewAsUser ? 'USER' : 'ADMIN'}
                 </span>
@@ -590,10 +618,10 @@ const HeaderSearch = () => {
             )}
 
             <Link to={createPageUrl('Cart')} className="relative group">
-              <div className="p-2.5 rounded-lg border border-stone-800 bg-stone-900/50 hover:border-red-600/50 transition-all duration-300">
-                <ShoppingCart className="w-5 h-5 text-stone-400 group-hover:text-red-500 transition-colors" strokeWidth={2} />
+              <div className="p-2.5 rounded-lg border border-slate-200 bg-white hover:border-red-600/50 transition-all duration-300">
+                <ShoppingCart className="w-5 h-5 text-slate-500 group-hover:text-red-600 transition-colors" strokeWidth={2} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-4.5 px-1 bg-red-600 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg shadow-red-900/20 border border-stone-950">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-4.5 px-1 bg-red-600 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg shadow-red-900/20 border border-white">
                     {cartCount}
                   </span>
                 )}
@@ -609,81 +637,81 @@ const HeaderSearch = () => {
                 }
               }}>
                 <SheetTrigger asChild>
-                  <button className="p-2.5 rounded-lg border border-stone-800 bg-stone-900/50 hover:border-stone-600 text-stone-400 hover:text-white transition-all duration-300">
+                  <button className="p-2.5 rounded-lg border border-slate-200 bg-white hover:border-red-600 text-slate-500 hover:text-red-600 transition-all duration-300">
                     <Menu className="w-5 h-5" />
                   </button>
                 </SheetTrigger>
-                <SheetContent side="right" className="bg-stone-950 border-stone-700 w-80">
+                <SheetContent side="right" className="bg-white border-slate-200 w-80">
                   <div className="h-full flex flex-col">
-                    <div className="border-b border-stone-800/50 pb-6 mb-8">
-                      <h2 className="text-2xl font-bold text-amber-50">Menu</h2>
-                      <p className="text-stone-400 text-sm mt-1">Research & Education</p>
+                    <div className="border-b border-slate-100 pb-6 mb-8">
+                      <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Menu</h2>
+                      <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Research & Education</p>
                     </div>
                     
                     <nav className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden">
-                      <Link to={createPageUrl('Home')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('Home')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Home
                       </Link>
-                      <Link to={createPageUrl('Products')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('Products')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Shop Products
                       </Link>
-                      <Link to={createPageUrl('OurStory')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('OurStory')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Our Story
                       </Link>
 
-                      <div className="border-t border-stone-800/30 my-2 pt-2" />
+                      <div className="border-t border-slate-100 my-2 pt-2" />
 
-                      <Link to={createPageUrl('GroupBuy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('GroupBuy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Group Buy
                       </Link>
                       
-                      <div className="border-t border-stone-800/30 my-2 pt-2" />
+                      <div className="border-t border-slate-100 my-2 pt-2" />
                       
                       <button
                         onClick={() => setShowUploadModal(true)}
-                        className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 w-full"
+                        className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 w-full"
                       >
                         Upload Your COA
                       </button>
-                      <Link to={createPageUrl('COAReports')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         COA Reports
                       </Link>
                       
-                      <div className="border-t border-stone-800/30 my-2 pt-2" />
+                      <div className="border-t border-slate-100 my-2 pt-2" />
                       
-                      <Link to={createPageUrl('PeppyBot')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('PeppyBot')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         PeppyBot
                       </Link>
-                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Peptide Calculator
                       </Link>
-                      <Link to={createPageUrl('PeptideAcademy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('PeptideAcademy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Peptide Academy
                       </Link>
-                      <Link to={createPageUrl('LearnMore')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('LearnMore')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Research & Education
                       </Link>
 
-                      <Link to={createPageUrl('BlogGuide')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('BlogGuide')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Research Guides
                       </Link>
 
-                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                         Compare Peptides
                       </Link>
 
-                      <button onClick={() => scrollTo('#certificates')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 w-full">
+                      <button onClick={() => scrollTo('#certificates')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 w-full">
                         Certificates of Analysis
                       </button>
                       
-                      <div className="border-t border-stone-800/30 my-4 pt-4" />
+                      <div className="border-t border-slate-100 my-4 pt-4" />
                       
                       {isAuthenticated && (
                         <>
-                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                             Account Profile
                           </Link>
-                          <Link to={createPageUrl('Account')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                             Order History
                           </Link>
                         </>
@@ -691,13 +719,13 @@ const HeaderSearch = () => {
 
                       {isAdmin && (
                         <>
-                          <div className="border-t border-stone-800/30 my-2 pt-2" />
+                          <div className="border-t border-slate-100 my-2 pt-2" />
                           <button
                             onClick={() => setViewAsUser(!viewAsUser)}
-                            className={`w-full text-left text-base font-semibold px-4 py-3 transition-all rounded-lg border flex items-center gap-2 ${
+                            className={`w-full text-left text-sm font-black uppercase tracking-widest px-4 py-3 transition-all rounded-lg border flex items-center gap-2 ${
                               viewAsUser 
-                                ? 'bg-blue-600/20 border-blue-600/50 text-blue-400 hover:bg-blue-600/30' 
-                                : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
+                                ? 'bg-blue-600/10 border-blue-600/30 text-blue-600 hover:bg-blue-600/20' 
+                                : 'bg-red-600/10 border-red-600/30 text-red-600 hover:bg-red-600/20'
                             }`}
                           >
                             {viewAsUser ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
@@ -706,45 +734,45 @@ const HeaderSearch = () => {
 
                           {!viewAsUser && (
                             <>
-                              <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                              <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
                                 <Eye className="w-4 h-4" />
                                 Market Intelligence
                               </Link>
-                              <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
                                 <Mail className="w-4 h-4" />
                                 Price Management
                               </Link>
-                              <Link to={createPageUrl('AdminStockManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminStockManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
                                 <Package className="w-4 h-4" />
                                 Stock Management
                               </Link>
-                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
                                 <Package className="w-4 h-4" />
                                 Manual Orders
                               </Link>
-                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30 flex items-center gap-2">
+                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 flex items-center gap-2">
                                 <User className="w-4 h-4" />
                                 Customer Management
                               </Link>
-                              <Link to={createPageUrl('AdminSupport')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              <Link to={createPageUrl('AdminSupport')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Customer Support
                               </Link>
 
-                              <div className="border-t border-stone-800/30 my-2 pt-2" />
+                              <div className="border-t border-slate-100 my-2 pt-2" />
 
-                              <Link to={createPageUrl('SEOMonitoring')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              <Link to={createPageUrl('SEOMonitoring')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 SEO Monitoring
                               </Link>
-                              <Link to={createPageUrl('BacklinkStrategy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              <Link to={createPageUrl('BacklinkStrategy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Backlink Strategy
                               </Link>
-                              <Link to={createPageUrl('EmailAutomationStrategy')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              <Link to={createPageUrl('EmailAutomationStrategy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Email Automation
                               </Link>
 
-                              <div className="border-t border-stone-800/30 my-2 pt-2" />
+                              <div className="border-t border-slate-100 my-2 pt-2" />
 
-                              <Link to={createPageUrl('LaunchChecklist')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">
+                              <Link to={createPageUrl('LaunchChecklist')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-red-600 px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Launch Checklist
                               </Link>
                               <Link to={createPageUrl('CompetitivePositioning')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-red-600/30">

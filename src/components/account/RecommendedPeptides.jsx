@@ -60,8 +60,8 @@ export default function RecommendedPeptides({ preferences, orders }) {
   if (recommendations.length === 0) {
     return (
       <div className="text-center py-16">
-        <Sparkles className="w-16 h-16 text-stone-600 mx-auto mb-4" />
-        <p className="text-stone-400 text-lg">Explore products to get personalized recommendations</p>
+        <Sparkles className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+        <p className="text-slate-500 text-lg font-medium">Explore products to get personalized recommendations</p>
       </div>
     );
   }
@@ -74,37 +74,37 @@ export default function RecommendedPeptides({ preferences, orders }) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: idx * 0.1 }}
-          className="bg-gradient-to-br from-stone-800/40 to-stone-900/60 border border-stone-700 rounded-lg p-5 hover:border-red-600/50 transition-all"
+          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-red-600/30 hover:shadow-lg transition-all group"
         >
           <div className="mb-3">
             <div className="flex items-start justify-between mb-2">
-              <h3 className="text-amber-50 font-bold text-lg">{product.name}</h3>
+              <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight group-hover:text-red-600 transition-colors">{product.name}</h3>
               {product.badge && (
-                <span className="text-xs px-2 py-1 bg-red-600/20 text-red-400 rounded-full font-semibold capitalize">
+                <span className="text-[10px] px-2 py-0.5 bg-red-50 text-red-600 rounded-full font-black uppercase tracking-widest">
                   {product.badge.replace('_', ' ')}
                 </span>
               )}
             </div>
-            <p className="text-stone-400 text-sm line-clamp-2 mb-3">
+            <p className="text-slate-500 text-sm line-clamp-2 mb-4 font-medium">
               {product.description}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-red-600 font-bold">From ${product.price_from}</span>
-              <span className="text-stone-500 text-xs px-2 py-1 bg-stone-900/50 rounded-full capitalize">
+              <span className="text-red-600 font-black">From ${product.price_from}</span>
+              <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-slate-50 rounded-full">
                 {product.category?.replace('_', ' ')}
               </span>
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-3 mt-6">
             <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} className="flex-1">
-              <Button variant="outline" size="sm" className="w-full border-stone-600 text-stone-300 hover:text-amber-50">
+              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:text-red-600 hover:border-red-600 rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
                 Learn More
               </Button>
             </Link>
             <Button
               size="sm"
-              className="flex-1 bg-red-600 hover:bg-red-700"
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl font-black uppercase tracking-widest text-[10px] py-5"
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
               }}

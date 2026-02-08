@@ -14,7 +14,7 @@ export default function ScrollingAnnouncement() {
           animation: scroll 10s linear infinite;
         }
       `}</style>
-      <div className="scrolling-text whitespace-nowrap text-sm font-semibold text-amber-50 inline-block">
+      <div className="scrolling-text whitespace-nowrap text-[10px] font-black uppercase tracking-[0.2em] text-red-600 inline-block">
         {message}{message}{message}
       </div>
     </div>

@@ -47,43 +47,43 @@ export default function OrderTrackingDetails({ order }) {
   const getStatusIcon = (status) => {
     switch (status?.toLowerCase()) {
       case 'delivered':
-        return <CheckCircle2 className="w-5 h-5 text-green-500" />;
+        return <CheckCircle2 className="w-5 h-5 text-green-600" />;
       case 'out_for_delivery':
       case 'out for delivery':
-        return <Truck className="w-5 h-5 text-blue-500" />;
+        return <Truck className="w-5 h-5 text-blue-600" />;
       case 'in_transit':
       case 'in transit':
-        return <Package className="w-5 h-5 text-yellow-500" />;
+        return <Package className="w-5 h-5 text-red-600" />;
       case 'exception':
-        return <AlertCircle className="w-5 h-5 text-red-500" />;
+        return <AlertCircle className="w-5 h-5 text-red-600" />;
       default:
-        return <Clock className="w-5 h-5 text-stone-400" />;
+        return <Clock className="w-5 h-5 text-slate-400" />;
     }
   };
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
       case 'delivered':
-        return 'bg-green-900/30 border-green-600/30 text-green-400';
+        return 'bg-green-50 border-green-100 text-green-700';
       case 'out_for_delivery':
       case 'out for delivery':
-        return 'bg-blue-900/30 border-blue-600/30 text-blue-400';
+        return 'bg-blue-50 border-blue-100 text-blue-700';
       case 'in_transit':
       case 'in transit':
-        return 'bg-yellow-900/30 border-yellow-600/30 text-yellow-400';
+        return 'bg-red-50 border-red-100 text-red-700';
       case 'exception':
-        return 'bg-red-900/30 border-red-600/30 text-red-400';
+        return 'bg-red-50 border-red-100 text-red-700';
       default:
-        return 'bg-stone-800/50 border-stone-700 text-stone-400';
+        return 'bg-slate-50 border-slate-100 text-slate-600';
     }
   };
 
   if (loading) {
     return (
-      <div className="bg-stone-800/50 rounded-lg p-4 mt-3">
+      <div className="bg-slate-50 rounded-2xl p-6 mt-3 border border-slate-100">
         <div className="flex items-center gap-3 justify-center py-4">
           <Loader2 className="w-5 h-5 animate-spin text-red-600" />
-          <span className="text-stone-400 text-sm">Loading tracking details...</span>
+          <span className="text-slate-500 text-sm font-medium">Loading tracking details...</span>
         </div>
       </div>
     );
@@ -91,14 +91,14 @@ export default function OrderTrackingDetails({ order }) {
 
   if (error) {
     return (
-      <div className="bg-stone-800/50 rounded-lg p-4 mt-3">
-        <div className="flex items-center gap-2 text-stone-400 text-sm">
+      <div className="bg-red-50 rounded-2xl p-6 mt-3 border border-red-100">
+        <div className="flex items-center gap-2 text-red-700 text-sm font-bold">
           <AlertCircle className="w-4 h-4" />
           <span>{error}</span>
         </div>
         <button
           onClick={fetchTrackingInfo}
-          className="text-xs text-red-600 hover:text-red-500 underline mt-2"
+          className="text-xs text-red-600 hover:text-red-700 font-black uppercase tracking-widest mt-3 underline"
         >
           Retry
         </button>
@@ -108,12 +108,12 @@ export default function OrderTrackingDetails({ order }) {
 
   if (!trackingData) {
     return (
-      <div className="bg-stone-800/50 rounded-lg p-4 mt-3">
-        <p className="text-sm text-stone-400 mb-2">
+      <div className="bg-slate-50 rounded-2xl p-6 mt-3 border border-slate-100">
+        <p className="text-sm text-slate-900 mb-2 font-bold">
           <strong>Tracking:</strong> {order.tracking_number}
         </p>
         {order.carrier && (
-          <p className="text-xs text-stone-500">Carrier: {order.carrier}</p>
+          <p className="text-xs text-slate-500 font-medium">Carrier: {order.carrier}</p>
         )}
       </div>
     );
@@ -123,69 +123,69 @@ export default function OrderTrackingDetails({ order }) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mt-3 space-y-3"
+      className="mt-4 space-y-4"
     >
       {/* Status Card */}
-      <div className={`rounded-lg p-4 border ${getStatusColor(trackingData.status)}`}>
-        <div className="flex items-center gap-3 mb-2">
+      <div className={`rounded-2xl p-6 border ${getStatusColor(trackingData.status)} shadow-sm`}>
+        <div className="flex items-center gap-4 mb-3">
           {getStatusIcon(trackingData.status)}
           <div className="flex-1">
-            <p className="font-semibold text-sm">{trackingData.status_description}</p>
+            <p className="font-black text-sm uppercase tracking-tight">{trackingData.status_description}</p>
             {trackingData.current_location && (
-              <div className="flex items-center gap-1 mt-1">
+              <div className="flex items-center gap-1.5 mt-1">
                 <MapPin className="w-3 h-3 opacity-70" />
-                <p className="text-xs opacity-80">{trackingData.current_location}</p>
+                <p className="text-xs font-medium opacity-80">{trackingData.current_location}</p>
               </div>
             )}
           </div>
         </div>
         
         {trackingData.estimated_delivery && (
-          <p className="text-xs opacity-80 mt-2">
-            <strong>Estimated Delivery:</strong> {new Date(trackingData.estimated_delivery).toLocaleDateString('en-US', { 
+          <p className="text-xs font-bold opacity-80 mt-3 pt-3 border-t border-current/10">
+            <strong>ESTIMATED DELIVERY:</strong> {new Date(trackingData.estimated_delivery).toLocaleDateString('en-US', { 
               weekday: 'long',
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 
-            })}
+            }).toUpperCase()}
           </p>
         )}
 
         {trackingData.delivered_date && (
-          <p className="text-xs opacity-80 mt-2">
-            <strong>Delivered:</strong> {new Date(trackingData.delivered_date).toLocaleDateString('en-US', { 
+          <p className="text-xs font-bold opacity-80 mt-3 pt-3 border-t border-current/10">
+            <strong>DELIVERED:</strong> {new Date(trackingData.delivered_date).toLocaleDateString('en-US', { 
               weekday: 'long',
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 
-            })}
+            }).toUpperCase()}
           </p>
         )}
       </div>
 
       {/* Tracking Events Timeline */}
       {trackingData.events && trackingData.events.length > 0 && (
-        <div className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
-          <h4 className="text-sm font-semibold text-amber-50 mb-3 flex items-center gap-2">
-            <Clock className="w-4 h-4" />
+        <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+          <h4 className="text-xs font-black text-slate-900 mb-6 flex items-center gap-2 uppercase tracking-widest">
+            <Clock className="w-4 h-4 text-red-600" />
             Tracking History
           </h4>
-          <div className="space-y-3">
+          <div className="space-y-6">
             {trackingData.events.map((event, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="flex gap-3 relative"
+                className="flex gap-4 relative"
               >
                 {idx < trackingData.events.length - 1 && (
-                  <div className="absolute left-1.5 top-6 bottom-0 w-0.5 bg-stone-700" />
+                  <div className="absolute left-[7px] top-6 bottom-[-24px] w-0.5 bg-slate-100" />
                 )}
-                <div className="w-3 h-3 rounded-full bg-red-600 mt-1 relative z-10 flex-shrink-0" />
-                <div className="flex-1 pb-3">
-                  <p className="text-sm text-amber-50">{event.description}</p>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-stone-500">
+                <div className="w-4 h-4 rounded-full border-4 border-white bg-red-600 mt-0.5 shadow-sm relative z-10 flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm text-slate-900 font-bold tracking-tight">{event.description}</p>
+                  <div className="flex items-center gap-2 mt-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400">
                     <span>{new Date(event.timestamp).toLocaleDateString('en-US', { 
                       month: 'short', 
                       day: 'numeric',
@@ -194,7 +194,7 @@ export default function OrderTrackingDetails({ order }) {
                     })}</span>
                     {event.location && (
                       <>
-                        <span>•</span>
+                        <span className="opacity-30">•</span>
                         <span>{event.location}</span>
                       </>
                     )}
@@ -207,26 +207,28 @@ export default function OrderTrackingDetails({ order }) {
       )}
 
       {/* Tracking Number */}
-      <div className="bg-stone-800/30 rounded-lg p-3 border border-stone-700">
-        <p className="text-xs text-stone-500 mb-1">Tracking Number</p>
-        <p className="text-sm text-amber-50 font-mono">{order.tracking_number}</p>
-        {order.carrier && (
-          <p className="text-xs text-stone-500 mt-1">Carrier: {order.carrier}</p>
-        )}
+      <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Tracking Number</p>
+          {order.carrier && (
+            <p className="text-[10px] text-red-600 font-black uppercase tracking-widest bg-red-50 px-2 py-0.5 rounded">{order.carrier}</p>
+          )}
+        </div>
+        <p className="text-sm text-slate-900 font-mono font-bold tracking-wider">{order.tracking_number}</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-2">
         {trackingData.last_update && (
-          <p className="text-xs text-stone-500">
-            Last updated: {new Date(trackingData.last_update).toLocaleString()}
+          <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">
+            Updated: {new Date(trackingData.last_update).toLocaleTimeString()}
           </p>
         )}
         <button
           onClick={fetchTrackingInfo}
           disabled={loading}
-          className="text-xs text-red-600 hover:text-red-500 underline disabled:opacity-50"
+          className="text-[10px] text-red-600 hover:text-red-700 font-black uppercase tracking-widest underline disabled:opacity-50"
         >
-          {loading ? 'Refreshing...' : 'Refresh'}
+          {loading ? 'Refreshing...' : 'Refresh Status'}
         </button>
       </div>
     </motion.div>

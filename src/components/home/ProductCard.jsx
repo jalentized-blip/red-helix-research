@@ -63,7 +63,8 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
     return { lowestVisiblePrice: price, displayImage: image };
   }, [product.specifications, product.price_from, product.name, product.image_url]);
 
-  const handleSelectStrength = useCallback(() => {
+  const handleSelectStrength = useCallback((e) => {
+    e?.stopPropagation();
     onSelectStrength?.(product);
   }, [onSelectStrength, product]);
 
@@ -94,7 +95,8 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="relative z-50 h-full"
+        onClick={handleSelectStrength}
+        className="relative z-50 h-full cursor-pointer"
       >
       
       <Card className={`group relative bg-white border-slate-100 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-[40px] flex flex-col ${
@@ -168,37 +170,37 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           {/* Product Info */}
           <div className="flex-grow">
             <div className="flex justify-between items-start mb-3">
-              <span className="text-[10px] font-black tracking-[0.2em] text-red-600 uppercase">
+              <span className="text-[10px] font-black tracking-[0.2em] text-red-600 uppercase group-hover:text-white transition-colors">
                 {categoryLabels[product.category]}
               </span>
               <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">99%+ Purity</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-green-600 group-hover:text-white transition-colors" />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter group-hover:text-white transition-colors">99%+ Purity</span>
               </div>
             </div>
 
-            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-red-600 transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-white transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.name}
             </h3>
             
-            <p className={`text-sm text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className={`text-sm text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium group-hover:text-white transition-colors ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.description}
             </p>
           </div>
 
           <div className={`flex items-end justify-between mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Acquisition Cost</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover:text-white transition-colors">Acquisition Cost</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-black text-slate-900 tracking-tighter">
+                <span className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-white transition-colors">
                   ${lowestVisiblePrice}
                 </span>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">USD</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">USD</span>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Thermal Stability</span>
-              <span className="text-[10px] font-black text-red-600 uppercase block tracking-widest">-20°C Verified</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover:text-white transition-colors">Thermal Stability</span>
+              <span className="text-[10px] font-black text-red-600 uppercase block tracking-widest group-hover:text-white transition-colors">-20°C Verified</span>
             </div>
           </div>
 
@@ -207,29 +209,14 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             className={`w-full h-16 bg-red-600 hover:bg-red-700 border-2 border-red-600 hover:border-red-700 text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-red-600/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
           >
             <span className="flex items-center gap-3">
-              Technical Analysis
+              Initialize Order
               <Microscope className="w-5 h-5 transition-transform group-hover/btn:scale-110" />
             </span>
           </Button>
           
-          {/* Compliance Disclaimer - Bright Medical Style */}
-          <div className="mt-6 p-4 bg-red-50 rounded-2xl border border-red-100 relative overflow-hidden">
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-                <p className="text-[9px] font-black text-red-600 uppercase tracking-widest leading-none">Strict Compliance</p>
-              </div>
-              <p className="text-[10px] font-bold text-slate-600 leading-tight">
-                This product is supplied for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. 
-                Strictly <span className="text-red-600 underline">NOT FOR HUMAN CONSUMPTION</span>. 
-                By ordering, you certify you are 21+ and a qualified researcher.
-              </p>
-            </div>
-          </div>
-          
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <div className="w-1 h-1 rounded-full bg-red-600" />
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Clinical Grade Logistics</span>
+          <div className="mt-8 flex items-center justify-center gap-2">
+            <div className="w-1 h-1 rounded-full bg-red-600 group-hover:bg-white transition-colors" />
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] group-hover:text-white transition-colors">Clinical Grade Logistics</span>
           </div>
         </div>
       </Card>
