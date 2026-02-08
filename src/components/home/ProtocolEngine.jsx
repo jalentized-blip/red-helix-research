@@ -228,9 +228,9 @@ export default function ProtocolEngine() {
   };
 
   return (
-    <section className="py-24 px-4 bg-slate-50 relative overflow-hidden text-slate-900">
+    <section className="py-24 px-4 bg-neutral-50 relative overflow-hidden text-neutral-900">
       {/* Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:40px_40px] opacity-40" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:40px_40px] opacity-40" />
       
       {/* Animated Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/50 to-white pointer-events-none" />
@@ -240,14 +240,14 @@ export default function ProtocolEngine() {
           
           {/* Left Column: Control Panel */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 shadow-xl">
-              <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="bg-white/80 backdrop-blur-sm border border-neutral-200 rounded-2xl p-6 shadow-xl">
+              <div className="flex items-center gap-3 mb-6 border-b border-neutral-100 pb-4">
                 <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse" />
-                <h3 className="font-mono text-sm text-slate-500 tracking-widest">PROTOCOL_ENGINE_V2.1</h3>
+                <h3 className="font-mono text-sm text-neutral-500 tracking-widest">PROTOCOL_ENGINE_V2.1</h3>
               </div>
               
-              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-                <p className="text-slate-500 text-sm mb-4 font-mono sticky top-0 bg-white/95 backdrop-blur-sm z-10 py-2 border-b border-slate-100">SELECT RESEARCH OBJECTIVE:</p>
+              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-transparent">
+                <p className="text-neutral-500 text-sm mb-4 font-mono sticky top-0 bg-white/95 backdrop-blur-sm z-10 py-2 border-b border-neutral-100">SELECT RESEARCH OBJECTIVE:</p>
                 {Object.entries(protocols).map(([key, protocol]) => (
                   <button
                     key={key}
@@ -255,15 +255,15 @@ export default function ProtocolEngine() {
                     className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex items-center gap-4 group ${
                       activeProtocol?.id === key 
                         ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-900/20' 
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-white hover:border-red-200 hover:shadow-md'
+                        : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:bg-white hover:border-red-200 hover:shadow-md'
                     }`}
                   >
-                    <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20' : 'bg-slate-200 group-hover:bg-red-50 group-hover:text-red-600'}`}>
+                    <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20' : 'bg-neutral-200 group-hover:bg-red-600 group-hover:text-white'}`}>
                       <protocol.icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
                       <div className="font-bold">{protocol.name}</div>
-                      <div className={`text-xs ${activeProtocol?.id === key ? 'text-red-100' : 'text-slate-400'}`}>
+                      <div className={`text-xs ${activeProtocol?.id === key ? 'text-red-100' : 'text-neutral-400'}`}>
                         Initialize Simulation
                       </div>
                     </div>
@@ -273,7 +273,7 @@ export default function ProtocolEngine() {
               </div>
 
               {/* System Status */}
-              <div className="mt-8 p-4 bg-slate-50 rounded-lg border border-slate-200 font-mono text-xs text-slate-500 space-y-2">
+              <div className="mt-8 p-4 bg-neutral-50 rounded-lg border border-neutral-200 font-mono text-xs text-neutral-500 space-y-2">
                 <div className="flex justify-between">
                   <span>SYSTEM_STATUS</span>
                   <span className="text-green-600 font-bold">ONLINE</span>
@@ -291,15 +291,15 @@ export default function ProtocolEngine() {
           </div>
 
           {/* Center Column: Visualization */}
-          <div className="lg:col-span-8 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-2xl p-8 relative overflow-hidden flex flex-col shadow-2xl shadow-slate-200/50">
+          <div className="lg:col-span-8 bg-white/60 backdrop-blur-sm border border-neutral-200 rounded-2xl p-8 relative overflow-hidden flex flex-col shadow-2xl shadow-neutral-200/50">
             {/* Header Details */}
             <div className="flex justify-between items-start mb-8">
               <div>
                 <h2 className="text-2xl font-black tracking-tight mb-2 text-red-600">ADVANCED PROTOCOL SIMULATION</h2>
-                <p className="text-slate-500 font-mono text-sm">Visualize synergy and mechanism of action.</p>
+                <p className="text-neutral-500 font-mono text-sm">Visualize synergy and mechanism of action.</p>
               </div>
               <div className="flex gap-2">
-                <div className="px-3 py-1 bg-slate-100 rounded text-xs font-mono text-slate-500 border border-slate-200">
+                <div className="px-3 py-1 bg-neutral-100 rounded text-xs font-mono text-neutral-500 border border-neutral-200">
                   MODE: INTERACTIVE
                 </div>
               </div>
@@ -313,14 +313,14 @@ export default function ProtocolEngine() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-center text-slate-400"
+                    className="text-center text-neutral-400"
                   >
                     <div className="relative w-32 h-32 mx-auto mb-6">
-                      <div className="absolute inset-0 border-2 border-slate-200 rounded-full animate-ping opacity-20" />
-                      <div className="absolute inset-0 border border-slate-200 rounded-full animate-[spin_10s_linear_infinite]" />
-                      <div className="absolute inset-4 border border-slate-200 rounded-full animate-[spin_8s_linear_infinite_reverse]" />
+                      <div className="absolute inset-0 border-2 border-neutral-200 rounded-full animate-ping opacity-20" />
+                      <div className="absolute inset-0 border border-neutral-200 rounded-full animate-[spin_10s_linear_infinite]" />
+                      <div className="absolute inset-4 border border-neutral-200 rounded-full animate-[spin_8s_linear_infinite_reverse]" />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <ScanLine className="w-12 h-12 text-slate-300" />
+                        <ScanLine className="w-12 h-12 text-neutral-300" />
                       </div>
                     </div>
                     <p className="font-mono">AWAITING INPUT_</p>
@@ -338,7 +338,7 @@ export default function ProtocolEngine() {
                       <span>ANALYZING_COMPOUNDS...</span>
                       <span>{scanProgress}%</span>
                     </div>
-                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
                       <motion.div 
                         className="h-full bg-red-600"
                         style={{ width: `${scanProgress}%` }}
@@ -348,7 +348,7 @@ export default function ProtocolEngine() {
                       {[...Array(8)].map((_, i) => (
                         <motion.div
                           key={i}
-                          className="h-8 bg-slate-200 rounded"
+                          className="h-8 bg-neutral-200 rounded"
                           animate={{ opacity: [0.2, 1, 0.2] }}
                           transition={{ duration: 0.5, delay: i * 0.1, repeat: Infinity }}
                         />
@@ -368,17 +368,17 @@ export default function ProtocolEngine() {
                     {/* Primary Compound Visualization */}
                     <div className="relative group">
                       <div className="absolute inset-0 bg-red-600/5 blur-3xl rounded-full group-hover:bg-red-600/10 transition-all" />
-                      <div className="relative bg-white border border-slate-200 p-6 rounded-2xl h-full flex flex-col items-center justify-center text-center shadow-lg shadow-slate-100">
+                      <div className="relative bg-white border border-neutral-200 p-6 rounded-2xl h-full flex flex-col items-center justify-center text-center shadow-lg shadow-neutral-100">
                         <div className="w-20 h-20 bg-red-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-red-600/20">
                           <FlaskConical className="w-10 h-10 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold mb-2 text-slate-900">{activeProtocol.primary}</h3>
-                        <p className="text-slate-500 text-sm mb-4">{activeProtocol.description}</p>
-                        <div className="w-full h-px bg-slate-100 my-4" />
+                        <h3 className="text-xl font-bold mb-2 text-neutral-900">{activeProtocol.primary}</h3>
+                        <p className="text-neutral-500 text-sm mb-4">{activeProtocol.description}</p>
+                        <div className="w-full h-px bg-neutral-100 my-4" />
                         <div className="w-full space-y-2">
                           {Object.entries(activeProtocol.stats).map(([label, value]) => (
                             <div key={label} className="flex justify-between text-xs font-mono">
-                              <span className="text-slate-500">{label}</span>
+                              <span className="text-neutral-500">{label}</span>
                               <span className="text-red-600 font-bold">{value}</span>
                             </div>
                           ))}
@@ -388,39 +388,39 @@ export default function ProtocolEngine() {
 
                     {/* Synergy Stack */}
                     <div className="flex flex-col gap-4">
-                      <h4 className="font-mono text-xs text-slate-400 uppercase mb-2">Synergistic Compounds Detected:</h4>
+                      <h4 className="font-mono text-xs text-neutral-400 uppercase mb-2">Synergistic Compounds Detected:</h4>
                       {activeProtocol.synergistic.map((compound, idx) => (
                         <motion.div
                           key={compound.name}
                           initial={{ x: 20, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: idx * 0.2 }}
-                          className="bg-white border border-slate-200 p-4 rounded-xl flex items-center justify-between group hover:border-red-200 hover:shadow-md hover:shadow-red-50 transition-all"
+                          className="bg-white border border-neutral-200 p-4 rounded-xl flex items-center justify-between group hover:border-red-200 hover:shadow-md hover:shadow-red-50 transition-all"
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-2 h-2 rounded-full bg-red-600 shrink-0" />
                             <div>
-                              <div className="font-bold text-slate-900">{compound.name}</div>
-                              <div className="text-xs text-slate-500 font-mono group-hover:text-red-600 transition-colors">
+                              <div className="font-bold text-neutral-900">{compound.name}</div>
+                              <div className="text-xs text-neutral-500 font-mono group-hover:text-red-600 transition-colors">
                                 {compound.effect}
                               </div>
                             </div>
                           </div>
-                          <div className="text-[10px] text-slate-400 font-mono uppercase tracking-wider hidden sm:block">
+                          <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider hidden sm:block">
                             + SYNERGY
                           </div>
                         </motion.div>
                       ))}
                       
                       {/* Live Citation Feed */}
-                      <div className="mt-auto bg-slate-50 p-4 rounded-lg border border-slate-200">
-                        <div className="flex items-center gap-2 mb-2 text-xs text-slate-500 font-mono">
+                      <div className="mt-auto bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+                        <div className="flex items-center gap-2 mb-2 text-xs text-neutral-500 font-mono">
                           <Database className="w-3 h-3" />
                           <span>LATEST_CITATIONS</span>
                         </div>
                         <div className="space-y-2">
                           {activeProtocol.citations.map((cite, i) => (
-                            <div key={i} className="text-[10px] text-slate-400 border-l-2 border-slate-300 pl-2 hover:border-red-500 transition-colors">
+                            <div key={i} className="text-[10px] text-neutral-400 border-l-2 border-neutral-300 pl-2 hover:border-red-500 transition-colors">
                               {cite}
                             </div>
                           ))}
@@ -436,12 +436,12 @@ export default function ProtocolEngine() {
             <div className="absolute top-0 right-0 p-4 opacity-50">
                <div className="flex gap-1">
                  <div className="w-1 h-1 bg-red-600 rounded-full" />
-                 <div className="w-1 h-1 bg-slate-300 rounded-full" />
-                 <div className="w-1 h-1 bg-slate-300 rounded-full" />
+                 <div className="w-1 h-1 bg-neutral-300 rounded-full" />
+                 <div className="w-1 h-1 bg-neutral-300 rounded-full" />
                </div>
             </div>
             <div className="absolute bottom-0 left-0 p-4 opacity-50">
-               <Binary className="w-4 h-4 text-slate-300" />
+               <Binary className="w-4 h-4 text-neutral-300" />
             </div>
 
           </div>
