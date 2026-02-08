@@ -295,7 +295,7 @@ export default function ProtocolEngine() {
             {/* Header Details */}
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-2xl font-black tracking-tight mb-2">ADVANCED PROTOCOL SIMULATION</h2>
+                <h2 className="text-2xl font-black tracking-tight mb-2 text-red-600">ADVANCED PROTOCOL SIMULATION</h2>
                 <p className="text-slate-400 font-mono text-sm">Visualize synergy and mechanism of action.</p>
               </div>
               <div className="flex gap-2">
