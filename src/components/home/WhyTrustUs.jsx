@@ -130,18 +130,18 @@ export default function WhyTrustUs() {
             </div>
           </div>
           <div className="h-[1px] md:h-8 w-full md:w-[1px] bg-slate-200" />
-          <div className="flex gap-8">
+          <div className="flex gap-12">
             <div className="text-center">
-              <p className="text-slate-900 text-lg font-black">99.8%</p>
-              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Avg Purity</p>
+              <p className="text-slate-900 text-2xl font-black">99.8%</p>
+              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Avg Purity</p>
             </div>
             <div className="text-center">
-              <p className="text-slate-900 text-lg font-black">4,500+</p>
-              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Verified Batches</p>
+              <p className="text-slate-900 text-2xl font-black">4,500+</p>
+              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Verified Batches</p>
             </div>
             <div className="text-center">
-              <p className="text-slate-900 text-lg font-black">24h</p>
-              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Lab Turnaround</p>
+              <p className="text-slate-900 text-2xl font-black">24h</p>
+              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Lab Response</p>
             </div>
           </div>
         </motion.div>

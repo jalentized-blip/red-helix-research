@@ -77,7 +77,7 @@ By purchasing from Red Helix Research, you acknowledge full understanding and ac
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Policies & Disclaimer - Red Helix Research"
         description="Red Helix Research policies, terms of use, and disclaimers. For research use only. Lab-tested peptides with COA verification."
@@ -87,15 +87,15 @@ By purchasing from Red Helix Research, you acknowledge full understanding and ac
       <div className="max-w-4xl mx-auto px-4">
         {/* Navigation */}
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
             ← Back to Home
           </Button>
         </Link>
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Policies & Terms</h1>
-          <p className="text-xl text-stone-300">Important information about using Red Helix Research products</p>
+          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter uppercase leading-none">Policies & <span className="text-red-600">Terms</span></h1>
+          <p className="text-xl text-slate-500 font-medium">Important information about using Red Helix Research products</p>
         </motion.div>
 
         {/* Research Disclaimer */}
@@ -110,10 +110,10 @@ By purchasing from Red Helix Research, you acknowledge full understanding and ac
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+              className="bg-slate-50 border border-slate-100 rounded-[32px] p-10 shadow-sm"
             >
-              <h2 className="text-2xl font-bold text-amber-50 mb-4">{section.title}</h2>
-              <div className="text-stone-300 space-y-3 whitespace-pre-wrap text-sm leading-relaxed">
+              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">{section.title}</h2>
+              <div className="text-slate-600 space-y-3 whitespace-pre-wrap text-sm leading-relaxed font-medium">
                 {section.content}
               </div>
             </motion.div>
@@ -125,14 +125,15 @@ By purchasing from Red Helix Research, you acknowledge full understanding and ac
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8 text-center"
+          className="mt-12 bg-white border border-red-100 rounded-[40px] p-12 text-center shadow-xl shadow-red-600/5 relative overflow-hidden"
         >
-          <h3 className="text-2xl font-bold text-amber-50 mb-3">Questions about our policies?</h3>
-          <p className="text-stone-300 mb-6">
+          <div className="absolute top-0 left-0 w-full h-1 bg-red-600" />
+          <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tighter uppercase">Questions about our policies?</h3>
+          <p className="text-slate-500 mb-8 font-medium max-w-xl mx-auto">
             Contact us through our support channels for clarification on any terms or policies.
           </p>
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-red-600 hover:bg-red-700">Contact Support</Button>
+            <Button className="bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs px-10 py-6">Contact Support</Button>
           </Link>
         </motion.div>
       </div>

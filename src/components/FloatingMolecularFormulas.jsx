@@ -37,9 +37,9 @@ const FloatingFormula = ({ formula, startX, delay, duration }) => {
     const distY = centerY - mousePos.y;
     const distance = Math.sqrt(distX * distX + distY * distY);
 
-    if (distance < 150) {
+    if (distance < 200) {
       const angle = Math.atan2(distY, distX);
-      const force = Math.max(0, 150 - distance) * 0.3;
+      const force = Math.max(0, 200 - distance) * 0.4;
       setOffset({
         x: Math.cos(angle) * force,
         y: Math.sin(angle) * force,
@@ -49,12 +49,14 @@ const FloatingFormula = ({ formula, startX, delay, duration }) => {
     }
   }, [mousePos, formula, startX]);
 
+  const isRed = Math.random() > 0.8;
+
   return (
     <motion.div
       id={`formula-${formula}-${startX}`}
       initial={{ opacity: 0, y: -20, x: startX }}
       animate={{
-        opacity: [0.4, 0.6, 0],
+        opacity: [0, 0.2, 0.3, 0],
         y: window.innerHeight + 50,
         x: startX + offset.x,
       }}
@@ -62,12 +64,15 @@ const FloatingFormula = ({ formula, startX, delay, duration }) => {
         duration,
         delay,
         ease: 'linear',
-        opacity: { duration: duration * 0.3, times: [0, 0.5, 1] },
+        opacity: { duration: duration, times: [0, 0.1, 0.8, 1] },
       }}
-      className="fixed text-xs font-mono text-[#7D4A2B]/40 pointer-events-none whitespace-nowrap select-none"
+      className={`fixed text-[11px] font-black pointer-events-none whitespace-nowrap select-none uppercase tracking-widest ${
+        isRed ? 'text-red-600' : 'text-slate-200'
+      }`}
       style={{
         left: startX,
         top: '-20px',
+        opacity: 0.15 // Base opacity fallback
       }}
     >
       {formula}
@@ -80,14 +85,14 @@ export default function FloatingMolecularFormulas() {
 
   useEffect(() => {
     const generateFormulas = () => {
-      const newFormulas = Array.from({ length: 15 }, (_, i) => {
+      const newFormulas = Array.from({ length: 12 }, (_, i) => {
         const glp1 = GLP1_FORMULAS[i % GLP1_FORMULAS.length];
         return {
           id: Math.random(),
           formula: glp1.formula,
           startX: Math.random() * window.innerWidth,
-          delay: Math.random() * 2,
-          duration: 8 + Math.random() * 6,
+          delay: Math.random() * 5,
+          duration: 12 + Math.random() * 8,
         };
       });
       setFormulas(newFormulas);
@@ -95,8 +100,8 @@ export default function FloatingMolecularFormulas() {
 
     generateFormulas();
 
-    // Regenerate formulas every 10 seconds
-    const interval = setInterval(generateFormulas, 10000);
+    // Regenerate formulas every 15 seconds for a more relaxed clinical feel
+    const interval = setInterval(generateFormulas, 15000);
     return () => clearInterval(interval);
   }, []);
 

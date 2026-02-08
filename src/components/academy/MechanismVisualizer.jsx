@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Play, Pause, RotateCcw, Zap, Activity } from 'lucide-react';
+import { ArrowLeft, Play, Pause, RotateCcw, Zap, Activity, Info } from 'lucide-react';
 
 const MECHANISMS = [
   {
@@ -34,7 +34,10 @@ const MECHANISMS = [
         duration: 4000
       }
     ],
-    color: 'from-green-600 to-green-700'
+    color: 'bg-emerald-600',
+    gradient: 'from-emerald-600 to-emerald-700',
+    lightBg: 'bg-emerald-50',
+    borderColor: 'border-emerald-200'
   },
   {
     id: 'semaglutide',
@@ -67,7 +70,10 @@ const MECHANISMS = [
         duration: 4000
       }
     ],
-    color: 'from-blue-600 to-blue-700'
+    color: 'bg-blue-600',
+    gradient: 'from-blue-600 to-blue-700',
+    lightBg: 'bg-blue-50',
+    borderColor: 'border-blue-200'
   },
   {
     id: 'tirzepatide',
@@ -100,7 +106,10 @@ const MECHANISMS = [
         duration: 4000
       }
     ],
-    color: 'from-cyan-600 to-cyan-700'
+    color: 'bg-cyan-600',
+    gradient: 'from-cyan-600 to-cyan-700',
+    lightBg: 'bg-cyan-50',
+    borderColor: 'border-cyan-200'
   },
   {
     id: 'tb500',
@@ -133,7 +142,10 @@ const MECHANISMS = [
         duration: 4000
       }
     ],
-    color: 'from-purple-600 to-purple-700'
+    color: 'bg-purple-600',
+    gradient: 'from-purple-600 to-purple-700',
+    lightBg: 'bg-purple-50',
+    borderColor: 'border-purple-200'
   },
   {
     id: 'nad',
@@ -166,166 +178,41 @@ const MECHANISMS = [
         duration: 4000
       }
     ],
-    color: 'from-orange-600 to-orange-700'
-  },
-  {
-    id: 'ghkcu',
-    name: 'GHK-Cu',
-    title: 'Copper Peptide Regeneration',
-    description: 'Copper-binding peptide for collagen synthesis and wound healing',
-    pathways: [
-      {
-        step: 1,
-        title: 'Copper Binding',
-        description: 'GHK binds copper ions, forming active copper-peptide complex',
-        duration: 2000
-      },
-      {
-        step: 2,
-        title: 'Collagen Stimulation',
-        description: 'Enhances type I and III collagen synthesis in fibroblasts',
-        duration: 3000
-      },
-      {
-        step: 3,
-        title: 'Growth Factor Modulation',
-        description: 'Regulates TGF-β and VEGF expression for balanced healing',
-        duration: 3000
-      },
-      {
-        step: 4,
-        title: 'Matrix Remodeling',
-        description: 'Promotes organized extracellular matrix formation and remodeling',
-        duration: 4000
-      }
-    ],
-    color: 'from-amber-600 to-amber-700'
-  },
-  {
-    id: 'cjcipa',
-    name: 'CJC-1295/Ipamorelin',
-    title: 'Growth Hormone Secretagogue Synergy',
-    description: 'Combined peptides for sustained GH release without cortisol spike',
-    pathways: [
-      {
-        step: 1,
-        title: 'Receptor Activation',
-        description: 'CJC-1295 extends GH pulse, Ipamorelin selectively activates ghrelin receptors',
-        duration: 2000
-      },
-      {
-        step: 2,
-        title: 'Pituitary Stimulation',
-        description: 'Coordinated stimulation of somatotroph cells for GH release',
-        duration: 3000
-      },
-      {
-        step: 3,
-        title: 'Sustained Elevation',
-        description: 'CJC-1295 prolongs GH elevation, maintaining physiological pulses',
-        duration: 3000
-      },
-      {
-        step: 4,
-        title: 'Downstream Effects',
-        description: 'IGF-1 production, protein synthesis, lipolysis, tissue repair',
-        duration: 4000
-      }
-    ],
-    color: 'from-indigo-600 to-indigo-700'
-  },
-  {
-    id: 'pt141',
-    name: 'PT-141',
-    title: 'Melanocortin Receptor Activation',
-    description: 'MC4R agonist affecting libido through CNS pathways',
-    pathways: [
-      {
-        step: 1,
-        title: 'CNS Penetration',
-        description: 'Crosses blood-brain barrier to access melanocortin receptors',
-        duration: 2000
-      },
-      {
-        step: 2,
-        title: 'MC4R Activation',
-        description: 'Selectively activates melanocortin-4 receptors in hypothalamus',
-        duration: 3000
-      },
-      {
-        step: 3,
-        title: 'Neural Pathway Modulation',
-        description: 'Affects dopaminergic and noradrenergic neurotransmission',
-        duration: 3000
-      },
-      {
-        step: 4,
-        title: 'Physiological Response',
-        description: 'Enhances sexual arousal and desire through central mechanisms',
-        duration: 4000
-      }
-    ],
-    color: 'from-pink-600 to-pink-700'
-  },
-  {
-    id: 'semax',
-    name: 'Semax',
-    title: 'Nootropic BDNF Enhancement',
-    description: 'ACTH analog promoting neuroplasticity and cognitive function',
-    pathways: [
-      {
-        step: 1,
-        title: 'BBB Transport',
-        description: 'Crosses blood-brain barrier via active transport mechanisms',
-        duration: 2000
-      },
-      {
-        step: 2,
-        title: 'BDNF Upregulation',
-        description: 'Increases brain-derived neurotrophic factor expression',
-        duration: 3000
-      },
-      {
-        step: 3,
-        title: 'Neurotransmitter Modulation',
-        description: 'Enhances dopamine, serotonin, and acetylcholine activity',
-        duration: 3000
-      },
-      {
-        step: 4,
-        title: 'Cognitive Enhancement',
-        description: 'Improves attention, memory formation, and neuroprotection',
-        duration: 4000
-      }
-    ],
-    color: 'from-teal-600 to-teal-700'
+    color: 'bg-orange-600',
+    gradient: 'from-orange-600 to-orange-700',
+    lightBg: 'bg-orange-50',
+    borderColor: 'border-orange-200'
   }
 ];
 
 // Memoized pathway step
-const PathwayStep = React.memo(({ pathway, isActive, isComplete, color }) => (
-  <div className={`relative flex items-start gap-6 p-6 rounded-xl border-2 transition-all ${
+const PathwayStep = React.memo(({ pathway, isActive, isComplete, color, gradient, lightBg, borderColor }) => (
+  <div className={`relative flex items-start gap-6 p-6 rounded-[24px] border-2 transition-all duration-500 ${
     isComplete
-      ? `bg-gradient-to-r ${color}/10 border-white/20`
-      : 'bg-stone-800/30 border-stone-700'
-  }`}>
-    <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 ${
+      ? `${lightBg} ${borderColor}`
+      : 'bg-white border-slate-100 shadow-sm'
+  } ${isActive ? 'ring-2 ring-red-600 ring-offset-2' : ''}`}>
+    <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl flex-shrink-0 transition-all duration-500 ${
       isComplete
-        ? `bg-gradient-to-br ${color} text-white`
-        : 'bg-stone-700 text-stone-400'
+        ? `bg-gradient-to-br ${gradient} text-white shadow-lg`
+        : 'bg-slate-100 text-slate-400'
     }`}>
       {pathway.step}
     </div>
     <div className="flex-1">
-      <h3 className="text-xl font-bold text-amber-50 mb-2">
+      <h3 className={`text-xl font-black uppercase tracking-tight mb-1 transition-colors duration-500 ${
+        isComplete ? 'text-slate-900' : 'text-slate-400'
+      }`}>
         {pathway.title}
       </h3>
-      <p className="text-stone-300">
+      <p className={`text-sm leading-relaxed transition-colors duration-500 ${
+        isComplete ? 'text-slate-600' : 'text-slate-300'
+      }`}>
         {pathway.description}
       </p>
     </div>
     {isActive && (
-      <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0 animate-pulse" />
+      <div className="w-3 h-3 bg-red-600 rounded-full flex-shrink-0 animate-pulse mt-2" />
     )}
   </div>
 ));
@@ -384,113 +271,176 @@ export default function MechanismVisualizer({ onBack }) {
   }, [handleReset]);
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <Button variant="outline" onClick={onBack}>
+    <div className="max-w-6xl mx-auto px-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
+        <Button 
+          variant="ghost" 
+          onClick={onBack}
+          className="w-fit hover:bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-xs"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Academy
         </Button>
-        <div className="flex items-center gap-2 text-stone-400 text-sm">
-          <Activity className="w-4 h-4" />
-          Interactive Mechanism Visualizer
+        <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-full border border-slate-200">
+          <Activity className="w-4 h-4 text-red-600" />
+          <span className="text-xs font-black uppercase tracking-widest text-slate-600">
+            Mechanism Visualization System v4.0
+          </span>
         </div>
       </div>
 
-      {/* Mechanism Selector */}
-      <div className="grid md:grid-cols-3 gap-4 mb-8">
-        {MECHANISMS.map((mechanism) => (
-          <button
-            key={mechanism.id}
-            onClick={() => handleMechanismChange(mechanism)}
-            className={`text-left p-4 rounded-xl border-2 transition-all ${
-              selectedMechanism.id === mechanism.id
-                ? `bg-gradient-to-br ${mechanism.color} border-white/30`
-                : 'bg-stone-900/60 border-stone-700 hover:border-stone-600'
-            }`}
-          >
-            <h3 className="text-lg font-bold text-amber-50 mb-1">{mechanism.name}</h3>
-            <p className="text-sm text-stone-300">{mechanism.title}</p>
-          </button>
-        ))}
-      </div>
-
-      {/* Main Visualization Area */}
-      <div className="bg-stone-900/60 border border-stone-700 rounded-2xl p-8 mb-6">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-amber-50 mb-2">
-            {selectedMechanism.name}
+      <div className="grid lg:grid-cols-12 gap-12">
+        {/* Sidebar Selectors */}
+        <div className="lg:col-span-4 space-y-4">
+          <h2 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] mb-6">
+            Select Research Subject
           </h2>
-          <p className="text-stone-400">{selectedMechanism.description}</p>
-        </div>
-
-        {/* Pathway Visualization */}
-        <div className="relative">
-          {/* Progress Bar */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-stone-800 rounded-full overflow-hidden mb-8">
-            <div
-              className={`h-full bg-gradient-to-r ${selectedMechanism.color} transition-all duration-500`}
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-
-          {/* Steps */}
-          <div className="space-y-6 mt-8">
-            {selectedMechanism.pathways.map((pathway, idx) => (
-              <PathwayStep
-                key={idx}
-                pathway={pathway}
-                isActive={currentStep === pathway.step && isPlaying}
-                isComplete={currentStep >= pathway.step}
-                color={selectedMechanism.color}
-              />
+          <div className="grid grid-cols-1 gap-3">
+            {MECHANISMS.map((mechanism) => (
+              <button
+                key={mechanism.id}
+                onClick={() => handleMechanismChange(mechanism)}
+                className={`text-left p-6 rounded-[24px] border-2 transition-all duration-300 group ${
+                  selectedMechanism.id === mechanism.id
+                    ? `bg-white border-red-600 shadow-xl scale-[1.02]`
+                    : 'bg-slate-50 border-slate-100 hover:border-slate-200 hover:bg-white'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className={`text-xl font-black uppercase tracking-tighter ${
+                    selectedMechanism.id === mechanism.id ? 'text-red-600' : 'text-slate-900'
+                  }`}>
+                    {mechanism.name}
+                  </h3>
+                  <div className={`w-2 h-2 rounded-full ${mechanism.color}`} />
+                </div>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-tight">
+                  {mechanism.title}
+                </p>
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center justify-center gap-4 mt-8 pt-8 border-t border-stone-700">
-          <Button
-            onClick={isPlaying ? handlePause : handlePlay}
-            size="lg"
-            className="px-8"
-          >
-            {isPlaying ? (
-              <>
-                <Pause className="w-5 h-5 mr-2" />
-                Pause
-              </>
-            ) : (
-              <>
-                <Play className="w-5 h-5 mr-2" />
-                Play Animation
-              </>
-            )}
-          </Button>
-          <Button
-            onClick={handleReset}
-            size="lg"
-            variant="outline"
-          >
-            <RotateCcw className="w-5 h-5 mr-2" />
-            Reset
-          </Button>
-        </div>
-      </div>
+        {/* Main Visualization Area */}
+        <div className="lg:col-span-8">
+          <div className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-sm relative overflow-hidden">
+            <div className="relative z-10">
+              <div className="flex items-start justify-between mb-8">
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
+                    {selectedMechanism.name}
+                    <span className="block text-xl text-red-600 mt-2 font-bold tracking-tight normal-case italic">
+                      {selectedMechanism.title}
+                    </span>
+                  </h2>
+                  <p className="text-slate-600 text-lg max-w-xl leading-relaxed">
+                    {selectedMechanism.description}
+                  </p>
+                </div>
+                <div className="hidden md:block">
+                  <div className={`w-20 h-20 rounded-[24px] ${selectedMechanism.lightBg} border-2 ${selectedMechanism.borderColor} flex items-center justify-center`}>
+                    <Activity className={`w-10 h-10 ${selectedMechanism.color.replace('bg-', 'text-')}`} />
+                  </div>
+                </div>
+              </div>
 
-      {/* Key Insights */}
-      <div className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border-2 border-blue-600/30 rounded-2xl p-6">
-        <div className="flex items-start gap-3">
-          <Zap className="w-6 h-6 text-blue-400 mt-1 flex-shrink-0" />
-          <div>
-            <h3 className="text-lg font-bold text-amber-50 mb-2">
-              Key Research Insights
-            </h3>
-            <ul className="space-y-2 text-sm text-stone-300">
-              <li>• Understanding mechanisms helps optimize research protocols</li>
-              <li>• Each peptide operates through distinct cellular pathways</li>
-              <li>• Timing and dosing considerations based on mechanism duration</li>
-              <li>• Synergistic effects possible when combining complementary pathways</li>
-            </ul>
+              {/* Pathway Visualization */}
+              <div className="relative space-y-4">
+                {/* Progress Bar Container */}
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden mb-12 border border-slate-200/50">
+                  <div
+                    className={`h-full bg-gradient-to-r ${selectedMechanism.gradient} transition-all duration-500 shadow-[0_0_15px_rgba(220,38,38,0.3)]`}
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+
+                {/* Steps */}
+                <div className="grid gap-4">
+                  {selectedMechanism.pathways.map((pathway, idx) => (
+                    <PathwayStep
+                      key={idx}
+                      pathway={pathway}
+                      isActive={currentStep === pathway.step && isPlaying}
+                      isComplete={currentStep >= pathway.step}
+                      color={selectedMechanism.color}
+                      gradient={selectedMechanism.gradient}
+                      lightBg={selectedMechanism.lightBg}
+                      borderColor={selectedMechanism.borderColor}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Controls */}
+              <div className="flex flex-wrap items-center justify-center gap-4 mt-12 pt-8 border-t border-slate-100">
+                <Button
+                  onClick={isPlaying ? handlePause : handlePlay}
+                  size="lg"
+                  className={`h-16 px-10 rounded-[20px] font-black uppercase tracking-widest text-sm transition-all shadow-lg hover:shadow-xl active:scale-95 ${
+                    isPlaying 
+                      ? 'bg-slate-900 text-white hover:bg-slate-800' 
+                      : 'bg-red-600 text-white hover:bg-red-700'
+                  }`}
+                >
+                  {isPlaying ? (
+                    <>
+                      <Pause className="w-5 h-5 mr-3 fill-current" />
+                      Pause Simulation
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-5 h-5 mr-3 fill-current" />
+                      Initialize Sequence
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onClick={handleReset}
+                  size="lg"
+                  variant="outline"
+                  className="h-16 px-10 rounded-[20px] border-2 border-slate-200 font-black uppercase tracking-widest text-sm text-slate-600 hover:bg-slate-50"
+                >
+                  <RotateCcw className="w-5 h-5 mr-3" />
+                  Reset System
+                </Button>
+              </div>
+            </div>
+
+            {/* Background Accent */}
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-slate-50 rounded-full blur-3xl opacity-50 pointer-events-none" />
+          </div>
+
+          {/* Key Insights */}
+          <div className="mt-8 bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden group">
+            <div className="relative z-10 flex items-start gap-6">
+              <div className="w-14 h-14 bg-red-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:rotate-12 transition-transform">
+                <Info className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-black uppercase tracking-tight mb-4 flex items-center gap-2">
+                  Clinical Research Implications
+                  <span className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
+                </h3>
+                <div className="grid md:grid-cols-2 gap-x-8 gap-y-3">
+                  {[
+                    'Optimize research protocols through mechanism awareness',
+                    'Distinct cellular pathways for targeted research goals',
+                    'Strategic dosing timing based on kinetic models',
+                    'Potential synergy in multi-pathway research designs'
+                  ].map((insight, i) => (
+                    <div key={i} className="flex items-center gap-3 text-slate-400 text-sm font-medium">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" />
+                      {insight}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Decorative background element */}
+            <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none">
+              <Activity className="w-48 h-48 -mr-12 -mb-12" />
+            </div>
           </div>
         </div>
       </div>

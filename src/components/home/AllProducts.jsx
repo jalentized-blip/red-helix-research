@@ -117,16 +117,16 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
     }, [products, activeCategory, searchQuery, isAdmin, sortBy, showAll]);
 
   return (
-    <section id="products" className="py-20 px-4 relative">
+    <section id="products" className="py-24 px-4 relative overflow-hidden bg-slate-50">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute bottom-20 left-20 text-red-600/20 text-5xl"
-          animate={{ y: [-10, 10, -10], x: [0, 10, 0] }}
-          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute bottom-20 left-20 text-red-600/5 text-8xl"
+          animate={{ y: [-20, 20, -20], x: [0, 20, 0] }}
+          transition={{ duration: 15, repeat: Infinity }}
         >
-          <svg width="80" height="80" viewBox="0 0 100 100">
-            <path d="M 50 10 Q 90 50 50 90 Q 10 50 50 10 Z" fill="none" stroke="currentColor" strokeWidth="2" />
-            <circle cx="50" cy="50" r="8" fill="currentColor" />
+          <svg width="120" height="120" viewBox="0 0 100 100">
+            <path d="M 50 10 Q 90 50 50 90 Q 10 50 50 10 Z" fill="none" stroke="currentColor" strokeWidth="1" />
+            <circle cx="50" cy="50" r="10" fill="currentColor" />
           </svg>
         </motion.div>
       </div>
@@ -136,71 +136,71 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-amber-50 via-white to-amber-50 bg-clip-text text-transparent">
-              Complete Peptide
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 bg-clip-text text-transparent">
-              Catalog
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 rounded-full mb-6">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Complete Inventory</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+            RESEARCH <br />
+            <span className="text-red-600">REPOSITORY</span>
           </h2>
-          <p className="text-stone-400 text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-            Browse our complete catalog of research-grade peptides: BPC-157, TB-500, semaglutide, tirzepatide, and more. All verified with third-party testing and certificates of analysis (COA).
+          <p className="text-slate-500 font-medium max-w-xl mx-auto mb-10">
+            A comprehensive catalog of clinical-grade peptides, systematically archived and ready for analytical deployment.
           </p>
           
           {/* Search Bar */}
-          <div className="max-w-md mx-auto">
+          <div className="max-w-md mx-auto relative group">
+            <div className="absolute inset-0 bg-red-600/5 blur-2xl group-hover:bg-red-600/10 transition-colors" />
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
                 type="text"
-                placeholder="Search peptides..."
+                placeholder="Search research catalog..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="pl-10 bg-stone-900 border-stone-700 text-amber-50 placeholder:text-stone-400 focus:border-red-700/50"
+                className="h-14 pl-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-red-600/50 rounded-2xl shadow-sm transition-all"
               />
             </div>
           </div>
         </motion.div>
 
-        {/* Category Tabs */}
-         <div className="flex justify-center mb-10 overflow-x-auto pb-2">
-           <Tabs value={activeCategory} onValueChange={setActiveCategory}>
-             <TabsList className="bg-stone-900/60 border border-stone-700 p-1 flex-wrap">
-               {categories.map((cat) => (
-                 <TabsTrigger 
-                   key={cat.id} 
-                   value={cat.id}
-                   className="data-[state=active]:bg-red-700 data-[state=active]:text-amber-50 text-stone-300 font-medium"
-                 >
-                   {cat.label}
-                 </TabsTrigger>
-               ))}
-             </TabsList>
-           </Tabs>
-         </div>
+        {/* Filter Controls */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
+          {/* Category Tabs */}
+          <div className="w-full md:w-auto overflow-x-auto pb-2 scrollbar-hide">
+            <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+              <TabsList className="bg-white border border-slate-200 p-1 rounded-2xl h-14 shadow-sm">
+                {categories.map((cat) => (
+                  <TabsTrigger 
+                    key={cat.id} 
+                    value={cat.id}
+                    className="h-11 px-6 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all"
+                  >
+                    {cat.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
 
-         {/* Sort Dropdown */}
-         <div className="flex justify-end mb-6">
-           <Select value={sortBy} onValueChange={setSortBy}>
-             <SelectTrigger className="w-40 bg-stone-900 border-stone-700 text-amber-50">
-               <SelectValue />
-             </SelectTrigger>
-             <SelectContent className="bg-stone-900 border-stone-700">
-               <SelectItem value="featured" className="text-amber-50">Featured</SelectItem>
-               <SelectItem value="price-low" className="text-amber-50">Price: Low to High</SelectItem>
-               <SelectItem value="price-high" className="text-amber-50">Price: High to Low</SelectItem>
-               <SelectItem value="name-asc" className="text-amber-50">Name: A-Z</SelectItem>
-               <SelectItem value="name-desc" className="text-amber-50">Name: Z-A</SelectItem>
-             </SelectContent>
-           </Select>
-         </div>
+          {/* Sort Dropdown */}
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-full md:w-56 h-14 bg-white border-slate-200 text-slate-900 font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-red-600/20">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="bg-white border-slate-200 rounded-2xl shadow-2xl">
+              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Featured Priority</SelectItem>
+              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Value: Low to High</SelectItem>
+              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Value: High to Low</SelectItem>
+              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Nomenclature: A-Z</SelectItem>
+              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900">Nomenclature: Z-A</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {displayedProducts.map((product, index) => (
             <ProductCard 
               key={product.id} 
@@ -215,27 +215,29 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         </div>
 
         {displayedProducts.length === 0 && (
-          <div className="text-center py-12 text-stone-400">
-            No products found in this category.
+          <div className="text-center py-20 bg-white border border-slate-100 rounded-[40px] shadow-sm">
+            <p className="text-slate-400 font-black uppercase tracking-widest text-sm">No research specimens found matching your criteria.</p>
           </div>
         )}
 
-        {/* Show More/Hide Button */}
-        {hasMore && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
+        {/* Action Bar */}
+        <div className="mt-20 flex flex-col items-center gap-6">
+          {hasMore && (
             <button
               onClick={handleShowAllToggle}
-              className="px-8 py-3 bg-red-700 hover:bg-red-600 text-amber-50 font-semibold rounded-lg transition-colors"
+              className="group relative px-12 py-5 bg-white border-2 border-slate-200 hover:border-red-600 text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-red-600/10"
             >
-              {showAll ? 'HIDE' : 'SHOW MORE..'}
+              <span className="relative z-10">
+                {showAll ? 'Collapse Catalog' : 'Expand Full Repository'}
+              </span>
             </button>
-          </motion.div>
-        )}
+          )}
+          
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Live Inventory Status: Verified</span>
+          </div>
+        </div>
       </div>
     </section>
   );

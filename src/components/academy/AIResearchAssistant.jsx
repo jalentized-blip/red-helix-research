@@ -16,38 +16,38 @@ const SUGGESTED_PROMPTS = [
 // Memoized message component
 const Message = React.memo(({ message }) => (
   <div className={`flex gap-4 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-    <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 ${
       message.role === 'user' 
-        ? 'bg-red-600/20 border border-red-600/30' 
-        : 'bg-blue-600/20 border border-blue-600/30'
+        ? 'bg-red-600 text-white shadow-sm shadow-red-200' 
+        : 'bg-slate-900 text-white shadow-sm shadow-slate-200'
     }`}>
       {message.role === 'user' ? (
-        <FlaskConical className="w-5 h-5 text-red-400" />
+        <FlaskConical className="w-5 h-5" />
       ) : (
-        <Sparkles className="w-5 h-5 text-blue-400" />
+        <Sparkles className="w-5 h-5" />
       )}
     </div>
     <div className={`flex-1 ${message.role === 'user' ? 'text-right' : ''}`}>
-      <div className={`inline-block max-w-[85%] ${
+      <div className={`inline-block max-w-[85%] text-left ${
         message.role === 'user'
-          ? 'bg-red-600/20 border border-red-600/30 rounded-2xl rounded-tr-sm p-4'
-          : 'bg-stone-800/50 border border-stone-700 rounded-2xl rounded-tl-sm p-4'
+          ? 'bg-red-50 border border-red-100 rounded-[24px] rounded-tr-sm p-5 shadow-sm'
+          : 'bg-slate-50 border border-slate-100 rounded-[24px] rounded-tl-sm p-5 shadow-sm'
       }`}>
         {message.role === 'user' ? (
-          <p className="text-amber-50">{message.content}</p>
+          <p className="text-slate-900 font-medium">{message.content}</p>
         ) : (
           <ReactMarkdown
-            className="prose prose-invert prose-sm max-w-none"
+            className="prose prose-slate prose-sm max-w-none"
             components={{
-              h1: ({children}) => <h1 className="text-xl font-bold text-amber-50 mb-3">{children}</h1>,
-              h2: ({children}) => <h2 className="text-lg font-bold text-amber-50 mb-2 mt-4">{children}</h2>,
-              h3: ({children}) => <h3 className="text-base font-bold text-amber-50 mb-2 mt-3">{children}</h3>,
-              p: ({children}) => <p className="text-stone-300 mb-3 leading-relaxed">{children}</p>,
-              ul: ({children}) => <ul className="list-disc list-inside text-stone-300 mb-3 space-y-1">{children}</ul>,
-              ol: ({children}) => <ol className="list-decimal list-inside text-stone-300 mb-3 space-y-1">{children}</ol>,
-              li: ({children}) => <li className="text-stone-300">{children}</li>,
-              strong: ({children}) => <strong className="text-amber-50 font-bold">{children}</strong>,
-              code: ({children}) => <code className="bg-stone-900 px-2 py-1 rounded text-red-400 text-sm">{children}</code>,
+              h1: ({children}) => <h1 className="text-xl font-black text-slate-900 mb-3 uppercase tracking-tighter">{children}</h1>,
+              h2: ({children}) => <h2 className="text-lg font-black text-slate-900 mb-2 mt-4 uppercase tracking-tighter">{children}</h2>,
+              h3: ({children}) => <h3 className="text-base font-black text-slate-900 mb-2 mt-3 uppercase tracking-tighter">{children}</h3>,
+              p: ({children}) => <p className="text-slate-600 mb-3 leading-relaxed">{children}</p>,
+              ul: ({children}) => <ul className="list-disc list-inside text-slate-600 mb-3 space-y-1">{children}</ul>,
+              ol: ({children}) => <ol className="list-decimal list-inside text-slate-600 mb-3 space-y-1">{children}</ol>,
+              li: ({children}) => <li className="text-slate-600">{children}</li>,
+              strong: ({children}) => <strong className="text-slate-900 font-bold">{children}</strong>,
+              code: ({children}) => <code className="bg-slate-200 px-2 py-1 rounded text-red-600 text-sm font-mono">{children}</code>,
             }}
           >
             {message.content}
@@ -123,7 +123,7 @@ Available Research Peptides Knowledge Base:
 - KLOW80: KPV+GHK-Cu+BPC+TB500 multi-pathway healing blend
 - NAD+ Stack: Comprehensive cellular health combination
 
-Question: ${question}
+Question: \${question}
 
 Provide a comprehensive, well-structured answer that:
 1. Explains the core concept clearly
@@ -177,34 +177,38 @@ Keep response under 500 words but be thorough and educational.`;
   return (
     <div className="max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <Button variant="outline" onClick={onBack}>
+        <Button 
+          variant="outline" 
+          onClick={onBack}
+          className="rounded-full border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-900"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Academy
         </Button>
-        <div className="flex items-center gap-2 text-stone-400 text-sm">
-          <Brain className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-slate-400 text-sm font-medium uppercase tracking-wider">
+          <Brain className="w-4 h-4 text-red-600" />
           AI-Powered Research Assistant
         </div>
       </div>
 
       {/* Chat Container */}
-      <div className="bg-stone-900/60 border border-stone-700 rounded-2xl overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-[40px] overflow-hidden shadow-xl shadow-slate-100 relative">
         {/* Messages */}
-        <div className="h-[600px] overflow-y-auto p-6 space-y-6">
+        <div className="h-[600px] overflow-y-auto p-8 md:p-12 space-y-8 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
           {messages.map((message, idx) => (
             <Message key={idx} message={message} />
           ))}
 
           {isLoading && (
             <div className="flex gap-4">
-              <div className="w-10 h-10 bg-blue-600/20 border border-blue-600/30 rounded-xl flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-blue-400" />
+              <div className="w-10 h-10 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-sm">
+                <Sparkles className="w-5 h-5" />
               </div>
               <div className="flex-1">
-                <div className="inline-block bg-stone-800/50 border border-stone-700 rounded-2xl rounded-tl-sm p-4">
-                  <div className="flex items-center gap-3 text-stone-400">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm">Analyzing your question...</span>
+                <div className="inline-block bg-slate-50 border border-slate-100 rounded-[24px] rounded-tl-sm p-5 shadow-sm">
+                  <div className="flex items-center gap-3 text-slate-500">
+                    <Loader2 className="w-4 h-4 animate-spin text-red-600" />
+                    <span className="text-sm font-medium">Analyzing research data...</span>
                   </div>
                 </div>
               </div>
@@ -216,16 +220,16 @@ Keep response under 500 words but be thorough and educational.`;
 
         {/* Suggested Prompts */}
         {messages.length <= 1 && (
-          <div className="px-6 py-4 border-t border-stone-700 bg-stone-900/40">
-            <div className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-3">
-              Suggested Questions
+          <div className="px-8 md:px-12 py-6 border-t border-slate-100 bg-slate-50/50">
+            <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
+              Suggested Research Topics
             </div>
             <div className="flex flex-wrap gap-2">
               {SUGGESTED_PROMPTS.map((prompt, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleSuggestedPrompt(prompt)}
-                  className="text-xs px-3 py-2 bg-stone-800/50 border border-stone-700 rounded-lg hover:border-blue-600/50 hover:bg-blue-600/10 text-stone-300 hover:text-amber-50 transition-all"
+                  className="text-xs px-4 py-2.5 bg-white border border-slate-200 rounded-full hover:border-red-600/30 hover:bg-red-50 text-slate-600 hover:text-red-600 transition-all font-medium shadow-sm"
                 >
                   {prompt}
                 </button>
@@ -235,21 +239,21 @@ Keep response under 500 words but be thorough and educational.`;
         )}
 
         {/* Input Area */}
-        <div className="p-4 border-t border-stone-700 bg-stone-900/80">
-          <div className="flex gap-3">
+        <div className="p-6 md:p-8 border-t border-slate-100 bg-white">
+          <div className="flex gap-4">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask about peptide mechanisms, protocols, or research applications..."
-              className="flex-1 bg-stone-800/50 border border-stone-700 rounded-xl px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-blue-600/50"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/5 transition-all"
               disabled={isLoading}
             />
             <Button
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
-              className="px-6"
+              className="h-auto px-8 rounded-2xl bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 transition-all active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -258,8 +262,8 @@ Keep response under 500 words but be thorough and educational.`;
               )}
             </Button>
           </div>
-          <div className="flex items-center gap-2 mt-3 text-xs text-stone-500">
-            <AlertTriangle className="w-3 h-3" />
+          <div className="flex items-center gap-2 mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
             Educational purposes only. Not medical advice. For research use only.
           </div>
         </div>

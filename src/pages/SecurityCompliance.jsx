@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, CheckCircle2, AlertCircle, Shield } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, AlertCircle, Shield, Lock, FileText, CheckCircle } from 'lucide-react';
 import SEO from '@/components/SEO';
 
 export default function SecurityCompliance() {
   const securityItems = [
     {
       category: 'Infrastructure Security',
-      status: '✅ PASS',
+      status: 'PASS',
       items: [
         { item: 'HTTPS/SSL enabled on all pages', status: true },
         { item: 'Security headers (CSP, X-Frame-Options)', status: true },
@@ -21,7 +21,7 @@ export default function SecurityCompliance() {
     },
     {
       category: 'Authentication & Authorization',
-      status: '✅ PASS',
+      status: 'PASS',
       items: [
         { item: 'Secure login system implemented', status: true },
         { item: 'Password hashing (bcrypt)', status: true },
@@ -32,7 +32,7 @@ export default function SecurityCompliance() {
     },
     {
       category: 'Data Protection',
-      status: '✅ PASS',
+      status: 'PASS',
       items: [
         { item: 'Sensitive data encryption (AES-256)', status: true },
         { item: 'PII not logged in error messages', status: true },
@@ -43,7 +43,7 @@ export default function SecurityCompliance() {
     },
     {
       category: 'Payment Security',
-      status: '✅ PASS',
+      status: 'PASS',
       items: [
         { item: 'PCI DSS Level 3A compliance (Stripe)', status: true },
         { item: 'Card data tokenization (no storage)', status: true },
@@ -54,18 +54,18 @@ export default function SecurityCompliance() {
     },
     {
       category: 'Legal & Compliance',
-      status: '✅ PASS',
+      status: 'PASS',
       items: [
         { item: 'Privacy Policy published', status: true },
         { item: 'Terms of Service published', status: true },
-        { item: 'Age verification (18+) enforced', status: true },
+        { item: 'Age verification (21+) enforced', status: true },
         { item: 'Research use disclaimer visible', status: true },
         { item: 'Liability waiver accepted at checkout', status: true }
       ]
     },
     {
       category: 'Operational Security',
-      status: '✅ PASS',
+      status: 'PASS',
       items: [
         { item: 'Admin access logs maintained', status: true },
         { item: 'Backup and disaster recovery plan', status: true },
@@ -76,7 +76,7 @@ export default function SecurityCompliance() {
     },
     {
       category: 'Website Security',
-      status: '⚠️ REVIEW',
+      status: 'REVIEW',
       items: [
         { item: 'OWASP Top 10 vulnerabilities tested', status: false },
         { item: 'SQL injection prevention verified', status: true },
@@ -87,7 +87,7 @@ export default function SecurityCompliance() {
     },
     {
       category: 'Monitoring & Logging',
-      status: '⚠️ REVIEW',
+      status: 'REVIEW',
       items: [
         { item: 'Error logging enabled (non-PII)', status: true },
         { item: 'Security event alerts configured', status: false },
@@ -171,47 +171,82 @@ export default function SecurityCompliance() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-40 left-[-5%] w-[400px] h-[400px] bg-slate-400 rounded-full blur-[100px]" />
+      </div>
+
       <SEO
         title="Security & Compliance Checklist | Red Helix Research Admin"
         description="Complete security audit, compliance verification, and risk assessment for redhelixresearch.com"
         keywords="security, compliance, risk assessment, audit"
       />
 
-      <div className="max-w-5xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
-            ← Back to Home
+          <Button variant="ghost" className="text-slate-500 hover:text-red-600 mb-8 font-bold uppercase tracking-widest text-xs">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Security & Compliance Audit</h1>
-          <p className="text-xl text-stone-300">Pre-launch security verification and risk assessment</p>
-        </motion.div>
-
-        {/* Overall Status */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-amber-900/20 to-amber-800/10 border border-amber-700/30 rounded-lg p-8 mb-12"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-3xl font-black text-amber-50">87% Compliant</h2>
-              <p className="text-stone-300 mt-2">7 of 8 categories fully compliant</p>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="p-4 bg-red-600 text-white rounded-[24px] shadow-lg shadow-red-200">
+              <Lock className="w-8 h-8" />
             </div>
-            <Shield className="w-12 h-12 text-amber-600" />
+            <div>
+              <h1 className="text-5xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+                Security & <span className="text-red-600">Compliance</span>
+              </h1>
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mt-2">Pre-launch security verification and risk assessment</p>
+            </div>
           </div>
         </motion.div>
 
-        {/* Security Categories */}
-        <div className="space-y-6 mb-12">
+        {/* Overall Status Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-100 mb-12 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-12 opacity-[0.05] pointer-events-none">
+            <Shield className="w-40 h-40 text-red-600" />
+          </div>
+          
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="bg-red-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1 rounded-full">
+                  AUDIT STATUS
+                </span>
+                <span className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">
+                  Updated Today
+                </span>
+              </div>
+              <h2 className="text-6xl font-black text-slate-900 tracking-tighter mb-2">87% COMPLIANT</h2>
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">7 of 8 categories fully compliant with Red Helix standards</p>
+            </div>
+            
+            <div className="flex gap-4">
+              <Button className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-6 rounded-[20px] font-black uppercase tracking-tighter shadow-lg shadow-slate-200 transition-all active:scale-[0.98]">
+                Download Report
+              </Button>
+              <Button variant="outline" className="border-slate-200 text-slate-900 px-8 py-6 rounded-[20px] font-black uppercase tracking-tighter hover:bg-slate-50">
+                Update Audit
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Security Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {securityItems.map((category, idx) => {
             const passed = category.items.filter(i => i.status).length;
             const total = category.items.length;
             const percent = Math.round((passed / total) * 100);
-            const isPassed = category.status === '✅ PASS';
+            const isPassed = category.status === 'PASS';
 
             return (
               <motion.div
@@ -220,41 +255,41 @@ export default function SecurityCompliance() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 viewport={{ once: true }}
-                className={`border rounded-lg p-8 ${isPassed ? 'bg-stone-900/60 border-stone-700' : 'bg-amber-900/20 border-amber-700/30'}`}
+                className="bg-white border border-slate-200 rounded-[40px] p-10 shadow-xl shadow-slate-100 hover:border-red-600/30 transition-colors"
               >
-                <div className="flex items-start justify-between mb-6">
+                <div className="flex items-start justify-between mb-8">
                   <div>
-                    <h3 className="text-xl font-bold text-amber-50">{category.category}</h3>
-                    <p className="text-sm text-stone-400 mt-1">
-                      {passed}/{total} requirements met
+                    <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter mb-1">{category.category}</h3>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      {passed}/{total} Requirements Met
                     </p>
                   </div>
-                  <span className={`text-sm font-bold px-3 py-1 rounded whitespace-nowrap ${
-                    isPassed ? 'bg-green-700/30 text-green-400' : 'bg-amber-700/30 text-amber-400'
+                  <span className={`text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest ${
+                    isPassed ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
                   }`}>
                     {category.status}
                   </span>
                 </div>
 
-                <div className="relative h-2 bg-stone-800 rounded-full overflow-hidden mb-6">
+                <div className="relative h-2 bg-slate-50 rounded-full overflow-hidden mb-8">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${percent}%` }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className={`h-full ${isPassed ? 'bg-green-600' : 'bg-amber-600'}`}
+                    className={`h-full ${isPassed ? 'bg-green-500' : 'bg-red-600'}`}
                   />
                 </div>
 
-                <ul className="space-y-2">
+                <ul className="space-y-4">
                   {category.items.map((item, i) => (
-                    <li key={i} className="text-stone-300 flex items-start gap-3">
+                    <li key={i} className="flex items-start gap-3">
                       {item.status ? (
-                        <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       ) : (
-                        <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                       )}
-                      <span className={item.status ? '' : 'text-amber-200 font-semibold'}>
+                      <span className={`text-sm font-bold uppercase tracking-tight ${item.status ? 'text-slate-600' : 'text-red-600'}`}>
                         {item.item}
                       </span>
                     </li>
@@ -265,43 +300,52 @@ export default function SecurityCompliance() {
           })}
         </div>
 
-        {/* Risk Assessment */}
+        {/* Risk Assessment Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-100 mb-16"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Risk Assessment</h2>
+          <h2 className="text-4xl font-black text-slate-900 mb-10 uppercase tracking-tighter flex items-center gap-3">
+            <FileText className="w-8 h-8 text-red-600" />
+            Risk Assessment
+          </h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full">
               <thead>
-                <tr className="border-b border-stone-700">
-                  <th className="text-left py-3 px-4 text-amber-50 font-bold">Risk</th>
-                  <th className="text-left py-3 px-4 text-amber-50 font-bold">Likelihood</th>
-                  <th className="text-left py-3 px-4 text-amber-50 font-bold">Impact</th>
-                  <th className="text-left py-3 px-4 text-amber-50 font-bold">Mitigation</th>
+                <tr className="border-b-2 border-slate-100">
+                  <th className="text-left py-6 px-4 text-slate-400 font-black uppercase tracking-widest text-[10px]">Risk Factor</th>
+                  <th className="text-left py-6 px-4 text-slate-400 font-black uppercase tracking-widest text-[10px]">Likelihood</th>
+                  <th className="text-left py-6 px-4 text-slate-400 font-black uppercase tracking-widest text-[10px]">Impact</th>
+                  <th className="text-left py-6 px-4 text-slate-400 font-black uppercase tracking-widest text-[10px]">Mitigation Protocol</th>
                 </tr>
               </thead>
-              <tbody className="text-stone-300">
+              <tbody>
                 {riskAssessment.map((risk, idx) => (
-                  <tr key={idx} className="border-b border-stone-700/50 hover:bg-stone-800/30 transition">
-                    <td className="py-3 px-4">{risk.risk}</td>
-                    <td className="py-3 px-4">
-                      <span className={`text-xs font-bold ${
-                        risk.likelihood === 'Low' ? 'text-green-500' : risk.likelihood === 'Medium' ? 'text-amber-500' : 'text-red-500'
+                  <tr key={idx} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                    <td className="py-6 px-4 font-black text-slate-900 uppercase tracking-tight text-sm">{risk.risk}</td>
+                    <td className="py-6 px-4">
+                      <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
+                        risk.likelihood === 'Low' ? 'bg-green-100 text-green-700' : 
+                        risk.likelihood === 'Medium' ? 'bg-orange-100 text-orange-600' : 
+                        'bg-red-100 text-red-600'
                       }`}>
                         {risk.likelihood}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className={`text-xs font-bold ${
-                        risk.impact === 'Low' ? 'text-green-500' : risk.impact === 'Medium' ? 'text-amber-500' : 'text-red-500'
+                    <td className="py-6 px-4">
+                      <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
+                        risk.impact === 'Low' ? 'bg-green-100 text-green-700' : 
+                        risk.impact === 'Medium' ? 'bg-orange-100 text-orange-600' : 
+                        'bg-red-100 text-red-600'
                       }`}>
                         {risk.impact}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-xs">{risk.mitigation}</td>
+                    <td className="py-6 px-4 text-xs font-bold text-slate-500 uppercase tracking-wide leading-relaxed">
+                      {risk.mitigation}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -309,32 +353,42 @@ export default function SecurityCompliance() {
           </div>
         </motion.div>
 
-        {/* Action Items */}
+        {/* Action Items Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+          className="bg-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-900/20"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Action Items Before Launch</h2>
-          <div className="space-y-4">
+          <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter flex items-center gap-3">
+            <CheckCircle className="w-8 h-8 text-red-600" />
+            Critical Action Items
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {actionItems.map((action, idx) => (
-              <div key={idx} className={`border rounded-lg p-4 ${
-                action.priority === 'CRITICAL' ? 'border-red-700/50 bg-red-900/10' : 'border-stone-700'
+              <div key={idx} className={`p-8 rounded-[32px] border-2 transition-all ${
+                action.priority === 'CRITICAL' 
+                  ? 'bg-red-600/10 border-red-600/30 shadow-lg shadow-red-900/20' 
+                  : 'bg-slate-800 border-slate-700'
               }`}>
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-amber-50">{action.item}</h3>
-                  <span className={`text-xs font-bold px-2 py-1 rounded whitespace-nowrap ${
-                    action.priority === 'CRITICAL' ? 'bg-red-700/30 text-red-400' :
-                    action.priority === 'HIGH' ? 'bg-orange-700/30 text-orange-400' :
-                    'bg-yellow-700/30 text-yellow-400'
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-xl font-black uppercase tracking-tight leading-tight max-w-[70%]">{action.item}</h3>
+                  <span className={`text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest ${
+                    action.priority === 'CRITICAL' ? 'bg-red-600 text-white' :
+                    action.priority === 'HIGH' ? 'bg-orange-500 text-white' :
+                    'bg-slate-700 text-slate-300'
                   }`}>
                     {action.priority}
                   </span>
                 </div>
-                <p className="text-sm text-stone-400">
-                  Due: <strong>{action.deadline}</strong> | Owner: <strong>{action.owner}</strong>
-                </p>
+                <div className="flex items-center justify-between mt-6">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    OWNER: <span className="text-white">{action.owner}</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    DUE: <span className="text-white">{action.deadline}</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

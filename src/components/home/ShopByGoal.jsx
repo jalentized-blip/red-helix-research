@@ -27,8 +27,8 @@ const goals = [
     description: "GLP-1 agonists and metabolic peptides for body composition research",
     icon: Scale,
     products: ["Retatrutide", "Tirzepatide", "Semaglutide"],
-    gradient: "from-orange-500/20 to-red-500/20",
-    iconColor: "text-orange-400"
+    gradient: "from-red-600/5 to-red-600/10",
+    iconColor: "text-red-600"
   },
   {
     id: "recovery_healing",
@@ -36,8 +36,8 @@ const goals = [
     description: "Tissue repair, inflammation, and accelerated healing compounds",
     icon: Heart,
     products: ["BPC 157", "TB500", "BPC 157 + TB500"],
-    gradient: "from-green-500/20 to-emerald-500/20",
-    iconColor: "text-green-400"
+    gradient: "from-red-600/5 to-red-600/10",
+    iconColor: "text-red-600"
   },
   {
     id: "cognitive_focus",
@@ -45,8 +45,8 @@ const goals = [
     description: "Nootropics and neuropeptides for brain health research",
     icon: Brain,
     products: ["Semax", "Selank", "Pinealon"],
-    gradient: "from-blue-500/20 to-indigo-500/20",
-    iconColor: "text-blue-400"
+    gradient: "from-slate-600/5 to-slate-600/10",
+    iconColor: "text-slate-600"
   },
   {
     id: "performance_longevity",
@@ -54,8 +54,8 @@ const goals = [
     description: "Growth hormone secretagogues and anti-aging compounds",
     icon: Zap,
     products: ["MOTS-c", "HGH", "Epithalon"],
-    gradient: "from-purple-500/20 to-pink-500/20",
-    iconColor: "text-purple-400"
+    gradient: "from-slate-600/5 to-slate-600/10",
+    iconColor: "text-slate-600"
   }
 ];
 
@@ -63,10 +63,11 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
   const [hoveredPeptide, setHoveredPeptide] = useState(null);
 
   return (
-    <section id="goals" className="py-20 px-4 bg-stone-950/50 relative">
+    <section id="goals" className="py-24 px-4 bg-white relative overflow-hidden">
+      {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute top-10 right-1/4 text-red-600/15 text-8xl"
+          className="absolute top-10 right-1/4 text-red-600/5 text-8xl"
           animate={{ y: [20, -20, 20], rotate: [360, 0, 360] }}
           transition={{ duration: 15, repeat: Infinity }}
         >
@@ -84,20 +85,22 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Shop by Goal
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-100 rounded-full mb-6">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Research Categorization</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+            SHOP BY <br />
+            <span className="text-red-600">OBJECTIVE</span>
           </h2>
-          <p className="text-stone-300 text-lg max-w-2xl mx-auto">
-            Find the right peptides for your research objectives
+          <p className="text-slate-500 font-medium max-w-xl mx-auto">
+            Systematic classification of research compounds based on primary experimental targets and metabolic pathways.
           </p>
         </motion.div>
 
         {/* Goals Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {goals.map((goal, index) => (
             <motion.div
               key={goal.id}
@@ -106,26 +109,26 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="group relative bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 overflow-hidden cursor-pointer">
+              <Card className="group relative bg-slate-50 border-slate-100 hover:border-red-600/30 transition-all duration-500 overflow-hidden cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl">
                 {/* Background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${goal.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
-                <div className="relative p-6">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className={`p-3 rounded-xl bg-stone-800/80 border border-stone-700 group-hover:border-red-700/30 transition-colors`}>
-                      <goal.icon className={`w-6 h-6 ${goal.iconColor}`} />
+                <div className="relative p-10">
+                  <div className="flex items-start gap-6 mb-8">
+                    <div className={`w-14 h-14 rounded-2xl bg-white border border-slate-100 flex items-center justify-center group-hover:border-red-600/30 transition-colors shadow-sm`}>
+                      <goal.icon className={`w-7 h-7 ${goal.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-amber-50 group-hover:text-red-600 transition-colors">
+                      <h3 className="text-2xl font-black text-slate-900 group-hover:text-red-600 transition-colors tracking-tight">
                         {goal.title}
                       </h3>
-                      <p className="text-sm text-stone-300 mt-1">
+                      <p className="text-sm text-slate-500 mt-2 font-medium leading-relaxed">
                         {goal.description}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-3">
                     {goal.products.map((productName) => {
                       return (
                         <div
@@ -134,17 +137,25 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                           onMouseEnter={() => setHoveredPeptide(productName)}
                           onMouseLeave={() => setHoveredPeptide(null)}
                         >
-                          <div className="px-3 py-1.5 bg-stone-800/80 rounded-lg text-xs font-medium text-amber-50 border border-stone-700 hover:bg-red-700/20 hover:border-red-700/50 hover:text-red-600 transition-all cursor-default flex items-center gap-1.5">
-                            <Info className="w-3 h-3" />
+                          <div className="px-4 py-2 bg-white rounded-xl text-[10px] font-black text-slate-900 border border-slate-100 group-hover:border-red-600/20 hover:bg-red-50 hover:text-red-600 transition-all cursor-default flex items-center gap-2 uppercase tracking-widest">
+                            <Info className="w-3 h-3 text-red-600/40" />
                             {productName}
                           </div>
-                          {hoveredPeptide === productName && (
-                            <div className="absolute z-50 bottom-full left-0 mb-2 w-64 bg-stone-900 border border-red-700/50 rounded-lg p-3 shadow-xl">
-                              <p className="text-xs text-stone-300 leading-relaxed">
-                                {peptideInfo[productName]}
-                              </p>
-                            </div>
-                          )}
+                          <AnimatePresence>
+                            {hoveredPeptide === productName && (
+                              <motion.div 
+                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                className="absolute z-50 bottom-full left-0 mb-3 w-72 bg-white border border-slate-100 rounded-2xl p-4 shadow-2xl"
+                              >
+                                <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-b border-r border-slate-100 rotate-45" />
+                                <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                                  {peptideInfo[productName]}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       );
                     })}

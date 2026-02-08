@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, CheckCircle2, AlertCircle, ChevronDown } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, AlertCircle, ChevronDown, Sparkles, Microscope, Activity, ShieldCheck, Zap } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -312,140 +312,8 @@ const SAFE_STACKS = {
     compatible: [
       {
         peptide: 'BPC-157',
-        protocol: 'Semaglutide (weekly, long-term) + BPC-157 (daily, long-term): Metabolic + tissue repair protocol. Extended combined protocol for comprehensive health. BPC-157 supports GI health which complements Semaglutide.',
-        compatibilityReason: 'Metabolic optimization with tissue repair support',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'TB-500',
-        protocol: 'Semaglutide (weekly) + TB-500 (2x weekly, 8-12 week cycles): Metabolic foundation with periodic cellular repair. Run TB-500 in cycles during extended Semaglutide use.',
-        compatibilityReason: 'Long-term metabolic support with periodic recovery cycles',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'Tirzepatide': {
-    compatible: [
-      {
-        peptide: 'BPC-157',
-        protocol: 'Tirzepatide (weekly, long-term) + BPC-157 (daily, long-term): Enhanced metabolic + tissue support. Both long-term protocols can run continuously. BPC-157 provides recovery support alongside aggressive metabolic management.',
-        compatibilityReason: 'Dual long-term protocols with complementary benefits',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'TB-500',
-        protocol: 'Tirzepatide (weekly, long-term) + TB-500 (2x weekly, 8-12 week cycles): Metabolic dominance with recovery support. TB-500 in periodic cycles complements continuous Tirzepatide use.',
-        compatibilityReason: 'Long-term metabolic with periodic cellular support',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'GHK-Cu': {
-    compatible: [
-      {
-        peptide: 'BPC-157',
-        protocol: 'GHK-Cu (daily, long-term) + BPC-157 (daily, long-term): Synergistic tissue repair protocol. Both support collagen and tissue remodeling. Excellent combination for anti-aging and healing.',
-        compatibilityReason: 'Complementary collagen and tissue repair mechanisms',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'TB-500',
-        protocol: 'GHK-Cu (daily, long-term) + TB-500 (2x weekly, 8-12 week cycles): Anti-aging + systemic repair. GHK-Cu continuous with TB-500 cycling for comprehensive tissue support.',
-        compatibilityReason: 'Collagen synthesis + systemic tissue protection',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'CJC-1295',
-        protocol: 'CJC-1295 (2x weekly) + GHK-Cu (daily): Growth hormone + collagen synthesis. Enhanced muscle growth with superior skin and tissue quality.',
-        compatibilityReason: 'GH elevation enhancing collagen production',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'Ipamorelin': {
-    compatible: [
-      {
-        peptide: 'CJC-1295',
-        protocol: 'Ipamorelin (3x daily) + CJC-1295 (2x weekly, 12-16 week cycles): Synergistic GH secretagogue protocol. Ipamorelin provides sharp GH spikes, CJC-1295 sustains elevation. Gold standard growth protocol.',
-        compatibilityReason: 'Complementary GH stimulation mechanisms - acute + sustained',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'BPC-157',
-        protocol: 'Ipamorelin (3x daily) + BPC-157 (daily): Muscle building + recovery protocol. Growth hormone elevation supports lean muscle while BPC-157 supports recovery and healing.',
-        compatibilityReason: 'Growth stimulus with tissue repair support',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'GHK-Cu',
-        protocol: 'Ipamorelin (3x daily) + GHK-Cu (daily): Muscle growth + collagen synthesis. Superior tissue quality with lean muscle development.',
-        compatibilityReason: 'GH elevation with collagen enhancement',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'CJC-1295': {
-    compatible: [
-      {
-        peptide: 'Ipamorelin',
-        protocol: 'CJC-1295 (2x weekly) + Ipamorelin (3x daily, 12-16 week cycles): Gold standard GH enhancement protocol. Sustained elevation + acute spikes for maximum growth stimulus.',
-        compatibilityReason: 'Synergistic GH axis stimulation',
-        usageCompatibility: true
-      },
-      {
-        peptide: 'GHK-Cu',
-        protocol: 'CJC-1295 (2x weekly) + GHK-Cu (daily): Growth hormone + collagen synthesis. Enhanced muscle growth with superior skin and tissue quality.',
-        compatibilityReason: 'GH elevation enhancing collagen production',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'Pinealon': {
-    compatible: [
-      {
-        peptide: 'DSIP',
-        protocol: 'Pinealon (daily, 10 day cycles) + DSIP (evening, 8-10 week cycles): Sleep optimization protocol. Pinealon supports circadian rhythm, DSIP deepens sleep quality.',
-        compatibilityReason: 'Synergistic sleep and cellular regeneration',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'DSIP': {
-    compatible: [
-      {
-        peptide: 'Pinealon',
-        protocol: 'DSIP (evening, 8-10 week cycles) + Pinealon (daily, 10 day cycles): Sleep optimization protocol. DSIP deepens sleep quality while Pinealon supports circadian rhythm and cellular regeneration.',
-        compatibilityReason: 'Synergistic sleep and recovery enhancement',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'KPV': {
-    compatible: [
-      {
-        peptide: 'BPC-157',
-        protocol: 'KPV (daily) + BPC-157 (daily): Anti-inflammatory + tissue repair. KPV reduces inflammation while BPC-157 repairs and regenerates tissue for optimal healing.',
-        compatibilityReason: 'Inflammatory modulation + tissue repair synergy',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'Gonadorelin': {
-    compatible: [
-      {
-        peptide: 'Oxytocin',
-        protocol: 'Gonadorelin (daily) + Oxytocin (daily): Hormonal + emotional wellness. Gonadorelin optimizes reproductive hormones while Oxytocin enhances mood and bonding.',
-        compatibilityReason: 'Complementary hormonal and neurochemical balance',
-        usageCompatibility: true
-      }
-    ]
-  },
-  'Oxytocin': {
-    compatible: [
-      {
-        peptide: 'Gonadorelin',
-        protocol: 'Oxytocin (daily) + Gonadorelin (daily): Emotional wellness + hormonal balance. Synergistic support for mood, sexual health, and overall wellbeing.',
-        compatibilityReason: 'Neurohormonal and reproductive axis synergy',
+        protocol: 'Semaglutide (weekly) + BPC-157 (daily): Metabolic + recovery support. Long-term Semaglutide protocol paired with continuous BPC-157 for systemic wellness. High patient satisfaction in clinical reports.',
+        compatibilityReason: 'No known contraindications. Different biological targets.',
         usageCompatibility: true
       }
     ]
@@ -457,21 +325,6 @@ export default function PeptideComparison() {
   const [recommendations, setRecommendations] = useState(null);
   const [expandedPeptide, setExpandedPeptide] = useState(null);
 
-  const { data: products = [] } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => base44.entities.Product.list(),
-  });
-
-  // Normalize peptide names for matching (convert "BPC 157" to "BPC-157")
-  const normalizePeptideName = (name) => {
-    return name
-      .trim()
-      .replace(/\s+/g, '-')
-      .replace(/(?<!^)(?=[A-Z])/g, '-')
-      .toUpperCase();
-  };
-
-  // Get all unique benefits from all peptides
   const allBenefits = useMemo(() => {
     const benefits = new Set();
     Object.values(PEPTIDE_RESEARCH_DATA).forEach(peptide => {
@@ -480,23 +333,11 @@ export default function PeptideComparison() {
     return Array.from(benefits).sort();
   }, []);
 
-  // Map database product names to research peptide names
-  const getPeptideNameFromProduct = (productName) => {
-    const nameMap = {
-      'BPC 157': 'BPC-157',
-      'TB 500': 'TB-500',
-      'Semaglutide': 'Semaglutide',
-      'Tirzepatide': 'Tirzepatide'
-    };
-    return nameMap[productName] || productName;
-  };
-
-  // Calculate recommendation score for each peptide
   const calculateScores = (selectedBenefitsArray) => {
     const scores = {};
     
     Object.entries(PEPTIDE_RESEARCH_DATA).forEach(([peptideName, data]) => {
-      const matchedBenefits = selectedBenefitsArray.filter(benefit => benefit in data.benefits && data.benefits[benefit].score > 0);
+      const matchedBenefits = selectedBenefitsArray.filter(benefit => data.benefits[benefit]);
       const avgScore = matchedBenefits.length > 0
         ? matchedBenefits.reduce((sum, benefit) => sum + data.benefits[benefit].score, 0) / matchedBenefits.length
         : 0;
@@ -546,7 +387,7 @@ export default function PeptideComparison() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Peptide Research Recommendation Tool | Red Helix Research"
         description="Intelligent peptide selection tool matching your research benefits to the ideal peptides. Clinical research-based recommendations."
@@ -555,66 +396,82 @@ export default function PeptideComparison() {
 
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="mb-8">
-            ← Back to Home
+          <Button variant="outline" className="mb-8 border-slate-200 text-slate-600 hover:bg-slate-50 rounded-full font-bold uppercase tracking-wider text-xs">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Peptide Research Finder</h1>
-          <p className="text-xl text-stone-300">Select your research benefits and discover the ideal peptide(s) for your study</p>
+          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 tracking-tighter uppercase leading-none">
+            Research <span className="text-red-600">Finder</span>
+          </h1>
+          <p className="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
+            Discover the ideal peptide protocols for your clinical research through our data-driven selection matrix.
+          </p>
         </motion.div>
 
         {/* Benefit Selection */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-8"
+          className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 mb-12 shadow-sm relative overflow-hidden"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Step 1: Select Your Research Benefits</h2>
-          <p className="text-stone-300 mb-6">Choose all the research areas you're interested in exploring:</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
-            {allBenefits.map((benefit) => (
-              <motion.button
-                key={benefit}
-                onClick={() => toggleBenefit(benefit)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`p-4 rounded-lg border-2 transition-all text-left font-medium ${
-                  selectedBenefits.includes(benefit)
-                    ? 'bg-red-600/20 border-red-600/70 text-amber-50'
-                    : 'bg-stone-800/30 border-stone-700 text-stone-300 hover:border-red-600/30'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span>{benefit}</span>
-                  {selectedBenefits.includes(benefit) && (
-                    <CheckCircle2 className="w-5 h-5 text-red-600" />
-                  )}
-                </div>
-              </motion.button>
-            ))}
+          <div className="absolute top-0 right-0 p-8 opacity-5">
+            <Microscope className="w-32 h-32 text-slate-900" />
           </div>
 
-          <div className="flex gap-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleFindRecommendation}
-              disabled={selectedBenefits.length === 0}
-              className="px-8 py-3 bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed text-amber-50 font-bold rounded-xl border border-red-600/40 hover:border-red-500 shadow-lg hover:shadow-red-600/20 transition-all"
-            >
-              Find Recommendations ({selectedBenefits.length})
-            </motion.button>
-            {selectedBenefits.length > 0 && (
-              <button
-                onClick={resetSelection}
-                className="px-6 py-3 bg-gradient-to-br from-stone-700 to-stone-800 hover:from-stone-600 hover:to-stone-700 text-amber-50 font-semibold rounded-xl border border-stone-600/50 hover:border-stone-500 shadow-lg hover:shadow-stone-600/20 transition-all hover:scale-105"
+          <div className="relative z-10">
+            <h2 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tight flex items-center gap-3">
+              <Activity className="w-8 h-8 text-red-600" />
+              1. Research Parameters
+            </h2>
+            <p className="text-slate-500 font-medium mb-8">Select all clinical research areas relevant to your current study:</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
+              {allBenefits.map((benefit) => (
+                <motion.button
+                  key={benefit}
+                  onClick={() => toggleBenefit(benefit)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`p-5 rounded-2xl border-2 transition-all text-left font-black uppercase tracking-tight text-xs ${
+                    selectedBenefits.includes(benefit)
+                      ? 'bg-red-600 border-red-600 text-white shadow-lg shadow-red-100'
+                      : 'bg-white border-slate-200 text-slate-600 hover:border-red-600/50 hover:bg-slate-50 shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span>{benefit}</span>
+                    {selectedBenefits.includes(benefit) ? (
+                      <CheckCircle2 className="w-5 h-5 text-white" />
+                    ) : (
+                      <div className="w-5 h-5 rounded-full border border-slate-200" />
+                    )}
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleFindRecommendation}
+                disabled={selectedBenefits.length === 0}
+                className="w-full md:w-auto px-12 py-5 bg-slate-900 hover:bg-black text-white font-black uppercase tracking-widest rounded-full shadow-xl shadow-slate-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 transition-all"
               >
-                Reset
-              </button>
-            )}
+                <Sparkles className="w-5 h-5 text-red-600" />
+                Analyze Research Data
+              </motion.button>
+              {selectedBenefits.length > 0 && (
+                <button
+                  onClick={resetSelection}
+                  className="px-8 py-5 text-slate-400 hover:text-red-600 font-black uppercase tracking-widest text-xs transition-colors"
+                >
+                  Clear Selection
+                </button>
+              )}
+            </div>
           </div>
         </motion.div>
 
@@ -625,288 +482,289 @@ export default function PeptideComparison() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="space-y-8"
+              className="space-y-12"
             >
               {/* Perfect Match Section */}
               {recommendations.perfectMatch && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-gradient-to-r from-red-900/30 to-red-800/10 border-2 border-red-600/50 rounded-lg p-8"
+                  className="bg-white border-2 border-green-500/30 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-green-50 relative overflow-hidden"
                 >
-                  <div className="flex items-start gap-3 mb-4">
-                    <CheckCircle2 className="w-8 h-8 text-green-500 flex-shrink-0 mt-1" />
+                  <div className="absolute top-0 right-0 p-12 opacity-[0.03]">
+                    <ShieldCheck className="w-48 h-48 text-green-600" />
+                  </div>
+                  <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 className="w-12 h-12 text-green-500" />
+                    </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-amber-50">Perfect Match Found!</h3>
-                      <p className="text-stone-300 mt-1">One or more peptides match all your selected research benefits.</p>
+                      <h3 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter mb-2">Protocol <span className="text-green-600">Perfect Match</span></h3>
+                      <p className="text-slate-500 font-medium text-lg">We've identified a clinical match that satisfies 100% of your research requirements.</p>
                     </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* Top Recommendation */}
-              {recommendations.ranked[0] && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-stone-800 to-stone-900 border-2 border-red-600/60 rounded-lg p-8"
-                >
-                  <div className="flex items-start justify-between mb-6">
-                    <div>
-                      <h3 className="text-3xl font-black text-amber-50 mb-1">
-                        {recommendations.ranked[0][0]}
-                      </h3>
-                      <p className="text-stone-300">
-                        {PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].description}
-                      </p>
+              {/* Top Result Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl relative overflow-hidden"
+              >
+                <div className="flex flex-col md:flex-row items-start justify-between mb-10 gap-6">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="px-4 py-1.5 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Primary Recommendation</span>
+                      <span className="px-4 py-1.5 bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-full">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].class}</span>
                     </div>
-                    <div className="text-right">
-                      <div className="text-4xl font-black text-red-600 mb-2">
-                        {Math.round(recommendations.ranked[0][1].matchPercentage)}%
-                      </div>
-                      <p className="text-stone-400 text-sm">Match Score</p>
-                    </div>
+                    <h3 className="text-4xl md:text-6xl font-black text-slate-900 mb-3 uppercase tracking-tighter">
+                      {recommendations.ranked[0][0]}
+                    </h3>
+                    <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl">
+                      {PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].description}
+                    </p>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-6 py-6 border-y border-stone-700">
-                    <div>
-                      <p className="text-stone-400 text-sm">Amino Acids</p>
-                      <p className="text-amber-50 font-bold">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].aminoAcids}</p>
+                  <div className="text-right bg-slate-50 p-8 rounded-[32px] border border-slate-100 min-w-[200px]">
+                    <div className="text-6xl font-black text-red-600 tracking-tighter mb-1">
+                      {Math.round(recommendations.ranked[0][1].matchPercentage)}%
                     </div>
-                    <div>
-                      <p className="text-stone-400 text-sm">Molecular Weight</p>
-                      <p className="text-amber-50 font-bold">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].molecularWeight}</p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm">Stability</p>
-                      <p className="text-amber-50 font-bold">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].stability}</p>
-                    </div>
-                    <div>
-                      <p className="text-stone-400 text-sm">Matched Benefits</p>
-                      <p className="text-amber-50 font-bold">{recommendations.ranked[0][1].matchedCount}/{recommendations.selectedBenefits.length}</p>
-                    </div>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Clinical Match Score</p>
                   </div>
+                </div>
 
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 py-10 border-y border-slate-100">
                   <div>
-                    <p className="text-sm text-stone-400 mb-3 font-semibold">MATCHED RESEARCH AREAS:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {recommendations.ranked[0][1].matchedBenefits.map((benefit) => (
-                        <div key={benefit} className="px-3 py-1.5 bg-red-600/20 border border-red-600/50 rounded-full text-xs text-amber-50">
-                          {benefit}
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Molecular Profile</p>
+                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].aminoAcids} AA</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Mass Spectrometry</p>
+                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].molecularWeight}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Usage Type</p>
+                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_USAGE_TYPE[recommendations.ranked[0][0]].type.replace('_', ' ')}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Stability</p>
+                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].stability}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-8">
+                  <div>
+                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                      Protocol Rationale
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {recommendations.ranked[0][1].matchedBenefits.map(benefit => (
+                        <div key={benefit} className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex items-start gap-4">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="font-black text-slate-900 text-xs uppercase tracking-tight mb-1">{benefit}</p>
+                            <p className="text-slate-500 text-xs leading-relaxed font-medium">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].benefits[benefit].studies}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <p className="text-stone-300 mt-6 pt-6 border-t border-stone-700">
-                    <span className="font-semibold text-amber-50">Clinical Note:</span> {PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].clinicalNotes}
-                  </p>
-                </motion.div>
-              )}
-
-              {/* Other Options */}
-              {recommendations.ranked.filter(p => p[1].matchPercentage > 0).length > 1 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
-                >
-                  <h3 className="text-2xl font-bold text-amber-50 mb-6">Other Options</h3>
-                  <div className="space-y-4">
-                    {recommendations.ranked.slice(1).filter(([_, data]) => data.matchPercentage > 0).map(([peptideName, data]) => {
-                      const topPeptide = recommendations.ranked[0][0];
-                      const contraindication = PEPTIDE_RESEARCH_DATA[topPeptide]?.contraindications.find(c => c.peptide === peptideName);
-                      
-                      return (
-                        <motion.div
-                          key={peptideName}
-                          className={`rounded-lg p-4 cursor-pointer transition-all ${
-                            contraindication
-                              ? 'bg-red-900/20 border border-red-700/50'
-                              : 'bg-stone-800/40 border border-stone-700 hover:border-red-600/30'
-                          }`}
-                          onClick={() => setExpandedPeptide(expandedPeptide === peptideName ? null : peptideName)}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h4 className="text-lg font-bold text-amber-50">{peptideName}</h4>
-                                {contraindication && (
-                                  <span className="px-2 py-1 bg-red-700/40 text-red-300 text-xs font-bold rounded">
-                                    ⚠️ {contraindication.severity}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-stone-400 text-sm">
-                                {data.matchedCount} of {recommendations.selectedBenefits.length} benefits covered
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-2xl font-bold text-red-600">{Math.round(data.matchPercentage)}%</p>
-                              <ChevronDown className={`w-5 h-5 text-stone-400 mt-2 transition-transform ${expandedPeptide === peptideName ? 'rotate-180' : ''}`} />
-                            </div>
-                          </div>
-
-                          <AnimatePresence>
-                            {expandedPeptide === peptideName && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                className="mt-4 pt-4 border-t border-stone-700"
-                              >
-                                {contraindication && (
-                                  <div className="mb-4 p-3 bg-red-900/30 border border-red-700/50 rounded-lg">
-                                    <p className="text-red-300 text-sm font-bold mb-2">⚠️ CONTRAINDICATION WARNING</p>
-                                    <p className="text-red-200 text-xs">{contraindication.reason}</p>
-                                  </div>
-                                )}
-                                <p className="text-stone-300 text-sm mb-3">{PEPTIDE_RESEARCH_DATA[peptideName].description}</p>
-                                <div className="flex flex-wrap gap-2 mb-3">
-                                  {data.matchedBenefits.map((benefit) => (
-                                    <div key={benefit} className="px-2 py-1 bg-red-600/15 border border-red-600/30 rounded text-xs text-amber-50">
-                                      {benefit}
-                                    </div>
-                                  ))}
-                                </div>
-                                <p className="text-stone-400 text-xs">{PEPTIDE_RESEARCH_DATA[peptideName].clinicalNotes}</p>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Synergistic Pairing Suggestion */}
-              {!recommendations.perfectMatch && recommendations.ranked[0][1].matchPercentage < 100 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-8"
-                >
-                  <div className="flex items-start gap-3 mb-4">
-                    <AlertCircle className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
-                    <div>
-                      <h3 className="text-xl font-bold text-blue-300 mb-2">Safe Stacking Recommendation</h3>
-                      <p className="text-stone-300 mb-6">
-                        For complete coverage of all selected research areas, here are clinically-supported peptide combinations:
+                  <div className="bg-slate-900 rounded-[32px] p-8 md:p-10 text-white relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-8 opacity-10">
+                      <Zap className="w-24 h-24 text-red-600" />
+                    </div>
+                    <div className="relative z-10">
+                      <h4 className="text-xs font-black uppercase tracking-widest text-red-500 mb-4">Clinical Research Protocol</h4>
+                      <p className="text-lg font-medium leading-relaxed opacity-90">
+                        {PEPTIDE_USAGE_TYPE[recommendations.ranked[0][0]].protocol} for a duration of {PEPTIDE_USAGE_TYPE[recommendations.ranked[0][0]].duration}.
                       </p>
-
-                      {/* Generate safe stack options */}
-                      {(() => {
-                        const topPeptide = recommendations.ranked[0][0];
-                        const safeOptions = SAFE_STACKS[topPeptide]?.compatible || [];
-                        
-                        return (
-                          <div className="space-y-4">
-                            {safeOptions.map((stackOption) => {
-                              const topPeptideData = PEPTIDE_RESEARCH_DATA[topPeptide];
-                              const partnerPeptideData = PEPTIDE_RESEARCH_DATA[stackOption.peptide];
-                              const topUsage = PEPTIDE_USAGE_TYPE[topPeptide];
-                              const partnerUsage = PEPTIDE_USAGE_TYPE[stackOption.peptide];
-                              
-                              // Find which selected benefits each covers (only if score > 0)
-                              const topPeptideBenefits = recommendations.ranked[0][1].matchedBenefits;
-                              const partnerBenefits = recommendations.selectedBenefits.filter(benefit => 
-                                benefit in partnerPeptideData.benefits && partnerPeptideData.benefits[benefit].score > 0
-                              );
-                              
-                              // Skip this stack option if partner doesn't cover any selected benefits
-                              if (partnerBenefits.length === 0) {
-                                return null;
-                              }
-                              
-                              return (
-                                <div key={stackOption.peptide} className="bg-stone-800/50 rounded-lg p-4 border border-blue-600/30 space-y-3">
-                                  <div>
-                                    <p className="text-amber-50 font-bold mb-1">
-                                      {topPeptide} + {stackOption.peptide}
-                                    </p>
-                                    <p className="text-xs text-blue-300 bg-blue-900/20 inline-block px-2 py-1 rounded mt-1">
-                                      {topUsage.type === 'LONG_TERM' ? '🔄 Long-term' : '⚡ Cycle-based'} + {partnerUsage.type === 'LONG_TERM' ? '🔄 Long-term' : '⚡ Cycle-based'}
-                                    </p>
-                                  </div>
-
-                                  <div className="text-stone-300 text-sm space-y-2">
-                                    <p className="font-semibold text-amber-100">Community Protocol:</p>
-                                    <p className="text-xs text-stone-400">{stackOption.protocol}</p>
-                                  </div>
-
-                                  <div className="grid grid-cols-2 gap-3 text-xs">
-                                    <div className={`rounded-lg p-3 border ${topUsage.type === 'LONG_TERM' ? 'bg-green-900/20 border-green-700/50' : 'bg-amber-900/20 border-amber-700/50'}`}>
-                                      <p className="text-red-400 font-semibold mb-2">{topPeptide}</p>
-                                      <div className="mb-2">
-                                        <span className={`inline-block text-xs px-1.5 py-0.5 rounded font-bold ${topUsage.type === 'LONG_TERM' ? 'bg-green-600/30 text-green-300' : 'bg-amber-600/30 text-amber-300'}`}>
-                                          {topUsage.type === 'LONG_TERM' ? '🔄 Continuous' : `⚡ ${topUsage.duration}`}
-                                        </span>
-                                      </div>
-                                      <div className="space-y-1">
-                                        {topPeptideBenefits.slice(0, 2).map(benefit => (
-                                          <span key={benefit} className="block text-amber-50 text-xs">✓ {benefit}</span>
-                                        ))}
-                                        {topPeptideBenefits.length > 2 && (
-                                          <span className="text-stone-400 text-xs">+{topPeptideBenefits.length - 2} more</span>
-                                        )}
-                                      </div>
-                                    </div>
-                                    <div className={`rounded-lg p-3 border ${partnerUsage.type === 'LONG_TERM' ? 'bg-green-900/20 border-green-700/50' : 'bg-amber-900/20 border-amber-700/50'}`}>
-                                      <p className="text-green-400 font-semibold mb-2">{stackOption.peptide}</p>
-                                      <div className="mb-2">
-                                        <span className={`inline-block text-xs px-1.5 py-0.5 rounded font-bold ${partnerUsage.type === 'LONG_TERM' ? 'bg-green-600/30 text-green-300' : 'bg-amber-600/30 text-amber-300'}`}>
-                                          {partnerUsage.type === 'LONG_TERM' ? '🔄 Continuous' : `⚡ ${partnerUsage.duration}`}
-                                        </span>
-                                      </div>
-                                      <div className="space-y-1">
-                                        {partnerBenefits.slice(0, 2).map(benefit => (
-                                          <span key={benefit} className="block text-amber-50 text-xs">✓ {benefit}</span>
-                                        ))}
-                                        {partnerBenefits.length > 2 && (
-                                          <span className="text-stone-400 text-xs">+{partnerBenefits.length - 2} more</span>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="mt-3 p-2 bg-green-900/20 border border-green-700/30 rounded text-xs text-green-300">
-                                    ✓ Clinically compatible - no known contraindications
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        );
-                      })()}
                     </div>
                   </div>
-                </motion.div>
-              )}
+                </div>
+              </motion.div>
+
+              {/* Other Options Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 md:p-12"
+              >
+                <h3 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter">Additional <span className="text-slate-400">Research Options</span></h3>
+                <div className="space-y-4">
+                  {recommendations.ranked.slice(1).filter(([_, data]) => data.matchPercentage > 0).map(([peptideName, data]) => {
+                    const topPeptide = recommendations.ranked[0][0];
+                    const contraindication = PEPTIDE_RESEARCH_DATA[topPeptide]?.contraindications.find(c => c.peptide === peptideName);
+                    
+                    return (
+                      <motion.div
+                        key={peptideName}
+                        className={`rounded-[24px] p-6 cursor-pointer transition-all border ${
+                          contraindication
+                            ? 'bg-red-50 border-red-200'
+                            : 'bg-white border-slate-100 hover:border-red-600/30 hover:shadow-lg'
+                        }`}
+                        onClick={() => setExpandedPeptide(expandedPeptide === peptideName ? null : peptideName)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-6">
+                            <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-lg ${
+                              contraindication ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-900'
+                            }`}>
+                              {Math.round(data.matchPercentage)}%
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-3 mb-1">
+                                <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{peptideName}</h4>
+                                {contraindication && (
+                                  <span className="px-3 py-1 bg-red-600 text-white text-[8px] font-black uppercase tracking-widest rounded-full">Contraindicated</span>
+                                )}
+                              </div>
+                              <p className="text-slate-500 font-medium text-sm">
+                                {data.matchedCount} research parameters matched
+                              </p>
+                            </div>
+                          </div>
+                          <ChevronDown className={`w-6 h-6 text-slate-400 transition-transform ${expandedPeptide === peptideName ? 'rotate-180' : ''}`} />
+                        </div>
+
+                        <AnimatePresence>
+                          {expandedPeptide === peptideName && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pt-8 mt-6 border-t border-slate-100">
+                                {contraindication ? (
+                                  <div className="bg-red-600 text-white p-6 rounded-2xl flex items-start gap-4">
+                                    <AlertCircle className="w-6 h-6 flex-shrink-0 mt-1" />
+                                    <div>
+                                      <p className="font-black uppercase tracking-widest text-xs mb-2">Protocol Warning: {contraindication.severity} Severity</p>
+                                      <p className="text-sm font-medium leading-relaxed">{contraindication.reason}</p>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="grid md:grid-cols-2 gap-8">
+                                    <div>
+                                      <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Matched Benefits</h5>
+                                      <div className="space-y-2">
+                                        {data.matchedBenefits.map(benefit => (
+                                          <div key={benefit} className="flex items-center gap-2 text-slate-600 font-medium text-sm">
+                                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                            {benefit}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Clinical Overview</h5>
+                                      <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                                        {PEPTIDE_RESEARCH_DATA[peptideName].clinicalNotes}
+                                      </p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+
+              {/* Stacking Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-slate-900 border border-slate-800 rounded-[40px] p-8 md:p-12 relative overflow-hidden shadow-2xl"
+              >
+                <div className="absolute top-0 right-0 p-12 opacity-5">
+                  <Activity className="w-48 h-48 text-red-600" />
+                </div>
+                <div className="relative z-10">
+                  <div className="flex items-start gap-6 mb-10">
+                    <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <ShieldCheck className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">Research <span className="text-red-600">Stacking Matrix</span></h3>
+                      <p className="text-slate-400 font-medium text-lg max-w-2xl">
+                        Clinically-supported peptide combinations for expanded research scope and synergistic effects.
+                      </p>
+                    </div>
+                  </div>
+
+                  {(() => {
+                    const topPeptide = recommendations.ranked[0][0];
+                    const safeOptions = SAFE_STACKS[topPeptide]?.compatible || [];
+                    
+                    if (safeOptions.length === 0) return (
+                      <p className="text-slate-500 italic font-medium p-8 bg-black/20 rounded-3xl border border-white/5">
+                        No established safe stacking protocols found for this primary research peptide.
+                      </p>
+                    );
+
+                    return (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {safeOptions.map((stackOption) => (
+                          <div key={stackOption.peptide} className="bg-black/20 border border-white/5 rounded-[32px] p-8 hover:border-red-600/30 transition-all group">
+                            <div className="flex items-center gap-4 mb-6">
+                              <div className="px-4 py-2 bg-red-600/10 border border-red-600/30 rounded-xl">
+                                <span className="text-red-600 font-black text-sm uppercase tracking-widest">{topPeptide} + {stackOption.peptide}</span>
+                              </div>
+                            </div>
+                            <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Mechanism Compatibility</h5>
+                            <p className="text-slate-300 text-sm font-medium mb-6 leading-relaxed">
+                              {stackOption.protocol}
+                            </p>
+                            <div className="flex items-center gap-2 text-green-500 text-[10px] font-black uppercase tracking-widest">
+                              <ShieldCheck className="w-4 h-4" />
+                              Mechanism Verified
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Peptide Database Reference */}
+        {/* Available Research Peptides Catalog */}
         {!recommendations && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mt-12"
+            className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 md:p-12 mt-12"
           >
-            <h2 className="text-2xl font-bold text-amber-50 mb-6">Available Research Peptides</h2>
-            <p className="text-stone-300 mb-8">Each peptide in our catalog has been selected for rigorous clinical research backing and quality verification.</p>
+            <div className="flex items-center gap-3 mb-8">
+              <Microscope className="w-8 h-8 text-red-600" />
+              <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Clinical <span className="text-slate-400">Reference Library</span></h2>
+            </div>
+            <p className="text-slate-500 font-medium mb-12 text-lg max-w-3xl leading-relaxed">
+              Every research material in our catalog is backed by peer-reviewed studies and undergoes rigorous purity verification.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {Object.entries(PEPTIDE_RESEARCH_DATA).map(([name, data]) => (
-                <div key={name} className="bg-stone-800/40 border border-stone-700 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-amber-50 mb-2">{name}</h3>
-                  <p className="text-stone-400 text-sm mb-4">{data.fullName}</p>
-                  <p className="text-stone-300 text-sm mb-4">{data.description}</p>
-                  <div className="flex gap-4 text-xs text-stone-400">
-                    <span>MW: {data.molecularWeight}</span>
-                    <span>AA: {data.aminoAcids}</span>
-                    <span>{data.stability}</span>
+                <div key={name} className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-all group">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight group-hover:text-red-600 transition-colors">{name}</h3>
+                    <span className="px-3 py-1 bg-slate-100 text-slate-400 text-[8px] font-black uppercase tracking-widest rounded-full">{data.class}</span>
+                  </div>
+                  <p className="text-slate-400 text-xs font-black uppercase tracking-widest mb-4">{data.fullName}</p>
+                  <p className="text-slate-600 text-sm font-medium mb-8 leading-relaxed line-clamp-2">{data.description}</p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="px-3 py-1.5 bg-slate-50 rounded-lg text-[10px] font-black text-slate-500 uppercase tracking-widest">MW: {data.molecularWeight}</div>
+                    <div className="px-3 py-1.5 bg-slate-50 rounded-lg text-[10px] font-black text-slate-500 uppercase tracking-widest">AA: {data.aminoAcids}</div>
+                    <div className="px-3 py-1.5 bg-slate-50 rounded-lg text-[10px] font-black text-slate-500 uppercase tracking-widest">STABILITY: {data.stability}</div>
                   </div>
                 </div>
               ))}

@@ -75,44 +75,44 @@ export default function AgeVerificationBot({ isOpen, onVerify }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-white/60 backdrop-blur-xl z-[100] flex items-center justify-center p-4"
     >
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-stone-900 border-2 border-red-600 rounded-lg p-8 max-w-md w-full"
+        className="bg-white border-2 border-red-600 rounded-[40px] p-10 max-w-md w-full shadow-[0_32px_64px_-16px_rgba(220,38,38,0.2)]"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <AlertCircle className="w-6 h-6 text-red-600" />
-          <h2 className="text-2xl font-bold text-amber-50">Age Verification</h2>
+        <div className="flex items-center gap-3 mb-6">
+          <AlertCircle className="w-8 h-8 text-red-600" />
+          <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">Access Control</h2>
         </div>
 
-        <p className="text-stone-300 mb-6">
-          Red Helix Research supplies research-grade peptides for <span className="font-semibold">research and educational purposes only</span>. 
-          These products are not for human consumption.
+        <p className="text-slate-600 mb-6 font-medium leading-relaxed">
+          Red Helix Research supplies high-purity peptides for <span className="text-red-600 font-bold">LABORATORY AND SCIENTIFIC RESEARCH USE ONLY</span>. 
+          These products are strictly not for human consumption.
         </p>
 
-        <p className="text-stone-400 text-sm mb-8">
-          By clicking "I Confirm", you certify that you are 21+ years old and understand these products are for research use only.
+        <p className="text-slate-400 text-sm mb-10 font-bold uppercase tracking-widest">
+          Certify that you are 21+ and understand the research nature of these products.
         </p>
 
-        <div className="flex gap-3">
-          <button
-            onClick={() => handleVerify(false)}
-            className="flex-1 px-4 py-2 bg-stone-700 hover:bg-stone-600 text-amber-50 rounded-lg font-semibold transition-colors"
-          >
-            Decline
-          </button>
+        <div className="flex flex-col gap-3">
           <button
             onClick={() => handleVerify(true)}
-            className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-amber-50 rounded-lg font-semibold transition-colors"
+            className="w-full px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-600/20"
           >
-            I Confirm
+            I Confirm (21+)
+          </button>
+          <button
+            onClick={() => handleVerify(false)}
+            className="w-full px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-95"
+          >
+            Exit Site
           </button>
         </div>
 
-        <p className="text-xs text-stone-500 mt-4 text-center">
-          This verification is required by law. Your choice will be remembered for 1 year.
+        <p className="text-[10px] text-slate-400 mt-6 text-center font-bold uppercase tracking-widest opacity-60">
+          Strict Regulatory Compliance Protocol Active
         </p>
       </motion.div>
     </motion.div>

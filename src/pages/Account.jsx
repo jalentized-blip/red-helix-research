@@ -84,8 +84,8 @@ export default function Account() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
-        <p className="text-stone-400">Loading...</p>
+      <div className="min-h-screen bg-white pt-32 flex items-center justify-center">
+        <p className="text-slate-400">Loading...</p>
       </div>
     );
   }
@@ -95,10 +95,10 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-24 pb-20">
+    <div className="min-h-screen bg-white pt-24 pb-20">
       <div className="max-w-6xl mx-auto px-4">
         {/* Back Button */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8 transition-colors">
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-red-600 mb-8 transition-colors">
           <Home className="w-4 h-4" />
           Back to Shop
         </Link>
@@ -109,41 +109,43 @@ export default function Account() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-24"
+              className="bg-slate-50 border border-slate-100 rounded-[32px] p-6 sticky top-24 shadow-sm"
             >
-              <div className="flex flex-col items-center text-center mb-6 pb-6 border-b border-stone-700">
-                <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center mb-4">
-                  <User className="w-8 h-8 text-amber-50" />
+              <div className="flex flex-col items-center text-center mb-6 pb-6 border-b border-slate-100">
+                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-red-600/20">
+                  <User className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-amber-50 font-bold text-lg">{user.full_name || 'User'}</h3>
-                <p className="text-stone-400 text-xs mt-1">{user.email}</p>
+                <h3 className="text-slate-900 font-black text-lg tracking-tighter uppercase">{user.full_name || 'User'}</h3>
+                <p className="text-slate-500 text-xs mt-1 font-medium">{user.email}</p>
               </div>
 
               <nav className="space-y-2 mb-8">
                 <button
                   onClick={() => setActiveTab('dashboard')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'dashboard'
-                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
-                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
                   <LayoutDashboard className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Dashboard</span>
+                  <span className="text-xs font-black uppercase tracking-widest">Dashboard</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('favorites')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'favorites'
-                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
-                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
                   <Heart className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Favorites</span>
+                  <span className="text-xs font-black uppercase tracking-widest">Favorites</span>
                   {preferences?.favorite_products?.length > 0 && (
-                    <span className="ml-auto text-xs px-2 py-0.5 bg-red-600/30 text-red-400 rounded-full">
+                    <span className={`ml-auto text-[10px] font-black px-2 py-0.5 rounded-full ${
+                      activeTab === 'favorites' ? 'bg-white text-red-600' : 'bg-red-100 text-red-600'
+                    }`}>
                       {preferences.favorite_products.length}
                     </span>
                   )}
@@ -151,56 +153,56 @@ export default function Account() {
 
                 <button
                   onClick={() => setActiveTab('recommendations')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'recommendations'
-                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
-                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
                   <TrendingUp className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Recommended</span>
+                  <span className="text-xs font-black uppercase tracking-widest">Recommended</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('activity')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'activity'
-                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
-                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
                   <History className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Activity</span>
+                  <span className="text-xs font-black uppercase tracking-widest">Activity</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('orders')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'orders'
-                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
-                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
                   <Package className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Orders</span>
+                  <span className="text-xs font-black uppercase tracking-widest">Orders</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('settings')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'settings'
-                      ? 'bg-red-600/20 border border-red-600/50 text-amber-50'
-                      : 'text-stone-400 hover:text-amber-50 hover:bg-stone-800/50'
+                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
                   <Settings className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Settings</span>
+                  <span className="text-xs font-black uppercase tracking-widest">Settings</span>
                 </button>
               </nav>
 
               <Button
                 onClick={handleLogout}
-                className="w-full bg-red-600 hover:bg-red-700 text-amber-50 gap-2"
+                className="w-full bg-slate-900 hover:bg-red-600 text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
               >
                 <LogOut className="w-4 h-4" />
                 Sign Out
@@ -219,55 +221,55 @@ export default function Account() {
             >
               {activeTab === 'dashboard' && (
                 <div className="space-y-6">
-                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                    <h2 className="text-2xl font-black text-amber-50 mb-6">Research Dashboard</h2>
+                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                    <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">Research Dashboard</h2>
                     <DashboardStats preferences={preferences} orders={orders} />
                   </div>
 
-                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                    <h2 className="text-xl font-bold text-amber-50 mb-4">Quick Access Categories</h2>
+                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                    <h2 className="text-xl font-black text-slate-900 mb-4 tracking-tighter uppercase">Quick Access Categories</h2>
                     <QuickCategories preferences={preferences} />
                   </div>
 
-                  <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                    <h2 className="text-xl font-bold text-amber-50 mb-4">Recommended For You</h2>
+                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                    <h2 className="text-xl font-black text-slate-900 mb-4 tracking-tighter uppercase">Recommended For You</h2>
                     <RecommendedPeptides preferences={preferences} orders={orders} />
                   </div>
                 </div>
               )}
 
               {activeTab === 'favorites' && (
-                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                  <h2 className="text-2xl font-black text-amber-50 mb-6">My Favorite Peptides</h2>
+                <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                  <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">My Favorite Peptides</h2>
                   <FavoritePeptides preferences={preferences} onRemoveFavorite={handleRemoveFavorite} />
                 </div>
               )}
 
               {activeTab === 'recommendations' && (
-                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                  <h2 className="text-2xl font-black text-amber-50 mb-6">Recommended For You</h2>
-                  <p className="text-stone-400 text-sm mb-6">Based on your browsing history and research interests</p>
+                <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                  <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">Recommended For You</h2>
+                  <p className="text-slate-500 text-sm mb-6 font-medium">Based on your browsing history and research interests</p>
                   <RecommendedPeptides preferences={preferences} orders={orders} />
                 </div>
               )}
 
               {activeTab === 'activity' && (
-                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                  <h2 className="text-2xl font-black text-amber-50 mb-6">Recent Activity</h2>
+                <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                  <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">Recent Activity</h2>
                   <RecentActivity preferences={preferences} />
                 </div>
               )}
 
               {activeTab === 'orders' && (
-                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                  <h2 className="text-2xl font-black text-amber-50 mb-6">Order History</h2>
+                <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                  <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">Order History</h2>
 
                   {orders.length === 0 ? (
                     <div className="text-center py-16">
-                      <Package className="w-16 h-16 text-stone-600 mx-auto mb-4" />
-                      <p className="text-stone-400 mb-6 text-lg">No orders yet</p>
+                      <Package className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+                      <p className="text-slate-500 mb-6 text-lg font-medium">No orders yet</p>
                       <Link to={createPageUrl('Home')}>
-                        <Button className="bg-red-600 hover:bg-red-700">
+                        <Button className="bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs px-8 py-6">
                           Start Shopping
                         </Button>
                       </Link>
@@ -280,12 +282,12 @@ export default function Account() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="border border-stone-700 rounded-lg p-6 hover:border-red-600/50 hover:bg-stone-800/30 transition-all"
+                          className="bg-white border border-slate-100 rounded-3xl p-6 hover:border-red-600/30 hover:shadow-lg transition-all"
                         >
                           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div>
-                              <p className="text-amber-50 font-black text-lg">Order #{order.order_number}</p>
-                              <p className="text-stone-400 text-sm mt-1">
+                              <p className="text-slate-900 font-black text-lg tracking-tighter uppercase">Order #{order.order_number}</p>
+                              <p className="text-slate-500 text-xs mt-1 font-medium">
                                 Placed {new Date(order.created_date).toLocaleDateString('en-US', { 
                                   year: 'numeric', 
                                   month: 'short', 
@@ -296,18 +298,18 @@ export default function Account() {
 
                             <div className="flex flex-col gap-4 md:flex-row md:items-center">
                               <div className="text-right">
-                                <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Total</p>
-                                <p className="text-amber-50 font-black text-xl">${order.total_amount.toFixed(2)}</p>
+                                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Total</p>
+                                <p className="text-slate-900 font-black text-xl tracking-tighter">${order.total_amount.toFixed(2)}</p>
                               </div>
-                              <div className="h-px w-full md:w-px md:h-8 bg-stone-700"></div>
+                              <div className="h-px w-full md:w-px md:h-8 bg-slate-100"></div>
                               <div>
-                                <p className="text-stone-400 text-xs uppercase tracking-wide mb-1">Status</p>
-                                <p className="text-amber-50 font-bold capitalize">
-                                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                                    order.status === 'delivered' ? 'bg-green-600/20 text-green-400' :
-                                    order.status === 'shipped' ? 'bg-blue-600/20 text-blue-400' :
-                                    order.status === 'processing' ? 'bg-yellow-600/20 text-yellow-400' :
-                                    'bg-stone-700/50 text-stone-300'
+                                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Status</p>
+                                <p className="text-slate-900 font-bold capitalize">
+                                  <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
+                                    order.status === 'delivered' ? 'bg-green-100 text-green-600' :
+                                    order.status === 'shipped' ? 'bg-blue-100 text-blue-600' :
+                                    order.status === 'processing' ? 'bg-yellow-100 text-yellow-600' :
+                                    'bg-slate-100 text-slate-600'
                                   }`}>
                                     {order.status}
                                   </span>
@@ -317,8 +319,8 @@ export default function Account() {
                           </div>
 
                           {order.items && order.items.length > 0 && (
-                           <div className="mt-4 pt-4 border-t border-stone-700/50">
-                             <p className="text-sm text-stone-400 mb-3">
+                           <div className="mt-4 pt-4 border-t border-slate-100">
+                             <p className="text-xs text-slate-500 mb-3 font-medium">
                                {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                              </p>
 
@@ -389,7 +391,7 @@ export default function Account() {
                                    alert('Failed to resend email. Please contact support.');
                                  }
                                }}
-                               className="text-xs text-red-600 hover:text-red-500 underline transition-colors"
+                               className="text-[10px] font-black uppercase tracking-tighter text-red-600 hover:text-red-500 underline transition-colors"
                              >
                                Resend Confirmation Email
                              </button>

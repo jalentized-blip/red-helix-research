@@ -30,27 +30,32 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
+      {/* Background Accent */}
+      <div className="absolute top-1/2 right-0 w-64 h-64 bg-red-600/5 rounded-full blur-3xl translate-x-1/2" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Real Reviews from Discord
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-6">
+            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Community Verification</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6 uppercase">
+            Researcher <br />
+            <span className="text-red-600">Feedback</span>
           </h2>
-          <p className="text-stone-300 text-lg">
-            Verified testimonials from our community members
+          <p className="text-slate-500 font-medium max-w-xl mx-auto">
+            Verified analytical experiences and delivery reports from our global network of research partners.
           </p>
         </motion.div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {reviews.map((review, index) => (
             <motion.div
               key={index}
@@ -59,21 +64,21 @@ export default function Reviews() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-stone-900/60 border-stone-700 p-6 relative">
-                <Quote className="absolute top-4 right-4 w-8 h-8 text-red-700/20" />
+              <Card className="h-full bg-white border-slate-100 p-8 relative rounded-[40px] shadow-sm hover:shadow-xl transition-all duration-500 group">
+                <Quote className="absolute top-8 right-8 w-12 h-12 text-red-600/5 group-hover:text-red-600/10 transition-colors" />
                 
-                <div className="flex items-center gap-2 mb-4">
-                  <Zap className="w-4 h-4 text-red-600" />
-                  <span className="text-xs font-medium text-red-600">{review.badge}</span>
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-red-600" />
+                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">{review.badge}</span>
                 </div>
 
-                <blockquote className="text-amber-100 text-sm leading-relaxed mb-6 italic">
+                <blockquote className="text-slate-600 text-base leading-relaxed mb-8 font-medium">
                   "{review.text}"
                 </blockquote>
 
-                <div className="mt-auto pt-4 border-t border-stone-700">
-                  <p className="font-semibold text-amber-50">{review.author}</p>
-                  <p className="text-xs text-stone-400">{review.role} • {review.date}</p>
+                <div className="mt-auto pt-6 border-t border-slate-100">
+                  <p className="font-black text-slate-900 uppercase tracking-tight text-lg">{review.author}</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{review.role} • {review.date}</p>
                 </div>
               </Card>
             </motion.div>
@@ -87,13 +92,13 @@ export default function Reviews() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <p className="text-stone-300 mb-4">Want to see more reviews? Join our community!</p>
+          <p className="text-slate-500 font-medium mb-8">Access our complete research community and live tracking reports.</p>
           <Button 
-            className="bg-[#5865F2] hover:bg-[#4752C4] text-white"
+            className="bg-[#5865F2] hover:bg-[#4752C4] text-white px-10 py-8 rounded-2xl font-black uppercase tracking-widest text-lg shadow-lg hover:shadow-[#5865F2]/20 transition-all hover:-translate-y-1"
             onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}
           >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            Join our Discord Community Today!
+            <ExternalLink className="w-6 h-6 mr-3" />
+            JOIN DISCORD REPOSITORY
           </Button>
         </motion.div>
       </div>

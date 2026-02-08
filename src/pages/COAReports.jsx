@@ -113,7 +113,7 @@ export default function COAReports() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-8">
+    <div className="min-h-screen bg-white pt-32 pb-8">
       <SEO 
         title="Gray Market Peptide COA Database - Community Lab Testing Verification"
         description="Comprehensive database of verified peptide COAs from gray market suppliers. Community-uploaded third-party lab testing results for research peptides. Verify peptide purity, potency, and authenticity before purchase."
@@ -122,91 +122,102 @@ export default function COAReports() {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 transition-colors mb-4">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-red-600 transition-colors mb-4 font-black uppercase tracking-widest text-[10px]">
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-amber-50 mb-2">Community COA Reports</h1>
-          <p className="text-stone-400">Browse Certificates of Analysis uploaded by our community</p>
+          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 tracking-tighter uppercase leading-none">Community <span className="text-red-600">COA Reports</span></h1>
+          <p className="text-slate-500 text-lg font-medium">Browse Certificates of Analysis uploaded by our community</p>
         </div>
 
         {/* Search and Admin Controls */}
         <div className="mb-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500" />
+          <div className="relative max-w-md w-full">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               type="text"
               placeholder="Search by peptide name or strength..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-stone-900 border-stone-700 text-amber-50 placeholder:text-stone-400"
+              className="pl-12 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 rounded-2xl h-12 font-medium"
             />
           </div>
 
-          {isAdmin && selectedIds.size > 0 && (
-            <div className="flex gap-2">
+          <div className="flex gap-3">
+            {isAdmin && selectedIds.size > 0 && (
+              <>
+                <Button
+                  onClick={toggleSelectAll}
+                  variant="outline"
+                  className="border-slate-200 text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
+                >
+                  {selectedIds.size === filteredCOAs.length ? 'Deselect All' : 'Select All'}
+                </Button>
+                <Button
+                  onClick={handleDeleteSelected}
+                  disabled={isDeleting}
+                  className="bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete ({selectedIds.size})
+                </Button>
+              </>
+            )}
+
+            {isAdmin && selectedIds.size === 0 && filteredCOAs.length > 0 && (
               <Button
                 onClick={toggleSelectAll}
                 variant="outline"
-                className="border-stone-700 text-amber-50"
+                className="border-slate-200 text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
               >
-                {selectedIds.size === filteredCOAs.length ? 'Deselect All' : 'Select All'}
+                Select All
               </Button>
-              <Button
-                onClick={handleDeleteSelected}
-                disabled={isDeleting}
-                className="bg-red-900 hover:bg-red-800 text-amber-50"
-              >
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete ({selectedIds.size})
-              </Button>
-            </div>
-          )}
-
-          {isAdmin && selectedIds.size === 0 && filteredCOAs.length > 0 && (
+            )}
+            
             <Button
-              onClick={toggleSelectAll}
-              variant="outline"
-              className="border-stone-700 text-amber-50"
+              onClick={() => setShowUploadModal(true)}
+              className="bg-slate-900 hover:bg-red-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6 shadow-lg shadow-slate-900/10"
             >
-              Select All
+              <Upload className="w-4 h-4 mr-2" />
+              Upload COA
             </Button>
-          )}
+          </div>
         </div>
 
         {/* COA Grid */}
         {isLoading ? (
-          <div className="text-center py-12 text-stone-400">Loading COAs...</div>
+          <div className="text-center py-24 text-slate-400 font-medium">Loading database...</div>
         ) : filteredCOAs.length === 0 ? (
-          <div className="text-center py-12 text-stone-400">
+          <div className="text-center py-24 text-slate-400 font-medium bg-slate-50 rounded-[40px] border border-dashed border-slate-200">
             {coas.length === 0 ? 'No COAs uploaded yet. Be the first!' : 'No COAs match your search.'}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredCOAs.map((coa, index) => (
               <motion.div
                 key={coa.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`bg-stone-900/50 border rounded-lg p-6 transition-all hover:shadow-lg hover:shadow-barn-brown/20 ${
+                className={`bg-slate-50 border rounded-[32px] p-8 transition-all hover:shadow-xl hover:shadow-red-600/5 ${
                   selectedIds.has(coa.id)
-                    ? 'border-barn-brown bg-barn-brown/10'
-                    : 'border-stone-800 hover:border-barn-brown/50'
+                    ? 'border-red-600 bg-red-50/30'
+                    : 'border-slate-100 hover:border-red-600/30'
                 }`}
               >
                 {isAdmin && (
-                  <div className="space-y-3 mb-4 pb-4 border-b border-stone-800">
+                  <div className="space-y-3 mb-6 pb-6 border-b border-slate-100">
                     {/* Checkbox and Delete */}
                     <div className="flex items-center gap-3">
                       <Checkbox
                         checked={selectedIds.has(coa.id)}
                         onCheckedChange={() => toggleSelect(coa.id)}
-                        className="w-4 h-4"
+                        className="border-slate-300 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
                       />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Admin Controls</span>
                       <button
                         onClick={() => handleDelete(coa.id)}
-                        className="ml-auto p-2 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-900/40 transition-colors"
+                        className="ml-auto p-2 text-slate-400 hover:text-red-600 transition-colors"
                         title="Delete this COA"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -215,19 +226,19 @@ export default function COAReports() {
 
                     {/* Approval Status and Controls */}
                     {!coa.approved && (
-                      <div className="flex items-center gap-2 bg-yellow-900/20 border border-yellow-700/30 rounded px-3 py-2">
-                        <span className="text-xs font-semibold text-yellow-400">PENDING APPROVAL</span>
+                      <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
+                        <span className="text-[10px] font-black text-yellow-600 uppercase tracking-widest">Pending Approval</span>
                         <div className="flex gap-2 ml-auto">
                           <button
                             onClick={() => handleApprove(coa.id)}
-                            className="p-1.5 rounded bg-green-900/40 text-green-500 hover:bg-green-900/60 transition-colors"
+                            className="p-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors shadow-sm shadow-green-600/20"
                             title="Approve this COA"
                           >
                             <Check className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleReject(coa.id)}
-                            className="p-1.5 rounded bg-red-900/40 text-red-500 hover:bg-red-900/60 transition-colors"
+                            className="p-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors shadow-sm shadow-red-600/20"
                             title="Reject this COA"
                           >
                             <X className="w-4 h-4" />
@@ -237,82 +248,78 @@ export default function COAReports() {
                     )}
 
                     {coa.approved && (
-                      <div className="flex items-center gap-2 bg-green-900/20 border border-green-700/30 rounded px-3 py-2">
-                        <Check className="w-4 h-4 text-green-500" />
-                        <span className="text-xs font-semibold text-green-400">APPROVED</span>
+                      <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-4 py-3">
+                        <Check className="w-4 h-4 text-green-600" />
+                        <span className="text-[10px] font-black text-green-600 uppercase tracking-widest">Approved</span>
                       </div>
                     )}
                   </div>
                 )}
+                
                 {/* Thumbnail */}
-                <div className="mb-4 bg-stone-800 rounded-lg h-48 overflow-hidden border border-stone-700">
+                <div className="mb-6 bg-white rounded-2xl h-56 overflow-hidden border border-slate-100 shadow-inner group">
                   <img
                     src={coa.coa_image_url}
                     alt={`${coa.peptide_name} COA`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 
                 {/* Details */}
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div>
-                    <p className="text-xs text-stone-400 uppercase tracking-wider">Peptide</p>
-                    <h3 className="text-lg font-bold text-amber-50">{coa.peptide_name}</h3>
+                    <p className="text-[10px] font-black text-red-600 uppercase tracking-[0.2em] mb-1">Research Compound</p>
+                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase leading-none">{coa.peptide_name}</h3>
                   </div>
 
-                  <div>
-                    <p className="text-xs text-stone-400 uppercase tracking-wider">Strength</p>
-                    <p className="text-sm font-semibold text-stone-300">{coa.peptide_strength}</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/50 rounded-xl p-3 border border-slate-100">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Concentration</p>
+                      <p className="text-sm font-bold text-slate-900">{coa.peptide_strength}</p>
+                    </div>
+
+                    {coa.batch_number && (
+                      <div className="bg-white/50 rounded-xl p-3 border border-slate-100">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Batch ID</p>
+                        <p className="text-sm font-bold text-slate-900">{coa.batch_number}</p>
+                      </div>
+                    )}
                   </div>
 
-                  {coa.is_from_barn && (
-                    <div>
-                      <p className="text-xs text-amber-400 uppercase tracking-wider font-semibold">Source</p>
-                      <p className="text-sm text-amber-300">From Barn</p>
+                  <div className="flex justify-between items-center py-3 border-t border-slate-100">
+                    <div className="flex flex-col">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Uploaded On</p>
+                      <p className="text-sm font-bold text-slate-900">{new Date(coa.created_date).toLocaleDateString()}</p>
                     </div>
-                  )}
-
-                  {coa.batch_number && (
-                    <div>
-                      <p className="text-xs text-stone-400 uppercase tracking-wider">Batch Number</p>
-                      <p className="text-sm text-stone-300">{coa.batch_number}</p>
-                    </div>
-                  )}
-
-                  {coa.uploaded_by && (
-                    <div>
-                      <p className="text-xs text-stone-400 uppercase tracking-wider">Uploaded By</p>
-                      <p className="text-sm text-stone-400">{coa.uploaded_by.split('@')[0]}</p>
-                    </div>
-                  )}
-
-                  <div>
-                    <p className="text-xs text-stone-400 uppercase tracking-wider">Date</p>
-                    <p className="text-sm text-stone-400">
-                      {new Date(coa.created_date).toLocaleDateString()}
-                    </p>
+                    {coa.uploaded_by && (
+                      <div className="flex flex-col text-right">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Researcher</p>
+                        <p className="text-sm font-bold text-slate-900">{coa.uploaded_by.split('@')[0]}</p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Links */}
-                  <div className="flex gap-2 pt-4 border-t border-stone-800">
+                  <div className="flex gap-3 pt-2">
                     <a
                       href={coa.coa_image_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-barn-brown hover:bg-barn-brown/90 rounded-lg text-amber-50 transition-colors text-sm font-semibold"
+                      className="flex-1 flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-900 hover:border-red-600 hover:text-red-600 transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-sm"
                     >
-                      View Image
-                      <ExternalLink className="w-3 h-3" />
+                      Full Analysis
+                      <ExternalLink className="w-4 h-4" />
                     </a>
+                    
                     {coa.coa_link && (
                       <a
                         href={coa.coa_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-barn-brown hover:bg-barn-brown/90 rounded-lg text-amber-50 transition-colors text-sm font-semibold"
+                        className="flex-1 flex items-center justify-center gap-2 bg-slate-900 text-white hover:bg-red-600 transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-lg shadow-slate-900/10"
                       >
-                        Original Link
-                        <ExternalLink className="w-3 h-3" />
+                        Verification
+                        <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
                   </div>
@@ -323,14 +330,13 @@ export default function COAReports() {
         )}
 
         {/* Submit COA Button */}
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           <Button
             onClick={() => setShowUploadModal(true)}
-            className="bg-barn-brown hover:bg-barn-brown/90 text-amber-50 gap-2"
-            size="lg"
+            className="bg-red-600 hover:bg-red-700 text-white gap-3 rounded-[32px] font-black uppercase tracking-widest text-xs px-12 py-8 shadow-xl shadow-red-600/20"
           >
             <Upload className="w-5 h-5" />
-            Submit COA
+            Submit New Report
           </Button>
         </div>
       </div>

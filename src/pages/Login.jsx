@@ -14,9 +14,13 @@ import {
   ArrowLeft, 
   Loader2,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  ShieldCheck,
+  Zap,
+  Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEO from '@/components/SEO';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -80,10 +84,8 @@ export default function Login() {
         password
       );
       
-      // Token is automatically stored by the SDK
       setSuccess('Login successful! Redirecting...');
       
-      // Redirect to account or previous page
       setTimeout(() => {
         const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
         navigate(returnUrl || createPageUrl('Account'));
@@ -111,7 +113,6 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    // Validation
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -227,7 +228,6 @@ export default function Login() {
         setView('login');
         setNewPassword('');
         setResetToken('');
-        // Clean URL
         window.history.replaceState({}, document.title, window.location.pathname);
       }, 2000);
       
@@ -242,38 +242,36 @@ export default function Login() {
   const renderLoginForm = () => (
     <form onSubmit={handleLogin} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-stone-300">Email</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Email Address</label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="pl-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            placeholder="researcher@institution.com"
+            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-stone-300">Password</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Password</label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="password"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            className="pl-10 pr-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300"
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-600 transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -284,7 +282,7 @@ export default function Login() {
         <button
           type="button"
           onClick={() => setView('forgot-password')}
-          className="text-sm text-red-500 hover:text-red-400 transition-colors"
+          className="text-xs font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors"
         >
           Forgot password?
         </button>
@@ -293,27 +291,29 @@ export default function Login() {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-3"
+        className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
           <>
-            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-            Signing in...
+            <Loader2 className="w-5 h-5 mr-3 animate-spin" />
+            Authenticating...
           </>
         ) : (
           'Sign In'
         )}
       </Button>
 
-      <div className="text-center text-stone-400 text-sm">
-        Don't have an account?{' '}
-        <button
-          type="button"
-          onClick={() => setView('register')}
-          className="text-red-500 hover:text-red-400 font-semibold transition-colors"
-        >
-          Create one
-        </button>
+      <div className="text-center">
+        <p className="text-sm font-medium text-slate-500">
+          Don't have an account?{' '}
+          <button
+            type="button"
+            onClick={() => setView('register')}
+            className="text-red-600 font-black uppercase tracking-widest hover:text-red-700 transition-colors"
+          >
+            Create one
+          </button>
+        </p>
       </div>
     </form>
   );
@@ -321,54 +321,51 @@ export default function Login() {
   const renderRegisterForm = () => (
     <form onSubmit={handleRegister} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="fullName" className="text-stone-300">Full Name (optional)</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Full Name</label>
         <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="fullName"
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="John Doe"
-            className="pl-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="registerEmail" className="text-stone-300">Email</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Email Address</label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="registerEmail"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="pl-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            placeholder="researcher@institution.com"
+            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="registerPassword" className="text-stone-300">Password</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Password</label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="registerPassword"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Min. 8 characters"
-            className="pl-10 pr-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
             minLength={8}
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300"
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-600 transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -376,16 +373,15 @@ export default function Login() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword" className="text-stone-300">Confirm Password</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Confirm Password</label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="confirmPassword"
             type={showPassword ? 'text' : 'password'}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
-            className="pl-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
           />
         </div>
@@ -394,49 +390,50 @@ export default function Login() {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-3"
+        className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
           <>
-            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-            Creating account...
+            <Loader2 className="w-5 h-5 mr-3 animate-spin" />
+            Creating Account...
           </>
         ) : (
-          'Create Account'
+          'Register Account'
         )}
       </Button>
 
-      <div className="text-center text-stone-400 text-sm">
-        Already have an account?{' '}
-        <button
-          type="button"
-          onClick={() => setView('login')}
-          className="text-red-500 hover:text-red-400 font-semibold transition-colors"
-        >
-          Sign in
-        </button>
+      <div className="text-center">
+        <p className="text-sm font-medium text-slate-500">
+          Already have an account?{' '}
+          <button
+            type="button"
+            onClick={() => setView('login')}
+            className="text-red-600 font-black uppercase tracking-widest hover:text-red-700 transition-colors"
+          >
+            Sign in
+          </button>
+        </p>
       </div>
     </form>
   );
 
   const renderVerifyOtpForm = () => (
     <form onSubmit={handleVerifyOtp} className="space-y-6">
-      <div className="text-center mb-6">
-        <p className="text-stone-400 text-sm">
+      <div className="text-center mb-8">
+        <p className="text-slate-500 font-medium">
           We sent a verification code to<br />
-          <span className="text-amber-50 font-semibold">{email}</span>
+          <span className="text-slate-900 font-black">{email}</span>
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="otpCode" className="text-stone-300">Verification Code</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center block">Verification Code</label>
         <Input
-          id="otpCode"
           type="text"
           value={otpCode}
           onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
           placeholder="123456"
-          className="text-center text-2xl tracking-widest bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+          className="text-center text-4xl tracking-[0.5em] bg-slate-50 border-slate-100 rounded-2xl px-6 py-10 text-slate-900 placeholder:text-slate-200 focus:bg-white focus:border-red-600/30 transition-all font-black"
           maxLength={6}
           required
         />
@@ -445,11 +442,11 @@ export default function Login() {
       <Button
         type="submit"
         disabled={loading || otpCode.length < 6}
-        className="w-full bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-3"
+        className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
           <>
-            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+            <Loader2 className="w-5 h-5 mr-3 animate-spin" />
             Verifying...
           </>
         ) : (
@@ -462,7 +459,7 @@ export default function Login() {
           type="button"
           onClick={handleResendOtp}
           disabled={loading}
-          className="text-sm text-red-500 hover:text-red-400 transition-colors"
+          className="text-xs font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors"
         >
           Didn't receive a code? Resend
         </button>
@@ -472,23 +469,22 @@ export default function Login() {
 
   const renderForgotPasswordForm = () => (
     <form onSubmit={handleForgotPassword} className="space-y-6">
-      <div className="text-center mb-6">
-        <p className="text-stone-400 text-sm">
+      <div className="text-center mb-8">
+        <p className="text-slate-500 font-medium">
           Enter your email address and we'll send you a link to reset your password.
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="resetEmail" className="text-stone-300">Email</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Email Address</label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="resetEmail"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="pl-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            placeholder="researcher@institution.com"
+            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
           />
         </div>
@@ -497,11 +493,11 @@ export default function Login() {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-3"
+        className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
           <>
-            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+            <Loader2 className="w-5 h-5 mr-3 animate-spin" />
             Sending...
           </>
         ) : (
@@ -513,7 +509,7 @@ export default function Login() {
         <button
           type="button"
           onClick={() => setView('login')}
-          className="text-sm text-stone-400 hover:text-stone-300 transition-colors flex items-center justify-center gap-2"
+          className="text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors flex items-center justify-center gap-2 mx-auto"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to login
@@ -524,30 +520,29 @@ export default function Login() {
 
   const renderResetPasswordForm = () => (
     <form onSubmit={handleResetPassword} className="space-y-6">
-      <div className="text-center mb-6">
-        <p className="text-stone-400 text-sm">
+      <div className="text-center mb-8">
+        <p className="text-slate-500 font-medium">
           Enter your new password below.
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="newPassword" className="text-stone-300">New Password</Label>
+        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">New Password</label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
-            id="newPassword"
             type={showPassword ? 'text' : 'password'}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Min. 8 characters"
-            className="pl-10 pr-10 bg-stone-900/50 border-stone-700 text-amber-50 placeholder:text-stone-500 focus:border-red-600"
+            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
             required
             minLength={8}
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300"
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-600 transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -557,15 +552,15 @@ export default function Login() {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-3"
+        className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
           <>
-            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+            <Loader2 className="w-5 h-5 mr-3 animate-spin" />
             Resetting...
           </>
         ) : (
-          'Reset Password'
+          'Update Password'
         )}
       </Button>
     </form>
@@ -592,30 +587,50 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-20 relative overflow-hidden">
+      <SEO 
+        title={`${getTitle()} - Red Helix Research`}
+        description="Secure researcher portal for Red Helix Research. Access your laboratory orders, tracking, and COA documentation."
+      />
+
+      {/* Decorative Background */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
+        className="w-full max-w-lg relative z-10"
       >
         {/* Back to Home */}
         <Link 
           to={createPageUrl('Home')} 
-          className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-slate-400 font-black uppercase tracking-widest text-[10px] hover:text-red-600 mb-8 transition-colors group"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Back to Laboratory Home
         </Link>
 
         {/* Card */}
-        <div className="bg-stone-900/50 border border-stone-700 rounded-2xl p-8 backdrop-blur-sm">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-black text-amber-50">RH</span>
+        <div className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
+          {/* Subtle logo accent */}
+          <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none">
+            <ShieldCheck className="w-48 h-48 text-slate-900" />
+          </div>
+
+          {/* Logo / Header */}
+          <div className="text-center mb-10 relative z-10">
+            <div className="w-20 h-20 bg-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-100 rotate-3">
+              <span className="text-3xl font-black text-white">RH</span>
             </div>
-            <h1 className="text-2xl font-black text-amber-50">{getTitle()}</h1>
-            <p className="text-stone-400 text-sm mt-1">{getSubtitle()}</p>
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">
+              {getTitle().split(' ').map((word, i) => (
+                <span key={i} className={i === 1 ? "text-red-600" : ""}>{word} </span>
+              ))}
+            </h1>
+            <p className="text-slate-400 text-sm font-bold uppercase tracking-widest">{getSubtitle()}</p>
           </div>
 
           {/* Error Message */}
@@ -625,51 +640,44 @@ export default function Login() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mb-6 p-4 bg-red-600/10 border border-red-600/30 rounded-lg flex items-start gap-3"
+                className="mb-8 p-6 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-4"
               >
-                <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                <p className="text-red-400 text-sm">{error}</p>
+                <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+                <p className="text-sm font-bold text-red-600 uppercase tracking-tight leading-tight">{error}</p>
               </motion.div>
             )}
-          </AnimatePresence>
-
-          {/* Success Message */}
-          <AnimatePresence mode="wait">
             {success && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mb-6 p-4 bg-green-600/10 border border-green-600/30 rounded-lg flex items-start gap-3"
+                className="mb-8 p-6 bg-green-50 border border-green-100 rounded-2xl flex items-start gap-4"
               >
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                <p className="text-green-400 text-sm">{success}</p>
+                <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0" />
+                <p className="text-sm font-bold text-green-600 uppercase tracking-tight leading-tight">{success}</p>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Forms */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={view}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
-            >
-              {view === 'login' && renderLoginForm()}
-              {view === 'register' && renderRegisterForm()}
-              {view === 'verify-otp' && renderVerifyOtpForm()}
-              {view === 'forgot-password' && renderForgotPasswordForm()}
-              {view === 'reset-password' && renderResetPasswordForm()}
-            </motion.div>
-          </AnimatePresence>
+          {/* Form Content */}
+          <div className="relative z-10">
+            {view === 'login' && renderLoginForm()}
+            {view === 'register' && renderRegisterForm()}
+            {view === 'verify-otp' && renderVerifyOtpForm()}
+            {view === 'forgot-password' && renderForgotPasswordForm()}
+            {view === 'reset-password' && renderResetPasswordForm()}
+          </div>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-stone-500 text-xs mt-6">
-          By signing in, you agree to our Terms of Service and Privacy Policy.
-        </p>
+        {/* Support Link */}
+        <div className="mt-8 text-center">
+          <Link 
+            to={createPageUrl('Contact')}
+            className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-red-600 transition-colors"
+          >
+            Need technical assistance? Contact Support
+          </Link>
+        </div>
       </motion.div>
     </div>
   );

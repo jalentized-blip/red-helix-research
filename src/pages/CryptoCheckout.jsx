@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import {
@@ -18,6 +18,8 @@ import {
   Zap,
   Link as LinkIcon,
   QrCode,
+  ShieldCheck,
+  Lock,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -333,16 +335,13 @@ export default function CryptoCheckout() {
     if (typeof window === 'undefined') return null;
     
     try {
-      // Check for standard ethereum provider
       if (window.ethereum) {
-        // If it's an array of providers (e.g. Coinbase + MetaMask both installed)
         if (Array.isArray(window.ethereum.providers)) {
           return window.ethereum; 
         }
         return window.ethereum;
       }
       
-      // Check for specific injections
       if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
       if (window.phantom?.ethereum) return window.phantom.ethereum;
       if (window.solana) return window.solana; 
@@ -373,21 +372,16 @@ export default function CryptoCheckout() {
       }
     };
 
-    // Try immediately
     let p = check();
     if (p) return p;
 
-    // Retry for 2 seconds (20 attempts x 100ms)
     for (let i = 0; i < 20; i++) {
       await new Promise(resolve => setTimeout(resolve, 100));
       p = check();
       if (p) return p;
     }
     
-    // Fallback to generic window.ethereum
     if (window.ethereum) return window.ethereum;
-    
-    // Last resort
     return getAnyProvider();
   };
 
@@ -404,7 +398,6 @@ export default function CryptoCheckout() {
         return;
       }
 
-      // Find provider with retry logic
       const provider = await findProvider(wallet.id);
 
       if (provider) {
@@ -600,7 +593,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
       }
 
       // Create order
-      const order = await base44.entities.Order.create({
+      await base44.entities.Order.create({
         order_number: orderNumber,
         customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
         customer_name: customerName,
@@ -627,116 +620,16 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           address: customerInfo?.shippingAddress || customerInfo?.address,
           city: customerInfo?.shippingCity || customerInfo?.city,
           state: customerInfo?.shippingState || customerInfo?.state,
-          zip: customerInfo?.shippingZip || customerInfo?.zip
+          zip: customerInfo?.shippingZip || customerInfo?.zip,
+          country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
         },
-        wallet_type: connectedWallet?.name || 'manual',
-        promo_code: promoCode,
-        created_by: userEmail || customerInfo?.email || 'guest@redhelix.com'
       });
 
-      // Send customer email
-      const customerEmail = userEmail || customerInfo?.email;
-      if (customerEmail) {
-        await base44.integrations.Core.SendEmail({
-          from_name: 'Jake - Red Helix Research',
-          to: customerEmail,
-          subject: `Order Confirmation - ${orderNumber}`,
-          body: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #8B2635;">Thank You for Your Order!</h2>
-              <p>Hi ${customerName},</p>
-              <p>We've received your order and it's being processed.</p>
-              <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Order #${orderNumber}</h3>
-                <p><strong>Payment:</strong> ${cryptoAmount} ${selectedCrypto}</p>
-                <p><strong>Transaction ID:</strong> ${txHash}</p>
-                <p><strong>Total:</strong> $${totalUSD.toFixed(2)} USD</p>
-              </div>
-              ${customerInfo ? `
-                <h3>Shipping Address:</h3>
-                <p>${customerInfo.firstName} ${customerInfo.lastName}<br>
-                ${customerInfo.shippingAddress}<br>
-                ${customerInfo.shippingCity}, ${customerInfo.shippingState} ${customerInfo.shippingZip}</p>
-              ` : ''}
-              <p>You will receive tracking information once your order ships.</p>
-            </div>
-          `
-        });
-      }
-
-      // Admin notifications and emails
-      const allUsers = await base44.entities.User.list();
-      const admins = allUsers.filter(u => u.role === 'admin');
-
-      // Create order items list for email
-      const orderItemsList = cartItems.map(item => 
-        `<li>${item.productName} (${item.specification}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</li>`
-      ).join('');
-
-      for (const admin of admins) {
-        // Create notification in database
-        await base44.entities.Notification.create({
-          type: 'blockchain_confirmed',
-          admin_email: admin.email,
-          customer_name: customerName,
-          customer_email: customerEmail || 'guest@redhelix.com',
-          order_id: order.id,
-          order_number: orderNumber,
-          total_amount: totalUSD,
-          crypto_currency: selectedCrypto,
-          transaction_id: txHash,
-          message_preview: `Blockchain confirmed: ${orderNumber} ($${totalUSD.toFixed(2)}) - ${selectedCrypto} - Needs tracking`,
-          requires_tracking: true,
-          read: false
-        });
-
-        // Send email to admin
-        await base44.integrations.Core.SendEmail({
-          from_name: 'Jake - Red Helix Research',
-          to: admin.email,
-          subject: `New Order Received - ${orderNumber}`,
-          body: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #8B2635;">New Order Notification</h2>
-              <p>A new order has been placed and confirmed on the blockchain.</p>
-              <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Order #${orderNumber}</h3>
-                <p><strong>Customer:</strong> ${customerName}</p>
-                <p><strong>Email:</strong> ${customerEmail || 'guest@redhelix.com'}</p>
-                <p><strong>Phone:</strong> ${customerInfo?.phone || 'N/A'}</p>
-                <p><strong>Payment Method:</strong> ${selectedCrypto}</p>
-                <p><strong>Payment Amount:</strong> ${cryptoAmount} ${selectedCrypto}</p>
-                <p><strong>Transaction ID:</strong> ${txHash}</p>
-                <p><strong>Total:</strong> $${totalUSD.toFixed(2)} USD</p>
-                <p><strong>Status:</strong> Processing - Needs Tracking</p>
-              </div>
-              <h3>Order Items:</h3>
-              <ul>
-                ${orderItemsList}
-              </ul>
-              ${customerInfo ? `
-                <h3>Shipping Address:</h3>
-                <p>${customerInfo.firstName} ${customerInfo.lastName}<br>
-                ${customerInfo.shippingAddress}<br>
-                ${customerInfo.shippingCity}, ${customerInfo.shippingState} ${customerInfo.shippingZip}</p>
-              ` : ''}
-              <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; color: #666;">
-                Please process this order and add tracking information as soon as possible.
-              </p>
-            </div>
-          `
-        });
-      }
-
-      clearCart();
-      localStorage.removeItem('customerInfo');
-      localStorage.removeItem('abandonedCartSent');
-      localStorage.setItem('lastOrderComplete', Date.now().toString());
       localStorage.setItem('lastOrderNumber', orderNumber);
       localStorage.setItem('lastTransactionId', txHash);
-
+      clearCart();
     } catch (error) {
-      console.error('Order processing error:', error);
+      console.error('Order creation error:', error);
     }
   };
 
@@ -746,549 +639,508 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleManualVerification = () => {
-    if (!transactionId.trim()) return;
-    
-    // Auto-complete test orders
-    if (window.__isTestOrder) {
-      const testTxId = transactionId || `TEST-${Date.now().toString(36).toUpperCase()}`;
-      setTransactionId(testTxId);
-      setStage(CHECKOUT_STAGE.CONFIRMING);
-      setVerificationStatus('checking');
-      setTimeout(() => {
-        setVerificationStatus('verified');
-        setVerificationMessage('Test payment confirmed!');
-        processSuccessfulPayment(testTxId);
-      }, 2000);
-      return;
-    }
-    
-    handleTransactionDetected(transactionId);
-  };
-
-  const resetWalletConnection = () => {
-    setConnectionState('idle');
-    setConnectionError('');
-    setConnectedWallet(null);
-    setWalletAddress('');
-  };
-
-  const renderPaymentMethodSelection = () => (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      <h2 className="text-xl font-bold text-amber-50 mb-4">Select Payment Method</h2>
-      
-      {/* Bank ACH Option */}
-      <motion.button
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.99 }}
-        onClick={() => {
-          setPaymentMethod('bank_ach');
-          setStage(CHECKOUT_STAGE.BANK_ACH);
-        }}
-        className="w-full p-6 rounded-lg border-2 transition-all text-left border-stone-700 bg-stone-800/50 hover:border-green-600/50 group"
-      >
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-green-600/20">
-              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-              </svg>
-            </div>
-            <div>
-              <p className="font-bold text-amber-50 text-lg">Bank Account (ACH)</p>
-              <p className="text-xs text-stone-400">Direct bank transfer via Plaid</p>
-            </div>
-          </div>
-          <span className="text-xs bg-green-600/30 text-green-400 px-3 py-1 rounded-full font-semibold">
-            Recommended
-          </span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-stone-400 mt-3">
-          <Shield className="w-3 h-3 text-green-500" />
-          <span>Secure • Fast • No fees</span>
-        </div>
-      </motion.button>
-
-      {/* Divider */}
-      <div className="flex items-center gap-3 my-6">
-        <div className="flex-1 h-px bg-stone-700" />
-        <span className="text-xs text-stone-500 font-semibold">OR PAY WITH CRYPTO</span>
-        <div className="flex-1 h-px bg-stone-700" />
-      </div>
-
-      {/* Crypto Options */}
-      <div className="grid grid-cols-2 gap-3">
-        {CRYPTO_OPTIONS.map((crypto) => (
-          <motion.button
-            key={crypto.id}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              setPaymentMethod('crypto');
-              setSelectedCrypto(crypto.id);
-              setStage(CHECKOUT_STAGE.CONNECT_WALLET);
-            }}
-            className="p-4 rounded-lg border-2 transition-all text-left border-stone-700 bg-stone-800/50 hover:border-red-600/50"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold" style={{ backgroundColor: `${crypto.color}20`, color: crypto.color }}>
-                {crypto.icon}
-              </div>
-              <div>
-                <p className="font-semibold text-amber-50">{crypto.symbol}</p>
-                <p className="text-xs text-stone-500">{crypto.name}</p>
-              </div>
-            </div>
-            <p className="text-xs text-stone-400">{crypto.network}</p>
-          </motion.button>
-        ))}
-      </div>
-      
-      <div className="mt-4">
-        <PCIComplianceBadge variant="compact" />
-      </div>
-    </motion.div>
-  );
-
-  const renderCryptoSelection = () => renderPaymentMethodSelection();
-
-  const renderBankACH = () => (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      <div className="flex items-center gap-2 mb-4">
-        <button onClick={() => { setPaymentMethod(null); setStage(CHECKOUT_STAGE.SELECT_PAYMENT); }} className="text-stone-400 hover:text-amber-50">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <h2 className="text-xl font-bold text-amber-50">Bank Account Payment</h2>
-      </div>
-      <PlaidACHCheckout 
-        order={orderData}
-        onSuccess={(data) => {
-          clearCart();
-          localStorage.removeItem('customerInfo');
-          navigate(createPageUrl('PaymentCompleted'));
-        }}
-        onError={(error) => {
-          console.error('Payment error:', error);
-        }}
-      />
-    </motion.div>
-  );
-
-  const renderWalletConnection = () => (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      <div className="flex items-center gap-2 mb-4">
-        <button onClick={() => { setSelectedCrypto(null); setPaymentMethod(null); setStage(CHECKOUT_STAGE.SELECT_PAYMENT); resetWalletConnection(); }} className="text-stone-400 hover:text-amber-50">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <h2 className="text-xl font-bold text-amber-50">Connect Your Wallet</h2>
-      </div>
-
-      <div className="bg-stone-800/50 rounded-lg p-6 text-center">
-        {isLoadingRate ? (
-          <div className="flex items-center justify-center gap-3 py-4">
-            <Loader2 className="w-6 h-6 animate-spin text-red-600" />
-            <span className="text-stone-400">Calculating {selectedCrypto} amount...</span>
-          </div>
-        ) : (
-          <>
-            <p className="text-stone-400 mb-2">Amount to pay</p>
-            <p className="text-4xl font-bold text-amber-50 mb-1">{cryptoAmount} {selectedCrypto}</p>
-            <p className="text-sm text-stone-500">≈ ${totalUSD.toFixed(2)} USD</p>
-          </>
-        )}
-      </div>
-
-      <div className="space-y-3">
-        <p className="text-sm text-stone-400">Select a wallet for seamless {selectedCrypto} payment:</p>
-        {availableWallets.map((wallet) => (
-          <motion.button
-            key={wallet.id}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            onClick={() => {
-              if (!wallet.isInstalled && wallet.deepLink) {
-                window.open(wallet.deepLink, '_blank');
-              } else {
-                connectWallet(wallet);
-              }
-            }}
-            disabled={connectionState === 'connecting'}
-            className={`w-full flex items-center gap-4 p-4 rounded-lg border transition-all ${wallet.isInstalled ? 'bg-stone-800/80 border-stone-600 hover:border-red-600/50' : 'bg-stone-800/40 border-stone-700/50 opacity-75 hover:opacity-100'} ${connectionState === 'connecting' ? 'opacity-50 cursor-wait' : ''}`}
-          >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ backgroundColor: `${wallet.color}20` }}>
-              {wallet.icon}
-            </div>
-            <div className="flex-1 text-left">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-amber-50">{wallet.name}</span>
-                {wallet.isRecommended && wallet.id !== 'manual' && (
-                  <span className="text-xs bg-red-600/30 text-red-400 px-2 py-0.5 rounded">Recommended</span>
-                )}
-              </div>
-              <p className="text-xs text-stone-500">
-                {wallet.id === 'manual' ? 'Copy address and pay manually' : wallet.isInstalled ? 'Detected - Click to connect' : 'Click to download'}
-              </p>
-            </div>
-            {wallet.isInstalled && wallet.id !== 'manual' ? (
-              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-            ) : !wallet.isInstalled && wallet.deepLink && wallet.id !== 'manual' ? (
-              <ExternalLink className="w-5 h-5 text-stone-500" />
-            ) : null}
-          </motion.button>
-        ))}
-      </div>
-
-      {connectionState === 'error' && (
-        <div className="bg-red-900/30 border border-red-600/50 rounded-lg p-4">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-500 mt-0.5" />
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-red-400">Connection Failed</p>
-              <p className="text-xs text-red-400/70 mt-1">{connectionError}</p>
-            </div>
-          </div>
-          
-          {availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink && (
-             <a 
-               href={availableWallets.find(w => w.name === connectionError.split(' ')[0])?.deepLink} 
-               target="_blank" 
-               rel="noopener noreferrer"
-               className="inline-flex items-center gap-2 text-xs text-red-400 hover:text-red-300 underline mt-2 mb-1"
-             >
-               <ExternalLink className="w-3 h-3" />
-               Install Extension
-             </a>
-          )}
-
-          <div className="flex gap-4 mt-3">
-            <button onClick={resetWalletConnection} className="text-xs text-red-400 hover:text-red-300 underline">Try again</button>
-            <button onClick={() => connectWallet(WALLET_CONFIGS.manual)} className="text-xs text-amber-500 hover:text-amber-400 font-medium underline">Use Manual Payment Instead</button>
-          </div>
-        </div>
-      )}
-
-      {connectionState === 'connecting' && (
-        <div className="bg-blue-900/30 border border-blue-600/50 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
-            <p className="text-sm text-blue-400">Connecting... Please check your wallet</p>
-          </div>
-        </div>
-      )}
-    </motion.div>
-  );
-
-  const renderPayment = () => {
-    const crypto = CRYPTO_OPTIONS.find(c => c.id === selectedCrypto);
-    const paymentAddress = PAYMENT_ADDRESSES[selectedCrypto];
-    const isCashApp = connectedWallet?.isCashApp;
-
-    return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <button onClick={() => { setStage(CHECKOUT_STAGE.CONNECT_WALLET); resetWalletConnection(); }} className="text-stone-400 hover:text-amber-50">
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <h2 className="text-xl font-bold text-amber-50">Complete Payment</h2>
-          </div>
-          {connectedWallet && !connectedWallet.isManual && (
-            <div className="flex items-center gap-2 text-green-500 text-sm">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>{connectedWallet.name} Connected</span>
-            </div>
-          )}
-          {isCashApp && (
-            <div className="flex items-center gap-2 text-green-500 text-sm">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Cash App Payment</span>
-            </div>
-          )}
-        </div>
-
-        <div className="bg-gradient-to-r from-red-900/30 to-stone-800/50 rounded-lg p-6 border border-red-600/30">
-          <p className="text-stone-400 text-sm mb-2">Send exactly</p>
-          <div className="flex items-center justify-between">
-            <p className="text-3xl font-bold text-amber-50">{cryptoAmount} {selectedCrypto}</p>
-            <button onClick={() => copyToClipboard(cryptoAmount)} className="p-2 hover:bg-stone-700 rounded transition-colors">
-              {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5 text-stone-400" />}
-            </button>
-          </div>
-          <p className="text-xs text-stone-500 mt-2">≈ ${totalUSD.toFixed(2)} USD</p>
-        </div>
-
-        <div className="bg-stone-800/50 rounded-lg p-4">
-          <p className="text-stone-400 text-sm mb-2">To this {selectedCrypto} address</p>
-          <div className="flex items-center gap-2">
-            <code className="flex-1 text-amber-50 text-sm break-all font-mono bg-stone-900 p-3 rounded">{paymentAddress}</code>
-            <button onClick={() => copyToClipboard(paymentAddress)} className="p-3 bg-red-700 hover:bg-red-600 rounded transition-colors">
-              <Copy className="w-5 h-5 text-white" />
-            </button>
-          </div>
-          
-          {isCashApp && (
-            <div className="mt-4 p-4 bg-stone-900 rounded-lg border border-green-600/30">
-              <div className="flex items-center gap-2 mb-3">
-                <QrCode className="w-5 h-5 text-green-500" />
-                <p className="text-sm font-semibold text-green-400">Scan with Cash App</p>
-              </div>
-              <div className="bg-white p-4 rounded-lg inline-block">
-                <img 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bitcoin:${paymentAddress}?amount=${cryptoAmount}`}
-                  alt="Bitcoin QR Code"
-                  className="w-48 h-48"
-                />
-              </div>
-              <p className="text-xs text-stone-400 mt-3">
-                Open Cash App → Tap Bitcoin → Scan QR Code
-              </p>
-            </div>
-          )}
-        </div>
-
-        {crypto?.isStablecoin && (
-          <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5" />
-              <div>
-                <p className="text-sm font-semibold text-yellow-200">Network Important</p>
-                <p className="text-xs text-yellow-200/70">Send {selectedCrypto} on Ethereum (ERC-20) only.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {connectedWallet && !connectedWallet.isManual && autoVerifyEnabled && (
-          <div className="bg-green-900/20 border border-green-600/30 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Zap className="w-5 h-5 text-green-500" />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-ping" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-green-400">Auto-Detection Active</p>
-                <p className="text-xs text-green-400/70">Monitoring your wallet for the payment.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {(connectedWallet?.isManual || isCashApp) && (
-          <div className="space-y-3">
-            <div>
-              <label className="text-sm font-semibold text-stone-300 block mb-2">
-                {isCashApp ? 'Your Cash App Bitcoin Address (optional)' : 'Your Wallet Address (optional)'}
-              </label>
-              <input
-                type="text"
-                value={walletAddress}
-                onChange={(e) => setWalletAddress(e.target.value)}
-                placeholder={isCashApp ? "Enter your Cash App Bitcoin address" : "Enter your sending wallet address"}
-                className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
-              />
-              {isCashApp && (
-                <p className="text-xs text-stone-500 mt-2">
-                  Find this in Cash App → Bitcoin → ⚙️ → Copy Bitcoin Address
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-
-        <div className="border-t border-stone-700 pt-4">
-          {window.__isTestOrder ? (
-            <>
-              <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 mb-3">
-                <p className="text-sm font-semibold text-yellow-200">🧪 Test Mode Active</p>
-                <p className="text-xs text-yellow-200/70 mt-1">Click verify with any text to complete test order</p>
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={transactionId}
-                  onChange={(e) => setTransactionId(e.target.value)}
-                  placeholder="Enter any test transaction ID"
-                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
-                />
-                <Button onClick={handleManualVerification} className="bg-red-700 hover:bg-red-600 text-amber-50 px-6">
-                  Complete Test Order
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <p className="text-sm text-stone-400 mb-3">Already sent? Enter your transaction ID:</p>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={transactionId}
-                  onChange={(e) => setTransactionId(e.target.value)}
-                  placeholder="Enter transaction ID/hash"
-                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-amber-50 placeholder:text-stone-500 focus:outline-none focus:border-red-600"
-                />
-                <Button onClick={handleManualVerification} disabled={!transactionId.trim()} className="bg-red-700 hover:bg-red-600 text-amber-50 px-6">
-                  Verify
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className="bg-stone-800/30 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="w-4 h-4 text-stone-400" />
-            <p className="text-sm font-semibold text-stone-300">Confirmation Time</p>
-          </div>
-          <p className="text-xs text-stone-500">{crypto?.confirmations}</p>
-        </div>
-      </motion.div>
-    );
-  };
-
-  const renderConfirming = () => (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-8">
-      <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: 'linear' }} className="w-20 h-20 mx-auto mb-6">
-        <Loader2 className="w-20 h-20 text-red-600" />
-      </motion.div>
-      <h2 className="text-2xl font-bold text-amber-50 mb-2">Verifying Payment</h2>
-      <p className="text-stone-400 mb-6">{verificationMessage}</p>
-      <div className="bg-stone-800/50 rounded-lg p-4 max-w-md mx-auto">
-        <p className="text-xs text-stone-500 mb-1">Transaction ID</p>
-        <p className="text-amber-50 font-mono text-sm break-all">{transactionId}</p>
-      </div>
-      {retryCount >= 3 && (
-        <div className="mt-6 bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 max-w-md mx-auto">
-          <p className="text-sm text-yellow-200">
-            Having trouble? Contact support on <a href="https://discord.gg/s78Jeajp" target="_blank" rel="noopener noreferrer" className="underline hover:text-yellow-100">Discord</a>
-          </p>
-        </div>
-      )}
-    </motion.div>
-  );
-
-  const renderCompleted = () => (
-    <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8">
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }} className="w-20 h-20 mx-auto mb-6 bg-green-600/20 rounded-full flex items-center justify-center">
-        <CheckCircle2 className="w-12 h-12 text-green-500" />
-      </motion.div>
-      <h2 className="text-3xl font-bold text-green-500 mb-2">Payment Confirmed!</h2>
-      <p className="text-stone-400 mb-6">Your order has been confirmed and is being processed.</p>
-      <p className="text-sm text-stone-500">Redirecting to order confirmation...</p>
-    </motion.div>
-  );
-
-  const renderOrderSummary = () => (
-    <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-32">
-      {customerInfo && (
-        <div className="bg-green-900/20 border border-green-700/50 rounded-lg p-4 mb-6">
-          <p className="text-xs font-semibold text-green-400 mb-2">✓ Shipping to:</p>
-          <p className="text-xs text-stone-300">{customerInfo.firstName} {customerInfo.lastName}</p>
-          <p className="text-xs text-stone-300">{customerInfo.shippingAddress}</p>
-          <p className="text-xs text-stone-300">{customerInfo.shippingCity}, {customerInfo.shippingState} {customerInfo.shippingZip}</p>
-        </div>
-      )}
-      <h3 className="text-lg font-bold text-amber-50 mb-4">Order Summary</h3>
-      <div className="space-y-3 mb-4 max-h-40 overflow-y-auto">
-        {cartItems.map((item) => (
-          <div key={item.id} className="flex justify-between text-sm">
-            <span className="text-stone-400 truncate mr-2">{item.productName} ({item.specification}) x{item.quantity}</span>
-            <span className="text-amber-50 flex-shrink-0">${(item.price * item.quantity).toFixed(2)}</span>
-          </div>
-        ))}
-      </div>
-      <div className="border-t border-stone-700 pt-4 space-y-2">
-        <div className="flex justify-between text-sm"><span className="text-stone-400">Subtotal</span><span className="text-amber-50">${subtotal.toFixed(2)}</span></div>
-        {discount > 0 && <div className="flex justify-between text-sm"><span className="text-green-500">Discount</span><span className="text-green-500">-${discount.toFixed(2)}</span></div>}
-        <div className="flex justify-between text-sm"><span className="text-stone-400">Shipping</span><span className="text-amber-50">${SHIPPING_COST.toFixed(2)}</span></div>
-        <div className="flex justify-between text-lg font-bold pt-2 border-t border-stone-700"><span className="text-amber-50">Total</span><span className="text-red-600">${totalUSD.toFixed(2)}</span></div>
-        {cryptoAmount && selectedCrypto && (
-          <div className="bg-stone-800/50 rounded-lg p-3 mt-3">
-            <p className="text-xs text-stone-500">Crypto Amount</p>
-            <p className="text-xl font-bold text-red-600 font-mono">{cryptoAmount} {selectedCrypto}</p>
-          </div>
-        )}
-      </div>
-      <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
-        <p className="flex items-center gap-2"><span className="text-red-600">✓</span> Same-day shipping</p>
-        <p className="flex items-center gap-2"><span className="text-red-600">✓</span> Lab tested products</p>
-        <p className="flex items-center gap-2"><span className="text-red-600">✓</span> Money-back guarantee</p>
-      </div>
-      
-      <div className="mt-4">
-        <PCIComplianceBadge variant="compact" />
-      </div>
-    </div>
-  );
-
-  const renderStage = () => {
-    switch (stage) {
-      case CHECKOUT_STAGE.SELECT_PAYMENT: return renderPaymentMethodSelection();
-      case CHECKOUT_STAGE.SELECT_CRYPTO: return renderCryptoSelection();
-      case CHECKOUT_STAGE.BANK_ACH: return renderBankACH();
-      case CHECKOUT_STAGE.CONNECT_WALLET: return renderWalletConnection();
-      case CHECKOUT_STAGE.PAYMENT: return renderPayment();
-      case CHECKOUT_STAGE.CONFIRMING: return renderConfirming();
-      case CHECKOUT_STAGE.COMPLETED: return renderCompleted();
-      default: return renderPaymentMethodSelection();
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-8">
-          <Link to={createPageUrl('CustomerInfo')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Shipping Info
-          </Link>
-          <h1 className="text-4xl font-black text-amber-50">Secure Checkout</h1>
-          <p className="text-stone-400 mt-2">Choose your preferred payment method - bank account or cryptocurrency</p>
-        </div>
+    <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
+      </div>
 
-        {paymentMethod === 'crypto' && (
-          <div className="mb-8">
-            <div className="flex items-center gap-2">
-              {[
-                { stage: CHECKOUT_STAGE.SELECT_PAYMENT, label: 'Select' },
-                { stage: CHECKOUT_STAGE.CONNECT_WALLET, label: 'Connect' },
-                { stage: CHECKOUT_STAGE.PAYMENT, label: 'Pay' },
-                { stage: CHECKOUT_STAGE.CONFIRMING, label: 'Confirm' },
-              ].map((step, index) => {
-                const stages = [CHECKOUT_STAGE.SELECT_PAYMENT, CHECKOUT_STAGE.CONNECT_WALLET, CHECKOUT_STAGE.PAYMENT, CHECKOUT_STAGE.CONFIRMING, CHECKOUT_STAGE.COMPLETED];
-                const currentIndex = stages.indexOf(stage);
-                const stepIndex = stages.indexOf(step.stage);
-                const isActive = stepIndex <= currentIndex;
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Main Content */}
+          <div className="flex-1">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="mb-12"
+            >
+              <Link to={createPageUrl('CustomerInfo')}>
+                <Button variant="outline" className="mb-8 border-slate-200 text-slate-600 hover:bg-slate-50 rounded-full font-bold uppercase tracking-wider text-xs">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Customer Info
+                </Button>
+              </Link>
+              
+              <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
+                Secure <span className="text-red-600">Checkout</span>
+              </h1>
+              <p className="text-xl text-slate-500 font-medium">Select your preferred clinical research payment method.</p>
+            </motion.div>
 
-                return (
-                  <React.Fragment key={step.stage}>
-                    <div className="flex flex-col items-center">
-                      <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${isActive ? 'bg-red-600 text-white' : 'bg-stone-800 text-stone-500'}`}>
-                        {isActive && stepIndex < currentIndex ? <Check className="w-4 h-4" /> : index + 1}
+            <AnimatePresence mode="wait">
+              {/* STAGE: Select Payment Method */}
+              {stage === CHECKOUT_STAGE.SELECT_PAYMENT && (
+                <motion.div
+                  key="select_payment"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-6"
+                >
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <button
+                      onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
+                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-red-600 hover:shadow-2xl transition-all relative overflow-hidden"
+                    >
+                      <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
+                        <Wallet className="w-32 h-32 text-slate-900" />
                       </div>
-                      <span className={`text-xs mt-1 ${isActive ? 'text-amber-50' : 'text-stone-500'}`}>{step.label}</span>
+                      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <Wallet className="w-8 h-8 text-red-600" />
+                      </div>
+                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-red-600 transition-colors">Cryptocurrency</h3>
+                      <p className="text-slate-500 font-medium leading-relaxed">Pay with Bitcoin, Ethereum, or Stablecoins. Fast, private, and secure.</p>
+                      <div className="mt-6 inline-flex items-center text-red-600 font-black uppercase tracking-widest text-xs">
+                        Select Crypto <ChevronDown className="w-4 h-4 ml-2" />
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => setStage(CHECKOUT_STAGE.BANK_ACH)}
+                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-red-600 hover:shadow-2xl transition-all relative overflow-hidden"
+                    >
+                      <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
+                        <ShieldCheck className="w-32 h-32 text-slate-900" />
+                      </div>
+                      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <LinkIcon className="w-8 h-8 text-red-600" />
+                      </div>
+                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-red-600 transition-colors">Bank Transfer</h3>
+                      <p className="text-slate-500 font-medium leading-relaxed">Connect your bank account securely via Plaid for instant ACH payment.</p>
+                      <div className="mt-6 inline-flex items-center text-red-600 font-black uppercase tracking-widest text-xs">
+                        Link Account <ChevronDown className="w-4 h-4 ml-2" />
+                      </div>
+                    </button>
+                  </div>
+
+                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex items-center gap-6">
+                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-6 h-6 text-red-600" />
                     </div>
-                    {index < 3 && <div className={`flex-1 h-1 rounded ${stepIndex < currentIndex ? 'bg-red-600' : 'bg-stone-800'}`} />}
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </div>
-        )}
+                    <div>
+                      <h4 className="text-lg font-black text-slate-900 uppercase tracking-tight">Clinical Security Standards</h4>
+                      <p className="text-sm text-slate-500 font-medium">All transactions are encrypted and processed through secure research fulfillment protocols.</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            {stage === CHECKOUT_STAGE.BANK_ACH ? (
-              <AnimatePresence mode="wait">{renderStage()}</AnimatePresence>
-            ) : (
-              <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
-                <AnimatePresence mode="wait">{renderStage()}</AnimatePresence>
+              {/* STAGE: Select Crypto */}
+              {stage === CHECKOUT_STAGE.SELECT_CRYPTO && (
+                <motion.div
+                  key="select_crypto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                >
+                  <Button
+                    variant="ghost"
+                    onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
+                    className="mb-8 text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
+                  </Button>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {CRYPTO_OPTIONS.map((crypto) => (
+                      <button
+                        key={crypto.id}
+                        onClick={() => {
+                          setSelectedCrypto(crypto.id);
+                          setStage(CHECKOUT_STAGE.CONNECT_WALLET);
+                        }}
+                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-red-600 hover:shadow-xl transition-all text-left"
+                      >
+                        <div 
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-lg transition-transform group-hover:scale-110"
+                          style={{ backgroundColor: `${crypto.color}15`, color: crypto.color }}
+                        >
+                          {crypto.icon}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{crypto.name}</h4>
+                          <p className="text-sm text-slate-500 font-medium">{crypto.network}</p>
+                        </div>
+                        <ChevronDown className="w-5 h-5 text-slate-300 group-hover:text-red-600 -rotate-90 transition-colors" />
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STAGE: Bank ACH */}
+              {stage === CHECKOUT_STAGE.BANK_ACH && (
+                <motion.div
+                  key="bank_ach"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100"
+                >
+                  <Button
+                    variant="ghost"
+                    onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
+                    className="mb-8 text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
+                  </Button>
+
+                  <div className="max-w-md mx-auto text-center">
+                    <div className="w-20 h-20 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-red-100">
+                      <LinkIcon className="w-10 h-10 text-red-600" />
+                    </div>
+                    <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Bank Connection</h2>
+                    <p className="text-slate-500 font-medium mb-10">Securely link your bank account via Plaid for instant research material funding.</p>
+                    
+                    <PlaidACHCheckout 
+                      totalAmount={totalUSD}
+                      onSuccess={async (paymentId) => {
+                        await processSuccessfulPayment(paymentId);
+                      }}
+                    />
+
+                    <div className="mt-12 flex flex-wrap justify-center gap-6 opacity-50 grayscale hover:grayscale-0 transition-all">
+                      <PCIComplianceBadge />
+                      <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full">
+                        <Lock className="w-4 h-4 text-slate-600" />
+                        <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">256-bit Encrypted</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STAGE: Connect Wallet */}
+              {stage === CHECKOUT_STAGE.CONNECT_WALLET && (
+                <motion.div
+                  key="connect_wallet"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                >
+                  <div className="flex items-center justify-between mb-8">
+                    <Button
+                      variant="ghost"
+                      onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
+                      className="text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" /> Back to crypto
+                    </Button>
+                    <div className="px-4 py-2 bg-slate-50 border border-slate-100 rounded-full flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-600" />
+                      <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Paying with {selectedCrypto}</span>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4">
+                    {availableWallets.map((wallet) => (
+                      <button
+                        key={wallet.id}
+                        onClick={() => connectWallet(wallet)}
+                        disabled={connectionState === 'connecting'}
+                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-red-600 hover:shadow-xl transition-all text-left disabled:opacity-50"
+                      >
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                          {wallet.icon}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3">
+                            <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{wallet.name}</h4>
+                            {wallet.isRecommended && (
+                              <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full">Recommended</span>
+                            )}
+                          </div>
+                          <p className="text-sm text-slate-500 font-medium">
+                            {wallet.isInstalled ? 'Installed & Ready' : 'External Wallet'}
+                          </p>
+                        </div>
+                        {connectionState === 'connecting' ? (
+                          <Loader2 className="w-5 h-5 text-red-600 animate-spin" />
+                        ) : (
+                          <ExternalLink className="w-5 h-5 text-slate-300 group-hover:text-red-600 transition-colors" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+
+                  {connectionError && (
+                    <div className="mt-8 p-6 bg-red-50 border border-red-100 rounded-[24px] flex items-start gap-4">
+                      <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+                      <div>
+                        <h4 className="text-sm font-black text-red-600 uppercase tracking-tight mb-1">Connection Error</h4>
+                        <p className="text-sm text-red-600/80 font-medium">{connectionError}</p>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
+              {/* STAGE: Payment (QR & Address) */}
+              {stage === CHECKOUT_STAGE.PAYMENT && (
+                <motion.div
+                  key="payment"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-8"
+                >
+                  <div className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 overflow-hidden relative">
+                    <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none">
+                      <Zap className="w-48 h-48 text-slate-900" />
+                    </div>
+
+                    <div className="flex flex-col md:flex-row gap-12 relative z-10">
+                      {/* QR Code Column */}
+                      <div className="flex flex-col items-center">
+                        <div className="p-6 bg-slate-50 border border-slate-100 rounded-[40px] shadow-inner mb-6 group transition-all hover:bg-white hover:shadow-xl">
+                          <img 
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${selectedCrypto === 'BTC' ? 'bitcoin' : 'ethereum'}:${PAYMENT_ADDRESSES[selectedCrypto]}?amount=${cryptoAmount}`}
+                            alt="Payment QR Code"
+                            className="w-48 h-48 group-hover:scale-105 transition-transform"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-full">
+                          <Clock className="w-4 h-4 animate-pulse" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Rate expires in 15:00</span>
+                        </div>
+                      </div>
+
+                      {/* Details Column */}
+                      <div className="flex-1 space-y-8">
+                        <div>
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Amount to send</label>
+                          <div className="flex items-baseline gap-3">
+                            <span className="text-5xl font-black text-slate-900 tracking-tighter">
+                              {isLoadingRate ? '...' : cryptoAmount}
+                            </span>
+                            <span className="text-2xl font-black text-red-600 uppercase">{selectedCrypto}</span>
+                          </div>
+                          <p className="text-slate-500 font-medium mt-1">≈ ${totalUSD.toFixed(2)} USD</p>
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Recipient Address</label>
+                          <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-red-600 transition-all">
+                            <code className="flex-1 text-sm font-bold text-slate-900 break-all">
+                              {PAYMENT_ADDRESSES[selectedCrypto]}
+                            </code>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => copyToClipboard(PAYMENT_ADDRESSES[selectedCrypto])}
+                              className="text-red-600 hover:bg-red-50 rounded-xl"
+                            >
+                              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="p-6 bg-red-50 border border-red-100 rounded-3xl">
+                          <div className="flex items-center gap-3 mb-3">
+                            <ShieldCheck className="w-5 h-5 text-red-600" />
+                            <h4 className="text-sm font-black text-red-600 uppercase tracking-tight">Security Protocol</h4>
+                          </div>
+                          <p className="text-xs text-red-600/80 font-medium leading-relaxed">
+                            Please ensure you are sending on the <strong>{CRYPTO_OPTIONS.find(c => c.id === selectedCrypto)?.network}</strong>. 
+                            Sending to the wrong network will result in permanent loss of laboratory funds.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Manual TX Input */}
+                  <div className="bg-slate-900 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
+                      <RefreshCw className="w-32 h-32 text-white" />
+                    </div>
+                    
+                    <div className="relative z-10">
+                      <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">Manual Verification</h3>
+                      <p className="text-slate-300 font-medium mb-8">If your wallet doesn't auto-verify, enter your transaction hash below.</p>
+                      
+                      <div className="flex flex-col md:flex-row gap-4">
+                        <input
+                          type="text"
+                          value={transactionId}
+                          onChange={(e) => setTransactionId(e.target.value)}
+                          placeholder="Enter Transaction ID / Hash"
+                          className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-red-600 transition-all font-bold"
+                        />
+                        <Button
+                          onClick={() => setStage(CHECKOUT_STAGE.CONFIRMING)}
+                          disabled={!transactionId}
+                          className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs h-auto shadow-xl shadow-red-600/20 disabled:opacity-50"
+                        >
+                          Verify Payment
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STAGE: Confirming */}
+              {stage === CHECKOUT_STAGE.CONFIRMING && (
+                <motion.div
+                  key="confirming"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-white border border-slate-200 rounded-[40px] p-12 md:p-20 text-center shadow-xl shadow-slate-100"
+                >
+                  <div className="max-w-md mx-auto">
+                    <div className="w-24 h-24 bg-red-50 rounded-[32px] flex items-center justify-center mx-auto mb-10 shadow-lg shadow-red-100 relative">
+                      <Loader2 className="w-12 h-12 text-red-600 animate-spin" />
+                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white border-4 border-white rounded-full flex items-center justify-center shadow-md">
+                        <ShieldCheck className="w-4 h-4 text-red-600" />
+                      </div>
+                    </div>
+
+                    <h2 className="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Verifying Transaction</h2>
+                    <p className="text-xl text-slate-500 font-medium mb-8">{verificationMessage}</p>
+
+                    <div className="space-y-4">
+                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: "0%" }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: 10, repeat: Infinity }}
+                          className="h-full bg-red-600"
+                        />
+                      </div>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Blockchain confirmation in progress</p>
+                    </div>
+
+                    {verificationStatus === 'failed' && (
+                      <div className="mt-12">
+                        <Button
+                          variant="outline"
+                          onClick={() => setStage(CHECKOUT_STAGE.PAYMENT)}
+                          className="border-red-600 text-red-600 hover:bg-red-50 rounded-full px-8 py-6 font-black uppercase tracking-widest text-xs"
+                        >
+                          Return to Payment
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STAGE: Completed */}
+              {stage === CHECKOUT_STAGE.COMPLETED && (
+                <motion.div
+                  key="completed"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-white border border-slate-200 rounded-[40px] p-12 md:p-20 text-center shadow-2xl shadow-slate-200"
+                >
+                  <div className="max-w-md mx-auto">
+                    <div className="w-24 h-24 bg-green-50 rounded-[32px] flex items-center justify-center mx-auto mb-10 shadow-lg shadow-green-100">
+                      <CheckCircle2 className="w-12 h-12 text-green-500" />
+                    </div>
+                    <h2 className="text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">Discovery <span className="text-green-500">Confirmed</span></h2>
+                    <p className="text-xl text-slate-500 font-medium mb-12">Your research materials have been funded and are entering fulfillment.</p>
+                    
+                    <div className="p-6 bg-slate-50 border border-slate-100 rounded-[32px] text-left space-y-4 mb-10">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Order Status</span>
+                        <span className="px-3 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-full">Processing</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment ID</span>
+                        <span className="text-xs font-bold text-slate-900 truncate ml-4">{transactionId || 'Confirmed via Bank'}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-3 text-slate-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-[10px] font-black uppercase tracking-widest">Redirecting to receipt...</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Sidebar Summary */}
+          <div className="lg:w-96 space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-xl shadow-slate-100"
+            >
+              <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight flex items-center justify-between">
+                Order Summary
+                <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full">Secure</span>
+              </h3>
+
+              <div className="space-y-6 mb-8">
+                {cartItems.map((item, idx) => (
+                  <div key={idx} className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">{item.productName}</h4>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.specification} × {item.quantity}</p>
+                    </div>
+                    <span className="text-sm font-black text-slate-900">${(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-          <div className="lg:col-span-1">{renderOrderSummary()}</div>
-        </div>
 
-        <div className="fixed bottom-6 right-6 z-50"><CryptoWalletHelp /></div>
+              <div className="space-y-4 pt-6 border-t border-slate-100">
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500 font-medium">Research Subtotal</span>
+                  <span className="text-slate-900 font-bold">${subtotal.toFixed(2)}</span>
+                </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-green-600 font-medium">Protocol Discount</span>
+                    <span className="text-green-600 font-bold">-${discount.toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500 font-medium">Secure Shipping</span>
+                  <span className="text-slate-900 font-bold">${SHIPPING_COST.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center pt-4">
+                  <span className="text-lg font-black text-slate-900 uppercase tracking-tight">Total Funding</span>
+                  <span className="text-2xl font-black text-red-600">${totalUSD.toFixed(2)}</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-slate-900 rounded-[40px] p-8 shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <ShieldCheck className="w-32 h-32 text-white" />
+              </div>
+              <h4 className="text-sm font-black text-white uppercase tracking-widest mb-4 relative z-10">Research Integrity</h4>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed relative z-10">
+                Red Helix Research enforces strict chain-of-custody protocols. All research materials are handled in 
+                compliance with clinical documentation standards.
+              </p>
+              <div className="mt-6 space-y-3 relative z-10">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">Temperature Controlled</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">Discrete Packaging</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">Verified Purity</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </div>
   );

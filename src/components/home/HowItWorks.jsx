@@ -31,27 +31,32 @@ const guarantees = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-20 px-4 bg-stone-950/50">
-      <div className="max-w-5xl mx-auto">
+    <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 right-0 w-1/4 h-full bg-red-600/5 -skew-x-12 translate-x-1/2" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              How It Works
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600/5 border border-red-600/10 rounded-full mb-6">
+            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Efficiency Protocol</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+            ACQUISITION <br />
+            <span className="text-red-600">WORKFLOW</span>
           </h2>
-          <p className="text-stone-300 text-lg">
-            Simple, secure, and discreet
+          <p className="text-slate-500 font-medium max-w-xl mx-auto">
+            Our streamlined procurement process ensures maximum security and clinical-grade logistics handling.
           </p>
         </motion.div>
 
         {/* Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
@@ -59,19 +64,25 @@ export default function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15 }}
               viewport={{ once: true }}
-              className="relative text-center"
+              className="relative group"
             >
+              <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col items-center text-center">
+                <div className="w-20 h-20 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:border-red-600/30 transition-colors">
+                  <step.icon className="w-8 h-8 text-red-600" />
+                </div>
+                
+                <div className="absolute top-6 left-6 w-8 h-8 rounded-full bg-red-600 text-white text-xs font-black flex items-center justify-center shadow-lg">
+                  {step.number}
+                </div>
+
+                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{step.title}</h3>
+                <p className="text-slate-500 font-medium leading-relaxed">{step.description}</p>
+              </div>
+              
               {/* Connector line */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-red-700/50 to-transparent" />
+                <div className="hidden lg:block absolute top-1/2 -right-6 w-12 h-px bg-slate-200 z-0" />
               )}
-
-              <div className="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-2xl bg-gradient-to-br from-red-700/20 to-red-800/10 border border-red-700/30">
-                <span className="text-3xl font-black text-red-600">{step.number}</span>
-              </div>
-
-              <h3 className="text-xl font-bold text-amber-50 mb-2">{step.title}</h3>
-              <p className="text-stone-300">{step.description}</p>
             </motion.div>
           ))}
         </div>
@@ -81,12 +92,14 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-wrap items-center justify-center gap-6 pt-8 border-t border-stone-700"
+          className="flex flex-wrap items-center justify-center gap-12 py-10 bg-white rounded-[32px] border border-slate-100 shadow-sm"
           >
           {guarantees.map((item) => (
-            <div key={item.label} className="flex items-center gap-2 text-stone-300">
-              <item.icon className="w-4 h-4 text-red-600" />
-              <span className="text-sm">{item.label}</span>
+            <div key={item.label} className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-red-600/5 flex items-center justify-center">
+                <item.icon className="w-4 h-4 text-red-600" />
+              </div>
+              <span className="text-xs font-black text-slate-900 uppercase tracking-widest">{item.label}</span>
             </div>
           ))}
         </motion.div>

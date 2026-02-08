@@ -38,27 +38,32 @@ const contactMethods = [
 
 export default function Contact() {
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-4xl mx-auto">
+    <section className="py-24 px-4 bg-white relative overflow-hidden">
+      {/* Background Accent */}
+      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-red-600/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Need Help?
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-6">
+            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Support Protocol</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6 uppercase">
+            Researcher <br />
+            <span className="text-red-600">Assistance</span>
           </h2>
-          <p className="text-stone-300 text-lg">
-            Our team responds within 24 hours
+          <p className="text-slate-500 font-medium max-w-xl mx-auto">
+            Direct communication channels for laboratory procurement inquiries and technical research support.
           </p>
         </motion.div>
 
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {contactMethods.map((method, index) => (
             <motion.div
               key={method.label}
@@ -68,14 +73,14 @@ export default function Contact() {
               viewport={{ once: true }}
             >
               <Card 
-                className="bg-stone-900/60 border-stone-700 hover:border-red-700/40 transition-all duration-300 p-6 text-center cursor-pointer"
+                className="bg-white border-slate-100 hover:border-red-600/30 transition-all duration-500 p-10 text-center cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl group"
                 onClick={() => method.link && window.open(method.link, '_blank')}
               >
-                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${method.color} mb-4 transition-colors`}>
-                  <method.icon className="w-6 h-6" />
+                <div className={`inline-flex items-center justify-center w-20 h-20 rounded-[24px] ${method.color} mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-sm`}>
+                  <method.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-lg font-bold text-amber-50 mb-1">{method.label}</h3>
-                <p className="text-sm text-stone-300">{method.value}</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">{method.label}</h3>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{method.value}</p>
               </Card>
             </motion.div>
           ))}
@@ -87,12 +92,12 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center"
         >
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 font-semibold px-6">
-              Go to Contact Form
-              <ArrowRight className="w-4 h-4 ml-2" />
+            <Button className="bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-red-600/20 transition-all hover:-translate-y-1">
+              OPEN FORMAL INQUIRY
+              <ArrowRight className="w-6 h-6 ml-3" />
             </Button>
           </Link>
         </motion.div>

@@ -58,11 +58,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
       ? Math.min(...inStockSpecs.map(spec => spec.price))
       : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
     
-    const isBacWater = product.name?.toLowerCase().includes('bacteriostatic') || 
-                       product.name?.toLowerCase().includes('bac water');
-    const image = isBacWater 
-      ? product.image_url 
-      : 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg';
+    const image = 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg';
     
     return { lowestVisiblePrice: price, displayImage: image };
   }, [product.specifications, product.price_from, product.name, product.image_url]);
@@ -82,7 +78,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           }}
           exit={{ backdropFilter: "blur(0px)", opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed inset-0 z-40 pointer-events-none bg-stone-950/30"
+          className="fixed inset-0 z-40 pointer-events-none bg-white/40 backdrop-blur-[2px]"
         />
       )}
 
@@ -101,7 +97,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         className="relative z-50 h-full"
       >
       
-      <Card className={`group relative bg-white border-slate-200 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-[32px] flex flex-col ${
+      <Card className={`group relative bg-white border-slate-100 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-[40px] flex flex-col ${
         isAdmin && localHidden ? 'opacity-60 grayscale' : ''
       }`}>
         {/* Animated Glow Overlay - Subtle Medical Pulse */}
@@ -109,8 +105,8 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         
         {/* Admin Visibility Toggle */}
         {isAdmin && (
-          <div className="absolute top-4 right-4 z-20" onClick={(e) => e.stopPropagation()}>
-            <div className={`flex items-center gap-2 bg-white/90 backdrop-blur-md border rounded-xl px-3 py-2 transition-all shadow-sm ${
+          <div className="absolute top-6 right-6 z-20" onClick={(e) => e.stopPropagation()}>
+            <div className={`flex items-center gap-2 bg-white border rounded-2xl px-3 py-2 transition-all shadow-sm ${
               isUpdating ? 'border-yellow-500/50 animate-pulse' : 
               localHidden ? 'border-red-500/50' : 'border-green-500/50'
             }`}>
@@ -131,27 +127,27 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         )}
         
         {/* Top Badges */}
-        <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+        <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
           {badge && (
-            <Badge className={`${badge.color} border text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm`}>
-              <badge.icon className="w-3 h-3" />
+            <Badge className={`${badge.color} border text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm`}>
+              <badge.icon className="w-3.5 h-3.5" />
               {badge.label}
             </Badge>
           )}
-          <Badge className="bg-white/90 backdrop-blur-md border-slate-100 text-slate-900 text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
-            <Microscope className="w-3 h-3 text-red-600" />
-            HPLC TESTED
+          <Badge className="bg-white border-slate-100 text-slate-900 text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+            <Microscope className="w-3.5 h-3.5 text-red-600" />
+            HPLC VERIFIED
           </Badge>
         </div>
 
-        <div className="p-8 flex flex-col h-full">
+        <div className="p-10 flex flex-col h-full">
           {/* Product Image Container */}
-          <div className={`relative mb-8 aspect-square flex items-center justify-center bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 group-hover:border-red-100 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
+          <div className={`relative mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-red-100 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
             {displayImage ? (
               <img 
                 src={displayImage} 
                 alt={product.name}
-                className="w-4/5 h-4/5 object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
+                className="w-4/5 h-4/5 object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-2xl"
                 loading="lazy"
                 decoding="async"
               />
@@ -165,71 +161,76 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             <motion.div 
               animate={{ top: ['0%', '100%', '0%'] }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className="absolute left-0 right-0 h-[1px] bg-red-600/10 shadow-[0_0_10px_rgba(239,68,68,0.2)] z-10"
+              className="absolute left-0 right-0 h-[1px] bg-red-600/10 shadow-[0_0_15px_rgba(239,68,68,0.3)] z-10"
             />
           </div>
 
           {/* Product Info */}
           <div className="flex-grow">
-            <div className="flex justify-between items-start mb-2">
-              <span className="text-[10px] font-black tracking-widest text-red-600 uppercase">
+            <div className="flex justify-between items-start mb-3">
+              <span className="text-[10px] font-black tracking-[0.2em] text-red-600 uppercase">
                 {categoryLabels[product.category]}
               </span>
-              <div className="flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-green-600" />
-                <span className="text-[10px] font-bold text-slate-400 uppercase">99%+ Purity</span>
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">99%+ Purity</span>
               </div>
             </div>
 
-            <h3 className={`text-2xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-red-600 transition-colors ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-red-600 transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.name}
             </h3>
             
-            <p className={`text-sm text-slate-500 mb-6 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className={`text-sm text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.description}
             </p>
           </div>
 
-          <div className={`flex items-center justify-between mb-6 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+          <div className={`flex items-end justify-between mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             <div className="flex flex-col">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Research Value</span>
-              <span className="text-3xl font-black text-slate-900">
-                ${lowestVisiblePrice}
-              </span>
-            </div>
-            <div className="text-right">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Status</span>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-xs font-black text-slate-900 uppercase">IN STOCK</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Acquisition Cost</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-4xl font-black text-slate-900 tracking-tighter">
+                  ${lowestVisiblePrice}
+                </span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">USD</span>
               </div>
             </div>
+            <div className="text-right">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Thermal Stability</span>
+              <span className="text-[10px] font-black text-red-600 uppercase block tracking-widest">-20°C Verified</span>
+            </div>
           </div>
 
-          <div className={`mb-6 p-4 bg-slate-50 border border-slate-100 rounded-2xl ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            <p className="text-[10px] text-slate-500 leading-tight font-medium">
-              <span className="text-red-600 font-bold uppercase mr-1">RUO:</span>
-              Research Use Only. Not for human consumption. Standard 10-vial laboratory configuration.
-            </p>
+          <Button 
+            onClick={handleSelectStrength}
+            className={`w-full h-16 bg-red-600 hover:bg-red-700 border-2 border-red-600 hover:border-red-700 text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-red-600/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
+          >
+            <span className="flex items-center gap-3">
+              Technical Analysis
+              <Microscope className="w-5 h-5 transition-transform group-hover/btn:scale-110" />
+            </span>
+          </Button>
+          
+          {/* Compliance Disclaimer - Bright Medical Style */}
+          <div className="mt-6 p-4 bg-red-50 rounded-2xl border border-red-100 relative overflow-hidden">
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                <p className="text-[9px] font-black text-red-600 uppercase tracking-widest leading-none">Strict Compliance</p>
+              </div>
+              <p className="text-[10px] font-bold text-slate-600 leading-tight">
+                This product is supplied for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. 
+                Strictly <span className="text-red-600 underline">NOT FOR HUMAN CONSUMPTION</span>. 
+                By ordering, you certify you are 21+ and a qualified researcher.
+              </p>
+            </div>
           </div>
-
-          {!isAuthenticated ? (
-            <Link to={createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(window.location.href)} className="w-full">
-              <Button 
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest gap-2 rounded-2xl py-7 transition-all"
-              >
-                <Lock className="w-4 h-4" />
-                ACCESS REQUIRED
-              </Button>
-            </Link>
-          ) : (
-            <Button 
-              onClick={handleSelectStrength}
-              className="w-full bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest rounded-2xl py-7 shadow-[0_10px_20px_-5px_rgba(220,38,38,0.2)] hover:shadow-[0_15px_30px_-5px_rgba(220,38,38,0.3)] transition-all duration-300 transform group-hover:-translate-y-1"
-            >
-              CONFIGURE ORDER
-            </Button>
-          )}
+          
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="w-1 h-1 rounded-full bg-red-600" />
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Clinical Grade Logistics</span>
+          </div>
         </div>
       </Card>
     </motion.div>

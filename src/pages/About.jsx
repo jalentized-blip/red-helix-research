@@ -1,54 +1,43 @@
 import React from 'react';
-import { ArrowLeft, Eye, DollarSign, Beaker } from 'lucide-react';
+import { ArrowLeft, Eye, DollarSign, Beaker, ShieldCheck, Zap, Heart, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
-import TechGrid from '@/components/effects/TechGrid';
-import HolographicText from '@/components/effects/HolographicText';
-import GlowingCard from '@/components/effects/GlowingCard';
-import ParticleField from '@/components/effects/ParticleField';
 import SEO from '@/components/SEO';
 
 const StorySection = ({ icon: Icon, title, description, highlight, highlightSecondary }) => (
-  <GlowingCard>
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="p-8"
-    >
-      <div className="flex items-start gap-4">
-        <motion.div
-          animate={{ 
-            boxShadow: [
-              '0 0 10px rgba(125, 74, 43, 0.5)',
-              '0 0 20px rgba(125, 74, 43, 0.8)',
-              '0 0 10px rgba(125, 74, 43, 0.5)',
-            ]
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="rounded-full p-2 bg-stone-800"
-        >
-          <Icon className="w-8 h-8 text-red-600 flex-shrink-0" />
-        </motion.div>
-        <div>
-          <HolographicText className="text-2xl font-bold text-amber-50 mb-3">{title}</HolographicText>
-          <p className="text-amber-50 leading-relaxed mb-3">{description}</p>
-          {highlight && (
-            <div className="mt-4 space-y-0">
-              <HolographicText className="text-3xl font-black text-amber-50">{highlight}</HolographicText>
-              {highlightSecondary && (
-                <HolographicText className="text-3xl font-black text-amber-50">{highlightSecondary}</HolographicText>
-              )}
-              <p className="text-white font-semibold text-lg mt-6 mb-3">Every Batch Tested. Every Result Trusted.</p>
-              <p className="text-amber-50 text-sm">FOR RESEARCH AND LABORATORY USE ONLY</p>
-            </div>
-          )}
-        </div>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6 }}
+    className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 hover:border-red-600/30 transition-all group relative overflow-hidden"
+  >
+    <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
+      <Icon className="w-48 h-48 text-slate-900" />
+    </div>
+    
+    <div className="flex flex-col md:flex-row items-start gap-8 relative z-10">
+      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-100 group-hover:scale-110 transition-transform">
+        <Icon className="w-8 h-8 text-red-600" />
       </div>
-    </motion.div>
-  </GlowingCard>
+      <div>
+        <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none group-hover:text-red-600 transition-colors">
+          {title}
+        </h3>
+        <p className="text-lg text-slate-500 leading-relaxed mb-6 font-medium">
+          {description}
+        </p>
+        {highlight && (
+          <div className="inline-flex flex-col gap-1 px-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{highlightSecondary || 'Research Status'}</span>
+            <span className="text-lg font-black text-red-600 uppercase tracking-tight">{highlight}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  </motion.div>
 );
 
 export default function About() {
@@ -65,170 +54,157 @@ export default function About() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20 relative">
+    <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
       <SEO 
         title="About Red Helix Research - Research Peptide Supplier"
         description="Red Helix Research supplies research-grade peptides for laboratory use only. Verified COAs, transparent documentation, supporting scientific research. All products for in vitro research, not for human consumption."
         keywords="about red helix research, research peptide supplier, laboratory peptides, peptide vendor, research chemicals, verified research peptides, COA peptides, research peptide company, in vitro research, scientific research peptides"
         schema={aboutSchema}
       />
-      <TechGrid />
-      <ParticleField />
+
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
+      </div>
+
       {/* Hero Section */}
-      <div className="max-w-4xl mx-auto px-4 mb-20 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 mb-20 relative z-10 text-center">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-8 group">
-            <motion.div
-              whileHover={{ x: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </motion.div>
-            <span className="relative">
-              Back to Home
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300" />
-            </span>
-          </Link>
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
         >
-          <HolographicText className="text-5xl font-black text-amber-50 mb-6 block">
-            Red Helix Research: Transparency, Affordability & Exceptional Service
-          </HolographicText>
-          <motion.p 
-            className="text-xl text-amber-50 leading-relaxed mb-4"
-            animate={{ 
-              textShadow: [
-                '0 0 5px rgba(125, 74, 43, 0.3)',
-                '0 0 10px rgba(125, 74, 43, 0.5)',
-                '0 0 5px rgba(125, 74, 43, 0.3)',
-              ]
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            We provide research-grade peptides for laboratory and scientific research purposes only.
-          </motion.p>
-          <div className="bg-yellow-950/40 border border-yellow-700/50 rounded-lg px-6 py-4">
-            <p className="text-yellow-100 text-sm font-semibold">
-              ⚠️ FOR RESEARCH AND LABORATORY USE ONLY - All products are intended strictly for in vitro research and are not approved for human consumption, therapeutic use, or any clinical application.
-            </p>
+          <Link to={createPageUrl('Home')}>
+            <Button variant="outline" className="mb-8 border-slate-200 text-slate-600 hover:bg-slate-50 rounded-full font-bold uppercase tracking-wider text-xs">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+          
+          <h1 className="text-6xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
+            Our <span className="text-red-600">Mission</span>
+          </h1>
+          
+          <p className="text-2xl text-slate-500 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
+            Red Helix Research is dedicated to providing the scientific community with 
+            unmatched transparency, clinical-grade purity, and verifiable laboratory data.
+          </p>
+
+          <div className="inline-flex items-center gap-4 px-8 py-4 bg-red-50 border border-red-100 rounded-3xl shadow-lg shadow-red-100/50">
+            <ShieldCheck className="w-6 h-6 text-red-600" />
+            <span className="text-sm font-black text-red-600 uppercase tracking-widest">
+              FOR RESEARCH AND LABORATORY USE ONLY
+            </span>
           </div>
         </motion.div>
       </div>
 
-      {/* Story Timeline */}
-      <div className="max-w-4xl mx-auto px-4 space-y-8 mb-20 relative z-10">
-        {/* Chapter 1 */}
-        <StorySection
-          icon={Beaker}
-          title="A Better Way Forward"
-          description="Red Helix Research supplies research-grade peptides to the scientific research community. We provide transparent, verified products for laboratory use with proper documentation and COAs. Our peptides are intended strictly for in vitro research and non-clinical laboratory applications."
-          highlight="Research Use Only"
-        />
-
-        {/* Chapter 2 */}
-        <StorySection
-          icon={DollarSign}
-          title="COA Transparency on Every Product"
-          description="We prove our commitment through third-party Certificates of Analysis (COAs) on every batch. No hidden testing, no guesswork—just verifiable proof of purity and potency. Every product sold through Red Helix Research comes with accessible, transparent testing documentation so you know exactly what you're getting. This isn't a promise; it's a guarantee backed by actual lab data."
-          highlight="100% Verified"
-          highlightSecondary="         Every Batch"
-        />
-
-        {/* Chapter 3 */}
-        <StorySection
-          icon={Eye}
-          title="Affordable Peptides for Everyone"
-          description="High quality shouldn't come with a premium price tag. We've restructured our entire operation to offer competitive pricing without sacrificing quality or integrity. By eliminating unnecessary middlemen and being honest about our costs, we deliver research-grade peptides at fair prices. Accessibility matters—we believe everyone conducting legitimate research deserves access to verified products."
-          highlight="Quality at Fair Prices"
-        />
-
-        {/* Chapter 4 */}
-        <GlowingCard>
+      {/* Stats/Highlights Grid */}
+      <div className="max-w-7xl mx-auto px-4 mb-32 grid md:grid-cols-3 gap-8 relative z-10">
+        {[
+          { icon: ShieldCheck, label: 'Quality', title: '100% Verified', desc: 'Every batch undergoes third-party analysis.' },
+          { icon: Zap, label: 'Speed', title: 'Rapid Fulfillment', desc: 'Same-day processing for all research orders.' },
+          { icon: Heart, label: 'Trust', title: 'Direct Transparency', desc: 'Public access to all COA documentation.' }
+        ].map((stat, idx) => (
           <motion.div
+            key={idx}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-red-700/20 to-red-800/10 p-10"
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.1 }}
+            className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 text-center hover:bg-white hover:shadow-xl transition-all group"
           >
-          <HolographicText className="text-3xl font-bold text-amber-50 mb-4 block">
-            Our Commitment to You
-          </HolographicText>
-          <p className="text-amber-50 leading-relaxed mb-6">
-            We provide research-grade peptides for laboratory and scientific research. Here's our commitment to the research community:
-          </p>
-          <ul className="space-y-3 text-amber-50">
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>COAs on Everything:</strong> Every product we sell includes verified third-party testing. No exceptions, no compromises.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Customer Service That Cares:</strong> Our team is genuinely invested in your success. We answer questions thoroughly, resolve issues quickly, and treat you like a valued member of our community.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Supporting Scientific Research:</strong> We supply verified peptides for legitimate laboratory research, enabling researchers to conduct in vitro studies and non-clinical investigations.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold mt-1">✓</span>
-              <span><strong>Competitive Pricing:</strong> Fair doesn't mean expensive. We compete on price while maintaining the highest standards of quality and transparency.</span>
-            </li>
-          </ul>
+            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <stat.icon className="w-6 h-6 text-red-600" />
+            </div>
+            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</div>
+            <h4 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">{stat.title}</h4>
+            <p className="text-sm text-slate-500 font-medium">{stat.desc}</p>
           </motion.div>
-          </GlowingCard>
+        ))}
+      </div>
 
-        {/* Chapter 5 */}
+      {/* Main Content Sections */}
+      <div className="max-w-5xl mx-auto px-4 space-y-12 mb-32 relative z-10">
         <StorySection
-          icon={Eye}
-          title="Why We're Different"
-          description="Red Helix Research provides verified, lab-tested research peptides with transparent documentation. All products are intended for laboratory research purposes only and are not approved for human consumption. We support the scientific research community with quality materials for in vitro studies."
-          highlight="Research Grade Quality"
+          icon={Beaker}
+          title="Clinical Precision"
+          description="We provide research-grade peptides to the scientific community with a focus on precision and reliability. Every reagent is handled with strict protocols to ensure maximum stability and performance in your laboratory environment."
+          highlight="Laboratory Grade"
+          highlightSecondary="Protocol Integrity"
+        />
+
+        <StorySection
+          icon={Award}
+          title="Verified Purity"
+          description="Transparency isn't just a word; it's our foundational principle. We provide comprehensive third-party Certificates of Analysis (COAs) for every single batch, proving our commitment to 99%+ purity standards."
+          highlight="99%+ Pure"
+          highlightSecondary="Third-Party Tested"
+        />
+
+        <StorySection
+          icon={DollarSign}
+          title="Research Accessibility"
+          description="High-quality research materials should be accessible. By optimizing our supply chain and focusing on direct-to-researcher distribution, we offer the most competitive pricing in the industry without compromising on quality."
+          highlight="Direct Pricing"
+          highlightSecondary="Optimized Supply"
         />
       </div>
 
-      {/* CTA Section */}
-      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <HolographicText className="text-3xl font-bold text-amber-50 mb-4 block">
-            Research-Grade Peptides for Laboratory Use
-          </HolographicText>
-          <p className="text-amber-50 mb-8 text-lg">
-            Explore our research peptides with verified COAs for laboratory applications.
-          </p>
-          <Link to={createPageUrl('Home')}>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 py-6 text-lg font-semibold relative overflow-hidden group">
-                <span className="relative z-10">Shop Now</span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
-                  animate={{
-                    x: ['-100%', '100%']
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                />
+      {/* Final Commitment Box */}
+      <div className="max-w-5xl mx-auto px-4 relative z-10">
+        <div className="bg-slate-900 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 right-0 p-20 opacity-10 pointer-events-none">
+            <ShieldCheck className="w-64 h-64 text-white" />
+          </div>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative z-10"
+          >
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-8 uppercase tracking-tighter leading-none">
+              The Red Helix <span className="text-red-600">Standard</span>
+            </h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+              Our commitment to the scientific community is unwavering. We provide the tools, 
+              you provide the discovery. Together, we advance the boundaries of research.
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-12">
+              {[
+                'Public COA Database',
+                'Same-Day Laboratory Shipping',
+                'Secure Research Supply',
+                '24/7 Technical Support'
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-3 text-left p-4 bg-white/5 border border-white/10 rounded-2xl">
+                  <div className="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-bold text-white uppercase tracking-wide">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <Link to={createPageUrl('Home')}>
+              <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-12 py-8 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-red-600/20">
+                Explore Research Catalog
               </Button>
-            </motion.div>
-          </Link>
-        </motion.div>
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Compliance Footer */}
+      <div className="max-w-4xl mx-auto px-4 mt-32 text-center opacity-50">
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Regulatory Compliance</p>
+        <p className="text-xs text-slate-500 leading-relaxed font-medium">
+          All products are intended strictly for in vitro laboratory research and are not approved for human consumption, 
+          veterinary use, or any clinical application. Red Helix Research operates in full compliance with 
+          scientific research material distribution guidelines.
+        </p>
       </div>
     </div>
   );

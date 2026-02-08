@@ -82,24 +82,24 @@ export default function Cart() {
   const finalTotal = subtotal - discount + SHIPPING_COST;
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20 px-4">
+    <div className="min-h-screen bg-white pt-32 pb-20 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6 font-bold">
             <ArrowLeft className="w-4 h-4" />
             Continue Shopping
           </Link>
-          <h1 className="text-4xl font-black text-amber-50">Shopping Cart</h1>
+          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tight">Shopping Cart</h1>
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="text-center py-20">
-            <ShoppingBag className="w-16 h-16 text-stone-600 mx-auto mb-4" />
-            <p className="text-stone-400 text-lg mb-6">Your cart is empty</p>
+          <div className="text-center py-20 bg-slate-50 rounded-[40px] border border-slate-100">
+            <ShoppingBag className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <p className="text-slate-400 text-lg mb-6 font-semibold">Your research cart is empty</p>
             <Link to={createPageUrl('Home')}>
-              <Button className="bg-red-700 hover:bg-red-600 text-amber-50">
-                Start Shopping
+              <Button className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-red-600/20">
+                Browse Peptides
               </Button>
             </Link>
           </div>
@@ -108,26 +108,26 @@ export default function Cart() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item) => (
-                <div key={item.id} className="bg-stone-900/50 border border-stone-700 rounded-lg p-6">
+                <div key={item.id} className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-lg font-bold text-amber-50">{item.productName}</h3>
-                      <p className="text-stone-400 text-sm mt-1">{item.specification}</p>
+                      <h3 className="text-xl font-black text-slate-900">{item.productName}</h3>
+                      <p className="text-slate-400 text-sm mt-1 font-bold uppercase tracking-wider">{item.specification}</p>
                     </div>
                     <button
                       onClick={() => handleRemoveItem(item.id)}
-                      className="text-stone-400 hover:text-red-600 transition-colors"
+                      className="text-slate-300 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-xl"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
                   <div className="flex justify-between items-center">
-                    <div className="text-stone-300">
-                      <span className="text-sm">Qty: {item.quantity}</span>
+                    <div className="text-slate-500 font-bold">
+                      <span className="text-sm">Quantity: {item.quantity}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-red-600">${(item.price * item.quantity).toFixed(2)}</p>
-                      <p className="text-xs text-stone-400">${item.price} each</p>
+                      <p className="text-2xl font-black text-red-600">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="text-xs text-slate-400 font-bold uppercase">${item.price} per unit</p>
                     </div>
                   </div>
                 </div>
@@ -136,27 +136,27 @@ export default function Cart() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 sticky top-32">
-                <h2 className="text-xl font-bold text-amber-50 mb-6">Order Summary</h2>
+              <div className="bg-slate-50 border border-slate-100 rounded-[40px] p-8 sticky top-32 shadow-sm">
+                <h2 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight">Summary</h2>
 
                 {/* Promo Code Section */}
-                <div className="mb-6 p-4 bg-stone-800/50 rounded-lg">
+                <div className="mb-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
                   {showAffiliateMessage && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mb-3 p-3 bg-red-600/20 border border-red-600/50 rounded text-center"
+                      className="mb-3 p-3 bg-red-50 border border-red-100 rounded-xl text-center"
                     >
-                      <p className="text-sm font-semibold text-red-400">
-                        Thank you for supporting our affiliates! 💜
+                      <p className="text-xs font-bold text-red-600">
+                        Affiliate discount applied! 💜
                       </p>
                     </motion.div>
                   )}
                   {appliedPromo ? (
-                    <div className="flex items-center justify-between bg-green-600/20 border border-green-600/50 rounded p-3">
+                    <div className="flex items-center justify-between bg-green-50 border border-green-100 rounded-xl p-3">
                       <div className="flex items-center gap-2">
                         <Check className="w-4 h-4 text-green-600" />
-                        <span className="text-sm font-semibold text-green-600">{appliedPromo}</span>
+                        <span className="text-sm font-black text-green-600">{appliedPromo}</span>
                       </div>
                       <button
                         onClick={handleRemovePromo}
@@ -166,8 +166,8 @@ export default function Cart() {
                       </button>
                     </div>
                   ) : (
-                    <div className="space-y-2">
-                      <label className="text-xs font-semibold text-stone-300 block">Promo Code</label>
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Promo Code</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -178,8 +178,8 @@ export default function Cart() {
                           }}
                           onFocus={() => setPromoFocused(true)}
                           onBlur={() => setPromoFocused(false)}
-                          placeholder="Enter code"
-                          className="flex-1 bg-stone-700 border border-stone-600 rounded px-3 py-2 text-sm text-amber-50 placeholder-stone-500 focus:outline-none focus:border-red-600"
+                          placeholder="CODE"
+                          className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-300 font-bold focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600/20 transition-all"
                         />
                         {(promoCode || promoFocused) && (
                           <motion.div
@@ -191,7 +191,7 @@ export default function Cart() {
                             <Button
                               onClick={handleApplyPromo}
                               size="sm"
-                              className="bg-red-700 hover:bg-red-600 text-amber-50"
+                              className="bg-red-600 hover:bg-red-700 text-white font-bold h-full px-4 rounded-xl"
                             >
                               Apply
                             </Button>
@@ -205,104 +205,97 @@ export default function Cart() {
                   )}
                 </div>
 
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-stone-300">
+                {/* Pricing Details */}
+                <div className="space-y-4 mb-8">
+                  <div className="flex justify-between text-slate-500 font-bold uppercase tracking-wider text-xs">
                     <span>Subtotal</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
+                  <div className="flex justify-between text-slate-500 font-bold uppercase tracking-wider text-xs">
+                    <span>Shipping Fee</span>
+                    <span>${SHIPPING_COST.toFixed(2)}</span>
+                  </div>
                   {discount > 0 && (
-                    <div className="flex justify-between text-green-600">
+                    <div className="flex justify-between text-green-600 font-bold uppercase tracking-wider text-xs">
                       <span>Discount</span>
                       <span>-${discount.toFixed(2)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-stone-300">
-                    <span>Shipping Fee</span>
-                    <span>${SHIPPING_COST.toFixed(2)}</span>
-                  </div>
-                  <div className="border-t border-stone-700 pt-3 flex justify-between text-amber-50 font-bold text-lg">
-                    <span>Total</span>
-                    <span className="text-red-600">${finalTotal.toFixed(2)}</span>
+                  <div className="pt-4 border-t border-slate-200">
+                    <div className="flex justify-between text-slate-900">
+                      <span className="text-lg font-black uppercase tracking-tight">Total</span>
+                      <span className="text-2xl font-black text-red-600">${finalTotal.toFixed(2)}</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Compliance Checkbox */}
-                <div className="mb-6 space-y-3">
-                  <label className={`flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer ${showAgreementError ? 'bg-red-900/10 border-red-600' : 'bg-stone-800/30 border-stone-700 hover:border-stone-600'}`}>
-                    <input
-                      type="checkbox"
-                      checked={agreedToTerms}
-                      onChange={(e) => {
-                        setAgreedToTerms(e.target.checked);
-                        if (e.target.checked) setShowAgreementError(false);
-                      }}
-                      className="mt-1 w-4 h-4 rounded border-stone-600 bg-stone-700 text-red-600 focus:ring-red-600 focus:ring-offset-stone-900"
-                    />
-                    <span className="text-xs text-stone-300 leading-relaxed">
-                      I agree to the <Link to={createPageUrl('Policies')} className="text-red-500 hover:underline">Terms of Service</Link>, <Link to={createPageUrl('Policies')} className="text-red-500 hover:underline">Refund Policy</Link>, and acknowledge that all products are for <span className="text-amber-50 font-bold italic">RESEARCH USE ONLY</span> and <span className="text-amber-50 font-bold italic">NOT FOR HUMAN CONSUMPTION</span>.
-                    </span>
-                  </label>
+                {/* Agreement and Checkout */}
+                <div className="space-y-4">
+                  <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <div className="pt-1">
+                        <input
+                          type="checkbox"
+                          checked={agreedToTerms}
+                          onChange={(e) => {
+                            setAgreedToTerms(e.target.checked);
+                            setShowAgreementError(false);
+                          }}
+                          className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-600 cursor-pointer"
+                        />
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-bold leading-relaxed uppercase tracking-wider group-hover:text-slate-700 transition-colors">
+                        I confirm that these products are for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. Not for human consumption.
+                      </span>
+                    </label>
+                  </div>
+
                   {showAgreementError && (
-                    <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center animate-pulse">
-                      Acknowledgment required to proceed
+                    <p className="text-red-600 text-[10px] font-black uppercase tracking-widest text-center animate-bounce">
+                      Please confirm research use only terms
                     </p>
                   )}
-                </div>
 
-                <Button 
-                  onClick={() => {
-                    if (!agreedToTerms) {
-                      setShowAgreementError(true);
-                      return;
-                    }
-                    if (!isAuthenticated) {
-                      base44.auth.redirectToLogin(createPageUrl('Cart'));
-                      return;
-                    }
-                    navigate(createPageUrl('CustomerInfo'));
-                  }}
-                  className={`w-full font-semibold py-6 mb-3 gap-2 relative group transition-all duration-300 ${agreedToTerms ? 'bg-red-700 hover:bg-red-600 text-amber-50' : 'bg-stone-800 text-stone-500 cursor-not-allowed'}`}
-                >
-                  Proceed to Checkout
-                  <ArrowRight className="w-4 h-4" />
-                  {!isAuthenticated && !isCheckingAuth && (
-                    <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-stone-800 text-amber-50 text-xs px-3 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg border border-stone-700">
-                      Please sign in to checkout
-                    </span>
-                  )}
-                </Button>
+                  <Button
+                    onClick={() => {
+                      if (!agreedToTerms) {
+                        setShowAgreementError(true);
+                        return;
+                      }
+                      if (!isAuthenticated) {
+                        base44.auth.redirectToLogin(createPageUrl('Cart'));
+                        return;
+                      }
+                      navigate(createPageUrl('CustomerInfo'));
+                    }}
+                    className={`w-full font-black py-8 rounded-2xl shadow-lg shadow-red-600/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-red-600 hover:bg-red-700 text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                  >
+                    Checkout <ArrowRight className="w-5 h-5 ml-2" />
+                    {!isAuthenticated && !isCheckingAuth && (
+                      <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-3 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl font-bold uppercase tracking-widest">
+                        Please sign in to checkout
+                      </span>
+                    )}
+                  </Button>
 
                 <Button
-                  variant="outline"
-                  className="w-full border-stone-700 text-stone-300 hover:text-red-600"
+                  variant="ghost"
+                  className="w-full text-slate-400 hover:text-red-600 font-bold text-xs uppercase tracking-widest mt-2"
                   onClick={handleClearCart}
                 >
-                  Clear Cart
+                  Clear Research Cart
                 </Button>
 
                 {/* Info Box */}
-                <div className="mt-6 bg-stone-800/50 rounded-lg p-4 text-xs text-stone-400 space-y-2">
-                  <p className="flex items-center gap-2">
-                    <span className="text-red-600">✓</span> Same-day shipping
+                <div className="mt-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
+                  <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Same-day shipping
                   </p>
-                  <p className="flex items-center gap-2">
-                    <span className="text-red-600">✓</span> Lab tested products
+                  <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Lab tested purity
                   </p>
-                  <p className="flex items-center gap-2">
-                    <span className="text-red-600">✓</span> Money-back guarantee
-                  </p>
-                </div>
-
-                {/* PCI Compliance Notice */}
-                <div className="mt-4 bg-green-900/20 border border-green-700/50 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <p className="text-xs font-bold text-green-500">Secure Checkout</p>
-                  </div>
-                  <p className="text-xs text-green-400/80">
-                    PCI-DSS compliant • No card data stored • Encrypted transactions
+                  <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Secure Laboratory Supply
                   </p>
                 </div>
               </div>

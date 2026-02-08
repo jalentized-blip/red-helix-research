@@ -113,7 +113,7 @@ If you cannot find either field, set it to null.`,
     }
 
     if (!isFromBarn) {
-      alert('This COA must be for Barn products. Please try again with a valid COA for Barn-related products.');
+      alert('This COA must be for Red Helix Research products. Please try again with a valid COA for Red Helix-related products.');
       return;
     }
 
@@ -156,27 +156,31 @@ If you cannot find either field, set it to null.`,
 
   return (
     <Dialog open={isOpen} onOpenChange={handleReset}>
-      <DialogContent className="bg-stone-900 border-stone-800 max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="text-amber-50 text-xl">Upload Your COA</DialogTitle>
-          <DialogDescription className="text-stone-400">
-            Share your Certificate of Analysis to help the community
+      <DialogContent className="bg-white border-slate-200 max-w-lg rounded-[32px] overflow-hidden">
+        <DialogHeader className="p-6 pb-0">
+          <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tighter">
+            Submit <span className="text-red-600">COA Report</span>
+          </DialogTitle>
+          <DialogDescription className="text-slate-500 font-medium">
+            Contribute to the clinical database of verified research materials.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="p-6 pt-2 space-y-6">
           {/* Step 1: Upload */}
           {step === 1 && (
             <div className="space-y-4">
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-stone-700 rounded-lg cursor-pointer hover:bg-stone-800/50 transition-colors">
+              <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-200 rounded-[24px] cursor-pointer hover:bg-slate-50 transition-all group">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {isVerifying ? (
-                    <Loader2 className="w-8 h-8 text-barn-brown animate-spin mb-2" />
+                    <Loader2 className="w-12 h-12 text-red-600 animate-spin mb-4" />
                   ) : (
-                    <Upload className="w-8 h-8 text-barn-brown mb-2" />
+                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 group-hover:bg-white transition-colors">
+                      <Upload className="w-8 h-8 text-red-600" />
+                    </div>
                   )}
-                  <p className="text-sm text-amber-50 font-semibold">Click to upload COA</p>
-                  <p className="text-xs text-stone-400">PNG, JPG, PDF (Max 10MB)</p>
+                  <p className="text-base text-slate-900 font-bold uppercase tracking-wide">Click to upload COA</p>
+                  <p className="text-sm text-slate-500 mt-1">PNG, JPG, PDF (Max 10MB)</p>
                 </div>
                 <input
                   type="file"
@@ -186,176 +190,203 @@ If you cannot find either field, set it to null.`,
                   disabled={isVerifying}
                 />
               </label>
-              {file && <p className="text-sm text-stone-300">Selected: {file.name}</p>}
+              {file && (
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full border border-slate-100">
+                  <CheckCircle2 className="w-4 h-4 text-green-600" />
+                  <p className="text-sm text-slate-600 font-medium truncate">Selected: {file.name}</p>
+                </div>
+              )}
             </div>
           )}
 
           {/* Step 2: Verification Result */}
           {step === 2 && verificationResult && (
-            <div className="space-y-4">
-              <div className={`p-4 rounded-lg border ${
+            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+              <div className={`p-6 rounded-[24px] border ${
                 verificationResult.is_valid_coa && verificationResult.confidence >= 70
-                  ? 'bg-green-900/20 border-green-700/50'
-                  : 'bg-red-900/20 border-red-700/50'
+                  ? 'bg-green-50 border-green-100'
+                  : 'bg-red-50 border-red-100'
               }`}>
-                <div className="flex items-start gap-3">
-                  {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
-                    <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5" />
-                  ) : (
-                    <AlertCircle className="w-5 h-5 text-red-500 mt-0.5" />
-                  )}
+                <div className="flex items-start gap-4">
+                  <div className={`p-2 rounded-full ${
+                    verificationResult.is_valid_coa && verificationResult.confidence >= 70
+                      ? 'bg-green-100 text-green-600'
+                      : 'bg-red-100 text-red-600'
+                  }`}>
+                    {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
+                      <CheckCircle2 className="w-6 h-6" />
+                    ) : (
+                      <AlertCircle className="w-6 h-6" />
+                    )}
+                  </div>
                   <div>
-                    <p className={`font-semibold ${
+                    <p className={`text-lg font-black uppercase tracking-tight ${
                       verificationResult.is_valid_coa && verificationResult.confidence >= 70
-                        ? 'text-green-100'
-                        : 'text-red-100'
+                        ? 'text-green-900'
+                        : 'text-red-900'
                     }`}>
                       {verificationResult.is_valid_coa && verificationResult.confidence >= 70
-                        ? 'Valid COA Detected'
-                        : 'Invalid or Undetectable COA'}
+                        ? 'Protocol Verified'
+                        : 'Verification Failed'}
                     </p>
-                    <p className="text-sm text-stone-300 mt-1">{verificationResult.reason}</p>
-                    <p className="text-xs text-stone-400 mt-2">
-                      Confidence: {verificationResult.confidence}%
-                    </p>
+                    <p className="text-slate-600 font-medium mt-1 leading-tight">{verificationResult.reason}</p>
+                    <div className="flex items-center gap-2 mt-3">
+                      <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-1000 ${
+                            verificationResult.confidence >= 70 ? 'bg-green-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${verificationResult.confidence}%` }}
+                        />
+                      </div>
+                      <span className="text-xs font-bold text-slate-400 uppercase">
+                        {verificationResult.confidence}% Confidence
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
-               <Button
-                 onClick={handleProceedToDetails}
-                 disabled={isExtracting}
-                 className="w-full bg-barn-brown hover:bg-barn-dark text-amber-50"
-               >
-                 {isExtracting ? (
-                   <>
-                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                     Analyzing Document...
-                   </>
-                 ) : (
-                   <>
-                     <Zap className="w-4 h-4 mr-2" />
-                     Continue to Details
-                   </>
-                 )}
-               </Button>
-              ) : (
-                <Button
-                  onClick={() => setStep(1)}
-                  variant="outline"
-                  className="w-full border-stone-700 text-amber-50"
-                >
-                  Try Another File
-                </Button>
-              )}
+              <div className="flex flex-col gap-3">
+                {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
+                 <Button
+                   onClick={handleProceedToDetails}
+                   disabled={isExtracting}
+                   className="w-full bg-red-600 hover:bg-red-700 text-white h-12 rounded-full font-black uppercase tracking-wider text-sm shadow-lg shadow-red-200 transition-all active:scale-[0.98]"
+                 >
+                   {isExtracting ? (
+                     <>
+                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                       Analyzing Lab Data...
+                     </>
+                   ) : (
+                     <>
+                       <Zap className="w-4 h-4 mr-2" />
+                       Proceed to Classification
+                     </>
+                   )}
+                 </Button>
+                ) : (
+                  <Button
+                    onClick={() => setStep(1)}
+                    variant="outline"
+                    className="w-full border-slate-200 text-slate-900 h-12 rounded-full font-black uppercase tracking-wider text-sm hover:bg-slate-50"
+                  >
+                    Resubmit Document
+                  </Button>
+                )}
+              </div>
             </div>
           )}
 
           {/* Step 3: Details Form */}
           {step === 3 && (
-            <div className="space-y-4">
+            <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4">
               {extractionError && (
-                <div className="p-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
-                  <p className="text-sm text-yellow-400">{extractionError}</p>
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center gap-3">
+                  <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                  <p className="text-sm text-amber-900 font-medium">{extractionError}</p>
                 </div>
               )}
-              <div>
-                <label className="block text-sm font-semibold text-amber-50 mb-2">
-                  Peptide Name *
-                </label>
-                <Input
-                  value={peptideName}
-                  onChange={(e) => setPeptideName(e.target.value)}
-                  placeholder="e.g., BPC-157, TB-500"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
-                />
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                    Peptide Name *
+                  </label>
+                  <Input
+                    value={peptideName}
+                    onChange={(e) => setPeptideName(e.target.value)}
+                    placeholder="e.g., BPC-157"
+                    className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                    Concentration *
+                  </label>
+                  <Input
+                    value={peptideStrength}
+                    onChange={(e) => setPeptideStrength(e.target.value)}
+                    placeholder="e.g., 5mg"
+                    className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-amber-50 mb-2">
-                  Peptide Strength *
-                </label>
-                <Input
-                  value={peptideStrength}
-                  onChange={(e) => setPeptideStrength(e.target.value)}
-                  placeholder="e.g., 5mg, 10mg/vial"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-amber-50 mb-2">
-                  COA Link (Optional)
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                  Reference Link (Optional)
                 </label>
                 <Input
                   value={coaLink}
                   onChange={(e) => setCoaLink(e.target.value)}
-                  placeholder="Direct link to COA document"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
+                  placeholder="Direct link to lab result"
+                  className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-amber-50 mb-3">
-                  Is this a COA for a Red Helix Research product? *
+              <div className="space-y-3">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                  Red Helix Research Verified? *
                 </label>
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <button
                     onClick={() => setIsFromBarn(true)}
-                    className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
+                    className={`flex-1 h-12 rounded-xl font-black uppercase tracking-wider text-xs transition-all ${
                       isFromBarn === true
-                        ? 'bg-barn-brown text-amber-50'
-                        : 'bg-stone-800 border border-stone-700 text-stone-300 hover:bg-stone-700'
+                        ? 'bg-slate-900 text-white shadow-lg shadow-slate-200'
+                        : 'bg-slate-50 border border-slate-200 text-slate-400 hover:bg-slate-100'
                     }`}
                   >
-                    Yes
+                    Verified
                   </button>
                   <button
                     onClick={() => setIsFromBarn(false)}
-                    className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors ${
+                    className={`flex-1 h-12 rounded-xl font-black uppercase tracking-wider text-xs transition-all ${
                       isFromBarn === false
-                        ? 'bg-barn-brown text-amber-50'
-                        : 'bg-stone-800 border border-stone-700 text-stone-300 hover:bg-stone-700'
+                        ? 'bg-red-600 text-white shadow-lg shadow-red-100'
+                        : 'bg-slate-50 border border-slate-200 text-slate-400 hover:bg-slate-100'
                     }`}
                   >
-                    No
+                    Third-Party
                   </button>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-amber-50 mb-2">
-                  Batch Number (Optional)
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                  Batch ID (Optional)
                 </label>
                 <Input
                   value={batchNumber}
                   onChange={(e) => setBatchNumber(e.target.value)}
                   placeholder="e.g., LOT-2024-001"
-                  className="bg-stone-800 border-stone-700 text-amber-50"
+                  className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
                 />
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-2">
                 <Button
                   onClick={() => setStep(2)}
                   variant="outline"
-                  className="flex-1 border-stone-700 text-amber-50"
+                  className="flex-1 border-slate-200 text-slate-400 h-12 rounded-full font-black uppercase tracking-wider text-xs hover:bg-slate-50 hover:text-slate-900"
                 >
                   Back
                 </Button>
                 <Button
                   onClick={handleSubmit}
                   disabled={isUploading}
-                  className="flex-1 bg-barn-brown hover:bg-barn-dark text-amber-50"
+                  className="flex-2 bg-red-600 hover:bg-red-700 text-white h-12 rounded-full font-black uppercase tracking-wider text-xs shadow-lg shadow-red-200"
                 >
                   {isUploading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Uploading...
+                      Finalizing...
                     </>
                   ) : (
-                    'Upload COA'
+                    'Publish Report'
                   )}
                 </Button>
               </div>

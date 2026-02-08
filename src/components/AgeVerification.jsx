@@ -15,28 +15,28 @@ export default function AgeVerification({ isOpen, onVerify }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="bg-stone-900 border border-stone-700 max-w-md">
+      <DialogContent className="bg-white border border-slate-200 max-w-md rounded-[32px] shadow-2xl">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <AlertCircle className="w-6 h-6 text-red-600" />
-            <DialogTitle className="text-amber-50 text-2xl">Age Verification</DialogTitle>
+            <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tight">Age Verification</DialogTitle>
           </div>
         </DialogHeader>
         
         <div className="space-y-6">
-          <DialogDescription className="text-stone-300 text-base">
-            This website contains research chemicals and peptides. These products are intended for laboratory research use only. You must be at least 21 years old to access this content.
+          <DialogDescription className="text-slate-600 text-base font-medium leading-relaxed">
+            This website contains research chemicals and peptides. These products are intended for laboratory <span className="text-red-600 font-bold">RESEARCH USE ONLY</span>. You must be at least 21 years old to access this content.
           </DialogDescription>
 
           <div className="space-y-3">
-            <label className="flex items-center gap-3 cursor-pointer">
+            <label className="flex items-center gap-3 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={confirmed}
                 onChange={(e) => setConfirmed(e.target.checked)}
-                className="w-5 h-5 rounded border-stone-600 bg-stone-800 cursor-pointer accent-red-600"
+                className="w-5 h-5 rounded border-slate-300 bg-slate-50 cursor-pointer accent-red-600 transition-all group-hover:border-red-600"
               />
-              <span className="text-stone-300 text-sm">I confirm that I am at least 21 years old and understand the research-only nature of these products</span>
+              <span className="text-slate-500 text-sm font-semibold group-hover:text-slate-700 transition-colors">I confirm that I am at least 21 years old and understand the research-only nature of these products</span>
             </label>
           </div>
 
@@ -44,14 +44,14 @@ export default function AgeVerification({ isOpen, onVerify }) {
             <Button
               onClick={handleConfirm}
               disabled={!confirmed}
-              className="flex-1 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-amber-50"
+              className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold py-6 rounded-2xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02] active:scale-95"
             >
-              Continue
+              Enter Laboratory
             </Button>
           </div>
 
-          <p className="text-stone-500 text-xs text-center">
-            By clicking continue, you agree that you are of legal age and understand the terms of use.
+          <p className="text-slate-400 text-[10px] text-center font-bold uppercase tracking-widest">
+            By clicking continue, you agree to our terms and conditions.
           </p>
         </div>
       </DialogContent>

@@ -105,7 +105,7 @@ export default function Home({ adminViewAsUser = false }) {
 
   if (showAgeVerification && !ageVerified) {
     return (
-      <div className="min-h-screen bg-stone-950 text-amber-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white text-slate-900 flex items-center justify-center">
         <AgeVerificationBot 
           isOpen={true} 
           onVerify={handleAgeVerification} 
@@ -120,48 +120,47 @@ export default function Home({ adminViewAsUser = false }) {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 text-amber-50 relative">
+    <div className="min-h-screen bg-white text-slate-900 relative">
       <SEO 
         title="Research Peptides for Laboratory Use | Red Helix Research"
         description="Research-grade peptides for laboratory and scientific research. BPC-157, TB-500, Semaglutide, Tirzepatide with verified COAs. For research use only. Not for human consumption."
         keywords="research peptides, laboratory peptides, peptide research chemicals, BPC-157 research, TB-500 research, research grade peptides, peptide supplier, in vitro research, scientific research peptides, COA certified research chemicals"
         schema={schemas}
       />
-      <TechGrid />
-      <ParticleField />
+      {/* Light version of effects or remove if too dark */}
       <QuickShop />
       <AgeVerificationBot 
         isOpen={showAgeVerification} 
         onVerify={handleAgeVerification} 
       />
 
-      {/* User Auth Button */}
+      {/* User Auth Button - Updated for Light Theme */}
       {!isAuthenticated && (
         <button
           onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
-          className="fixed top-24 right-6 z-40 p-3 bg-gradient-to-br from-red-600/20 to-red-700/10 hover:from-red-600/30 hover:to-red-700/20 border border-red-600/50 hover:border-red-500 rounded-xl shadow-lg hover:shadow-red-600/20 transition-all hover:scale-110"
+          className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-red-600/50 rounded-xl shadow-lg hover:shadow-red-600/10 transition-all hover:scale-110 group"
           title="Sign In"
         >
-          <User className="w-5 h-5 text-red-400" />
+          <User className="w-5 h-5 text-slate-400 group-hover:text-red-600" />
         </button>
       )}
 
-      {/* Admin Buttons */}
+      {/* Admin Buttons - Updated for Light Theme */}
       {isAdmin && (
         <>
           <Link to={createPageUrl('AdminStockManagement')}>
-            <button className="fixed top-24 right-6 z-40 p-3 bg-gradient-to-br from-red-600/20 to-red-700/10 hover:from-red-600/30 hover:to-red-700/20 border border-red-600/50 hover:border-red-500 rounded-xl shadow-lg hover:shadow-red-600/20 transition-all hover:scale-110">
-              <Package className="w-5 h-5 text-red-400" />
+            <button className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-red-600/50 rounded-xl shadow-lg hover:shadow-red-600/10 transition-all hover:scale-110 group">
+              <Package className="w-5 h-5 text-slate-400 group-hover:text-red-600" />
             </button>
           </Link>
           <Link to={createPageUrl('AdminOrderManagement')}>
-            <button className="fixed top-24 right-20 z-40 p-3 bg-gradient-to-br from-blue-600/20 to-blue-700/10 hover:from-blue-600/30 hover:to-blue-700/20 border border-blue-600/50 hover:border-blue-500 rounded-xl shadow-lg hover:shadow-blue-600/20 transition-all hover:scale-110">
-              <ClipboardList className="w-5 h-5 text-blue-400" />
+            <button className="fixed top-24 right-20 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-600/50 rounded-xl shadow-lg hover:shadow-blue-600/10 transition-all hover:scale-110 group">
+              <ClipboardList className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
             </button>
           </Link>
           <Link to={createPageUrl('AdminPriceManagement')}>
-            <button className="fixed top-24 right-34 z-40 p-3 bg-gradient-to-br from-green-600/20 to-green-700/10 hover:from-green-600/30 hover:to-green-700/20 border border-green-600/50 hover:border-green-500 rounded-xl shadow-lg hover:shadow-green-600/20 transition-all hover:scale-110" style={{ right: '8.5rem' }}>
-              <DollarSign className="w-5 h-5 text-green-400" />
+            <button className="fixed top-24 right-34 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-green-600/50 rounded-xl shadow-lg hover:shadow-green-600/10 transition-all hover:scale-110 group" style={{ right: '8.5rem' }}>
+              <DollarSign className="w-5 h-5 text-slate-400 group-hover:text-green-600" />
             </button>
           </Link>
         </>

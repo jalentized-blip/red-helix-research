@@ -21,7 +21,7 @@ export default function ParticleField() {
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.radius = Math.random() * 2 + 1;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.opacity = Math.random() * 0.5 + 0.1;
       }
 
       update() {
@@ -33,7 +33,8 @@ export default function ParticleField() {
       }
 
       draw() {
-        ctx.fillStyle = `rgba(125, 74, 43, ${this.opacity})`;
+        // Using slate-300 color for particles in light mode
+        ctx.fillStyle = `rgba(203, 213, 225, ${this.opacity})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -58,7 +59,8 @@ export default function ParticleField() {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 150) {
-            ctx.strokeStyle = `rgba(125, 74, 43, ${0.2 * (1 - distance / 150)})`;
+            // Using slate-200 for connections
+            ctx.strokeStyle = `rgba(226, 232, 240, ${0.3 * (1 - distance / 150)})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
@@ -86,7 +88,7 @@ export default function ParticleField() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.4 }}
+      style={{ opacity: 0.6 }}
     />
   );
 }

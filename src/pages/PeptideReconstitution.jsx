@@ -48,83 +48,93 @@ export default function PeptideReconstitution() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-slate-50/50 pointer-events-none" />
+      <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-barn-brown hover:text-barn-tan mb-8">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-red-600 mb-12 transition-colors group">
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          <span className="text-[10px] font-black uppercase tracking-widest">Return to Command Center</span>
         </Link>
 
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-16"
         >
-          <h1 className="text-5xl font-black text-amber-50 mb-4">Peptide Reconstitution & Dosage Guide</h1>
-          <p className="text-xl text-amber-100">Accurate calculations for research peptide preparation and dosing</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-600/5 border border-red-600/10 rounded-full mb-6">
+            <Calculator className="w-3 h-3 text-red-600" />
+            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Precision Protocol</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter leading-none">
+            RECONSTITUTION <br />
+            <span className="text-red-600">CALCULATOR</span>
+          </h1>
+          <p className="text-xl text-slate-500 font-medium max-w-2xl">
+            Mathematical modeling for precise research peptide preparation and analytical deployment.
+          </p>
         </motion.div>
 
-        <Tabs defaultValue="calculator" className="space-y-8">
-          <TabsList className="bg-stone-900/50 border border-stone-700">
-            <TabsTrigger value="calculator" className="gap-2">
+        <Tabs defaultValue="calculator" className="space-y-12">
+          <TabsList className="bg-slate-50 border border-slate-200 p-1 rounded-2xl h-14 shadow-sm">
+            <TabsTrigger value="calculator" className="h-11 px-8 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
               <Calculator className="w-4 h-4" />
               Calculator
             </TabsTrigger>
-            <TabsTrigger value="guide" className="gap-2">
+            <TabsTrigger value="guide" className="h-11 px-8 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
               <Beaker className="w-4 h-4" />
-              Step-by-Step Guide
+              Protocol Guide
             </TabsTrigger>
-            <TabsTrigger value="storage" className="gap-2">
+            <TabsTrigger value="storage" className="h-11 px-8 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
               <Info className="w-4 h-4" />
-              Storage & Stability
+              Stability Matrix
             </TabsTrigger>
           </TabsList>
 
           {/* Calculator Tab */}
-          <TabsContent value="calculator" className="space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
+          <TabsContent value="calculator" className="space-y-10">
+            <div className="grid md:grid-cols-2 gap-10">
               {/* Reconstitution Calculator */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <Card className="bg-stone-900/50 border-stone-700 p-8">
-                  <h3 className="text-2xl font-bold text-amber-50 mb-6">Step 1: Reconstitution</h3>
+                <Card className="bg-white border-slate-100 p-10 rounded-[40px] shadow-sm hover:shadow-xl transition-all">
+                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8">Phase I: Dilution</h3>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     <div>
-                      <label className="block text-amber-100 font-semibold mb-2">
+                      <label className="block text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">
                         Peptide Mass (mg)
                       </label>
                       <Input
                         type="number"
-                        placeholder="Enter peptide weight"
+                        placeholder="0.00"
                         value={peptideMass}
                         onChange={(e) => setPeptideMass(e.target.value)}
-                        className="bg-stone-800 border-stone-600 text-amber-50 placeholder:text-stone-400"
+                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-amber-100 font-semibold mb-2">
+                      <label className="block text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">
                         BAC Water Volume (mL)
                       </label>
                       <Input
                         type="number"
-                        placeholder="Enter reconstitution volume"
+                        placeholder="0.00"
                         value={bacWaterVolume}
                         onChange={(e) => setBacWaterVolume(e.target.value)}
-                        className="bg-stone-800 border-stone-600 text-amber-50 placeholder:text-stone-400"
+                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black"
                       />
-                      <p className="text-xs text-stone-400 mt-2">Standard: 1mL BAC water per 1mg peptide</p>
+                      <p className="text-[10px] font-bold text-slate-400 mt-3 uppercase tracking-tighter">Analytical Std: 1.0mL / 1.0mg</p>
                     </div>
 
-                    <div className="bg-barn-brown/20 border border-barn-brown/30 rounded-lg p-4">
-                      <p className="text-sm text-stone-400 mb-2">Final Concentration</p>
-                      <p className="text-3xl font-bold text-barn-tan">{concentration || '0'} mg/mL</p>
+                    <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Resolved Concentration</p>
+                      <p className="text-4xl font-black text-red-600 tracking-tighter">{concentration || '0.00'} <span className="text-sm uppercase text-slate-400">mg/mL</span></p>
                     </div>
                   </div>
                 </Card>
@@ -136,39 +146,39 @@ export default function PeptideReconstitution() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <Card className="bg-stone-900/50 border-stone-700 p-8">
-                  <h3 className="text-2xl font-bold text-amber-50 mb-6">Step 2: Dosage Calculation</h3>
+                <Card className="bg-white border-slate-100 p-10 rounded-[40px] shadow-sm hover:shadow-xl transition-all">
+                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8">Phase II: Quantitation</h3>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     <div>
-                      <label className="block text-amber-100 font-semibold mb-2">
-                        Desired Dose (mcg)
+                      <label className="block text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">
+                        Target Dose (mcg)
                       </label>
                       <Input
                         type="number"
-                        placeholder="Enter dose amount"
+                        placeholder="0.00"
                         value={doseAmount}
                         onChange={(e) => setDoseAmount(e.target.value)}
-                        className="bg-stone-800 border-stone-600 text-amber-50 placeholder:text-stone-400"
+                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-amber-100 font-semibold mb-2">
-                        Concentration (mg/mL)
+                      <label className="block text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">
+                        Locked Concentration (mg/mL)
                       </label>
                       <Input
                         type="number"
-                        placeholder="Auto-calculated above"
+                        placeholder="Dilution required"
                         value={concentration}
                         disabled
-                        className="bg-stone-800 border-stone-600 text-amber-50 placeholder:text-stone-400 opacity-60"
+                        className="h-14 bg-slate-50/50 border-slate-100 text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black cursor-not-allowed"
                       />
                     </div>
 
-                    <div className="bg-barn-brown/20 border border-barn-brown/30 rounded-lg p-4">
-                      <p className="text-sm text-stone-400 mb-2">Injection Volume</p>
-                      <p className="text-3xl font-bold text-barn-tan">{injectionVolume || '0'} mL</p>
+                    <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Extraction Volume</p>
+                      <p className="text-4xl font-black text-red-600 tracking-tighter">{injectionVolume || '0.00'} <span className="text-sm uppercase text-slate-400">mL</span></p>
                     </div>
                   </div>
                 </Card>
@@ -179,60 +189,61 @@ export default function PeptideReconstitution() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex justify-center"
             >
               <Button 
                 onClick={resetCalculator}
                 variant="outline"
-                className="w-full border-barn-brown/30 text-barn-tan hover:bg-barn-brown/10"
+                className="px-12 h-14 border-2 border-slate-200 text-slate-900 hover:border-red-600 hover:text-red-600 font-black uppercase tracking-widest rounded-2xl transition-all shadow-sm"
               >
-                Reset Calculator
+                Reset Computation
               </Button>
             </motion.div>
           </TabsContent>
 
           {/* Guide Tab */}
-          <TabsContent value="guide" className="space-y-6">
+          <TabsContent value="guide" className="space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-6"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
               {[
                 {
                   step: 1,
-                  title: 'Gather Materials',
-                  description: 'Collect your peptide powder, bacteriostatic water (BAC water), sterile syringes (3mL and 1mL), insulin needles, sterile vials, and alcohol wipes.'
+                  title: 'Material Inventory',
+                  description: 'Audit peptide lyophilized powder, bacteriostatic water (BAC), sterile instrumentation, and sanitization wipes.'
                 },
                 {
                   step: 2,
-                  title: 'Prepare the Vial',
-                  description: 'Remove the peptide vial from storage. Wipe the rubber stopper with an alcohol wipe. Let it air dry for 30 seconds. Do the same for your BAC water vial.'
+                  title: 'Stopper Sanitization',
+                  description: 'Apply 70% isopropyl alcohol to vial interfaces. Allow 30 seconds for complete evaporative sterilization.'
                 },
                 {
                   step: 3,
-                  title: 'Draw BAC Water',
-                  description: 'Using a 3mL syringe, draw the calculated volume of bacteriostatic water (based on your peptide weight). Standard ratio is 1mL per 1mg of peptide.'
+                  title: 'Aqueous Extraction',
+                  description: 'Using clinical-grade instrumentation, extract the calculated volume of bacteriostatic solvent.'
                 },
                 {
                   step: 4,
-                  title: 'Inject into Peptide Vial',
-                  description: 'Slowly inject the BAC water into the peptide vial at an angle to avoid foaming. This reduces pressure and keeps the solution stable.'
+                  title: 'Solvent Introduction',
+                  description: 'Introduce solvent into the peptide vial at an oblique angle to prevent structural foaming.'
                 },
                 {
                   step: 5,
-                  title: 'Let it Dissolve',
-                  description: 'Allow the solution to sit for 5-15 minutes at room temperature. Do NOT shake vigorously—gentle swirling is fine. Some peptides dissolve faster than others.'
+                  title: 'Molecular Integration',
+                  description: 'Allow 10-15 minutes for passive dissolution. Avoid mechanical agitation or vigorous shaking.'
                 },
                 {
                   step: 6,
-                  title: 'Calculate Your Dose',
-                  description: 'Use the calculator above to determine how much of your solution to inject for your desired dose. Document your calculations clearly.'
+                  title: 'Dosage Verification',
+                  description: 'Utilize Phase II computation to verify extraction volume for target research specifications.'
                 },
                 {
                   step: 7,
-                  title: 'Store Properly',
-                  description: 'Keep unused reconstituted peptides in the refrigerator (2-8°C) for short-term use. For longer storage, freeze at -80°C.'
+                  title: 'Thermal Storage',
+                  description: 'Archive reconstituted units within refrigerated environments (2-8°C) to maintain structural integrity.'
                 }
               ].map((item, idx) => (
                 <motion.div
@@ -240,17 +251,17 @@ export default function PeptideReconstitution() {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="bg-stone-900/50 border border-stone-700 rounded-lg p-6"
+                  className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-all"
                 >
-                  <div className="flex gap-4">
+                  <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-barn-brown/20 border border-barn-brown/30">
-                        <span className="text-barn-tan font-bold">{item.step}</span>
+                      <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-slate-50 border border-slate-100 text-red-600 font-black">
+                        {item.step}
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-amber-50 mb-2">{item.title}</h4>
-                      <p className="text-amber-100">{item.description}</p>
+                      <h4 className="text-lg font-black text-slate-900 mb-2 uppercase tracking-tight">{item.title}</h4>
+                      <p className="text-slate-500 font-medium leading-relaxed">{item.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -259,52 +270,77 @@ export default function PeptideReconstitution() {
           </TabsContent>
 
           {/* Storage Tab */}
-          <TabsContent value="storage" className="space-y-6">
+          <TabsContent value="storage" className="space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-6"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-10"
             >
-              <Card className="bg-gradient-to-r from-barn-brown/20 to-barn-tan/10 border border-barn-brown/30 p-8">
-                <h3 className="text-2xl font-bold text-amber-50 mb-4">Lyophilized (Powder) Peptides</h3>
-                <div className="space-y-3 text-amber-100">
-                  <p><strong>Short-term:</strong> Room temperature in a cool, dry, dark place (up to 3 months)</p>
-                  <p><strong>Long-term:</strong> -20°C freezer (1-2 years) or -80°C freezer (multiple years)</p>
-                  <p><strong>Key tip:</strong> Avoid repeated freezing and thawing. Consider dividing into smaller aliquots before freezing.</p>
+              <Card className="bg-white border-slate-100 p-10 rounded-[40px] shadow-sm">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase">Lyophilized Archive</h3>
+                </div>
+                <div className="space-y-6 text-slate-600">
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Ambient Stability</p>
+                    <p className="font-bold text-slate-900">Up to 90 Days (Cool/Dark)</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Standard Cryogenic</p>
+                    <p className="font-bold text-slate-900">-20°C (12-24 Months)</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Deep Cryogenic</p>
+                    <p className="font-bold text-slate-900">-80°C (Multi-Year Preservation)</p>
+                  </div>
                 </div>
               </Card>
 
-              <Card className="bg-gradient-to-r from-barn-brown/20 to-barn-tan/10 border border-barn-brown/30 p-8">
-                <h3 className="text-2xl font-bold text-amber-50 mb-4">Reconstituted Peptides</h3>
-                <div className="space-y-3 text-amber-100">
-                  <p><strong>Short-term (2-7 days):</strong> Refrigerator at 2-8°C in a sterile vial</p>
-                  <p><strong>Medium-term (1-2 months):</strong> -20°C freezer with proper labeling</p>
-                  <p><strong>Long-term (6+ months):</strong> -80°C freezer for maximum stability</p>
-                  <p><strong>Key tip:</strong> Bacteriostatic water contains preservatives that help extend shelf life. Avoid exposure to light.</p>
+              <Card className="bg-white border-slate-100 p-10 rounded-[40px] shadow-sm">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                    <Beaker className="w-5 h-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase">Aqueous Stability</h3>
+                </div>
+                <div className="space-y-6 text-slate-600">
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Standard Refrigeration</p>
+                    <p className="font-bold text-slate-900">2-8°C (7-30 Days)</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Cryogenic Reconstitution</p>
+                    <p className="font-bold text-slate-900">-20°C (30-60 Days)</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Preservation Strategy</p>
+                    <p className="font-bold text-slate-900">Minimize UV Exposure & Agitation</p>
+                  </div>
                 </div>
               </Card>
 
-              <Card className="bg-stone-900/50 border border-stone-700 p-8">
-                <h3 className="text-2xl font-bold text-amber-50 mb-4">Stability Factors</h3>
-                <div className="space-y-3 text-amber-100">
-                  <p>✓ <strong>Temperature:</strong> Cooler = longer stability. Freeze when not using.</p>
-                  <p>✓ <strong>Light Exposure:</strong> Keep vials in dark containers or wrapped in foil.</p>
-                  <p>✓ <strong>Moisture:</strong> Store in dry conditions. Moisture degrades peptides quickly.</p>
-                  <p>✓ <strong>Solvent Quality:</strong> Always use bacteriostatic water, never sterile water.</p>
-                  <p>✓ <strong>Contamination:</strong> Use sterile technique when drawing peptides to avoid bacterial growth.</p>
+              <Card className="lg:col-span-2 bg-red-600/5 border-2 border-red-600/10 p-10 rounded-[40px]">
+                <h3 className="text-xl font-black text-red-600 tracking-tight uppercase mb-6 flex items-center gap-3">
+                  <Info className="w-6 h-6" />
+                  Critical Degradation Indicators
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    'Opalescence / Turbidity',
+                    'Atmospheric Discoloration',
+                    'Crystalline Precipitation',
+                    'Potency Attenuation'
+                  ].map((warning) => (
+                    <div key={warning} className="p-4 bg-white/50 border border-red-600/10 rounded-2xl text-xs font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                      {warning}
+                    </div>
+                  ))}
                 </div>
-              </Card>
-
-              <Card className="bg-red-900/20 border border-red-700/30 p-8">
-                <h3 className="text-xl font-bold text-amber-50 mb-3">⚠️ Signs of Degradation</h3>
-                <ul className="space-y-2 text-amber-100 text-sm">
-                  <li>• Discoloration or cloudiness in solution</li>
-                  <li>• Unusual odor</li>
-                  <li>• Formation of crystals or precipitate</li>
-                  <li>• Unexplained loss of potency</li>
-                </ul>
-                <p className="mt-4 text-amber-50 font-semibold">If degradation is suspected, discard the peptide and start fresh with a new vial.</p>
               </Card>
             </motion.div>
           </TabsContent>
@@ -316,13 +352,16 @@ export default function PeptideReconstitution() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-16 bg-stone-900/30 border border-stone-700 rounded-lg p-8 text-center"
+          className="mt-20 p-10 bg-slate-50 border border-slate-100 rounded-[40px] text-center"
         >
-          <p className="text-amber-100 mb-4">
-            For Research and Laboratory Use Only
-          </p>
-          <p className="text-stone-400 text-sm">
-            Always follow proper safety protocols and local regulations when working with research peptides. When in doubt, consult official COAs and safety data sheets.
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+            <p className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">
+              Regulatory Compliance: Research Use Only
+            </p>
+          </div>
+          <p className="text-slate-400 text-xs font-medium max-w-2xl mx-auto leading-relaxed uppercase tracking-tighter">
+            Analytical procedures must adhere to established laboratory safety protocols. Consult official certificates of analysis (COA) and safety data sheets for specific molecular characteristics.
           </p>
         </motion.div>
       </div>

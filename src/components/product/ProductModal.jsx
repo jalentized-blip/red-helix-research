@@ -239,6 +239,16 @@ export default function ProductModal({ product, isOpen, onClose }) {
                   )}
                 </span>
               </Button>
+
+              {productCOAs.length > 0 && (
+                <button
+                  onClick={() => setShowCOA(true)}
+                  className="w-full py-4 rounded-[20px] border border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+                >
+                  <Info className="w-3.5 h-3.5 text-slate-400" />
+                  View Batch Analysis (COA)
+                </button>
+              )}
               
               <p className="text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest">
                 Secure checkout • Third-party verified • Worldwide logistics
@@ -294,7 +304,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowCOA(false)}
-            className="fixed inset-0 bg-slate-900/95 z-[100] flex items-center justify-center p-4 backdrop-blur-md"
+            className="fixed inset-0 bg-white/95 z-[100] flex items-center justify-center p-4 backdrop-blur-xl"
           >
             <div className="relative max-w-4xl w-full">
               <motion.div
@@ -302,7 +312,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative max-h-[90vh] overflow-auto bg-white rounded-[40px] shadow-2xl p-2 border border-slate-200"
+                className="relative max-h-[90vh] overflow-auto bg-white rounded-[40px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-2 border border-slate-200"
               >
                 <img
                   src={productCOAs[currentCoaIndex].image_url}

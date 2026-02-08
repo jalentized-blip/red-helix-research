@@ -36,20 +36,28 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="py-20 px-4 bg-stone-950/50">
-      <div className="max-w-3xl mx-auto">
+    <section className="py-24 px-4 bg-white relative overflow-hidden">
+      {/* Background Accent */}
+      <div className="absolute top-1/2 left-0 w-64 h-64 bg-red-600/5 rounded-full blur-3xl -translate-x-1/2" />
+      
+      <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-              Common Questions
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-6">
+            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Protocol Intelligence</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+            KNOWLEDGE <br />
+            <span className="text-red-600">BASE</span>
           </h2>
+          <p className="text-slate-500 font-medium max-w-xl mx-auto">
+            Essential information regarding acquisition protocols, logistics, and research safety standards.
+          </p>
         </motion.div>
 
         {/* FAQ Accordion */}
@@ -58,17 +66,17 @@ export default function FAQ() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Accordion type="single" collapsible className="space-y-3">
+          <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-stone-900/60 border border-stone-700 rounded-xl px-6 data-[state=open]:border-red-700/40"
+                className="bg-slate-50 border border-slate-100 rounded-[32px] px-8 data-[state=open]:border-red-600/30 data-[state=open]:bg-white transition-all duration-300 shadow-sm"
               >
-                <AccordionTrigger className="text-left text-amber-50 hover:text-red-600 py-5 hover:no-underline">
+                <AccordionTrigger className="text-left text-slate-900 hover:text-red-600 py-6 hover:no-underline font-black text-lg tracking-tight">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-stone-300 pb-5">
+                <AccordionContent className="text-slate-500 font-medium pb-8 leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
