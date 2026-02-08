@@ -14,7 +14,7 @@ export default function ProductSemaglutide() {
     name: 'Semaglutide',
     fullName: 'Semaglutide (Research Grade)',
     description: 'Premium research-grade semaglutide peptide with verified third-party COA',
-    image: 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg',
+    image: 'https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png',
     price_from: 89.99,
     specifications: [
       { name: '5mg vial', price: 89.99, in_stock: true },
