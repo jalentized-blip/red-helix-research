@@ -467,8 +467,7 @@ www.redhelixresearch.com`;
                   >
                       <QrCode className="w-4 h-4 mr-2" />
                       Generate QR Code for Phone
-                    </Button>
-                  </div>
+                  </Button>
                 </div>
               </div>
             )}
