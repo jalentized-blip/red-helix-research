@@ -58,7 +58,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
       ? Math.min(...inStockSpecs.map(spec => spec.price))
       : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);
     
-    const image = 'https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg';
+    const image = 'https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png';
     
     return { lowestVisiblePrice: price, displayImage: image };
   }, [product.specifications, product.price_from, product.name, product.image_url]);
