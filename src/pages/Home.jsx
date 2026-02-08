@@ -168,7 +168,7 @@ export default function Home({ adminViewAsUser = false }) {
         </>
       )}
       
-      <InteractiveRoadmap isAdmin={isAdmin && !adminViewAsUser} />
+      <InteractiveRoadmap />
       <Hero />
       <TrustBar />
       <ValueProposition />
