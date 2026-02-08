@@ -27,15 +27,6 @@ PLAID_CLIENT_ID=your_plaid_client_id
 PLAID_SECRET=your_plaid_secret
 PLAID_ENVIRONMENT=sandbox # or 'production' or 'development'
 
-# Discord Bot Configuration (Required for Verification)
-# 1. Create a Bot in Discord Developer Portal
-# 2. Enable "Manage Roles" permission for the bot
-# 3. Set "Interactions Endpoint URL" to: https://<your-base44-url>/functions/discordInteractions
-DISCORD_BOT_TOKEN=your_discord_bot_token
-DISCORD_PUBLIC_KEY=your_discord_public_key
-DISCORD_VERIFIED_ROLE_ID=role_id_to_assign
-DISCORD_CHANNEL_ID=channel_id_for_verification_message
-
 e.g.
 VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
 VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app

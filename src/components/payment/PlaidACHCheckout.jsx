@@ -149,6 +149,20 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
 
   return (
     <div className="space-y-6">
+      {/* Service Downtime Notice */}
+      <div className="p-4 bg-amber-950/20 border border-amber-700/30 rounded-xl mb-4">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+          <div className="text-sm text-stone-300">
+            <p className="font-semibold text-amber-500 mb-1">Service Temporarily Unavailable</p>
+            <p>
+              ACH payments are currently down for maintenance. We apologize for the inconvenience. 
+              Please verify your order details, and we will email you as soon as payment services are restored.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Security Badge */}
       <div className="p-4 bg-green-950/20 border border-green-700/30 rounded-xl">
         <div className="flex items-start gap-3">
