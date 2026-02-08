@@ -18,6 +18,7 @@ import TrustBar from '@/components/home/TrustBar';
 import ValueProposition from '@/components/home/ValueProposition';
 import NumberedFeatures from '@/components/home/NumberedFeatures';
 import AboutSection from '@/components/home/AboutSection';
+import ProtocolEngine from '@/components/home/ProtocolEngine';
 import BestSellers from '@/components/home/BestSellers';
 import ShopByGoal from '@/components/home/ShopByGoal';
 import AllProducts from '@/components/home/AllProducts';
