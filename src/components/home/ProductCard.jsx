@@ -4,28 +4,28 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
-import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell, Lock } from "lucide-react";
+import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell, Lock, Microscope, ShieldCheck } from "lucide-react";
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
 import { Link } from 'react-router-dom';
 
 const badgeConfig = {
-  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-500/20 text-red-400 border-red-500/30" },
-  trending: { icon: TrendingUp, label: "Trending", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
-  top_rated: { icon: Star, label: "Top Rated", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
-  popular: { icon: BarChart2, label: "Popular", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
-  classic: { icon: Award, label: "Classic", color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" },
-  newcomer: { icon: Sparkles, label: "Newcomer", color: "bg-pink-500/20 text-pink-400 border-pink-500/30" },
-  essential: { icon: Dumbbell, label: "Essential", color: "bg-orange-500/20 text-orange-400 border-orange-500/30" },
+  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-100 text-red-600 border-red-200" },
+  trending: { icon: TrendingUp, label: "Trending", color: "bg-blue-100 text-blue-600 border-blue-200" },
+  top_rated: { icon: Star, label: "Top Rated", color: "bg-yellow-100 text-yellow-600 border-yellow-200" },
+  popular: { icon: BarChart2, label: "Popular", color: "bg-purple-100 text-purple-600 border-purple-200" },
+  classic: { icon: Award, label: "Classic", color: "bg-emerald-100 text-emerald-600 border-emerald-200" },
+  newcomer: { icon: Sparkles, label: "Newcomer", color: "bg-pink-100 text-pink-600 border-pink-200" },
+  essential: { icon: Dumbbell, label: "Essential", color: "bg-orange-100 text-orange-600 border-orange-200" },
 };
 
 const categoryLabels = {
-  weight_loss: "Weight Loss",
-  recovery_healing: "Muscle Growth & Recovery",
-  cognitive_focus: "Cognitive Enhancement",
-  performance_longevity: "Performance & Longevity",
-  sexual_health: "Sexual Health",
-  general_health: "General Health"
+  weight_loss: "METABOLIC RESEARCH",
+  recovery_healing: "REGENERATIVE STUDY",
+  cognitive_focus: "NEUROLOGICAL ANALYSIS",
+  performance_longevity: "CELLULAR OPTIMIZATION",
+  sexual_health: "ENDOCRINE RESEARCH",
+  general_health: "SYSTEMIC ANALYSIS"
 };
 
 const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) => {
@@ -51,7 +51,6 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
     setIsUpdating(false);
   }, [onVisibilityToggle, product.id]);
   
-  // Memoize expensive calculations
   const { lowestVisiblePrice, displayImage } = useMemo(() => {
     const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
     const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
@@ -74,49 +73,44 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
   return (
     <>
-      {/* Full-page blur overlay */}
       {isHovered && (
         <motion.div
           initial={{ backdropFilter: "blur(0px)", opacity: 0 }}
           animate={{ 
-            backdropFilter: "blur(20px)", 
+            backdropFilter: "blur(15px)", 
             opacity: 1 
           }}
           exit={{ backdropFilter: "blur(0px)", opacity: 0 }}
-          transition={{ 
-            backdropFilter: { duration: 1.5, ease: "easeInOut" },
-            opacity: { duration: 0.3 }
-          }}
-          className="fixed inset-0 z-40 pointer-events-none bg-stone-950/20"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="fixed inset-0 z-40 pointer-events-none bg-stone-950/30"
         />
       )}
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05, duration: 0.4 }}
+        transition={{ delay: index * 0.05, duration: 0.5 }}
         viewport={{ once: true }}
         whileHover={{ 
-          scale: 1.05, 
-          y: -8,
+          scale: 1.02, 
+          y: -10,
           zIndex: 50
         }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="relative z-50"
+        className="relative z-50 h-full"
       >
       
-      <Card className={`group relative bg-gradient-to-br from-stone-900/80 to-stone-900/60 backdrop-blur-sm border-stone-700/50 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full hover:shadow-2xl hover:shadow-red-900/20 rounded-3xl ${
-        isAdmin && localHidden ? 'opacity-60 border-red-500/30' : ''
+      <Card className={`group relative bg-white border-slate-200 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-[32px] flex flex-col ${
+        isAdmin && localHidden ? 'opacity-60 grayscale' : ''
       }`}>
-        {/* Modern hover glow */}
-        <div className="absolute inset-0 bg-gradient-to-t from-red-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute -inset-[1px] bg-gradient-to-br from-red-600/20 via-transparent to-blue-600/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500 -z-10" />
+        {/* Animated Glow Overlay - Subtle Medical Pulse */}
+        <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         
         {/* Admin Visibility Toggle */}
         {isAdmin && (
-          <div className="absolute top-3 right-3 z-20" onClick={(e) => e.stopPropagation()}>
-            <div className={`flex items-center gap-2 bg-stone-900/90 backdrop-blur-sm border rounded-lg px-3 py-2 transition-all ${
+          <div className="absolute top-4 right-4 z-20" onClick={(e) => e.stopPropagation()}>
+            <div className={`flex items-center gap-2 bg-white/90 backdrop-blur-md border rounded-xl px-3 py-2 transition-all shadow-sm ${
               isUpdating ? 'border-yellow-500/50 animate-pulse' : 
               localHidden ? 'border-red-500/50' : 'border-green-500/50'
             }`}>
@@ -124,11 +118,11 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
                 checked={!localHidden}
                 onCheckedChange={handleVisibilityToggle}
                 disabled={isUpdating}
-                className="border-stone-500 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
+                className="border-slate-300 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
               />
-              <span className={`text-xs font-medium transition-colors ${
-                isUpdating ? 'text-yellow-400' :
-                localHidden ? 'text-red-400' : 'text-green-400'
+              <span className={`text-[10px] font-black uppercase tracking-tighter transition-colors ${
+                isUpdating ? 'text-yellow-600' :
+                localHidden ? 'text-red-600' : 'text-green-600'
               }`}>
                 {isUpdating ? 'Updating...' : localHidden ? 'Hidden' : 'Visible'}
               </span>
@@ -136,73 +130,104 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           </div>
         )}
         
-        {/* Badge */}
-        {badge && (
-          <div className="absolute top-3 left-3 z-10">
-            <Badge className={`${badge.color} border text-xs font-medium flex items-center gap-1`}>
+        {/* Top Badges */}
+        <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+          {badge && (
+            <Badge className={`${badge.color} border text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm`}>
               <badge.icon className="w-3 h-3" />
               {badge.label}
             </Badge>
-          </div>
-        )}
+          )}
+          <Badge className="bg-white/90 backdrop-blur-md border-slate-100 text-slate-900 text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+            <Microscope className="w-3 h-3 text-red-600" />
+            HPLC TESTED
+          </Badge>
+        </div>
 
-        <div className="p-6 relative">
-          {/* Product Image */}
-          <div className={`relative mb-5 aspect-square flex items-center justify-center bg-gradient-to-br from-stone-800/50 to-stone-900/50 rounded-2xl overflow-hidden ring-1 ring-stone-700/30 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+        <div className="p-8 flex flex-col h-full">
+          {/* Product Image Container */}
+          <div className={`relative mb-8 aspect-square flex items-center justify-center bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 group-hover:border-red-100 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
             {displayImage ? (
               <img 
                 src={displayImage} 
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-4/5 h-4/5 object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
                 loading="lazy"
                 decoding="async"
               />
             ) : (
-              <div className="w-24 h-32 bg-gradient-to-b from-red-700/20 to-red-800/10 rounded-lg flex items-center justify-center border border-red-700/20">
-                <div className="w-8 h-20 bg-gradient-to-b from-stone-700 to-stone-800 rounded-md border border-stone-600" />
+              <div className="w-24 h-32 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
+                <div className="w-8 h-20 bg-slate-200 rounded-md border border-slate-300" />
               </div>
             )}
+            
+            {/* Scientific Scan Line Effect */}
+            <motion.div 
+              animate={{ top: ['0%', '100%', '0%'] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="absolute left-0 right-0 h-[1px] bg-red-600/10 shadow-[0_0_10px_rgba(239,68,68,0.2)] z-10"
+            />
           </div>
 
           {/* Product Info */}
-          <h3 className={`text-xl font-bold bg-gradient-to-r from-amber-50 to-white bg-clip-text text-transparent mb-3 group-hover:from-red-500 group-hover:to-red-600 transition-all ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            {product.name}
-          </h3>
-          
-          <p className={`text-sm text-stone-400 mb-4 line-clamp-2 leading-relaxed ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            {product.description}
-          </p>
+          <div className="flex-grow">
+            <div className="flex justify-between items-start mb-2">
+              <span className="text-[10px] font-black tracking-widest text-red-600 uppercase">
+                {categoryLabels[product.category]}
+              </span>
+              <div className="flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-green-600" />
+                <span className="text-[10px] font-bold text-slate-400 uppercase">99%+ Purity</span>
+              </div>
+            </div>
 
-          <div className={`flex items-center justify-between mb-5 ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            <span className="px-3 py-1 bg-red-950/30 border border-red-800/30 rounded-full text-xs text-red-400 font-medium">
-              {categoryLabels[product.category]}
-            </span>
-            <span className="text-2xl font-bold bg-gradient-to-r from-amber-50 to-red-400 bg-clip-text text-transparent">
-              ${lowestVisiblePrice}
-            </span>
+            <h3 className={`text-2xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-red-600 transition-colors ${!isAuthenticated ? 'blur-sm' : ''}`}>
+              {product.name}
+            </h3>
+            
+            <p className={`text-sm text-slate-500 mb-6 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
+              {product.description}
+            </p>
           </div>
 
-          <div className={`mb-4 p-3 bg-stone-800/30 backdrop-blur-sm border border-stone-700/30 rounded-xl ${!isAuthenticated ? 'blur-sm' : ''}`}>
-            <p className="text-[10px] text-stone-500 leading-tight">
-              *Pricing reflects complete kit configurations (10 vials). Individual vials available exclusively for GLP-3-R and GLP-2-T products.
+          <div className={`flex items-center justify-between mb-6 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Research Value</span>
+              <span className="text-3xl font-black text-slate-900">
+                ${lowestVisiblePrice}
+              </span>
+            </div>
+            <div className="text-right">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Status</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-xs font-black text-slate-900 uppercase">IN STOCK</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={`mb-6 p-4 bg-slate-50 border border-slate-100 rounded-2xl ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className="text-[10px] text-slate-500 leading-tight font-medium">
+              <span className="text-red-600 font-bold uppercase mr-1">RUO:</span>
+              Research Use Only. Not for human consumption. Standard 10-vial laboratory configuration.
             </p>
           </div>
 
           {!isAuthenticated ? (
-            <Link to={createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(window.location.href)}>
+            <Link to={createPageUrl('Login') + '?returnUrl=' + encodeURIComponent(window.location.href)} className="w-full">
               <Button 
-                className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold gap-2 rounded-xl py-6 shadow-lg shadow-red-900/20"
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest gap-2 rounded-2xl py-7 transition-all"
               >
                 <Lock className="w-4 h-4" />
-                Sign in to Access
+                ACCESS REQUIRED
               </Button>
             </Link>
           ) : (
             <Button 
               onClick={handleSelectStrength}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-xl py-6 shadow-lg shadow-red-900/20 group-hover:shadow-xl group-hover:shadow-red-900/30 transition-all"
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest rounded-2xl py-7 shadow-[0_10px_20px_-5px_rgba(220,38,38,0.2)] hover:shadow-[0_15px_30px_-5px_rgba(220,38,38,0.3)] transition-all duration-300 transform group-hover:-translate-y-1"
             >
-              Select strength
+              CONFIGURE ORDER
             </Button>
           )}
         </div>

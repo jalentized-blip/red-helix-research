@@ -17,6 +17,8 @@ export default function Cart() {
   const [showAffiliateMessage, setShowAffiliateMessage] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [showAgreementError, setShowAgreementError] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -224,15 +226,42 @@ export default function Cart() {
                   </div>
                 </div>
 
+                {/* Compliance Checkbox */}
+                <div className="mb-6 space-y-3">
+                  <label className={`flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer ${showAgreementError ? 'bg-red-900/10 border-red-600' : 'bg-stone-800/30 border-stone-700 hover:border-stone-600'}`}>
+                    <input
+                      type="checkbox"
+                      checked={agreedToTerms}
+                      onChange={(e) => {
+                        setAgreedToTerms(e.target.checked);
+                        if (e.target.checked) setShowAgreementError(false);
+                      }}
+                      className="mt-1 w-4 h-4 rounded border-stone-600 bg-stone-700 text-red-600 focus:ring-red-600 focus:ring-offset-stone-900"
+                    />
+                    <span className="text-xs text-stone-300 leading-relaxed">
+                      I agree to the <Link to={createPageUrl('Policies')} className="text-red-500 hover:underline">Terms of Service</Link>, <Link to={createPageUrl('Policies')} className="text-red-500 hover:underline">Refund Policy</Link>, and acknowledge that all products are for <span className="text-amber-50 font-bold italic">RESEARCH USE ONLY</span> and <span className="text-amber-50 font-bold italic">NOT FOR HUMAN CONSUMPTION</span>.
+                    </span>
+                  </label>
+                  {showAgreementError && (
+                    <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center animate-pulse">
+                      Acknowledgment required to proceed
+                    </p>
+                  )}
+                </div>
+
                 <Button 
                   onClick={() => {
+                    if (!agreedToTerms) {
+                      setShowAgreementError(true);
+                      return;
+                    }
                     if (!isAuthenticated) {
                       base44.auth.redirectToLogin(createPageUrl('Cart'));
                       return;
                     }
                     navigate(createPageUrl('CustomerInfo'));
                   }}
-                  className="w-full bg-red-700 hover:bg-red-600 text-amber-50 font-semibold py-6 mb-3 gap-2 relative group"
+                  className={`w-full font-semibold py-6 mb-3 gap-2 relative group transition-all duration-300 ${agreedToTerms ? 'bg-red-700 hover:bg-red-600 text-amber-50' : 'bg-stone-800 text-stone-500 cursor-not-allowed'}`}
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-4 h-4" />

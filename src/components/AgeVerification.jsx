@@ -25,7 +25,7 @@ export default function AgeVerification({ isOpen, onVerify }) {
         
         <div className="space-y-6">
           <DialogDescription className="text-stone-300 text-base">
-            This website contains research chemicals and peptides. You must be at least 21 years old to access this content.
+            This website contains research chemicals and peptides. These products are intended for laboratory research use only. You must be at least 21 years old to access this content.
           </DialogDescription>
 
           <div className="space-y-3">
@@ -34,9 +34,9 @@ export default function AgeVerification({ isOpen, onVerify }) {
                 type="checkbox"
                 checked={confirmed}
                 onChange={(e) => setConfirmed(e.target.checked)}
-                className="w-5 h-5 rounded border-stone-600 bg-stone-800 cursor-pointer"
+                className="w-5 h-5 rounded border-stone-600 bg-stone-800 cursor-pointer accent-red-600"
               />
-              <span className="text-stone-300 text-sm">I confirm that I am at least 21 years old</span>
+              <span className="text-stone-300 text-sm">I confirm that I am at least 21 years old and understand the research-only nature of these products</span>
             </label>
           </div>
 

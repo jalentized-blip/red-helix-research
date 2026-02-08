@@ -93,7 +93,7 @@ export default function AgeVerificationBot({ isOpen, onVerify }) {
         </p>
 
         <p className="text-stone-400 text-sm mb-8">
-          By clicking "I Confirm", you certify that you are 18+ years old and understand these products are for research use only.
+          By clicking "I Confirm", you certify that you are 21+ years old and understand these products are for research use only.
         </p>
 
         <div className="flex gap-3">

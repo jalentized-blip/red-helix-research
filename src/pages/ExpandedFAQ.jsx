@@ -189,7 +189,7 @@ export default function ExpandedFAQ() {
         {
           id: 'legal-age',
           question: 'What\'s the minimum age to order?',
-          answer: 'You must be 18+ to order. We verify age at checkout. By purchasing, you confirm you\'re 18+, understand research use only, and accept all liability.'
+          answer: 'You must be 21+ to order. We verify age at checkout. By purchasing, you confirm you\'re 21+, understand research use only, and accept all liability.'
         }
       ]
     },

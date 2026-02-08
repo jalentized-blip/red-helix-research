@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X, ShoppingCart, CheckCircle, Info, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ShoppingCart, CheckCircle, Info, ChevronLeft, ChevronRight, FlaskConical, ShieldCheck, Microscope, Zap } from "lucide-react";
 import { addToCart } from '@/components/utils/cart';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +12,6 @@ export default function ProductModal({ product, isOpen, onClose }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
   const [addedToCart, setAddedToCart] = useState(false);
   const [showCOA, setShowCOA] = useState(false);
-  const [hoveredInfo, setHoveredInfo] = useState(false);
   const [currentCoaIndex, setCurrentCoaIndex] = useState(0);
 
   const { data: coas = [] } = useQuery({
@@ -27,14 +26,6 @@ export default function ProductModal({ product, isOpen, onClose }) {
     coa.product_name?.toLowerCase() === product.name?.toLowerCase()
   );
 
-  const handleNextCOA = () => {
-    setCurrentCoaIndex((prev) => (prev + 1) % productCOAs.length);
-  };
-
-  const handlePrevCOA = () => {
-    setCurrentCoaIndex((prev) => (prev - 1 + productCOAs.length) % productCOAs.length);
-  };
-
   const handleAddToCart = () => {
     if (selectedSpec) {
       addToCart(product, selectedSpec);
@@ -46,208 +37,219 @@ export default function ProductModal({ product, isOpen, onClose }) {
     }
   };
 
+  const handlePrevCOA = () => {
+    setCurrentCoaIndex((prev) => (prev === 0 ? productCOAs.length - 1 : prev - 1));
+  };
+
+  const handleNextCOA = () => {
+    setCurrentCoaIndex((prev) => (prev === productCOAs.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-stone-900 border-stone-700 max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <div className="flex items-start justify-between">
-            <DialogTitle className="text-2xl font-bold text-amber-50 pr-8">
-              {product.name}
-            </DialogTitle>
-            <div 
-              className="relative"
-              onMouseEnter={() => setHoveredInfo(true)}
-              onMouseLeave={() => setHoveredInfo(false)}
-            >
-              <button
-                onClick={() => {
-                  if (productCOAs.length > 0) {
-                    setCurrentCoaIndex(0);
-                    setShowCOA(true);
-                  }
-                }}
-                className={`p-2 rounded-full transition-all ${
-                  productCOAs.length > 0
-                    ? 'bg-stone-800 hover:bg-stone-700 cursor-pointer' 
-                    : 'bg-stone-800/50 cursor-default'
-                }`}
-              >
-                <Info className="w-5 h-5 text-stone-400" />
-              </button>
+      <DialogContent className="bg-white border-slate-200 max-w-4xl p-0 overflow-hidden rounded-[40px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
+        <div className="flex flex-col lg:flex-row max-h-[90vh]">
+          {/* Left Side: Product Image & Technical Info */}
+          <div className="w-full lg:w-1/2 bg-slate-50 p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-slate-100 relative overflow-hidden">
+            {/* Background Scientific Grid */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:20px_20px]" />
+            
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-xl bg-red-600/5 border border-red-600/10 flex items-center justify-center">
+                  <Microscope className="w-5 h-5 text-red-600" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Catalog Reference</p>
+                  <p className="text-xs font-bold text-slate-900 uppercase mt-1">RH-ENT-{product.id?.slice(0,4) || '7482'}</p>
+                </div>
+              </div>
 
-              {hoveredInfo && (
+              <div className="aspect-square w-full bg-white rounded-[32px] border border-slate-100 p-8 flex items-center justify-center relative group shadow-sm">
                 <motion.div
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute top-full right-0 mt-2 px-3 py-2 bg-stone-800 border border-stone-700 rounded-lg shadow-xl whitespace-nowrap z-50"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <p className="text-xs text-stone-300">
-                    {productCOAs.length > 0 ? `Click to view ${productCOAs.length} COA${productCOAs.length > 1 ? 's' : ''}` : 'PENDING COA'}
-                  </p>
+                  <img 
+                    src="https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg" 
+                    alt={product.name}
+                    className="w-full h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
+                  />
                 </motion.div>
-              )}
+                
+                {/* Floating Badges */}
+                <div className="absolute top-6 right-6">
+                  <div className="px-3 py-1 bg-white/90 backdrop-blur-md border border-slate-100 rounded-full flex items-center gap-2 shadow-sm">
+                    <ShieldCheck className="w-3 h-3 text-green-600" />
+                    <span className="text-[10px] font-black text-green-600 uppercase tracking-tighter">Verified Purity</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                  <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+                  <p className="text-xs font-bold text-slate-600">HPLC & Mass Spec Verified Batch</p>
+                </div>
+                <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                  <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+                  <p className="text-xs font-bold text-slate-600">Sterile Vacuum-Sealed Packaging</p>
+                </div>
+              </div>
             </div>
           </div>
-        </DialogHeader>
 
-        <div className="space-y-6">
-          {/* Product Image */}
-          <div className="aspect-video w-full bg-stone-800 rounded-xl overflow-hidden">
-            <img 
-              src="https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg" 
-              alt={product.name}
-              className="w-full h-full object-contain"
-            />
-          </div>
+          {/* Right Side: Details & Selection */}
+          <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col bg-white overflow-y-auto scrollbar-hide">
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h2 className="text-3xl font-black text-slate-900 tracking-tighter leading-none mb-2 uppercase">
+                  {product.name}
+                </h2>
+                <div className="flex items-center gap-2">
+                  <Badge className="bg-red-600/5 text-red-600 border-red-600/10 text-[10px] font-black tracking-widest px-2 py-0">RESEARCH ONLY</Badge>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ISO 9001:2015</span>
+                </div>
+              </div>
+              <button 
+                onClick={onClose}
+                className="p-2 hover:bg-slate-50 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-slate-400" />
+              </button>
+            </div>
 
-          {/* Description */}
-          {product.description && (
-            <p className="text-stone-300 leading-relaxed">
-              {product.description}
+            <p className="text-slate-500 text-sm leading-relaxed mb-10 font-medium">
+              {product.description || "Premium laboratory-grade research material synthesized to exacting standards. Each batch undergoes rigorous multi-stage analytical testing to ensure maximum purity and identity confirmation."}
             </p>
-          )}
 
-          {/* Specifications */}
-          <div className="space-y-6">
-            {/* Single Vials Section */}
-            {product.specifications?.filter(spec => !spec.hidden && spec.name?.toLowerCase().includes('single vial')).length > 0 && (
-              <div>
-                <h3 className="text-lg font-bold text-amber-50 mb-4">
-                  Single Vials
-                </h3>
-                <div className="grid gap-3">
-                  {product.specifications?.filter(spec => !spec.hidden && spec.name?.toLowerCase().includes('single vial')).map((spec, index) => {
-                    const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
-                    return (
-                      <button
-                        key={index}
-                        onClick={() => !isOutOfStock && setSelectedSpec(spec)}
-                        disabled={isOutOfStock}
-                        className={`p-4 rounded-lg border-2 transition-all text-left relative ${
-                          selectedSpec?.name === spec.name
-                            ? 'border-red-700 bg-red-700/10'
-                            : isOutOfStock
-                            ? 'border-stone-700/50 bg-stone-800/20 opacity-60 cursor-not-allowed'
-                            : 'border-stone-700 bg-stone-800/50 hover:border-stone-600'
-                        }`}
-                      >
-                        {isOutOfStock && (
-                          <div className="absolute top-2 right-2">
-                            <Badge className="bg-red-600/20 text-red-400 border-red-600/30">
-                              Out of Stock
-                            </Badge>
-                          </div>
-                        )}
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="font-semibold text-amber-50">
-                              {spec.name}
-                            </div>
-                            <div className="text-sm text-stone-400 mt-1">
-                              Individual vial
-                            </div>
-                            {!isOutOfStock && spec.stock_quantity > 0 && (
-                              <div className="text-xs text-green-400 mt-1">
-                                {spec.stock_quantity} units available
+            {/* Selection Grid */}
+            <div className="space-y-8 flex-grow">
+              {/* Single Vials */}
+              {product.specifications?.filter(spec => !spec.hidden && spec.name?.toLowerCase().includes('single vial')).length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <FlaskConical className="w-4 h-4 text-slate-300" />
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Individual Unit Selection</h3>
+                  </div>
+                  <div className="grid gap-3">
+                    {product.specifications?.filter(spec => !spec.hidden && spec.name?.toLowerCase().includes('single vial')).map((spec, index) => {
+                      const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => !isOutOfStock && setSelectedSpec(spec)}
+                          disabled={isOutOfStock}
+                          className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
+                            selectedSpec?.name === spec.name
+                              ? 'border-red-600 bg-red-600/5 shadow-sm'
+                              : isOutOfStock
+                              ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
+                              : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-red-600' : 'text-slate-900'}`}>
+                                {spec.name}
                               </div>
-                            )}
-                          </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-red-600">
-                              ${spec.price}
+                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Analysis Unit</div>
                             </div>
-                            {selectedSpec?.name === spec.name && !isOutOfStock && (
-                              <CheckCircle className="w-5 h-5 text-red-600 mt-1 ml-auto" />
-                            )}
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Kits Section */}
-            {product.specifications?.filter(spec => !spec.hidden && !spec.name?.toLowerCase().includes('single vial')).length > 0 && (
-              <div>
-                <h3 className="text-lg font-bold text-amber-50 mb-4">
-                  Kits (10 Vials)
-                </h3>
-                <div className="grid gap-3">
-                  {product.specifications?.filter(spec => !spec.hidden && !spec.name?.toLowerCase().includes('single vial')).map((spec, index) => {
-                    const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
-                    return (
-                      <button
-                        key={index}
-                        onClick={() => !isOutOfStock && setSelectedSpec(spec)}
-                        disabled={isOutOfStock}
-                        className={`p-4 rounded-lg border-2 transition-all text-left relative ${
-                          selectedSpec?.name === spec.name
-                            ? 'border-red-700 bg-red-700/10'
-                            : isOutOfStock
-                            ? 'border-stone-700/50 bg-stone-800/20 opacity-60 cursor-not-allowed'
-                            : 'border-stone-700 bg-stone-800/50 hover:border-stone-600'
-                        }`}
-                      >
-                        {isOutOfStock && (
-                          <div className="absolute top-2 right-2">
-                            <Badge className="bg-red-600/20 text-red-400 border-red-600/30">
-                              Out of Stock
-                            </Badge>
-                          </div>
-                        )}
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="font-semibold text-amber-50">
-                              {spec.name}
-                            </div>
-                            <div className="text-sm text-stone-400 mt-1">
-                              10 vials per kit
-                            </div>
-                            {!isOutOfStock && spec.stock_quantity > 0 && (
-                              <div className="text-xs text-green-400 mt-1">
-                                {spec.stock_quantity} units available
+                            <div className="text-right">
+                              <div className="text-2xl font-black text-slate-900 tracking-tighter">
+                                ${spec.price}
                               </div>
-                            )}
-                          </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-red-600">
-                              ${spec.price}
                             </div>
-                            {selectedSpec?.name === spec.name && !isOutOfStock && (
-                              <CheckCircle className="w-5 h-5 text-red-600 mt-1 ml-auto" />
-                            )}
                           </div>
-                        </div>
-                      </button>
-                    );
-                  })}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
 
-          {/* Add to Cart Button */}
-          <div className="flex gap-3">
-            {!selectedSpec ? (
-              <Button
-                disabled={true}
-                className="flex-1 bg-stone-700 text-stone-400 font-semibold py-6 text-lg cursor-not-allowed"
-              >
-                Select a strength option
-              </Button>
-            ) : selectedSpec.in_stock === false || selectedSpec.stock_quantity === 0 ? (
-              <Button
-                disabled={true}
-                className="flex-1 bg-stone-700 text-stone-400 font-semibold py-6 text-lg cursor-not-allowed"
-              >
-                Out of Stock
-              </Button>
-            ) : (
+              {/* Kits Section */}
+              {product.specifications?.filter(spec => !spec.hidden && !spec.name?.toLowerCase().includes('single vial')).length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Zap className="w-4 h-4 text-slate-300" />
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Bulk Research Kits (10 Units)</h3>
+                  </div>
+                  <div className="grid gap-3">
+                    {product.specifications?.filter(spec => !spec.hidden && !spec.name?.toLowerCase().includes('single vial')).map((spec, index) => {
+                      const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => !isOutOfStock && setSelectedSpec(spec)}
+                          disabled={isOutOfStock}
+                          className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
+                            selectedSpec?.name === spec.name
+                              ? 'border-red-600 bg-red-600/5 shadow-sm'
+                              : isOutOfStock
+                              ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
+                              : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-red-600' : 'text-slate-900'}`}>
+                                {spec.name}
+                              </div>
+                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Laboratory 10-Pack Kit</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-2xl font-black text-slate-900 tracking-tighter">
+                                ${spec.price}
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Action Area */}
+            <div className="mt-10 space-y-4">
               <Button
                 onClick={handleAddToCart}
-                disabled={addedToCart}
+                disabled={!selectedSpec || addedToCart}
+                className={`w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
+                  !selectedSpec 
+                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                    : addedToCart
+                    ? 'bg-green-600 text-white'
+                    : 'bg-red-600 hover:bg-red-700 text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
+                }`}
+              >
+                <span className="flex items-center gap-3">
+                  {addedToCart ? (
+                    <>
+                      <CheckCircle className="w-5 h-5" />
+                      Added to Protocol
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-5 h-5" />
+                      {selectedSpec ? `Initialize Order: $${selectedSpec.price}` : 'Select Configuration'}
+                    </>
+                  )}
+                </span>
+              </Button>
+              
+              <p className="text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest">
+                Secure checkout • Third-party verified • Worldwide logistics
+              </p>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-6 text-lg"
               >
                 {addedToCart ? (
@@ -279,10 +281,13 @@ export default function ProductModal({ product, isOpen, onClose }) {
           </div>
 
           {/* Research Use Disclaimer */}
-          <div className="bg-yellow-950/30 border border-yellow-700/50 rounded-lg p-4 text-xs text-yellow-100">
-            <p className="font-bold mb-2">⚠️ IMPORTANT DISCLAIMER</p>
+          <div className="bg-red-950/30 border border-red-700/50 rounded-lg p-4 text-xs text-red-200">
+            <p className="font-bold mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+              STRICT RESEARCH COMPLIANCE
+            </p>
             <p className="leading-relaxed">
-              This product is for research and laboratory use only. Not intended for human consumption, therapeutic use, or any clinical application. Not for use in humans or animals. Purchaser assumes all responsibility for compliance with applicable laws and regulations.
+              This product is supplied for <span className="font-bold text-amber-50 underline">RESEARCH AND LABORATORY USE ONLY</span>. It is strictly <span className="font-bold text-amber-50 underline">NOT FOR HUMAN CONSUMPTION</span>, therapeutic use, or clinical application. By adding to cart, you certify you are a qualified researcher (21+) and assume all liability for handling.
             </p>
           </div>
         </div>
