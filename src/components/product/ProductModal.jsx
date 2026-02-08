@@ -244,51 +244,44 @@ export default function ProductModal({ product, isOpen, onClose }) {
                 Secure checkout • Third-party verified • Worldwide logistics
               </p>
             </div>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-amber-50 font-semibold py-6 text-lg"
-              >
-                {addedToCart ? (
-                  <>
-                    <CheckCircle className="w-5 h-5 mr-2" />
-                    Added to Cart!
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart className="w-5 h-5 mr-2" />
-                    Add to Cart - ${selectedSpec.price}
-                  </>
-                )}
-              </Button>
-            )}
-          </div>
 
-          {/* Additional Info */}
-          <div className="bg-stone-800/50 rounded-lg p-4 text-sm text-stone-300 space-y-2">
-            <p className="flex items-center gap-2">
-              <span className="text-red-600">✓</span> Lab tested for purity
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="text-red-600">✓</span> Ships within 24-48 hours
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="text-red-600">✓</span> Includes Certificate of Analysis
-            </p>
-          </div>
+            {/* Additional Info - Bright Medical Style */}
+            <div className="mt-8 grid grid-cols-1 gap-3">
+              <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="w-8 h-8 rounded-lg bg-red-600/5 flex items-center justify-center">
+                  <ShieldCheck className="w-4 h-4 text-red-600" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Quality Assurance</p>
+                  <p className="text-xs font-bold text-slate-900">Lab tested for 99%+ purity</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="w-8 h-8 rounded-lg bg-red-600/5 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-red-600" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Rapid Logistics</p>
+                  <p className="text-xs font-bold text-slate-900">Ships within 24-48 hours</p>
+                </div>
+              </div>
+            </div>
 
-          {/* Research Use Disclaimer */}
-          <div className="bg-red-950/30 border border-red-700/50 rounded-lg p-4 text-xs text-red-200">
-            <p className="font-bold mb-2 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-              STRICT RESEARCH COMPLIANCE
-            </p>
-            <p className="leading-relaxed">
-              This product is supplied for <span className="font-bold text-amber-50 underline">RESEARCH AND LABORATORY USE ONLY</span>. It is strictly <span className="font-bold text-amber-50 underline">NOT FOR HUMAN CONSUMPTION</span>, therapeutic use, or clinical application. By adding to cart, you certify you are a qualified researcher (21+) and assume all liability for handling.
-            </p>
+            {/* Compliance Disclaimer - Non-bypassable */}
+            <div className="mt-8 p-6 bg-red-50 rounded-[32px] border border-red-100 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rounded-full -mr-12 -mt-12" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+                  <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Strict Compliance</p>
+                </div>
+                <p className="text-[11px] font-bold text-slate-600 leading-relaxed">
+                  This product is supplied for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. 
+                  Strictly <span className="text-red-600 underline">NOT FOR HUMAN CONSUMPTION</span>. 
+                  By ordering, you certify you are 21+ and a qualified researcher.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>
@@ -301,7 +294,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowCOA(false)}
-            className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-slate-900/95 z-[100] flex items-center justify-center p-4 backdrop-blur-md"
           >
             <div className="relative max-w-4xl w-full">
               <motion.div
@@ -309,16 +302,16 @@ export default function ProductModal({ product, isOpen, onClose }) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative max-h-[90vh] overflow-auto bg-stone-900 rounded-lg"
+                className="relative max-h-[90vh] overflow-auto bg-white rounded-[40px] shadow-2xl p-2 border border-slate-200"
               >
                 <img
                   src={productCOAs[currentCoaIndex].image_url}
                   alt={`COA for ${product.name}`}
-                  className="w-full h-auto"
+                  className="w-full h-auto rounded-[32px]"
                 />
               </motion.div>
 
-              {/* Navigation Arrows - Outside scroll container */}
+              {/* Navigation Arrows */}
               {productCOAs.length > 1 && (
                 <>
                   <button
@@ -326,39 +319,37 @@ export default function ProductModal({ product, isOpen, onClose }) {
                       e.stopPropagation();
                       handlePrevCOA();
                     }}
-                    className="fixed left-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm pointer-events-auto z-[101] cursor-pointer transition-colors"
+                    className="fixed left-8 top-1/2 -translate-y-1/2 p-4 bg-white/90 hover:bg-white text-slate-900 rounded-full shadow-xl transition-all hover:scale-110"
                   >
-                    <ChevronLeft className="w-6 h-6 text-amber-50" />
+                    <ChevronLeft className="w-6 h-6" />
                   </button>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleNextCOA();
                     }}
-                    className="fixed right-4 top-1/2 -translate-y-1/2 p-3 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm pointer-events-auto z-[101] cursor-pointer transition-colors"
+                    className="fixed right-8 top-1/2 -translate-y-1/2 p-4 bg-white/90 hover:bg-white text-slate-900 rounded-full shadow-xl transition-all hover:scale-110"
                   >
-                    <ChevronRight className="w-6 h-6 text-amber-50" />
+                    <ChevronRight className="w-6 h-6" />
                   </button>
                 </>
               )}
 
-              {/* Close Button - Outside scroll container */}
+              {/* Close Button */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowCOA(false);
                 }}
-                className="fixed top-6 right-6 p-2 bg-stone-800/90 hover:bg-stone-700 rounded-full backdrop-blur-sm"
+                className="fixed top-8 right-8 p-3 bg-white/90 hover:bg-white text-slate-900 rounded-full shadow-xl transition-all hover:scale-110"
               >
-                <X className="w-5 h-5 text-amber-50" />
+                <X className="w-6 h-6" />
               </button>
 
-              {/* COA Counter - Outside scroll container */}
+              {/* COA Counter */}
               {productCOAs.length > 1 && (
-                <div className="fixed top-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-stone-800/90 rounded-full backdrop-blur-sm pointer-events-none">
-                  <p className="text-sm text-amber-50 font-semibold">
-                    {currentCoaIndex + 1} / {productCOAs.length}
-                  </p>
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-white/90 text-slate-900 rounded-full shadow-xl font-black text-xs uppercase tracking-widest">
+                  Batch Analysis {currentCoaIndex + 1} / {productCOAs.length}
                 </div>
               )}
             </div>
