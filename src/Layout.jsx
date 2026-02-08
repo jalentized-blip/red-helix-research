@@ -452,19 +452,11 @@ const HeaderSearch = () => {
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center rotate-45 group-hover:rotate-90 transition-transform duration-500 shadow-lg shadow-red-600/20">
-                  <div className="w-5 h-5 border-2 border-white rounded-full -rotate-45 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-black text-slate-900 tracking-tighter leading-none">RED HELIX</span>
-                <span className="text-[10px] font-black text-red-600 tracking-[0.3em] leading-none mt-1">RESEARCH</span>
-              </div>
-            </div>
+            <img 
+              src="/red-helix-logo.png" 
+              alt="Red Helix Research" 
+              className="h-14 w-auto object-contain" 
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -590,11 +582,12 @@ const HeaderSearch = () => {
                   <div className="h-full flex flex-col">
                     <div className="border-b border-slate-100 pb-6 mb-8 px-4">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center rotate-45">
-                          <div className="w-4 h-4 border-2 border-white rounded-full -rotate-45" />
-                        </div>
-                        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Menu</h2>
-                      </div>
+                      <img 
+                        src="/red-helix-logo.png" 
+                        alt="Red Helix Research" 
+                        className="h-12 w-auto object-contain" 
+                      />
+                    </div>
                       <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Research & Education</p>
                     </div>
                     
