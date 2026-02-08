@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Info, ShieldCheck, Zap, Users, BookOpen, TrendingDown, CheckCircle2 } from 'lucide-react';
+import { MapPin, Info, ShieldCheck, Zap, Users, BookOpen, TrendingDown, CheckCircle2, Save, Move } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import { useToast } from '@/components/ui/use-toast';
 
-const roadmapSteps = [
+const defaultRoadmapSteps = [
   {
     id: 1,
     title: "Fair Pricing, No Gouging",
@@ -59,83 +61,193 @@ const roadmapSteps = [
   }
 ];
 
-export default function InteractiveRoadmap() {
+export default function InteractiveRoadmap({ isAdmin = false }) {
+  const [steps, setSteps] = useState(defaultRoadmapSteps);
   const [activeStep, setActiveStep] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
   const containerRef = useRef(null);
+  const { toast } = useToast();
 
+  // Load saved positions
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        setMousePos({ x, y });
-
-        // Find closest step
-        let closest = null;
-        let minDistance = 15; // Threshold for "getting close"
-
-        roadmapSteps.forEach(step => {
-          const stepX = parseFloat(step.x);
-          const stepY = parseFloat(step.y);
-          const distance = Math.sqrt(Math.pow(x - stepX, 2) + Math.pow(y - stepY, 2));
-          
-          if (distance < minDistance) {
-            minDistance = distance;
-            closest = step;
-          }
+    const loadSettings = async () => {
+      try {
+        const settings = await base44.entities.SiteSettings.list({
+          filter: { key: 'roadmap_positions' }
         });
-
-        setActiveStep(closest);
+        
+        if (settings.length > 0) {
+          const savedPositions = settings[0].value;
+          setSteps(prevSteps => prevSteps.map(step => {
+            const saved = savedPositions.find(s => s.id === step.id);
+            return saved ? { ...step, x: saved.x, y: saved.y } : step;
+          }));
+        }
+      } catch (error) {
+        console.error("Error loading roadmap positions:", error);
       }
     };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    loadSettings();
   }, []);
+
+  const handleSave = async () => {
+    try {
+      const positions = steps.map(s => ({ id: s.id, x: s.x, y: s.y }));
+      
+      const settings = await base44.entities.SiteSettings.list({
+        filter: { key: 'roadmap_positions' }
+      });
+
+      if (settings.length > 0) {
+        await base44.entities.SiteSettings.update(settings[0].id, {
+          value: positions
+        });
+      } else {
+        await base44.entities.SiteSettings.create({
+          key: 'roadmap_positions',
+          value: positions
+        });
+      }
+
+      setHasChanges(false);
+      toast({
+        title: "Positions Saved",
+        description: "Roadmap layout has been updated for all users.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error Saving",
+        description: "Could not save roadmap positions. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    setMousePos({ x, y });
+
+    if (isDragging !== null && isAdmin) {
+      setSteps(prevSteps => prevSteps.map(step => 
+        step.id === isDragging 
+          ? { ...step, x: `${Math.max(0, Math.min(100, x))}%`, y: `${Math.max(0, Math.min(100, y))}%` } 
+          : step
+      ));
+      setHasChanges(true);
+      return;
+    }
+
+    // Proximity detection for info card
+    let closest = null;
+    let minDistance = 15;
+
+    steps.forEach(step => {
+      const stepX = parseFloat(step.x);
+      const stepY = parseFloat(step.y);
+      const distance = Math.sqrt(Math.pow(x - stepX, 2) + Math.pow(y - stepY, 2));
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closest = step;
+      }
+    });
+
+    setActiveStep(closest);
+  };
+
+  const handleMouseDown = (id, e) => {
+    if (isAdmin) {
+      e.stopPropagation();
+      setIsDragging(id);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(null);
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, isAdmin, steps]);
 
   return (
     <section className="relative w-full bg-stone-950 pt-64 pb-12 px-6 overflow-hidden border-b border-red-900/20">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-black text-amber-50 mb-4 tracking-tighter"
-          >
-            WHY SO <span className="text-red-600">CHEAP?</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-stone-400 max-w-2xl mx-auto text-lg"
-          >
-            Explore our roadmap to see how we've revolutionized peptide pricing through transparency, 
-            efficiency, and community-driven sourcing.
-          </motion.p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="text-center md:text-left">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-4xl md:text-5xl font-black text-amber-50 mb-4 tracking-tighter"
+            >
+              WHY SO <span className="text-red-600">CHEAP?</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-stone-400 max-w-2xl text-lg"
+            >
+              Explore our roadmap to see how we've revolutionized peptide pricing through transparency, 
+              efficiency, and community-driven sourcing.
+            </motion.p>
+          </div>
+
+          {isAdmin && (
+            <div className="flex items-center gap-4 self-center md:self-end">
+              <div className="flex items-center gap-2 text-xs font-bold text-red-500 bg-red-500/10 px-3 py-1.5 rounded-full border border-red-500/20">
+                <Move className="w-3 h-3" />
+                ADMIN: DRAG POINTS TO MOVE
+              </div>
+              <button
+                onClick={handleSave}
+                disabled={!hasChanges}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold transition-all ${
+                  hasChanges 
+                    ? 'bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 scale-105' 
+                    : 'bg-stone-800 text-stone-500 cursor-not-allowed'
+                }`}
+              >
+                <Save className="w-4 h-4" />
+                SAVE LAYOUT
+              </button>
+            </div>
+          )}
         </div>
 
         <div 
           ref={containerRef}
           className="relative h-[400px] md:h-[500px] w-full bg-stone-900/30 rounded-3xl border border-stone-800/50 backdrop-blur-sm overflow-hidden cursor-crosshair"
         >
-          {/* Background Grid/Effect */}
+          {/* Background Grid */}
           <div className="absolute inset-0 opacity-20" 
                style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #444 1px, transparent 0)', backgroundSize: '40px 40px' }} />
           
-          {/* Roadmap Path (SVG) */}
+          {/* Connection Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
             <motion.path
-              d="M 0 150 Q 150 50 300 250 T 600 150 T 900 350 T 1200 200"
+              d={`M 0 150 ${steps.map((s, i) => {
+                const x = (parseFloat(s.x) / 100) * (containerRef.current?.clientWidth || 1200);
+                const y = (parseFloat(s.y) / 100) * (containerRef.current?.clientHeight || 500);
+                return `L ${x} ${y}`;
+              }).join(' ')} L 1200 250`}
               fill="none"
               stroke="url(#grad)"
-              strokeWidth="4"
-              strokeDasharray="12 12"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.3 }}
-              transition={{ duration: 2, ease: "easeInOut" }}
+              strokeWidth="2"
+              strokeDasharray="8 8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
             />
             <defs>
               <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -145,9 +257,9 @@ export default function InteractiveRoadmap() {
             </defs>
           </svg>
 
-          {/* Connection Lines to Mouse */}
+          {/* Mouse Connection */}
           <AnimatePresence>
-            {activeStep && (
+            {activeStep && !isDragging && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -170,20 +282,24 @@ export default function InteractiveRoadmap() {
           </AnimatePresence>
 
           {/* Pin Points */}
-          {roadmapSteps.map((step) => (
+          {steps.map((step) => (
             <div
               key={step.id}
-              className="absolute transition-all duration-500"
+              className={`absolute transition-all duration-75 ${isAdmin ? 'cursor-grab active:cursor-grabbing z-30' : 'z-10'}`}
               style={{ left: step.x, top: step.y, transform: 'translate(-50%, -50%)' }}
+              onMouseDown={(e) => handleMouseDown(step.id, e)}
             >
               <motion.div
                 animate={{
-                  scale: activeStep?.id === step.id ? 1.5 : 1,
-                  backgroundColor: activeStep?.id === step.id ? '#dc2626' : '#292524'
+                  scale: activeStep?.id === step.id || isDragging === step.id ? 1.5 : 1,
+                  backgroundColor: activeStep?.id === step.id || isDragging === step.id ? '#dc2626' : '#292524',
+                  boxShadow: activeStep?.id === step.id || isDragging === step.id 
+                    ? '0 0 20px rgba(220,38,38,0.6)' 
+                    : '0 0 0px rgba(220,38,38,0)'
                 }}
-                className="w-4 h-4 rounded-full border-2 border-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)] z-10"
+                className="w-4 h-4 rounded-full border-2 border-red-600"
               />
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-stone-500 uppercase tracking-widest opacity-50">
+              <div className="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-stone-500 uppercase tracking-widest opacity-50 select-none pointer-events-none">
                 Step {step.id}
               </div>
             </div>
@@ -191,7 +307,7 @@ export default function InteractiveRoadmap() {
 
           {/* Interactive Info Card */}
           <AnimatePresence>
-            {activeStep && (
+            {activeStep && !isDragging && (
               <motion.div
                 key={activeStep.id}
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -227,8 +343,8 @@ export default function InteractiveRoadmap() {
             )}
           </AnimatePresence>
 
-          {/* Floating Prompt */}
-          {!activeStep && (
+          {/* Prompt */}
+          {!activeStep && !isDragging && (
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -236,14 +352,14 @@ export default function InteractiveRoadmap() {
             >
               <div className="px-6 py-3 bg-red-600/10 border border-red-600/20 rounded-full backdrop-blur-sm">
                 <p className="text-red-400 text-sm font-medium animate-pulse">
-                  Move your mouse to explore our roadmap
+                  {isAdmin ? 'Drag points to rearrange roadmap' : 'Move mouse to explore our roadmap'}
                 </p>
               </div>
             </motion.div>
           )}
         </div>
 
-        {/* Bottom Trust Indicators */}
+        {/* Bottom Indicators */}
         <div className="mt-8 flex flex-wrap justify-center gap-6 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-red-500" />
