@@ -289,120 +289,86 @@ ${conversationHistory}
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-8">
+    <div className="min-h-screen bg-white pt-32 pb-8">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-6">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 transition-colors mb-4">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-500 hover:text-red-600 transition-colors mb-4">
             <ArrowLeft className="w-4 h-4" />
             Back to Shop
           </Link>
-          <h1 className="text-4xl font-bold text-amber-50 mb-2">PeppyBot</h1>
-          <p className="text-stone-400">Your peptide research education assistant</p>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-red-600 rounded-2xl flex items-center justify-center shadow-lg shadow-red-600/20">
+              <span className="text-2xl">🧬</span>
+            </div>
+            <div>
+              <h1 className="text-2xl font-black text-slate-900">PeppyBot Research Assistant</h1>
+              <p className="text-slate-500 text-sm font-medium">AI-Powered Peptide Education</p>
+            </div>
+          </div>
         </div>
 
         {/* Chat Container */}
-        <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-800 rounded-xl overflow-hidden relative">
-          {/* Messages */}
-            <div className="relative h-[60vh] overflow-hidden rounded-lg">
-              <div className="h-full overflow-y-auto p-6 space-y-4">
-                <AnimatePresence initial={false}>
-                  {messages.map((message, index) => {
-                    const isProductsMessage = message.role === 'assistant' && message.content.includes('Products');
-                    return (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div
-                        className={`max-w-[80%] rounded-lg p-4 ${
-                          message.role === 'user'
-                            ? 'bg-red-700 text-amber-50'
-                            : 'bg-stone-800 text-stone-100'
-                        }`}
-                      >
-                        {message.role === 'assistant' ? (
-                          isProductsMessage ? (
-                            <div className="space-y-3">
-                              <p className="mb-3">{message.content.replace('Click the Products button and start shopping.', '').trim()}</p>
-                              <Link to={createPageUrl('Home') + '?section=products'} className="inline-block bg-red-700 hover:bg-red-600 text-amber-50 px-4 py-2 rounded-lg font-semibold transition-colors">
-                                Shop Products
-                              </Link>
-                            </div>
-                          ) : (
-                            <ReactMarkdown
-                              className="prose prose-invert prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                              components={{
-                                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                strong: ({ children }) => <strong className="text-amber-50 font-semibold">{children}</strong>,
-                                ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
-                                ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
-                                li: ({ children }) => <li className="mb-1">{children}</li>,
-                              }}
-                            >
-                              {message.content}
-                            </ReactMarkdown>
-                          )
-                        ) : (
-                          <p className="whitespace-pre-wrap">{message.content}</p>
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                  })}
-                </AnimatePresence>
-                <div ref={messagesEndRef} />
+        <div className="bg-slate-50 border border-slate-200 rounded-[32px] overflow-hidden shadow-sm h-[600px] flex flex-col">
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[85%] rounded-2xl p-4 ${
+                    msg.role === 'user'
+                      ? 'bg-red-600 text-white rounded-tr-none shadow-lg shadow-red-600/20'
+                      : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none shadow-sm'
+                  }`}
+                >
+                  <ReactMarkdown 
+                    className={`prose text-sm max-w-none ${
+                      msg.role === 'user' 
+                        ? 'prose-invert prose-p:text-white prose-headings:text-white prose-strong:text-white' 
+                        : 'prose-slate prose-p:text-slate-600 prose-headings:text-slate-900 prose-strong:text-slate-900 prose-a:text-red-600'
+                    }`}
+                  >
+                    {msg.content}
+                  </ReactMarkdown>
+                </div>
               </div>
-            </div>
-
-
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 shadow-sm flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin text-red-600" />
+                  <span className="text-sm text-slate-500 font-medium">Thinking...</span>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
 
           {/* Input Area */}
-          <div className="border-t border-stone-800 p-4">
-            <div className="flex gap-2">
+          <div className="p-4 bg-white border-t border-slate-200">
+            <div className="relative flex items-center gap-2">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask me about peptide research, dosing, storage, or anything else..."
-                className="flex-1 bg-stone-800 border-stone-700 text-amber-50 placeholder:text-stone-400 resize-none"
-                rows={3}
-                disabled={isLoading}
+                onKeyDown={handleKeyPress}
+                placeholder="Ask about peptides, protocols, or research..."
+                className="min-h-[50px] max-h-[150px] pr-12 bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-red-600 focus:ring-red-600/20 rounded-xl resize-none py-3"
               />
               <Button
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
-                className="bg-red-700 hover:bg-red-600 text-amber-50 self-end"
+                className="absolute right-2 bottom-2 w-8 h-8 p-0 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <Send className="w-5 h-5" />
-                )}
+                <Send className="w-4 h-4" />
               </Button>
             </div>
-            <p className="text-xs text-stone-500 mt-2">
-              Press Enter to send, Shift+Enter for new line
+            <p className="text-center text-[10px] text-slate-400 mt-2 font-medium">
+              PeppyBot provides educational information only. Not medical advice.
             </p>
           </div>
-        </div>
-
-        {/* Quick Links */}
-        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-          <Link to={createPageUrl('Home') + '#products'} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Products</p>
-          </Link>
-          <Link to={createPageUrl('PeptideCalculator')} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Calculator</p>
-          </Link>
-          <Link to={createPageUrl('LearnMore')} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">Learn More</p>
-          </Link>
-          <Link to={createPageUrl('Home') + '#certificates'} className="p-3 bg-stone-900/50 border border-stone-800 rounded-lg hover:border-barn-brown/50 transition-colors text-center">
-            <p className="text-sm font-semibold text-amber-50">COAs</p>
-          </Link>
         </div>
       </div>
     </div>

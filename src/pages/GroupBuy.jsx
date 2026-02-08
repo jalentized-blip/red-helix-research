@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 
 export default function GroupBuy() {
   return (
-    <div className="min-h-screen bg-stone-950 pt-24 pb-20">
+    <div className="min-h-screen bg-white pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Back Button */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-stone-400 hover:text-amber-50 mb-8 transition-colors">
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-500 hover:text-red-600 mb-8 transition-colors">
           <Home className="w-4 h-4" />
           Back to Shop
         </Link>
@@ -17,20 +17,20 @@ export default function GroupBuy() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-stone-900/50 border border-stone-700 rounded-lg p-8 md:p-12"
+          className="bg-white border border-slate-200 rounded-[32px] p-8 md:p-12 shadow-sm"
         >
-          <h1 className="text-4xl md:text-5xl font-black text-amber-50 mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+            <span className="text-red-600">
               Group Buy Testing
             </span>
           </h1>
           
-          <p className="text-stone-300 text-lg mb-8 max-w-2xl">
+          <p className="text-slate-600 text-lg mb-8 max-w-2xl font-medium">
             Organize and manage group testing directly through PeptideTest. Fill out the form below to create a new group test and coordinate with others.
           </p>
 
           {/* Embedded JotForm */}
-          <div className="bg-stone-800/30 border border-stone-700 rounded-lg p-6 md:p-8 overflow-hidden">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 overflow-hidden">
             <iframe
               title="Create Group Test Form"
               src="https://form.jotform.com/243527434360252?parentURL=https%3A%2F%2Fpeptidetest.com%2Fpages%2Fcreate-group-test"
@@ -45,8 +45,8 @@ export default function GroupBuy() {
             />
           </div>
 
-          <p className="text-stone-400 text-sm mt-8">
-            For more information, visit <a href="https://peptidetest.com/pages/create-group-test" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-400">PeptideTest.com</a>
+          <p className="text-slate-500 text-sm mt-8 font-medium">
+            For more information, visit <a href="https://peptidetest.com/pages/create-group-test" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 font-bold">PeptideTest.com</a>
           </p>
         </motion.div>
       </div>
