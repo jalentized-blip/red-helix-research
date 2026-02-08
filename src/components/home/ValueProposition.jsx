@@ -57,7 +57,7 @@ export default function ValueProposition() {
             <div className="relative bg-white rounded-[40px] p-12 border border-white/20 shadow-xl group-hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center justify-center gap-12">
                 <img 
-                  src="https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg" 
+                  src="https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png" 
                   alt="Standardized Research Unit"
                   className="w-48 h-auto drop-shadow-2xl transform group-hover:scale-110 transition-transform duration-700"
                 />

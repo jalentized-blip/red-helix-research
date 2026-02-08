@@ -127,7 +127,7 @@ const Hero = React.memo(() => {
                   className="absolute w-1/2 h-1/2 border border-slate-200 rounded-full border-dashed"
                 />
                 <img 
-                  src="https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg" 
+                  src="https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png" 
                   alt="Premium Research Vial"
                   className="relative z-10 w-48 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] transform group-hover:scale-110 transition-transform duration-700"
                 />

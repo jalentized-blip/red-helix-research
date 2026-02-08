@@ -71,7 +71,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 >
                   <img 
-                    src="https://i.ibb.co/nNNG1FKC/redhelixresearchvial20.jpg" 
+                    src="https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png" 
                     alt={product.name}
                     className="w-full h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
                   />
