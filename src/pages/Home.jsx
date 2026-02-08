@@ -127,6 +127,10 @@ export default function Home({ adminViewAsUser = false }) {
         keywords="research peptides, laboratory peptides, peptide research chemicals, BPC-157 research, TB-500 research, research grade peptides, peptide supplier, in vitro research, scientific research peptides, COA certified research chemicals"
         schema={schemas}
       />
+      
+      {/* Background Effects */}
+      <RedHelixBackground />
+      
       {/* Light version of effects or remove if too dark */}
       <QuickShop />
       <AgeVerificationBot 
