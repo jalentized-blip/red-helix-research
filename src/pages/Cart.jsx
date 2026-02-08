@@ -278,25 +278,26 @@ export default function Cart() {
                     )}
                   </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full text-slate-400 hover:text-red-600 font-bold text-xs uppercase tracking-widest mt-2"
-                  onClick={handleClearCart}
-                >
-                  Clear Research Cart
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full text-slate-400 hover:text-red-600 font-bold text-xs uppercase tracking-widest mt-2"
+                    onClick={handleClearCart}
+                  >
+                    Clear Research Cart
+                  </Button>
 
-                {/* Info Box */}
-                <div className="mt-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-                  <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Same-day shipping
-                  </p>
-                  <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Lab tested purity
-                  </p>
-                  <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Secure Laboratory Supply
-                  </p>
+                  {/* Info Box */}
+                  <div className="mt-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
+                    <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Same-day shipping
+                    </p>
+                    <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Lab tested purity
+                    </p>
+                    <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Secure Laboratory Supply
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
