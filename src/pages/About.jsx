@@ -19,8 +19,8 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
     </div>
     
     <div className="flex flex-col md:flex-row items-start gap-8 relative z-10">
-      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-100 group-hover:scale-110 transition-transform">
-        <Icon className="w-8 h-8 text-red-600" />
+      <div className="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-600/20 group-hover:scale-110 transition-transform">
+        <Icon className="w-8 h-8 text-white" />
       </div>
       <div>
         <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none group-hover:text-red-600 transition-colors">

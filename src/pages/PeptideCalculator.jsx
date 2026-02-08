@@ -178,8 +178,8 @@ www.redhelixresearch.com`;
         </div>
 
         {/* Disclaimer */}
-        <div className="bg-red-50 border border-red-100 rounded-2xl p-6 mb-8 shadow-sm">
-          <p className="text-red-900 text-sm text-center font-medium">
+        <div className="bg-red-600 rounded-2xl p-6 mb-8 shadow-sm">
+          <p className="text-white text-sm text-center font-medium">
             <span className="font-black uppercase tracking-wider mr-2">⚠️ Disclaimer:</span> This calculator is strictly for research purposes only. All peptides are sold for research use only and are not intended for human consumption.
           </p>
         </div>

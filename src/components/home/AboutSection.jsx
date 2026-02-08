@@ -78,9 +78,9 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="order-1 lg:order-2"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-8">
-              <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-              <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Established Research Protocol</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full mb-8">
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="text-[10px] font-black text-white uppercase tracking-widest">Established Research Protocol</span>
             </div>
 
             <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter leading-[0.9]">

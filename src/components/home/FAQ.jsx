@@ -48,8 +48,8 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-6">
-            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Protocol Intelligence</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full mb-6">
+            <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Intelligence</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
             KNOWLEDGE <br />

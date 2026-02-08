@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 
 export default function RedHelixBackground() {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
       {/* Large background helix 1 - Top Right */}
       <motion.div 
-        className="absolute -top-20 -right-20 w-[600px] h-[600px] opacity-[0.03]"
+        className="absolute -top-20 -right-20 w-[600px] h-[600px] opacity-[0.08]"
         animate={{ 
           rotate: 360,
           scale: [1, 1.1, 1]
@@ -21,7 +21,7 @@ export default function RedHelixBackground() {
 
       {/* Large background helix 2 - Bottom Left */}
       <motion.div 
-        className="absolute -bottom-40 -left-20 w-[800px] h-[800px] opacity-[0.02]"
+        className="absolute -bottom-40 -left-20 w-[800px] h-[800px] opacity-[0.06]"
         animate={{ 
           rotate: -360,
           y: [0, 50, 0]
@@ -36,7 +36,7 @@ export default function RedHelixBackground() {
 
       {/* Smaller floating helix - Center Right */}
       <motion.div 
-        className="absolute top-1/3 right-[10%] w-[300px] h-[300px] opacity-[0.04]"
+        className="absolute top-1/3 right-[10%] w-[300px] h-[300px] opacity-[0.1]"
         animate={{ 
           y: [-20, 20, -20],
           rotate: 180

@@ -130,6 +130,18 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
 
                   <div className="flex flex-wrap gap-3">
                     {goal.products.map((productName) => {
+                      // Find matching product to check stock
+                      const product = products.find(p => 
+                        p.name.toLowerCase() === productName.toLowerCase() || 
+                        p.name.toLowerCase().includes(productName.toLowerCase())
+                      );
+                      
+                      const visibleSpecs = product?.specifications?.filter(spec => !spec.hidden) || [];
+                      const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+                      
+                      // Skip if we found the product and it's out of stock (and not admin)
+                      if (product && !isAdmin && !inStock) return null;
+
                       return (
                         <div
                           key={productName}
