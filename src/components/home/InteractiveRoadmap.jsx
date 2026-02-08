@@ -96,7 +96,7 @@ export default function InteractiveRoadmap() {
   }, []);
 
   return (
-    <section className="relative w-full bg-stone-950 pt-32 pb-12 px-6 overflow-hidden border-b border-red-900/20">
+    <section className="relative w-full bg-stone-950 pt-64 pb-12 px-6 overflow-hidden border-b border-red-900/20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <motion.h2 
