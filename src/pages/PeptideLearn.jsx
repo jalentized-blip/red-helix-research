@@ -635,7 +635,7 @@ export default function PeptideLearn() {
                         <span className="px-3 py-1 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600">
                           {trial.participants}
                         </span>
-                        <span className="px-3 py-1 bg-red-50 text-red-600 border border-red-100 rounded-full text-xs font-bold">
+                        <span className="px-3 py-1 bg-red-600 text-white border border-red-600 rounded-full text-xs font-bold">
                           {trial.duration}
                         </span>
                       </div>
@@ -670,8 +670,8 @@ export default function PeptideLearn() {
                 <p className="text-slate-600 leading-relaxed text-sm mb-6">
                   {peptideData.safetyProfile}
                 </p>
-                <div className="p-4 bg-red-50 border border-red-100 rounded-2xl">
-                  <p className="text-red-800 text-xs font-bold leading-relaxed flex gap-2">
+                <div className="p-4 bg-red-600 border border-red-500 rounded-2xl">
+                  <p className="text-white text-xs font-bold leading-relaxed flex gap-2">
                     <Shield className="w-4 h-4 flex-shrink-0" />
                     For laboratory research use only. Not for human consumption.
                   </p>

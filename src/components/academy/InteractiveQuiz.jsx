@@ -150,11 +150,11 @@ export default function InteractiveQuiz({ onBack }) {
                   
                   let buttonClass = "w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between ";
                   if (!isAnswered) {
-                    buttonClass += "border-slate-100 bg-white hover:border-red-600/30 hover:bg-red-50 text-slate-700 font-medium";
+                    buttonClass += "border-slate-100 bg-white hover:border-red-600/30 hover:bg-red-600 hover:text-white text-slate-700 font-medium";
                   } else if (isCorrect) {
                     buttonClass += "border-green-500 bg-green-50 text-green-900 font-bold";
                   } else if (isSelected && !isCorrect) {
-                    buttonClass += "border-red-500 bg-red-50 text-red-900 font-bold";
+                    buttonClass += "border-red-600 bg-red-600 text-white font-bold";
                   } else {
                     buttonClass += "border-slate-50 bg-slate-50 text-slate-400 opacity-50";
                   }

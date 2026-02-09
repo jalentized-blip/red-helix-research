@@ -30,11 +30,11 @@ const Message = React.memo(({ message }) => (
     <div className={`flex-1 ${message.role === 'user' ? 'text-right' : ''}`}>
       <div className={`inline-block max-w-[85%] text-left ${
         message.role === 'user'
-          ? 'bg-red-50 border border-red-100 rounded-[24px] rounded-tr-sm p-5 shadow-sm'
+          ? 'bg-red-600 border border-red-600 rounded-[24px] rounded-tr-sm p-5 shadow-sm'
           : 'bg-slate-50 border border-slate-100 rounded-[24px] rounded-tl-sm p-5 shadow-sm'
       }`}>
         {message.role === 'user' ? (
-          <p className="text-slate-900 font-medium">{message.content}</p>
+          <p className="text-white font-medium">{message.content}</p>
         ) : (
           <ReactMarkdown
             className="prose prose-slate prose-sm max-w-none"
@@ -229,7 +229,7 @@ Keep response under 500 words but be thorough and educational.`;
                 <button
                   key={idx}
                   onClick={() => handleSuggestedPrompt(prompt)}
-                  className="text-xs px-4 py-2.5 bg-white border border-slate-200 rounded-full hover:border-red-600/30 hover:bg-red-50 text-slate-600 hover:text-red-600 transition-all font-medium shadow-sm"
+                  className="text-xs px-4 py-2.5 bg-white border border-slate-200 rounded-full hover:border-red-600/30 hover:bg-red-600 hover:text-white transition-all font-medium shadow-sm"
                 >
                   {prompt}
                 </button>

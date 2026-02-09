@@ -238,10 +238,10 @@ export default function SecurityDashboard() {
                     <div className="flex items-center gap-3">
                       <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
                         log.type.includes('ALERT') || log.type.includes('SUSPICIOUS') 
-                          ? 'bg-red-100 text-red-600'
+                          ? 'bg-red-600 text-white'
                           : log.type.includes('ERROR')
-                          ? 'bg-orange-100 text-orange-600'
-                          : 'bg-blue-100 text-blue-600'
+                          ? 'bg-orange-500 text-white'
+                          : 'bg-blue-600 text-white'
                       }`}>
                         {log.type}
                       </span>

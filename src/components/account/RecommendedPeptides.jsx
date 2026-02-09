@@ -80,7 +80,7 @@ export default function RecommendedPeptides({ preferences, orders }) {
             <div className="flex items-start justify-between mb-2">
               <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight group-hover:text-red-600 transition-colors">{product.name}</h3>
               {product.badge && (
-                <span className="text-[10px] px-2 py-0.5 bg-red-50 text-red-600 rounded-full font-black uppercase tracking-widest">
+                <span className="text-[10px] px-2 py-0.5 bg-red-600 text-white rounded-full font-black uppercase tracking-widest">
                   {product.badge.replace('_', ' ')}
                 </span>
               )}
@@ -98,7 +98,7 @@ export default function RecommendedPeptides({ preferences, orders }) {
 
           <div className="flex gap-3 mt-6">
             <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} className="flex-1">
-              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:text-red-600 hover:border-red-600 rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
+              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
                 Learn More
               </Button>
             </Link>

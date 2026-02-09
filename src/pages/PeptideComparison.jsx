@@ -714,8 +714,8 @@ export default function PeptideComparison() {
                         {safeOptions.map((stackOption) => (
                           <div key={stackOption.peptide} className="bg-black/20 border border-white/5 rounded-[32px] p-8 hover:border-red-600/30 transition-all group">
                             <div className="flex items-center gap-4 mb-6">
-                              <div className="px-4 py-2 bg-red-600/10 border border-red-600/30 rounded-xl">
-                                <span className="text-red-600 font-black text-sm uppercase tracking-widest">{topPeptide} + {stackOption.peptide}</span>
+                              <div className="px-4 py-2 bg-red-600 border border-red-500 rounded-xl">
+                                <span className="text-white font-black text-sm uppercase tracking-widest">{topPeptide} + {stackOption.peptide}</span>
                               </div>
                             </div>
                             <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Mechanism Compatibility</h5>

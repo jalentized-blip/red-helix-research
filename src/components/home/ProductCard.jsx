@@ -10,13 +10,13 @@ import { createPageUrl } from '@/utils';
 import { Link } from 'react-router-dom';
 
 const badgeConfig = {
-  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-100 text-red-600 border-red-200" },
-  trending: { icon: TrendingUp, label: "Trending", color: "bg-blue-100 text-blue-600 border-blue-200" },
-  top_rated: { icon: Star, label: "Top Rated", color: "bg-yellow-100 text-yellow-600 border-yellow-200" },
-  popular: { icon: BarChart2, label: "Popular", color: "bg-purple-100 text-purple-600 border-purple-200" },
-  classic: { icon: Award, label: "Classic", color: "bg-emerald-100 text-emerald-600 border-emerald-200" },
-  newcomer: { icon: Sparkles, label: "Newcomer", color: "bg-pink-100 text-pink-600 border-pink-200" },
-  essential: { icon: Dumbbell, label: "Essential", color: "bg-orange-100 text-orange-600 border-orange-200" },
+  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-600 text-white border-red-600" },
+  trending: { icon: TrendingUp, label: "Trending", color: "bg-blue-600 text-white border-blue-600" },
+  top_rated: { icon: Star, label: "Top Rated", color: "bg-yellow-500 text-white border-yellow-500" },
+  popular: { icon: BarChart2, label: "Popular", color: "bg-purple-600 text-white border-purple-600" },
+  classic: { icon: Award, label: "Classic", color: "bg-emerald-600 text-white border-emerald-600" },
+  newcomer: { icon: Sparkles, label: "Newcomer", color: "bg-pink-600 text-white border-pink-600" },
+  essential: { icon: Dumbbell, label: "Essential", color: "bg-orange-600 text-white border-orange-600" },
 };
 
 const categoryLabels = {

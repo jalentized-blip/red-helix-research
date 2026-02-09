@@ -265,7 +265,7 @@ export default function SecurityCompliance() {
                     </p>
                   </div>
                   <span className={`text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest ${
-                    isPassed ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
+                    isPassed ? 'bg-green-100 text-green-700' : 'bg-red-600 text-white'
                   }`}>
                     {category.status}
                   </span>
@@ -329,7 +329,7 @@ export default function SecurityCompliance() {
                       <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
                         risk.likelihood === 'Low' ? 'bg-green-100 text-green-700' : 
                         risk.likelihood === 'Medium' ? 'bg-orange-100 text-orange-600' : 
-                        'bg-red-100 text-red-600'
+                        'bg-red-600 text-white'
                       }`}>
                         {risk.likelihood}
                       </span>
@@ -338,7 +338,7 @@ export default function SecurityCompliance() {
                       <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
                         risk.impact === 'Low' ? 'bg-green-100 text-green-700' : 
                         risk.impact === 'Medium' ? 'bg-orange-100 text-orange-600' : 
-                        'bg-red-100 text-red-600'
+                        'bg-red-600 text-white'
                       }`}>
                         {risk.impact}
                       </span>

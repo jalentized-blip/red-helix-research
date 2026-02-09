@@ -197,11 +197,11 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
               </div>
             </SelectTrigger>
             <SelectContent className="bg-white border-slate-200 rounded-2xl shadow-2xl p-2">
-              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Featured Priority</SelectItem>
-              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Value: Low to High</SelectItem>
-              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Value: High to Low</SelectItem>
-              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: A-Z</SelectItem>
-              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-50 focus:text-red-600 rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: Z-A</SelectItem>
+              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Featured Priority</SelectItem>
+              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: Low to High</SelectItem>
+              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: High to Low</SelectItem>
+              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: A-Z</SelectItem>
+              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: Z-A</SelectItem>
             </SelectContent>
           </Select>
         </div>

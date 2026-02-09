@@ -220,9 +220,9 @@ export default function PeptideAcademy() {
         {/* Hero Section */}
         {activeView === 'overview' && (
           <div className="text-center mb-16 md:mb-24">
-            <div className="inline-flex items-center gap-2 px-6 py-2 bg-red-50 border border-red-100 rounded-full mb-8">
-              <Sparkles className="w-4 h-4 text-red-600" />
-              <span className="text-[10px] md:text-xs font-black text-red-600 uppercase tracking-widest">Protocol Verified AI Learning</span>
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-red-600 border border-red-600 rounded-full mb-8">
+              <Sparkles className="w-4 h-4 text-white" />
+              <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">Protocol Verified AI Learning</span>
             </div>
             
             <h1 className="text-5xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-[0.9]">
@@ -490,9 +490,9 @@ export default function PeptideAcademy() {
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Exit Visualizer
                 </Button>
-                <div className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full">
-                  <Activity className="w-4 h-4 text-red-600" />
-                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Interactive 3D Engine</span>
+                <div className="flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full">
+                  <Activity className="w-4 h-4 text-white" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">Interactive 3D Engine</span>
                 </div>
               </div>
               <MechanismVisualizer />

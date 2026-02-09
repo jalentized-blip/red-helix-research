@@ -849,7 +849,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           <div className="flex items-center gap-3">
                             <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{wallet.name}</h4>
                             {wallet.isRecommended && (
-                              <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full">Recommended</span>
+                              <span className="px-3 py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Recommended</span>
                             )}
                           </div>
                           <p className="text-sm text-slate-500 font-medium">
@@ -866,11 +866,11 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                   </div>
 
                   {connectionError && (
-                    <div className="mt-8 p-6 bg-red-50 border border-red-100 rounded-[24px] flex items-start gap-4">
-                      <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+                    <div className="mt-8 p-6 bg-red-600 border border-red-500 rounded-[24px] flex items-start gap-4">
+                      <AlertCircle className="w-6 h-6 text-white flex-shrink-0" />
                       <div>
-                        <h4 className="text-sm font-black text-red-600 uppercase tracking-tight mb-1">Connection Error</h4>
-                        <p className="text-sm text-red-600/80 font-medium">{connectionError}</p>
+                        <h4 className="text-sm font-black text-white uppercase tracking-tight mb-1">Connection Error</h4>
+                        <p className="text-sm text-red-50 font-medium">{connectionError}</p>
                       </div>
                     </div>
                   )}
@@ -901,7 +901,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                             className="w-48 h-48 group-hover:scale-105 transition-transform"
                           />
                         </div>
-                        <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-full">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-full">
                           <Clock className="w-4 h-4 animate-pulse" />
                           <span className="text-[10px] font-black uppercase tracking-widest">Rate expires in 15:00</span>
                         </div>
@@ -937,12 +937,12 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           </div>
                         </div>
 
-                        <div className="p-6 bg-red-50 border border-red-100 rounded-3xl">
+                        <div className="p-6 bg-red-600 border border-red-500 rounded-3xl">
                           <div className="flex items-center gap-3 mb-3">
-                            <ShieldCheck className="w-5 h-5 text-red-600" />
-                            <h4 className="text-sm font-black text-red-600 uppercase tracking-tight">Security Protocol</h4>
+                            <ShieldCheck className="w-5 h-5 text-white" />
+                            <h4 className="text-sm font-black text-white uppercase tracking-tight">Security Protocol</h4>
                           </div>
-                          <p className="text-xs text-red-600/80 font-medium leading-relaxed">
+                          <p className="text-xs text-red-50 font-medium leading-relaxed">
                             Please ensure you are sending on the <strong>{CRYPTO_OPTIONS.find(c => c.id === selectedCrypto)?.network}</strong>. 
                             Sending to the wrong network will result in permanent loss of laboratory funds.
                           </p>
@@ -1073,7 +1073,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             >
               <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight flex items-center justify-between">
                 Order Summary
-                <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full">Secure</span>
+                <span className="px-3 py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Secure</span>
               </h3>
 
               <div className="space-y-6 mb-8">

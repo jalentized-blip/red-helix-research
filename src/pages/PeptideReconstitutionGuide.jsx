@@ -137,34 +137,34 @@ export default function PeptideReconstitutionGuide() {
         </div>
 
         {/* Important Notes */}
-        <div className="bg-red-50 border border-red-200 rounded-[24px] p-8 shadow-sm">
-          <h2 className="text-2xl font-black text-red-700 mb-6 flex items-center gap-2">
+        <div className="bg-red-600 border border-red-500 rounded-[24px] p-8 shadow-sm">
+          <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
             ⚠️ Important Safety Notes
           </h2>
-          <ul className="space-y-4 text-slate-700 font-medium">
+          <ul className="space-y-4 text-red-50 font-medium">
             <li className="flex gap-3 items-start">
-              <span className="text-red-600 font-bold">✓</span>
-              <span><span className="font-bold text-red-700">Always use sterile equipment</span> - Contamination can render your peptide unusable</span>
+              <span className="text-white font-bold">✓</span>
+              <span><span className="font-bold text-white">Always use sterile equipment</span> - Contamination can render your peptide unusable</span>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-red-600 font-bold">✓</span>
-              <span><span className="font-bold text-red-700">Use bacteriostatic water only</span> - Never use regular water</span>
+              <span className="text-white font-bold">✓</span>
+              <span><span className="font-bold text-white">Use bacteriostatic water only</span> - Never use regular water</span>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-red-600 font-bold">✓</span>
-              <span><span className="font-bold text-red-700">Be gentle with the vial</span> - Excessive shaking can denature peptides</span>
+              <span className="text-white font-bold">✓</span>
+              <span><span className="font-bold text-white">Be gentle with the vial</span> - Excessive shaking can denature peptides</span>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-red-600 font-bold">✓</span>
-              <span><span className="font-bold text-red-700">Maintain proper temperature</span> - Keep reconstituted peptides refrigerated</span>
+              <span className="text-white font-bold">✓</span>
+              <span><span className="font-bold text-white">Maintain proper temperature</span> - Keep reconstituted peptides refrigerated</span>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-red-600 font-bold">✓</span>
-              <span><span className="font-bold text-red-700">Use fresh needles</span> - Each withdrawal should use a new sterile needle</span>
+              <span className="text-white font-bold">✓</span>
+              <span><span className="font-bold text-white">Use fresh needles</span> - Each withdrawal should use a new sterile needle</span>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-red-600 font-bold">✓</span>
-              <span><span className="font-bold text-red-700">Follow calculations</span> - Use the peptide calculator to ensure accurate dosing</span>
+              <span className="text-white font-bold">✓</span>
+              <span><span className="font-bold text-white">Follow calculations</span> - Use the peptide calculator to ensure accurate dosing</span>
             </li>
           </ul>
         </div>

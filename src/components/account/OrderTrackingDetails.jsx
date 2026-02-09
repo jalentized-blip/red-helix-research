@@ -70,9 +70,9 @@ export default function OrderTrackingDetails({ order }) {
         return 'bg-blue-50 border-blue-100 text-blue-700';
       case 'in_transit':
       case 'in transit':
-        return 'bg-red-50 border-red-100 text-red-700';
+        return 'bg-red-600 border-red-600 text-white';
       case 'exception':
-        return 'bg-red-50 border-red-100 text-red-700';
+        return 'bg-red-600 border-red-600 text-white';
       default:
         return 'bg-slate-50 border-slate-100 text-slate-600';
     }
@@ -91,14 +91,14 @@ export default function OrderTrackingDetails({ order }) {
 
   if (error) {
     return (
-      <div className="bg-red-50 rounded-2xl p-6 mt-3 border border-red-100">
-        <div className="flex items-center gap-2 text-red-700 text-sm font-bold">
+      <div className="bg-red-600 rounded-2xl p-6 mt-3 border border-red-600">
+        <div className="flex items-center gap-2 text-white text-sm font-bold">
           <AlertCircle className="w-4 h-4" />
           <span>{error}</span>
         </div>
         <button
           onClick={fetchTrackingInfo}
-          className="text-xs text-red-600 hover:text-red-700 font-black uppercase tracking-widest mt-3 underline"
+          className="text-xs text-white hover:text-red-100 font-black uppercase tracking-widest mt-3 underline"
         >
           Retry
         </button>
@@ -211,7 +211,7 @@ export default function OrderTrackingDetails({ order }) {
         <div className="flex items-center justify-between mb-1">
           <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Tracking Number</p>
           {order.carrier && (
-            <p className="text-[10px] text-red-600 font-black uppercase tracking-widest bg-red-50 px-2 py-0.5 rounded">{order.carrier}</p>
+            <p className="text-[10px] text-white font-black uppercase tracking-widest bg-red-600 px-2 py-0.5 rounded">{order.carrier}</p>
           )}
         </div>
         <p className="text-sm text-slate-900 font-mono font-bold tracking-wider">{order.tracking_number}</p>

@@ -144,7 +144,7 @@ export default function Account() {
                   <span className="text-xs font-black uppercase tracking-widest">Favorites</span>
                   {preferences?.favorite_products?.length > 0 && (
                     <span className={`ml-auto text-[10px] font-black px-2 py-0.5 rounded-full ${
-                      activeTab === 'favorites' ? 'bg-white text-red-600' : 'bg-red-100 text-red-600'
+                      activeTab === 'favorites' ? 'bg-white text-red-600' : 'bg-red-600 text-white'
                     }`}>
                       {preferences.favorite_products.length}
                     </span>
