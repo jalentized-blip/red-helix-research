@@ -98,8 +98,8 @@ export default function SecurityMonitor() {
                     )}
                     <span className="text-sm text-stone-300">Session Status</span>
                   </div>
-                  <span className={`text-xs font-medium ${sessionValid ? 'text-green-500' : 'text-red-500'}`}>
-                    {sessionValid ? 'Valid' : 'Invalid'}
+                  <span className={`text-xs font-medium ${sessionValid ? 'text-green-500' : 'text-stone-400'}`}>
+                    {sessionValid ? 'Valid' : 'Guest Session'}
                   </span>
                 </div>
 

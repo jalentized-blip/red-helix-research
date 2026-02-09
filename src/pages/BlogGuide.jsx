@@ -1123,7 +1123,7 @@ export default function BlogGuide() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
           <div className="relative z-10">
             <h2 className="text-2xl font-black text-white mb-3 uppercase tracking-tight">Need More Information?</h2>
-            <p className="text-red-100 font-medium mb-8 max-w-2xl mx-auto">Can't find what you're looking for? Contact our research support team for personalized guidance on protocols and methodologies.</p>
+            <p className="text-white font-medium mb-8 max-w-2xl mx-auto">Can't find what you're looking for? Contact our research support team for personalized guidance on protocols and methodologies.</p>
             <Link to={createPageUrl('Contact')}>
               <Button className="bg-white text-red-600 hover:bg-red-50 font-bold px-8 py-6 rounded-full shadow-lg">
                 Contact Research Support

@@ -16,7 +16,7 @@ const SUSPICIOUS_THRESHOLDS = {
 
 export function ZeroTrustProvider({ children }) {
   const [securityState, setSecurityState] = useState({
-    sessionValid: true,
+    sessionValid: false,
     lastVerified: Date.now(),
     trustScore: 100,
     anomalies: [],
