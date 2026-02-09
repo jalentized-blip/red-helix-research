@@ -385,13 +385,33 @@ const HeaderSearch = () => {
             color: white !important;
           }
 
-          /* Ensure white text on red buttons and badges */
-          .bg-red-600, .bg-red-700, .hover\:bg-red-600:hover, .hover\:bg-red-700:hover {
-            color: white !important;
+          /* CRITICAL CONTRAST FIX: Force white text on ALL red backgrounds */
+          .bg-red-600, .bg-red-700,
+          .hover\:bg-red-600:hover, .hover\:bg-red-700:hover,
+          [class*="bg-red-600"], [class*="bg-red-700"] {
+            color: #ffffff !important;
+            --tw-text-opacity: 1 !important;
           }
-          
-          .bg-red-600 svg, .bg-red-700 svg {
-            color: white !important;
+
+          /* Override children text colors (slate-900, etc.) when inside red containers */
+          .bg-red-600 h1, .bg-red-600 h2, .bg-red-600 h3, .bg-red-600 h4, .bg-red-600 h5, .bg-red-600 h6,
+          .bg-red-600 p, .bg-red-600 span, .bg-red-600 div, .bg-red-600 a, .bg-red-600 li, .bg-red-600 button,
+          .bg-red-700 h1, .bg-red-700 h2, .bg-red-700 h3, .bg-red-700 h4, .bg-red-700 h5, .bg-red-700 h6,
+          .bg-red-700 p, .bg-red-700 span, .bg-red-700 div, .bg-red-700 a, .bg-red-700 li, .bg-red-700 button,
+          .hover\:bg-red-600:hover h1, .hover\:bg-red-600:hover h2, .hover\:bg-red-600:hover h3,
+          .hover\:bg-red-600:hover p, .hover\:bg-red-600:hover span, .hover\:bg-red-600:hover div, .hover\:bg-red-600:hover a,
+          .group:hover .group-hover\:bg-red-600 span,
+          .group:hover .group-hover\:bg-red-600 p,
+          .group:hover .group-hover\:bg-red-600 div,
+          .group:hover .group-hover\:bg-red-600 svg {
+            color: #ffffff !important;
+          }
+
+          /* Ensure icons are white */
+          .bg-red-600 svg, .bg-red-700 svg,
+          .hover\:bg-red-600:hover svg, .hover\:bg-red-700:hover svg {
+            color: #ffffff !important;
+            stroke: currentColor !important;
           }
 
           /* SVG and icon colors */
