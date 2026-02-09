@@ -603,7 +603,7 @@ const HeaderSearch = () => {
                     <div className="border-b border-slate-100 pb-6 mb-8 px-4">
                       <div className="flex items-center gap-3 mb-2">
                       <img 
-                        src="/red-helix-logo.png" 
+                        src="https://i.imgur.com/8MOtTE2.png" 
                         alt="Red Helix Research" 
                         className="h-12 w-auto object-contain" 
                       />
