@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="lg:col-span-4 space-y-8">
             <div className="flex items-center gap-4">
               <img 
-                src="/red-helix-logo.png" 
+                src="https://i.imgur.com/8MOtTE2.png" 
                 alt="Red Helix Research" 
                 className="h-16 w-auto object-contain"
               />
