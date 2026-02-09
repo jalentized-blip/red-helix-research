@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Block admin and checkout areas
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /account/
+Disallow: /cart/
+Disallow: /api/
+
+# Allow bots to crawl specific assets
+Allow: /assets/
+Allow: /images/
+
+# Sitemap location
+Sitemap: https://redhelixresearch.com/sitemap.xml

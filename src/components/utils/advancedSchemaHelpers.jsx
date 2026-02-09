@@ -97,6 +97,26 @@ export const generateBreadcrumbSchema = (items) => {
   };
 };
 
+// NEW: MedicalWebPage Schema for Research Compliance
+// Used by major competitors like Bachem to denote scientific nature of content
+export const generateMedicalWebPageSchema = (page) => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    name: page.title,
+    description: page.description,
+    audience: {
+      '@type': 'Audience',
+      audienceType: 'Researchers, Laboratory Professionals'
+    },
+    specialty: {
+      '@type': 'MedicalSpecialty',
+      name: 'Biochemistry'
+    },
+    lastReviewed: new Date().toISOString().split('T')[0]
+  };
+};
+
 export const generateArticleSchema = (article) => {
   return {
     '@context': 'https://schema.org',

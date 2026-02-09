@@ -305,6 +305,7 @@ const HeaderSearch = () => {
   return (
     <ZeroTrustProvider>
     <MFAProvider>
+    <SecurityGateway>
     <div className="min-h-screen bg-white relative">
         <Helmet>
           <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>

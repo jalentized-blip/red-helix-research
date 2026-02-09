@@ -5,10 +5,17 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, FlaskConical } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { generateProductSchema, generateHowToSchema, generateFAQSchema } from '@/components/utils/advancedSchemaHelpers';
+import { generateProductSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema, generateMedicalWebPageSchema } from '@/components/utils/advancedSchemaHelpers';
 
 export default function ProductBPC157() {
   const [selectedStrength, setSelectedStrength] = useState(null);
+
+  // Breadcrumbs for SEO structure
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Research Peptides', url: '/products' },
+    { name: 'BPC-157', url: '/products/bpc-157' }
+  ];
 
   const product = {
     name: 'BPC-157',
@@ -82,7 +89,12 @@ export default function ProductBPC157() {
   const schemas = [
     generateProductSchema(product),
     generateHowToSchema('How to Reconstitute BPC-157', reconstitutionSteps),
-    generateFAQSchema(faqs)
+    generateFAQSchema(faqs),
+    generateBreadcrumbSchema(breadcrumbs),
+    generateMedicalWebPageSchema({
+      title: 'BPC-157 Research Peptide Data',
+      description: 'Technical research data, chemical properties, and handling protocols for BPC-157 pentadecapeptide.'
+    })
   ];
 
   return (
