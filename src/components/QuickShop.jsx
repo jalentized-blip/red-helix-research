@@ -138,7 +138,7 @@ export default function QuickShop() {
                         >
                           <div className="w-16 h-16 bg-white rounded-xl border border-slate-100 p-1 flex-shrink-0">
                             <img 
-                              src="https://ibb.co/Y45fbCGM" 
+                              src="https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png" 
                               alt={product.name}
                               className="w-full h-full object-contain"
                             />
