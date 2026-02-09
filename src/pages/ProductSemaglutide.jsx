@@ -5,10 +5,17 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, FlaskConical } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { generateProductSchema, generateHowToSchema, generateFAQSchema } from '@/components/utils/advancedSchemaHelpers';
+import { generateProductSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema, generateMedicalWebPageSchema } from '@/components/utils/advancedSchemaHelpers';
 
 export default function ProductSemaglutide() {
   const [selectedStrength, setSelectedStrength] = useState(null);
+
+  // Breadcrumbs for SEO structure
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Research Peptides', url: '/products' },
+    { name: 'Semaglutide', url: '/products/semaglutide' }
+  ];
 
   const product = {
     name: 'Semaglutide',
@@ -82,7 +89,12 @@ export default function ProductSemaglutide() {
   const schemas = [
     generateProductSchema(product),
     generateHowToSchema('How to Reconstitute Semaglutide', reconstitutionSteps),
-    generateFAQSchema(faqs)
+    generateFAQSchema(faqs),
+    generateBreadcrumbSchema(breadcrumbs),
+    generateMedicalWebPageSchema({
+      title: 'Semaglutide GLP-1 Analog Research Data',
+      description: 'Technical research data, chemical properties, and handling protocols for Semaglutide peptide.'
+    })
   ];
 
   return (

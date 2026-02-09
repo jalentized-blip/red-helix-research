@@ -5,10 +5,17 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, FlaskConical } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { generateProductSchema, generateHowToSchema, generateFAQSchema } from '@/components/utils/advancedSchemaHelpers';
+import { generateProductSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema, generateMedicalWebPageSchema } from '@/components/utils/advancedSchemaHelpers';
 
 export default function ProductTB500() {
   const [selectedStrength, setSelectedStrength] = useState(null);
+
+  // Breadcrumbs for SEO structure
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Research Peptides', url: '/products' },
+    { name: 'TB-500', url: '/products/tb-500' }
+  ];
 
   const product = {
     name: 'TB-500',
@@ -82,7 +89,12 @@ export default function ProductTB500() {
   const schemas = [
     generateProductSchema(product),
     generateHowToSchema('How to Reconstitute TB-500', reconstitutionSteps),
-    generateFAQSchema(faqs)
+    generateFAQSchema(faqs),
+    generateBreadcrumbSchema(breadcrumbs),
+    generateMedicalWebPageSchema({
+      title: 'TB-500 (Thymosin Beta-4) Research Data',
+      description: 'Technical research data, chemical properties, and handling protocols for TB-500 synthetic peptide.'
+    })
   ];
 
   return (

@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ProductModal from '@/components/product/ProductModal';
 import AgeVerificationBot from '@/components/AgeVerificationBot';
-import { generateOrganizationSchema, generateWebsiteSchema, generateProductSchema } from '@/components/utils/schemaHelpers';
+import { generateOrganizationSchema, generateWebsiteSchema } from '@/components/utils/advancedSchemaHelpers';
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
 import RedHelixBackground from '@/components/effects/RedHelixBackground';

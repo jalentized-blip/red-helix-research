@@ -82,7 +82,12 @@ export default function ProductTirzepatide() {
   const schemas = [
     generateProductSchema(product),
     generateHowToSchema('How to Reconstitute Tirzepatide', reconstitutionSteps),
-    generateFAQSchema(faqs)
+    generateFAQSchema(faqs),
+    generateBreadcrumbSchema(breadcrumbs),
+    generateMedicalWebPageSchema({
+      title: 'Tirzepatide Dual Agonist Research Data',
+      description: 'Technical research data, chemical properties, and handling protocols for Tirzepatide peptide.'
+    })
   ];
 
   return (

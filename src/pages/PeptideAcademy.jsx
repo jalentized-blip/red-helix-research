@@ -201,12 +201,28 @@ export default function PeptideAcademy() {
     setActiveView('assistant');
   };
 
+  const schemas = [
+    generateBreadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Peptide Academy', url: '/peptide-academy' }
+    ]),
+    generateCourseSchema({
+      title: 'Peptide Research Fundamentals',
+      description: 'Comprehensive guide to research peptide handling, mechanisms, and safety protocols.'
+    }),
+    generateCourseSchema({
+      title: 'Advanced Peptide Mechanisms',
+      description: 'In-depth exploration of cellular signaling pathways and receptor binding.'
+    })
+  ];
+
   return (
     <div className="min-h-screen bg-white pt-24 md:pt-32 pb-20">
       <SEO
         title="Peptide Research Academy - Interactive Learning Platform | Red Helix Research"
         description="Master peptide research with our AI-powered learning platform. Interactive modules, mechanism visualizations, and personalized guidance for researchers at all levels."
         keywords="peptide education, research peptides learning, peptide mechanisms, peptide research training, interactive peptide guide"
+        schema={schemas}
       />
 
       <div className="max-w-7xl mx-auto px-6">

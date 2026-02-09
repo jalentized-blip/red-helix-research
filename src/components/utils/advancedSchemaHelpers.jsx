@@ -1,5 +1,70 @@
 // Advanced Schema Markup Helpers for SEO
 
+// NEW: Organization Schema
+export const generateOrganizationSchema = () => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Red Helix Research",
+    "url": "https://redhelixresearch.com",
+    "logo": "https://i.ibb.co/M5CYvjkG/websitelogo.png",
+    "description": "Premium research-grade peptides supplier with lab-tested products and Certificate of Analysis verification.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "availableLanguage": "English",
+      "url": "https://redhelixresearch.com/Contact"
+    },
+    "sameAs": [
+      "https://discord.gg/s78Jeajp",
+      "https://t.me/+UYRVjzIFDy9iYzc9",
+      "https://www.tiktok.com/@redhelixresearch"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "US"
+    }
+  };
+};
+
+// NEW: WebSite Schema
+export const generateWebsiteSchema = () => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Red Helix Research",
+    "url": "https://redhelixresearch.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://redhelixresearch.com/Products?search={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  };
+};
+
+// NEW: Course Schema for Peptide Academy
+export const generateCourseSchema = (course) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": course.title,
+    "description": course.description,
+    "provider": {
+      "@type": "Organization",
+      "name": "Red Helix Research",
+      "sameAs": "https://redhelixresearch.com"
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "Self-paced"
+    }
+  };
+};
+
 export const generateProductSchema = (product) => {
   if (!product) return null;
   
@@ -177,5 +242,9 @@ export default {
   generateHowToSchema,
   generateBreadcrumbSchema,
   generateArticleSchema,
-  generateLocalBusinessSchema
+  generateLocalBusinessSchema,
+  generateOrganizationSchema,
+  generateWebsiteSchema,
+  generateCourseSchema,
+  generateMedicalWebPageSchema
 };
