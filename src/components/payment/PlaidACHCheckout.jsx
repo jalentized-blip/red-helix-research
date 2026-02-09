@@ -134,6 +134,14 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
         });
 
         if (data.success) {
+          // Track purchase in HubSpot
+          trackPurchase({
+            order_number: order.order_number,
+            // Assuming order object has customer email or we can get it from auth context
+            // Ideally pass email into this component
+            total_amount: order.total_amount,
+            items: order.items
+          });
           onSuccess?.(data);
         } else {
           throw new Error(data.error || 'Payment failed');

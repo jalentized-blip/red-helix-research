@@ -31,6 +31,7 @@ import {
   getPromoCode,
   getDiscountAmount
 } from '@/components/utils/cart';
+import { trackPurchase } from '@/utils/hubspotAnalytics';
 import CryptoWalletHelp from '@/components/crypto/CryptoWalletHelp';
 import { base44 } from '@/api/base44Client';
 import PCIComplianceBadge from '@/components/PCIComplianceBadge';
@@ -623,6 +624,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
           zip: customerInfo?.shippingZip || customerInfo?.zip,
           country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
         },
+      });
+
+      // Track purchase in HubSpot
+      trackPurchase({
+        order_number: orderNumber,
+        customer_email: userEmail || customerInfo?.email,
+        total_amount: totalUSD,
+        items: cartItems
       });
 
       localStorage.setItem('lastOrderNumber', orderNumber);
