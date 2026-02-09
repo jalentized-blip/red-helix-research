@@ -52,6 +52,8 @@ export const identifyUser = (email, properties = {}) => {
   }]);
 };
 
+import { maskSensitiveData } from './dataProtection';
+
 /**
  * Track a completed purchase
  * Note: HubSpot requires specific e-commerce bridge setup for full deal tracking,
@@ -61,19 +63,22 @@ export const identifyUser = (email, properties = {}) => {
 export const trackPurchase = (order) => {
   ensureQueue();
 
+  // Mask sensitive data before tracking
+  const safeOrder = maskSensitiveData(order);
+
   // Track the purchase event
   // You should replace 'pept_purchase' with your actual HubSpot Custom Event ID for purchases
   window._hsq.push(['trackEvent', {
     id: 'pept_purchase', 
-    value: order.total_amount
+    value: safeOrder.total_amount
   }]);
 
   // Also update contact properties if email is available
-  if (order.customer_email) {
-    identifyUser(order.customer_email, {
+  if (safeOrder.customer_email) {
+    identifyUser(safeOrder.customer_email, {
       last_purchase_date: new Date().toISOString(),
-      last_order_amount: order.total_amount,
-      total_revenue: order.total_amount // Ideally this would be cumulative
+      last_order_amount: safeOrder.total_amount,
+      total_revenue: safeOrder.total_amount // Ideally this would be cumulative
     });
   }
 };

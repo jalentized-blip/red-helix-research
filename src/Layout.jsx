@@ -20,10 +20,7 @@ import { Shield } from 'lucide-react';
 import { ZeroTrustProvider } from '@/components/security/ZeroTrustProvider';
 import SecurityMonitor from '@/components/security/SecurityMonitor';
 import { MFAProvider } from '@/components/security/MFAProvider';
-
-
-
-
+import SecurityGateway from '@/components/security/SecurityGateway';
 
 const HeaderSearch = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -859,6 +856,7 @@ const HeaderSearch = () => {
       <AbandonedCartTracker />
       <SecurityMonitor />
       </div>
+      </SecurityGateway>
       </MFAProvider>
       </ZeroTrustProvider>
       );
