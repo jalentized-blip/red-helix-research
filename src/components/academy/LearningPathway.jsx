@@ -146,12 +146,12 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
           </section>
 
           {/* Safety Warning */}
-          <section className="bg-red-50 border border-red-100 rounded-[32px] p-8 md:p-10">
-            <h3 className="text-[10px] font-black text-red-600 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+          <section className="bg-red-600 border border-red-500 rounded-[32px] p-8 md:p-10">
+            <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
               Compliance & Safety Protocol
             </h3>
-            <p className="text-red-900 font-bold text-lg leading-relaxed">
+            <p className="text-white font-bold text-lg leading-relaxed">
               {content.safety}
             </p>
           </section>
@@ -164,7 +164,7 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
                 {content.clinicalData.map((data, idx) => (
                   <div key={idx} className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 hover:border-red-600/20 transition-all group">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white bg-red-600 px-3 py-1 rounded-full">
                         {data.source}
                       </span>
                       <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-red-600 transition-colors" />

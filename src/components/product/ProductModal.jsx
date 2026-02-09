@@ -56,8 +56,8 @@ export default function ProductModal({ product, isOpen, onClose }) {
             
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-red-600/5 border border-red-600/10 flex items-center justify-center">
-                  <Microscope className="w-5 h-5 text-red-600" />
+                <div className="w-10 h-10 rounded-xl bg-red-600 border border-red-500 flex items-center justify-center">
+                  <Microscope className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Catalog Reference</p>
@@ -107,7 +107,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                   {product.name}
                 </h2>
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-red-600/5 text-red-600 border-red-600/10 text-[10px] font-black tracking-widest px-2 py-0">RESEARCH ONLY</Badge>
+                  <Badge className="bg-red-600 text-white border-red-600 text-[10px] font-black tracking-widest px-2 py-0">RESEARCH ONLY</Badge>
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ISO 9001:2015</span>
                 </div>
               </div>
@@ -258,8 +258,8 @@ export default function ProductModal({ product, isOpen, onClose }) {
             {/* Additional Info - Bright Medical Style */}
             <div className="mt-8 grid grid-cols-1 gap-3">
               <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-8 h-8 rounded-lg bg-red-600/5 flex items-center justify-center">
-                  <ShieldCheck className="w-4 h-4 text-red-600" />
+                <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center">
+                  <ShieldCheck className="w-4 h-4 text-white" />
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Quality Assurance</p>
@@ -267,8 +267,8 @@ export default function ProductModal({ product, isOpen, onClose }) {
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-8 h-8 rounded-lg bg-red-600/5 flex items-center justify-center">
-                  <Zap className="w-4 h-4 text-red-600" />
+                <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Rapid Logistics</p>
@@ -278,16 +278,16 @@ export default function ProductModal({ product, isOpen, onClose }) {
             </div>
 
             {/* Compliance Disclaimer - Non-bypassable */}
-            <div className="mt-8 p-6 bg-red-50 rounded-[32px] border border-red-100 relative overflow-hidden shadow-inner">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rounded-full -mr-12 -mt-12" />
+            <div className="mt-8 p-6 bg-red-600 rounded-[32px] border border-red-500 relative overflow-hidden shadow-inner">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-red-700/20 rounded-full -mr-12 -mt-12" />
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                  <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Research Use Notification</p>
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <p className="text-[10px] font-black text-white uppercase tracking-widest">Research Use Notification</p>
                 </div>
-                <p className="text-[11px] font-bold text-slate-700 leading-relaxed">
-                  This product is supplied for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. 
-                  Strictly <span className="text-red-600 underline decoration-2 underline-offset-2">NOT FOR HUMAN CONSUMPTION</span>. 
+                <p className="text-[11px] font-bold text-red-50 leading-relaxed">
+                  This product is supplied for <span className="text-white">RESEARCH AND LABORATORY USE ONLY</span>. 
+                  Strictly <span className="text-white underline decoration-2 underline-offset-2">NOT FOR HUMAN CONSUMPTION</span>. 
                   By ordering, you certify you are 21+ and a qualified researcher.
                 </p>
               </div>

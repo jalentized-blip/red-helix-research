@@ -205,13 +205,13 @@ If you cannot find either field, set it to null.`,
               <div className={`p-6 rounded-[24px] border ${
                 verificationResult.is_valid_coa && verificationResult.confidence >= 70
                   ? 'bg-green-50 border-green-100'
-                  : 'bg-red-50 border-red-100'
+                  : 'bg-red-600 border-red-500'
               }`}>
                 <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-full ${
                     verificationResult.is_valid_coa && verificationResult.confidence >= 70
                       ? 'bg-green-100 text-green-600'
-                      : 'bg-red-100 text-red-600'
+                      : 'bg-white text-red-600'
                   }`}>
                     {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
                       <CheckCircle2 className="w-6 h-6" />
@@ -223,13 +223,17 @@ If you cannot find either field, set it to null.`,
                     <p className={`text-lg font-black uppercase tracking-tight ${
                       verificationResult.is_valid_coa && verificationResult.confidence >= 70
                         ? 'text-green-900'
-                        : 'text-red-900'
+                        : 'text-white'
                     }`}>
                       {verificationResult.is_valid_coa && verificationResult.confidence >= 70
                         ? 'Protocol Verified'
                         : 'Verification Failed'}
                     </p>
-                    <p className="text-slate-600 font-medium mt-1 leading-tight">{verificationResult.reason}</p>
+                    <p className={`${
+                      verificationResult.is_valid_coa && verificationResult.confidence >= 70
+                        ? 'text-slate-600'
+                        : 'text-red-50'
+                    } font-medium mt-1 leading-tight`}>{verificationResult.reason}</p>
                     <div className="flex items-center gap-2 mt-3">
                       <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                         <div 

@@ -640,10 +640,10 @@ export default function Login() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mb-8 p-6 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-4"
+                className="mb-8 p-6 bg-red-600 border border-red-500 rounded-2xl flex items-start gap-4"
               >
-                <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
-                <p className="text-sm font-bold text-red-600 uppercase tracking-tight leading-tight">{error}</p>
+                <AlertCircle className="w-6 h-6 text-white flex-shrink-0" />
+                <p className="text-sm font-bold text-white uppercase tracking-tight leading-tight">{error}</p>
               </motion.div>
             )}
             {success && (

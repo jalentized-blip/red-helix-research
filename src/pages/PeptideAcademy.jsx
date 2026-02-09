@@ -154,8 +154,8 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
 const QuestionSection = React.memo(({ section, onQuestionClick }) => (
   <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-shadow">
     <h3 className="text-sm font-black text-slate-900 mb-6 flex items-center gap-3 uppercase tracking-widest">
-      <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
-        <FlaskConical className="w-4 h-4 text-red-600" />
+      <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center">
+        <FlaskConical className="w-4 h-4 text-white" />
       </div>
       {section.category}
     </h3>

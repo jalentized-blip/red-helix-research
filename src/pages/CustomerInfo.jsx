@@ -267,8 +267,8 @@ export default function CustomerInfo() {
           {/* Shipping Option */}
           <div className="border-t border-slate-100 pt-10 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
-                <span className="text-red-600 font-black text-xs">03</span>
+              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-black text-xs">03</span>
               </div>
               <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Shipping Address</h2>
             </div>

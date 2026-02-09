@@ -145,9 +145,9 @@ export default function Cart() {
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mb-3 p-3 bg-red-50 border border-red-100 rounded-xl text-center"
+                      className="mb-3 p-3 bg-red-600 border border-red-500 rounded-xl text-center"
                     >
-                      <p className="text-xs font-bold text-red-600">
+                      <p className="text-xs font-bold text-white">
                         Affiliate discount applied! 💜
                       </p>
                     </motion.div>

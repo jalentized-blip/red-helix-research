@@ -589,8 +589,8 @@ export default function PeptideLearn() {
                       <h3 className="text-xl font-bold text-slate-900 group-hover:text-red-600 transition-colors">
                         {use.title}
                       </h3>
-                      <div className="p-2 bg-slate-50 rounded-full group-hover:bg-red-50 transition-colors">
-                        <TrendingUp className="w-5 h-5 text-slate-400 group-hover:text-red-600 transition-colors" />
+                      <div className="p-2 bg-slate-50 rounded-full group-hover:bg-red-600 transition-colors">
+                        <TrendingUp className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
                       </div>
                     </div>
                     <p className="text-slate-600 leading-relaxed mb-6">
