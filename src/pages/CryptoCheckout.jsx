@@ -942,7 +942,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                             <ShieldCheck className="w-5 h-5 text-white" />
                             <h4 className="text-sm font-black text-white uppercase tracking-tight">Security Protocol</h4>
                           </div>
-                          <p className="text-xs text-red-50 font-medium leading-relaxed">
+                          <p className="text-xs text-white font-medium leading-relaxed">
                             Please ensure you are sending on the <strong>{CRYPTO_OPTIONS.find(c => c.id === selectedCrypto)?.network}</strong>. 
                             Sending to the wrong network will result in permanent loss of laboratory funds.
                           </p>

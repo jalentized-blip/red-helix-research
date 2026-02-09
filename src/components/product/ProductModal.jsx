@@ -285,7 +285,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                   <p className="text-[10px] font-black text-white uppercase tracking-widest">Research Use Notification</p>
                 </div>
-                <p className="text-[11px] font-bold text-red-50 leading-relaxed">
+                <p className="text-[11px] font-bold text-white leading-relaxed">
                   This product is supplied for <span className="text-white">RESEARCH AND LABORATORY USE ONLY</span>. 
                   Strictly <span className="text-white underline decoration-2 underline-offset-2">NOT FOR HUMAN CONSUMPTION</span>. 
                   By ordering, you certify you are 21+ and a qualified researcher.

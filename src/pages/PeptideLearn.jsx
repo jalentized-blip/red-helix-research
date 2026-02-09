@@ -478,14 +478,14 @@ export default function PeptideLearn() {
               <p className="text-slate-600 text-sm leading-relaxed mb-6">
                 {peptideData.safetyProfile}
               </p>
-              <div className="bg-red-50 border border-red-100 rounded-xl p-4">
-                <h4 className="text-red-800 font-bold text-sm mb-2 flex items-center gap-2">
+              <div className="bg-red-600 border border-red-500 rounded-xl p-4">
+                <h4 className="text-white font-bold text-sm mb-2 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" />
                   Important Warnings
                 </h4>
                 <ul className="space-y-1">
                   {peptideData.warnings.map((warning, idx) => (
-                    <li key={idx} className="text-xs text-red-700/80 flex items-start gap-2">
+                    <li key={idx} className="text-xs text-white flex items-start gap-2">
                       <span className="mt-1">•</span>
                       <span>{warning}</span>
                     </li>
@@ -549,7 +549,7 @@ export default function PeptideLearn() {
                   {product.name}
                 </h1>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-3 py-1 bg-red-50 border border-red-100 text-red-600 text-xs font-bold uppercase tracking-wider rounded-full">
+                  <span className="px-3 py-1 bg-red-600 border border-red-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">
                     Research Compound
                   </span>
                   <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-full">

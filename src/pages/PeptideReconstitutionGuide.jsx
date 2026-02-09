@@ -141,7 +141,7 @@ export default function PeptideReconstitutionGuide() {
           <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
             ⚠️ Important Safety Notes
           </h2>
-          <ul className="space-y-4 text-red-50 font-medium">
+          <ul className="space-y-4 text-white font-medium">
             <li className="flex gap-3 items-start">
               <span className="text-white font-bold">✓</span>
               <span><span className="font-bold text-white">Always use sterile equipment</span> - Contamination can render your peptide unusable</span>

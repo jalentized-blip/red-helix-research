@@ -232,7 +232,7 @@ If you cannot find either field, set it to null.`,
                     <p className={`${
                       verificationResult.is_valid_coa && verificationResult.confidence >= 70
                         ? 'text-slate-600'
-                        : 'text-red-50'
+                        : 'text-white'
                     } font-medium mt-1 leading-tight`}>{verificationResult.reason}</p>
                     <div className="flex items-center gap-2 mt-3">
                       <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">

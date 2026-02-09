@@ -8,7 +8,7 @@ export default function ResearchDisclaimer() {
         <AlertCircle className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
         <div>
           <h3 className="font-black text-white mb-1 uppercase tracking-wide text-xs">For Research Use Only</h3>
-          <p className="text-sm text-red-50 font-medium leading-relaxed">
+          <p className="text-sm text-white font-medium leading-relaxed">
             These products are intended for laboratory research and educational purposes only. 
             Not for human consumption. Consult qualified healthcare professionals before use.
           </p>
