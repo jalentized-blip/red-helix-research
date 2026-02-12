@@ -278,14 +278,14 @@ export default function ProductModal({ product, isOpen, onClose }) {
             </div>
 
             {/* Compliance Disclaimer - Non-bypassable */}
-            <div className="mt-8 p-6 bg-[#dc2626] rounded-[32px] border border-[#ef4444] relative overflow-hidden shadow-inner">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#b91c1c]/20 rounded-full -mr-12 -mt-12" />
+            <div className="mt-8 p-6 bg-[#dc2626] rounded-[32px] border border-[#ef4444] relative overflow-hidden shadow-inner flex-shrink-0">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#b91c1c]/20 rounded-full -mr-12 -mt-12 pointer-events-none" />
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  <p className="text-[10px] font-black text-white uppercase tracking-widest">Research Use Notification</p>
+                  <p className="text-[10px] font-black text-white uppercase tracking-widest whitespace-normal">Research Use Notification</p>
                 </div>
-                <p className="text-[11px] font-bold text-white leading-relaxed">
+                <p className="text-[11px] font-bold text-white leading-relaxed break-words whitespace-normal">
                   This product is supplied for <span className="text-white">RESEARCH AND LABORATORY USE ONLY</span>. 
                   Strictly <span className="text-white underline decoration-2 underline-offset-2">NOT FOR HUMAN CONSUMPTION</span>. 
                   By ordering, you certify you are 21+ and a qualified researcher.

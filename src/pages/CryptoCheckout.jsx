@@ -176,6 +176,32 @@ export default function CryptoCheckout() {
   const [isLoadingRate, setIsLoadingRate] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
 
+  // Timer state
+  const [timeLeft, setTimeLeft] = useState(900);
+
+  // Timer effect
+  useEffect(() => {
+    if (stage === CHECKOUT_STAGE.PAYMENT) {
+      setTimeLeft(900);
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 0) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [stage]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   // Refs for intervals
   const walletMonitorRef = useRef(null);
   const txVerifyRef = useRef(null);
@@ -913,7 +939,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                         </div>
                         <div className="flex items-center gap-2 px-4 py-2 bg-[#dc2626] text-white rounded-full">
                           <Clock className="w-4 h-4 animate-pulse" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Rate expires in 15:00</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest">Rate expires in {formatTime(timeLeft)}</span>
                         </div>
                       </div>
 
@@ -982,7 +1008,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                         <Button
                           onClick={() => setStage(CHECKOUT_STAGE.CONFIRMING)}
                           disabled={!transactionId}
-                          className="bg-[#dc2626] hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs h-auto shadow-xl shadow-[#dc2626]/20 disabled:opacity-50"
+                          className="bg-[#dc2626] hover:bg-[#b91c1c] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs h-auto shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px] transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none disabled:opacity-100"
                         >
                           Verify Payment
                         </Button>
