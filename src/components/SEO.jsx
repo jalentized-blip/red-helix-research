@@ -34,15 +34,10 @@ export default function SEO({
       <link rel="canonical" href={cleanCanonical} />
 
       {/* Robots */}
-      {noindex ? (
-        <meta name="robots" content="noindex, nofollow" />
-      ) : (
-        <>
-          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-          <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-          <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        </>
-      )}
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+      {!noindex && <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+      {!noindex && <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
@@ -65,16 +60,12 @@ export default function SEO({
       <meta name="twitter:image:alt" content={fullTitle} />
 
       {/* Article-specific tags */}
-      {article && (
-        <>
-          <meta property="article:published_time" content={article.publishedTime} />
-          {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
-          {article.section && <meta property="article:section" content={article.section} />}
-          {article.tags && article.tags.map((tag, i) => (
-            <meta key={i} property="article:tag" content={tag} />
-          ))}
-        </>
-      )}
+      {article && <meta property="article:published_time" content={article.publishedTime} />}
+      {article && article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+      {article && article.section && <meta property="article:section" content={article.section} />}
+      {article && article.tags && article.tags.map((tag, i) => (
+        <meta key={i} property="article:tag" content={tag} />
+      ))}
 
       {/* Mobile & Additional SEO */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />

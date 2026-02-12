@@ -5,22 +5,24 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
     
-    const { email, cartItems, cartValue, firstName = 'Researcher' } = body;
+    const { email, cartItems, cartValue, totalAmount, firstName, name } = body;
+    const resolvedName = firstName || name || 'Researcher';
+    const resolvedCartValue = cartValue || totalAmount || 0;
 
     if (!email || !cartItems || cartItems.length === 0) {
       return Response.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const itemsList = cartItems.map(item => `- ${item.name} (${item.quantity}x @ $${item.price})`).join('\n');
+    const itemsList = cartItems.map(item => `- ${item.productName || item.name} (${item.quantity}x @ $${item.price})`).join('\n');
 
-    const emailBody = `Hi ${firstName},
+    const emailBody = `Hi ${resolvedName},
 
 We noticed you left some high-quality research peptides in your cart! Don't miss out on verified, third-party tested products.
 
 Your Cart:
 ${itemsList}
 
-Cart Total: $${cartValue.toFixed(2)}
+Cart Total: $${resolvedCartValue.toFixed(2)}
 
 Your research deserves the best. All Red Helix peptides come with:
 ✓ >98% Purity (HPLC Verified)
@@ -38,7 +40,7 @@ jake@redhelixresearch.com`;
 
     const result = await base44.integrations.Core.SendEmail({
       to: email,
-      subject: `Complete Your Research Order - ${firstName}'s Cart (${itemsList.split('\n').length} items)`,
+      subject: `Complete Your Research Order - ${resolvedName}'s Cart (${itemsList.split('\n').length} items)`,
       body: emailBody,
       from_name: 'Red Helix Research'
     });
@@ -48,7 +50,7 @@ jake@redhelixresearch.com`;
       eventName: 'abandoned_cart_email_sent',
       properties: { 
         email: email,
-        cart_value: cartValue,
+        cart_value: resolvedCartValue,
         item_count: cartItems.length
       }
     });
