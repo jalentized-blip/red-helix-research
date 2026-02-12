@@ -1,0 +1,131 @@
+import React from 'react';
+import { AlertTriangle, Mail, MessageCircle, Send, Globe, ShieldCheck, Microscope, FlaskConical } from "lucide-react";
+import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+
+export default function Footer() {
+  return (
+    <footer role="contentinfo" aria-label="Site footer" className="bg-white border-t border-slate-100 pt-24 pb-12 px-4 relative overflow-hidden">
+      {/* Background Subtle Elements - Modern Medical Gradient */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#dc2626]/20 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+          {/* Brand Column */}
+          <div className="lg:col-span-4 space-y-8">
+            <div className="flex items-center gap-4">
+              <img 
+                src="https://i.imgur.com/8MOtTE2.png" 
+                alt="Red Helix Research" 
+                className="h-16 w-auto object-contain"
+              />
+            </div>
+            <p className="text-slate-500 text-sm leading-relaxed font-medium max-w-xs">
+              Setting the industry benchmark for analytical precision and batch traceability in research peptide synthesis.
+            </p>
+            <div className="flex items-center gap-4">
+              <a href="mailto:jake@redhelixresearch.com" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">
+                <Mail className="w-5 h-5" />
+              </a>
+              <a href="https://discord.gg/zdn52v73" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">
+                <MessageCircle className="w-5 h-5" />
+              </a>
+              <a href="https://t.me/Redhelixresearch" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">
+                <Send className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links / Protocols */}
+          <div className="lg:col-span-2 space-y-6">
+            <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">Scientific Resources</h4>
+            <nav aria-label="Footer scientific resources">
+              <ul className="space-y-4">
+                <li><Link to={createPageUrl('COAReports')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Lab Archives (COA)</Link></li>
+                <li><Link to={createPageUrl('PeptideCalculator')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Peptide Calculator</Link></li>
+                <li><Link to={createPageUrl('PeptideAcademy')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Research Academy</Link></li>
+                <li><Link to={createPageUrl('PeptideComparison')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Peptide Comparison</Link></li>
+                <li><Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Reconstitution Guide</Link></li>
+                <li><Link to={createPageUrl('BlogGuide')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Research Guides</Link></li>
+              </ul>
+            </nav>
+          </div>
+
+          {/* Compliance Column - Bright Clinical Box */}
+          <div className="lg:col-span-6">
+            <div className="bg-slate-50 border border-slate-100 rounded-[40px] p-10 relative overflow-hidden shadow-sm">
+              <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
+                <ShieldCheck className="w-32 h-32 text-[#dc2626]" />
+              </div>
+              
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-8 h-8 rounded-full bg-[#dc2626] flex items-center justify-center shadow-lg shadow-[#dc2626]/20">
+                  <AlertTriangle className="w-4 h-4 text-white" />
+                </div>
+                <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">Regulatory Compliance Protocol</h4>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest mb-2">Research Use Only</p>
+                    <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                      All products are strictly for laboratory research. Not for human or veterinary use. Any misuse will result in account termination.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-2">Age Requirement</p>
+                    <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                      Strict 21+ policy enforced. Identity verification required for all acquisitions. No exceptions.
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-2">Handling Protocol</p>
+                    <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                      Must be handled by qualified professionals in an appropriate laboratory setting. PPE required.
+                    </p>
+                  </div>
+                  <div className="pt-2">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] text-white rounded-full shadow-lg shadow-[#dc2626]/20">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      <span className="text-[9px] font-black uppercase tracking-widest">High-Risk Verified Vendor</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-8">
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+              © 2026 Red Helix Research
+            </p>
+            <div className="hidden md:flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <Microscope className="w-3.5 h-3.5 text-[#dc2626]/40" />
+                <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Analytical Purity Focus</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FlaskConical className="w-3.5 h-3.5 text-[#dc2626]/40" />
+                <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Global Research Logistics</span>
+              </div>
+            </div>
+          </div>
+          
+          <nav aria-label="Footer legal links" className="flex items-center gap-8">
+            <Link to={createPageUrl('Policies')} className="text-[10px] text-slate-400 hover:text-[#dc2626] font-bold uppercase tracking-widest transition-colors">Terms & Policies</Link>
+            <Link to={createPageUrl('ExpandedFAQ')} className="text-[10px] text-slate-400 hover:text-[#dc2626] font-bold uppercase tracking-widest transition-colors">FAQ</Link>
+            <Link to={createPageUrl('About')} className="text-[10px] text-slate-400 hover:text-[#dc2626] font-bold uppercase tracking-widest transition-colors">About</Link>
+            <Link to={createPageUrl('Contact')} className="text-[10px] text-slate-400 hover:text-[#dc2626] font-bold uppercase tracking-widest transition-colors">Contact</Link>
+          </nav>
+        </div>
+      </div>
+    </footer>
+  );
+}

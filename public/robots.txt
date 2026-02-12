@@ -1,0 +1,73 @@
+# Red Helix Research - robots.txt
+# https://redhelixresearch.com
+
+User-agent: *
+Allow: /
+
+# Public pages - explicitly allowed
+Allow: /Products
+Allow: /About
+Allow: /Contact
+Allow: /PeptideCalculator
+Allow: /LearnMore
+Allow: /PeptideAcademy
+Allow: /PeptideComparison
+Allow: /BlogGuide
+Allow: /COAReports
+Allow: /OurStory
+Allow: /ExpandedFAQ
+Allow: /Policies
+Allow: /ResourceHub
+Allow: /CustomerTestimonials
+Allow: /GroupBuy
+Allow: /PeptideReconstitutionGuide
+Allow: /ProductBPC157
+Allow: /ProductTB500
+Allow: /ProductSemaglutide
+Allow: /ProductTirzepatide
+
+# Block private/admin/checkout areas from indexing
+Disallow: /Admin*
+Disallow: /AdminOrderManagement
+Disallow: /AdminPriceManagement
+Disallow: /AdminStockManagement
+Disallow: /AdminCustomerManagement
+Disallow: /AdminManualOrders
+Disallow: /AdminSupport
+Disallow: /PlaidAdminDashboard
+Disallow: /PlaidCompliance
+Disallow: /PlaidDataRetention
+Disallow: /PlaidPrivacy
+Disallow: /SecurityDashboard
+Disallow: /SecurityCompliance
+Disallow: /PaymentSecurity
+Disallow: /DataRetentionPolicy
+Disallow: /MonitoringSetup
+Disallow: /DeploymentGuide
+Disallow: /ProductionChecklist
+Disallow: /LaunchChecklist
+Disallow: /CompetitivePositioning
+Disallow: /ConversionTracking
+Disallow: /SEOMonitoring
+Disallow: /BacklinkStrategy
+Disallow: /EmailAutomationStrategy
+Disallow: /InternalLinkingStrategy
+Disallow: /SEOGuide
+Disallow: /Account
+Disallow: /Cart
+Disallow: /Login
+Disallow: /CryptoCheckout
+Disallow: /PaymentCompleted
+Disallow: /api/
+Disallow: /checkout/
+
+# Allow static assets
+Allow: /assets/
+Allow: /images/
+Allow: /manifest.json
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://redhelixresearch.com/sitemap.xml
