@@ -55,40 +55,27 @@ export const getCartTotal = () => {
   return getCart().reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
 
-// Promo code validation - delegated to server-side for security
-// The validateOrder serverless function holds the actual promo code list
+// Promo codes - validated client-side for UX, re-validated server-side at order creation
+const PROMO_CODES = {
+  'SAVE10': { discount: 0.10, label: '10% off' },
+  'SAVE20': { discount: 0.20, label: '20% off' },
+  'WELCOME': { discount: 0.15, label: '15% off first order' },
+  'FIRSTDAY15': { discount: 0.15, label: '15% off' },
+  'GOMIE15': { discount: 0.15, label: '15% off', isAffiliate: true },
+  'CJ15': { discount: 0.15, label: '15% off', isAffiliate: true },
+};
 
-// Client-side cache for validated promo codes (validated by server)
-let _validatedPromoCache = null;
-
-export const validatePromoCode = async (code) => {
-  try {
-    const { base44 } = await import('@/api/base44Client');
-    const result = await base44.functions.invoke('validateOrder', {
-      action: 'validate_promo',
-      code: code
-    });
-    if (result?.valid) {
-      _validatedPromoCache = { code: code.toUpperCase(), discount: result.discount, label: result.label };
-      return _validatedPromoCache;
-    }
-    return null;
-  } catch {
-    return null;
-  }
+export const validatePromoCode = (code) => {
+  return PROMO_CODES[code.toUpperCase()] || null;
 };
 
 export const getDiscountAmount = (code, total) => {
-  // Use cached server-validated promo data
-  if (_validatedPromoCache && _validatedPromoCache.code === code.toUpperCase()) {
-    return total * _validatedPromoCache.discount;
-  }
-  return 0;
+  const promo = validatePromoCode(code);
+  return promo ? total * promo.discount : 0;
 };
 
-export const addPromoCode = async (code) => {
-  const result = await validatePromoCode(code);
-  if (result) {
+export const addPromoCode = (code) => {
+  if (validatePromoCode(code)) {
     localStorage.setItem('rdr_promo', code.toUpperCase());
     window.dispatchEvent(new Event('promoUpdated'));
     return true;

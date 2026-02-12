@@ -56,9 +56,9 @@ export default function Cart() {
     setCartItems([]);
   };
 
-  const handleApplyPromo = async () => {
-    const promoDetails = await validatePromoCode(promoCode);
-    if (await addPromoCode(promoCode)) {
+  const handleApplyPromo = () => {
+    const promoDetails = validatePromoCode(promoCode);
+    if (addPromoCode(promoCode)) {
       setAppliedPromo(promoCode.toUpperCase());
       setPromoCode('');
       setPromoError('');
