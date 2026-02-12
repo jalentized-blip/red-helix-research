@@ -10,7 +10,7 @@ import SEO from '@/components/SEO';
 import ResearchDisclaimer from '@/components/ResearchDisclaimer';
 import ProductModal from '@/components/product/ProductModal';
 import ProductCard from '@/components/home/ProductCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { generateOrganizationSchema } from '@/components/utils/schemaHelpers';
 
@@ -59,6 +59,11 @@ export default function PeptideCategory() {
   const config = categoryConfig[category];
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setIsAuthenticated).catch(() => setIsAuthenticated(false));
+  }, []);
 
   const { data: products = [] } = useQuery({
     queryKey: ['products', category],
@@ -132,7 +137,7 @@ export default function PeptideCategory() {
         </div>
 
         {/* Product Modal */}
-        <ProductModal product={selectedProduct} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <ProductModal product={selectedProduct} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isAuthenticated={isAuthenticated} />
       </div>
     </div>
   );

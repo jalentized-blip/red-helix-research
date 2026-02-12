@@ -31,6 +31,11 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setIsAuthenticated).catch(() => setIsAuthenticated(false));
+  }, []);
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products'],
@@ -254,6 +259,7 @@ export default function Products() {
         product={selectedProduct}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        isAuthenticated={isAuthenticated}
       />
     </div>
   );

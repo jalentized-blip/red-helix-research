@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X, ShoppingCart, CheckCircle, Info, ChevronLeft, ChevronRight, FlaskConical, ShieldCheck, Microscope, Zap } from "lucide-react";
+import { X, ShoppingCart, CheckCircle, Info, ChevronLeft, ChevronRight, FlaskConical, ShieldCheck, Microscope, Zap, LogIn } from "lucide-react";
 import { addToCart } from '@/components/utils/cart';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createPageUrl } from '@/utils';
 
-export default function ProductModal({ product, isOpen, onClose }) {
+export default function ProductModal({ product, isOpen, onClose, isAuthenticated = false }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
   const [addedToCart, setAddedToCart] = useState(false);
   const [showCOA, setShowCOA] = useState(false);
@@ -27,6 +28,11 @@ export default function ProductModal({ product, isOpen, onClose }) {
   );
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      onClose();
+      base44.auth.redirectToLogin(createPageUrl('Home'));
+      return;
+    }
     if (selectedSpec) {
       addToCart(product, selectedSpec);
       setAddedToCart(true);
@@ -214,31 +220,43 @@ export default function ProductModal({ product, isOpen, onClose }) {
 
             {/* Action Area */}
             <div className="mt-10 space-y-4">
-              <Button
-                onClick={handleAddToCart}
-                disabled={!selectedSpec || addedToCart}
-                className={`w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
-                  !selectedSpec 
-                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                    : addedToCart
-                    ? 'bg-green-600 text-white'
-                    : 'bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
-                }`}
-              >
-                <span className="flex items-center gap-3">
-                  {addedToCart ? (
-                    <>
-                      <CheckCircle className="w-5 h-5" />
-                      Added to Protocol
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingCart className="w-5 h-5" />
-                      {selectedSpec ? `Initialize Order: $${selectedSpec.price}` : 'Select Configuration'}
-                    </>
-                  )}
-                </span>
-              </Button>
+              {!isAuthenticated ? (
+                <Button
+                  onClick={handleAddToCart}
+                  className="w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]"
+                >
+                  <span className="flex items-center gap-3">
+                    <LogIn className="w-5 h-5" />
+                    Sign In to Order
+                  </span>
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleAddToCart}
+                  disabled={!selectedSpec || addedToCart}
+                  className={`w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
+                    !selectedSpec
+                      ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                      : addedToCart
+                      ? 'bg-green-600 text-white'
+                      : 'bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
+                  }`}
+                >
+                  <span className="flex items-center gap-3">
+                    {addedToCart ? (
+                      <>
+                        <CheckCircle className="w-5 h-5" />
+                        Added to Protocol
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="w-5 h-5" />
+                        {selectedSpec ? `Initialize Order: $${selectedSpec.price}` : 'Select Configuration'}
+                      </>
+                    )}
+                  </span>
+                </Button>
+              )}
 
               {productCOAs.length > 0 && (
                 <button

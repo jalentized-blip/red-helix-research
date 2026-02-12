@@ -177,6 +177,11 @@ export default function PeptideLearn() {
   const [product, setProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBacWater, setIsBacWater] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setIsAuthenticated).catch(() => setIsAuthenticated(false));
+  }, []);
 
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
@@ -710,10 +715,11 @@ export default function PeptideLearn() {
         )}
       </div>
 
-      <ProductModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        product={product} 
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product={product}
+        isAuthenticated={isAuthenticated}
       />
     </div>
   );

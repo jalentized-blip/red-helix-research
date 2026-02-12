@@ -214,6 +214,7 @@ export default function Home({ adminViewAsUser = false }) {
         product={selectedProduct}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        isAuthenticated={isAuthenticated}
       />
       <section id="certificates" aria-label="Certificates of Analysis">
         <Certificates />
