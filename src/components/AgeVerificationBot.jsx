@@ -99,7 +99,7 @@ export default function AgeVerificationBot({ isOpen, onVerify }) {
         <div className="flex flex-col gap-3">
           <button
             onClick={() => handleVerify(true)}
-            className="w-full px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-600/20"
+            className="w-full px-8 py-4 bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-2xl font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-600/20"
           >
             I Confirm (21+)
           </button>
