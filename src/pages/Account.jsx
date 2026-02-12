@@ -124,7 +124,7 @@ export default function Account() {
                   onClick={() => setActiveTab('dashboard')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'dashboard'
-                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
                       : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
@@ -136,7 +136,7 @@ export default function Account() {
                   onClick={() => setActiveTab('favorites')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'favorites'
-                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
                       : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
@@ -144,7 +144,7 @@ export default function Account() {
                   <span className="text-xs font-black uppercase tracking-widest">Favorites</span>
                   {preferences?.favorite_products?.length > 0 && (
                     <span className={`ml-auto text-[10px] font-black px-2 py-0.5 rounded-full ${
-                      activeTab === 'favorites' ? 'bg-white text-red-600' : 'bg-red-600 text-white'
+                      activeTab === 'favorites' ? 'bg-white text-[#dc2626]' : 'bg-[#dc2626] text-white'
                     }`}>
                       {preferences.favorite_products.length}
                     </span>
@@ -155,7 +155,7 @@ export default function Account() {
                   onClick={() => setActiveTab('recommendations')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'recommendations'
-                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
                       : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
@@ -167,7 +167,7 @@ export default function Account() {
                   onClick={() => setActiveTab('activity')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'activity'
-                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
                       : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
@@ -179,7 +179,7 @@ export default function Account() {
                   onClick={() => setActiveTab('orders')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'orders'
-                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
                       : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >
@@ -191,7 +191,7 @@ export default function Account() {
                   onClick={() => setActiveTab('settings')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'settings'
-                      ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
                       : 'text-slate-500 hover:text-red-600 hover:bg-white'
                   }`}
                 >

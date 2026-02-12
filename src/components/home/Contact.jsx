@@ -95,7 +95,7 @@ export default function Contact() {
           className="text-center"
         >
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-red-600/20 transition-all hover:-translate-y-1">
+            <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-red-600/20 transition-all hover:-translate-y-1">
               OPEN FORMAL INQUIRY
               <ArrowRight className="w-6 h-6 ml-3" />
             </Button>

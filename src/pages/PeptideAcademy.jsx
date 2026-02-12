@@ -8,6 +8,8 @@ import {
   Activity, AlertCircle, CheckCircle, ArrowLeft
 } from 'lucide-react';
 import SEO from '@/components/SEO';
+import { generateBreadcrumbSchema } from '@/components/utils/schemaHelpers';
+import { generateCourseSchema } from '@/components/utils/advancedSchemaHelpers';
 
 // Lazy load heavy components
 const LearningPathway = lazy(() => import('@/components/academy/LearningPathway'));

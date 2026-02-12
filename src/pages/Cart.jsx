@@ -268,7 +268,7 @@ export default function Cart() {
                       }
                       navigate(createPageUrl('CustomerInfo'));
                     }}
-                    className={`w-full font-black py-8 rounded-2xl shadow-lg shadow-red-600/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-red-600 hover:bg-red-700 text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                    className={`w-full font-black py-8 rounded-2xl shadow-lg shadow-red-600/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#dc2626] hover:bg-[#b91c1c] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                   >
                     Checkout <ArrowRight className="w-5 h-5 ml-2" />
                     {!isAuthenticated && !isCheckingAuth && (

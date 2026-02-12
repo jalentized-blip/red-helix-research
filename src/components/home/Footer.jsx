@@ -53,7 +53,7 @@ export default function Footer() {
               </div>
               
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/20">
+                <div className="w-8 h-8 rounded-full bg-[#dc2626] flex items-center justify-center shadow-lg shadow-red-600/20">
                   <AlertTriangle className="w-4 h-4 text-white" />
                 </div>
                 <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">Regulatory Compliance Protocol</h4>
@@ -62,7 +62,7 @@ export default function Footer() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-6">
                   <div>
-                    <p className="text-[10px] font-black text-red-600 uppercase tracking-widest mb-2">Research Use Only</p>
+                    <p className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest mb-2">Research Use Only</p>
                     <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
                       All products are strictly for laboratory research. Not for human or veterinary use. Any misuse will result in account termination.
                     </p>
@@ -82,7 +82,7 @@ export default function Footer() {
                     </p>
                   </div>
                   <div className="pt-2">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-full shadow-lg shadow-red-600/20">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] text-white rounded-full shadow-lg shadow-red-600/20">
                       <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                       <span className="text-[9px] font-black uppercase tracking-widest">High-Risk Verified Vendor</span>
                     </div>

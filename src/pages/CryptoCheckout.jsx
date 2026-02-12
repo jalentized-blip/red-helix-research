@@ -689,24 +689,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                   exit={{ opacity: 0, y: -20 }}
                   className="space-y-6"
                 >
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <button
-                      onClick={() => setStage(CHECKOUT_STAGE.STRIPE)}
-                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-red-600 hover:shadow-2xl transition-all relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
-                        <CreditCard className="w-32 h-32 text-slate-900" />
-                      </div>
-                      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <CreditCard className="w-8 h-8 text-red-600" />
-                      </div>
-                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-red-600 transition-colors">Credit Card</h3>
-                      <p className="text-slate-500 font-medium leading-relaxed">Secure payment via Stripe. Accepts all major credit and debit cards.</p>
-                      <div className="mt-6 inline-flex items-center text-red-600 font-black uppercase tracking-widest text-xs">
-                        Pay Securely <ChevronDown className="w-4 h-4 ml-2" />
-                      </div>
-                    </button>
-
+                  <div className="grid md:grid-cols-2 gap-6">
                     <button
                       onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
                       className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-red-600 hover:shadow-2xl transition-all relative overflow-hidden"
@@ -793,49 +776,6 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                         <ChevronDown className="w-5 h-5 text-slate-300 group-hover:text-red-600 -rotate-90 transition-colors" />
                       </button>
                     ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* STAGE: Stripe */}
-              {stage === CHECKOUT_STAGE.STRIPE && (
-                <motion.div
-                  key="stripe_payment"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100"
-                >
-                  <Button
-                    variant="ghost"
-                    onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
-                    className="mb-8 text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
-                  </Button>
-
-                  <div className="max-w-md mx-auto">
-                    <div className="w-20 h-20 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-red-100">
-                      <CreditCard className="w-10 h-10 text-red-600" />
-                    </div>
-                    <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter text-center">Secure Payment</h2>
-                    <p className="text-slate-500 font-medium mb-10 text-center">Complete your purchase securely using your credit or debit card.</p>
-                    
-                    <StripeCheckout 
-                      totalAmount={totalUSD}
-                      onSuccess={async (paymentId) => {
-                        await processSuccessfulPayment(paymentId, 'credit_card');
-                      }}
-                      onError={(err) => console.error(err)}
-                    />
-
-                    <div className="mt-12 flex flex-wrap justify-center gap-6 opacity-50 grayscale hover:grayscale-0 transition-all">
-                      <PCIComplianceBadge />
-                      <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full">
-                        <Lock className="w-4 h-4 text-slate-600" />
-                        <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Stripe Secure</span>
-                      </div>
-                    </div>
                   </div>
                 </motion.div>
               )}

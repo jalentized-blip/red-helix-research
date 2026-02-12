@@ -118,7 +118,7 @@ export default function AboutSection() {
             </div>
 
             <Button 
-              className="mt-12 bg-red-600 hover:bg-red-700 text-white font-black px-10 py-8 rounded-2xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02] active:scale-95 text-lg uppercase tracking-widest"
+              className="mt-12 bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black px-10 py-8 rounded-2xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02] active:scale-95 text-lg uppercase tracking-widest"
             >
               Learn More <ArrowRight className="w-5 h-5 ml-2" />
             </Button>

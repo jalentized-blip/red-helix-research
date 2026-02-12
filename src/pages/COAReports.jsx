@@ -333,7 +333,7 @@ export default function COAReports() {
         <div className="mt-16 text-center">
           <Button
             onClick={() => setShowUploadModal(true)}
-            className="bg-red-600 hover:bg-red-700 text-white gap-3 rounded-[32px] font-black uppercase tracking-widest text-xs px-12 py-8 shadow-xl shadow-red-600/20"
+            className="bg-[#dc2626] hover:bg-[#b91c1c] text-white gap-3 rounded-[32px] font-black uppercase tracking-widest text-xs px-12 py-8 shadow-xl shadow-red-600/20"
           >
             <Upload className="w-5 h-5" />
             Submit New Report

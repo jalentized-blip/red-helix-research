@@ -348,7 +348,7 @@ export default function CustomerInfo() {
           <div className="pt-6">
             <Button
               onClick={handleContinue}
-              className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-8 rounded-[24px] text-sm uppercase tracking-[0.2em] shadow-xl shadow-red-600/20 transition-all flex items-center justify-center gap-3"
+              className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black py-8 rounded-[24px] text-sm uppercase tracking-[0.2em] shadow-xl shadow-red-600/20 transition-all flex items-center justify-center gap-3"
             >
               {isFromAccount ? 'Save Changes' : 'Continue to Payment'}
               <ArrowRight className="w-4 h-4" />

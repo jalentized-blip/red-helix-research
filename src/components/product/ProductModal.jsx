@@ -222,7 +222,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
                     ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                     : addedToCart
                     ? 'bg-green-600 text-white'
-                    : 'bg-red-600 hover:bg-red-700 text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
+                    : 'bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
                 }`}
               >
                 <span className="flex items-center gap-3">
