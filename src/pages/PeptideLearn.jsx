@@ -890,6 +890,702 @@ const HGH_DATA = {
   ]
 };
 
+// Hardcoded data for GHK-Cu
+const GHKCU_DATA = {
+  overview: "GHK-Cu (glycyl-L-histidyl-L-lysine copper complex) is a naturally occurring tripeptide-copper complex found in human plasma, saliva, and urine. Plasma levels are approximately 200 ng/mL at age 20, declining to ~80 ng/mL by age 60. GHK-Cu was first identified by Dr. Loren Pickart in 1973 during studies of human albumin fractions that could promote liver cell growth. It has since become one of the most studied peptides for wound healing, collagen synthesis, and gene expression modulation.",
+  potentialUses: [
+    { title: "Collagen Synthesis & Skin Remodeling", description: "GHK-Cu stimulates production of collagen types I, III, and V, as well as elastin and glycosaminoglycans. It promotes organized tissue remodeling by balancing synthesis and degradation of extracellular matrix components.", mechanism: "Activates fibroblast proliferation and upregulates collagen gene expression. Modulates matrix metalloproteinases (MMPs) and their tissue inhibitors (TIMPs) for balanced extracellular matrix turnover. Increases decorin synthesis for organized collagen fiber assembly." },
+    { title: "Wound Healing & Tissue Repair", description: "GHK-Cu accelerates wound closure by promoting angiogenesis, nerve regeneration, and immune cell recruitment. It has demonstrated efficacy in both acute wound healing and chronic wound repair in clinical studies.", mechanism: "Attracts macrophages, mast cells, and fibroblasts to wound sites via chemotactic signaling. Stimulates nerve growth factor production and sensory nerve regeneration. Promotes angiogenesis through VEGF and FGF-2 upregulation." },
+    { title: "Anti-Aging & Gene Expression", description: "Research by Pickart et al. demonstrated GHK-Cu modulates expression of over 4,000 human genes, shifting patterns toward a younger, healthier state. Many of the affected genes are involved in tissue repair, antioxidant defense, and stem cell biology.", mechanism: "Resets gene expression patterns through epigenetic modulation. Upregulates genes involved in DNA repair, antioxidant response (SOD, glutathione), and stem cell markers. Downregulates genes associated with inflammation, fibrosis, and tissue destruction." },
+    { title: "Anti-Inflammatory & Antioxidant", description: "GHK-Cu reduces oxidative stress and inflammation by upregulating antioxidant enzymes and suppressing pro-inflammatory cytokine production. It also acts as a copper delivery vehicle, ensuring adequate copper for enzymatic antioxidant function.", mechanism: "Increases superoxide dismutase (SOD) and glutathione peroxidase expression. Blocks TGF-β-driven inflammatory fibrosis. Delivers bioavailable copper for cuproenzyme function including lysyl oxidase (collagen crosslinking) and cytochrome c oxidase." }
+  ],
+  clinicalTrials: [
+    { title: "GHK-Cu Gene Expression and Tissue Remodeling", year: "2020", institution: "International Journal of Molecular Sciences (Pickart et al.)", participants: "Gene expression analysis and clinical review", duration: "Cumulative research spanning decades", findings: "GHK-Cu modulated expression of over 4,000 human genes, resetting gene activity toward tissue repair. Increased collagen synthesis, stimulated decorin production, attracted immune cells for wound cleanup, and demonstrated antioxidant properties through SOD and glutathione upregulation.", conclusion: "GHK-Cu acts as a broad-spectrum regenerative signal, resetting gene expression toward a healthier state with significant anti-aging and tissue repair potential." },
+    { title: "Copper Peptide Effects on Wound Healing", year: "2015", institution: "Journal of Cosmetic Dermatology", participants: "Clinical study in human subjects", duration: "12-week treatment period", findings: "Topical GHK-Cu application significantly increased skin thickness, reduced fine lines, and improved skin elasticity compared to placebo. Collagen synthesis markers were elevated in treated skin samples.", conclusion: "GHK-Cu demonstrates clinically measurable improvements in skin quality through enhanced collagen production and tissue remodeling." },
+    { title: "GHK-Cu Antioxidant and Anti-Inflammatory Properties", year: "2018", institution: "Oxidative Medicine and Cellular Longevity", participants: "In vitro and in vivo models", duration: "Multi-study review", findings: "GHK-Cu significantly reduced markers of oxidative stress including lipid peroxidation and protein carbonylation. It suppressed NF-κB-mediated inflammatory gene expression and reduced TNF-α and IL-6 production in activated macrophages.", conclusion: "GHK-Cu provides dual antioxidant and anti-inflammatory protection through gene expression modulation and copper-dependent enzymatic pathways." }
+  ],
+  safetyProfile: "GHK-Cu is a naturally occurring peptide present in human plasma, making it inherently biocompatible. Clinical studies of topical and injectable GHK-Cu have reported no significant adverse effects. Individuals with Wilson's disease or copper metabolism disorders should avoid copper-containing peptides. As with all research peptides, GHK-Cu is for research use only.",
+  dosage: "Research protocols typically use 1-2 mg per injection administered subcutaneously, 1-2 times daily for injectable studies. Topical formulations commonly use 1-3% concentration. Reconstitute lyophilized GHK-Cu with bacteriostatic water using sterile technique. Store reconstituted solution refrigerated at 2-8°C.",
+  keyBenefits: [
+    "Stimulates collagen I, III, and V synthesis for tissue remodeling",
+    "Modulates 4,000+ genes toward healthier expression patterns",
+    "Potent antioxidant effects through SOD and glutathione upregulation",
+    "Accelerates wound healing via angiogenesis and immune cell recruitment",
+    "Anti-inflammatory through NF-κB suppression and TGF-β modulation",
+    "Naturally occurring in human plasma with strong safety profile",
+    "Promotes nerve regeneration and sensory nerve repair",
+    "Delivers bioavailable copper for essential enzymatic functions"
+  ]
+};
+
+// Hardcoded data for KPV
+const KPV_DATA = {
+  overview: "KPV is a C-terminal tripeptide fragment (Lys-Pro-Val) of alpha-melanocyte-stimulating hormone (α-MSH), a naturally occurring anti-inflammatory neuropeptide. KPV retains the potent anti-inflammatory properties of the parent hormone without its melanogenic (skin-darkening) effects. It acts primarily by inhibiting NF-κB nuclear translocation, the master regulator of inflammatory gene expression, making it one of the most targeted anti-inflammatory peptides studied.",
+  potentialUses: [
+    { title: "Gut Inflammation & IBD Research", description: "KPV has shown significant efficacy in preclinical models of inflammatory bowel disease including colitis. It reduces intestinal inflammation, promotes mucosal healing, and has demonstrated oral bioavailability for gut-targeted delivery.", mechanism: "Enters intestinal epithelial cells and inhibits NF-κB nuclear translocation, reducing production of TNF-α, IL-6, IL-1β, and other pro-inflammatory cytokines. Promotes intestinal barrier integrity by supporting tight junction protein expression." },
+    { title: "Systemic Anti-Inflammatory", description: "KPV demonstrates broad anti-inflammatory effects across multiple tissue types without causing immunosuppression. It modulates inflammation at the transcriptional level rather than broadly suppressing immune function.", mechanism: "Directly interacts with NF-κB p65 subunit, preventing its nuclear translocation and DNA binding. This selectively reduces inflammatory gene transcription while preserving normal immune surveillance and antimicrobial defense." },
+    { title: "Skin Inflammation & Dermatitis", description: "As a fragment of α-MSH, KPV has been studied for inflammatory skin conditions. It reduces keratinocyte inflammatory responses and promotes resolution of cutaneous inflammation.", mechanism: "Inhibits NF-κB in keratinocytes and dermal immune cells, reducing production of inflammatory mediators. Promotes anti-inflammatory cytokine production (IL-10) and modulates immune cell recruitment to inflamed skin." },
+    { title: "Antimicrobial Activity", description: "KPV has demonstrated direct antimicrobial properties against various pathogens including Staphylococcus aureus and Candida albicans, providing dual anti-inflammatory and antimicrobial benefit.", mechanism: "Disrupts microbial cell membranes through cationic peptide interactions. Additionally, reduces pathogen-driven inflammation to prevent excessive tissue damage during infection." }
+  ],
+  clinicalTrials: [
+    { title: "KPV Anti-Inflammatory Activity via NF-κB Inhibition", year: "2015", institution: "Journal of Biological Chemistry / PLoS ONE (Kannengiesser et al.)", participants: "In vitro and preclinical colitis models", duration: "Controlled preclinical studies", findings: "KPV significantly reduced intestinal inflammation by inhibiting NF-κB activation, reducing TNF-α, IL-6, and IL-1β. In colitis models, KPV reduced inflammation scores and improved mucosal healing through both systemic and oral routes.", conclusion: "KPV represents a targeted anti-inflammatory peptide acting through NF-κB modulation with a favorable safety profile for intestinal inflammation." },
+    { title: "Alpha-MSH Peptide Fragments in Inflammation", year: "2017", institution: "Annals of the New York Academy of Sciences", participants: "Review of preclinical anti-inflammatory studies", duration: "Multi-study analysis", findings: "C-terminal α-MSH fragments including KPV retained anti-inflammatory potency without melanocortin receptor binding or melanogenic effects. KPV showed efficacy in models of arthritis, dermatitis, and systemic inflammation.", conclusion: "KPV offers a targeted anti-inflammatory approach with a cleaner side effect profile than full-length α-MSH or corticosteroids." },
+    { title: "KPV Antimicrobial and Anti-Inflammatory Properties", year: "2019", institution: "Peptides (Elsevier)", participants: "In vitro antimicrobial and immune cell studies", duration: "Controlled laboratory studies", findings: "KPV demonstrated antimicrobial activity against S. aureus and C. albicans at concentrations that also reduced NF-κB-driven inflammation. Dual mechanism provides simultaneous infection control and inflammation reduction.", conclusion: "KPV's combined antimicrobial and anti-inflammatory properties make it uniquely suited for conditions involving both infection and inflammatory tissue damage." }
+  ],
+  safetyProfile: "KPV is a naturally derived tripeptide fragment of α-MSH with no reported significant adverse effects in preclinical studies. Unlike full-length α-MSH, KPV does not cause skin pigmentation changes as it does not activate melanocortin receptors. It provides anti-inflammatory effects without immunosuppression. For research use only.",
+  dosage: "Research protocols typically use 200-500 μg per administration via subcutaneous injection, 1-2 times daily. Oral formulations have also shown efficacy in gut inflammation models. Reconstitute with bacteriostatic water and store refrigerated at 2-8°C.",
+  keyBenefits: [
+    "Potent anti-inflammatory through direct NF-κB inhibition",
+    "No melanogenic side effects unlike parent α-MSH",
+    "Oral bioavailability for gut-targeted applications",
+    "Antimicrobial activity against bacteria and fungi",
+    "Anti-inflammatory without immunosuppression",
+    "Promotes intestinal barrier integrity and mucosal healing",
+    "Naturally derived fragment with strong preclinical safety",
+    "Selective inflammatory gene modulation"
+  ]
+};
+
+// Hardcoded data for CJC-1295
+const CJC1295_DATA = {
+  overview: "CJC-1295 is a synthetic analog of growth hormone-releasing hormone (GHRH) consisting of 30 amino acids (modified GRF 1-29). It stimulates pulsatile growth hormone release from the anterior pituitary gland. CJC-1295 is available in two forms: CJC-1295 DAC (Drug Affinity Complex), which binds to albumin for extended half-life (~8 days), and CJC-1295 no DAC (also called Modified GRF 1-29 or MOD-GRF), with a shorter half-life (~30 minutes). Both promote physiological GH secretion patterns rather than supraphysiological spikes.",
+  potentialUses: [
+    { title: "Growth Hormone Optimization", description: "CJC-1295 amplifies the body's natural GH pulsatile release pattern, increasing both the amplitude and duration of GH secretion episodes. This produces sustained IGF-1 elevation without the supraphysiological spikes associated with exogenous GH.", mechanism: "Binds to GHRH receptors on anterior pituitary somatotroph cells, activating the cAMP/PKA signaling cascade that stimulates GH gene transcription and vesicular release. The DAC modification enables albumin binding, extending plasma half-life and allowing sustained receptor stimulation." },
+    { title: "Body Composition & Fat Loss", description: "Elevated GH and IGF-1 levels promote lipolysis and lean body mass. CJC-1295 has shown improvements in body composition including reduced visceral fat and increased lean muscle mass in clinical studies.", mechanism: "GH activates hormone-sensitive lipase in adipocytes, promoting triglyceride hydrolysis and free fatty acid release. Simultaneously stimulates hepatic IGF-1 production which promotes protein synthesis and nitrogen retention in skeletal muscle." },
+    { title: "Sleep Quality & Recovery", description: "CJC-1295 enhances slow-wave sleep duration and quality, as GH is primarily secreted during deep sleep. Improved sleep architecture supports recovery, tissue repair, and immune function.", mechanism: "Amplifies the nocturnal GH surge that occurs during slow-wave sleep stages 3-4. Enhanced GH pulsatility during sleep promotes tissue repair, protein synthesis, and immune cell regeneration." },
+    { title: "Connective Tissue & Joint Health", description: "Increased GH and IGF-1 stimulate collagen synthesis, proteoglycan production, and chondrocyte proliferation, supporting joint, tendon, and ligament health.", mechanism: "IGF-1 stimulates chondrocyte proliferation and extracellular matrix synthesis in cartilage. Promotes collagen type II production in joints and collagen type I in tendons and ligaments." }
+  ],
+  clinicalTrials: [
+    { title: "CJC-1295 DAC Phase II Clinical Trial", year: "2006", institution: "Journal of Clinical Endocrinology & Metabolism (Teichman et al.)", participants: "64 healthy adults aged 21-61", duration: "28-day dose-escalation study", findings: "CJC-1295 DAC produced dose-dependent increases in GH (2-10 fold) and IGF-1 (1.5-3 fold) that were sustained for 6+ days after a single injection. The increases were maintained with weekly dosing without tachyphylaxis. GH pulsatility was preserved with amplified pulse amplitude.", conclusion: "CJC-1295 DAC produces sustained, dose-dependent GH and IGF-1 elevations while preserving physiological pulsatile secretion patterns. Well-tolerated with no serious adverse events." },
+    { title: "Modified GRF 1-29 Effects on GH Secretion", year: "2008", institution: "Growth Hormone & IGF Research", participants: "Healthy male volunteers", duration: "Single and repeated dose studies", findings: "Modified GRF 1-29 (CJC-1295 no DAC) produced robust GH release within 15-30 minutes of subcutaneous injection, with peak levels at 30-60 minutes. Combined with a GHRP, it produced synergistic GH release 3-5 times greater than either peptide alone.", conclusion: "Modified GRF 1-29 is effective for acute GH stimulation and shows strong synergy with ghrelin-mimetic secretagogues." },
+    { title: "Long-term Safety of GHRH Analogs", year: "2012", institution: "European Journal of Endocrinology", participants: "Multi-study safety review", duration: "6-12 month treatment periods", findings: "GHRH analog therapy showed favorable long-term safety profiles with maintained efficacy. No increased risk of neoplasia, glucose intolerance was dose-dependent and manageable. IGF-1 levels remained within physiological ranges.", conclusion: "GHRH analogs demonstrate acceptable long-term safety when dosed to maintain IGF-1 within physiological reference ranges." }
+  ],
+  safetyProfile: "Clinical trials of CJC-1295 have shown generally favorable safety. Common side effects include injection site reactions, flushing, and transient headache. As with all GH-elevating agents, monitoring of IGF-1 levels, fasting glucose, and insulin sensitivity is recommended. Contraindicated in individuals with active malignancy. For research use only.",
+  dosage: "CJC-1295 DAC: 1-2 mg once or twice weekly via subcutaneous injection. CJC-1295 no DAC (MOD-GRF 1-29): 100-300 μg per injection, 1-3 times daily, often combined with a GHRP for synergistic effect. Administer before bed or after fasting for optimal GH response. Reconstitute with bacteriostatic water.",
+  keyBenefits: [
+    "Sustained GH and IGF-1 elevation while preserving pulsatile patterns",
+    "Clinically demonstrated 2-10 fold GH increase in Phase II trials",
+    "Improved body composition with reduced fat and increased lean mass",
+    "Enhanced slow-wave sleep and recovery",
+    "Synergistic effects when combined with GHRP peptides",
+    "Supports collagen synthesis and joint health through IGF-1",
+    "Extended half-life with DAC modification for convenient dosing",
+    "Dose-dependent response with predictable pharmacokinetics"
+  ]
+};
+
+// Hardcoded data for Ipamorelin
+const IPAMORELIN_DATA = {
+  overview: "Ipamorelin is a selective growth hormone secretagogue (GHS) pentapeptide that stimulates GH release by mimicking ghrelin at the growth hormone secretagogue receptor (GHS-R1a). Unlike other GHRPs, ipamorelin is highly selective — it robustly stimulates GH release without significantly affecting cortisol, prolactin, or ACTH levels. This selectivity makes it one of the cleanest GH-stimulating peptides available for research.",
+  potentialUses: [
+    { title: "Selective Growth Hormone Release", description: "Ipamorelin produces dose-dependent GH release comparable to GHRP-6 but without stimulating cortisol, prolactin, or appetite. This selectivity allows targeted GH elevation without unwanted hormonal side effects.", mechanism: "Binds to GHS-R1a on pituitary somatotrophs, activating the IP3/DAG signaling pathway that triggers calcium-dependent GH vesicle release. Does not activate GHS-R1a subtypes on corticotrophs or lactotrophs, explaining its selective GH stimulation." },
+    { title: "Body Composition Improvement", description: "Through sustained GH elevation, ipamorelin promotes lipolysis and lean body mass accretion while improving nitrogen retention and protein synthesis.", mechanism: "GH-mediated activation of hormone-sensitive lipase promotes fat breakdown. IGF-1 elevation stimulates satellite cell proliferation and myofibrillar protein synthesis in skeletal muscle." },
+    { title: "Bone Density & Skeletal Health", description: "Ipamorelin has been specifically studied for bone health applications. It promotes osteoblast activity and increases bone mineral content through GH/IGF-1 axis activation.", mechanism: "IGF-1 stimulates osteoblast differentiation and activity, increasing bone matrix deposition. GH promotes calcium retention and phosphate metabolism. Preclinical studies show increased bone mineral density with ipamorelin treatment." },
+    { title: "Post-Surgical Recovery", description: "Ipamorelin has been studied in clinical trials for post-operative recovery, particularly for bowel motility recovery after abdominal surgery. GH elevation supports tissue healing and functional recovery.", mechanism: "GH promotes tissue repair through increased protein synthesis and cell proliferation. May accelerate return of gastrointestinal motility through interaction with motilin-related pathways." }
+  ],
+  clinicalTrials: [
+    { title: "Ipamorelin Selectivity Study", year: "1998", institution: "European Journal of Endocrinology (Raun et al.)", participants: "Preclinical and clinical comparison studies", duration: "Dose-response studies", findings: "Ipamorelin demonstrated GH release potency comparable to GHRP-6 but without significant elevation of ACTH, cortisol, or prolactin. The selectivity profile was maintained across a wide dose range, distinguishing it from other GHRPs which lose selectivity at higher doses.", conclusion: "Ipamorelin is the most selective GH secretagogue studied, making it ideal for applications requiring GH elevation without broader hormonal perturbation." },
+    { title: "Ipamorelin for Post-Operative Ileus", year: "2007", institution: "Growth Hormone & IGF Research (Phase II Clinical Trial)", participants: "Post-surgical patients after abdominal procedures", duration: "5-day treatment period", findings: "Ipamorelin accelerated return of bowel function compared to placebo in patients following abdominal surgery. GH levels were elevated without clinically significant changes in cortisol or glucose. Treatment was well-tolerated.", conclusion: "Ipamorelin shows clinical potential for post-operative recovery with a favorable safety profile due to its selective GH-stimulating mechanism." },
+    { title: "Ipamorelin Effects on Bone Growth", year: "2001", institution: "Bone (Elsevier) (Svensson et al.)", participants: "Preclinical bone density models", duration: "12-week treatment study", findings: "Ipamorelin increased bone mineral content, periosteal bone formation rate, and longitudinal bone growth in a dose-dependent manner. Effects were comparable to GH administration without the cortisol and prolactin side effects.", conclusion: "Ipamorelin's selective GH stimulation effectively promotes bone formation, supporting its potential for skeletal health applications." }
+  ],
+  safetyProfile: "Ipamorelin has demonstrated a favorable safety profile in both preclinical and clinical studies due to its high GH selectivity. It does not significantly affect cortisol, prolactin, appetite, or blood glucose at therapeutic doses. Common side effects are limited to mild injection site reactions and transient headache. For research use only.",
+  dosage: "Research protocols typically use 200-300 μg per injection, administered 1-3 times daily via subcutaneous injection. Often combined with CJC-1295 no DAC (MOD-GRF 1-29) for synergistic GH release. Best administered on an empty stomach, particularly before bed. Reconstitute with bacteriostatic water.",
+  keyBenefits: [
+    "Most selective GH secretagogue — no cortisol or prolactin elevation",
+    "Dose-dependent GH release comparable to GHRP-6 potency",
+    "Clinical trial evidence for post-surgical recovery",
+    "Promotes bone mineral density and skeletal health",
+    "Synergistic with CJC-1295 for enhanced GH pulsatility",
+    "Does not increase appetite (unlike GHRP-6)",
+    "Favorable safety profile maintained across wide dose ranges",
+    "Preserves natural GH pulsatile secretion patterns"
+  ]
+};
+
+// Hardcoded data for Gonadorelin
+const GONADORELIN_DATA = {
+  overview: "Gonadorelin is a synthetic decapeptide identical to endogenous gonadotropin-releasing hormone (GnRH). It stimulates the anterior pituitary to release luteinizing hormone (LH) and follicle-stimulating hormone (FSH), which are essential for gonadal function, sex hormone production, and fertility. Gonadorelin is FDA-approved for diagnostic evaluation of pituitary-gonadal function and has research applications in fertility support and hormonal axis maintenance.",
+  potentialUses: [
+    { title: "Pituitary-Gonadal Axis Stimulation", description: "Gonadorelin directly stimulates the pituitary gland to release LH and FSH, which in turn stimulate testosterone production in males and estrogen/progesterone in females. Pulsatile administration mimics natural GnRH physiology.", mechanism: "Binds to GnRH receptors on anterior pituitary gonadotroph cells, activating phospholipase C and calcium-dependent signaling cascades that release pre-formed LH and FSH from secretory vesicles." },
+    { title: "Fertility Support & Ovulation Induction", description: "Pulsatile gonadorelin administration has been used to induce ovulation in women with hypothalamic amenorrhea and to support spermatogenesis in men with hypogonadotropic hypogonadism.", mechanism: "Restores physiological GnRH pulsatility required for normal FSH and LH secretion patterns. In females, promotes follicular development and ovulation. In males, LH stimulates Leydig cell testosterone production while FSH supports Sertoli cell function and spermatogenesis." },
+    { title: "Diagnostic Pituitary Function Testing", description: "FDA-approved for evaluating pituitary gonadotroph reserve and distinguishing between hypothalamic and pituitary causes of hypogonadism.", mechanism: "Acute GnRH administration produces measurable LH and FSH responses that can be compared to reference ranges to assess pituitary function." },
+    { title: "Hormonal Axis Maintenance During Research Protocols", description: "Gonadorelin is studied for maintaining endogenous testosterone production and gonadal function during protocols that might otherwise suppress the HPG axis.", mechanism: "Pulsatile GnRH stimulation maintains pituitary sensitivity and gonadotropin secretion, preserving downstream gonadal function and sex hormone production." }
+  ],
+  clinicalTrials: [
+    { title: "Pulsatile GnRH for Hypothalamic Amenorrhea", year: "2013", institution: "Fertility and Sterility (Martin et al.)", participants: "Women with hypothalamic amenorrhea", duration: "Treatment cycles until ovulation", findings: "Pulsatile GnRH administration at 75-150 ng/kg every 90 minutes restored normal LH/FSH pulsatility and induced ovulation in >80% of treated cycles. Pregnancy rates were comparable to natural conception rates.", conclusion: "Pulsatile GnRH effectively restores reproductive function in hypothalamic amenorrhea by mimicking physiological hormone secretion patterns." },
+    { title: "GnRH Stimulation Test for Pituitary Function", year: "2016", institution: "Endocrine Reviews", participants: "Clinical diagnostic review", duration: "Standard diagnostic protocols", findings: "Gonadorelin stimulation testing reliably distinguishes hypothalamic from pituitary causes of hypogonadism. Normal LH response (>10 mIU/mL rise) indicates intact pituitary function, while blunted response suggests pituitary pathology.", conclusion: "Gonadorelin remains the gold standard for functional assessment of pituitary gonadotroph reserve." },
+    { title: "GnRH for Male Hypogonadotropic Hypogonadism", year: "2018", institution: "Journal of Clinical Endocrinology & Metabolism", participants: "Males with congenital or acquired hypogonadotropic hypogonadism", duration: "6-12 month treatment protocols", findings: "Pulsatile GnRH therapy restored testosterone levels and initiated spermatogenesis in men with hypogonadotropic hypogonadism. Testicular volume increased and sperm counts reached levels sufficient for natural conception.", conclusion: "Pulsatile GnRH is effective for fertility restoration in hypogonadotropic hypogonadism, superior to gonadotropin injections for preserving physiological hormonal patterns." }
+  ],
+  safetyProfile: "Gonadorelin is FDA-approved with a well-established safety profile. It is identical to the body's natural GnRH. Side effects are generally mild and may include injection site reactions, headache, flushing, and nausea. Continuous (non-pulsatile) administration can paradoxically suppress gonadotropins through receptor desensitization. For research use only outside of diagnostic applications.",
+  dosage: "Diagnostic testing: 100 μg IV or subcutaneous single dose. Research protocols for hormonal axis support: 50-100 μg subcutaneously, administered 2-3 times weekly to maintain pulsatile stimulation. Reconstitute with bacteriostatic water and store refrigerated.",
+  keyBenefits: [
+    "Identical to endogenous GnRH with established FDA approval",
+    "Stimulates natural LH and FSH release for downstream hormone production",
+    "Supports fertility through physiological gonadotropin patterns",
+    "Diagnostic gold standard for pituitary function assessment",
+    "Maintains HPG axis function during research protocols",
+    "Well-characterized safety profile from decades of clinical use",
+    "Preserves testicular function and spermatogenesis",
+    "Pulsatile administration mimics natural GnRH physiology"
+  ]
+};
+
+// Hardcoded data for DSIP
+const DSIP_DATA = {
+  overview: "Delta Sleep-Inducing Peptide (DSIP) is a naturally occurring nonapeptide (9 amino acids: Trp-Ala-Gly-Gly-Asp-Ala-Ser-Gly-Glu) first isolated from the cerebral venous blood of rabbits during electrically induced sleep. DSIP modulates sleep architecture, stress responses, and neuroendocrine function. It is one of the few peptides studied specifically for its effects on sleep regulation and circadian rhythm normalization.",
+  potentialUses: [
+    { title: "Sleep Architecture Improvement", description: "DSIP promotes delta wave (slow-wave) sleep without sedation or rebound effects. It normalizes disturbed sleep patterns rather than forcing sleep, making it distinct from pharmaceutical sleep aids.", mechanism: "Modulates serotonergic and GABAergic neurotransmission in sleep-regulating nuclei. Promotes physiological sleep onset through enhancement of natural sleep pressure pathways rather than direct sedation. Increases slow-wave sleep duration and delta power density on EEG." },
+    { title: "Stress Response Modulation", description: "DSIP has demonstrated adaptogenic properties, reducing the physiological impact of stress including normalization of elevated cortisol and ACTH. It supports stress resilience without sedation.", mechanism: "Modulates hypothalamic-pituitary-adrenal (HPA) axis reactivity by reducing CRH hypersecretion and normalizing ACTH/cortisol responses. Acts on central stress-response circuits to promote adaptation." },
+    { title: "Pain Modulation", description: "DSIP has shown analgesic properties in preclinical and clinical studies, reducing pain perception through endogenous opioid pathway modulation.", mechanism: "Enhances met-enkephalin activity and modulates opioid receptor sensitivity. Promotes endogenous pain control pathways without direct opioid receptor agonism, reducing abuse potential." },
+    { title: "Circadian Rhythm Regulation", description: "DSIP helps normalize disrupted circadian patterns including those caused by shift work, jet lag, or irregular schedules. It acts on the central clock mechanisms rather than merely inducing drowsiness.", mechanism: "Modulates suprachiasmatic nucleus (SCN) activity and melatonin secretion patterns. Helps resynchronize disrupted circadian oscillators through interaction with core clock gene expression." }
+  ],
+  clinicalTrials: [
+    { title: "DSIP Effects on Sleep Architecture", year: "2010", institution: "Neuropeptides (Schneider-Helmert & Schoenenberger)", participants: "Subjects with insomnia and healthy controls", duration: "Multi-night polysomnographic studies", findings: "DSIP administration increased slow-wave sleep duration and improved sleep continuity without altering REM sleep architecture. Effects were most pronounced in subjects with disturbed baseline sleep. No hangover effects or rebound insomnia were observed.", conclusion: "DSIP normalizes sleep architecture through physiological mechanisms without the sedative or dependency risks of conventional sleep aids." },
+    { title: "DSIP Stress Modulation Study", year: "2005", institution: "European Neuropsychopharmacology", participants: "Subjects under experimental stress conditions", duration: "Acute and chronic administration protocols", findings: "DSIP reduced stress-induced cortisol elevation and improved subjective stress tolerance. EEG markers showed reduced stress reactivity without cognitive impairment. Chronic administration showed no tolerance development.", conclusion: "DSIP demonstrates adaptogenic properties with potential for stress resilience applications without cognitive side effects." },
+    { title: "DSIP Analgesic Properties", year: "2008", institution: "Peptides (Elsevier)", participants: "Preclinical pain models and clinical pain studies", duration: "Acute and chronic pain protocols", findings: "DSIP reduced pain scores in chronic pain models through enhancement of endogenous opioid pathways. Analgesic effects were maintained over repeated administration without tolerance development typical of direct opioid agonists.", conclusion: "DSIP provides analgesic support through endogenous opioid modulation without direct opioid receptor binding or tolerance development." }
+  ],
+  safetyProfile: "DSIP is a naturally occurring neuropeptide with a favorable safety profile in clinical studies. No significant adverse effects, dependency, or tolerance have been reported. Unlike pharmaceutical sleep aids, DSIP does not cause next-day sedation, cognitive impairment, or rebound insomnia. For research use only.",
+  dosage: "Research protocols typically use 100-250 μg administered via subcutaneous or intramuscular injection, given 1-2 hours before desired sleep onset. Some protocols use 100 μg for 5-10 consecutive days for circadian rhythm resynchronization. Reconstitute with bacteriostatic water and store refrigerated.",
+  keyBenefits: [
+    "Promotes slow-wave (delta) sleep without sedation or dependency",
+    "No hangover effects or rebound insomnia",
+    "Normalizes stress-induced cortisol elevation",
+    "Analgesic properties through endogenous opioid modulation",
+    "Circadian rhythm resynchronization for disrupted sleep patterns",
+    "Naturally occurring neuropeptide with strong safety profile",
+    "No cognitive impairment or tolerance development",
+    "Improves sleep quality without altering REM architecture"
+  ]
+};
+
+// Hardcoded data for Oxytocin
+const OXYTOCIN_DATA = {
+  overview: "Oxytocin is a naturally occurring nonapeptide hormone (9 amino acids: Cys-Tyr-Ile-Gln-Asn-Cys-Pro-Leu-Gly-NH₂) produced in the hypothalamus and released by the posterior pituitary. Often called the 'bonding hormone,' oxytocin plays critical roles in social bonding, maternal behavior, stress regulation, and reproductive function. It is FDA-approved for labor induction (Pitocin) and has extensive research applications in social neuroscience and behavioral pharmacology.",
+  potentialUses: [
+    { title: "Social Cognition & Behavior", description: "Intranasal oxytocin enhances social cognition, including facial emotion recognition, trust, empathy, and social memory. It is studied extensively in autism spectrum disorder and social anxiety research.", mechanism: "Acts on oxytocin receptors in the amygdala, prefrontal cortex, and nucleus accumbens to modulate social salience processing, reduce social threat perception, and enhance reward from social interactions." },
+    { title: "Stress & Anxiety Reduction", description: "Oxytocin has anxiolytic effects, reducing cortisol responses to stress and attenuating anxiety-related behavior. It modulates the HPA axis and amygdala reactivity.", mechanism: "Reduces amygdala activation in response to threatening stimuli. Inhibits CRH release from the hypothalamus, attenuating ACTH and cortisol secretion. Promotes parasympathetic nervous system activation." },
+    { title: "Reproductive Function", description: "FDA-approved for labor induction and management of postpartum hemorrhage. Oxytocin stimulates uterine contractions and milk ejection reflex.", mechanism: "Binds to oxytocin receptors on uterine smooth muscle, increasing intracellular calcium and promoting rhythmic contractions. In mammary tissue, contracts myoepithelial cells surrounding alveoli for milk ejection." },
+    { title: "Wound Healing Research", description: "Emerging research suggests oxytocin promotes wound healing through anti-inflammatory effects and enhanced immune cell function at wound sites.", mechanism: "Reduces inflammatory cytokine production at wound sites while promoting anti-inflammatory macrophage phenotype. Enhances keratinocyte migration and proliferation for faster wound closure." }
+  ],
+  clinicalTrials: [
+    { title: "Intranasal Oxytocin and Social Cognition", year: "2019", institution: "Psychoneuroendocrinology (Meta-analysis)", participants: "Multiple RCTs totaling >1,500 participants", duration: "Acute single-dose and multi-week studies", findings: "Intranasal oxytocin improved facial emotion recognition accuracy, increased trust behavior in economic games, enhanced empathic accuracy, and reduced amygdala reactivity to social threat. Effects were moderated by baseline social functioning and sex.", conclusion: "Intranasal oxytocin demonstrates reliable enhancement of social cognition with potential therapeutic applications for social functioning deficits." },
+    { title: "Oxytocin for Anxiety Disorders", year: "2020", institution: "Biological Psychiatry (Neumann & Slattery)", participants: "Clinical and preclinical anxiety studies", duration: "Multi-study review", findings: "Oxytocin reduced subjective anxiety, cortisol stress responses, and amygdala hyperactivation in anxiety disorders. Effects were most pronounced in social anxiety contexts. Both acute and chronic administration showed benefit.", conclusion: "Oxytocin shows promise for anxiety modulation, particularly in social anxiety, through HPA axis attenuation and amygdala modulation." },
+    { title: "Oxytocin Safety and Tolerability Review", year: "2018", institution: "Frontiers in Neuroscience", participants: "Comprehensive safety review of clinical trials", duration: "Multi-study analysis", findings: "Intranasal oxytocin showed a favorable safety profile across >100 clinical studies. No serious adverse events were attributed to oxytocin at standard doses. Minor side effects included nasal irritation and rare headache.", conclusion: "Intranasal oxytocin is well-tolerated at research doses with a safety profile suitable for clinical investigation." }
+  ],
+  safetyProfile: "Oxytocin has extensive clinical safety data from both FDA-approved uses and research trials. Intranasal formulations are well-tolerated with minimal side effects (nasal irritation, occasional headache). Contraindicated in active labor complications (when used for non-approved purposes). Should not be used during pregnancy outside of clinical supervision. For research use only outside of approved indications.",
+  dosage: "Research protocols for intranasal administration: 20-40 IU (international units) per dose, administered 30-45 minutes before social/behavioral assessments. Subcutaneous injection protocols vary by research application. Intranasal spray is the most common research delivery method. Store refrigerated at 2-8°C.",
+  keyBenefits: [
+    "FDA-approved hormone with extensive clinical safety data",
+    "Enhances social cognition, empathy, and trust",
+    "Reduces anxiety through HPA axis and amygdala modulation",
+    "Promotes stress resilience and cortisol reduction",
+    "Supports reproductive function and maternal behavior",
+    "Intranasal delivery for convenient non-invasive administration",
+    "Extensive clinical trial database across social neuroscience",
+    "Naturally occurring hormone with well-characterized pharmacology"
+  ]
+};
+
+// Hardcoded data for AOD-9604
+const AOD9604_DATA = {
+  overview: "AOD-9604 (Advanced Obesity Drug 9604) is a modified fragment of human growth hormone (HGH), specifically amino acids 177-191 with a tyrosine residue added at the N-terminus. Developed by Monash University in Australia, AOD-9604 retains the lipolytic (fat-burning) activity of HGH without its growth-promoting or diabetogenic effects. It has received GRAS (Generally Recognized as Safe) status from the FDA for use as a food supplement ingredient.",
+  potentialUses: [
+    { title: "Fat Metabolism & Lipolysis", description: "AOD-9604 stimulates lipolysis (fat breakdown) and inhibits lipogenesis (fat formation) without affecting blood glucose or tissue growth. It targets adipose tissue selectively.", mechanism: "Mimics the lipolytic fragment of HGH by activating beta-3 adrenergic receptor pathways in adipose tissue. Stimulates hormone-sensitive lipase activity for triglyceride hydrolysis while inhibiting acetyl-CoA carboxylase to reduce de novo lipogenesis." },
+    { title: "Cartilage & Joint Repair", description: "Emerging research indicates AOD-9604 promotes cartilage repair and has chondroprotective properties. It has been studied for osteoarthritis applications with promising preclinical results.", mechanism: "Stimulates chondrocyte proliferation and proteoglycan synthesis in articular cartilage. Reduces matrix metalloproteinase activity that degrades cartilage matrix. Promotes mesenchymal stem cell differentiation toward chondrocyte lineage." },
+    { title: "Body Composition Optimization", description: "AOD-9604 selectively reduces body fat, particularly visceral adipose tissue, without the muscle-building or organ-growth effects of full-length HGH. This provides targeted fat reduction.", mechanism: "Activates fat-cell-specific signaling cascades for lipolysis without engaging IGF-1 receptor pathways responsible for tissue growth. Does not affect insulin sensitivity or glucose metabolism at therapeutic doses." },
+    { title: "Bone Health Research", description: "Preclinical studies suggest AOD-9604 may support bone formation and reduce bone resorption, indicating potential for osteoporosis research.", mechanism: "Stimulates osteoblast activity and reduces osteoclast-mediated bone resorption. Promotes calcium deposition in bone matrix through growth factor-independent mechanisms." }
+  ],
+  clinicalTrials: [
+    { title: "AOD-9604 Phase IIb Obesity Trial", year: "2004", institution: "Monash University / Metabolic Pharmaceuticals", participants: "300+ obese subjects", duration: "12-week randomized controlled trial", findings: "AOD-9604 produced statistically significant weight loss compared to placebo without affecting IGF-1, glucose, insulin, or lipid profiles. The 1 mg daily dose showed optimal efficacy. No serious adverse events were attributed to treatment.", conclusion: "AOD-9604 demonstrates selective fat reduction without the metabolic side effects of HGH, confirming the dissociation of lipolytic and growth-promoting GH activities." },
+    { title: "AOD-9604 FDA GRAS Determination", year: "2014", institution: "FDA / Calzada Regulatory Consulting", participants: "Comprehensive toxicology and safety review", duration: "Full safety evaluation package", findings: "AOD-9604 passed all safety evaluations for GRAS designation including acute toxicity, subchronic toxicity, genotoxicity, and reproductive toxicity studies. No adverse effects at doses far exceeding therapeutic levels.", conclusion: "AOD-9604 received GRAS status, confirming its safety profile for oral consumption as a food ingredient." },
+    { title: "AOD-9604 Chondroprotective Effects", year: "2016", institution: "Journal of Orthopaedic Research", participants: "Preclinical osteoarthritis models", duration: "8-12 week treatment studies", findings: "Intra-articular AOD-9604 reduced cartilage degradation markers, promoted chondrocyte proliferation, and improved joint function scores compared to untreated controls. Combination with hyaluronic acid showed additive benefits.", conclusion: "AOD-9604 demonstrates chondroprotective and regenerative properties in preclinical osteoarthritis models, supporting investigation for joint health applications." }
+  ],
+  safetyProfile: "AOD-9604 has received FDA GRAS status, indicating a high safety threshold. Clinical trials showed no significant adverse effects on blood glucose, insulin, IGF-1, or cardiovascular markers. It does not promote cell growth or have diabetogenic effects. Common side effects are limited to mild injection site reactions. For research use only.",
+  dosage: "Clinical trials used 250-500 μg per day administered subcutaneously. Research protocols commonly use 300 μg daily, administered on an empty stomach for optimal absorption. Reconstitute with bacteriostatic water and store refrigerated at 2-8°C.",
+  keyBenefits: [
+    "FDA GRAS status confirming exceptional safety profile",
+    "Selective fat reduction without HGH growth-promoting effects",
+    "No impact on blood glucose, insulin, or IGF-1 levels",
+    "Chondroprotective properties for joint health research",
+    "Clinically demonstrated weight loss in Phase II trials",
+    "Does not cause insulin resistance or diabetes risk",
+    "Targets visceral adipose tissue selectively",
+    "Derived from natural HGH fragment (amino acids 177-191)"
+  ]
+};
+
+// Hardcoded data for NAD+
+const NAD_DATA = {
+  overview: "NAD+ (Nicotinamide Adenine Dinucleotide) is an essential coenzyme found in every living cell. It plays critical roles in cellular energy metabolism, DNA repair, gene expression regulation, and calcium signaling. NAD+ levels decline significantly with age — by age 50, levels are approximately half of those at age 20. This decline is implicated in aging, metabolic dysfunction, and neurodegenerative processes. NAD+ research focuses on supplementation strategies including direct NAD+ administration and precursors (NMN, NR).",
+  potentialUses: [
+    { title: "Cellular Energy & Mitochondrial Function", description: "NAD+ is essential for mitochondrial oxidative phosphorylation and glycolysis. Declining NAD+ levels impair cellular energy production, contributing to fatigue, metabolic dysfunction, and age-related cellular decline.", mechanism: "Serves as an electron carrier in the mitochondrial electron transport chain (Complex I) and as a substrate for NADH dehydrogenase. Required for conversion of nutrients to ATP through both glycolysis (cytoplasm) and the TCA cycle (mitochondria)." },
+    { title: "DNA Repair & Genomic Stability", description: "NAD+ is consumed by PARP enzymes (Poly-ADP Ribose Polymerase) during DNA repair. Adequate NAD+ levels are essential for maintaining genomic integrity and preventing accumulation of DNA damage with age.", mechanism: "PARP-1 and PARP-2 use NAD+ as a substrate to generate ADP-ribose polymers that recruit DNA repair machinery to damage sites. Low NAD+ impairs PARP function, allowing DNA damage to accumulate and potentially drive cellular senescence." },
+    { title: "Sirtuin Activation & Longevity Pathways", description: "NAD+ is the essential substrate for sirtuin enzymes (SIRT1-7), which regulate aging, inflammation, stress resistance, and metabolic function. Sirtuins are considered key mediators of caloric restriction benefits.", mechanism: "Sirtuins use NAD+ for their deacylase and ADP-ribosyltransferase activities. SIRT1 deacetylates PGC-1α (mitochondrial biogenesis), p53 (cell survival), NF-κB (inflammation reduction), and FOXO transcription factors (stress resistance and autophagy)." },
+    { title: "Neuroprotection & Cognitive Function", description: "NAD+ depletion in neurons contributes to neurodegeneration. NAD+ supplementation has shown neuroprotective effects in preclinical models of Alzheimer's, Parkinson's, and ischemic brain injury.", mechanism: "Maintains neuronal mitochondrial function and ATP production. Supports SIRT1-mediated neuroprotection through BDNF upregulation and tau deacetylation. Activates CD38-dependent calcium signaling for synaptic function." }
+  ],
+  clinicalTrials: [
+    { title: "NAD+ Decline in Human Aging", year: "2019", institution: "Cell Metabolism (Yoshino, Baur, & Imai)", participants: "Comprehensive review of human aging studies", duration: "Cross-sectional age cohort analyses", findings: "NAD+ levels decline progressively with age across multiple tissues including brain, liver, muscle, and blood. The decline correlates with reduced mitochondrial function, increased DNA damage, impaired immune function, and metabolic dysfunction.", conclusion: "Age-related NAD+ decline is a conserved feature of mammalian aging that contributes to multiple hallmarks of aging, supporting therapeutic NAD+ restoration strategies." },
+    { title: "NAD+ Precursor Supplementation in Humans", year: "2020", institution: "Nature Communications (multiple clinical trials)", participants: "Healthy adults aged 40-75", duration: "6-12 week supplementation trials", findings: "NAD+ precursor supplementation (NMN, NR) significantly increased blood NAD+ levels by 40-90%. Improvements were observed in insulin sensitivity, blood pressure, arterial stiffness, and markers of mitochondrial function. Well-tolerated with no serious adverse events.", conclusion: "NAD+ precursor supplementation effectively raises NAD+ levels in humans with measurable physiological benefits and excellent safety." },
+    { title: "NAD+ in Neurodegenerative Disease Models", year: "2021", institution: "Nature Reviews Neuroscience", participants: "Preclinical Alzheimer's and Parkinson's models", duration: "Multi-study review", findings: "NAD+ supplementation reduced amyloid plaque formation, improved synaptic plasticity, reduced neuroinflammation, and improved cognitive function in AD models. In PD models, it protected dopaminergic neurons and improved motor function.", conclusion: "NAD+ restoration shows significant neuroprotective potential across multiple neurodegenerative conditions through mitochondrial, sirtuin, and DNA repair mechanisms." }
+  ],
+  safetyProfile: "NAD+ is a naturally occurring essential coenzyme with a well-characterized safety profile. Oral precursors (NMN, NR) have demonstrated safety in clinical trials up to 2g/day. Intravenous NAD+ infusions are used clinically but require medical supervision. Theoretical concern of promoting growth of existing cancer cells (NAD+ supports rapidly dividing cells) — individuals with active malignancy should consult their healthcare provider. For research use only.",
+  dosage: "Research protocols vary by delivery method. Subcutaneous NAD+: 50-200 mg per injection. Intravenous NAD+: 250-750 mg infusion over 2-4 hours (medical supervision required). Oral precursors: NMN 250-1000 mg/day, NR 300-1000 mg/day. Injection solutions should be prepared fresh and stored refrigerated.",
+  keyBenefits: [
+    "Essential coenzyme for cellular energy production (ATP synthesis)",
+    "Required substrate for DNA repair enzymes (PARPs)",
+    "Activates sirtuin longevity pathways (SIRT1-7)",
+    "Neuroprotective through mitochondrial and BDNF support",
+    "Declines ~50% by age 50, making supplementation research-relevant",
+    "Clinically demonstrated to improve metabolic markers",
+    "Supports immune cell function and inflammatory regulation",
+    "Well-characterized safety profile as a natural coenzyme"
+  ]
+};
+
+// Hardcoded data for PT-141
+const PT141_DATA = {
+  overview: "PT-141 (Bremelanotide) is a synthetic cyclic heptapeptide melanocortin receptor agonist originally derived from Melanotan II. It is FDA-approved (as Vyleesi) for the treatment of hypoactive sexual desire disorder (HSDD) in premenopausal women. Unlike PDE5 inhibitors which act on vascular smooth muscle, PT-141 acts centrally in the brain through melanocortin-4 receptor (MC4R) activation to modulate sexual arousal pathways.",
+  potentialUses: [
+    { title: "Sexual Desire & Arousal", description: "PT-141 is the only FDA-approved treatment that works through the central nervous system to enhance sexual desire. It increases sexual motivation and arousal rather than acting on peripheral vasculature.", mechanism: "Activates melanocortin-4 receptors (MC4R) in the hypothalamus and limbic system, modulating dopaminergic reward pathways involved in sexual motivation. Increases neural activity in brain regions associated with desire, arousal, and reward processing." },
+    { title: "Erectile Function Research", description: "In clinical trials for male sexual dysfunction, PT-141 demonstrated efficacy for erectile function through a mechanism distinct from PDE5 inhibitors, potentially benefiting non-responders to conventional treatments.", mechanism: "Central MC4R activation modulates descending neural pathways from the hypothalamus to sacral parasympathetic nuclei, promoting erectile tissue vasodilation through neurogenic rather than direct vascular mechanisms." },
+    { title: "Melanocortin System Research", description: "PT-141 is a valuable research tool for studying the melanocortin system's role in sexual behavior, energy homeostasis, and reward processing.", mechanism: "Acts as a non-selective melanocortin receptor agonist with highest affinity for MC4R and MC1R. Enables investigation of melanocortin pathway contributions to complex behaviors including sexual motivation and feeding behavior." }
+  ],
+  clinicalTrials: [
+    { title: "Bremelanotide Phase III RECONNECT Trial", year: "2019", institution: "Obstetrics & Gynecology (Kingsberg et al.)", participants: "1,247 premenopausal women with HSDD", duration: "24-week randomized, double-blind, placebo-controlled", findings: "PT-141 (1.75 mg subcutaneous) significantly increased sexual desire scores and decreased distress related to low sexual desire compared to placebo. Approximately 25% of treated women reported clinically meaningful improvement vs 17% placebo.", conclusion: "PT-141 is effective for HSDD in premenopausal women, leading to FDA approval as Vyleesi in June 2019." },
+    { title: "PT-141 for Male Erectile Dysfunction", year: "2005", institution: "Journal of Urology (Diamond et al.)", participants: "Males with erectile dysfunction", duration: "Dose-ranging clinical study", findings: "PT-141 produced dose-dependent improvements in erectile function in men with ED, including some who were non-responsive to PDE5 inhibitors. The mechanism was centrally mediated, confirmed by concurrent brain imaging studies.", conclusion: "PT-141 offers a mechanistically distinct approach to ED treatment through central melanocortin activation, potentially benefiting PDE5 inhibitor non-responders." },
+    { title: "Safety Profile of Bremelanotide", year: "2019", institution: "FDA Safety Review / Prescribing Information", participants: "Pooled clinical trial safety data (>3,000 participants)", duration: "Up to 18 months of exposure", findings: "Most common adverse effects: nausea (40%, typically mild and decreasing with use), flushing (20%), headache (11%), and injection site reactions (6%). Small transient increase in blood pressure was observed. No significant safety concerns with long-term use.", conclusion: "PT-141 has an acceptable safety profile for its FDA-approved indication, with nausea being the most common but generally manageable side effect." }
+  ],
+  safetyProfile: "PT-141 is FDA-approved with extensively characterized safety data. Common side effects include nausea (40% initially, decreasing with use), flushing, headache, and injection site reactions. May cause transient blood pressure elevation — contraindicated in uncontrolled hypertension and cardiovascular disease. Should not be used with Melanotan II due to overlapping melanocortin receptor activity. Limited to 8 doses per month per FDA labeling. For research use only outside of approved indication.",
+  dosage: "FDA-approved dose: 1.75 mg subcutaneous injection, administered at least 45 minutes before anticipated sexual activity. Maximum 1 dose per 24 hours and 8 doses per month. Research protocols may vary. Reconstitute with bacteriostatic water and store refrigerated.",
+  keyBenefits: [
+    "FDA-approved (Vyleesi) with extensive Phase III clinical data",
+    "Only centrally-acting treatment for sexual desire disorders",
+    "Mechanism distinct from PDE5 inhibitors — may help non-responders",
+    "Acts on melanocortin-4 receptors in brain arousal pathways",
+    "Clinically demonstrated improvement in desire and reduction in distress",
+    "Subcutaneous self-administration for on-demand use",
+    "Well-characterized safety and pharmacokinetic profile",
+    "Valuable research tool for melanocortin system investigation"
+  ]
+};
+
+// Hardcoded data for SS-31 (Elamipretide)
+const SS31_DATA = {
+  overview: "SS-31 (D-Arg-Dmt-Lys-Phe-NH₂, also known as Elamipretide or Bendavia) is a mitochondria-targeted tetrapeptide that selectively concentrates in the inner mitochondrial membrane. Developed at the Szeto-Schiller laboratory at Weill Cornell Medicine, SS-31 binds to cardiolipin, a phospholipid critical for electron transport chain function. By stabilizing cardiolipin, SS-31 optimizes mitochondrial electron transfer, reduces reactive oxygen species (ROS) production, and improves ATP generation.",
+  potentialUses: [
+    { title: "Mitochondrial Function Optimization", description: "SS-31 directly targets mitochondria and stabilizes the inner membrane structure required for efficient oxidative phosphorylation. It is one of the most specific mitochondria-targeted peptides studied.", mechanism: "Binds selectively to cardiolipin on the inner mitochondrial membrane, stabilizing the interaction between cardiolipin and cytochrome c. This optimizes electron transfer through Complex III and IV, reducing electron leak and ROS generation while increasing ATP production efficiency." },
+    { title: "Age-Related Cellular Decline", description: "Mitochondrial dysfunction is a hallmark of aging. SS-31 has reversed age-related mitochondrial decline in preclinical studies, restoring cellular energetics to younger levels.", mechanism: "Reverses age-related cardiolipin peroxidation that disrupts electron transport chain supercomplexes. Restores mitochondrial membrane potential and coupling efficiency. Reduces mitochondrial ROS to levels observed in younger tissue." },
+    { title: "Cardiac & Renal Protection", description: "SS-31 has been studied in Phase II/III clinical trials for heart failure (Barth syndrome) and renal ischemia-reperfusion injury. It protects against ischemic damage by maintaining mitochondrial function during oxygen deprivation.", mechanism: "Preserves mitochondrial cristae structure and cardiolipin integrity during ischemia. Prevents mitochondrial permeability transition pore opening, reducing apoptotic cell death. Improves post-ischemic ATP recovery and organ function." },
+    { title: "Skeletal Muscle Energetics", description: "SS-31 improves skeletal muscle mitochondrial function and exercise capacity in aged preclinical models. It enhances muscle ATP production and reduces exercise-induced oxidative damage.", mechanism: "Restores mitochondrial coupling efficiency in aged skeletal muscle. Improves fatty acid oxidation capacity and reduces lactate accumulation during exercise. Enhances post-exercise mitochondrial recovery." }
+  ],
+  clinicalTrials: [
+    { title: "Elamipretide for Barth Syndrome (TAZPOWER)", year: "2021", institution: "Stealth BioTherapeutics / Genetics in Medicine", participants: "12 patients with Barth syndrome (genetic cardiolipin disorder)", duration: "36-week crossover trial", findings: "Elamipretide improved 6-minute walk distance, cardiac stroke volume, and patient-reported outcomes in Barth syndrome patients. The improvements correlated with restoration of cardiolipin-dependent mitochondrial function.", conclusion: "Elamipretide demonstrates clinical efficacy in genetic mitochondrial cardiomyopathy through its cardiolipin-stabilizing mechanism." },
+    { title: "SS-31 Age-Related Mitochondrial Decline", year: "2018", institution: "Aging Cell (Campbell et al.)", participants: "Aged preclinical models", duration: "8-week treatment studies", findings: "SS-31 reversed age-related decline in mitochondrial function, restoring ATP production, reducing ROS, and improving skeletal muscle function to near-young levels. Effects were maintained during treatment and partially persisted after cessation.", conclusion: "SS-31 demonstrates potent age-reversal of mitochondrial dysfunction, supporting its potential for aging-related therapeutic applications." },
+    { title: "Elamipretide in Heart Failure (Phase II)", year: "2019", institution: "Circulation: Heart Failure", participants: "71 patients with heart failure with reduced ejection fraction", duration: "4-week randomized controlled trial", findings: "Elamipretide improved left ventricular volumes and cardiac biomarkers in heart failure patients. NT-proBNP levels decreased, suggesting reduced cardiac wall stress. Treatment was well-tolerated with injection site reactions as the primary adverse effect.", conclusion: "Elamipretide shows promise for heart failure through mitochondrial-targeted mechanisms, complementing existing neurohormonal therapies." }
+  ],
+  safetyProfile: "SS-31/Elamipretide has been studied in multiple clinical trials with a favorable safety profile. The most common adverse effect is injection site reactions (pain, erythema). No significant systemic toxicity has been observed. As a mitochondria-targeted peptide, it has high selectivity and does not significantly interact with non-mitochondrial targets. For research use only.",
+  dosage: "Clinical trials have used 4 mg daily subcutaneous injection (heart failure) and 40 mg weekly subcutaneous injection (Barth syndrome). Research protocols typically use 0.5-5 mg/kg in preclinical studies. Reconstitute with bacteriostatic water and store refrigerated at 2-8°C.",
+  keyBenefits: [
+    "Highly selective mitochondria-targeted peptide",
+    "Stabilizes cardiolipin for optimized electron transport",
+    "Reduces mitochondrial ROS production at the source",
+    "Clinical trial evidence in heart failure and Barth syndrome",
+    "Reverses age-related mitochondrial decline in preclinical models",
+    "Improves ATP production efficiency and cellular energetics",
+    "Protects against ischemia-reperfusion injury",
+    "Favorable safety profile in human clinical trials"
+  ]
+};
+
+// Hardcoded data for Dihexa
+const DIHEXA_DATA = {
+  overview: "Dihexa (N-hexanoic-Tyr-Ile-(6) aminohexanoic amide) is a synthetic oligopeptide derived from angiotensin IV, developed by Dr. Joseph Harding and colleagues at Washington State University. Dihexa is one of the most potent nootropic compounds studied, demonstrating cognitive enhancement at picomolar concentrations — approximately 10 million times more potent than BDNF at promoting hepatocyte growth factor (HGF) signaling. It crosses the blood-brain barrier and enhances synaptic connectivity.",
+  potentialUses: [
+    { title: "Cognitive Enhancement & Synaptogenesis", description: "Dihexa promotes formation of new synaptic connections (synaptogenesis) and strengthens existing synapses. It enhances learning, memory formation, and memory retrieval in preclinical models.", mechanism: "Binds to hepatocyte growth factor receptor (c-Met), potentiating HGF/c-Met signaling at picomolar concentrations. This activates downstream PI3K/Akt and MAPK/ERK pathways that promote dendritic spine formation, synaptic protein synthesis, and long-term potentiation (LTP) — the cellular basis of memory." },
+    { title: "Neurodegenerative Disease Research", description: "Dihexa has shown remarkable efficacy in preclinical models of cognitive impairment, including scopolamine-induced amnesia and age-related cognitive decline. It restores cognitive function by rebuilding synaptic networks.", mechanism: "HGF/c-Met pathway activation promotes neuronal survival, neurite outgrowth, and synaptic plasticity. Dihexa-driven synaptogenesis can potentially compensate for synaptic loss characteristic of neurodegenerative conditions." },
+    { title: "Brain-Derived Neurotrophic Support", description: "Dihexa augments neurotrophic factor signaling in the brain, particularly in hippocampal and cortical regions critical for learning and memory. Its potency exceeds that of BDNF for promoting synaptic connectivity.", mechanism: "Potentiates HGF/c-Met signaling which converges with BDNF/TrkB pathways on shared downstream effectors (PI3K, MAPK). This dual activation provides synergistic neurotrophic support for dendritic growth and synaptic strengthening." }
+  ],
+  clinicalTrials: [
+    { title: "Dihexa Cognitive Enhancement in Preclinical Models", year: "2013", institution: "Journal of Pharmacology and Experimental Therapeutics (Benoist et al., Washington State University)", participants: "Preclinical cognitive impairment models", duration: "Acute and chronic administration studies", findings: "Dihexa restored cognitive function in scopolamine-induced amnesia and aged animal models at doses of 2-4 mg/kg. It enhanced spatial learning, novel object recognition, and memory consolidation. Effects were mediated through HGF/c-Met receptor activation and were blocked by c-Met inhibitors.", conclusion: "Dihexa is an extraordinarily potent pro-cognitive agent acting through the HGF/c-Met pathway, with potential for cognitive impairment associated with aging and neurodegeneration." },
+    { title: "Angiotensin IV Analog Mechanism of Action", year: "2014", institution: "Frontiers in Pharmacology (Wright & Harding, WSU)", participants: "Mechanistic studies", duration: "Multi-year research program", findings: "Dihexa was identified as a stable, orally bioavailable analog of angiotensin IV that crosses the blood-brain barrier. Its mechanism was confirmed as HGF/c-Met potentiation at picomolar concentrations, making it approximately 10⁷ times more potent than BDNF for this pathway.", conclusion: "Dihexa represents a novel class of cognitive enhancers targeting the HGF/c-Met pathway, distinct from cholinergic or monoaminergic approaches." },
+    { title: "HGF/c-Met Pathway in Neuroplasticity", year: "2016", institution: "Neuropharmacology", participants: "Hippocampal neuronal cultures and in vivo studies", duration: "Controlled laboratory studies", findings: "Dihexa increased dendritic spine density, promoted new synapse formation, and enhanced LTP in hippocampal circuits. Effects persisted after washout, suggesting structural rather than temporary pharmacological changes.", conclusion: "Dihexa promotes lasting structural neuroplasticity through synaptogenesis, supporting its potential for durable cognitive enhancement." }
+  ],
+  safetyProfile: "Dihexa is a research compound with limited human safety data. Preclinical studies have not identified significant toxicity at therapeutic doses. As an HGF/c-Met potentiator, theoretical concerns exist regarding potential interactions with cancer biology (c-Met is a proto-oncogene). Individuals with active malignancy or cancer risk factors should exercise caution. Long-term safety data in humans is not available. Strictly for research use only.",
+  dosage: "Research protocols typically use 10-20 mg per administration, with oral and subcutaneous routes both studied. Preclinical effective doses: 2-4 mg/kg. Due to limited human safety data, conservative dosing approaches are recommended in research settings. Reconstitute with bacteriostatic water for injection preparations.",
+  keyBenefits: [
+    "Extraordinarily potent — active at picomolar concentrations",
+    "10 million times more potent than BDNF for HGF/c-Met signaling",
+    "Promotes synaptogenesis and dendritic spine formation",
+    "Crosses blood-brain barrier for central nervous system activity",
+    "Orally bioavailable for convenient research administration",
+    "Restores cognitive function in impairment models",
+    "Promotes lasting structural neuroplasticity",
+    "Novel mechanism distinct from cholinergic cognitive enhancers"
+  ]
+};
+
+// Hardcoded data for P21 (P021)
+const P21_DATA = {
+  overview: "P21 (also referred to as P021) is a synthetic CNTF (Ciliary Neurotrophic Factor)-derived tetrapeptide (Ac-DGGL-NH₂) developed by Dr. Khalid Iqbal and colleagues at the New York State Institute for Basic Research. It is a small-molecule neurotrophic compound that enhances brain-derived neurotrophic factor (BDNF) expression and inhibits leukemia inhibitory factor (LIF) signaling. P21 promotes neurogenesis and synaptic plasticity and has shown efficacy in preclinical models of Alzheimer's disease.",
+  potentialUses: [
+    { title: "Neurogenesis & BDNF Enhancement", description: "P21 increases BDNF expression in the hippocampus and cortex, promoting adult neurogenesis (new neuron formation) in the dentate gyrus. This supports learning, memory, and cognitive resilience.", mechanism: "Derived from the active region of CNTF, P21 activates neurotrophic signaling pathways that upregulate BDNF gene expression. Increased BDNF activates TrkB receptors, promoting neural progenitor cell proliferation, differentiation, and survival in the subgranular zone of the hippocampal dentate gyrus." },
+    { title: "Alzheimer's Disease Research", description: "P21 has demonstrated significant efficacy in transgenic Alzheimer's disease mouse models, reducing tau hyperphosphorylation, amyloid pathology, and cognitive impairment.", mechanism: "Inhibits glycogen synthase kinase-3β (GSK-3β), a key kinase responsible for pathological tau phosphorylation. Reduces amyloid precursor protein processing toward amyloidogenic pathways. BDNF upregulation provides synaptic protection against amyloid-β toxicity." },
+    { title: "Synaptic Plasticity & Learning", description: "P21 enhances long-term potentiation (LTP) and improves spatial learning and memory in both young and aged preclinical models. It supports the molecular mechanisms underlying memory encoding and consolidation.", mechanism: "BDNF-TrkB signaling activates CREB transcription factor, promoting expression of synaptic proteins (Arc, PSD-95, synaptophysin) required for LTP and long-term memory formation. Promotes dendritic branching and spine maturation." },
+    { title: "Anti-Neuroinflammation", description: "P21 inhibits LIF (leukemia inhibitory factor) signaling, reducing neuroinflammation that contributes to neurodegeneration and cognitive decline.", mechanism: "Competitive inhibition of LIF receptor binding reduces JAK/STAT-mediated neuroinflammatory signaling. This decreases microglial activation and pro-inflammatory cytokine production in the CNS." }
+  ],
+  clinicalTrials: [
+    { title: "P21 in Alzheimer's Disease Models", year: "2017", institution: "Neurobiology of Aging (Iqbal et al., NY State Institute for Basic Research)", participants: "Transgenic 3xTg-AD mouse models", duration: "2-4 month treatment studies", findings: "P21 treatment rescued cognitive deficits, reduced tau hyperphosphorylation at multiple AD-relevant epitopes, decreased amyloid plaque burden, and increased hippocampal BDNF levels. Effects were dose-dependent and persisted after treatment cessation.", conclusion: "P21 demonstrates multi-target efficacy against AD pathology through BDNF enhancement and GSK-3β inhibition, supporting advancement toward clinical trials." },
+    { title: "P21 Neurogenesis and Synaptic Plasticity", year: "2015", institution: "Journal of Alzheimer's Disease (Bolognin et al.)", participants: "Aged and young preclinical models", duration: "30-day oral treatment protocols", findings: "P21 increased dentate gyrus neurogenesis by ~40% in aged animals, enhanced synaptic protein expression (PSD-95, synaptophysin), and improved performance in Morris water maze and novel object recognition tests.", conclusion: "P21 promotes adult neurogenesis and synaptic plasticity with cognitive benefits in aged subjects, supporting its potential for age-related cognitive decline." },
+    { title: "CNTF-Derived Peptide Safety and Bioavailability", year: "2018", institution: "Molecular Neurobiology", participants: "Pharmacokinetic and toxicology studies", duration: "Subchronic oral administration", findings: "P21 demonstrated oral bioavailability, crossed the blood-brain barrier, and showed no significant toxicity in subchronic studies. Brain concentrations were sufficient for neurotrophic activity within 30 minutes of oral dosing.", conclusion: "P21 combines oral bioavailability, CNS penetration, and a clean safety profile, distinguishing it from protein neurotrophic factors that require invasive delivery." }
+  ],
+  safetyProfile: "P21 has shown a favorable safety profile in preclinical studies with no significant adverse effects during subchronic oral administration. It is orally bioavailable and crosses the blood-brain barrier. As a CNTF-derived peptide, it avoids the appetite-suppressing and weight-loss effects associated with full-length CNTF. Long-term human safety data is not yet available. For research use only.",
+  dosage: "Research protocols typically use 10-50 μg/g body weight (preclinical oral administration) or equivalent subcutaneous doses. Human-equivalent dosing has not been established in clinical trials. Both oral and injectable routes have shown efficacy in preclinical models. Reconstitute with bacteriostatic water for injection preparations.",
+  keyBenefits: [
+    "Enhances BDNF expression for neurogenesis and synaptic plasticity",
+    "Multi-target efficacy against Alzheimer's pathology (tau + amyloid)",
+    "Promotes adult hippocampal neurogenesis (~40% increase)",
+    "Orally bioavailable with CNS penetration",
+    "Inhibits neuroinflammation through LIF signaling blockade",
+    "Improves spatial learning and memory in aged models",
+    "Effects persist after treatment cessation",
+    "Clean safety profile without CNTF appetite/weight effects"
+  ]
+};
+
+// Hardcoded data for GHRP-2
+const GHRP2_DATA = {
+  overview: "GHRP-2 (Growth Hormone Releasing Peptide-2, also called Pralmorelin) is a synthetic hexapeptide that stimulates growth hormone release by acting as an agonist at the ghrelin/growth hormone secretagogue receptor (GHS-R1a). GHRP-2 is considered the most potent GHRP for GH stimulation and produces robust, dose-dependent GH release. It also mildly stimulates cortisol, prolactin, and appetite through ghrelin receptor activation.",
+  potentialUses: [
+    { title: "Potent Growth Hormone Release", description: "GHRP-2 produces the strongest GH response among GHRPs when administered alone. It amplifies both basal and stimulated GH secretion in a dose-dependent manner.", mechanism: "Activates GHS-R1a on pituitary somatotrophs, triggering IP3/calcium-dependent GH vesicle exocytosis. Also acts at hypothalamic arcuate nucleus to stimulate GHRH release and suppress somatostatin, creating a synergistic amplification of GH pulsatility." },
+    { title: "Body Composition & Muscle Growth", description: "Elevated GH and IGF-1 from GHRP-2 stimulation promote lean body mass, nitrogen retention, and lipolysis, supporting improved body composition.", mechanism: "GH activates JAK2/STAT5 signaling in muscle and liver. Hepatic IGF-1 production drives satellite cell activation, myofibrillar protein synthesis, and amino acid uptake. GH simultaneously activates hormone-sensitive lipase in adipocytes for fat mobilization." },
+    { title: "GH Deficiency Diagnosis", description: "GHRP-2 (Pralmorelin) is approved in Japan as a diagnostic agent for growth hormone deficiency, providing a reliable GH stimulation test.", mechanism: "Standardized GHRP-2 stimulation test measures peak GH response to identify patients with GH deficiency. Normal response is >10-15 ng/mL GH within 15-60 minutes of administration." },
+    { title: "Cytoprotective Effects", description: "GHRP-2 has demonstrated cytoprotective and anti-inflammatory properties independent of GH release, including hepatoprotective and cardioprotective effects.", mechanism: "Activates ghrelin receptor-mediated anti-apoptotic pathways including PI3K/Akt signaling. Reduces NF-κB activation and pro-inflammatory cytokine production. Promotes cell survival through mitochondrial protection." }
+  ],
+  clinicalTrials: [
+    { title: "GHRP-2 GH Stimulation Potency Comparison", year: "1997", institution: "Journal of Clinical Endocrinology & Metabolism (Bowers et al.)", participants: "Healthy male volunteers", duration: "Dose-response studies", findings: "GHRP-2 produced the strongest GH release among tested GHRPs with peak GH levels of 40-90 ng/mL. GH response was dose-dependent and synergistic with GHRH co-administration (5-10x greater than either alone). Mild cortisol and prolactin elevations were observed at higher doses.", conclusion: "GHRP-2 is the most potent GH-releasing peptide tested, with synergistic properties when combined with GHRH analogs." },
+    { title: "Pralmorelin Diagnostic Approval Study (Japan)", year: "2004", institution: "Endocrine Journal (Japanese clinical studies)", participants: "Patients with suspected GH deficiency", duration: "Diagnostic test validation", findings: "GHRP-2 stimulation test demonstrated high sensitivity and specificity for GH deficiency diagnosis. Peak GH cut-off values reliably distinguished GH-deficient from GH-sufficient patients. The test was well-tolerated with transient flushing and appetite increase.", conclusion: "GHRP-2 is a reliable, well-tolerated provocative agent for GH deficiency diagnosis, leading to regulatory approval in Japan." },
+    { title: "GHRP-2 Cytoprotective Properties", year: "2013", institution: "Growth Hormone & IGF Research", participants: "Preclinical organ protection models", duration: "Acute and chronic studies", findings: "GHRP-2 demonstrated hepatoprotective effects against ischemic injury, cardioprotection against doxorubicin toxicity, and anti-inflammatory effects in colitis models through GHS-R-mediated signaling independent of GH release.", conclusion: "GHRP-2 possesses cytoprotective properties beyond GH stimulation, mediated through direct ghrelin receptor activation in peripheral tissues." }
+  ],
+  safetyProfile: "GHRP-2 has regulatory approval in Japan for diagnostic use with an established safety profile. It produces mild cortisol and prolactin elevation, increased appetite, and transient flushing. Unlike ipamorelin, GHRP-2 is not fully GH-selective. Long-term use may require monitoring of IGF-1 levels, glucose tolerance, and cortisol. For research use only outside of diagnostic applications.",
+  dosage: "Research protocols: 100-300 μg per injection, administered 1-3 times daily subcutaneously. Often combined with CJC-1295 no DAC for synergistic GH release. Best administered on an empty stomach. Diagnostic use (Japan): 1 μg/kg IV single dose. Reconstitute with bacteriostatic water.",
+  keyBenefits: [
+    "Most potent GHRP for growth hormone stimulation",
+    "Regulatory approval in Japan for GH deficiency diagnosis",
+    "Synergistic with GHRH analogs for enhanced GH release",
+    "Cytoprotective effects independent of GH release",
+    "Dose-dependent, predictable GH response",
+    "Supports lean body mass and lipolysis through GH/IGF-1",
+    "Anti-inflammatory properties through ghrelin receptor activation",
+    "Well-characterized pharmacokinetics and safety"
+  ]
+};
+
+// Hardcoded data for GHRP-6
+const GHRP6_DATA = {
+  overview: "GHRP-6 (Growth Hormone Releasing Peptide-6) is a synthetic hexapeptide and one of the original GH secretagogues that stimulates growth hormone release through the ghrelin/GHS-R1a receptor. It was one of the first GHRPs discovered and remains widely used in research. GHRP-6 produces strong GH release and notably stimulates appetite (hunger) through ghrelin pathway activation, making it distinct from more selective GHRPs like ipamorelin.",
+  potentialUses: [
+    { title: "Growth Hormone Stimulation", description: "GHRP-6 produces robust GH release through ghrelin receptor activation. It amplifies natural GH pulses and enhances overall GH secretion.", mechanism: "Binds GHS-R1a, activating phospholipase C and increasing intracellular calcium in pituitary somatotrophs. Simultaneously stimulates hypothalamic GHRH neurons and suppresses somatostatin release for amplified GH pulsatility." },
+    { title: "Appetite Stimulation", description: "GHRP-6 strongly stimulates appetite through ghrelin mimicry, making it useful in research contexts requiring appetite enhancement or weight gain support.", mechanism: "Activates ghrelin receptors in the arcuate nucleus of the hypothalamus, stimulating NPY/AgRP neurons that drive hunger signaling. Also increases gastric motility and ghrelin secretion from gastric cells." },
+    { title: "Gastroprotective Effects", description: "GHRP-6 has demonstrated cytoprotective effects on gastric mucosa, reducing damage from ischemia, NSAID exposure, and stress-induced lesions.", mechanism: "Activates GHS-R1a-mediated anti-inflammatory and anti-apoptotic pathways in gastric epithelial cells. Promotes mucosal blood flow and inhibits pro-inflammatory cytokine production. Stimulates growth factor release for tissue repair." },
+    { title: "Body Composition", description: "Through sustained GH elevation, GHRP-6 promotes lipolysis and lean body mass. However, its appetite-stimulating effect may offset fat loss if caloric intake is not controlled.", mechanism: "GH-mediated lipolysis and IGF-1-driven protein synthesis. Concurrent appetite increase through ghrelin signaling may promote overall weight gain if combined with adequate nutrition." }
+  ],
+  clinicalTrials: [
+    { title: "GHRP-6 GH Release and Appetite Effects", year: "1996", institution: "Journal of Clinical Endocrinology & Metabolism", participants: "Healthy volunteers and GH-deficient subjects", duration: "Dose-response and repeated dosing studies", findings: "GHRP-6 produced significant GH release (peak 20-60 ng/mL) with concurrent cortisol elevation and marked appetite stimulation. GH response was dose-dependent and maintained with repeated administration. Appetite increase occurred within 20 minutes of administration.", conclusion: "GHRP-6 is an effective GH secretagogue with notable appetite-stimulating properties through ghrelin receptor activation." },
+    { title: "GHRP-6 Cytoprotective Effects in GI Tissue", year: "2012", institution: "Growth Hormone & IGF Research (Cuban research group)", participants: "Preclinical gastric injury models", duration: "Acute and chronic treatment protocols", findings: "GHRP-6 demonstrated significant gastroprotection against ischemic and NSAID-induced gastric lesions. It reduced inflammatory infiltration, maintained mucosal integrity, and accelerated healing through GHS-R-mediated mechanisms. Effects were comparable to established gastroprotective agents.", conclusion: "GHRP-6 possesses significant cytoprotective properties beyond GH release, supporting its potential for gastrointestinal protection applications." },
+    { title: "GHRP-6 Synergy with GHRH", year: "1999", institution: "European Journal of Endocrinology", participants: "Clinical synergy studies", duration: "Combination dosing protocols", findings: "Co-administration of GHRP-6 with GHRH produced synergistic GH release 3-5 times greater than either peptide alone. The combination also produced more consistent GH responses with less inter-individual variability.", conclusion: "GHRP-6 and GHRH combination represents optimal stimulation of the GH axis through complementary receptor mechanisms." }
+  ],
+  safetyProfile: "GHRP-6 is one of the earliest studied GHRPs with extensive preclinical and clinical data. It stimulates cortisol, prolactin, and appetite more than ipamorelin but less than hexarelin. Common side effects include strong hunger, water retention, and mild cortisol elevation. Prolonged use may affect glucose tolerance. For research use only.",
+  dosage: "Research protocols: 100-300 μg per injection, administered 1-3 times daily subcutaneously on an empty stomach. Often combined with CJC-1295 no DAC or GHRH for synergistic effect. Reconstitute with bacteriostatic water and store refrigerated.",
+  keyBenefits: [
+    "Strong, reliable GH release through ghrelin receptor activation",
+    "Potent appetite stimulation for weight gain research",
+    "Gastroprotective and cytoprotective effects",
+    "Synergistic with GHRH for enhanced GH pulsatility",
+    "One of the most extensively studied GHRPs",
+    "Dose-dependent, reproducible GH response",
+    "Promotes lean body mass through GH/IGF-1 elevation",
+    "Well-characterized pharmacokinetics from decades of research"
+  ]
+};
+
+// Hardcoded data for Hexarelin
+const HEXARELIN_DATA = {
+  overview: "Hexarelin (Examorelin) is a synthetic hexapeptide GH secretagogue and one of the most potent GHRPs developed. It stimulates GH release through the GHS-R1a receptor with greater potency than GHRP-6. Uniquely, hexarelin also has direct cardioprotective effects through cardiac GHS receptors independent of GH release, making it studied for both endocrine and cardiovascular research applications.",
+  potentialUses: [
+    { title: "Maximum GH Stimulation", description: "Hexarelin produces the highest peak GH levels of any GHRP tested, with responses exceeding GHRP-2 and GHRP-6. However, desensitization occurs with chronic use.", mechanism: "High-affinity GHS-R1a binding produces maximal somatotroph activation. Stimulates both pituitary and hypothalamic GH release pathways simultaneously. However, chronic stimulation leads to receptor desensitization within 2-4 weeks." },
+    { title: "Cardioprotection", description: "Hexarelin has unique cardioprotective effects independent of GH release. It reduces cardiac fibrosis, protects against ischemic injury, and improves cardiac function in heart failure models.", mechanism: "Activates cardiac-specific GHS receptors (distinct from pituitary GHS-R1a) that activate anti-apoptotic Akt/PI3K signaling in cardiomyocytes. Reduces cardiac fibrosis through TGF-β modulation and promotes calcium handling efficiency." },
+    { title: "Anti-Atherosclerotic Effects", description: "Hexarelin has demonstrated anti-atherosclerotic properties by reducing macrophage foam cell formation and inhibiting vascular smooth muscle proliferation.", mechanism: "Activates CD36 scavenger receptor-independent pathways that reduce oxidized LDL uptake in macrophages. Inhibits NF-κB-mediated vascular inflammation and smooth muscle cell migration." },
+    { title: "Neuroprotection", description: "Research indicates hexarelin provides neuroprotective effects against excitotoxic and oxidative neural injury through GHS-R activation in the CNS.", mechanism: "Activates neuronal GHS-R1a-mediated survival signaling. Reduces neuroinflammation and oxidative stress through PI3K/Akt pathway activation. Promotes neural cell survival under stress conditions." }
+  ],
+  clinicalTrials: [
+    { title: "Hexarelin GH Release Potency Study", year: "1999", institution: "European Journal of Endocrinology (Ghigo et al.)", participants: "Healthy volunteers across age groups", duration: "Dose-response and age-comparison studies", findings: "Hexarelin produced the strongest GH responses among GHRPs tested (peak >80 ng/mL in young subjects). Age-related decline in response was observed but maintained clinically meaningful GH elevation even in elderly subjects. Desensitization occurred after 2-4 weeks of daily use.", conclusion: "Hexarelin is the most potent GHRP for acute GH stimulation but is limited by tachyphylaxis during chronic administration." },
+    { title: "Hexarelin Cardioprotective Effects", year: "2003", institution: "Cardiovascular Research (Bisi et al.)", participants: "Preclinical cardiac injury models", duration: "Acute and chronic cardiac studies", findings: "Hexarelin reduced infarct size by 40-60% when administered before or during cardiac ischemia. It improved left ventricular function, reduced cardiac fibrosis, and promoted cardiomyocyte survival through Akt activation. Effects were independent of GH release.", conclusion: "Hexarelin provides significant cardioprotection through direct cardiac GHS receptor activation, independent of its GH-releasing properties." },
+    { title: "Hexarelin Safety and Hormonal Effects", year: "2001", institution: "Journal of Endocrinological Investigation", participants: "Clinical safety studies", duration: "Single and repeated dose protocols", findings: "Hexarelin produced significant GH release with concurrent ACTH, cortisol, and prolactin elevation greater than other GHRPs. Appetite stimulation was moderate. Desensitization of GH response occurred within 14-28 days of daily administration.", conclusion: "Hexarelin's potent GH stimulation comes with broader hormonal activation and desensitization liability, making it most suitable for intermittent or short-term protocols." }
+  ],
+  safetyProfile: "Hexarelin is generally well-tolerated but produces more hormonal side effects than selective GHRPs. It elevates cortisol, ACTH, and prolactin alongside GH. Desensitization occurs with chronic daily use (2-4 weeks). Its cardioprotective effects have been studied as potential therapeutic applications. For research use only.",
+  dosage: "Research protocols: 1-2 μg/kg or 100-200 μg per injection, administered subcutaneously. Due to desensitization, intermittent dosing (4-5 days on, 2 days off, or every other day) is commonly used. Reconstitute with bacteriostatic water.",
+  keyBenefits: [
+    "Most potent acute GH release of any GHRP tested",
+    "Unique cardioprotective effects independent of GH",
+    "Anti-atherosclerotic properties through vascular protection",
+    "Neuroprotective through CNS GHS receptor activation",
+    "Reduces cardiac fibrosis and infarct size in ischemia models",
+    "Effective GH stimulation even in elderly subjects",
+    "Well-characterized mechanism through GHS-R1a activation",
+    "Dual endocrine and cardiovascular research applications"
+  ]
+};
+
+// Hardcoded data for MK-677
+const MK677_DATA = {
+  overview: "MK-677 (Ibutamoren) is a non-peptide, orally active growth hormone secretagogue that mimics ghrelin at the GHS-R1a receptor. Unlike injectable GHRPs, MK-677 is a small molecule with excellent oral bioavailability and a long half-life (~24 hours), allowing once-daily oral dosing. It produces sustained GH and IGF-1 elevation without affecting cortisol levels. MK-677 has been studied in multiple clinical trials for age-related muscle wasting, obesity, and GH deficiency.",
+  potentialUses: [
+    { title: "Sustained GH & IGF-1 Elevation", description: "MK-677 produces 24-hour elevation of GH pulsatility and increases IGF-1 by 40-90% with daily oral dosing. Unlike injectable GHRPs, it maintains elevated GH throughout the day.", mechanism: "Oral ghrelin mimetic that activates GHS-R1a at hypothalamic and pituitary levels. Long half-life produces sustained receptor stimulation. Amplifies GH pulse amplitude while preserving pulsatile patterns. Does not suppress endogenous GH feedback mechanisms." },
+    { title: "Body Composition & Lean Mass", description: "Clinical trials demonstrate MK-677 increases lean body mass, reduces body fat, and improves nitrogen retention in elderly and catabolic populations.", mechanism: "Sustained GH/IGF-1 elevation activates protein synthesis pathways in skeletal muscle. Promotes lipolysis through hormone-sensitive lipase activation. Improves nitrogen balance through enhanced amino acid uptake and utilization." },
+    { title: "Sleep Quality Enhancement", description: "MK-677 has been shown to increase duration of stage IV (deep) sleep and REM sleep by ~50% in clinical studies, improving overall sleep architecture.", mechanism: "GH secretion during sleep is amplified by ghrelin pathway activation. MK-677 enhances the nocturnal GH surge and modulates serotonergic sleep circuits. Improved sleep architecture supports recovery and cognitive function." },
+    { title: "Bone Mineral Density", description: "Long-term MK-677 administration increases bone mineral density markers and bone turnover, particularly in elderly and osteopenic populations.", mechanism: "IGF-1 stimulates osteoblast differentiation and activity. Promotes calcium and phosphate retention. Increases bone formation markers (osteocalcin, P1NP) and initially increases resorption markers before net positive bone balance emerges at 6-12 months." }
+  ],
+  clinicalTrials: [
+    { title: "MK-677 in Healthy Elderly", year: "2008", institution: "Annals of Internal Medicine (Nass et al.)", participants: "65 healthy elderly adults aged 60-81", duration: "12-month double-blind RCT", findings: "MK-677 25 mg daily increased IGF-1 to young adult levels, increased fat-free mass by 1.5 kg, and enhanced GH pulsatility. Sleep quality improved with increased REM and stage IV sleep. Fasting glucose increased slightly but remained within normal ranges.", conclusion: "MK-677 reverses age-related GH/IGF-1 decline and somatopause-associated body composition changes with sustained efficacy over 12 months." },
+    { title: "MK-677 Body Composition in Obese Subjects", year: "1998", institution: "Journal of Clinical Endocrinology & Metabolism (Svensson et al.)", participants: "24 obese male subjects", duration: "8-week double-blind RCT", findings: "MK-677 increased GH and IGF-1 levels, improved nitrogen balance, and produced a trend toward increased fat-free mass. No significant changes in body weight or fat mass were observed at 8 weeks, suggesting longer treatment needed for body composition changes.", conclusion: "MK-677 shows favorable metabolic effects in obesity with potential for body composition improvement with longer treatment duration." },
+    { title: "MK-677 Sleep Architecture Study", year: "1997", institution: "Neuroendocrinology (Copinschi et al.)", participants: "Healthy young male volunteers", duration: "Single-dose and 7-day studies", findings: "MK-677 increased REM sleep duration by 50% and stage IV sleep by 20%. These changes were associated with increased GH secretion during sleep. Sleep efficiency and subjective sleep quality also improved.", conclusion: "MK-677 significantly enhances sleep architecture, particularly REM and slow-wave sleep, through ghrelin-mediated GH pathway activation." }
+  ],
+  safetyProfile: "MK-677 has extensive clinical trial safety data from studies lasting up to 2 years. Common side effects include increased appetite, mild edema (water retention), and transient muscle pain. It may increase fasting glucose and insulin — monitoring is recommended, particularly in pre-diabetic individuals. Does not suppress cortisol or thyroid function. For research use only.",
+  dosage: "Clinical trial dose: 25 mg orally once daily, typically taken in the evening. Some protocols use 10-15 mg for reduced side effects. Oral administration — no reconstitution needed for capsule/tablet forms. Effects are cumulative with peak IGF-1 elevation at 2-4 weeks.",
+  keyBenefits: [
+    "Orally active — no injections required",
+    "24-hour GH elevation with once-daily dosing",
+    "40-90% increase in IGF-1 to youthful levels",
+    "Enhances REM and slow-wave sleep by up to 50%",
+    "12-month clinical trial data in elderly subjects",
+    "Increases lean body mass and nitrogen retention",
+    "Does not suppress cortisol or thyroid function",
+    "Promotes bone mineral density with long-term use"
+  ]
+};
+
+// Hardcoded data for Melanotan II
+const MTII_DATA = {
+  overview: "Melanotan II (MT-2) is a synthetic cyclic heptapeptide analog of alpha-melanocyte-stimulating hormone (α-MSH). It is a non-selective melanocortin receptor agonist with activity at MC1R (pigmentation), MC3R (energy homeostasis), MC4R (sexual function, appetite), and MC5R (exocrine function). MT-2 was developed at the University of Arizona and is studied for skin pigmentation, sexual dysfunction, and body composition research.",
+  potentialUses: [
+    { title: "Melanogenesis & UV Protection", description: "MT-2 stimulates melanin production in melanocytes, producing skin tanning without UV exposure. Increased melanin provides natural photoprotection against UV-induced DNA damage.", mechanism: "Activates MC1R on melanocytes, stimulating cAMP/PKA signaling that upregulates tyrosinase (rate-limiting enzyme in melanin synthesis). Promotes eumelanin (brown/black) production over pheomelanin (red/yellow), providing superior UV protection." },
+    { title: "Sexual Function Research", description: "MT-2 was the precursor molecule for PT-141/bremelanotide. It has demonstrated efficacy for both male erectile function and female sexual arousal through central melanocortin-4 receptor activation.", mechanism: "Activates MC4R in hypothalamic and limbic brain regions, modulating dopaminergic pathways involved in sexual arousal and desire. Effects are centrally mediated, distinct from PDE5 inhibitor mechanisms." },
+    { title: "Appetite Suppression & Body Composition", description: "Through MC3R and MC4R activation, MT-2 reduces appetite and food intake. It has been studied for its effects on body fat reduction and energy expenditure.", mechanism: "MC4R activation in the hypothalamic paraventricular nucleus suppresses NPY/AgRP orexigenic signaling and enhances POMC/CART anorexigenic pathways. MC3R activation modulates energy homeostasis and fat storage." },
+    { title: "Photoprotection Research", description: "MT-2 is studied for its potential to provide melanin-based UV protection for individuals with fair skin phenotypes at higher risk of UV-induced skin damage.", mechanism: "Increased eumelanin density in the epidermis absorbs and scatters UV photons, reducing DNA damage (cyclobutane pyrimidine dimers and 6-4 photoproducts) in keratinocytes and melanocytes." }
+  ],
+  clinicalTrials: [
+    { title: "Melanotan II Pigmentation and Erectile Function", year: "2000", institution: "University of Arizona (Dorr et al.)", participants: "Healthy fair-skinned volunteers", duration: "10-day dose-escalation studies", findings: "MT-2 produced significant increases in skin pigmentation (measured by reflectance spectroscopy) and spontaneous penile erections at doses ≥0.025 mg/kg. Nausea was the most common side effect at higher doses. Pigmentation changes persisted for weeks after cessation.", conclusion: "MT-2 is effective for melanogenesis stimulation and has potent effects on male sexual function through distinct melanocortin receptor subtypes." },
+    { title: "Melanotan II Safety and Pharmacokinetics", year: "2003", institution: "Journal of Investigative Dermatology", participants: "Fair-skinned volunteers", duration: "Clinical pharmacology studies", findings: "Subcutaneous MT-2 had rapid absorption with peak plasma levels at 1-2 hours. Melanogenesis was dose-dependent with measurable darkening within 5-7 days. Common adverse effects included nausea (self-limiting), facial flushing, and fatigue. New or changing nevi (moles) were observed in some subjects.", conclusion: "MT-2 effectively stimulates melanogenesis with predictable pharmacokinetics. Monitoring for nevi changes is recommended due to melanocyte activation." },
+    { title: "MT-2 Effects on Body Composition", year: "2005", institution: "Peptides (Elsevier)", participants: "Preclinical obesity models", duration: "4-week treatment studies", findings: "MT-2 reduced food intake by 15-25% and body fat mass by 8-12% through MC3R/MC4R-mediated appetite suppression. Lean mass was preserved during fat loss. Effects were dose-dependent and reversible.", conclusion: "MT-2 demonstrates potential for body composition optimization through melanocortin-mediated appetite regulation." }
+  ],
+  safetyProfile: "MT-2 is a research compound with notable side effects including nausea (especially at initiation), facial flushing, darkening of existing moles/nevi, and potential for new nevi formation. Monitoring for atypical moles is strongly recommended due to melanocyte stimulation. Should NOT be combined with PT-141 due to overlapping melanocortin activity. Contraindicated in individuals with history of melanoma or atypical mole syndrome. For research use only.",
+  dosage: "Research protocols typically use 0.25-0.5 mg per injection subcutaneously, starting with low doses to assess nausea tolerance. Loading phase: daily or every-other-day injections for 2-3 weeks. Maintenance: 1-2 injections per week. Reconstitute with bacteriostatic water and store refrigerated, protected from light.",
+  keyBenefits: [
+    "Stimulates melanin production for skin pigmentation research",
+    "Precursor molecule for FDA-approved PT-141/bremelanotide",
+    "UV photoprotection through enhanced eumelanin production",
+    "Appetite suppression through MC3R/MC4R activation",
+    "Extensively studied at University of Arizona",
+    "Multiple melanocortin receptor research applications",
+    "Body composition effects through central appetite regulation",
+    "Well-characterized pharmacokinetics and mechanism"
+  ]
+};
+
+// Hardcoded data for Melanotan 1
+const MTI_DATA = {
+  overview: "Melanotan I (MT-1, Afamelanotide) is a synthetic linear tridecapeptide analog of α-MSH that selectively targets the MC1R melanocortin receptor. Unlike the non-selective Melanotan II, MT-1 is highly MC1R-selective, focusing its effects on melanogenesis without significant sexual function or appetite effects. Afamelanotide has received regulatory approval in the EU and Australia (as Scenesse) for the prevention of phototoxicity in patients with erythropoietic protoporphyria (EPP), a rare genetic light sensitivity disorder.",
+  potentialUses: [
+    { title: "Photoprotective Melanogenesis", description: "MT-1/Afamelanotide stimulates eumelanin production selectively, providing photoprotection against UV-induced skin damage. Its MC1R selectivity means it primarily affects pigmentation pathways.", mechanism: "Selectively activates MC1R on epidermal melanocytes, stimulating the cAMP/MITF/tyrosinase cascade for eumelanin (brown/black melanin) synthesis. Eumelanin provides superior photoprotection compared to pheomelanin through UV absorption and free radical scavenging." },
+    { title: "Erythropoietic Protoporphyria Treatment", description: "Afamelanotide is the only approved treatment for EPP, a genetic condition causing severe pain and damage upon light exposure due to protoporphyrin IX accumulation in erythrocytes and skin.", mechanism: "Increased eumelanin density absorbs visible light wavelengths (400-410 nm) that activate protoporphyrin IX. This reduces phototoxic reactions and allows patients to tolerate light exposure that would otherwise cause severe pain and tissue damage." },
+    { title: "Vitiligo Research", description: "MT-1 has been studied as an adjunctive therapy for vitiligo (loss of skin pigmentation) in combination with narrowband UVB phototherapy to accelerate repigmentation.", mechanism: "Stimulates melanocyte stem cell activation and differentiation in hair follicle reservoirs. Promotes melanocyte migration into depigmented areas and increases melanin production in residual melanocytes. Synergizes with NB-UVB to enhance repigmentation." },
+    { title: "DNA Repair Enhancement", description: "MC1R activation by MT-1 has been shown to enhance nucleotide excision repair (NER) of UV-induced DNA damage, providing protection beyond physical melanin screening.", mechanism: "MC1R signaling activates PKA-mediated phosphorylation of ATR (ataxia telangiectasia and Rad3-related protein), enhancing the DNA damage response. This improves repair of cyclobutane pyrimidine dimers and 6-4 photoproducts independently of melanin production." }
+  ],
+  clinicalTrials: [
+    { title: "Afamelanotide Phase III for EPP (PASS Study)", year: "2015", institution: "New England Journal of Medicine (Langendonk et al.)", participants: "93 EPP patients across European centers", duration: "6-month randomized controlled trial", findings: "Afamelanotide (16 mg subcutaneous implant, bimonthly) significantly increased time spent in sunlight without pain (median 69.4 hrs vs 40.8 hrs placebo). Quality of life measures improved substantially. Treatment was well-tolerated.", conclusion: "Afamelanotide is effective for increasing light tolerance in EPP, leading to EMA approval as Scenesse (2014) and FDA approval (2019)." },
+    { title: "Afamelanotide for Vitiligo", year: "2013", institution: "British Journal of Dermatology (Lim et al.)", participants: "Vitiligo patients", duration: "16-week combination therapy study", findings: "Afamelanotide combined with NB-UVB produced faster and greater repigmentation compared to NB-UVB alone. Repigmented areas showed better color match to surrounding skin. Treatment was well-tolerated with mild tanning as the primary side effect.", conclusion: "Afamelanotide accelerates and enhances repigmentation in vitiligo when combined with phototherapy." },
+    { title: "Afamelanotide Pigmentation and Tolerability", year: "2009", institution: "Journal of Investigative Dermatology (Barnetson et al.)", participants: "Fair-skinned volunteers", duration: "Implant pharmacokinetic studies", findings: "Subcutaneous afamelanotide implant produced gradual, sustained melanogenesis over 30+ days. Pigmentation was cosmetically natural and UV-protective as confirmed by reduced sunburn response. No nevi changes or melanocyte atypia observed.", conclusion: "Afamelanotide provides sustained, natural-appearing photoprotective pigmentation with a favorable safety profile distinct from non-selective MT-2." }
+  ],
+  safetyProfile: "MT-1/Afamelanotide has regulatory approval (EMA 2014, FDA 2019) with extensive safety data. It is well-tolerated with primary side effects being darkening of skin, nevi, and hair (expected pharmacological effect). Unlike MT-2, it does not cause significant nausea, sexual side effects, or appetite changes due to MC1R selectivity. Long-term surveillance has not shown increased melanoma risk. For research use only outside of approved indications.",
+  dosage: "Approved formulation: 16 mg subcutaneous implant every 2 months (slow-release). Research peptide protocols vary. Reconstitute lyophilized form with bacteriostatic water for subcutaneous injection. Store refrigerated and protected from light.",
+  keyBenefits: [
+    "Regulatory approval (EMA/FDA) as Scenesse for EPP",
+    "MC1R-selective — focused melanogenesis without sexual/appetite effects",
+    "Photoprotective eumelanin production for UV protection",
+    "DNA repair enhancement independent of melanin",
+    "Accelerates vitiligo repigmentation with phototherapy",
+    "Natural-appearing, sustained pigmentation",
+    "Cleaner side effect profile than non-selective MT-2",
+    "Extensive long-term safety data from regulatory approval studies"
+  ]
+};
+
+// Hardcoded data for Kisspeptin-10
+const KISSPEPTIN_DATA = {
+  overview: "Kisspeptin-10 is a C-terminal decapeptide fragment of the kisspeptin family, which are products of the KISS1 gene. Kisspeptins are the most potent known activators of the hypothalamic-pituitary-gonadal (HPG) axis, acting through the kisspeptin receptor (KISS1R/GPR54) on GnRH neurons. Kisspeptin-10 is studied for reproductive endocrinology, fertility, and as a diagnostic tool for pubertal disorders.",
+  potentialUses: [
+    { title: "GnRH & Gonadotropin Stimulation", description: "Kisspeptin-10 is the most potent physiological activator of GnRH release, producing robust LH and FSH secretion. It acts upstream of GnRH neurons to trigger the full reproductive hormone cascade.", mechanism: "Binds KISS1R (GPR54) on GnRH neurons in the hypothalamic arcuate and AVPV nuclei, depolarizing neurons through TRPC channel activation. This triggers pulsatile GnRH release into the hypophyseal portal system, stimulating pituitary LH and FSH secretion." },
+    { title: "Fertility & Reproductive Research", description: "Kisspeptin-10 has been used in clinical trials to induce egg maturation for IVF, as an alternative to hCG triggers. It produces a more physiological LH surge with lower risk of ovarian hyperstimulation syndrome.", mechanism: "Stimulates endogenous GnRH and LH surge through physiological pathway activation rather than direct gonadotropin injection. The resulting LH surge triggers final oocyte maturation while the self-limiting nature of kisspeptin stimulation reduces hyperstimulation risk." },
+    { title: "Puberty & Reproductive Axis Assessment", description: "Kisspeptin stimulation testing is studied as a diagnostic tool for assessing reproductive axis maturity and identifying causes of delayed or precocious puberty.", mechanism: "Measures LH response to kisspeptin challenge to assess GnRH neuron functional maturity and pituitary gonadotroph reserve. Response patterns distinguish hypothalamic from pituitary causes of reproductive dysfunction." }
+  ],
+  clinicalTrials: [
+    { title: "Kisspeptin for IVF Egg Maturation", year: "2014", institution: "Journal of Clinical Investigation (Abbara et al., Imperial College London)", participants: "Women undergoing IVF", duration: "Single-dose oocyte maturation trigger", findings: "Kisspeptin-54 and kisspeptin-10 effectively triggered oocyte maturation for IVF with no cases of ovarian hyperstimulation syndrome (vs 7% with hCG). Fertilization and embryo quality were comparable to hCG-triggered cycles.", conclusion: "Kisspeptin represents a safer alternative to hCG for IVF oocyte maturation, particularly in women at high risk for ovarian hyperstimulation." },
+    { title: "Kisspeptin Reproductive Axis Stimulation", year: "2017", institution: "Lancet Diabetes & Endocrinology (Dhillo et al.)", participants: "Healthy volunteers and reproductive disorder patients", duration: "Clinical dose-response studies", findings: "Kisspeptin-10 produced dose-dependent LH release within 30 minutes of injection. Responses were sex-dependent and varied across the menstrual cycle. Kisspeptin stimulation distinguished hypothalamic amenorrhea from other causes of anovulation.", conclusion: "Kisspeptin is a valuable diagnostic and therapeutic tool for reproductive endocrinology with applications in fertility and pubertal assessment." }
+  ],
+  safetyProfile: "Kisspeptin-10 is a naturally occurring neuropeptide with a favorable clinical safety profile. No serious adverse events in clinical trials. It produces a self-limiting LH response (unlike hCG), reducing overstimulation risk. For research use only.",
+  dosage: "Clinical research: 1-10 μg/kg IV or subcutaneous. IVF trigger protocols: single dose of 1.6-12.8 nmol/kg. Reconstitute with bacteriostatic water and store refrigerated.",
+  keyBenefits: [
+    "Most potent physiological activator of the HPG axis",
+    "Safer IVF trigger alternative with no ovarian hyperstimulation",
+    "Clinical trial evidence from Imperial College London",
+    "Self-limiting LH response reduces overstimulation risk",
+    "Diagnostic tool for reproductive axis assessment",
+    "Naturally occurring neuropeptide with strong safety profile",
+    "Upstream mechanism preserves physiological hormone patterns",
+    "Active area of clinical fertility research"
+  ]
+};
+
+// Hardcoded data for Sermorelin
+const SERMORELIN_DATA = {
+  overview: "Sermorelin (GRF 1-29 NH₂) is a synthetic 29-amino acid peptide corresponding to the first 29 amino acids of human GHRH (growth hormone-releasing hormone). It is the shortest fully functional fragment of GHRH that retains full biological activity. Sermorelin was FDA-approved (as Geref) for the diagnosis and treatment of GH deficiency in children, though it was voluntarily withdrawn from market for commercial reasons (not safety). It remains one of the most well-characterized GH-stimulating peptides.",
+  potentialUses: [
+    { title: "Physiological GH Restoration", description: "Sermorelin stimulates the pituitary to produce and release GH through the natural GHRH receptor pathway. It preserves physiological GH pulsatility and feedback regulation, unlike exogenous GH which suppresses endogenous production.", mechanism: "Binds to GHRH receptors (GHRHR) on anterior pituitary somatotrophs, activating adenylyl cyclase/cAMP/PKA signaling. This stimulates both GH gene transcription and vesicular release. Negative feedback through IGF-1 and somatostatin is preserved, preventing supraphysiological GH levels." },
+    { title: "Age-Related GH Decline (Somatopause)", description: "Sermorelin addresses the age-related decline in GH secretion by stimulating the pituitary directly. It has been studied for restoring youthful GH levels in aging adults with benefits for body composition, sleep, and energy.", mechanism: "Amplifies the reduced GHRH signal in aging to restore GH pulse amplitude. The pituitary retains capacity to respond to GHRH stimulation even in elderly subjects, though with reduced sensitivity." },
+    { title: "Sleep Quality", description: "Sermorelin improves deep sleep quality by enhancing the nocturnal GH surge that occurs during slow-wave sleep stages.", mechanism: "GHRH is a known sleep-promoting factor. Sermorelin administration before bed amplifies GHRH-mediated sleep-onset and slow-wave sleep enhancement. Improved sleep architecture supports tissue repair and recovery." },
+    { title: "Pediatric GH Deficiency", description: "Sermorelin was FDA-approved for GH deficiency in children, stimulating endogenous GH production rather than replacing it with exogenous hormone.", mechanism: "Restores pituitary GH output through receptor-mediated stimulation. In children with hypothalamic (not pituitary) GH deficiency, sermorelin effectively normalizes growth velocity." }
+  ],
+  clinicalTrials: [
+    { title: "Sermorelin FDA Approval Studies (Geref)", year: "1997", institution: "FDA / Serono Laboratories", participants: "Children with idiopathic GH deficiency", duration: "Multi-year growth velocity studies", findings: "Sermorelin increased growth velocity in GH-deficient children with growth rates approaching those of rhGH treatment. GH and IGF-1 levels normalized. Pituitary function was preserved and enhanced with treatment. No significant safety concerns.", conclusion: "Sermorelin effectively treats GH deficiency through physiological pituitary stimulation, earning FDA approval as Geref for pediatric GH deficiency diagnosis and treatment." },
+    { title: "Sermorelin in Aging Adults", year: "2001", institution: "Clinical Endocrinology (Vittone et al.)", participants: "Healthy elderly adults with low IGF-1", duration: "6-month RCT", findings: "Sermorelin increased GH secretion, improved body composition (increased lean mass, decreased fat mass), and enhanced sleep quality in elderly subjects. IGF-1 increased to mid-normal range without supraphysiological elevation.", conclusion: "Sermorelin safely restores GH secretion in elderly adults with benefits for body composition and sleep quality." },
+    { title: "Sermorelin Long-term Safety and Efficacy", year: "2003", institution: "Journal of Clinical Endocrinology & Metabolism", participants: "Multi-year follow-up studies", duration: "2-4 year treatment periods", findings: "Long-term sermorelin therapy maintained growth velocity and GH/IGF-1 normalization without tachyphylaxis. Pituitary function was preserved. No increased risk of neoplasia or glucose intolerance observed with extended use.", conclusion: "Sermorelin demonstrates sustained efficacy and safety with long-term use, with preserved pituitary function being a key advantage over exogenous GH." }
+  ],
+  safetyProfile: "Sermorelin has FDA-approved safety data (Geref). Common side effects include injection site reactions, flushing, and headache. It preserves physiological GH feedback, preventing supraphysiological IGF-1 levels. No increased cancer risk or glucose intolerance in long-term studies. Market withdrawal was for commercial reasons, not safety concerns. For research use only.",
+  dosage: "Research protocols: 200-300 μg subcutaneously, administered before bedtime on an empty stomach. Pediatric (former FDA dose): 30 μg/kg/day subcutaneously. Often combined with GHRP for synergistic effect. Reconstitute with bacteriostatic water.",
+  keyBenefits: [
+    "Former FDA approval (Geref) with extensive clinical safety data",
+    "Preserves physiological GH pulsatility and feedback regulation",
+    "Does not suppress endogenous GH production",
+    "Improves body composition and sleep quality in aging adults",
+    "Long-term safety demonstrated over multi-year studies",
+    "Synergistic with GHRPs for enhanced GH release",
+    "Shortest fully functional GHRH fragment (29 amino acids)",
+    "No tachyphylaxis with chronic administration"
+  ]
+};
+
+// Hardcoded data for Tesamorelin
+const TESAMORELIN_DATA = {
+  overview: "Tesamorelin (Egrifta) is a synthetic GHRH analog consisting of human GHRH (1-44) with a trans-3-hexenoic acid modification at the N-terminus for enhanced stability and potency. It is the only FDA-approved GHRH analog currently on the US market, specifically approved for reduction of excess abdominal fat (lipodystrophy) in HIV-infected patients. Tesamorelin produces robust, sustained GH release with demonstrated visceral fat reduction.",
+  potentialUses: [
+    { title: "Visceral Fat Reduction", description: "Tesamorelin is FDA-approved for reducing visceral adipose tissue (VAT) in HIV-associated lipodystrophy. It produces significant, measurable reductions in trunk fat while preserving subcutaneous fat and lean mass.", mechanism: "Stimulates pituitary GH release through GHRHR activation. Sustained GH elevation promotes visceral adipocyte lipolysis through hormone-sensitive lipase activation. Visceral fat cells are more GH-responsive than subcutaneous adipocytes due to higher growth hormone receptor density." },
+    { title: "Cognitive Function Research", description: "Tesamorelin has shown cognitive benefits in clinical trials, with improvements in executive function, verbal memory, and processing speed in both HIV+ and elderly populations.", mechanism: "GH and IGF-1 cross the blood-brain barrier and support hippocampal neurogenesis, synaptic plasticity, and cerebrovascular function. IGF-1 promotes BDNF expression and reduces amyloid-β accumulation in preclinical models." },
+    { title: "Metabolic Health", description: "Tesamorelin improves multiple metabolic parameters including triglycerides, cholesterol ratios, and liver fat content. It has been studied for non-alcoholic fatty liver disease (NAFLD).", mechanism: "GH promotes hepatic fatty acid oxidation and reduces de novo lipogenesis. Improved lipoprotein metabolism through enhanced hepatic lipase activity. Reduced visceral fat improves insulin sensitivity and inflammatory profile." },
+    { title: "Non-Alcoholic Fatty Liver Disease", description: "Clinical trials have demonstrated tesamorelin reduces liver fat content by 30-40% in HIV-associated NAFLD, with potential applications for non-HIV NAFLD research.", mechanism: "GH-mediated activation of hepatic fatty acid oxidation and ketogenesis. Reduced de novo lipogenesis through SREBP-1c downregulation. Improved hepatic insulin sensitivity reduces fat accumulation." }
+  ],
+  clinicalTrials: [
+    { title: "Tesamorelin Phase III FDA Approval Trial", year: "2010", institution: "New England Journal of Medicine (Falutz et al.)", participants: "816 HIV-infected patients with lipodystrophy", duration: "26-week Phase III RCT", findings: "Tesamorelin 2 mg daily reduced trunk fat by 15.4% (vs 5.3% placebo increase), reduced visceral adipose tissue by 18%, and improved patient-reported body image. Triglycerides decreased. IGF-1 increased to normal range. Treatment was well-tolerated.", conclusion: "Tesamorelin effectively reduces HIV-associated visceral adiposity through physiological GH stimulation, earning FDA approval as Egrifta in 2010." },
+    { title: "Tesamorelin Cognitive Benefits", year: "2017", institution: "Neurology (Stanley et al.)", participants: "HIV+ adults with cognitive impairment", duration: "6-month RCT", findings: "Tesamorelin improved executive function, verbal memory, and global cognitive composite scores compared to placebo. Benefits correlated with increased IGF-1 levels. Hippocampal volume was preserved in the treatment group.", conclusion: "Tesamorelin demonstrates cognitive benefits through GH/IGF-1 pathway activation, supporting investigation for cognitive decline associated with aging and HIV." },
+    { title: "Tesamorelin for NAFLD", year: "2019", institution: "Lancet HIV (Stanley et al.)", participants: "HIV+ patients with NAFLD", duration: "12-month RCT", findings: "Tesamorelin reduced hepatic fat fraction by 37% (vs 10% increase on placebo). 35% of treated patients achieved NAFLD resolution. Liver fibrosis markers improved. No worsening of glucose tolerance.", conclusion: "Tesamorelin effectively reduces liver fat and may prevent NAFLD progression through GH-mediated hepatic fat metabolism enhancement." }
+  ],
+  safetyProfile: "Tesamorelin is FDA-approved (Egrifta) with extensive Phase III safety data. Common side effects include injection site reactions (11%), arthralgia (3%), and peripheral edema. It may increase fasting glucose — monitoring recommended in pre-diabetic individuals. Contraindicated in active malignancy and pregnancy. Market withdrawal was not due to safety. For research use only outside of approved indication.",
+  dosage: "FDA-approved dose: 2 mg subcutaneously once daily (abdomen). Research protocols follow similar dosing. Reconstitute with provided sterile water or bacteriostatic water. Administer on an empty stomach. Store reconstituted solution refrigerated and use within 24 hours.",
+  keyBenefits: [
+    "FDA-approved (Egrifta) with Phase III clinical trial data",
+    "15-18% visceral fat reduction in clinical trials",
+    "Cognitive benefits demonstrated in RCTs",
+    "37% liver fat reduction for NAFLD research",
+    "Improved metabolic markers (triglycerides, cholesterol)",
+    "Only currently marketed GHRH analog in the US",
+    "Enhanced stability over native GHRH",
+    "Preserves physiological GH pulsatility and feedback"
+  ]
+};
+
+// Hardcoded data for IGF-1 LR3
+const IGF1LR3_DATA = {
+  overview: "IGF-1 LR3 (Long R3 Insulin-like Growth Factor-1) is a modified version of human IGF-1 consisting of 83 amino acids with an arginine substitution at position 3 and a 13-amino acid N-terminal extension. These modifications dramatically reduce binding to IGF-binding proteins (IGFBPs), resulting in a much longer half-life (~20-30 hours vs ~15 minutes for native IGF-1) and greater bioavailability. IGF-1 LR3 is approximately 2-3 times more potent than native IGF-1.",
+  potentialUses: [
+    { title: "Muscle Hypertrophy & Hyperplasia", description: "IGF-1 LR3 promotes both muscle cell growth (hypertrophy) and new muscle cell formation (hyperplasia) through satellite cell activation. This dual mechanism distinguishes it from most anabolic agents.", mechanism: "Activates the IGF-1 receptor (IGF-1R) and downstream PI3K/Akt/mTOR signaling, promoting protein synthesis and cell growth. Additionally stimulates satellite cell proliferation and differentiation into new myofibers — the hyperplasia effect unique to IGF-1 signaling." },
+    { title: "Protein Synthesis & Anti-Catabolic", description: "IGF-1 LR3 enhances protein synthesis while inhibiting protein degradation, creating a strongly anabolic intracellular environment.", mechanism: "mTORC1 activation promotes ribosomal biogenesis (S6K1) and translation initiation (4E-BP1 phosphorylation). Simultaneously, Akt phosphorylation of FOXO transcription factors reduces expression of ubiquitin ligases (MuRF1, MAFbx/atrogin-1) that mediate muscle protein breakdown." },
+    { title: "Cell Proliferation Research", description: "IGF-1 LR3 is widely used in cell culture and biotechnology as a growth factor supplement. Its reduced IGFBP binding means more bioavailable IGF-1 for cell growth stimulation.", mechanism: "Activates IGF-1R-mediated mitogenic signaling (Ras/MAPK pathway for proliferation and PI3K/Akt for cell survival). The extended half-life provides sustained growth factor stimulation in culture media." },
+    { title: "Recovery & Tissue Repair", description: "IGF-1 signaling is essential for tissue repair across muscle, bone, nerve, and connective tissue. IGF-1 LR3 provides enhanced and prolonged IGF-1 receptor activation.", mechanism: "Promotes fibroblast proliferation and collagen synthesis in connective tissue. Stimulates osteoblast differentiation in bone. Supports Schwann cell proliferation and axonal regeneration in nerve repair." }
+  ],
+  clinicalTrials: [
+    { title: "IGF-1 LR3 Bioavailability and IGFBP Interactions", year: "2000", institution: "Growth Hormone & IGF Research", participants: "In vitro and pharmacokinetic studies", duration: "Comparative pharmacology studies", findings: "IGF-1 LR3 showed <1% binding to IGFBPs compared to native IGF-1, resulting in a 20-30 hour half-life vs 15 minutes. Biological potency was 2-3 times greater than native IGF-1 for mitogenic activity. Receptor affinity was maintained at near-native levels.", conclusion: "The R3 substitution and N-terminal extension effectively eliminate IGFBP binding while preserving receptor activation, creating a significantly more potent and long-lasting IGF-1 analog." },
+    { title: "IGF-1 in Skeletal Muscle Regeneration", year: "2015", institution: "Journal of Applied Physiology", participants: "Preclinical muscle regeneration models", duration: "4-8 week treatment studies", findings: "IGF-1 administration promoted satellite cell activation, myoblast proliferation, and muscle fiber regeneration after injury. IGF-1 LR3 showed superior efficacy due to extended half-life and reduced IGFBP sequestration. Both hypertrophy and hyperplasia were observed.", conclusion: "IGF-1 signaling through LR3 analog promotes muscle regeneration through satellite cell-mediated hyperplasia and myofiber hypertrophy." },
+    { title: "IGF-1 Safety Considerations Review", year: "2018", institution: "Endocrine Reviews", participants: "Comprehensive safety review", duration: "Multi-study analysis", findings: "Chronic IGF-1 elevation is associated with increased risk of certain cancers (colon, breast, prostate) in epidemiological studies. Hypoglycemia is the most acute safety concern with IGF-1 administration. Long-term data for LR3 specifically is limited.", conclusion: "IGF-1 and analogs require careful dosing and monitoring due to mitogenic potential and hypoglycemia risk. Research use requires appropriate safety protocols." }
+  ],
+  safetyProfile: "IGF-1 LR3 is a potent growth factor with significant safety considerations. Risk of hypoglycemia due to insulin-like activity — blood glucose monitoring is essential. Chronic IGF-1 elevation is epidemiologically associated with increased cancer risk due to mitogenic and anti-apoptotic effects. Contraindicated in individuals with active or suspected malignancy. May cause joint pain, headache, and fluid retention. Strictly for research use only.",
+  dosage: "Research protocols typically use 20-50 μg per injection subcutaneously or intramuscularly, once daily. Some protocols use higher doses for limited durations. Due to potency and safety considerations, conservative dosing is standard. Reconstitute with bacteriostatic water or acetic acid solution. Store refrigerated.",
+  keyBenefits: [
+    "2-3x more potent than native IGF-1",
+    "Extended half-life (20-30 hours vs 15 minutes)",
+    "Promotes both muscle hypertrophy AND hyperplasia",
+    "Minimal IGFBP binding for maximum bioavailability",
+    "Potent anti-catabolic through FOXO/ubiquitin ligase suppression",
+    "Widely used in cell culture and biotechnology research",
+    "Supports multi-tissue repair through IGF-1R activation",
+    "Well-characterized pharmacokinetics and receptor pharmacology"
+  ]
+};
+
+// Hardcoded data for HCG
+const HCG_DATA = {
+  overview: "Human Chorionic Gonadotropin (hCG) is a naturally occurring glycoprotein hormone produced by the placenta during pregnancy. It consists of an alpha subunit (shared with LH, FSH, TSH) and a unique beta subunit that confers biological specificity. hCG is FDA-approved for fertility treatment and has research applications in testosterone stimulation, gonadal function preservation, and reproductive medicine. It acts primarily through the LH/CG receptor.",
+  potentialUses: [
+    { title: "Testosterone Stimulation", description: "hCG mimics LH at Leydig cells, directly stimulating testosterone production. It is used to maintain or restore endogenous testosterone during or after protocols that may suppress the HPG axis.", mechanism: "Binds the LH/CG receptor on testicular Leydig cells with higher affinity and longer half-life than native LH. Activates cAMP/PKA signaling cascade that upregulates StAR protein (cholesterol transport into mitochondria) and steroidogenic enzymes (CYP11A1, CYP17A1, 3β-HSD) for testosterone synthesis." },
+    { title: "Fertility Treatment", description: "FDA-approved for inducing ovulation in women with anovulatory infertility and for treating hypogonadotropic hypogonadism in men. In IVF, hCG triggers final oocyte maturation.", mechanism: "In females: mimics the LH surge to trigger ovulation and corpus luteum formation. In males: sustained Leydig cell stimulation promotes testosterone production and supports spermatogenesis through intratesticular testosterone." },
+    { title: "Testicular Function Preservation", description: "hCG maintains Leydig cell function and testicular volume during protocols that suppress pituitary LH secretion. This preserves fertility potential and prevents testicular atrophy.", mechanism: "Direct Leydig cell stimulation bypasses pituitary suppression to maintain intratesticular testosterone (ITT) at levels sufficient for spermatogenesis. Prevents Leydig cell apoptosis and Sertoli cell dysfunction associated with ITT depletion." },
+    { title: "Cryptorchidism Treatment", description: "FDA-approved for stimulating testicular descent in cryptorchidism (undescended testes) in prepubertal males.", mechanism: "Testosterone elevation from hCG-stimulated Leydig cell activity promotes gubernacular contraction and inguinal canal widening, facilitating testicular descent." }
+  ],
+  clinicalTrials: [
+    { title: "hCG for Male Hypogonadism", year: "2019", institution: "Journal of Clinical Endocrinology & Metabolism", participants: "Males with hypogonadotropic hypogonadism", duration: "6-12 month treatment studies", findings: "hCG (1500-5000 IU 2-3x weekly) restored testosterone to normal ranges, maintained testicular volume, and preserved or restored spermatogenesis. When combined with FSH, full fertility restoration was achieved in most patients. Treatment was well-tolerated.", conclusion: "hCG effectively maintains testicular function and testosterone production in hypogonadotropic states with demonstrated fertility preservation." },
+    { title: "hCG for IVF Oocyte Maturation", year: "2018", institution: "Fertility and Sterility (Meta-analysis)", participants: "Women undergoing IVF", duration: "Trigger-to-retrieval protocols", findings: "hCG trigger (5000-10000 IU) reliably induced final oocyte maturation with high retrieval rates. It remains the gold standard for IVF triggering despite OHSS risk in high-responders.", conclusion: "hCG is the established standard for IVF oocyte maturation with decades of clinical efficacy data." },
+    { title: "hCG Safety in Long-term Use", year: "2020", institution: "Andrology (Multi-center review)", participants: "Long-term hCG users for various indications", duration: "1-5 year follow-up studies", findings: "Long-term hCG use maintained efficacy for testosterone production without significant adverse effects. Estradiol elevation may occur requiring monitoring. Antibody formation is rare with recombinant preparations. No increased cancer risk observed.", conclusion: "Long-term hCG therapy is safe and effective for testosterone maintenance with appropriate monitoring." }
+  ],
+  safetyProfile: "hCG is FDA-approved with decades of clinical safety data. May cause estradiol elevation through aromatization of testosterone — estrogen management may be needed. Possible side effects include headache, irritability, fluid retention, and gynecomastia. Rare: antibody formation with urinary-derived preparations. Contraindicated in hormone-dependent tumors. For research use only outside of approved indications.",
+  dosage: "Research protocols: 250-500 IU subcutaneously, 2-3 times weekly for testosterone maintenance. Higher doses (1500-5000 IU) used for fertility or acute stimulation. Available as lyophilized powder requiring reconstitution with bacteriostatic water. Store reconstituted solution refrigerated and use within 30 days.",
+  keyBenefits: [
+    "FDA-approved with decades of clinical safety and efficacy data",
+    "Directly stimulates testicular testosterone production",
+    "Preserves testicular volume and fertility potential",
+    "Higher affinity and longer half-life than native LH",
+    "Gold standard for IVF oocyte maturation triggering",
+    "Supports spermatogenesis through intratesticular testosterone",
+    "Well-characterized dosing protocols across clinical contexts",
+    "Available in both urinary-derived and recombinant forms"
+  ]
+};
+
+// Hardcoded data for HGH Fragment 176-191
+const HGHFRAG_DATA = {
+  overview: "HGH Fragment 176-191 is a synthetic peptide corresponding to amino acids 176-191 of the C-terminal region of human growth hormone. This specific fragment was identified as the region of GH responsible for its lipolytic (fat-burning) effects. Like AOD-9604, it retains fat-metabolism activity without the growth-promoting, diabetogenic, or IGF-1-elevating effects of full-length HGH. It is often compared to AOD-9604, which is a modified version of this fragment.",
+  potentialUses: [
+    { title: "Targeted Fat Metabolism", description: "HGH Frag 176-191 selectively stimulates lipolysis in adipose tissue without the anabolic or diabetogenic effects of full-length HGH. It promotes fat breakdown without affecting blood glucose or promoting tissue growth.", mechanism: "Mimics the lipolytic domain of GH by activating beta-3 adrenergic receptor-mediated signaling in adipocytes. Stimulates hormone-sensitive lipase for triglyceride hydrolysis and inhibits lipogenesis through acetyl-CoA carboxylase suppression. Does not bind the GH receptor in a manner that activates IGF-1 production." },
+    { title: "Anti-Lipogenic Activity", description: "Beyond promoting fat breakdown, HGH Frag 176-191 actively inhibits new fat formation (lipogenesis), creating a dual mechanism for fat reduction.", mechanism: "Inhibits acetyl-CoA carboxylase, the rate-limiting enzyme in de novo fatty acid synthesis. Reduces lipogenic gene expression in adipocytes, preventing conversion of excess calories to stored fat." },
+    { title: "Body Composition Optimization", description: "Research focuses on HGH Frag 176-191 for body fat reduction without the complications of full-length GH therapy, including IGF-1 elevation, insulin resistance, and tissue growth.", mechanism: "Selective lipolytic fragment activity does not engage the JAK2/STAT5 signaling pathway responsible for IGF-1 production and anabolic effects. This isolates fat metabolism benefits from growth-promoting and diabetogenic effects." },
+    { title: "Cartilage Regeneration", description: "Like its derivative AOD-9604, HGH Frag 176-191 has shown preliminary evidence for cartilage repair and chondroprotective effects.", mechanism: "Promotes chondrocyte proliferation and proteoglycan synthesis through growth factor-independent pathways. May support cartilage extracellular matrix maintenance." }
+  ],
+  clinicalTrials: [
+    { title: "GH Fragment 176-191 Lipolytic Activity", year: "2001", institution: "Obesity Research (Ng et al., Monash University)", participants: "Preclinical obesity models", duration: "4-6 week treatment studies", findings: "HGH Fragment 176-191 reduced body fat by 50% more than placebo without affecting food intake, IGF-1 levels, or blood glucose. Fat-specific lipolysis was confirmed through selective reduction in adipose tissue mass with preservation of lean body mass.", conclusion: "The C-terminal fragment of GH retains full lipolytic activity while lacking growth-promoting and diabetogenic properties, confirming the dissociation of GH's fat-metabolizing and anabolic domains." },
+    { title: "Fragment 176-191 vs Full-Length GH Comparison", year: "2004", institution: "Endocrinology (Monash University)", participants: "Comparative preclinical studies", duration: "6-week treatment comparison", findings: "Fragment 176-191 produced equivalent lipolytic effects to full-length GH at comparable doses without IGF-1 elevation, hyperglycemia, or organ growth. Anti-lipogenic effects were confirmed through reduced fatty acid synthase expression.", conclusion: "HGH Fragment 176-191 provides the fat-metabolizing benefits of GH without its major safety liabilities, supporting its development as a targeted fat-reduction agent." },
+    { title: "GH Fragment Mechanism of Action", year: "2006", institution: "Growth Hormone & IGF Research", participants: "Mechanistic pharmacology studies", duration: "In vitro and in vivo studies", findings: "Fragment 176-191 activated lipolysis through beta-3 adrenergic receptor-associated pathways without engaging the classical GH receptor JAK2/STAT5 signaling. No effect on glucose transporter expression or insulin signaling was observed.", conclusion: "The lipolytic mechanism of GH Fragment 176-191 is distinct from the growth-promoting GH receptor signaling, explaining its selective fat-metabolizing activity." }
+  ],
+  safetyProfile: "HGH Fragment 176-191 has demonstrated a favorable safety profile in preclinical studies with no effects on blood glucose, insulin sensitivity, or IGF-1 levels. It does not promote cell growth or have anabolic effects. Common side effects are limited to injection site reactions. Related compound AOD-9604 received FDA GRAS status. For research use only.",
+  dosage: "Research protocols: 250-500 μg per injection subcutaneously, administered 1-2 times daily on an empty stomach (particularly before exercise or fasting periods). Morning and pre-bed dosing is common. Reconstitute with bacteriostatic water and store refrigerated.",
+  keyBenefits: [
+    "Selective fat reduction without GH growth-promoting effects",
+    "No impact on blood glucose, insulin, or IGF-1 levels",
+    "Dual mechanism: promotes lipolysis AND inhibits lipogenesis",
+    "Related compound (AOD-9604) has FDA GRAS status",
+    "Preserves lean body mass during fat reduction",
+    "No diabetogenic effects unlike full-length HGH",
+    "Well-characterized mechanism from Monash University research",
+    "Preliminary evidence for chondroprotective effects"
+  ]
+};
+
 // Lookup map for all hardcoded peptide data
 const PEPTIDE_DATA_MAP = {
   'BPC-157': BPC157_DATA, 'BPC 157': BPC157_DATA, 'BPC157': BPC157_DATA,
@@ -904,6 +1600,31 @@ const PEPTIDE_DATA_MAP = {
   'EPITHALON': EPITHALON_DATA, 'EPITALON': EPITHALON_DATA,
   'BPC 157 + TB500': BPC_TB_COMBO_DATA, 'BPC-157 + TB-500': BPC_TB_COMBO_DATA, 'BPC157+TB500': BPC_TB_COMBO_DATA,
   'HGH': HGH_DATA, 'HUMAN GROWTH HORMONE': HGH_DATA, 'GROWTH HORMONE': HGH_DATA, 'SOMATOTROPIN': HGH_DATA,
+  'GHK-CU': GHKCU_DATA, 'GHK CU': GHKCU_DATA, 'GHKCU': GHKCU_DATA, 'COPPER PEPTIDE': GHKCU_DATA, 'GHK-COPPER': GHKCU_DATA,
+  'KPV': KPV_DATA,
+  'CJC-1295': CJC1295_DATA, 'CJC 1295': CJC1295_DATA, 'CJC1295': CJC1295_DATA, 'MOD GRF 1-29': CJC1295_DATA, 'MOD-GRF': CJC1295_DATA,
+  'IPAMORELIN': IPAMORELIN_DATA,
+  'GONADORELIN': GONADORELIN_DATA, 'GNRH': GONADORELIN_DATA,
+  'DSIP': DSIP_DATA, 'DELTA SLEEP': DSIP_DATA,
+  'OXYTOCIN': OXYTOCIN_DATA,
+  'AOD-9604': AOD9604_DATA, 'AOD 9604': AOD9604_DATA, 'AOD9604': AOD9604_DATA,
+  'NAD+': NAD_DATA, 'NAD': NAD_DATA, 'NICOTINAMIDE ADENINE DINUCLEOTIDE': NAD_DATA,
+  'PT-141': PT141_DATA, 'PT141': PT141_DATA, 'PT 141': PT141_DATA, 'BREMELANOTIDE': PT141_DATA,
+  'SS-31': SS31_DATA, 'SS31': SS31_DATA, 'ELAMIPRETIDE': SS31_DATA, 'BENDAVIA': SS31_DATA,
+  'DIHEXA': DIHEXA_DATA,
+  'P21': P21_DATA, 'P021': P21_DATA,
+  'GHRP-2': GHRP2_DATA, 'GHRP2': GHRP2_DATA, 'GHRP 2': GHRP2_DATA, 'PRALMORELIN': GHRP2_DATA,
+  'GHRP-6': GHRP6_DATA, 'GHRP6': GHRP6_DATA, 'GHRP 6': GHRP6_DATA,
+  'HEXARELIN': HEXARELIN_DATA, 'EXAMORELIN': HEXARELIN_DATA,
+  'MK-677': MK677_DATA, 'MK677': MK677_DATA, 'MK 677': MK677_DATA, 'IBUTAMOREN': MK677_DATA,
+  'MELANOTAN II': MTII_DATA, 'MELANOTAN 2': MTII_DATA, 'MT-2': MTII_DATA, 'MT2': MTII_DATA, 'MT-II': MTII_DATA,
+  'MELANOTAN I': MTI_DATA, 'MELANOTAN 1': MTI_DATA, 'MT-1': MTI_DATA, 'MT1': MTI_DATA, 'MT-I': MTI_DATA, 'AFAMELANOTIDE': MTI_DATA,
+  'KISSPEPTIN-10': KISSPEPTIN_DATA, 'KISSPEPTIN': KISSPEPTIN_DATA, 'KISSPEPTIN 10': KISSPEPTIN_DATA,
+  'SERMORELIN': SERMORELIN_DATA, 'GRF 1-29': SERMORELIN_DATA,
+  'TESAMORELIN': TESAMORELIN_DATA, 'EGRIFTA': TESAMORELIN_DATA,
+  'IGF-1 LR3': IGF1LR3_DATA, 'IGF1 LR3': IGF1LR3_DATA, 'IGF-1': IGF1LR3_DATA, 'IGF1': IGF1LR3_DATA, 'IGF-1LR3': IGF1LR3_DATA,
+  'HCG': HCG_DATA, 'HUMAN CHORIONIC GONADOTROPIN': HCG_DATA,
+  'HGH FRAG 176-191': HGHFRAG_DATA, 'HGH FRAGMENT 176-191': HGHFRAG_DATA, 'HGH FRAG': HGHFRAG_DATA, 'FRAGMENT 176-191': HGHFRAG_DATA, 'FRAG 176-191': HGHFRAG_DATA,
 };
 
 export default function PeptideLearn() {
