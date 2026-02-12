@@ -12,18 +12,18 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.6 }}
-    className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 hover:border-red-600/30 transition-all group relative overflow-hidden"
+    className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 hover:border-[#dc2626]/30 transition-all group relative overflow-hidden"
   >
     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
       <Icon className="w-48 h-48 text-slate-900" />
     </div>
     
     <div className="flex flex-col md:flex-row items-start gap-8 relative z-10">
-      <div className="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-600/20 group-hover:scale-110 transition-transform">
+      <div className="w-16 h-16 bg-[#dc2626] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#dc2626]/20 group-hover:scale-110 transition-transform">
         <Icon className="w-8 h-8 text-white" />
       </div>
       <div>
-        <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none group-hover:text-red-600 transition-colors">
+        <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none group-hover:text-[#dc2626] transition-colors">
           {title}
         </h3>
         <p className="text-lg text-slate-500 leading-relaxed mb-6 font-medium">
@@ -32,7 +32,7 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
         {highlight && (
           <div className="inline-flex flex-col gap-1 px-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{highlightSecondary || 'Research Status'}</span>
-            <span className="text-lg font-black text-red-600 uppercase tracking-tight">{highlight}</span>
+            <span className="text-lg font-black text-[#dc2626] uppercase tracking-tight">{highlight}</span>
           </div>
         )}
       </div>
@@ -64,7 +64,7 @@ export default function About() {
 
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
-        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-[#dc2626] rounded-full blur-[120px]" />
         <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
       </div>
 
@@ -82,7 +82,7 @@ export default function About() {
           </Link>
           
           <h1 className="text-6xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
-            Our <span className="text-red-600">Mission</span>
+            Our <span className="text-[#dc2626]">Mission</span>
           </h1>
           
           <p className="text-2xl text-slate-500 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
@@ -90,9 +90,9 @@ export default function About() {
             unmatched transparency, clinical-grade purity, and verifiable laboratory data.
           </p>
 
-          <div className="inline-flex items-center gap-4 px-8 py-4 bg-red-50 border border-red-100 rounded-3xl shadow-lg shadow-red-100/50">
-            <ShieldCheck className="w-6 h-6 text-red-600" />
-            <span className="text-sm font-black text-red-600 uppercase tracking-widest">
+          <div className="inline-flex items-center gap-4 px-8 py-4 bg-[#fef2f2] border border-[#fee2e2] rounded-3xl shadow-lg shadow-[#fee2e2]/50">
+            <ShieldCheck className="w-6 h-6 text-[#dc2626]" />
+            <span className="text-sm font-black text-[#dc2626] uppercase tracking-widest">
               FOR RESEARCH AND LABORATORY USE ONLY
             </span>
           </div>
@@ -115,7 +115,7 @@ export default function About() {
             className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 text-center hover:bg-white hover:shadow-xl transition-all group"
           >
             <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-              <stat.icon className="w-6 h-6 text-red-600" />
+              <stat.icon className="w-6 h-6 text-[#dc2626]" />
             </div>
             <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</div>
             <h4 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">{stat.title}</h4>
@@ -165,7 +165,7 @@ export default function About() {
             className="relative z-10"
           >
             <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
-              The Red Helix <span className="text-red-600">Standard</span>
+              The Red Helix <span className="text-[#dc2626]">Standard</span>
             </h2>
             <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
               Our commitment to the scientific community is unwavering. We provide the tools, 
@@ -179,8 +179,8 @@ export default function About() {
                 'Secure Research Supply',
                 '24/7 Technical Support'
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 text-left p-4 bg-slate-50 border border-slate-200 rounded-2xl hover:border-red-600/30 transition-colors">
-                  <div className="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center flex-shrink-0">
+                <div key={idx} className="flex items-center gap-3 text-left p-4 bg-slate-50 border border-slate-200 rounded-2xl hover:border-[#dc2626]/30 transition-colors">
+                  <div className="w-6 h-6 rounded-full bg-[#dc2626] flex items-center justify-center flex-shrink-0">
                     <ShieldCheck className="w-4 h-4 text-white" />
                   </div>
                   <span className="text-sm font-bold text-slate-900 uppercase tracking-wide">{item}</span>
@@ -189,7 +189,7 @@ export default function About() {
             </div>
 
             <Link to={createPageUrl('Home')}>
-              <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-12 py-8 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-red-600/20">
+              <Button size="lg" className="bg-[#dc2626] hover:bg-[#b91c1c] text-white px-12 py-8 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-[#dc2626]/20">
                 Explore Research Catalog
               </Button>
             </Link>

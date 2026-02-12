@@ -10,9 +10,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 hover:from-red-700 hover:to-red-800 border border-red-500/20",
+          "bg-gradient-to-r from-[#dc2626] to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 hover:from-red-700 hover:to-red-800 border border-red-500/20",
         destructive:
-          "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 hover:from-red-700 hover:to-red-800",
+          "bg-gradient-to-r from-[#dc2626] to-red-700 text-white shadow-lg shadow-red-900/30 hover:shadow-xl hover:shadow-red-900/40 hover:from-red-700 hover:to-red-800",
         outline:
           "border-2 border-stone-700/50 bg-stone-900/50 backdrop-blur-sm text-stone-200 hover:text-white hover:bg-stone-800/80 hover:border-stone-600 shadow-lg shadow-black/10",
         secondary:

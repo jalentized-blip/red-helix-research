@@ -44,13 +44,13 @@ export default function WhyTrustUs() {
             viewport={{ once: true }}
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-600/5 border border-red-600/10 rounded-full mb-6">
-              <ShieldCheck className="w-3 h-3 text-red-600" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-red-600">Quality Assurance Protocol</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
+              <ShieldCheck className="w-3 h-3 text-[#dc2626]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc2626]">Quality Assurance Protocol</span>
             </div>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.9]">
               FOUNDATION OF <br />
-              <span className="text-red-600">SCIENTIFIC TRUST</span>
+              <span className="text-[#dc2626]">SCIENTIFIC TRUST</span>
             </h2>
           </motion.div>
 
@@ -82,17 +82,17 @@ export default function WhyTrustUs() {
               transition={{ delay: index * 0.1, duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-slate-50 border-slate-100 hover:border-red-600/30 transition-all duration-500 p-10 rounded-[40px] group relative overflow-hidden shadow-sm hover:shadow-xl">
+              <Card className="h-full bg-slate-50 border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 p-10 rounded-[40px] group relative overflow-hidden shadow-sm hover:shadow-xl">
                 <div className="absolute top-0 right-0 p-8 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity">
                   <point.icon size={120} />
                 </div>
                 
-                <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 flex items-center justify-center mb-8 group-hover:border-red-600/30 transition-colors shadow-sm">
-                  <point.icon className="w-7 h-7 text-red-600" />
+                <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 flex items-center justify-center mb-8 group-hover:border-[#dc2626]/30 transition-colors shadow-sm">
+                  <point.icon className="w-7 h-7 text-[#dc2626]" />
                 </div>
 
                 <div className="mb-6">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-red-600 transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-[#dc2626] transition-colors">
                     {point.subtitle}
                   </span>
                   <h3 className="text-2xl font-black text-slate-900 mt-1 tracking-tight">

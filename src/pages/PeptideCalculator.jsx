@@ -173,12 +173,12 @@ www.redhelixresearch.com`;
       {/* Header */}
       <div className="max-w-6xl mx-auto px-4 mb-12">
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-black text-slate-900 mb-3 uppercase tracking-tighter">Peptide <span className="text-red-600">Calculator</span></h1>
+          <h1 className="text-5xl font-black text-slate-900 mb-3 uppercase tracking-tighter">Peptide <span className="text-[#dc2626]">Calculator</span></h1>
           <p className="text-slate-500 text-lg font-medium">Calculate your research dosage with precision</p>
         </div>
 
         {/* Disclaimer */}
-        <div className="bg-red-600 rounded-2xl p-6 mb-8 shadow-sm">
+        <div className="bg-[#dc2626] rounded-2xl p-6 mb-8 shadow-sm">
           <p className="text-white text-sm text-center font-medium">
             <span className="font-black uppercase tracking-wider mr-2">⚠️ Disclaimer:</span> This calculator is strictly for research purposes only. All peptides are sold for research use only and are not intended for human consumption.
           </p>
@@ -193,7 +193,7 @@ www.redhelixresearch.com`;
             {/* Syringe Size - NEW */}
             <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 shadow-sm">
               <div className="flex items-center gap-2 mb-4">
-                <Syringe className="w-5 h-5 text-red-600" />
+                <Syringe className="w-5 h-5 text-[#dc2626]" />
                 <label className="text-slate-900 font-black uppercase tracking-widest text-xs">Syringe Size</label>
                 <Info className="w-4 h-4 text-slate-400" />
               </div>
@@ -240,7 +240,7 @@ www.redhelixresearch.com`;
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
+                    className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
                     onClick={() => setDose('other')}
                   >
                     Custom Value
@@ -253,12 +253,12 @@ www.redhelixresearch.com`;
                     value={doseCustom}
                     onChange={(e) => setDoseCustom(e.target.value)}
                     placeholder="Enter dose in mg"
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 h-12 text-slate-900 placeholder-slate-300 focus:outline-none focus:border-red-600 mb-4 font-bold"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 h-12 text-slate-900 placeholder-slate-300 focus:outline-none focus:border-[#dc2626] mb-4 font-bold"
                   />
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
+                    className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
                     onClick={() => {
                       setDose('1');
                       setDoseCustom('');
@@ -296,7 +296,7 @@ www.redhelixresearch.com`;
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
+                    className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
                     onClick={() => setStrength('other')}
                   >
                     Custom Value
@@ -309,12 +309,12 @@ www.redhelixresearch.com`;
                     value={strengthCustom}
                     onChange={(e) => setStrengthCustom(e.target.value)}
                     placeholder="Enter vial strength in mg"
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 h-12 text-slate-900 placeholder-slate-300 focus:outline-none focus:border-red-600 mb-4 font-bold"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 h-12 text-slate-900 placeholder-slate-300 focus:outline-none focus:border-[#dc2626] mb-4 font-bold"
                   />
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
+                    className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
                     onClick={() => {
                       setStrength('10');
                       setStrengthCustom('');
@@ -352,7 +352,7 @@ www.redhelixresearch.com`;
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
+                    className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
                     onClick={() => setWater('other')}
                   >
                     Custom Value
@@ -365,12 +365,12 @@ www.redhelixresearch.com`;
                     value={waterCustom}
                     onChange={(e) => setWaterCustom(e.target.value)}
                     placeholder="Enter volume in mL"
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 h-12 text-slate-900 placeholder-slate-300 focus:outline-none focus:border-red-600 mb-4 font-bold"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 h-12 text-slate-900 placeholder-slate-300 focus:outline-none focus:border-[#dc2626] mb-4 font-bold"
                   />
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
+                    className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] w-full rounded-xl font-black uppercase tracking-widest text-[10px] h-10"
                     onClick={() => {
                       setWater('1.0');
                       setWaterCustom('');
@@ -385,7 +385,7 @@ www.redhelixresearch.com`;
 
           {/* RIGHT SIDE - RESULTS */}
           <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10 sticky top-32 h-fit shadow-xl shadow-slate-200/50">
-            <h2 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight">Reconstitution <span className="text-red-600">Results</span></h2>
+            <h2 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight">Reconstitution <span className="text-[#dc2626]">Results</span></h2>
 
             {!isValid ? (
               <div className="text-slate-400 text-center py-20 border-2 border-dashed border-slate-200 rounded-[32px]">
@@ -396,20 +396,20 @@ www.redhelixresearch.com`;
                 {/* Results Cards */}
                 <div className="grid gap-4">
                   {/* Draw Amount */}
-                  <div className="bg-white rounded-3xl p-6 border border-slate-200 group hover:border-red-600/50 transition-all shadow-sm">
+                  <div className="bg-white rounded-3xl p-6 border border-slate-200 group hover:border-[#dc2626]/50 transition-all shadow-sm">
                     <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Draw Volume</p>
                     <div className="flex items-baseline gap-2">
                       <p className="text-4xl font-black text-slate-900">{drawAmount}</p>
-                      <p className="text-red-600 font-black text-xl uppercase tracking-widest">mL</p>
+                      <p className="text-[#dc2626] font-black text-xl uppercase tracking-widest">mL</p>
                     </div>
                   </div>
 
                   {/* Draw Units */}
-                  <div className="bg-white rounded-3xl p-6 border border-slate-200 group hover:border-red-600/50 transition-all shadow-sm">
+                  <div className="bg-white rounded-3xl p-6 border border-slate-200 group hover:border-[#dc2626]/50 transition-all shadow-sm">
                     <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Syringe Units</p>
                     <div className="flex items-baseline gap-2">
                       <p className="text-4xl font-black text-slate-900">{drawUnits}</p>
-                      <p className="text-red-600 font-black text-xl uppercase tracking-widest">Units</p>
+                      <p className="text-[#dc2626] font-black text-xl uppercase tracking-widest">Units</p>
                     </div>
                     <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-2">On {currentSyringeSize}mL Syringe</p>
                   </div>
@@ -418,20 +418,20 @@ www.redhelixresearch.com`;
                     {/* Concentration */}
                     <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                       <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Conc.</p>
-                      <p className="text-xl font-black text-slate-900">{concentration.toFixed(2)} <span className="text-red-600 text-xs">mg/mL</span></p>
+                      <p className="text-xl font-black text-slate-900">{concentration.toFixed(2)} <span className="text-[#dc2626] text-xs">mg/mL</span></p>
                     </div>
 
                     {/* Doses in Vial */}
                     <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                       <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Yield</p>
-                      <p className="text-xl font-black text-slate-900">{dosesInVial} <span className="text-red-600 text-xs">Doses</span></p>
+                      <p className="text-xl font-black text-slate-900">{dosesInVial} <span className="text-[#dc2626] text-xs">Doses</span></p>
                     </div>
                   </div>
                 </div>
 
                 {/* Warning Messages */}
                 {parseFloat(drawAmount) > currentWater && (
-                  <div className="bg-red-600/10 border border-red-600/20 rounded-2xl p-4 text-red-500 text-xs font-bold text-center">
+                  <div className="bg-[#dc2626]/10 border border-[#dc2626]/20 rounded-2xl p-4 text-red-500 text-xs font-bold text-center">
                     ⚠️ Draw volume exceeds available reconstituted solution.
                   </div>
                 )}
@@ -455,7 +455,7 @@ www.redhelixresearch.com`;
                     </Button>
                     <Button 
                       onClick={handleDownload}
-                      className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] h-14 shadow-lg shadow-red-600/20"
+                      className="flex-1 bg-[#dc2626] hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] h-14 shadow-lg shadow-[#dc2626]/20"
                     >
                       Export Data
                     </Button>
@@ -484,7 +484,7 @@ www.redhelixresearch.com`;
                 Syringe Markings ({currentSyringeSize}mL / {totalUnits} units)
               </p>
               <div className="flex items-center gap-2 text-sm text-slate-500 font-bold bg-slate-50 px-4 py-2 rounded-full">
-                <Syringe className="w-4 h-4 text-red-600" />
+                <Syringe className="w-4 h-4 text-[#dc2626]" />
                 <span>{currentSyringeSize}mL syringe selected</span>
               </div>
             </div>
@@ -583,21 +583,21 @@ www.redhelixresearch.com`;
               )}
             </svg>
             <p className="text-center text-slate-900 font-bold text-lg mt-8 bg-slate-50 py-4 rounded-xl border border-slate-100">
-              Draw to <span className="text-2xl text-red-600">{drawUnits}</span> units ({drawAmount} mL) on your {currentSyringeSize}mL syringe
+              Draw to <span className="text-2xl text-[#dc2626]">{drawUnits}</span> units ({drawAmount} mL) on your {currentSyringeSize}mL syringe
             </p>
           </div>
 
           {/* Reconstitution Steps */}
           <div className="bg-slate-50 rounded-[32px] p-8 border border-slate-200 mt-6 shadow-sm">
             <p className="text-slate-900 text-lg font-black uppercase tracking-tight mb-4 flex items-center gap-2">
-              <RotateCcw className="w-5 h-5 text-red-600" />
+              <RotateCcw className="w-5 h-5 text-[#dc2626]" />
               Reconstitution Steps
             </p>
             <ol className="space-y-4 text-sm text-slate-600 list-decimal list-inside font-medium">
               <li className="pl-2">Draw <span className="text-slate-900 font-bold">{currentWater} mL</span> of bacteriostatic water into a syringe</li>
               <li className="pl-2">Inject into the vial containing <span className="text-slate-900 font-bold">{currentStrength} mg</span> peptide</li>
               <li className="pl-2">Let the solution reconstitute for 5-10 minutes</li>
-              <li className="pl-2">Using your <span className="text-red-600 font-bold">{currentSyringeSize}mL syringe</span>, draw <span className="text-slate-900 font-bold">{drawAmount} mL ({drawUnits} units)</span> for your {currentDose} mg dose – <Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-red-600 hover:text-red-700 underline font-bold">Full Guide Here</Link></li>
+              <li className="pl-2">Using your <span className="text-[#dc2626] font-bold">{currentSyringeSize}mL syringe</span>, draw <span className="text-slate-900 font-bold">{drawAmount} mL ({drawUnits} units)</span> for your {currentDose} mg dose – <Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Full Guide Here</Link></li>
             </ol>
           </div>
         </div>
@@ -607,7 +607,7 @@ www.redhelixresearch.com`;
       <div className="max-w-6xl mx-auto px-4 mt-16">
         <div className="bg-slate-900 text-white border border-slate-800 rounded-[32px] p-10 shadow-xl shadow-slate-900/10">
           <h3 className="text-2xl font-black text-white mb-8 uppercase tracking-tight flex items-center gap-3">
-            <Info className="w-6 h-6 text-red-600" />
+            <Info className="w-6 h-6 text-[#dc2626]" />
             How to use
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-slate-400 text-sm">
@@ -655,7 +655,7 @@ www.redhelixresearch.com`;
             {/* Instructions */}
             <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-left mb-6">
               <p className="text-slate-900 text-xs font-black uppercase tracking-wider mb-3 flex items-center gap-2">
-                <span className="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center text-[8px]">i</span>
+                <span className="w-4 h-4 rounded-full bg-[#dc2626] text-white flex items-center justify-center text-[8px]">i</span>
                 How to use
               </p>
               <ol className="text-slate-600 text-sm space-y-2 list-decimal list-inside font-medium">
@@ -668,7 +668,7 @@ www.redhelixresearch.com`;
 
             <Button
               onClick={() => setShowQRCode(false)}
-              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-12 rounded-xl"
+              className="w-full bg-[#dc2626] hover:bg-red-700 text-white font-bold h-12 rounded-xl"
             >
               Close Window
             </Button>

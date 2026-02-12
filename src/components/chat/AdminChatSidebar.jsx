@@ -87,7 +87,7 @@ export default function AdminChatSidebar({ selectedConvId, onSelectConversation 
                     onClick={() => onSelectConversation(conv)}
                     className={`w-full text-left p-3 rounded-lg transition-all ${
                       selectedConvId === conv.id
-                        ? 'bg-red-700/20 border border-red-600/50'
+                        ? 'bg-red-700/20 border border-[#dc2626]/50'
                         : 'bg-stone-800/30 border border-stone-700/30 hover:bg-stone-800/50'
                     }`}
                   >

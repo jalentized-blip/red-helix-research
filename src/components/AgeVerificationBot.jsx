@@ -80,15 +80,15 @@ export default function AgeVerificationBot({ isOpen, onVerify }) {
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white border-2 border-red-600 rounded-[40px] p-10 max-w-md w-full shadow-[0_32px_64px_-16px_rgba(220,38,38,0.2)]"
+        className="bg-white border-2 border-[#dc2626] rounded-[40px] p-10 max-w-md w-full shadow-[0_32px_64px_-16px_rgba(220,38,38,0.2)]"
       >
         <div className="flex items-center gap-3 mb-6">
-          <AlertCircle className="w-8 h-8 text-red-600" />
+          <AlertCircle className="w-8 h-8 text-[#dc2626]" />
           <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">Access Control</h2>
         </div>
 
         <p className="text-slate-600 mb-6 font-medium leading-relaxed">
-          Red Helix Research supplies high-purity peptides for <span className="text-red-600 font-bold">LABORATORY AND SCIENTIFIC RESEARCH USE ONLY</span>. 
+          Red Helix Research supplies high-purity peptides for <span className="text-[#dc2626] font-bold">LABORATORY AND SCIENTIFIC RESEARCH USE ONLY</span>. 
           These products are strictly not for human consumption.
         </p>
 
@@ -99,7 +99,7 @@ export default function AgeVerificationBot({ isOpen, onVerify }) {
         <div className="flex flex-col gap-3">
           <button
             onClick={() => handleVerify(true)}
-            className="w-full px-8 py-4 bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-2xl font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-600/20"
+            className="w-full px-8 py-4 bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-2xl font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-[#dc2626]/20"
           >
             I Confirm (21+)
           </button>

@@ -201,7 +201,7 @@ export default function AdminStockManagement() {
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
@@ -216,7 +216,7 @@ export default function AdminStockManagement() {
             <Button
               onClick={handleAllOutOfStock}
               variant="outline"
-              className="bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30"
+              className="bg-[#dc2626]/20 border-[#dc2626]/50 text-red-400 hover:bg-[#dc2626]/30"
             >
               <AlertCircle className="w-4 h-4 mr-2" />
               Mark All Out of Stock
@@ -240,7 +240,7 @@ export default function AdminStockManagement() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 hover:border-red-600/30 transition-all"
+                  className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 hover:border-[#dc2626]/30 transition-all"
                 >
                   <div className="flex flex-col gap-6">
                     {/* Product Info */}
@@ -256,7 +256,7 @@ export default function AdminStockManagement() {
                         <div>
                           <h3 className="text-xl font-bold text-amber-50 mb-1">{product.name}</h3>
                           <p className="text-stone-400 text-sm mb-2">{product.description}</p>
-                          <span className="text-red-600 font-semibold">From ${product.price_from}</span>
+                          <span className="text-[#dc2626] font-semibold">From ${product.price_from}</span>
                         </div>
                       </div>
                       <Button
@@ -337,7 +337,7 @@ export default function AdminStockManagement() {
                             className={`w-full ${
                               state.inStock
                                 ? 'bg-green-600/20 border-green-600/50 text-green-400 hover:bg-green-600/30'
-                                : 'bg-red-600/20 border-red-600/50 text-red-400 hover:bg-red-600/30'
+                                : 'bg-[#dc2626]/20 border-[#dc2626]/50 text-red-400 hover:bg-[#dc2626]/30'
                             }`}
                           >
                             {state.inStock ? (
@@ -387,7 +387,7 @@ export default function AdminStockManagement() {
                           </label>
                           <Button
                             onClick={() => handleApply(product)}
-                            className="w-full bg-red-600 hover:bg-red-700 text-amber-50"
+                            className="w-full bg-[#dc2626] hover:bg-red-700 text-amber-50"
                           >
                             <Save className="w-4 h-4 mr-2" />
                             Apply

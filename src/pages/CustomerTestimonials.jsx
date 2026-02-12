@@ -91,7 +91,7 @@ export default function CustomerTestimonials() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -112,7 +112,7 @@ export default function CustomerTestimonials() {
               viewport={{ once: true }}
               className="bg-stone-900/60 border border-stone-700 rounded-lg p-6 text-center"
             >
-              <p className="text-3xl font-black text-red-600 mb-2">{signal.metric}</p>
+              <p className="text-3xl font-black text-[#dc2626] mb-2">{signal.metric}</p>
               <p className="font-bold text-amber-50 mb-1">{signal.label}</p>
               <p className="text-xs text-stone-400">{signal.description}</p>
             </motion.div>
@@ -131,10 +131,10 @@ export default function CustomerTestimonials() {
               className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 hover:border-red-700/50 transition-all"
             >
               <div className="flex items-start justify-between mb-4">
-                <Quote className="w-8 h-8 text-red-600/30" />
+                <Quote className="w-8 h-8 text-[#dc2626]/30" />
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-red-600 text-red-600" />
+                    <Star key={i} className="w-4 h-4 fill-[#dc2626] text-[#dc2626]" />
                   ))}
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function CustomerTestimonials() {
                 {testimonial.location && (
                   <p className="text-sm text-stone-500">{testimonial.location}</p>
                 )}
-                <p className="text-xs text-red-600 font-semibold mt-2">Focus: {testimonial.focus}</p>
+                <p className="text-xs text-[#dc2626] font-semibold mt-2">Focus: {testimonial.focus}</p>
               </div>
             </motion.div>
           ))}
@@ -167,28 +167,28 @@ export default function CustomerTestimonials() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-bold text-amber-50 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
                 Third-Party Testing
               </h3>
               <p className="text-stone-300 text-sm">Every batch undergoes rigorous HPLC purity verification, mass spectrometry analysis, and sterility testing. Full COA included.</p>
             </div>
             <div>
               <h3 className="font-bold text-amber-50 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
                 Transparent Pricing
               </h3>
               <p className="text-stone-300 text-sm">No hidden fees. Competitive pricing for research-grade peptides. Volume discounts available for institutional research.</p>
             </div>
             <div>
               <h3 className="font-bold text-amber-50 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
                 Educational Resources
               </h3>
               <p className="text-stone-300 text-sm">Complete reconstitution guides, peptide calculator, research guides, and expert support for your research needs.</p>
             </div>
             <div>
               <h3 className="font-bold text-amber-50 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
                 Researcher-Focused
               </h3>
               <p className="text-stone-300 text-sm">Founded by researchers, for researchers. We understand your needs and provide the quality you demand.</p>
@@ -206,7 +206,7 @@ export default function CustomerTestimonials() {
           <h3 className="text-2xl font-bold text-amber-50 mb-3">Join 100+ Active Researchers</h3>
           <p className="text-stone-300 mb-6">Start your research with verified, third-party tested peptides.</p>
           <Link to={createPageUrl('Home')}>
-            <Button className="bg-red-700 hover:bg-red-600">Browse Products</Button>
+            <Button className="bg-red-700 hover:bg-[#dc2626]">Browse Products</Button>
           </Link>
         </motion.div>
       </div>

@@ -98,7 +98,7 @@ export default function Account() {
     <div className="min-h-screen bg-white pt-24 pb-20">
       <div className="max-w-6xl mx-auto px-4">
         {/* Back Button */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-red-600 mb-8 transition-colors">
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-[#dc2626] mb-8 transition-colors">
           <Home className="w-4 h-4" />
           Back to Shop
         </Link>
@@ -112,7 +112,7 @@ export default function Account() {
               className="bg-slate-50 border border-slate-100 rounded-[32px] p-6 sticky top-24 shadow-sm"
             >
               <div className="flex flex-col items-center text-center mb-6 pb-6 border-b border-slate-100">
-                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-red-600/20">
+                <div className="w-16 h-16 bg-[#dc2626] rounded-full flex items-center justify-center mb-4 shadow-lg shadow-[#dc2626]/20">
                   <User className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-slate-900 font-black text-lg tracking-tighter uppercase">{user.full_name || 'User'}</h3>
@@ -124,8 +124,8 @@ export default function Account() {
                   onClick={() => setActiveTab('dashboard')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'dashboard'
-                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
-                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
                   }`}
                 >
                   <LayoutDashboard className="w-4 h-4" />
@@ -136,8 +136,8 @@ export default function Account() {
                   onClick={() => setActiveTab('favorites')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'favorites'
-                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
-                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
                   }`}
                 >
                   <Heart className="w-4 h-4" />
@@ -155,8 +155,8 @@ export default function Account() {
                   onClick={() => setActiveTab('recommendations')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'recommendations'
-                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
-                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
                   }`}
                 >
                   <TrendingUp className="w-4 h-4" />
@@ -167,8 +167,8 @@ export default function Account() {
                   onClick={() => setActiveTab('activity')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'activity'
-                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
-                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
                   }`}
                 >
                   <History className="w-4 h-4" />
@@ -179,8 +179,8 @@ export default function Account() {
                   onClick={() => setActiveTab('orders')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'orders'
-                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
-                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
                   }`}
                 >
                   <Package className="w-4 h-4" />
@@ -191,8 +191,8 @@ export default function Account() {
                   onClick={() => setActiveTab('settings')}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
                     activeTab === 'settings'
-                      ? 'bg-[#dc2626] text-white shadow-md shadow-red-600/20'
-                      : 'text-slate-500 hover:text-red-600 hover:bg-white'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
                   }`}
                 >
                   <Settings className="w-4 h-4" />
@@ -212,7 +212,7 @@ export default function Account() {
 
                 <Button
                   onClick={handleLogout}
-                  className="w-full bg-slate-900 hover:bg-red-600 text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
+                  className="w-full bg-slate-900 hover:bg-[#dc2626] text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
                 >
                   <LogOut className="w-4 h-4" />
                   Sign Out
@@ -280,7 +280,7 @@ export default function Account() {
                       <Package className="w-16 h-16 text-slate-200 mx-auto mb-4" />
                       <p className="text-slate-500 mb-6 text-lg font-medium">No orders yet</p>
                       <Link to={createPageUrl('Home')}>
-                        <Button className="bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs px-8 py-6">
+                        <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-2xl font-black uppercase tracking-widest text-xs px-8 py-6 shadow-lg shadow-[#dc2626]/20">
                           Start Shopping
                         </Button>
                       </Link>
@@ -293,7 +293,7 @@ export default function Account() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="bg-white border border-slate-100 rounded-3xl p-6 hover:border-red-600/30 hover:shadow-lg transition-all"
+                          className="bg-white border border-slate-100 rounded-3xl p-6 hover:border-[#dc2626]/30 hover:shadow-lg transition-all"
                         >
                           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div>
@@ -402,7 +402,7 @@ export default function Account() {
                                    alert('Failed to resend email. Please contact support.');
                                  }
                                }}
-                               className="text-[10px] font-black uppercase tracking-tighter text-red-600 hover:text-red-500 underline transition-colors"
+                               className="text-[10px] font-black uppercase tracking-tighter text-[#dc2626] hover:text-red-500 underline transition-colors"
                              >
                                Resend Confirmation Email
                              </button>

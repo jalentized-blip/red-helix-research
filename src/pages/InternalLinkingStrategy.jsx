@@ -199,7 +199,7 @@ export default function InternalLinkingStrategy() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -217,7 +217,7 @@ export default function InternalLinkingStrategy() {
           className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-            <Network className="w-6 h-6 text-red-600" />
+            <Network className="w-6 h-6 text-[#dc2626]" />
             Why Internal Linking Matters
           </h2>
           <p className="text-stone-300 mb-4">
@@ -225,23 +225,23 @@ export default function InternalLinkingStrategy() {
           </p>
           <ul className="space-y-2 text-stone-300">
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span><strong>Distribute Authority:</strong> Pass "link juice" from high-authority pages to important product/content pages</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span><strong>Establish Site Hierarchy:</strong> Show Google which pages are most important</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span><strong>Improve Crawlability:</strong> Help Google discover and index all pages faster</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span><strong>Increase Relevance:</strong> Context from surrounding content boosts page rankings</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span><strong>Improve User Experience:</strong> Guide visitors to related, valuable content</span>
             </li>
           </ul>
@@ -269,7 +269,7 @@ export default function InternalLinkingStrategy() {
                   <ul className="space-y-2">
                     {item.internalLinks.map((link, i) => (
                       <li key={i} className="text-stone-300 text-sm flex items-start gap-2">
-                        <span className="text-red-600 font-bold mt-0.5">→</span>
+                        <span className="text-[#dc2626] font-bold mt-0.5">→</span>
                         <span>{link}</span>
                       </li>
                     ))}
@@ -303,7 +303,7 @@ export default function InternalLinkingStrategy() {
             {bestPractices.map((practice, idx) => (
               <div key={idx} className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
                 <h3 className="text-xl font-bold text-amber-50 mb-3 flex items-center gap-2">
-                  <span className="text-red-600 font-bold">#{idx + 1}</span>
+                  <span className="text-[#dc2626] font-bold">#{idx + 1}</span>
                   {practice.title}
                 </h3>
                 <p className="text-stone-300 mb-3">{practice.description}</p>
@@ -369,31 +369,31 @@ export default function InternalLinkingStrategy() {
           <h2 className="text-2xl font-bold text-amber-50 mb-6">Implementation Checklist</h2>
           <ul className="space-y-3">
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">Home page links to all 5 main product pages</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">BlogGuide links to 4 product pages at end of guides</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">PeptideComparison links to all 4 product pages</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">Each product page links to 2-3 related products</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">All anchor text is descriptive and keyword-rich</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">No link to external pages unless necessary</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span className="text-stone-300">Monitor internal link performance in Google Search Console</span>
             </li>
           </ul>

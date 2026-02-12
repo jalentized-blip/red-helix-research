@@ -144,10 +144,10 @@ export default function Home({ adminViewAsUser = false }) {
       {!isAuthenticated && (
         <button
           onClick={() => base44.auth.redirectToLogin(createPageUrl('Home'))}
-          className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-red-600/50 rounded-xl shadow-lg hover:shadow-red-600/10 transition-all hover:scale-110 group"
+          className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#dc2626]/50 rounded-xl shadow-lg hover:shadow-[#dc2626]/10 transition-all hover:scale-110 group"
           title="Sign In"
         >
-          <User className="w-5 h-5 text-slate-400 group-hover:text-red-600" />
+          <User className="w-5 h-5 text-slate-400 group-hover:text-[#dc2626]" />
         </button>
       )}
 
@@ -155,8 +155,8 @@ export default function Home({ adminViewAsUser = false }) {
       {isAdmin && (
         <>
           <Link to={createPageUrl('AdminStockManagement')}>
-            <button className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-red-600/50 rounded-xl shadow-lg hover:shadow-red-600/10 transition-all hover:scale-110 group">
-              <Package className="w-5 h-5 text-slate-400 group-hover:text-red-600" />
+            <button className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#dc2626]/50 rounded-xl shadow-lg hover:shadow-[#dc2626]/10 transition-all hover:scale-110 group">
+              <Package className="w-5 h-5 text-slate-400 group-hover:text-[#dc2626]" />
             </button>
           </Link>
           <Link to={createPageUrl('AdminOrderManagement')}>

@@ -59,7 +59,7 @@ export default function SecurityDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <RefreshCw className="w-8 h-8 text-red-600 animate-spin" />
+        <RefreshCw className="w-8 h-8 text-[#dc2626] animate-spin" />
       </div>
     );
   }
@@ -73,7 +73,7 @@ export default function SecurityDashboard() {
     <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
-        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-[#dc2626] rounded-full blur-[120px]" />
         <div className="absolute bottom-40 left-[-5%] w-[400px] h-[400px] bg-slate-400 rounded-full blur-[100px]" />
       </div>
 
@@ -84,7 +84,7 @@ export default function SecurityDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <Link to={createPageUrl('Home')}>
-          <Button variant="ghost" className="text-slate-500 hover:text-red-600 mb-8 font-bold uppercase tracking-widest text-xs">
+          <Button variant="ghost" className="text-slate-500 hover:text-[#dc2626] mb-8 font-bold uppercase tracking-widest text-xs">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
           </Button>
         </Link>
@@ -92,12 +92,12 @@ export default function SecurityDashboard() {
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-4 bg-red-600 text-white rounded-[24px] shadow-lg shadow-red-200">
+            <div className="p-4 bg-[#dc2626] text-white rounded-[24px] shadow-lg shadow-red-200">
               <Shield className="w-8 h-8" />
             </div>
             <div>
               <h1 className="text-5xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-none">
-                Zero Trust <span className="text-red-600">Security</span>
+                Zero Trust <span className="text-[#dc2626]">Security</span>
               </h1>
               <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mt-2">Real-time monitoring & threat detection</p>
             </div>
@@ -116,7 +116,7 @@ export default function SecurityDashboard() {
 
           <Card className="bg-white border-slate-200 rounded-[32px] p-8 shadow-xl shadow-slate-100 border-b-4 border-b-red-600">
             <div className="flex items-center justify-between mb-4">
-              <AlertTriangle className="w-6 h-6 text-red-600" />
+              <AlertTriangle className="w-6 h-6 text-[#dc2626]" />
               <span className="text-4xl font-black text-slate-900 tracking-tighter">{criticalAnomalies}</span>
             </div>
             <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Critical Alerts</p>
@@ -143,7 +143,7 @@ export default function SecurityDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <Card className="bg-white border-slate-200 rounded-[40px] p-10 shadow-xl shadow-slate-100">
             <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
-              <Lock className="w-6 h-6 text-red-600" />
+              <Lock className="w-6 h-6 text-[#dc2626]" />
               Active Protection
             </h3>
             <div className="space-y-4">
@@ -165,7 +165,7 @@ export default function SecurityDashboard() {
 
           <Card className="bg-white border-slate-200 rounded-[40px] p-10 shadow-xl shadow-slate-100">
             <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
-              <Activity className="w-6 h-6 text-red-600" />
+              <Activity className="w-6 h-6 text-[#dc2626]" />
               Activity Summary
             </h3>
             <div className="space-y-4">
@@ -189,7 +189,7 @@ export default function SecurityDashboard() {
         <Card className="bg-white border-slate-200 rounded-[40px] p-10 shadow-xl shadow-slate-100">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter flex items-center gap-3">
-              <Shield className="w-6 h-6 text-red-600" />
+              <Shield className="w-6 h-6 text-[#dc2626]" />
               Security Event Log
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -215,7 +215,7 @@ export default function SecurityDashboard() {
                 variant="destructive" 
                 size="sm" 
                 onClick={clearLogs}
-                className="rounded-full bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-widest text-[10px]"
+                className="rounded-full bg-[#dc2626] hover:bg-red-700 text-white font-bold uppercase tracking-widest text-[10px]"
               >
                 Clear Logs
               </Button>
@@ -232,13 +232,13 @@ export default function SecurityDashboard() {
               securityLogs.map((log, idx) => (
                 <div
                   key={idx}
-                  className="p-6 bg-white border border-slate-100 rounded-[24px] hover:border-red-600/30 transition-all shadow-sm"
+                  className="p-6 bg-white border border-slate-100 rounded-[24px] hover:border-[#dc2626]/30 transition-all shadow-sm"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
                         log.type.includes('ALERT') || log.type.includes('SUSPICIOUS') 
-                          ? 'bg-red-600 text-white'
+                          ? 'bg-[#dc2626] text-white'
                           : log.type.includes('ERROR')
                           ? 'bg-orange-500 text-white'
                           : 'bg-blue-600 text-white'

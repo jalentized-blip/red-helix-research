@@ -145,9 +145,9 @@ export default function NotificationCenter({ userEmail }) {
       case 'new_order':
         return <Package className="w-4 h-4 text-blue-500" />;
       case 'new_session':
-        return <MessageSquare className="w-4 h-4 text-red-600" />;
+        return <MessageSquare className="w-4 h-4 text-[#dc2626]" />;
       default:
-        return <MessageSquare className="w-4 h-4 text-red-600" />;
+        return <MessageSquare className="w-4 h-4 text-[#dc2626]" />;
     }
   };
 
@@ -168,11 +168,11 @@ export default function NotificationCenter({ userEmail }) {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2.5 rounded-lg bg-stone-900/50 border border-red-600/30 text-amber-50 hover:bg-red-600/10 hover:border-red-600/70 transition-all group"
+        className="relative p-2.5 rounded-lg bg-stone-900/50 border border-[#dc2626]/30 text-amber-50 hover:bg-[#dc2626]/10 hover:border-[#dc2626]/70 transition-all group"
       >
         <Bell className="w-5 h-5" />
         {notifications.length > 0 && (
-          <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-red-600">
+          <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-[#dc2626] to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-[#dc2626]">
             {notifications.length}
           </span>
         )}
@@ -191,7 +191,7 @@ export default function NotificationCenter({ userEmail }) {
               {notifications.length > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-xs text-red-600 hover:text-red-500 font-medium"
+                  className="text-xs text-[#dc2626] hover:text-red-500 font-medium"
                 >
                   Mark all read
                 </button>

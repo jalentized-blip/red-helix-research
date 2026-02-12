@@ -33,7 +33,7 @@ export default function HowItWorks() {
   return (
     <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/4 h-full bg-red-600/5 -skew-x-12 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-1/4 h-full bg-[#dc2626]/5 -skew-x-12 translate-x-1/2" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -43,12 +43,12 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600/5 border border-red-600/10 rounded-full mb-6">
-            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Efficiency Protocol</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
+            <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">Efficiency Protocol</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
             ACQUISITION <br />
-            <span className="text-red-600">WORKFLOW</span>
+            <span className="text-[#dc2626]">WORKFLOW</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Our streamlined procurement process ensures maximum security and clinical-grade logistics handling.
@@ -67,11 +67,11 @@ export default function HowItWorks() {
               className="relative group"
             >
               <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col items-center text-center">
-                <div className="w-20 h-20 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:border-red-600/30 transition-colors">
-                  <step.icon className="w-8 h-8 text-red-600" />
+                <div className="w-20 h-20 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:border-[#dc2626]/30 transition-colors">
+                  <step.icon className="w-8 h-8 text-[#dc2626]" />
                 </div>
                 
-                <div className="absolute top-6 left-6 w-8 h-8 rounded-full bg-red-600 text-white text-xs font-black flex items-center justify-center shadow-lg">
+                <div className="absolute top-6 left-6 w-8 h-8 rounded-full bg-[#dc2626] text-white text-xs font-black flex items-center justify-center shadow-lg">
                   {step.number}
                 </div>
 
@@ -96,8 +96,8 @@ export default function HowItWorks() {
           >
           {guarantees.map((item) => (
             <div key={item.label} className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-red-600/5 flex items-center justify-center">
-                <item.icon className="w-4 h-4 text-red-600" />
+              <div className="w-8 h-8 rounded-full bg-[#dc2626]/5 flex items-center justify-center">
+                <item.icon className="w-4 h-4 text-[#dc2626]" />
               </div>
               <span className="text-xs font-black text-slate-900 uppercase tracking-widest">{item.label}</span>
             </div>

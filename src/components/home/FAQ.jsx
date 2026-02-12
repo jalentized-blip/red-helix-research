@@ -38,7 +38,7 @@ export default function FAQ() {
   return (
     <section className="py-24 px-4 bg-white relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-1/2 left-0 w-64 h-64 bg-red-600/5 rounded-full blur-3xl -translate-x-1/2" />
+      <div className="absolute top-1/2 left-0 w-64 h-64 bg-[#dc2626]/5 rounded-full blur-3xl -translate-x-1/2" />
       
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
@@ -48,12 +48,12 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Intelligence</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
             KNOWLEDGE <br />
-            <span className="text-red-600">BASE</span>
+            <span className="text-[#dc2626]">BASE</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Essential information regarding acquisition protocols, logistics, and research safety standards.
@@ -71,9 +71,9 @@ export default function FAQ() {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-slate-50 border border-slate-100 rounded-[32px] px-8 data-[state=open]:border-red-600/30 data-[state=open]:bg-white transition-all duration-300 shadow-sm"
+                className="bg-slate-50 border border-slate-100 rounded-[32px] px-8 data-[state=open]:border-[#dc2626]/30 data-[state=open]:bg-white transition-all duration-300 shadow-sm"
               >
-                <AccordionTrigger className="text-left text-slate-900 hover:text-red-600 py-6 hover:no-underline font-black text-lg tracking-tight">
+                <AccordionTrigger className="text-left text-slate-900 hover:text-[#dc2626] py-6 hover:no-underline font-black text-lg tracking-tight">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-500 font-medium pb-8 leading-relaxed">

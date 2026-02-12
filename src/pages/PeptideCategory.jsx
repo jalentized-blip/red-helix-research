@@ -100,7 +100,7 @@ export default function PeptideCategory() {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
           <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
-            {config.h1.split(' ').map((word, i) => i === 0 ? <span key={i}>{word} </span> : <span key={i} className="text-red-600">{word} </span>)}
+            {config.h1.split(' ').map((word, i) => i === 0 ? <span key={i}>{word} </span> : <span key={i} className="text-[#dc2626]">{word} </span>)}
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-2xl">{config.description}</p>
         </motion.div>

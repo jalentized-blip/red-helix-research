@@ -224,7 +224,7 @@ export default function PlaidDataRetention() {
           </div>
 
           <div className="bg-stone-900/60 border border-red-700/50 rounded-2xl p-6">
-            <div className="w-12 h-12 bg-red-600/20 border border-red-600/30 rounded-xl flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-[#dc2626]/20 border border-[#dc2626]/30 rounded-xl flex items-center justify-center mb-4">
               <Shield className="w-6 h-6 text-red-400" />
             </div>
             <h3 className="text-sm font-bold text-white mb-2">Secure Disposal</h3>

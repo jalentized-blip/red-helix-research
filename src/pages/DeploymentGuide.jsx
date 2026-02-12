@@ -256,7 +256,7 @@ export default function DeploymentGuide() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -275,19 +275,19 @@ export default function DeploymentGuide() {
           <h2 className="text-2xl font-bold text-amber-50 mb-4">Deployment Timeline</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-3xl font-black text-red-600">5 hrs</p>
+              <p className="text-3xl font-black text-[#dc2626]">5 hrs</p>
               <p className="text-sm text-stone-300">Pre-Deployment</p>
             </div>
             <div>
-              <p className="text-3xl font-black text-red-600">2 hrs</p>
+              <p className="text-3xl font-black text-[#dc2626]">2 hrs</p>
               <p className="text-sm text-stone-300">Deployment</p>
             </div>
             <div>
-              <p className="text-3xl font-black text-red-600">Daily</p>
+              <p className="text-3xl font-black text-[#dc2626]">Daily</p>
               <p className="text-sm text-stone-300">First Week</p>
             </div>
             <div>
-              <p className="text-3xl font-black text-red-600">2 wks+</p>
+              <p className="text-3xl font-black text-[#dc2626]">2 wks+</p>
               <p className="text-sm text-stone-300">Optimization</p>
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function DeploymentGuide() {
                 className="w-full px-8 py-4 flex items-center justify-between hover:bg-stone-800/30 transition"
               >
                 <h2 className="text-2xl font-bold text-amber-50">{phase.phase}</h2>
-                <span className={`text-red-600 transition-transform ${expandedSection === phaseIdx ? 'rotate-180' : ''}`}>▼</span>
+                <span className={`text-[#dc2626] transition-transform ${expandedSection === phaseIdx ? 'rotate-180' : ''}`}>▼</span>
               </button>
 
               {expandedSection === phaseIdx && (
@@ -330,7 +330,7 @@ export default function DeploymentGuide() {
                       <ul className="ml-14 space-y-2">
                         {step.details.map((detail, i) => (
                           <li key={i} className="text-sm text-stone-300 flex items-start gap-2">
-                            <span className="text-red-600 font-bold mt-1">→</span>
+                            <span className="text-[#dc2626] font-bold mt-1">→</span>
                             <span>{detail}</span>
                           </li>
                         ))}

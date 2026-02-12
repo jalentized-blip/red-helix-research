@@ -185,7 +185,7 @@ export default function AdminSupport() {
   if (!user) {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-red-600 animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#dc2626] animate-spin" />
       </div>
     );
   }
@@ -222,7 +222,7 @@ export default function AdminSupport() {
                     <div className="flex items-start justify-between mb-1">
                       <p className="font-semibold text-amber-50 text-sm">{conv.customer_name}</p>
                       {conv.unread_by_admin && (
-                        <Circle className="w-2 h-2 text-red-600 fill-red-600 mt-1" />
+                        <Circle className="w-2 h-2 text-[#dc2626] fill-[#dc2626] mt-1" />
                       )}
                     </div>
                     <p className="text-xs text-stone-400 truncate">{conv.last_message}</p>
@@ -291,7 +291,7 @@ export default function AdminSupport() {
                     <Button
                       onClick={handleSend}
                       disabled={loading || !newMessage.trim()}
-                      className="bg-red-700 hover:bg-red-600"
+                      className="bg-red-700 hover:bg-[#dc2626]"
                     >
                       {loading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />

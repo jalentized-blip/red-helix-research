@@ -79,7 +79,7 @@ export default function PeptideInstructions() {
         </div>
 
         {/* Summary Card */}
-        <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-[32px] p-8 mb-8 shadow-xl shadow-red-200/50 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-br from-[#dc2626] to-red-700 rounded-[32px] p-8 mb-8 shadow-xl shadow-red-200/50 text-white relative overflow-hidden">
           <div className="relative z-10">
             <h2 className="text-xl font-bold text-white/90 mb-6 border-b border-white/20 pb-4">Your Calculations</h2>
             <div className="grid grid-cols-2 gap-6 text-sm">
@@ -126,11 +126,11 @@ export default function PeptideInstructions() {
                 className="bg-white border border-slate-200 rounded-2xl p-6 flex gap-5 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex-shrink-0 w-12 h-12 bg-red-50 border border-red-100 rounded-full flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-red-600" />
+                  <Icon className="w-6 h-6 text-[#dc2626]" />
                 </div>
                 <div className="flex-1 pt-1">
                   <h3 className="text-lg font-bold text-slate-900 mb-2">
-                    <span className="text-red-600 mr-2">{index + 1}.</span> {step.title}
+                    <span className="text-[#dc2626] mr-2">{index + 1}.</span> {step.title}
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed font-medium">{step.description}</p>
                 </div>

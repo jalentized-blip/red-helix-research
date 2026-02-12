@@ -86,7 +86,7 @@ export default function Cart() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6 font-bold">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-[#dc2626] hover:text-[#b91c1c] mb-6 font-bold">
             <ArrowLeft className="w-4 h-4" />
             Continue Shopping
           </Link>
@@ -98,7 +98,7 @@ export default function Cart() {
             <ShoppingBag className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <p className="text-slate-400 text-lg mb-6 font-semibold">Your research cart is empty</p>
             <Link to={createPageUrl('Home')}>
-              <Button className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-red-600/20">
+              <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-[#dc2626]/20">
                 Browse Peptides
               </Button>
             </Link>
@@ -116,7 +116,7 @@ export default function Cart() {
                     </div>
                     <button
                       onClick={() => handleRemoveItem(item.id)}
-                      className="text-red-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-xl"
+                      className="text-[#ef4444] hover:text-[#dc2626] transition-colors p-2 hover:bg-[#fef2f2] rounded-xl"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -126,7 +126,7 @@ export default function Cart() {
                       <span className="text-sm">Quantity: {item.quantity}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-black text-red-600">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="text-2xl font-black text-[#dc2626]">${(item.price * item.quantity).toFixed(2)}</p>
                       <p className="text-xs text-slate-400 font-bold uppercase">${item.price} per unit</p>
                     </div>
                   </div>
@@ -145,7 +145,7 @@ export default function Cart() {
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mb-3 p-3 bg-red-600 border border-red-500 rounded-xl text-center"
+                      className="mb-3 p-3 bg-[#dc2626] border border-[#ef4444] rounded-xl text-center"
                     >
                       <p className="text-xs font-bold text-white">
                         Affiliate discount applied! 💜
@@ -179,7 +179,7 @@ export default function Cart() {
                           onFocus={() => setPromoFocused(true)}
                           onBlur={() => setPromoFocused(false)}
                           placeholder="CODE"
-                          className="min-w-0 flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-300 font-bold focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600/20 transition-all"
+                          className="min-w-0 flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-300 font-bold focus:outline-none focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626]/20 transition-all"
                         />
                         {(promoCode || promoFocused) && (
                           <motion.div
@@ -191,7 +191,7 @@ export default function Cart() {
                             <Button
                               onClick={handleApplyPromo}
                               size="sm"
-                              className="bg-red-600 hover:bg-red-700 text-white font-bold h-full px-4 rounded-xl"
+                              className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold h-full px-4 rounded-xl"
                             >
                               Apply
                             </Button>
@@ -224,7 +224,7 @@ export default function Cart() {
                   <div className="pt-4 border-t border-slate-200">
                     <div className="flex justify-between text-slate-900">
                       <span className="text-lg font-black uppercase tracking-tight">Total</span>
-                      <span className="text-2xl font-black text-red-600">${finalTotal.toFixed(2)}</span>
+                      <span className="text-2xl font-black text-[#dc2626]">${finalTotal.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -241,17 +241,17 @@ export default function Cart() {
                             setAgreedToTerms(e.target.checked);
                             setShowAgreementError(false);
                           }}
-                          className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-600 cursor-pointer"
+                          className="w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626] cursor-pointer"
                         />
                       </div>
                       <span className="text-[10px] text-slate-500 font-bold leading-relaxed uppercase tracking-wider group-hover:text-slate-700 transition-colors">
-                        I confirm that these products are for <span className="text-red-600">RESEARCH AND LABORATORY USE ONLY</span>. Not for human consumption.
+                        I confirm that these products are for <span className="text-[#dc2626]">RESEARCH AND LABORATORY USE ONLY</span>. Not for human consumption.
                       </span>
                     </label>
                   </div>
 
                   {showAgreementError && (
-                    <p className="text-red-600 text-[10px] font-black uppercase tracking-widest text-center animate-bounce">
+                    <p className="text-[#dc2626] text-[10px] font-black uppercase tracking-widest text-center animate-bounce">
                       Please confirm research use only terms
                     </p>
                   )}
@@ -268,7 +268,7 @@ export default function Cart() {
                       }
                       navigate(createPageUrl('CustomerInfo'));
                     }}
-                    className={`w-full font-black py-8 rounded-2xl shadow-lg shadow-red-600/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#dc2626] hover:bg-[#b91c1c] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                    className={`w-full font-black py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#dc2626] hover:bg-[#b91c1c] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                   >
                     Checkout <ArrowRight className="w-5 h-5 ml-2" />
                     {!isAuthenticated && !isCheckingAuth && (
@@ -280,7 +280,7 @@ export default function Cart() {
 
                   <Button
                     variant="ghost"
-                    className="w-full text-slate-400 hover:text-red-600 font-bold text-xs uppercase tracking-widest mt-2"
+                    className="w-full text-slate-400 hover:text-[#dc2626] font-bold text-xs uppercase tracking-widest mt-2"
                     onClick={handleClearCart}
                   >
                     Clear Research Cart

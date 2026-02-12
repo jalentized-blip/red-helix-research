@@ -242,9 +242,9 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                     <button
                       key={admin.id}
                       onClick={() => onSelectAdmin(admin.admin_email)}
-                      className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-stone-700/30 border border-transparent hover:border-red-600/30"
+                      className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-stone-700/30 border border-transparent hover:border-[#dc2626]/30"
                     >
-                      <div className={`w-3 h-3 rounded-full flex-shrink-0 ${admin.is_online ? 'bg-green-400 shadow-lg shadow-green-400/50' : 'bg-red-600 shadow-lg shadow-red-600/50'}`} />
+                      <div className={`w-3 h-3 rounded-full flex-shrink-0 ${admin.is_online ? 'bg-green-400 shadow-lg shadow-green-400/50' : 'bg-[#dc2626] shadow-lg shadow-[#dc2626]/50'}`} />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs text-stone-200 font-medium">{admin.admin_name}</p>
                         <p className={`text-xs ${admin.is_online ? 'text-green-400' : 'text-red-400'}`}>
@@ -269,7 +269,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
           {/* Main Chat Section */}
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50 flex items-start justify-between">
+            <div className="bg-gradient-to-r from-red-700 to-[#dc2626] p-4 text-amber-50 flex items-start justify-between">
               <div>
                 <h3 className="font-bold text-lg">Customer Support</h3>
                 {!isMinimized && (
@@ -283,7 +283,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
               </div>
               <button
                 onClick={() => setIsMinimized(true)}
-                className="text-amber-50 hover:bg-red-600/50 p-1 rounded transition-colors flex-shrink-0"
+                className="text-amber-50 hover:bg-[#dc2626]/50 p-1 rounded transition-colors flex-shrink-0"
               >
                 <Minus className="w-5 h-5" />
               </button>
@@ -342,7 +342,7 @@ export default function TelegramChatWindow({ isOpen, onClose, customerInfo = nul
                     <Button
                       onClick={handleSend}
                       disabled={loading || !newMessage.trim()}
-                      className="bg-red-700 hover:bg-red-600"
+                      className="bg-red-700 hover:bg-[#dc2626]"
                     >
                       {loading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />

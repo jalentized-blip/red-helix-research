@@ -10,7 +10,7 @@ export default function PeptideReconstitutionGuide() {
       {/* Header */}
       <div className="max-w-4xl mx-auto px-4 mb-12">
         <Link to={createPageUrl('PeptideCalculator')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6 rounded-full">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-6 rounded-full">
             ← Back to Calculator
           </Button>
         </Link>
@@ -32,7 +32,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Section 1 */}
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
-            <span className="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+            <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
             Preparation
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
@@ -51,7 +51,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Section 2 */}
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
-            <span className="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+            <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
             Drawing the Water
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
@@ -68,7 +68,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Section 3 */}
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
-            <span className="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+            <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
             Injecting the Water
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
@@ -86,7 +86,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Section 4 */}
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
-            <span className="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+            <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
             Reconstitution Time
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
@@ -103,7 +103,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Section 5 */}
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
-            <span className="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+            <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
             Drawing Your Dose
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
@@ -121,7 +121,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Section 6 */}
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
-            <span className="bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+            <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
             Storage
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
@@ -137,7 +137,7 @@ export default function PeptideReconstitutionGuide() {
         </div>
 
         {/* Important Notes */}
-        <div className="bg-red-600 border border-red-500 rounded-[24px] p-8 shadow-sm">
+        <div className="bg-[#dc2626] border border-red-500 rounded-[24px] p-8 shadow-sm">
           <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
             ⚠️ Important Safety Notes
           </h2>
@@ -172,7 +172,7 @@ export default function PeptideReconstitutionGuide() {
         {/* Back to Calculator */}
         <div className="text-center pt-8">
           <Link to={createPageUrl('PeptideCalculator')}>
-            <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200 text-lg">
+            <Button className="bg-[#dc2626] hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200 text-lg">
               Return to Calculator
             </Button>
           </Link>

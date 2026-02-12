@@ -302,7 +302,7 @@ export default function PeptideLearn() {
       <div className="min-h-screen bg-white pt-32 pb-20">
         <div className="max-w-4xl mx-auto px-4">
           <Link to={createPageUrl('LearnMore')}>
-            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6">
+            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
               ← Back to Learn More
             </Button>
           </Link>
@@ -319,7 +319,7 @@ export default function PeptideLearn() {
         <div className="max-w-4xl mx-auto px-4">
           {/* Header */}
           <Link to={createPageUrl('LearnMore')}>
-            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6">
+            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
               ← Back to Learn More
             </Button>
           </Link>
@@ -331,14 +331,14 @@ export default function PeptideLearn() {
             className="mb-12"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 bg-red-600/10 rounded-xl border border-red-600/20">
-                <Droplets className="w-8 h-8 text-red-600" />
+              <div className="p-3 bg-[#dc2626]/10 rounded-xl border border-[#dc2626]/20">
+                <Droplets className="w-8 h-8 text-[#dc2626]" />
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
                   {product.name}
                 </h1>
-                <p className="text-red-600 font-bold tracking-widest text-sm uppercase mt-1">
+                <p className="text-[#dc2626] font-bold tracking-widest text-sm uppercase mt-1">
                   Research Grade Reconstitution Diluent
                 </p>
               </div>
@@ -346,7 +346,7 @@ export default function PeptideLearn() {
             
             <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100">
               <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <Info className="w-5 h-5 text-red-600" />
+                <Info className="w-5 h-5 text-[#dc2626]" />
                 Overview
               </h2>
               <p className="text-slate-600 leading-relaxed">
@@ -364,13 +364,13 @@ export default function PeptideLearn() {
               className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-xl shadow-slate-100"
             >
               <h3 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-3">
-                <CheckCircle className="w-6 h-6 text-red-600" />
+                <CheckCircle className="w-6 h-6 text-[#dc2626]" />
                 Key Benefits
               </h3>
               <ul className="space-y-4">
                 {peptideData.keyBenefits.map((benefit, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-slate-600">
-                    <div className="w-1.5 h-1.5 rounded-full bg-red-600 mt-2.5 flex-shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626] mt-2.5 flex-shrink-0" />
                     <span className="text-sm font-medium">{benefit}</span>
                   </li>
                 ))}
@@ -384,16 +384,16 @@ export default function PeptideLearn() {
               className="bg-slate-50 border border-slate-200 text-slate-900 rounded-[32px] p-8 shadow-xl shadow-slate-100"
             >
               <h3 className="text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-3">
-                <Shield className="w-6 h-6 text-red-600" />
+                <Shield className="w-6 h-6 text-[#dc2626]" />
                 Storage & Handling
               </h3>
               <div className="space-y-6">
                 {peptideData.storageInfo.map((info, idx) => (
                   <div key={idx} className="flex gap-4">
                     <div className="p-2 bg-white border border-slate-200 rounded-lg h-fit shadow-sm">
-                      {info.icon === 'Thermometer' && <Thermometer className="w-5 h-5 text-red-600" />}
-                      {info.icon === 'Clock' && <Clock className="w-5 h-5 text-red-600" />}
-                      {info.icon === 'Droplets' && <Droplets className="w-5 h-5 text-red-600" />}
+                      {info.icon === 'Thermometer' && <Thermometer className="w-5 h-5 text-[#dc2626]" />}
+                      {info.icon === 'Clock' && <Clock className="w-5 h-5 text-[#dc2626]" />}
+                      {info.icon === 'Droplets' && <Droplets className="w-5 h-5 text-[#dc2626]" />}
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-900 text-sm mb-1">{info.title}</h4>
@@ -408,7 +408,7 @@ export default function PeptideLearn() {
           {/* Applications */}
           <div className="mb-12">
             <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter text-center">
-              Research <span className="text-red-600">Applications</span>
+              Research <span className="text-[#dc2626]">Applications</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {peptideData.potentialUses.map((use, idx) => (
@@ -417,7 +417,7 @@ export default function PeptideLearn() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + (idx * 0.1) }}
-                  className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-red-600/30 transition-all hover:shadow-lg hover:shadow-red-600/5"
+                  className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-[#dc2626]/30 transition-all hover:shadow-lg hover:shadow-[#dc2626]/5"
                 >
                   <h3 className="text-lg font-bold text-slate-900 mb-3">{use.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed mb-4">{use.description}</p>
@@ -433,7 +433,7 @@ export default function PeptideLearn() {
           {/* Clinical Data */}
           <div className="mb-12">
             <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter text-center">
-              Clinical <span className="text-red-600">Data</span>
+              Clinical <span className="text-[#dc2626]">Data</span>
             </h2>
             <div className="space-y-4">
               {peptideData.clinicalTrials.map((trial, idx) => (
@@ -442,7 +442,7 @@ export default function PeptideLearn() {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-red-600/20 transition-all"
+                  className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-[#dc2626]/20 transition-all"
                 >
                   <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
                     <div>
@@ -472,13 +472,13 @@ export default function PeptideLearn() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
             <div className="bg-white border border-slate-200 rounded-[32px] p-8">
               <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-2">
-                <Shield className="w-5 h-5 text-red-600" />
+                <Shield className="w-5 h-5 text-[#dc2626]" />
                 Safety Profile
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed mb-6">
                 {peptideData.safetyProfile}
               </p>
-              <div className="bg-red-600 border border-red-500 rounded-xl p-4">
+              <div className="bg-[#dc2626] border border-red-500 rounded-xl p-4">
                 <h4 className="text-white font-bold text-sm mb-2 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" />
                   Important Warnings
@@ -496,7 +496,7 @@ export default function PeptideLearn() {
 
             <div className="bg-slate-900 rounded-[32px] p-8 text-white">
               <h3 className="text-xl font-black mb-6 uppercase tracking-tight flex items-center gap-2">
-                <FlaskConical className="w-5 h-5 text-red-600" />
+                <FlaskConical className="w-5 h-5 text-[#dc2626]" />
                 Usage Guidelines
               </h3>
               <div className="space-y-4">
@@ -510,7 +510,7 @@ export default function PeptideLearn() {
                       detail: { product } 
                     }));
                   }}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 rounded-xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02]"
+                  className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold h-14 rounded-xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02]"
                 >
                   Initialize Order
                 </Button>
@@ -529,7 +529,7 @@ export default function PeptideLearn() {
     <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="max-w-4xl mx-auto px-4">
         <Link to={createPageUrl('LearnMore')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
             ← Back to Learn More
           </Button>
         </Link>
@@ -542,14 +542,14 @@ export default function PeptideLearn() {
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-4 bg-slate-50 rounded-[24px] border border-slate-200">
-                <Beaker className="w-10 h-10 text-red-600" />
+                <Beaker className="w-10 h-10 text-[#dc2626]" />
               </div>
               <div>
                 <h1 className="text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter">
                   {product.name}
                 </h1>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-3 py-1 bg-red-600 border border-red-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">
+                  <span className="px-3 py-1 bg-[#dc2626] border border-red-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">
                     Research Compound
                   </span>
                   <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-full">
@@ -563,7 +563,7 @@ export default function PeptideLearn() {
             <div className="bg-white border border-slate-200 rounded-[32px] p-8 md:p-10 shadow-xl shadow-slate-100 mb-12 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-50" />
               <h2 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight relative z-10">
-                Compound <span className="text-red-600">Overview</span>
+                Compound <span className="text-[#dc2626]">Overview</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed relative z-10">
                 {peptideData.overview}
@@ -573,7 +573,7 @@ export default function PeptideLearn() {
             {/* Potential Uses */}
             <div className="mb-16">
               <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
-                <TestTube className="w-8 h-8 text-red-600" />
+                <TestTube className="w-8 h-8 text-[#dc2626]" />
                 Research Applications
               </h2>
               <div className="grid grid-cols-1 gap-6">
@@ -583,13 +583,13 @@ export default function PeptideLearn() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="bg-white border border-slate-200 rounded-[32px] p-8 hover:border-red-600/30 transition-all group"
+                    className="bg-white border border-slate-200 rounded-[32px] p-8 hover:border-[#dc2626]/30 transition-all group"
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#dc2626] transition-colors">
                         {use.title}
                       </h3>
-                      <div className="p-2 bg-slate-50 rounded-full group-hover:bg-red-600 transition-colors">
+                      <div className="p-2 bg-slate-50 rounded-full group-hover:bg-[#dc2626] transition-colors">
                         <TrendingUp className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
                       </div>
                     </div>
@@ -610,7 +610,7 @@ export default function PeptideLearn() {
             {/* Clinical Trials */}
             <div className="mb-16">
               <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
-                <CheckCircle className="w-8 h-8 text-red-600" />
+                <CheckCircle className="w-8 h-8 text-[#dc2626]" />
                 Clinical Data
               </h2>
               <div className="grid grid-cols-1 gap-6">
@@ -635,7 +635,7 @@ export default function PeptideLearn() {
                         <span className="px-3 py-1 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600">
                           {trial.participants}
                         </span>
-                        <span className="px-3 py-1 bg-red-600 text-white border border-red-600 rounded-full text-xs font-bold">
+                        <span className="px-3 py-1 bg-[#dc2626] text-white border border-[#dc2626] rounded-full text-xs font-bold">
                           {trial.duration}
                         </span>
                       </div>
@@ -649,7 +649,7 @@ export default function PeptideLearn() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-red-600 uppercase tracking-wider mb-3">Conclusion</p>
+                        <p className="text-xs font-bold text-[#dc2626] uppercase tracking-wider mb-3">Conclusion</p>
                         <p className="text-slate-900 font-medium leading-relaxed text-sm">
                           {trial.conclusion}
                         </p>
@@ -664,13 +664,13 @@ export default function PeptideLearn() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
               <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100">
                 <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-3">
-                  <AlertCircle className="w-6 h-6 text-red-600" />
+                  <AlertCircle className="w-6 h-6 text-[#dc2626]" />
                   Safety Profile
                 </h3>
                 <p className="text-slate-600 leading-relaxed text-sm mb-6">
                   {peptideData.safetyProfile}
                 </p>
-                <div className="p-4 bg-red-600 border border-red-500 rounded-2xl">
+                <div className="p-4 bg-[#dc2626] border border-red-500 rounded-2xl">
                   <p className="text-white text-xs font-bold leading-relaxed flex gap-2">
                     <Shield className="w-4 h-4 flex-shrink-0" />
                     For laboratory research use only. Not for human consumption.
@@ -681,7 +681,7 @@ export default function PeptideLearn() {
               <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-lg shadow-slate-100 flex flex-col justify-between">
                 <div>
                   <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight flex items-center gap-3">
-                    <FlaskConical className="w-6 h-6 text-red-600" />
+                    <FlaskConical className="w-6 h-6 text-[#dc2626]" />
                     Research Dosage
                   </h3>
                   <p className="text-slate-600 leading-relaxed text-sm mb-8">
@@ -694,7 +694,7 @@ export default function PeptideLearn() {
                       detail: { product } 
                     }));
                   }}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 rounded-xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02]"
+                  className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold h-14 rounded-xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02]"
                 >
                   Initialize Research Order
                 </Button>
@@ -704,7 +704,7 @@ export default function PeptideLearn() {
           </motion.div>
         ) : (
           <div className="text-center py-20">
-            <div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full mx-auto mb-4" />
+            <div className="animate-spin w-8 h-8 border-4 border-[#dc2626] border-t-transparent rounded-full mx-auto mb-4" />
             <p className="text-slate-500">Generating research data...</p>
           </div>
         )}

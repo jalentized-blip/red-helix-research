@@ -324,7 +324,7 @@ export default function AdminManualOrders() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 text-red-600">
+                  <div className="flex items-center gap-2 text-[#dc2626]">
                     <AlertCircle className="w-5 h-5" />
                     {searchResults.error || 'Transaction not found'}
                   </div>

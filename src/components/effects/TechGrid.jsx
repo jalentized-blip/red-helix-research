@@ -16,7 +16,7 @@ export default function TechGrid() {
 
       {/* Scanning line effect - Medical red scan */}
       <motion.div
-        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-600/20 to-transparent"
+        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#dc2626]/20 to-transparent"
         animate={{
           top: ['0%', '100%'],
         }}
@@ -31,12 +31,12 @@ export default function TechGrid() {
       {/* Corner accents - Precise clinical marks */}
       <div className="absolute top-12 left-12 w-16 h-16">
         <motion.div
-          className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-red-600/40 to-transparent"
+          className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#dc2626]/40 to-transparent"
           animate={{ width: ['0%', '100%'] }}
           transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
         />
         <motion.div
-          className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-red-600/40 to-transparent"
+          className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-[#dc2626]/40 to-transparent"
           animate={{ height: ['0%', '100%'] }}
           transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
         />

@@ -196,7 +196,7 @@ export default function GrayMarketInsights() {
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
@@ -205,7 +205,7 @@ export default function GrayMarketInsights() {
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-start gap-4 mb-4">
-            <div className="p-3 bg-red-600/20 rounded-lg border border-red-600/50">
+            <div className="p-3 bg-[#dc2626]/20 rounded-lg border border-[#dc2626]/50">
               <AlertTriangle className="w-8 h-8 text-red-400" />
             </div>
             <div>
@@ -241,7 +241,7 @@ export default function GrayMarketInsights() {
             <Card className="bg-stone-900/50 border-stone-700">
               <CardHeader>
                 <CardTitle className="text-amber-50 flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-red-600" />
+                  <Globe className="w-5 h-5 text-[#dc2626]" />
                   The Gray Market Landscape
                 </CardTitle>
               </CardHeader>
@@ -251,15 +251,15 @@ export default function GrayMarketInsights() {
                 </p>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
-                    <div className="text-3xl font-bold text-red-600 mb-2">90%</div>
+                    <div className="text-3xl font-bold text-[#dc2626] mb-2">90%</div>
                     <div className="text-sm text-stone-400">Cost savings vs. pharma</div>
                   </div>
                   <div className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
-                    <div className="text-3xl font-bold text-red-600 mb-2">300-800%</div>
+                    <div className="text-3xl font-bold text-[#dc2626] mb-2">300-800%</div>
                     <div className="text-sm text-stone-400">Typical US reseller markup</div>
                   </div>
                   <div className="bg-stone-800/50 rounded-lg p-4 border border-stone-700">
-                    <div className="text-3xl font-bold text-red-600 mb-2">$50-150</div>
+                    <div className="text-3xl font-bold text-[#dc2626] mb-2">$50-150</div>
                     <div className="text-sm text-stone-400">Avg kit price from China</div>
                   </div>
                 </div>
@@ -269,7 +269,7 @@ export default function GrayMarketInsights() {
             <Card className="bg-stone-900/50 border-stone-700">
               <CardHeader>
                 <CardTitle className="text-amber-50 flex items-center gap-2">
-                  <TrendingDown className="w-5 h-5 text-red-600" />
+                  <TrendingDown className="w-5 h-5 text-[#dc2626]" />
                   Market Dynamics
                 </CardTitle>
               </CardHeader>
@@ -331,18 +331,18 @@ export default function GrayMarketInsights() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: Math.min(idx * 0.02, 0.5) }}
-                      className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 hover:border-red-600/30 transition-all"
+                      className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 hover:border-[#dc2626]/30 transition-all"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                         <div className="flex-1">
                           <div className="flex items-start gap-2 mb-2">
-                            <Factory className="w-4 h-4 text-red-600 mt-1 flex-shrink-0" />
+                            <Factory className="w-4 h-4 text-[#dc2626] mt-1 flex-shrink-0" />
                             <div className="flex-1">
                               <h3 className="font-bold text-amber-50 text-sm">{supplier.name}</h3>
                               <div className="flex flex-wrap items-center gap-2 mt-1">
                                 <span className={`text-xs ${reputationColor}`}>● {supplier.reputation}</span>
                                 <span className="text-xs text-stone-500">•</span>
-                                <span className="text-xs text-red-600 font-semibold">{supplier.priceRange}</span>
+                                <span className="text-xs text-[#dc2626] font-semibold">{supplier.priceRange}</span>
                               </div>
                             </div>
                           </div>
@@ -375,7 +375,7 @@ export default function GrayMarketInsights() {
             <Card className="bg-stone-900/50 border-stone-700">
               <CardHeader>
                 <CardTitle className="text-amber-50 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-red-600" />
+                  <Shield className="w-5 h-5 text-[#dc2626]" />
                   Vetting Chinese Suppliers
                 </CardTitle>
               </CardHeader>
@@ -410,7 +410,7 @@ export default function GrayMarketInsights() {
                         <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                           method.difficulty === 'Easy' ? 'bg-green-600/20 text-green-400 border border-green-600/50' :
                           method.difficulty === 'Medium' ? 'bg-yellow-600/20 text-yellow-400 border border-yellow-600/50' :
-                          'bg-red-600/20 text-red-400 border border-red-600/50'
+                          'bg-[#dc2626]/20 text-red-400 border border-[#dc2626]/50'
                         }`}>
                           {method.difficulty}
                         </span>
@@ -439,7 +439,7 @@ export default function GrayMarketInsights() {
             <Card className="bg-stone-900/50 border-stone-700">
               <CardHeader>
                 <CardTitle className="text-amber-50 flex items-center gap-2">
-                  <Users className="w-5 h-5 text-red-600" />
+                  <Users className="w-5 h-5 text-[#dc2626]" />
                   Community Resources
                 </CardTitle>
               </CardHeader>
@@ -448,23 +448,23 @@ export default function GrayMarketInsights() {
                   <h4 className="font-semibold text-amber-50">Where Buyers Find Vendors:</h4>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
-                      <span className="text-red-600">•</span>
+                      <span className="text-[#dc2626]">•</span>
                       <span><strong>Telegram:</strong> Search "peptides", "research chemicals", "GLP-1" - join channels with 10k+ members</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-red-600">•</span>
+                      <span className="text-[#dc2626]">•</span>
                       <span><strong>Discord:</strong> Biohacking, peptide, and fitness communities maintain vendor spreadsheets</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-red-600">•</span>
+                      <span className="text-[#dc2626]">•</span>
                       <span><strong>Reddit:</strong> r/Peptides, r/ChinesePeptides (banned but archived), r/QSC discussions</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-red-600">•</span>
+                      <span className="text-[#dc2626]">•</span>
                       <span><strong>Facebook Groups:</strong> Private groups with vetting processes for members</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-red-600">•</span>
+                      <span className="text-[#dc2626]">•</span>
                       <span><strong>Vendor Review Sites:</strong> Community-maintained spreadsheets comparing 40+ vendors by price, shipping time, and COA results</span>
                     </li>
                   </ul>
@@ -478,7 +478,7 @@ export default function GrayMarketInsights() {
             <Card className="bg-stone-900/50 border-stone-700">
               <CardHeader>
                 <CardTitle className="text-amber-50 flex items-center gap-2">
-                  <DollarSign className="w-5 h-5 text-red-600" />
+                  <DollarSign className="w-5 h-5 text-[#dc2626]" />
                   Price Comparison: Direct vs. Resale
                 </CardTitle>
               </CardHeader>
@@ -496,8 +496,8 @@ export default function GrayMarketInsights() {
                     <tbody className="text-stone-300">
                       <tr className="border-b border-stone-800">
                         <td className="py-3">Chinese Direct (QSC)</td>
-                        <td className="py-3 text-red-600 font-bold">$10-15</td>
-                        <td className="py-3 text-red-600 font-bold">$40-60</td>
+                        <td className="py-3 text-[#dc2626] font-bold">$10-15</td>
+                        <td className="py-3 text-[#dc2626] font-bold">$40-60</td>
                         <td className="py-3">-</td>
                       </tr>
                       <tr className="border-b border-stone-800">
@@ -534,7 +534,7 @@ export default function GrayMarketInsights() {
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-stone-400">Markup:</span>
-                      <span className="text-lg font-bold text-red-600">{reseller.markup}</span>
+                      <span className="text-lg font-bold text-[#dc2626]">{reseller.markup}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-stone-400">Avg Price:</span>
@@ -553,7 +553,7 @@ export default function GrayMarketInsights() {
             <Card className="bg-stone-900/50 border-stone-700">
               <CardHeader>
                 <CardTitle className="text-amber-50 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-red-600" />
+                  <FileText className="w-5 h-5 text-[#dc2626]" />
                   How US Vendors Justify Higher Prices
                 </CardTitle>
               </CardHeader>

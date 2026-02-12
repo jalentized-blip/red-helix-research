@@ -72,7 +72,7 @@ export default function PaymentCompleted() {
               className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm"
             >
               <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-6 h-6 text-red-600" />
+                <Mail className="w-6 h-6 text-[#dc2626]" />
               </div>
               <p className="font-bold text-slate-900 mb-1">Check your email</p>
               <p className="text-xs text-slate-500 font-medium">Order confirmation and details incoming</p>
@@ -85,7 +85,7 @@ export default function PaymentCompleted() {
               className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm"
             >
               <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
-                <Package className="w-6 h-6 text-red-600" />
+                <Package className="w-6 h-6 text-[#dc2626]" />
               </div>
               <p className="font-bold text-slate-900 mb-1">Shipping soon</p>
               <p className="text-xs text-slate-500 font-medium">Same-day processing & shipping</p>
@@ -119,7 +119,7 @@ export default function PaymentCompleted() {
           </div>
 
           <Link to={createPageUrl('Home')}>
-            <Button className="w-full bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest py-8 rounded-xl shadow-lg shadow-red-600/20 text-lg transition-all hover:-translate-y-1">
+            <Button className="w-full bg-[#dc2626] hover:bg-red-700 text-white font-black uppercase tracking-widest py-8 rounded-xl shadow-lg shadow-[#dc2626]/20 text-lg transition-all hover:-translate-y-1">
               Return to Homepage
             </Button>
           </Link>

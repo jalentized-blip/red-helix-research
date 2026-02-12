@@ -18,14 +18,14 @@ export default function AgeVerification({ isOpen, onVerify }) {
       <DialogContent className="bg-white border border-slate-200 max-w-md rounded-[32px] shadow-2xl">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="w-6 h-6 text-red-600" />
+            <AlertCircle className="w-6 h-6 text-[#dc2626]" />
             <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tight">Age Verification</DialogTitle>
           </div>
         </DialogHeader>
         
         <div className="space-y-6">
           <DialogDescription className="text-slate-600 text-base font-medium leading-relaxed">
-            This website contains research chemicals and peptides. These products are intended for laboratory <span className="text-red-600 font-bold">RESEARCH USE ONLY</span>. You must be at least 21 years old to access this content.
+            This website contains research chemicals and peptides. These products are intended for laboratory <span className="text-[#dc2626] font-bold">RESEARCH USE ONLY</span>. You must be at least 21 years old to access this content.
           </DialogDescription>
 
           <div className="space-y-3">
@@ -34,7 +34,7 @@ export default function AgeVerification({ isOpen, onVerify }) {
                 type="checkbox"
                 checked={confirmed}
                 onChange={(e) => setConfirmed(e.target.checked)}
-                className="w-5 h-5 rounded border-slate-300 bg-slate-50 cursor-pointer accent-red-600 transition-all group-hover:border-red-600"
+                className="w-5 h-5 rounded border-slate-300 bg-slate-50 cursor-pointer accent-[#dc2626] transition-all group-hover:border-[#dc2626]"
               />
               <span className="text-slate-500 text-sm font-semibold group-hover:text-slate-700 transition-colors">I confirm that I am at least 21 years old and understand the research-only nature of these products</span>
             </label>
@@ -44,7 +44,7 @@ export default function AgeVerification({ isOpen, onVerify }) {
             <Button
               onClick={handleConfirm}
               disabled={!confirmed}
-              className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold py-6 rounded-2xl shadow-lg shadow-red-600/20 transition-all hover:scale-[1.02] active:scale-95"
+              className="flex-1 bg-[#dc2626] hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold py-6 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95"
             >
               Enter Laboratory
             </Button>

@@ -9,7 +9,7 @@ export default function GroupBuy() {
     <div className="min-h-screen bg-white pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Back Button */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-500 hover:text-red-600 mb-8 transition-colors">
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-500 hover:text-[#dc2626] mb-8 transition-colors">
           <Home className="w-4 h-4" />
           Back to Shop
         </Link>
@@ -20,7 +20,7 @@ export default function GroupBuy() {
           className="bg-white border border-slate-200 rounded-[32px] p-8 md:p-12 shadow-sm"
         >
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-            <span className="text-red-600">
+            <span className="text-[#dc2626]">
               Group Buy Testing
             </span>
           </h1>
@@ -46,7 +46,7 @@ export default function GroupBuy() {
           </div>
 
           <p className="text-slate-500 text-sm mt-8 font-medium">
-            For more information, visit <a href="https://peptidetest.com/pages/create-group-test" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 font-bold">PeptideTest.com</a>
+            For more information, visit <a href="https://peptidetest.com/pages/create-group-test" target="_blank" rel="noopener noreferrer" className="text-[#dc2626] hover:text-red-700 font-bold">PeptideTest.com</a>
           </p>
         </motion.div>
       </div>

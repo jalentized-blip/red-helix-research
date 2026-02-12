@@ -62,8 +62,8 @@ export default function SecurityGateway({ children }) {
         >
           {/* Pulsing Shield */}
           <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-20" />
-          <div className="relative z-10 w-24 h-24 bg-white border-4 border-red-600 rounded-full flex items-center justify-center shadow-xl">
-            <ShieldCheck className="w-12 h-12 text-red-600" />
+          <div className="relative z-10 w-24 h-24 bg-white border-4 border-[#dc2626] rounded-full flex items-center justify-center shadow-xl">
+            <ShieldCheck className="w-12 h-12 text-[#dc2626]" />
           </div>
           <div className="absolute -bottom-2 -right-2 bg-green-500 border-4 border-white rounded-full p-2">
             <Lock className="w-4 h-4 text-white" />
@@ -72,7 +72,7 @@ export default function SecurityGateway({ children }) {
 
         <div>
           <h1 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">
-            Red Helix <span className="text-red-600">Secure</span>
+            Red Helix <span className="text-[#dc2626]">Secure</span>
           </h1>
           <p className="text-slate-500 font-medium">
             {status}
@@ -82,7 +82,7 @@ export default function SecurityGateway({ children }) {
         {/* Progress Bar */}
         <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
           <motion.div 
-            className="h-full bg-red-600"
+            className="h-full bg-[#dc2626]"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5 }}

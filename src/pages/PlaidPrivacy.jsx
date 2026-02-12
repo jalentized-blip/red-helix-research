@@ -74,7 +74,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Trash2 className="w-6 h-6 text-red-600" />,
+      icon: <Trash2 className="w-6 h-6 text-[#dc2626]" />,
       title: 'Data Retention & Deletion Policy',
       content: [
         'Retention Periods:',
@@ -128,7 +128,7 @@ export default function PlaidPrivacy() {
       ]
     },
     {
-      icon: <Lock className="w-6 h-6 text-red-600" />,
+      icon: <Lock className="w-6 h-6 text-[#dc2626]" />,
       title: 'Security Incident Response',
       content: [
         'In the unlikely event of a data breach affecting financial data:',
@@ -198,7 +198,7 @@ export default function PlaidPrivacy() {
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}
-          className="mb-8 text-slate-500 hover:text-red-600 font-bold uppercase tracking-widest text-xs"
+          className="mb-8 text-slate-500 hover:text-[#dc2626] font-bold uppercase tracking-widest text-xs"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
@@ -271,13 +271,13 @@ export default function PlaidPrivacy() {
         <div className="mt-12 p-8 bg-slate-50 border border-slate-200 rounded-[24px] text-center">
           <p className="text-slate-600 text-sm font-medium">
             Questions about this policy? Contact us at{' '}
-            <a href="mailto:privacy@redhelixresearch.com" className="text-red-600 hover:underline font-bold">
+            <a href="mailto:privacy@redhelixresearch.com" className="text-[#dc2626] hover:underline font-bold">
               privacy@redhelixresearch.com
             </a>
           </p>
           <p className="text-slate-400 text-xs mt-3 font-medium">
             This policy is part of our overall{' '}
-            <a href="/Policies" className="text-red-600 hover:underline">
+            <a href="/Policies" className="text-[#dc2626] hover:underline">
               Terms of Service and Privacy Policy
             </a>
           </p>

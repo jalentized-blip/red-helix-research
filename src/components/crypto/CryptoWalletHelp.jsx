@@ -148,7 +148,7 @@ export default function CryptoWalletHelp() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="p-3 bg-red-600 rounded-full shadow-lg hover:bg-red-500 transition-all hover:scale-125 hover:brightness-125"
+        className="p-3 bg-[#dc2626] rounded-full shadow-lg hover:bg-red-500 transition-all hover:scale-125 hover:brightness-125"
         style={{ opacity: 0.2 }}
         title="Crypto wallet help"
       >
@@ -173,7 +173,7 @@ export default function CryptoWalletHelp() {
                 >
                   <h3 className="text-lg font-semibold text-amber-50 text-left">{section.title}</h3>
                   {expandedSection === section.id ? (
-                    <ChevronUp className="w-5 h-5 text-red-600" />
+                    <ChevronUp className="w-5 h-5 text-[#dc2626]" />
                   ) : (
                     <ChevronDown className="w-5 h-5 text-stone-500" />
                   )}

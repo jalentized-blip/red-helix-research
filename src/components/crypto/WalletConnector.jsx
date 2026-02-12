@@ -305,7 +305,7 @@ export default function WalletConnector({
           className={`
             w-full flex items-center gap-4 p-4 rounded-lg border transition-all
             ${wallet.isInstalled
-              ? 'bg-stone-800/80 border-stone-600 hover:border-red-600/50'
+              ? 'bg-stone-800/80 border-stone-600 hover:border-[#dc2626]/50'
               : 'bg-stone-800/40 border-stone-700/50 opacity-75 hover:opacity-100'
             }
           `}
@@ -335,7 +335,7 @@ export default function WalletConnector({
             <div className="flex items-center gap-2">
               <span className="font-semibold text-amber-50">{wallet.name}</span>
               {wallet.isRecommended && wallet.id !== 'manual' && (
-                <span className="text-xs bg-red-600/30 text-red-400 px-2 py-0.5 rounded">
+                <span className="text-xs bg-[#dc2626]/30 text-red-400 px-2 py-0.5 rounded">
                   Recommended
                 </span>
               )}
@@ -365,7 +365,7 @@ export default function WalletConnector({
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
         className="w-16 h-16 mx-auto mb-6"
       >
-        <Loader2 className="w-16 h-16 text-red-600" />
+        <Loader2 className="w-16 h-16 text-[#dc2626]" />
       </motion.div>
 
       <h3 className="text-xl font-bold text-amber-50 mb-2">
@@ -426,7 +426,7 @@ export default function WalletConnector({
 
       <Button
         onClick={onClose}
-        className="w-full bg-red-700 hover:bg-red-600 text-amber-50"
+        className="w-full bg-red-700 hover:bg-[#dc2626] text-amber-50"
       >
         Continue to Payment
       </Button>
@@ -438,7 +438,7 @@ export default function WalletConnector({
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        className="w-16 h-16 mx-auto mb-6 bg-red-600/20 rounded-full flex items-center justify-center"
+        className="w-16 h-16 mx-auto mb-6 bg-[#dc2626]/20 rounded-full flex items-center justify-center"
       >
         <AlertCircle className="w-10 h-10 text-red-500" />
       </motion.div>
@@ -501,7 +501,7 @@ export default function WalletConnector({
       <DialogContent className="max-w-md bg-stone-900 border border-stone-700">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-amber-50 flex items-center gap-3">
-            <Wallet className="w-6 h-6 text-red-600" />
+            <Wallet className="w-6 h-6 text-[#dc2626]" />
             Connect Wallet
           </DialogTitle>
           <DialogDescription className="text-stone-400">

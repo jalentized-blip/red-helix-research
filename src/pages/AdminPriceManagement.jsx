@@ -335,7 +335,7 @@ export default function AdminPriceManagement() {
     <div className="min-h-screen bg-stone-950 pt-32 pb-20">
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-6">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
@@ -345,14 +345,14 @@ export default function AdminPriceManagement() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-4xl font-black text-amber-50 mb-2">
-                <DollarSign className="inline w-10 h-10 text-red-600 mr-2" />
+                <DollarSign className="inline w-10 h-10 text-[#dc2626] mr-2" />
                 Price Management
               </h1>
               <p className="text-stone-400">Admin only - Update product prices across all specifications</p>
             </div>
             <Button
               onClick={handleApplyAllNewPrices}
-              className="bg-red-600 hover:bg-red-700 text-amber-50"
+              className="bg-[#dc2626] hover:bg-red-700 text-amber-50"
             >
               <Upload className="w-4 h-4 mr-2" />
               Apply All New Prices
@@ -360,7 +360,7 @@ export default function AdminPriceManagement() {
           </div>
 
           {/* Price Update Summary Card */}
-          <div className="bg-stone-900/50 border border-red-600/30 rounded-lg p-6 mb-8">
+          <div className="bg-stone-900/50 border border-[#dc2626]/30 rounded-lg p-6 mb-8">
             <h3 className="text-lg font-bold text-amber-50 mb-3">January 2026 Price Update</h3>
             <p className="text-stone-300 text-sm mb-4">
               This page contains the new pricing structure. Click "Apply All New Prices" to bulk update all products, 
@@ -394,8 +394,8 @@ export default function AdminPriceManagement() {
                   transition={{ delay: idx * 0.03 }}
                   className={`bg-stone-900/50 border rounded-lg p-6 transition-all ${
                     status === 'success' ? 'border-green-600/50' :
-                    status === 'error' ? 'border-red-600/50' :
-                    'border-stone-700 hover:border-red-600/30'
+                    status === 'error' ? 'border-[#dc2626]/50' :
+                    'border-stone-700 hover:border-[#dc2626]/30'
                   }`}
                 >
                   <div className="flex flex-col gap-4">
@@ -405,7 +405,7 @@ export default function AdminPriceManagement() {
                         <div>
                           <h3 className="text-xl font-bold text-amber-50">{product.name}</h3>
                           <p className="text-stone-400 text-sm">
-                            Current base price: <span className="text-red-600 font-semibold">${product.price_from}</span>
+                            Current base price: <span className="text-[#dc2626] font-semibold">${product.price_from}</span>
                           </p>
                         </div>
                         {status === 'success' && (
@@ -418,7 +418,7 @@ export default function AdminPriceManagement() {
                       <Button
                         onClick={() => handleApplyPrices(product)}
                         size="sm"
-                        className="bg-red-600 hover:bg-red-700 text-amber-50"
+                        className="bg-[#dc2626] hover:bg-red-700 text-amber-50"
                       >
                         <Save className="w-4 h-4 mr-2" />
                         Apply

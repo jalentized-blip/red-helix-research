@@ -21,7 +21,7 @@ export default function HolographicText({ children, className = "" }) {
       
       {/* Shimmer effect - Medical Red/White */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-red-600/10 to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-[#dc2626]/10 to-transparent"
         animate={{
           x: ['-100%', '200%']
         }}

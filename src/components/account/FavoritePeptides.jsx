@@ -24,7 +24,7 @@ export default function FavoritePeptides({ preferences, onRemoveFavorite }) {
         <p className="text-slate-900 text-lg mb-2 font-bold uppercase tracking-tight">No favorite peptides yet</p>
         <p className="text-slate-500 text-sm mb-6 font-medium">Start exploring and save your favorites</p>
         <Link to={createPageUrl('Home')}>
-          <Button className="bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs px-8 py-6">
+          <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-2xl font-black uppercase tracking-widest text-xs px-8 py-6 shadow-lg shadow-[#dc2626]/20">
             Browse Products
           </Button>
         </Link>
@@ -40,18 +40,18 @@ export default function FavoritePeptides({ preferences, onRemoveFavorite }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: idx * 0.05 }}
-          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-red-600/30 hover:shadow-lg transition-all group"
+          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-[#dc2626]/30 hover:shadow-lg transition-all group"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
-              <h3 className="text-slate-900 font-black text-lg mb-2 group-hover:text-red-600 transition-colors uppercase tracking-tight">
+              <h3 className="text-slate-900 font-black text-lg mb-2 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
                 {product.name}
               </h3>
               <p className="text-slate-500 text-sm line-clamp-2 mb-4 font-medium">
                 {product.description}
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-red-600 font-black">From ${product.price_from}</span>
+                <span className="text-[#dc2626] font-black">From ${product.price_from}</span>
                 <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-slate-50 rounded-full">
                   {product.category?.replace('_', ' ')}
                 </span>
@@ -61,20 +61,20 @@ export default function FavoritePeptides({ preferences, onRemoveFavorite }) {
               onClick={() => onRemoveFavorite(product.id)}
               className="p-2 rounded-xl hover:bg-red-50 transition-colors"
             >
-              <Heart className="w-5 h-5 text-red-600 fill-red-600" />
+              <Heart className="w-5 h-5 text-[#dc2626] fill-[#dc2626]" />
             </button>
           </div>
 
           <div className="flex gap-3 mt-6">
             <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} className="flex-1">
-              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:text-red-600 hover:border-red-600 rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
+              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:text-[#dc2626] hover:border-[#dc2626] rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
                 <ExternalLink className="w-3 h-3 mr-2" />
                 Research
               </Button>
             </Link>
             <Button
               size="sm"
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl font-black uppercase tracking-widest text-[10px] py-5"
+              className="flex-1 bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-[10px] py-5"
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
               }}

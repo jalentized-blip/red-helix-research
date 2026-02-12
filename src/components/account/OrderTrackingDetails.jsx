@@ -53,9 +53,9 @@ export default function OrderTrackingDetails({ order }) {
         return <Truck className="w-5 h-5 text-blue-600" />;
       case 'in_transit':
       case 'in transit':
-        return <Package className="w-5 h-5 text-red-600" />;
+        return <Package className="w-5 h-5 text-[#dc2626]" />;
       case 'exception':
-        return <AlertCircle className="w-5 h-5 text-red-600" />;
+        return <AlertCircle className="w-5 h-5 text-[#dc2626]" />;
       default:
         return <Clock className="w-5 h-5 text-slate-400" />;
     }
@@ -70,9 +70,9 @@ export default function OrderTrackingDetails({ order }) {
         return 'bg-blue-50 border-blue-100 text-blue-700';
       case 'in_transit':
       case 'in transit':
-        return 'bg-red-600 border-red-600 text-white';
+        return 'bg-[#dc2626] border-[#dc2626] text-white';
       case 'exception':
-        return 'bg-red-600 border-red-600 text-white';
+        return 'bg-[#dc2626] border-[#dc2626] text-white';
       default:
         return 'bg-slate-50 border-slate-100 text-slate-600';
     }
@@ -82,7 +82,7 @@ export default function OrderTrackingDetails({ order }) {
     return (
       <div className="bg-slate-50 rounded-2xl p-6 mt-3 border border-slate-100">
         <div className="flex items-center gap-3 justify-center py-4">
-          <Loader2 className="w-5 h-5 animate-spin text-red-600" />
+          <Loader2 className="w-5 h-5 animate-spin text-[#dc2626]" />
           <span className="text-slate-500 text-sm font-medium">Loading tracking details...</span>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function OrderTrackingDetails({ order }) {
 
   if (error) {
     return (
-      <div className="bg-red-600 rounded-2xl p-6 mt-3 border border-red-600">
+      <div className="bg-[#dc2626] rounded-2xl p-6 mt-3 border border-[#dc2626]">
         <div className="flex items-center gap-2 text-white text-sm font-bold">
           <AlertCircle className="w-4 h-4" />
           <span>{error}</span>
@@ -167,7 +167,7 @@ export default function OrderTrackingDetails({ order }) {
       {trackingData.events && trackingData.events.length > 0 && (
         <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
           <h4 className="text-xs font-black text-slate-900 mb-6 flex items-center gap-2 uppercase tracking-widest">
-            <Clock className="w-4 h-4 text-red-600" />
+            <Clock className="w-4 h-4 text-[#dc2626]" />
             Tracking History
           </h4>
           <div className="space-y-6">
@@ -182,7 +182,7 @@ export default function OrderTrackingDetails({ order }) {
                 {idx < trackingData.events.length - 1 && (
                   <div className="absolute left-[7px] top-6 bottom-[-24px] w-0.5 bg-slate-100" />
                 )}
-                <div className="w-4 h-4 rounded-full border-4 border-white bg-red-600 mt-0.5 shadow-sm relative z-10 flex-shrink-0" />
+                <div className="w-4 h-4 rounded-full border-4 border-white bg-[#dc2626] mt-0.5 shadow-sm relative z-10 flex-shrink-0" />
                 <div className="flex-1">
                   <p className="text-sm text-slate-900 font-bold tracking-tight">{event.description}</p>
                   <div className="flex items-center gap-2 mt-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -211,7 +211,7 @@ export default function OrderTrackingDetails({ order }) {
         <div className="flex items-center justify-between mb-1">
           <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Tracking Number</p>
           {order.carrier && (
-            <p className="text-[10px] text-white font-black uppercase tracking-widest bg-red-600 px-2 py-0.5 rounded">{order.carrier}</p>
+            <p className="text-[10px] text-white font-black uppercase tracking-widest bg-[#dc2626] px-2 py-0.5 rounded">{order.carrier}</p>
           )}
         </div>
         <p className="text-sm text-slate-900 font-mono font-bold tracking-wider">{order.tracking_number}</p>
@@ -226,7 +226,7 @@ export default function OrderTrackingDetails({ order }) {
         <button
           onClick={fetchTrackingInfo}
           disabled={loading}
-          className="text-[10px] text-red-600 hover:text-red-700 font-black uppercase tracking-widest underline disabled:opacity-50"
+          className="text-[10px] text-[#dc2626] hover:text-[#b91c1c] font-black uppercase tracking-widest underline disabled:opacity-50"
         >
           {loading ? 'Refreshing...' : 'Refresh Status'}
         </button>

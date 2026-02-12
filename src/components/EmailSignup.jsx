@@ -66,7 +66,7 @@ export default function EmailSignup({ variant = 'default' }) {
         <Button
           type="submit"
           disabled={loading || success}
-          className="bg-red-700 hover:bg-red-600 whitespace-nowrap"
+          className="bg-red-700 hover:bg-[#dc2626] whitespace-nowrap"
         >
           {success ? <Check className="w-4 h-4" /> : 'Subscribe'}
         </Button>
@@ -83,7 +83,7 @@ export default function EmailSignup({ variant = 'default' }) {
     >
       <div className="max-w-md">
         <div className="flex items-center gap-3 mb-4">
-          <Mail className="w-6 h-6 text-red-600" />
+          <Mail className="w-6 h-6 text-[#dc2626]" />
           <h3 className="text-2xl font-bold text-amber-50">Get Research Updates</h3>
         </div>
 
@@ -121,7 +121,7 @@ export default function EmailSignup({ variant = 'default' }) {
           <Button
             type="submit"
             disabled={loading || success}
-            className="w-full bg-red-700 hover:bg-red-600"
+            className="w-full bg-red-700 hover:bg-[#dc2626]"
           >
             {loading ? 'Subscribing...' : success ? 'Subscribed!' : 'Subscribe'}
           </Button>

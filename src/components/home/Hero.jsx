@@ -19,7 +19,7 @@ const Hero = React.memo(() => {
 
       {/* Floating Molecular Shapes - Brighter & More Professional */}
       <motion.div 
-        className="absolute top-1/4 right-1/4 w-32 md:w-64 h-32 md:h-64 bg-red-600/5 rounded-full blur-[60px] md:blur-[100px]"
+        className="absolute top-1/4 right-1/4 w-32 md:w-64 h-32 md:h-64 bg-[#dc2626]/5 rounded-full blur-[60px] md:blur-[100px]"
         animate={{ 
           scale: [1, 1.1, 1],
           opacity: [0.3, 0.4, 0.3],
@@ -53,14 +53,14 @@ const Hero = React.memo(() => {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full mb-6 md:mb-8 shadow-sm"
           >
-            <ShieldCheck className="w-3 md:w-4 h-3 md:h-4 text-red-600" />
+            <ShieldCheck className="w-3 md:w-4 h-3 md:h-4 text-[#dc2626]" />
             <span className="text-[10px] md:text-xs font-bold tracking-widest text-slate-600 uppercase">ISO 9001:2015 Certified Sourcing</span>
           </motion.div>
 
           {/* Main Title - High Contrast on Light BG */}
           <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9] lg:leading-[0.85] flex flex-col">
             <span className="text-slate-900">PRECISION</span>
-            <span className="text-red-600">RESEARCH</span>
+            <span className="text-[#dc2626]">RESEARCH</span>
             <span className="text-slate-900">PEPTIDES</span>
           </h1>
 
@@ -76,7 +76,7 @@ const Hero = React.memo(() => {
               { icon: FileText, label: "Verified COAs", sub: "Third-Party Lab" }
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/50 rounded-2xl border border-slate-100 lg:bg-transparent lg:border-0 lg:p-0">
-                <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-red-600 mb-1" />
+                <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#dc2626] mb-1" />
                 <span className="text-xs md:text-sm font-black text-slate-900">{stat.label}</span>
                 <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-tighter font-black">{stat.sub}</span>
               </div>
@@ -149,12 +149,12 @@ const Hero = React.memo(() => {
                 className="absolute bottom-12 right-12 p-4 bg-white/90 backdrop-blur-md border border-slate-100 rounded-2xl shadow-lg"
               >
                 <div className="text-[10px] text-slate-400 font-bold mb-1 uppercase tracking-tighter">Purity Analysis</div>
-                <div className="text-xs font-black text-red-600">HPLC: 99.82%</div>
+                <div className="text-xs font-black text-[#dc2626]">HPLC: 99.82%</div>
               </motion.div>
             </div>
 
             {/* Background Glow - Subtler */}
-            <div className="absolute -inset-4 bg-red-600/5 blur-2xl rounded-[40px] -z-10" />
+            <div className="absolute -inset-4 bg-[#dc2626]/5 blur-2xl rounded-[40px] -z-10" />
           </div>
         </motion.div>
       </div>
@@ -166,7 +166,7 @@ const Hero = React.memo(() => {
         transition={{ duration: 3, repeat: Infinity }}
       >
         <span className="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase">Scroll to explore</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-red-600 to-transparent" />
+        <div className="w-[1px] h-12 bg-gradient-to-b from-[#dc2626] to-transparent" />
       </motion.div>
     </section>
   );

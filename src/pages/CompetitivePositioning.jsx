@@ -139,7 +139,7 @@ export default function CompetitivePositioning() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -200,7 +200,7 @@ export default function CompetitivePositioning() {
             >
               <div className="flex items-start gap-4 mb-6">
                 <div className="p-3 bg-red-700/20 rounded-lg">
-                  <Target className="w-6 h-6 text-red-600" />
+                  <Target className="w-6 h-6 text-[#dc2626]" />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-amber-50">{strategy.axis}</h3>
@@ -215,7 +215,7 @@ export default function CompetitivePositioning() {
                 <ul className="space-y-2">
                   {strategy.tactics.map((tactic, i) => (
                     <li key={i} className="text-stone-300 flex items-start gap-2">
-                      <span className="text-red-600 font-bold">→</span>
+                      <span className="text-[#dc2626] font-bold">→</span>
                       <span>{tactic}</span>
                     </li>
                   ))}

@@ -104,7 +104,7 @@ export default function SEOMonitoring() {
 
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -122,7 +122,7 @@ export default function SEOMonitoring() {
               onClick={() => setActiveTab(tab)}
               className={`px-6 py-3 font-semibold transition-all capitalize ${
                 activeTab === tab
-                  ? 'text-amber-50 border-b-2 border-red-600 -mb-4'
+                  ? 'text-amber-50 border-b-2 border-[#dc2626] -mb-4'
                   : 'text-stone-400 hover:text-stone-300'
               }`}
             >
@@ -138,7 +138,7 @@ export default function SEOMonitoring() {
               <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm text-stone-400 font-semibold">Organic Sessions</h3>
-                  <TrendingUp className="w-5 h-5 text-red-600" />
+                  <TrendingUp className="w-5 h-5 text-[#dc2626]" />
                 </div>
                 <p className="text-3xl font-black text-amber-50">~50/day</p>
                 <p className="text-xs text-stone-400 mt-2">Target: 500+/day by April</p>
@@ -147,7 +147,7 @@ export default function SEOMonitoring() {
               <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm text-stone-400 font-semibold">Domain Authority</h3>
-                  <BarChart3 className="w-5 h-5 text-red-600" />
+                  <BarChart3 className="w-5 h-5 text-[#dc2626]" />
                 </div>
                 <p className="text-3xl font-black text-amber-50">~5-8</p>
                 <p className="text-xs text-stone-400 mt-2">Target: 20+ by April</p>
@@ -156,7 +156,7 @@ export default function SEOMonitoring() {
               <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm text-stone-400 font-semibold">Backlinks</h3>
-                  <Target className="w-5 h-5 text-red-600" />
+                  <Target className="w-5 h-5 text-[#dc2626]" />
                 </div>
                 <p className="text-3xl font-black text-amber-50">~30-40</p>
                 <p className="text-xs text-stone-400 mt-2">Target: 100+ by April</p>
@@ -165,7 +165,7 @@ export default function SEOMonitoring() {
               <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm text-stone-400 font-semibold">Top Ranking</h3>
-                  <CheckCircle className="w-5 h-5 text-red-600" />
+                  <CheckCircle className="w-5 h-5 text-[#dc2626]" />
                 </div>
                 <p className="text-3xl font-black text-amber-50">Page 2</p>
                 <p className="text-xs text-stone-400 mt-2">Target: Page 1 by March</p>
@@ -176,23 +176,23 @@ export default function SEOMonitoring() {
               <h2 className="text-2xl font-bold text-amber-50 mb-6">Next Actions (Week of Jan 29)</h2>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                   <span className="text-stone-300"><strong>Submit sitemap.xml</strong> to Google Search Console</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                   <span className="text-stone-300"><strong>Set up GA4 and GSC</strong> conversion tracking</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                   <span className="text-stone-300"><strong>Begin HARO responses</strong> (3-5 this week)</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                   <span className="text-stone-300"><strong>Outreach to 10 guest post targets</strong></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                   <span className="text-stone-300"><strong>Implement internal linking</strong> across all pages</span>
                 </li>
               </ul>
@@ -229,7 +229,7 @@ export default function SEOMonitoring() {
                           {metric.difficulty}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-red-600 font-semibold">{metric.target}</td>
+                      <td className="py-3 px-4 text-[#dc2626] font-semibold">{metric.target}</td>
                     </tr>
                   ))}
                 </tbody>

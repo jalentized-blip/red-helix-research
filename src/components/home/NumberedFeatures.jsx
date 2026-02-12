@@ -43,14 +43,14 @@ export default function NumberedFeatures() {
             >
               {/* Number Badge - Bright Clinical Style */}
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-sm group-hover:border-red-600/30 group-hover:bg-white transition-all duration-500">
-                  <span className="text-2xl font-black text-red-600">{feature.number}</span>
+                <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-sm group-hover:border-[#dc2626]/30 group-hover:bg-white transition-all duration-500">
+                  <span className="text-2xl font-black text-[#dc2626]">{feature.number}</span>
                 </div>
               </div>
 
               {/* Content - High Contrast on White */}
               <div className="pt-2">
-                <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-red-600 transition-colors uppercase tracking-tight">
+                <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
                   {feature.title}
                 </h3>
                 <p className="text-slate-500 leading-relaxed font-medium">

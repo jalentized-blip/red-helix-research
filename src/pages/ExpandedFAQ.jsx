@@ -248,7 +248,7 @@ export default function ExpandedFAQ() {
 
       <div className="max-w-4xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 rounded-full">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-full">
             ← Back to Home
           </Button>
         </Link>
@@ -270,7 +270,7 @@ export default function ExpandedFAQ() {
             placeholder="Search FAQs..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-12 bg-slate-50 border-slate-200 text-slate-900 h-14 rounded-2xl text-lg shadow-sm focus:ring-red-600/20"
+            className="pl-12 bg-slate-50 border-slate-200 text-slate-900 h-14 rounded-2xl text-lg shadow-sm focus:ring-[#dc2626]/20"
           />
           {searchQuery && (
             <p className="text-xs text-slate-400 mt-2 font-medium">
@@ -317,7 +317,7 @@ export default function ExpandedFAQ() {
                         <span className="font-bold text-lg text-slate-900">{item.question}</span>
                         <ChevronDown 
                           className={`w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0 mt-1 ${
-                            expandedItems[item.id] ? 'rotate-180 text-red-600' : ''
+                            expandedItems[item.id] ? 'rotate-180 text-[#dc2626]' : ''
                           }`} 
                         />
                       </button>
@@ -354,7 +354,7 @@ export default function ExpandedFAQ() {
             <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight">Still need help?</h3>
             <p className="text-slate-500 mb-8 font-medium">Our support team is here to answer any questions</p>
             <Link to={createPageUrl('Contact')}>
-              <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
+              <Button className="bg-[#dc2626] hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
                 Contact Support
               </Button>
             </Link>

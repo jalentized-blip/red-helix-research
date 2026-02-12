@@ -8,7 +8,7 @@ const categoryConfig = {
   weight_loss: {
     icon: Flame,
     label: 'Weight Loss',
-    color: 'from-orange-600 to-red-600',
+    color: 'from-orange-600 to-[#dc2626]',
     hoverColor: 'hover:border-orange-500'
   },
   recovery_healing: {
@@ -32,7 +32,7 @@ const categoryConfig = {
   sexual_health: {
     icon: Activity,
     label: 'Sexual Health',
-    color: 'from-rose-600 to-red-600',
+    color: 'from-rose-600 to-[#dc2626]',
     hoverColor: 'hover:border-rose-500'
   },
   general_health: {
@@ -70,16 +70,16 @@ export default function QuickCategories({ preferences }) {
             transition={{ delay: idx * 0.05 }}
           >
             <Link to={`${createPageUrl('LearnMore')}?category=${categoryKey}`}>
-              <div className={`relative bg-white border ${isPreferred ? 'border-red-600/30 shadow-lg shadow-red-600/5' : 'border-slate-100'} rounded-2xl p-6 ${config.hoverColor} transition-all cursor-pointer group hover:shadow-xl`}>
+              <div className={`relative bg-white border ${isPreferred ? 'border-[#dc2626]/30 shadow-lg shadow-[#dc2626]/5' : 'border-slate-100'} rounded-2xl p-6 ${config.hoverColor} transition-all cursor-pointer group hover:shadow-xl`}>
                 {isPreferred && (
                   <div className="absolute top-4 right-4">
-                    <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-sm" />
+                    <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-sm" />
                   </div>
                 )}
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${config.color} mb-4 shadow-lg shadow-red-600/10`}>
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${config.color} mb-4 shadow-lg shadow-[#dc2626]/10`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-slate-900 font-black text-xs uppercase tracking-widest group-hover:text-red-600 transition-colors">
+                <h3 className="text-slate-900 font-black text-xs uppercase tracking-widest group-hover:text-[#dc2626] transition-colors">
                   {config.label}
                 </h3>
               </div>

@@ -76,7 +76,7 @@ export default function EmailAutomationStrategy() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -94,28 +94,28 @@ export default function EmailAutomationStrategy() {
           className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-            <Mail className="w-6 h-6 text-red-600" />
+            <Mail className="w-6 h-6 text-[#dc2626]" />
             Why Email Automation Works
           </h2>
           <ul className="space-y-3 text-stone-300">
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>15-25% cart recovery:</strong> Abandoned cart emails recover lost sales automatically</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>8-12% reorder rate:</strong> Timely reminders encourage repeat purchases</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Higher AOV:</strong> Post-purchase sequences educate and drive upsells</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Scalable:</strong> Automate once, benefit forever—no manual effort</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Lower CAC:</strong> Retargeting existing prospects costs far less than new acquisition</span>
             </li>
           </ul>
@@ -147,7 +147,7 @@ export default function EmailAutomationStrategy() {
                 <div className="space-y-2">
                   {sequence.timing.map((email, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <span className="text-red-600 font-bold whitespace-nowrap">{email.delay}:</span>
+                      <span className="text-[#dc2626] font-bold whitespace-nowrap">{email.delay}:</span>
                       <span className="text-stone-300">{email.subject}</span>
                     </div>
                   ))}
@@ -199,7 +199,7 @@ export default function EmailAutomationStrategy() {
                   <td className="py-3 px-4">{item.baseline}</td>
                   <td className="py-3 px-4">{item.month3}</td>
                   <td className="py-3 px-4">{item.month6}</td>
-                  <td className="py-3 px-4 text-red-600 font-bold">{item.value}</td>
+                  <td className="py-3 px-4 text-[#dc2626] font-bold">{item.value}</td>
                 </tr>
               ))}
             </tbody>

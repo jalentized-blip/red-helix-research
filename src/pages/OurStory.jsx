@@ -15,8 +15,8 @@ const Section = ({ icon: Icon, title, children, delay = 0 }) => (
     className="mb-16"
   >
     <div className="flex items-start gap-4 mb-6">
-      <div className="p-3 bg-red-600/10 rounded-xl flex-shrink-0 shadow-sm border border-red-100">
-        <Icon className="w-6 h-6 text-red-600" />
+      <div className="p-3 bg-[#dc2626]/10 rounded-xl flex-shrink-0 shadow-sm border border-red-100">
+        <Icon className="w-6 h-6 text-[#dc2626]" />
       </div>
       <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">{title}</h2>
     </div>
@@ -38,7 +38,7 @@ export default function OurStory() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 bg-white shadow-sm">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 bg-white shadow-sm">
             ← Back to Home
           </Button>
         </Link>
@@ -50,7 +50,7 @@ export default function OurStory() {
         >
           <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tighter">Our Story</h1>
           <p className="text-xl text-slate-600 leading-relaxed font-medium">
-            Red Helix Research wasn't built to maximize profit margins. We were built to solve a problem in the gray market that has plagued researchers, athletes, and health-conscious individuals for years: <span className="text-red-600 font-bold">lack of transparency, vendor accountability, and fair pricing.</span>
+            Red Helix Research wasn't built to maximize profit margins. We were built to solve a problem in the gray market that has plagued researchers, athletes, and health-conscious individuals for years: <span className="text-[#dc2626] font-bold">lack of transparency, vendor accountability, and fair pricing.</span>
           </p>
         </motion.div>
 
@@ -158,7 +158,7 @@ export default function OurStory() {
         >
           <p className="text-slate-500 font-bold mb-6">Ready to be part of this community?</p>
           <Link to={createPageUrl('Home')}>
-            <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg font-black shadow-lg shadow-red-200">
+            <Button className="bg-[#dc2626] hover:bg-red-700 text-white px-8 py-6 text-lg font-black shadow-lg shadow-red-200">
               Shop With Us
             </Button>
           </Link>

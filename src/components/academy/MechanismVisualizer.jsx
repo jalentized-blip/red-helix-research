@@ -191,7 +191,7 @@ const PathwayStep = React.memo(({ pathway, isActive, isComplete, color, gradient
     isComplete
       ? `${lightBg} ${borderColor}`
       : 'bg-white border-slate-100 shadow-sm'
-  } ${isActive ? 'ring-2 ring-red-600 ring-offset-2' : ''}`}>
+  } ${isActive ? 'ring-2 ring-[#dc2626] ring-offset-2' : ''}`}>
     <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl flex-shrink-0 transition-all duration-500 ${
       isComplete
         ? `bg-gradient-to-br ${gradient} text-white shadow-lg`
@@ -212,7 +212,7 @@ const PathwayStep = React.memo(({ pathway, isActive, isComplete, color, gradient
       </p>
     </div>
     {isActive && (
-      <div className="w-3 h-3 bg-red-600 rounded-full flex-shrink-0 animate-pulse mt-2" />
+      <div className="w-3 h-3 bg-[#dc2626] rounded-full flex-shrink-0 animate-pulse mt-2" />
     )}
   </div>
 ));
@@ -282,7 +282,7 @@ export default function MechanismVisualizer({ onBack }) {
           Back to Academy
         </Button>
         <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-full border border-slate-200">
-          <Activity className="w-4 h-4 text-red-600" />
+          <Activity className="w-4 h-4 text-[#dc2626]" />
           <span className="text-xs font-black uppercase tracking-widest text-slate-600">
             Mechanism Visualization System v4.0
           </span>
@@ -302,13 +302,13 @@ export default function MechanismVisualizer({ onBack }) {
                 onClick={() => handleMechanismChange(mechanism)}
                 className={`text-left p-6 rounded-[24px] border-2 transition-all duration-300 group ${
                   selectedMechanism.id === mechanism.id
-                    ? `bg-white border-red-600 shadow-xl scale-[1.02]`
+                    ? `bg-white border-[#dc2626] shadow-xl scale-[1.02]`
                     : 'bg-slate-50 border-slate-100 hover:border-slate-200 hover:bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <h3 className={`text-xl font-black uppercase tracking-tighter ${
-                    selectedMechanism.id === mechanism.id ? 'text-red-600' : 'text-slate-900'
+                    selectedMechanism.id === mechanism.id ? 'text-[#dc2626]' : 'text-slate-900'
                   }`}>
                     {mechanism.name}
                   </h3>
@@ -330,7 +330,7 @@ export default function MechanismVisualizer({ onBack }) {
                 <div>
                   <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
                     {selectedMechanism.name}
-                    <span className="block text-xl text-red-600 mt-2 font-bold tracking-tight normal-case italic">
+                    <span className="block text-xl text-[#dc2626] mt-2 font-bold tracking-tight normal-case italic">
                       {selectedMechanism.title}
                     </span>
                   </h2>
@@ -380,7 +380,7 @@ export default function MechanismVisualizer({ onBack }) {
                   className={`h-16 px-10 rounded-[20px] font-black uppercase tracking-widest text-sm transition-all shadow-lg hover:shadow-xl active:scale-95 ${
                     isPlaying 
                       ? 'bg-slate-900 text-white hover:bg-slate-800' 
-                      : 'bg-red-600 text-white hover:bg-red-700'
+                      : 'bg-[#dc2626] text-white hover:bg-red-700'
                   }`}
                 >
                   {isPlaying ? (
@@ -414,13 +414,13 @@ export default function MechanismVisualizer({ onBack }) {
           {/* Key Insights */}
           <div className="mt-8 bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden group">
             <div className="relative z-10 flex items-start gap-6">
-              <div className="w-14 h-14 bg-red-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:rotate-12 transition-transform">
+              <div className="w-14 h-14 bg-[#dc2626] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:rotate-12 transition-transform">
                 <Info className="w-8 h-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-black uppercase tracking-tight mb-4 flex items-center gap-2">
                   Clinical Research Implications
-                  <span className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
+                  <span className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping" />
                 </h3>
                 <div className="grid md:grid-cols-2 gap-x-8 gap-y-3">
                   {[
@@ -430,7 +430,7 @@ export default function MechanismVisualizer({ onBack }) {
                     'Potential synergy in multi-pathway research designs'
                   ].map((insight, i) => (
                     <div key={i} className="flex items-center gap-3 text-slate-400 text-sm font-medium">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" />
+                      <div className="w-1.5 h-1.5 bg-[#dc2626] rounded-full" />
                       {insight}
                     </div>
                   ))}

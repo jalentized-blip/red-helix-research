@@ -10,7 +10,7 @@ const TopicItem = React.memo(({ topic, isCompleted, isActive, onClick }) => (
     onClick={onClick}
     className={`w-full text-left p-6 rounded-[24px] border-2 transition-all ${
       isActive
-        ? `bg-red-50/50 border-red-600/30`
+        ? `bg-red-50/50 border-[#dc2626]/30`
         : isCompleted
         ? 'bg-slate-50 border-green-600/20'
         : 'bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50/50'
@@ -38,7 +38,7 @@ const TopicItem = React.memo(({ topic, isCompleted, isActive, onClick }) => (
         </p>
       </div>
       
-      <ChevronRight className={`w-6 h-6 transition-all ${isActive ? 'text-red-600 translate-x-1' : 'text-slate-300'}`} />
+      <ChevronRight className={`w-6 h-6 transition-all ${isActive ? 'text-[#dc2626] translate-x-1' : 'text-slate-300'}`} />
     </div>
   </button>
 ));
@@ -78,11 +78,11 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
         <div className="p-8 md:p-12 border-b border-slate-100 bg-slate-50/50">
           <div className="flex items-start justify-between gap-6">
             <div className="flex items-start gap-6">
-              <div className="w-16 h-16 bg-red-600 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-200">
+              <div className="w-16 h-16 bg-[#dc2626] rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-200">
                 <BookOpen className="w-8 h-8 text-white" />
               </div>
               <div>
-                <div className="text-[10px] font-black text-red-600 uppercase tracking-[0.2em] mb-2">
+                <div className="text-[10px] font-black text-[#dc2626] uppercase tracking-[0.2em] mb-2">
                   {moduleLevel} Research Protocol
                 </div>
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
@@ -101,7 +101,7 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
           {/* Overview Section */}
           <section>
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
               Topic Overview
             </h3>
             <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -138,7 +138,7 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
 
           {/* Mechanism */}
           <section className="bg-slate-900 rounded-[32px] p-8 md:p-10 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc2626]/10 rounded-full -mr-32 -mt-32 blur-3xl" />
             <h3 className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] mb-6 relative z-10">Mechanism of Action</h3>
             <p className="text-lg md:text-xl text-slate-300 leading-relaxed relative z-10">
               {content.mechanism}
@@ -146,7 +146,7 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
           </section>
 
           {/* Safety Warning */}
-          <section className="bg-red-600 border border-red-500 rounded-[32px] p-8 md:p-10">
+          <section className="bg-[#dc2626] border border-red-500 rounded-[32px] p-8 md:p-10">
             <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
               Compliance & Safety Protocol
@@ -162,12 +162,12 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
               <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8">Clinical Evidence & Peer-Reviewed Data</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 {content.clinicalData.map((data, idx) => (
-                  <div key={idx} className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 hover:border-red-600/20 transition-all group">
+                  <div key={idx} className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 hover:border-[#dc2626]/20 transition-all group">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white bg-red-600 px-3 py-1 rounded-full">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white bg-[#dc2626] px-3 py-1 rounded-full">
                         {data.source}
                       </span>
-                      <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-red-600 transition-colors" />
+                      <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                     </div>
                     <h4 className="text-lg font-black text-slate-900 mb-3 uppercase tracking-tighter leading-tight">{data.title}</h4>
                     <p className="text-sm text-slate-500 leading-relaxed italic">
@@ -184,7 +184,7 @@ const TopicModal = React.memo(({ topic, moduleLevel, onComplete, onClose }) => {
         <div className="p-8 border-t border-slate-100 bg-white flex gap-4">
           <Button
             onClick={onComplete}
-            className="flex-1 bg-red-600 hover:bg-red-700 text-white h-16 rounded-2xl text-lg font-bold uppercase tracking-wider shadow-lg shadow-red-200 transition-all active:scale-[0.98]"
+            className="flex-1 bg-[#dc2626] hover:bg-red-700 text-white h-16 rounded-2xl text-lg font-bold uppercase tracking-wider shadow-lg shadow-red-200 transition-all active:scale-[0.98]"
           >
             <CheckCircle2 className="w-6 h-6 mr-3" />
             Validate Module Knowledge
@@ -243,7 +243,7 @@ export default function LearningPathway({ module, onBack, onComplete }) {
         </Button>
         <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-3">
           <div className="w-12 h-1 bg-slate-100 rounded-full overflow-hidden">
-            <div className="h-full bg-red-600" style={{ width: `${progressPercent}%` }} />
+            <div className="h-full bg-[#dc2626]" style={{ width: `${progressPercent}%` }} />
           </div>
           {completedTopics.length} / {module.topics.length} Modules Verified
         </div>
@@ -260,7 +260,7 @@ export default function LearningPathway({ module, onBack, onComplete }) {
               <Icon className="w-12 h-12 text-white -rotate-3" />
             </div>
             <div>
-              <div className="text-[10px] font-black text-red-600 uppercase tracking-[0.3em] mb-2">
+              <div className="text-[10px] font-black text-[#dc2626] uppercase tracking-[0.3em] mb-2">
                 {module.level} Research Track
               </div>
               <h1 className="text-5xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-none">
@@ -316,9 +316,9 @@ export default function LearningPathway({ module, onBack, onComplete }) {
           className="bg-slate-900 rounded-[40px] p-12 md:p-16 text-center text-white relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.1),transparent)] pointer-events-none" />
-          <Award className="w-24 h-24 text-red-600 mx-auto mb-8" />
+          <Award className="w-24 h-24 text-[#dc2626] mx-auto mb-8" />
           <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 leading-none">
-            Research Track <span className="text-red-600">Mastered</span>
+            Research Track <span className="text-[#dc2626]">Mastered</span>
           </h3>
           <p className="text-slate-400 text-lg mb-10 max-w-md mx-auto">
             You've successfully completed all verified research modules for the {module.title} pathway.

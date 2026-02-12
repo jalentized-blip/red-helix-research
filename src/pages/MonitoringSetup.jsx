@@ -226,14 +226,14 @@ export default function MonitoringSetup() {
         {/* Header */}
         <div className="mb-12">
           <Link to={createPageUrl('ResourceHub')}>
-            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
+            <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Resources
             </Button>
           </Link>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter uppercase leading-none">
-              Monitoring <span className="text-red-600">& Analytics</span>
+              Monitoring <span className="text-[#dc2626]">& Analytics</span>
             </h1>
             <p className="text-xl text-slate-500 font-medium max-w-2xl">
               Production monitoring infrastructure and KPI tracking systems.
@@ -252,7 +252,7 @@ export default function MonitoringSetup() {
               transition={{ delay: index * 0.1 }}
             >
               <h2 className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tighter flex items-center gap-3">
-                <div className="w-8 h-1 bg-red-600" />
+                <div className="w-8 h-1 bg-[#dc2626]" />
                 {category.category}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -260,7 +260,7 @@ export default function MonitoringSetup() {
                   <div key={idx} className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all group">
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="font-black text-slate-900 text-xl tracking-tight">{tool.name}</h3>
-                      <span className="text-[10px] font-black text-red-600 bg-red-50 px-3 py-1 rounded-full uppercase tracking-wider">{tool.cost}</span>
+                      <span className="text-[10px] font-black text-[#dc2626] bg-red-50 px-3 py-1 rounded-full uppercase tracking-wider">{tool.cost}</span>
                     </div>
                     <p className="text-slate-500 mb-6 font-medium text-sm leading-relaxed">{tool.purpose}</p>
 
@@ -274,12 +274,12 @@ export default function MonitoringSetup() {
                         <ul className="text-slate-600 font-medium space-y-1">
                           {Array.isArray(tool.alerts) ? tool.alerts.map((alert, i) => (
                             <li key={i} className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-red-600 rounded-full" />
+                              <span className="w-1 h-1 bg-[#dc2626] rounded-full" />
                               {alert}
                             </li>
                           )) : (
                             <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-red-600 rounded-full" />
+                              <span className="w-1 h-1 bg-[#dc2626] rounded-full" />
                               {tool.alerts}
                             </li>
                           )}
@@ -300,11 +300,11 @@ export default function MonitoringSetup() {
           viewport={{ once: true }}
           className="mb-20 bg-slate-900 rounded-[40px] p-10 md:p-12 relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl -mr-20 -mt-20" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#dc2626]/10 rounded-full blur-3xl -mr-20 -mt-20" />
           
           <div className="relative z-10">
             <h2 className="text-3xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-tighter">
-              <BarChart3 className="w-8 h-8 text-red-600" />
+              <BarChart3 className="w-8 h-8 text-[#dc2626]" />
               Performance KPIs
             </h2>
 
@@ -337,7 +337,7 @@ export default function MonitoringSetup() {
           className="mb-20"
         >
           <h2 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tighter flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+            <AlertTriangle className="w-6 h-6 text-[#dc2626]" />
             Alert Response Strategy
           </h2>
 
@@ -349,7 +349,7 @@ export default function MonitoringSetup() {
               }`}>
                 <div className="flex items-center justify-between mb-6">
                   <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
-                    alert.severity === 'CRITICAL' ? 'bg-red-600 text-white' : 
+                    alert.severity === 'CRITICAL' ? 'bg-[#dc2626] text-white' : 
                     'bg-slate-100 text-slate-900'
                   }`}>
                     {alert.severity}
@@ -388,7 +388,7 @@ export default function MonitoringSetup() {
           className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-200/50"
         >
           <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3 uppercase tracking-tighter">
-            <Zap className="w-6 h-6 text-red-600" />
+            <Zap className="w-6 h-6 text-[#dc2626]" />
             Executive Dashboard Components
           </h2>
 
@@ -399,7 +399,7 @@ export default function MonitoringSetup() {
                 <ul className="space-y-3">
                   {dashboard.metrics.map((metric, i) => (
                     <li key={i} className="text-slate-600 font-medium flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" />
+                      <div className="w-1.5 h-1.5 bg-[#dc2626] rounded-full" />
                       <span>{metric}</span>
                     </li>
                   ))}

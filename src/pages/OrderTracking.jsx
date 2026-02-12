@@ -95,7 +95,7 @@ export default function OrderTracking() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Account')} className="inline-flex items-center gap-2 text-slate-500 hover:text-red-600 mb-6 transition-colors">
+          <Link to={createPageUrl('Account')} className="inline-flex items-center gap-2 text-slate-500 hover:text-[#dc2626] mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Back to Account
           </Link>
@@ -146,7 +146,7 @@ export default function OrderTracking() {
             <Package className="w-12 h-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-500 mb-6 font-medium">No orders yet</p>
             <Link to={createPageUrl('Home')}>
-              <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
+              <Button className="bg-[#dc2626] hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
                 Start Shopping
               </Button>
             </Link>

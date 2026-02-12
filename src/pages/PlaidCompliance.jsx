@@ -58,7 +58,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Payment Security',
-      icon: <Shield className="w-6 h-6 text-red-600" />,
+      icon: <Shield className="w-6 h-6 text-[#dc2626]" />,
       features: [
         'PCI DSS compliant infrastructure',
         'Fraud detection and monitoring',
@@ -94,7 +94,7 @@ export default function PlaidCompliance() {
     },
     {
       category: 'Incident Response',
-      icon: <Shield className="w-6 h-6 text-red-600" />,
+      icon: <Shield className="w-6 h-6 text-[#dc2626]" />,
       features: [
         '72-hour breach notification',
         'Documented incident response plan',
@@ -118,7 +118,7 @@ export default function PlaidCompliance() {
         <Button
           variant="outline"
           onClick={() => navigate(-1)}
-          className="mb-8 text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-red-600"
+          className="mb-8 text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-[#dc2626]"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
@@ -274,30 +274,30 @@ export default function PlaidCompliance() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a
               href="/PlaidPrivacy"
-              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-[#dc2626] hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Plaid Privacy Policy</h4>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-[#dc2626]">Plaid Privacy Policy</h4>
               <p className="text-xs text-slate-500 font-medium">Detailed financial data privacy policy</p>
             </a>
             <a
               href="/DataRetentionPolicy"
-              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-[#dc2626] hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Data Retention Policy</h4>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-[#dc2626]">Data Retention Policy</h4>
               <p className="text-xs text-slate-500 font-medium">Retention schedules and deletion procedures</p>
             </a>
             <a
               href="/SecurityDashboard"
-              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-[#dc2626] hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Security Dashboard</h4>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-[#dc2626]">Security Dashboard</h4>
               <p className="text-xs text-slate-500 font-medium">Real-time security monitoring (Admin only)</p>
             </a>
             <a
               href="/Policies"
-              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-red-600 hover:shadow-md transition-all group"
+              className="p-4 bg-white border border-slate-200 rounded-xl hover:border-[#dc2626] hover:shadow-md transition-all group"
             >
-              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-red-600">Terms & Privacy</h4>
+              <h4 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-[#dc2626]">Terms & Privacy</h4>
               <p className="text-xs text-slate-500 font-medium">General terms of service and privacy policy</p>
             </a>
           </div>

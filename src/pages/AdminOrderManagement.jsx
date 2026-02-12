@@ -101,7 +101,7 @@ export default function AdminOrderManagement() {
     <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-6 rounded-full hover:bg-slate-50">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-6 rounded-full hover:bg-slate-50">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
@@ -118,7 +118,7 @@ export default function AdminOrderManagement() {
             placeholder="Search by order #, email, address..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-slate-50 border-slate-200 text-slate-900 max-w-md focus:border-red-600 focus:ring-1 focus:ring-red-600"
+            className="bg-slate-50 border-slate-200 text-slate-900 max-w-md focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626]"
           />
           <Select value={filterStatus} onValueChange={setFilterStatus}>
             <SelectTrigger className="bg-slate-50 border-slate-200 text-slate-900 w-48 rounded-lg">
@@ -227,7 +227,7 @@ export default function AdminOrderManagement() {
                                 <p className="text-xs text-slate-500 font-medium mt-1">{item.specification}</p>
                               </div>
                               <div className="text-right">
-                                <p className="font-bold text-red-600 text-sm">${item.price}</p>
+                                <p className="font-bold text-[#dc2626] text-sm">${item.price}</p>
                                 <p className="text-xs text-slate-500 font-medium mt-1">Qty: {item.quantity}</p>
                               </div>
                             </div>

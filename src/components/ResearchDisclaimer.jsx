@@ -3,7 +3,7 @@ import { AlertCircle } from 'lucide-react';
 
 export default function ResearchDisclaimer() {
   return (
-    <div className="bg-red-600 border border-red-500 rounded-lg p-4 mb-6">
+    <div className="bg-[#dc2626] border border-red-500 rounded-lg p-4 mb-6">
       <div className="flex gap-3">
         <AlertCircle className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
         <div>

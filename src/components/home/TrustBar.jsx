@@ -27,8 +27,8 @@ export default function TrustBar() {
               viewport={{ once: true }}
               className="flex items-center gap-3 text-slate-600 group cursor-default"
             >
-              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:border-red-600/30 transition-colors shadow-sm">
-                <feature.icon className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:border-[#dc2626]/30 transition-colors shadow-sm">
+                <feature.icon className="w-5 h-5 text-[#dc2626]" />
               </div>
               <span className="text-xs font-black uppercase tracking-widest">{feature.label}</span>
             </motion.div>
@@ -43,7 +43,7 @@ export default function TrustBar() {
               {payments.map((payment) => (
                 <span
                   key={payment}
-                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-[10px] font-black text-slate-900 shadow-sm hover:border-red-600/30 transition-colors"
+                  className="px-4 py-2 bg-white border border-slate-100 rounded-xl text-[10px] font-black text-slate-900 shadow-sm hover:border-[#dc2626]/30 transition-colors"
                 >
                   {payment}
                 </span>
@@ -59,7 +59,7 @@ export default function TrustBar() {
               <span className="text-[10px] font-black uppercase tracking-widest">Encrypted Checkout</span>
             </div>
             <div className="flex items-center gap-2 text-slate-600">
-              <RefreshCw className="w-4 h-4 text-red-600" />
+              <RefreshCw className="w-4 h-4 text-[#dc2626]" />
               <span className="text-[10px] font-black uppercase tracking-widest">Delivery Assurance</span>
             </div>
           </div>

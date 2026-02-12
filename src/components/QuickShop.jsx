@@ -50,7 +50,7 @@ export default function QuickShop() {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed right-6 bottom-24 z-[60] p-4 bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-full shadow-2xl border-2 border-red-500/30"
+        className="fixed right-6 bottom-24 z-[60] p-4 bg-gradient-to-br from-[#dc2626] to-red-700 hover:from-red-700 hover:to-red-800 rounded-full shadow-2xl border-2 border-red-500/30"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0 }}
@@ -107,18 +107,18 @@ export default function QuickShop() {
                         key={category.value}
                         onClick={() => handleCategoryClick(category.value)}
                         data-category={category.value}
-                        className="group p-4 bg-slate-50 hover:bg-white border border-slate-100 hover:border-red-600/30 rounded-2xl transition-all text-left shadow-sm hover:shadow-md"
+                        className="group p-4 bg-slate-50 hover:bg-white border border-slate-100 hover:border-[#dc2626]/30 rounded-2xl transition-all text-left shadow-sm hover:shadow-md"
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="text-slate-900 font-black uppercase tracking-tight group-hover:text-red-600 transition-colors">
+                            <div className="text-slate-900 font-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
                               {category.name}
                             </div>
                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">
                               {products.filter(p => p.category === category.value).length} research units
                             </div>
                           </div>
-                          <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-red-600 group-hover:translate-x-1 transition-all" />
+                          <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] group-hover:translate-x-1 transition-all" />
                         </div>
                       </button>
                     ))}
@@ -134,7 +134,7 @@ export default function QuickShop() {
                         <button
                           key={product.id}
                           onClick={() => handleProductClick(product)}
-                          className="w-full p-4 bg-slate-50 hover:bg-white border border-slate-100 hover:border-red-600/30 rounded-2xl transition-all text-left group shadow-sm hover:shadow-md flex gap-4"
+                          className="w-full p-4 bg-slate-50 hover:bg-white border border-slate-100 hover:border-[#dc2626]/30 rounded-2xl transition-all text-left group shadow-sm hover:shadow-md flex gap-4"
                         >
                           <div className="w-16 h-16 bg-white rounded-xl border border-slate-100 p-1 flex-shrink-0">
                             <img 
@@ -144,14 +144,14 @@ export default function QuickShop() {
                             />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="font-black text-slate-900 uppercase tracking-tight group-hover:text-red-600 transition-colors truncate">
+                            <div className="font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors truncate">
                               {product.name}
                             </div>
                             <div className="flex items-center justify-between mt-2">
-                              <span className="text-red-600 font-black text-sm">
+                              <span className="text-[#dc2626] font-black text-sm">
                                 ${product.price_from}
                               </span>
-                              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-red-600 group-hover:translate-x-1 transition-all" />
+                              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-[#dc2626] group-hover:translate-x-1 transition-all" />
                             </div>
                           </div>
                         </button>
@@ -170,7 +170,7 @@ export default function QuickShop() {
                         element?.scrollIntoView({ behavior: 'smooth' });
                         setIsOpen(false);
                       }}
-                      className="w-full text-left px-6 py-4 bg-slate-900 hover:bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl transition-all shadow-lg shadow-slate-900/10 hover:shadow-red-600/20"
+                      className="w-full text-left px-6 py-4 bg-slate-900 hover:bg-[#dc2626] text-white font-black uppercase tracking-widest text-[10px] rounded-2xl transition-all shadow-lg shadow-slate-900/10 hover:shadow-[#dc2626]/20"
                     >
                       View Full Catalog
                     </button>

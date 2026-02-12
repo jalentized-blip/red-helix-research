@@ -52,7 +52,7 @@ export default function PeptideReconstitution() {
       <div className="absolute inset-0 bg-slate-50/50 pointer-events-none" />
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Header */}
-        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-red-600 mb-12 transition-colors group">
+        <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-[#dc2626] mb-12 transition-colors group">
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           <span className="text-[10px] font-black uppercase tracking-widest">Return to Command Center</span>
         </Link>
@@ -63,13 +63,13 @@ export default function PeptideReconstitution() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-600/5 border border-red-600/10 rounded-full mb-6">
-            <Calculator className="w-3 h-3 text-red-600" />
-            <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Precision Protocol</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
+            <Calculator className="w-3 h-3 text-[#dc2626]" />
+            <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">Precision Protocol</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter leading-none">
             RECONSTITUTION <br />
-            <span className="text-red-600">CALCULATOR</span>
+            <span className="text-[#dc2626]">CALCULATOR</span>
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-2xl">
             Mathematical modeling for precise research peptide preparation and analytical deployment.
@@ -78,15 +78,15 @@ export default function PeptideReconstitution() {
 
         <Tabs defaultValue="calculator" className="space-y-12">
           <TabsList className="bg-slate-50 border border-slate-200 p-1 rounded-2xl h-14 shadow-sm">
-            <TabsTrigger value="calculator" className="h-11 px-8 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
+            <TabsTrigger value="calculator" className="h-11 px-8 data-[state=active]:bg-[#dc2626] data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
               <Calculator className="w-4 h-4" />
               Calculator
             </TabsTrigger>
-            <TabsTrigger value="guide" className="h-11 px-8 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
+            <TabsTrigger value="guide" className="h-11 px-8 data-[state=active]:bg-[#dc2626] data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
               <Beaker className="w-4 h-4" />
               Protocol Guide
             </TabsTrigger>
-            <TabsTrigger value="storage" className="h-11 px-8 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
+            <TabsTrigger value="storage" className="h-11 px-8 data-[state=active]:bg-[#dc2626] data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all gap-2">
               <Info className="w-4 h-4" />
               Stability Matrix
             </TabsTrigger>
@@ -114,7 +114,7 @@ export default function PeptideReconstitution() {
                         placeholder="0.00"
                         value={peptideMass}
                         onChange={(e) => setPeptideMass(e.target.value)}
-                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black"
+                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-[#dc2626]/30 rounded-2xl transition-all text-lg font-black"
                       />
                     </div>
 
@@ -127,14 +127,14 @@ export default function PeptideReconstitution() {
                         placeholder="0.00"
                         value={bacWaterVolume}
                         onChange={(e) => setBacWaterVolume(e.target.value)}
-                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black"
+                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-[#dc2626]/30 rounded-2xl transition-all text-lg font-black"
                       />
                       <p className="text-[10px] font-bold text-slate-400 mt-3 uppercase tracking-tighter">Analytical Std: 1.0mL / 1.0mg</p>
                     </div>
 
                     <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Resolved Concentration</p>
-                      <p className="text-4xl font-black text-red-600 tracking-tighter">{concentration || '0.00'} <span className="text-sm uppercase text-slate-400">mg/mL</span></p>
+                      <p className="text-4xl font-black text-[#dc2626] tracking-tighter">{concentration || '0.00'} <span className="text-sm uppercase text-slate-400">mg/mL</span></p>
                     </div>
                   </div>
                 </Card>
@@ -159,7 +159,7 @@ export default function PeptideReconstitution() {
                         placeholder="0.00"
                         value={doseAmount}
                         onChange={(e) => setDoseAmount(e.target.value)}
-                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black"
+                        className="h-14 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 focus:border-[#dc2626]/30 rounded-2xl transition-all text-lg font-black"
                       />
                     </div>
 
@@ -172,13 +172,13 @@ export default function PeptideReconstitution() {
                         placeholder="Dilution required"
                         value={concentration}
                         disabled
-                        className="h-14 bg-slate-50/50 border-slate-100 text-slate-400 focus:border-red-600/30 rounded-2xl transition-all text-lg font-black cursor-not-allowed"
+                        className="h-14 bg-slate-50/50 border-slate-100 text-slate-400 focus:border-[#dc2626]/30 rounded-2xl transition-all text-lg font-black cursor-not-allowed"
                       />
                     </div>
 
                     <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Extraction Volume</p>
-                      <p className="text-4xl font-black text-red-600 tracking-tighter">{injectionVolume || '0.00'} <span className="text-sm uppercase text-slate-400">mL</span></p>
+                      <p className="text-4xl font-black text-[#dc2626] tracking-tighter">{injectionVolume || '0.00'} <span className="text-sm uppercase text-slate-400">mL</span></p>
                     </div>
                   </div>
                 </Card>
@@ -194,7 +194,7 @@ export default function PeptideReconstitution() {
               <Button 
                 onClick={resetCalculator}
                 variant="outline"
-                className="px-12 h-14 border-2 border-slate-200 text-slate-900 hover:border-red-600 hover:text-red-600 font-black uppercase tracking-widest rounded-2xl transition-all shadow-sm"
+                className="px-12 h-14 border-2 border-slate-200 text-slate-900 hover:border-[#dc2626] hover:text-[#dc2626] font-black uppercase tracking-widest rounded-2xl transition-all shadow-sm"
               >
                 Reset Computation
               </Button>
@@ -255,7 +255,7 @@ export default function PeptideReconstitution() {
                 >
                   <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-slate-50 border border-slate-100 text-red-600 font-black">
+                      <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-slate-50 border border-slate-100 text-[#dc2626] font-black">
                         {item.step}
                       </div>
                     </div>
@@ -280,7 +280,7 @@ export default function PeptideReconstitution() {
               <Card className="bg-white border-slate-100 p-10 rounded-[40px] shadow-sm">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-red-600" />
+                    <Zap className="w-5 h-5 text-[#dc2626]" />
                   </div>
                   <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase">Lyophilized Archive</h3>
                 </div>
@@ -303,7 +303,7 @@ export default function PeptideReconstitution() {
               <Card className="bg-white border-slate-100 p-10 rounded-[40px] shadow-sm">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
-                    <Beaker className="w-5 h-5 text-red-600" />
+                    <Beaker className="w-5 h-5 text-[#dc2626]" />
                   </div>
                   <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase">Aqueous Stability</h3>
                 </div>
@@ -323,8 +323,8 @@ export default function PeptideReconstitution() {
                 </div>
               </Card>
 
-              <Card className="lg:col-span-2 bg-red-600/5 border-2 border-red-600/10 p-10 rounded-[40px]">
-                <h3 className="text-xl font-black text-red-600 tracking-tight uppercase mb-6 flex items-center gap-3">
+              <Card className="lg:col-span-2 bg-[#dc2626]/5 border-2 border-[#dc2626]/10 p-10 rounded-[40px]">
+                <h3 className="text-xl font-black text-[#dc2626] tracking-tight uppercase mb-6 flex items-center gap-3">
                   <Info className="w-6 h-6" />
                   Critical Degradation Indicators
                 </h3>
@@ -335,8 +335,8 @@ export default function PeptideReconstitution() {
                     'Crystalline Precipitation',
                     'Potency Attenuation'
                   ].map((warning) => (
-                    <div key={warning} className="p-4 bg-white/50 border border-red-600/10 rounded-2xl text-xs font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                    <div key={warning} className="p-4 bg-white/50 border border-[#dc2626]/10 rounded-2xl text-xs font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
                       {warning}
                     </div>
                   ))}
@@ -355,7 +355,7 @@ export default function PeptideReconstitution() {
           className="mt-20 p-10 bg-slate-50 border border-slate-100 rounded-[40px] text-center"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626] animate-pulse" />
             <p className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">
               Regulatory Compliance: Research Use Only
             </p>

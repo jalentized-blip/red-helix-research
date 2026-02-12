@@ -104,7 +104,7 @@ export default function ResourceHub() {
     {
       category: 'Company Information',
       icon: Shield,
-      color: 'text-red-600',
+      color: 'text-[#dc2626]',
       items: [
         {
           title: 'Our Story',
@@ -162,14 +162,14 @@ export default function ResourceHub() {
 
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600 mb-8 rounded-full font-bold uppercase tracking-wider text-xs">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-full font-bold uppercase tracking-wider text-xs">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Resource <span className="text-red-600">Hub</span></h1>
+          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Resource <span className="text-[#dc2626]">Hub</span></h1>
           <p className="text-xl text-slate-500 font-medium">Everything you need for research, learning, and success</p>
         </motion.div>
 
@@ -201,13 +201,13 @@ export default function ResourceHub() {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: itemIdx * 0.05 }}
                       viewport={{ once: true }}
-                      className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-red-600 hover:shadow-xl transition-all shadow-sm"
+                      className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-[#dc2626] hover:shadow-xl transition-all shadow-sm"
                     >
-                      <h3 className="font-black text-slate-900 mb-2 group-hover:text-red-600 transition uppercase tracking-tight text-lg">
+                      <h3 className="font-black text-slate-900 mb-2 group-hover:text-[#dc2626] transition uppercase tracking-tight text-lg">
                         {item.title}
                       </h3>
                       <p className="text-sm text-slate-500 mb-4 font-medium">{item.description}</p>
-                      <span className="text-xs font-black text-red-600 flex items-center gap-1 uppercase tracking-widest">
+                      <span className="text-xs font-black text-[#dc2626] flex items-center gap-1 uppercase tracking-widest">
                         Access Resource <ChevronRight className="w-3 h-3" />
                       </span>
                     </motion.a>
@@ -233,38 +233,38 @@ export default function ResourceHub() {
             <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tight">Quick Start for New Researchers</h2>
             <ol className="space-y-6">
               <li className="flex items-start gap-4">
-                <span className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">1</span>
+                <span className="w-8 h-8 bg-[#dc2626] text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">1</span>
                 <div>
                   <span className="text-slate-900 font-bold block mb-1">Learn Basics</span>
-                  <span className="text-slate-500 font-medium">Start with our <Link to={createPageUrl('LearnMore')} className="text-red-600 hover:text-red-700 underline font-bold">Research Database</Link> to understand available peptides</span>
+                  <span className="text-slate-500 font-medium">Start with our <Link to={createPageUrl('LearnMore')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Research Database</Link> to understand available peptides</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">2</span>
                 <div>
                   <span className="text-slate-900 font-bold block mb-1">Calculate Protocol</span>
-                  <span className="text-slate-500 font-medium">Use the <Link to={createPageUrl('PeptideCalculator')} className="text-red-600 hover:text-red-700 underline font-bold">Peptide Calculator</Link> to plan your research</span>
+                  <span className="text-slate-500 font-medium">Use the <Link to={createPageUrl('PeptideCalculator')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Peptide Calculator</Link> to plan your research</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">3</span>
                 <div>
                   <span className="text-slate-900 font-bold block mb-1">Compare Options</span>
-                  <span className="text-slate-500 font-medium">Compare efficacy using our <Link to={createPageUrl('PeptideComparison')} className="text-red-600 hover:text-red-700 underline font-bold">Comparison Tool</Link></span>
+                  <span className="text-slate-500 font-medium">Compare efficacy using our <Link to={createPageUrl('PeptideComparison')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Comparison Tool</Link></span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">4</span>
                 <div>
                   <span className="text-slate-900 font-bold block mb-1">Verify Quality</span>
-                  <span className="text-slate-500 font-medium">Review <Link to={createPageUrl('COAReports')} className="text-red-600 hover:text-red-700 underline font-bold">COA Reports</Link> to ensure batch purity</span>
+                  <span className="text-slate-500 font-medium">Review <Link to={createPageUrl('COAReports')} className="text-[#dc2626] hover:text-red-700 underline font-bold">COA Reports</Link> to ensure batch purity</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
-                <span className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">5</span>
+                <span className="w-8 h-8 bg-[#dc2626] text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">5</span>
                 <div>
                   <span className="text-slate-900 font-bold block mb-1">Execute Research</span>
-                  <span className="text-slate-500 font-medium">Follow our <Link to={createPageUrl('BlogGuide')} className="text-red-600 hover:text-red-700 underline font-bold">Reconstitution Guides</Link> for precise results</span>
+                  <span className="text-slate-500 font-medium">Follow our <Link to={createPageUrl('BlogGuide')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Reconstitution Guides</Link> for precise results</span>
                 </div>
               </li>
             </ol>

@@ -74,13 +74,13 @@ export default function RecommendedPeptides({ preferences, orders }) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: idx * 0.1 }}
-          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-red-600/30 hover:shadow-lg transition-all group"
+          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-[#dc2626]/30 hover:shadow-lg transition-all group"
         >
           <div className="mb-3">
             <div className="flex items-start justify-between mb-2">
-              <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight group-hover:text-red-600 transition-colors">{product.name}</h3>
+              <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">{product.name}</h3>
               {product.badge && (
-                <span className="text-[10px] px-2 py-0.5 bg-red-600 text-white rounded-full font-black uppercase tracking-widest">
+                <span className="text-[10px] px-2 py-0.5 bg-[#dc2626] text-white rounded-full font-black uppercase tracking-widest">
                   {product.badge.replace('_', ' ')}
                 </span>
               )}
@@ -89,7 +89,7 @@ export default function RecommendedPeptides({ preferences, orders }) {
               {product.description}
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-red-600 font-black">From ${product.price_from}</span>
+              <span className="text-[#dc2626] font-black">From ${product.price_from}</span>
               <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-slate-50 rounded-full">
                 {product.category?.replace('_', ' ')}
               </span>
@@ -98,13 +98,13 @@ export default function RecommendedPeptides({ preferences, orders }) {
 
           <div className="flex gap-3 mt-6">
             <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} className="flex-1">
-              <Button variant="outline" size="sm" className="w-full border-slate-200 text-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-xl font-bold uppercase tracking-widest text-[10px] py-5">
+              <Button size="sm" className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-bold uppercase tracking-widest text-[10px] py-5 shadow-lg shadow-[#dc2626]/20">
                 Learn More
               </Button>
             </Link>
             <Button
               size="sm"
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl font-black uppercase tracking-widest text-[10px] py-5"
+              className="flex-1 bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-[10px] py-5"
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('openProductModal', { detail: product }));
               }}

@@ -18,7 +18,7 @@ const Message = React.memo(({ message }) => (
   <div className={`flex gap-4 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
     <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 ${
       message.role === 'user' 
-        ? 'bg-red-600 text-white shadow-sm shadow-red-200' 
+        ? 'bg-[#dc2626] text-white shadow-sm shadow-red-200' 
         : 'bg-slate-900 text-white shadow-sm shadow-slate-200'
     }`}>
       {message.role === 'user' ? (
@@ -30,7 +30,7 @@ const Message = React.memo(({ message }) => (
     <div className={`flex-1 ${message.role === 'user' ? 'text-right' : ''}`}>
       <div className={`inline-block max-w-[85%] text-left ${
         message.role === 'user'
-          ? 'bg-red-600 border border-red-600 rounded-[24px] rounded-tr-sm p-5 shadow-sm'
+          ? 'bg-[#dc2626] border border-[#dc2626] rounded-[24px] rounded-tr-sm p-5 shadow-sm'
           : 'bg-slate-50 border border-slate-100 rounded-[24px] rounded-tl-sm p-5 shadow-sm'
       }`}>
         {message.role === 'user' ? (
@@ -47,7 +47,7 @@ const Message = React.memo(({ message }) => (
               ol: ({children}) => <ol className="list-decimal list-inside text-slate-600 mb-3 space-y-1">{children}</ol>,
               li: ({children}) => <li className="text-slate-600">{children}</li>,
               strong: ({children}) => <strong className="text-slate-900 font-bold">{children}</strong>,
-              code: ({children}) => <code className="bg-slate-200 px-2 py-1 rounded text-red-600 text-sm font-mono">{children}</code>,
+              code: ({children}) => <code className="bg-slate-200 px-2 py-1 rounded text-[#dc2626] text-sm font-mono">{children}</code>,
             }}
           >
             {message.content}
@@ -186,7 +186,7 @@ Keep response under 500 words but be thorough and educational.`;
           Back to Academy
         </Button>
         <div className="flex items-center gap-2 text-slate-400 text-sm font-medium uppercase tracking-wider">
-          <Brain className="w-4 h-4 text-red-600" />
+          <Brain className="w-4 h-4 text-[#dc2626]" />
           AI-Powered Research Assistant
         </div>
       </div>
@@ -207,7 +207,7 @@ Keep response under 500 words but be thorough and educational.`;
               <div className="flex-1">
                 <div className="inline-block bg-slate-50 border border-slate-100 rounded-[24px] rounded-tl-sm p-5 shadow-sm">
                   <div className="flex items-center gap-3 text-slate-500">
-                    <Loader2 className="w-4 h-4 animate-spin text-red-600" />
+                    <Loader2 className="w-4 h-4 animate-spin text-[#dc2626]" />
                     <span className="text-sm font-medium">Analyzing research data...</span>
                   </div>
                 </div>
@@ -229,7 +229,7 @@ Keep response under 500 words but be thorough and educational.`;
                 <button
                   key={idx}
                   onClick={() => handleSuggestedPrompt(prompt)}
-                  className="text-xs px-4 py-2.5 bg-white border border-slate-200 rounded-full hover:border-red-600/30 hover:bg-red-600 hover:text-white transition-all font-medium shadow-sm"
+                  className="text-xs px-4 py-2.5 bg-white border border-slate-200 rounded-full hover:border-[#dc2626]/30 hover:bg-[#dc2626] hover:text-white transition-all font-medium shadow-sm"
                 >
                   {prompt}
                 </button>
@@ -247,13 +247,13 @@ Keep response under 500 words but be thorough and educational.`;
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask about peptide mechanisms, protocols, or research applications..."
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-red-600/50 focus:ring-4 focus:ring-red-600/5 transition-all"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626]/50 focus:ring-4 focus:ring-[#dc2626]/5 transition-all"
               disabled={isLoading}
             />
             <Button
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
-              className="h-auto px-8 rounded-2xl bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 transition-all active:scale-95"
+              className="h-auto px-8 rounded-2xl bg-[#dc2626] hover:bg-red-700 text-white shadow-lg shadow-red-200 transition-all active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -263,7 +263,7 @@ Keep response under 500 words but be thorough and educational.`;
             </Button>
           </div>
           <div className="flex items-center gap-2 mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
+            <AlertTriangle className="w-3.5 h-3.5 text-[#dc2626]" />
             Educational purposes only. Not medical advice. For research use only.
           </div>
         </div>

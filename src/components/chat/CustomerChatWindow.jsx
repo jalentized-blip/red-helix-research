@@ -101,7 +101,7 @@ export default function CustomerChatWindow({ isOpen, onClose }) {
           className="fixed bottom-24 right-6 z-50 w-96 h-[500px] bg-stone-900 border border-stone-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-red-700 to-red-600 p-4 text-amber-50">
+          <div className="bg-gradient-to-r from-red-700 to-[#dc2626] p-4 text-amber-50">
             <h3 className="font-bold text-lg">Customer Support</h3>
             <p className="text-xs text-amber-50/80">We typically respond within minutes</p>
           </div>
@@ -150,7 +150,7 @@ export default function CustomerChatWindow({ isOpen, onClose }) {
               <Button
                 onClick={handleSend}
                 disabled={loading || !newMessage.trim()}
-                className="bg-red-700 hover:bg-red-600"
+                className="bg-red-700 hover:bg-[#dc2626]"
               >
                 {loading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

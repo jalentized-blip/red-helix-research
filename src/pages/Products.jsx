@@ -82,7 +82,7 @@ export default function Products() {
               animate={{ opacity: 1, y: 0 }}
             >
               <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-none">
-                Research <span className="text-red-600">Catalog</span>
+                Research <span className="text-[#dc2626]">Catalog</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium max-w-2xl">
                 Premium laboratory reagents with verified third-party analysis.
@@ -91,7 +91,7 @@ export default function Products() {
           </div>
 
           <div className="flex items-center gap-3 px-6 py-3 bg-slate-50 rounded-full border border-slate-200">
-            <ShieldCheck className="w-5 h-5 text-red-600" />
+            <ShieldCheck className="w-5 h-5 text-[#dc2626]" />
             <span className="text-xs font-black uppercase tracking-widest text-slate-600">
               Verified Purity Standards
             </span>
@@ -103,18 +103,18 @@ export default function Products() {
           <div className="lg:col-span-8 space-y-6">
             {/* Search Bar */}
             <div className="relative group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-red-600 transition-colors" />
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-[#dc2626] transition-colors" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search research database..."
-                className="w-full pl-16 pr-12 py-6 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-red-600/30 focus:bg-white transition-all shadow-sm group-hover:shadow-md"
+                className="w-full pl-16 pr-12 py-6 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626]/30 focus:bg-white transition-all shadow-sm group-hover:shadow-md"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-600 transition-colors"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#dc2626] transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -136,7 +136,7 @@ export default function Products() {
                     onClick={() => setSelectedCategory(category.id)}
                     className={`px-6 py-3 rounded-full border-2 transition-all text-sm font-bold flex items-center gap-2 ${
                       selectedCategory === category.id
-                        ? 'bg-red-600 border-red-600 text-white shadow-lg shadow-red-600/20'
+                        ? 'bg-[#dc2626] border-[#dc2626] text-white shadow-lg shadow-[#dc2626]/20'
                         : 'bg-white border-slate-100 text-slate-600 hover:border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -154,10 +154,10 @@ export default function Products() {
                 <h3 className="text-xl font-black uppercase tracking-tight mb-4">Inventory Filters</h3>
                 <button
                   onClick={() => setHideOutOfStock(!hideOutOfStock)}
-                  className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-200 bg-white hover:border-red-600/30 transition-all group"
+                  className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-200 bg-white hover:border-[#dc2626]/30 transition-all group"
                 >
-                  <span className="text-sm font-bold text-slate-500 group-hover:text-red-600">Hide Unavailable Stock</span>
-                  <div className={`w-10 h-5 rounded-full relative transition-colors ${hideOutOfStock ? 'bg-red-600' : 'bg-slate-200'}`}>
+                  <span className="text-sm font-bold text-slate-500 group-hover:text-[#dc2626]">Hide Unavailable Stock</span>
+                  <div className={`w-10 h-5 rounded-full relative transition-colors ${hideOutOfStock ? 'bg-[#dc2626]' : 'bg-slate-200'}`}>
                     <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${hideOutOfStock ? 'left-6' : 'left-1'}`} />
                   </div>
                 </button>
@@ -177,7 +177,7 @@ export default function Products() {
         {/* Products Grid */}
         {isLoading ? (
           <div className="text-center py-40">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-100 border-t-red-600"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-100 border-t-[#dc2626]"></div>
             <p className="text-slate-500 font-bold mt-4 uppercase tracking-widest text-xs">Accessing Database...</p>
           </div>
         ) : (
@@ -212,7 +212,7 @@ export default function Products() {
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">No research subjects found</p>
                 <button 
                   onClick={() => {setSelectedCategory('all'); setSearchQuery('');}}
-                  className="mt-4 text-red-600 font-black uppercase text-xs hover:underline"
+                  className="mt-4 text-[#dc2626] font-black uppercase text-xs hover:underline"
                 >
                   Clear All Filters
                 </button>

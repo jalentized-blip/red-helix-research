@@ -82,7 +82,7 @@ export default function InteractiveQuiz({ onBack }) {
           Back to Academy
         </Button>
         <div className="flex items-center gap-2 text-slate-400 text-sm font-medium uppercase tracking-wider">
-          <Brain className="w-4 h-4 text-red-600" />
+          <Brain className="w-4 h-4 text-[#dc2626]" />
           Knowledge Assessment
         </div>
       </div>
@@ -100,11 +100,11 @@ export default function InteractiveQuiz({ onBack }) {
               exit={{ opacity: 0, y: -20 }}
               className="text-center relative z-10"
             >
-              <div className="w-20 h-20 bg-red-50 text-red-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-sm">
+              <div className="w-20 h-20 bg-red-50 text-[#dc2626] rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-sm">
                 <HelpCircle className="w-10 h-10" />
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
-                Research <span className="text-red-600">Competency</span> Quiz
+                Research <span className="text-[#dc2626]">Competency</span> Quiz
               </h2>
               <p className="text-slate-600 text-lg mb-10 max-w-md mx-auto">
                 Test your knowledge of peptide research protocols, safety standards, and mechanisms of action.
@@ -132,7 +132,7 @@ export default function InteractiveQuiz({ onBack }) {
                 </span>
                 <div className="h-1.5 w-32 bg-slate-100 rounded-full overflow-hidden">
                   <motion.div 
-                    className="h-full bg-red-600"
+                    className="h-full bg-[#dc2626]"
                     initial={{ width: 0 }}
                     animate={{ width: `${((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
                   />
@@ -150,11 +150,11 @@ export default function InteractiveQuiz({ onBack }) {
                   
                   let buttonClass = "w-full text-left p-5 rounded-2xl border-2 transition-all flex items-center justify-between ";
                   if (!isAnswered) {
-                    buttonClass += "border-slate-100 bg-white hover:border-red-600/30 hover:bg-red-600 hover:text-white text-slate-700 font-medium";
+                    buttonClass += "border-slate-100 bg-white hover:border-[#dc2626]/30 hover:bg-[#dc2626] hover:text-white text-slate-700 font-medium";
                   } else if (isCorrect) {
                     buttonClass += "border-green-500 bg-green-50 text-green-900 font-bold";
                   } else if (isSelected && !isCorrect) {
-                    buttonClass += "border-red-600 bg-red-600 text-white font-bold";
+                    buttonClass += "border-[#dc2626] bg-[#dc2626] text-white font-bold";
                   } else {
                     buttonClass += "border-slate-50 bg-slate-50 text-slate-400 opacity-50";
                   }
@@ -168,7 +168,7 @@ export default function InteractiveQuiz({ onBack }) {
                     >
                       <span>{option}</span>
                       {isAnswered && isCorrect && <CheckCircle2 className="w-5 h-5 text-green-600" />}
-                      {isAnswered && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-red-600" />}
+                      {isAnswered && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-[#dc2626]" />}
                     </button>
                   );
                 })}
@@ -192,7 +192,7 @@ export default function InteractiveQuiz({ onBack }) {
               {isAnswered && (
                 <Button 
                   onClick={handleNext}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-6 rounded-2xl font-bold uppercase tracking-wider shadow-lg shadow-red-200"
+                  className="w-full bg-[#dc2626] hover:bg-red-700 text-white py-6 rounded-2xl font-bold uppercase tracking-wider shadow-lg shadow-red-200"
                 >
                   {currentQuestion < QUIZ_QUESTIONS.length - 1 ? 'Next Question' : 'View Results'}
                 </Button>
@@ -211,7 +211,7 @@ export default function InteractiveQuiz({ onBack }) {
                 <Trophy className="w-12 h-12" />
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-none">
-                Assessment <span className="text-red-600">Complete</span>
+                Assessment <span className="text-[#dc2626]">Complete</span>
               </h2>
               <div className="text-6xl font-black text-slate-900 my-8">
                 {score} <span className="text-slate-300">/</span> {QUIZ_QUESTIONS.length}

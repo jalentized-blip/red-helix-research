@@ -4,7 +4,7 @@ import { ShieldCheck, AlertTriangle } from "lucide-react";
 
 export default function ValueProposition() {
   return (
-    <section className="py-24 px-4 bg-red-600 relative overflow-hidden">
+    <section className="py-24 px-4 bg-[#dc2626] relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.1),transparent_70%)]" />
       

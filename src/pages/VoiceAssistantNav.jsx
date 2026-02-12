@@ -29,7 +29,7 @@ export default function VoiceAssistantNav() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-12">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-500 mb-6">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-[#dc2626] hover:text-red-500 mb-6">
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
@@ -43,13 +43,13 @@ export default function VoiceAssistantNav() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-red-900/30 to-stone-900/30 border border-red-600/30 rounded-lg p-8 mb-12"
+          className="bg-gradient-to-br from-red-900/30 to-stone-900/30 border border-[#dc2626]/30 rounded-lg p-8 mb-12"
         >
           <p className="text-stone-300 mb-6 leading-relaxed">
             The Voice Assistant lets you speak naturally to get responses read back to you. Type or speak, then hear the AI respond in a natural voice. Perfect for hands-free conversations.
           </p>
           <Link to={createPageUrl('VoiceAssistant')}>
-            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 px-8 gap-2 text-lg h-12">
+            <Button className="bg-red-700 hover:bg-[#dc2626] text-amber-50 px-8 gap-2 text-lg h-12">
               Open Voice Assistant
               <ArrowRight className="w-5 h-5" />
             </Button>
@@ -68,9 +68,9 @@ export default function VoiceAssistantNav() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 hover:border-red-600/50 transition-colors"
+                  className="bg-stone-900/50 border border-stone-700 rounded-lg p-6 hover:border-[#dc2626]/50 transition-colors"
                 >
-                  <Icon className="w-8 h-8 text-red-600 mb-3" />
+                  <Icon className="w-8 h-8 text-[#dc2626] mb-3" />
                   <h3 className="text-lg font-semibold text-amber-50 mb-2">{feature.title}</h3>
                   <p className="text-stone-400 text-sm">{feature.description}</p>
                 </motion.div>
@@ -106,7 +106,7 @@ export default function VoiceAssistantNav() {
         {/* CTA */}
         <div className="text-center mt-12">
           <Link to={createPageUrl('VoiceAssistant')}>
-            <Button className="bg-red-700 hover:bg-red-600 text-amber-50 px-12 gap-2 text-lg h-12">
+            <Button className="bg-red-700 hover:bg-[#dc2626] text-amber-50 px-12 gap-2 text-lg h-12">
               Start Using Voice Assistant
               <ArrowRight className="w-5 h-5" />
             </Button>

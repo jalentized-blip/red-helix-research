@@ -67,7 +67,7 @@ const FloatingFormula = ({ formula, startX, delay, duration }) => {
         opacity: { duration: duration, times: [0, 0.1, 0.8, 1] },
       }}
       className={`fixed text-[11px] font-black pointer-events-none whitespace-nowrap select-none uppercase tracking-widest ${
-        isRed ? 'text-red-600' : 'text-slate-200'
+        isRed ? 'text-[#dc2626]' : 'text-slate-200'
       }`}
       style={{
         left: startX,

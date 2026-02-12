@@ -32,7 +32,7 @@ export default function Reviews() {
   return (
     <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-1/2 right-0 w-64 h-64 bg-red-600/5 rounded-full blur-3xl translate-x-1/2" />
+      <div className="absolute top-1/2 right-0 w-64 h-64 bg-[#dc2626]/5 rounded-full blur-3xl translate-x-1/2" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -42,12 +42,12 @@ export default function Reviews() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Community Verification</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6 uppercase">
             Researcher <br />
-            <span className="text-red-600">Feedback</span>
+            <span className="text-[#dc2626]">Feedback</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Verified analytical experiences and delivery reports from our global network of research partners.
@@ -65,11 +65,11 @@ export default function Reviews() {
               viewport={{ once: true }}
             >
               <Card className="h-full bg-white border-slate-100 p-8 relative rounded-[40px] shadow-sm hover:shadow-xl transition-all duration-500 group">
-                <Quote className="absolute top-8 right-8 w-12 h-12 text-red-600/5 group-hover:text-red-600/10 transition-colors" />
+                <Quote className="absolute top-8 right-8 w-12 h-12 text-[#dc2626]/5 group-hover:text-[#dc2626]/10 transition-colors" />
                 
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-2 h-2 rounded-full bg-red-600" />
-                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">{review.badge}</span>
+                  <div className="w-2 h-2 rounded-full bg-[#dc2626]" />
+                  <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">{review.badge}</span>
                 </div>
 
                 <blockquote className="text-slate-600 text-base leading-relaxed mb-8 font-medium">

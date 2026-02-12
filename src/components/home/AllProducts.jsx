@@ -124,7 +124,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
     <section id="products" className="py-24 px-4 relative overflow-hidden bg-slate-50">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute bottom-20 left-20 text-red-600/5 text-8xl"
+          className="absolute bottom-20 left-20 text-[#dc2626]/5 text-8xl"
           animate={{ y: [-20, 20, -20], x: [0, 20, 0] }}
           transition={{ duration: 15, repeat: Infinity }}
         >
@@ -147,7 +147,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
             RESEARCH <br />
-            <span className="text-red-600">REPOSITORY</span>
+            <span className="text-[#dc2626]">REPOSITORY</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto mb-10">
             A comprehensive catalog of clinical-grade peptides, systematically archived and ready for analytical deployment.
@@ -155,7 +155,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
           
           {/* Search Bar */}
           <div className="max-w-md mx-auto relative group">
-            <div className="absolute inset-0 bg-red-600/5 blur-2xl group-hover:bg-red-600/10 transition-colors" />
+            <div className="absolute inset-0 bg-[#dc2626]/5 blur-2xl group-hover:bg-[#dc2626]/10 transition-colors" />
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
@@ -163,7 +163,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
                 placeholder="Search research catalog..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="h-14 pl-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-red-600/50 rounded-2xl shadow-sm transition-all"
+                className="h-14 pl-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-[#dc2626]/50 rounded-2xl shadow-sm transition-all"
               />
             </div>
           </div>
@@ -179,7 +179,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
                   <TabsTrigger 
                     key={cat.id} 
                     value={cat.id}
-                    className="h-11 px-6 data-[state=active]:bg-red-600 data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all"
+                    className="h-11 px-6 data-[state=active]:bg-[#dc2626] data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all"
                   >
                     {cat.label}
                   </TabsTrigger>
@@ -190,18 +190,18 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
 
           {/* Sort Dropdown */}
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full md:w-64 h-14 bg-white border-slate-200 text-slate-900 font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-red-600/20 group">
+            <SelectTrigger className="w-full md:w-64 h-14 bg-white border-slate-200 text-slate-900 font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-[#dc2626]/20 group">
               <div className="flex items-center gap-3">
-                <span className="text-slate-400 group-hover:text-red-600 transition-colors">Sort:</span>
+                <span className="text-slate-400 group-hover:text-[#dc2626] transition-colors">Sort:</span>
                 <SelectValue placeholder="Featured Priority" />
               </div>
             </SelectTrigger>
             <SelectContent className="bg-white border-slate-200 rounded-2xl shadow-2xl p-2">
-              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Featured Priority</SelectItem>
-              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: Low to High</SelectItem>
-              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: High to Low</SelectItem>
-              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: A-Z</SelectItem>
-              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-red-600 focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: Z-A</SelectItem>
+              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-[#dc2626] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Featured Priority</SelectItem>
+              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-[#dc2626] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: Low to High</SelectItem>
+              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-[#dc2626] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: High to Low</SelectItem>
+              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-[#dc2626] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: A-Z</SelectItem>
+              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-slate-900 focus:bg-[#dc2626] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: Z-A</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -232,7 +232,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
           {hasMore && (
             <button
               onClick={handleShowAllToggle}
-              className="group relative px-12 py-5 bg-white border-2 border-slate-200 hover:border-red-600 text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-red-600/10"
+              className="group relative px-12 py-5 bg-white border-2 border-slate-200 hover:border-[#dc2626] text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#dc2626]/10"
             >
               <span className="relative z-10">
                 {showAll ? 'Collapse Catalog' : 'Expand Full Repository'}
@@ -241,7 +241,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
           )}
           
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626] animate-pulse" />
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Live Inventory Status: Verified</span>
           </div>
         </div>

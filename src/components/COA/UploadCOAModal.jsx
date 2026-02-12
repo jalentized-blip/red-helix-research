@@ -159,7 +159,7 @@ If you cannot find either field, set it to null.`,
       <DialogContent className="bg-white border-slate-200 max-w-lg rounded-[32px] overflow-hidden">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tighter">
-            Submit <span className="text-red-600">COA Report</span>
+            Submit <span className="text-[#dc2626]">COA Report</span>
           </DialogTitle>
           <DialogDescription className="text-slate-500 font-medium">
             Contribute to the clinical database of verified research materials.
@@ -173,10 +173,10 @@ If you cannot find either field, set it to null.`,
               <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-200 rounded-[24px] cursor-pointer hover:bg-slate-50 transition-all group">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {isVerifying ? (
-                    <Loader2 className="w-12 h-12 text-red-600 animate-spin mb-4" />
+                    <Loader2 className="w-12 h-12 text-[#dc2626] animate-spin mb-4" />
                   ) : (
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 group-hover:bg-white transition-colors">
-                      <Upload className="w-8 h-8 text-red-600" />
+                      <Upload className="w-8 h-8 text-[#dc2626]" />
                     </div>
                   )}
                   <p className="text-base text-slate-900 font-bold uppercase tracking-wide">Click to upload COA</p>
@@ -205,13 +205,13 @@ If you cannot find either field, set it to null.`,
               <div className={`p-6 rounded-[24px] border ${
                 verificationResult.is_valid_coa && verificationResult.confidence >= 70
                   ? 'bg-green-50 border-green-100'
-                  : 'bg-red-600 border-red-500'
+                  : 'bg-[#dc2626] border-red-500'
               }`}>
                 <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-full ${
                     verificationResult.is_valid_coa && verificationResult.confidence >= 70
                       ? 'bg-green-100 text-green-600'
-                      : 'bg-white text-red-600'
+                      : 'bg-white text-[#dc2626]'
                   }`}>
                     {verificationResult.is_valid_coa && verificationResult.confidence >= 70 ? (
                       <CheckCircle2 className="w-6 h-6" />
@@ -256,7 +256,7 @@ If you cannot find either field, set it to null.`,
                  <Button
                    onClick={handleProceedToDetails}
                    disabled={isExtracting}
-                   className="w-full bg-red-600 hover:bg-red-700 text-white h-12 rounded-full font-black uppercase tracking-wider text-sm shadow-lg shadow-red-200 transition-all active:scale-[0.98]"
+                   className="w-full bg-[#dc2626] hover:bg-red-700 text-white h-12 rounded-full font-black uppercase tracking-wider text-sm shadow-lg shadow-red-200 transition-all active:scale-[0.98]"
                  >
                    {isExtracting ? (
                      <>
@@ -302,7 +302,7 @@ If you cannot find either field, set it to null.`,
                     value={peptideName}
                     onChange={(e) => setPeptideName(e.target.value)}
                     placeholder="e.g., BPC-157"
-                    className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
+                    className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-[#dc2626]/20 focus:border-[#dc2626] font-bold"
                   />
                 </div>
 
@@ -314,7 +314,7 @@ If you cannot find either field, set it to null.`,
                     value={peptideStrength}
                     onChange={(e) => setPeptideStrength(e.target.value)}
                     placeholder="e.g., 5mg"
-                    className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
+                    className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-[#dc2626]/20 focus:border-[#dc2626] font-bold"
                   />
                 </div>
               </div>
@@ -327,7 +327,7 @@ If you cannot find either field, set it to null.`,
                   value={coaLink}
                   onChange={(e) => setCoaLink(e.target.value)}
                   placeholder="Direct link to lab result"
-                  className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
+                  className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-[#dc2626]/20 focus:border-[#dc2626] font-bold"
                 />
               </div>
 
@@ -350,7 +350,7 @@ If you cannot find either field, set it to null.`,
                     onClick={() => setIsFromBarn(false)}
                     className={`flex-1 h-12 rounded-xl font-black uppercase tracking-wider text-xs transition-all ${
                       isFromBarn === false
-                        ? 'bg-red-600 text-white shadow-lg shadow-red-100'
+                        ? 'bg-[#dc2626] text-white shadow-lg shadow-red-100'
                         : 'bg-slate-50 border border-slate-200 text-slate-400 hover:bg-slate-100'
                     }`}
                   >
@@ -367,7 +367,7 @@ If you cannot find either field, set it to null.`,
                   value={batchNumber}
                   onChange={(e) => setBatchNumber(e.target.value)}
                   placeholder="e.g., LOT-2024-001"
-                  className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-red-600/20 focus:border-red-600 font-bold"
+                  className="bg-slate-50 border-slate-200 text-slate-900 h-12 rounded-xl focus:ring-[#dc2626]/20 focus:border-[#dc2626] font-bold"
                 />
               </div>
 
@@ -382,7 +382,7 @@ If you cannot find either field, set it to null.`,
                 <Button
                   onClick={handleSubmit}
                   disabled={isUploading}
-                  className="flex-2 bg-red-600 hover:bg-red-700 text-white h-12 rounded-full font-black uppercase tracking-wider text-xs shadow-lg shadow-red-200"
+                  className="flex-2 bg-[#dc2626] hover:bg-red-700 text-white h-12 rounded-full font-black uppercase tracking-wider text-xs shadow-lg shadow-red-200"
                 >
                   {isUploading ? (
                     <>

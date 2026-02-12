@@ -653,7 +653,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
     <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
-        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-[#dc2626] rounded-full blur-[120px]" />
         <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-400 rounded-full blur-[120px]" />
       </div>
 
@@ -674,7 +674,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
               </Link>
               
               <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
-                Secure <span className="text-red-600">Checkout</span>
+                Secure <span className="text-[#dc2626]">Checkout</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium">Select your preferred clinical research payment method.</p>
             </motion.div>
@@ -692,34 +692,34 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                   <div className="grid md:grid-cols-2 gap-6">
                     <button
                       onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
-                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-red-600 hover:shadow-2xl transition-all relative overflow-hidden"
+                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-[#dc2626] hover:shadow-2xl transition-all relative overflow-hidden"
                     >
                       <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
                         <Wallet className="w-32 h-32 text-slate-900" />
                       </div>
                       <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <Wallet className="w-8 h-8 text-red-600" />
+                        <Wallet className="w-8 h-8 text-[#dc2626]" />
                       </div>
-                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-red-600 transition-colors">Cryptocurrency</h3>
+                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">Cryptocurrency</h3>
                       <p className="text-slate-500 font-medium leading-relaxed">Pay with Bitcoin, Ethereum, or Stablecoins. Fast, private, and secure.</p>
-                      <div className="mt-6 inline-flex items-center text-red-600 font-black uppercase tracking-widest text-xs">
+                      <div className="mt-6 inline-flex items-center text-[#dc2626] font-black uppercase tracking-widest text-xs">
                         Select Crypto <ChevronDown className="w-4 h-4 ml-2" />
                       </div>
                     </button>
 
                     <button
                       onClick={() => setStage(CHECKOUT_STAGE.BANK_ACH)}
-                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-red-600 hover:shadow-2xl transition-all relative overflow-hidden"
+                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-[#dc2626] hover:shadow-2xl transition-all relative overflow-hidden"
                     >
                       <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
                         <ShieldCheck className="w-32 h-32 text-slate-900" />
                       </div>
                       <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <LinkIcon className="w-8 h-8 text-red-600" />
+                        <LinkIcon className="w-8 h-8 text-[#dc2626]" />
                       </div>
-                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-red-600 transition-colors">Bank Transfer</h3>
+                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">Bank Transfer</h3>
                       <p className="text-slate-500 font-medium leading-relaxed">Connect your bank account securely via Plaid for instant ACH payment.</p>
-                      <div className="mt-6 inline-flex items-center text-red-600 font-black uppercase tracking-widest text-xs">
+                      <div className="mt-6 inline-flex items-center text-[#dc2626] font-black uppercase tracking-widest text-xs">
                         Link Account <ChevronDown className="w-4 h-4 ml-2" />
                       </div>
                     </button>
@@ -727,7 +727,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
 
                   <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex items-center gap-6">
                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
-                      <Shield className="w-6 h-6 text-red-600" />
+                      <Shield className="w-6 h-6 text-[#dc2626]" />
                     </div>
                     <div>
                       <h4 className="text-lg font-black text-slate-900 uppercase tracking-tight">Clinical Security Standards</h4>
@@ -748,7 +748,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                   <Button
                     variant="ghost"
                     onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
-                    className="mb-8 text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
+                    className="mb-8 text-slate-500 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs p-0"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
                   </Button>
@@ -761,7 +761,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           setSelectedCrypto(crypto.id);
                           setStage(CHECKOUT_STAGE.CONNECT_WALLET);
                         }}
-                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-red-600 hover:shadow-xl transition-all text-left"
+                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-[#dc2626] hover:shadow-xl transition-all text-left"
                       >
                         <div 
                           className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-lg transition-transform group-hover:scale-110"
@@ -773,7 +773,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{crypto.name}</h4>
                           <p className="text-sm text-slate-500 font-medium">{crypto.network}</p>
                         </div>
-                        <ChevronDown className="w-5 h-5 text-slate-300 group-hover:text-red-600 -rotate-90 transition-colors" />
+                        <ChevronDown className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] -rotate-90 transition-colors" />
                       </button>
                     ))}
                   </div>
@@ -792,14 +792,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                   <Button
                     variant="ghost"
                     onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
-                    className="mb-8 text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
+                    className="mb-8 text-slate-500 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs p-0"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
                   </Button>
 
                   <div className="max-w-md mx-auto text-center">
                     <div className="w-20 h-20 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-red-100">
-                      <LinkIcon className="w-10 h-10 text-red-600" />
+                      <LinkIcon className="w-10 h-10 text-[#dc2626]" />
                     </div>
                     <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Bank Connection</h2>
                     <p className="text-slate-500 font-medium mb-10">Securely link your bank account via Plaid for instant research material funding.</p>
@@ -834,12 +834,12 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                     <Button
                       variant="ghost"
                       onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
-                      className="text-slate-500 hover:text-red-600 font-black uppercase tracking-widest text-xs p-0"
+                      className="text-slate-500 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs p-0"
                     >
                       <ArrowLeft className="w-4 h-4 mr-2" /> Back to crypto
                     </Button>
                     <div className="px-4 py-2 bg-slate-50 border border-slate-100 rounded-full flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-red-600" />
+                      <div className="w-2 h-2 rounded-full bg-[#dc2626]" />
                       <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Paying with {selectedCrypto}</span>
                     </div>
                   </div>
@@ -850,7 +850,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                         key={wallet.id}
                         onClick={() => connectWallet(wallet)}
                         disabled={connectionState === 'connecting'}
-                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-red-600 hover:shadow-xl transition-all text-left disabled:opacity-50"
+                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-[#dc2626] hover:shadow-xl transition-all text-left disabled:opacity-50"
                       >
                         <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                           {wallet.icon}
@@ -859,7 +859,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           <div className="flex items-center gap-3">
                             <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{wallet.name}</h4>
                             {wallet.isRecommended && (
-                              <span className="px-3 py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Recommended</span>
+                              <span className="px-3 py-1 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Recommended</span>
                             )}
                           </div>
                           <p className="text-sm text-slate-500 font-medium">
@@ -867,16 +867,16 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           </p>
                         </div>
                         {connectionState === 'connecting' ? (
-                          <Loader2 className="w-5 h-5 text-red-600 animate-spin" />
+                          <Loader2 className="w-5 h-5 text-[#dc2626] animate-spin" />
                         ) : (
-                          <ExternalLink className="w-5 h-5 text-slate-300 group-hover:text-red-600 transition-colors" />
+                          <ExternalLink className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                         )}
                       </button>
                     ))}
                   </div>
 
                   {connectionError && (
-                    <div className="mt-8 p-6 bg-red-600 border border-red-500 rounded-[24px] flex items-start gap-4">
+                    <div className="mt-8 p-6 bg-[#dc2626] border border-red-500 rounded-[24px] flex items-start gap-4">
                       <AlertCircle className="w-6 h-6 text-white flex-shrink-0" />
                       <div>
                         <h4 className="text-sm font-black text-white uppercase tracking-tight mb-1">Connection Error</h4>
@@ -911,7 +911,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                             className="w-48 h-48 group-hover:scale-105 transition-transform"
                           />
                         </div>
-                        <div className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-full">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-[#dc2626] text-white rounded-full">
                           <Clock className="w-4 h-4 animate-pulse" />
                           <span className="text-[10px] font-black uppercase tracking-widest">Rate expires in 15:00</span>
                         </div>
@@ -925,14 +925,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                             <span className="text-5xl font-black text-slate-900 tracking-tighter">
                               {isLoadingRate ? '...' : cryptoAmount}
                             </span>
-                            <span className="text-2xl font-black text-red-600 uppercase">{selectedCrypto}</span>
+                            <span className="text-2xl font-black text-[#dc2626] uppercase">{selectedCrypto}</span>
                           </div>
                           <p className="text-slate-500 font-medium mt-1">≈ ${totalUSD.toFixed(2)} USD</p>
                         </div>
 
                         <div>
                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Recipient Address</label>
-                          <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-red-600 transition-all">
+                          <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-[#dc2626] transition-all">
                             <code className="flex-1 text-sm font-bold text-slate-900 break-all">
                               {PAYMENT_ADDRESSES[selectedCrypto]}
                             </code>
@@ -940,14 +940,14 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                               variant="ghost"
                               size="sm"
                               onClick={() => copyToClipboard(PAYMENT_ADDRESSES[selectedCrypto])}
-                              className="text-red-600 hover:bg-red-50 rounded-xl"
+                              className="text-[#dc2626] hover:bg-red-50 rounded-xl"
                             >
                               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                             </Button>
                           </div>
                         </div>
 
-                        <div className="p-6 bg-red-600 border border-red-500 rounded-3xl">
+                        <div className="p-6 bg-[#dc2626] border border-red-500 rounded-3xl">
                           <div className="flex items-center gap-3 mb-3">
                             <ShieldCheck className="w-5 h-5 text-white" />
                             <h4 className="text-sm font-black text-white uppercase tracking-tight">Security Protocol</h4>
@@ -977,12 +977,12 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           value={transactionId}
                           onChange={(e) => setTransactionId(e.target.value)}
                           placeholder="Enter Transaction ID / Hash"
-                          className="flex-1 bg-white border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-red-600 transition-all font-bold"
+                          className="flex-1 bg-white border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626] transition-all font-bold"
                         />
                         <Button
                           onClick={() => setStage(CHECKOUT_STAGE.CONFIRMING)}
                           disabled={!transactionId}
-                          className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs h-auto shadow-xl shadow-red-600/20 disabled:opacity-50"
+                          className="bg-[#dc2626] hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs h-auto shadow-xl shadow-[#dc2626]/20 disabled:opacity-50"
                         >
                           Verify Payment
                         </Button>
@@ -1002,9 +1002,9 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                 >
                   <div className="max-w-md mx-auto">
                     <div className="w-24 h-24 bg-red-50 rounded-[32px] flex items-center justify-center mx-auto mb-10 shadow-lg shadow-red-100 relative">
-                      <Loader2 className="w-12 h-12 text-red-600 animate-spin" />
+                      <Loader2 className="w-12 h-12 text-[#dc2626] animate-spin" />
                       <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white border-4 border-white rounded-full flex items-center justify-center shadow-md">
-                        <ShieldCheck className="w-4 h-4 text-red-600" />
+                        <ShieldCheck className="w-4 h-4 text-[#dc2626]" />
                       </div>
                     </div>
 
@@ -1017,7 +1017,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                           initial={{ width: "0%" }}
                           animate={{ width: "100%" }}
                           transition={{ duration: 10, repeat: Infinity }}
-                          className="h-full bg-red-600"
+                          className="h-full bg-[#dc2626]"
                         />
                       </div>
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Blockchain confirmation in progress</p>
@@ -1028,7 +1028,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                         <Button
                           variant="outline"
                           onClick={() => setStage(CHECKOUT_STAGE.PAYMENT)}
-                          className="border-red-600 text-red-600 hover:bg-red-50 rounded-full px-8 py-6 font-black uppercase tracking-widest text-xs"
+                          className="border-[#dc2626] text-[#dc2626] hover:bg-red-50 rounded-full px-8 py-6 font-black uppercase tracking-widest text-xs"
                         >
                           Return to Payment
                         </Button>
@@ -1083,7 +1083,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
             >
               <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight flex items-center justify-between">
                 Order Summary
-                <span className="px-3 py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Secure</span>
+                <span className="px-3 py-1 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Secure</span>
               </h3>
 
               <div className="space-y-6 mb-8">
@@ -1115,7 +1115,7 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
                 </div>
                 <div className="flex justify-between items-center pt-4">
                   <span className="text-lg font-black text-slate-900 uppercase tracking-tight">Total Funding</span>
-                  <span className="text-2xl font-black text-red-600">${totalUSD.toFixed(2)}</span>
+                  <span className="text-2xl font-black text-[#dc2626]">${totalUSD.toFixed(2)}</span>
                 </div>
               </div>
             </motion.div>
@@ -1136,15 +1136,15 @@ Return JSON: {"verified": boolean, "confirmations": number, "status": "pending"|
               </p>
               <div className="mt-6 space-y-3 relative z-10">
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
                   <span className="text-[10px] font-bold text-white uppercase tracking-widest">Temperature Controlled</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
                   <span className="text-[10px] font-bold text-white uppercase tracking-widest">Discrete Packaging</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
                   <span className="text-[10px] font-bold text-white uppercase tracking-widest">Verified Purity</span>
                 </div>
               </div>

@@ -159,7 +159,7 @@ export default function BacklinkStrategy() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -182,23 +182,23 @@ export default function BacklinkStrategy() {
           </p>
           <ul className="space-y-2 text-stone-300">
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span>Domain Authority growth (helps all pages rank)</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span>Page Authority for individual product pages</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span>Referral traffic from high-quality sources</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span>Google crawl budget increase and faster indexing</span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span>Competitive advantage in peptide supplier niche</span>
             </li>
           </ul>
@@ -223,11 +223,11 @@ export default function BacklinkStrategy() {
                 <div className="flex gap-4 ml-4">
                   <div className="text-right">
                     <p className="text-xs text-stone-400 uppercase">Effort</p>
-                    <p className="text-sm font-bold text-red-600">{strategy.effort}</p>
+                    <p className="text-sm font-bold text-[#dc2626]">{strategy.effort}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-stone-400 uppercase">Links/Month</p>
-                    <p className="text-sm font-bold text-red-600">{strategy.expectedLinks}</p>
+                    <p className="text-sm font-bold text-[#dc2626]">{strategy.expectedLinks}</p>
                   </div>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function BacklinkStrategy() {
                   <ul className="space-y-2">
                     {strategy.targets.map((target, i) => (
                       <li key={i} className="text-stone-300 text-sm flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626]"></span>
                         {target}
                       </li>
                     ))}
@@ -250,7 +250,7 @@ export default function BacklinkStrategy() {
                   <ul className="space-y-2">
                     {strategy.topics.map((topic, i) => (
                       <li key={i} className="text-stone-300 text-sm flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626]"></span>
                         {topic}
                       </li>
                     ))}
@@ -286,7 +286,7 @@ export default function BacklinkStrategy() {
                   <ul className="space-y-2">
                     {item.goals.map((goal, i) => (
                       <li key={i} className="text-stone-300 flex items-start gap-3">
-                        <CheckCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-4 h-4 text-[#dc2626] flex-shrink-0 mt-0.5" />
                         {goal}
                       </li>
                     ))}

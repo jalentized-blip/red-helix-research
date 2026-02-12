@@ -1046,13 +1046,13 @@ export default function BlogGuide() {
                 <span>{post.readTime}</span>
               </div>
             </div>
-            <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 prose-headings:text-slate-900 prose-p:text-slate-600 prose-strong:text-slate-900 prose-a:text-red-600 prose-code:text-red-600 prose-pre:bg-slate-900 prose-table:border-slate-200 shadow-sm">
+            <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 prose-headings:text-slate-900 prose-p:text-slate-600 prose-strong:text-slate-900 prose-a:text-[#dc2626] prose-code:text-[#dc2626] prose-pre:bg-slate-900 prose-table:border-slate-200 shadow-sm">
               {post.content.split('\n').map((line, idx) => {
                 if (line.startsWith('# ')) return <h1 key={idx} className="text-3xl font-black mt-8 mb-6 text-slate-900 uppercase tracking-tight">{line.substring(2)}</h1>;
                 if (line.startsWith('## ')) return <h2 key={idx} className="text-2xl font-bold mt-8 mb-4 text-slate-900 flex items-center gap-2">{line.substring(3)}</h2>;
                 if (line.startsWith('### ')) return <h3 key={idx} className="text-xl font-bold mt-6 mb-3 text-slate-800">{line.substring(4)}</h3>;
                 if (line.startsWith('**') && line.endsWith('**')) return <p key={idx} className="font-bold text-slate-900">{line.substring(2, line.length - 2)}</p>;
-                if (line.startsWith('- ')) return <li key={idx} className="ml-4 text-slate-600 marker:text-red-600">{line.substring(2)}</li>;
+                if (line.startsWith('- ')) return <li key={idx} className="ml-4 text-slate-600 marker:text-[#dc2626]">{line.substring(2)}</li>;
                 if (line.trim() === '') return <br key={idx} />;
                 return <p key={idx} className="mb-4 text-slate-600 leading-relaxed">{line}</p>;
               })}
@@ -1091,14 +1091,14 @@ export default function BlogGuide() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               onClick={() => setSelectedPost(post.id)}
-              className="bg-white border border-slate-200 hover:border-red-600/30 rounded-[32px] p-8 cursor-pointer transition-all hover:shadow-xl hover:shadow-red-900/5 group"
+              className="bg-white border border-slate-200 hover:border-[#dc2626]/30 rounded-[32px] p-8 cursor-pointer transition-all hover:shadow-xl hover:shadow-red-900/5 group"
             >
               <div className="flex items-start gap-4 mb-6">
-                <div className="p-4 bg-red-600 rounded-2xl shadow-sm group-hover:scale-110 transition-transform duration-300">
+                <div className="p-4 bg-[#dc2626] rounded-2xl shadow-sm group-hover:scale-110 transition-transform duration-300">
                   <post.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-black text-slate-900 mb-2 leading-tight group-hover:text-red-600 transition-colors">{post.title}</h2>
+                  <h2 className="text-xl font-black text-slate-900 mb-2 leading-tight group-hover:text-[#dc2626] transition-colors">{post.title}</h2>
                   <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
                     <span>{post.date}</span>
                     <span>•</span>
@@ -1107,7 +1107,7 @@ export default function BlogGuide() {
                 </div>
               </div>
               <p className="text-slate-600 text-sm leading-relaxed font-medium mb-6">{post.excerpt}</p>
-              <div className="pt-6 border-t border-slate-100 flex items-center text-red-600 font-bold text-sm uppercase tracking-wider group-hover:gap-2 transition-all">
+              <div className="pt-6 border-t border-slate-100 flex items-center text-[#dc2626] font-bold text-sm uppercase tracking-wider group-hover:gap-2 transition-all">
                 Read Full Guide <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
               </div>
             </motion.div>
@@ -1118,14 +1118,14 @@ export default function BlogGuide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-12 bg-red-600 rounded-[32px] p-10 text-center relative overflow-hidden"
+          className="mt-12 bg-[#dc2626] rounded-[32px] p-10 text-center relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
           <div className="relative z-10">
             <h2 className="text-2xl font-black text-white mb-3 uppercase tracking-tight">Need More Information?</h2>
             <p className="text-white font-medium mb-8 max-w-2xl mx-auto">Can't find what you're looking for? Contact our research support team for personalized guidance on protocols and methodologies.</p>
             <Link to={createPageUrl('Contact')}>
-              <Button className="bg-white text-red-600 hover:bg-red-50 font-bold px-8 py-6 rounded-full shadow-lg">
+              <Button className="bg-white text-[#dc2626] hover:bg-red-50 font-bold px-8 py-6 rounded-full shadow-lg">
                 Contact Research Support
               </Button>
             </Link>

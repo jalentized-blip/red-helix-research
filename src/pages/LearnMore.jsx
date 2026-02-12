@@ -75,12 +75,12 @@ export default function LearnMore() {
   };
 
   const categoryColors = {
-    weight_loss: 'from-orange-600 to-red-600',
+    weight_loss: 'from-orange-600 to-[#dc2626]',
     recovery_healing: 'from-green-600 to-emerald-600',
     cognitive_focus: 'from-blue-600 to-indigo-600',
     performance_longevity: 'from-purple-600 to-pink-600',
-    sexual_health: 'from-rose-600 to-red-600',
-    general_health: 'from-amber-600 to-orange-600'
+    sexual_health: 'from-rose-600 to-[#dc2626]',
+    general_health: 'from-amber-600 to-orange-600',
   };
 
   if (isLoading) {
@@ -104,7 +104,7 @@ export default function LearnMore() {
       <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>
         <DialogContent className="bg-white border border-slate-200 max-w-md rounded-[32px] p-8">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tight">Research <span className="text-red-600">Protocol</span></DialogTitle>
+            <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tight">Research <span className="text-[#dc2626]">Protocol</span></DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <DialogDescription className="text-slate-500 text-base leading-relaxed font-medium">
@@ -117,7 +117,7 @@ export default function LearnMore() {
           <div className="flex gap-3 mt-8">
             <Button
               onClick={() => setDisclaimerAccepted(true)}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs h-14 rounded-2xl shadow-lg shadow-red-600/20"
+              className="flex-1 bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs h-14 rounded-2xl shadow-lg shadow-[#dc2626]/20"
             >
               I Understand
             </Button>
@@ -129,16 +129,16 @@ export default function LearnMore() {
         {/* Header */}
         <div className="mb-16">
           <Link to={createPageUrl('Home')}>
-            <Button variant="outline" className="border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-600 mb-8 rounded-xl font-black uppercase tracking-widest text-[10px]">
+            <Button variant="outline" className="border-slate-200 text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-xl font-black uppercase tracking-widest text-[10px]">
               ← Back to Shop
             </Button>
           </Link>
           <div className="mb-12">
             <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 bg-red-600/10 rounded-2xl">
-                <BookOpen className="w-8 h-8 text-red-600" />
+              <div className="p-3 bg-[#dc2626]/10 rounded-2xl">
+                <BookOpen className="w-8 h-8 text-[#dc2626]" />
               </div>
-              <h1 className="text-6xl font-black text-slate-900 uppercase tracking-tighter">Learn <span className="text-red-600">More</span></h1>
+              <h1 className="text-6xl font-black text-slate-900 uppercase tracking-tighter">Learn <span className="text-[#dc2626]">More</span></h1>
             </div>
             <p className="text-slate-500 text-xl font-medium max-w-2xl leading-relaxed">
               Explore the science behind our research reagents. Discover clinical findings and laboratory data for each product.
@@ -177,17 +177,17 @@ export default function LearnMore() {
               className="group"
             >
               <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`}>
-                <div className="bg-white border border-slate-100 rounded-[32px] p-8 h-full cursor-pointer relative overflow-hidden shadow-sm hover:shadow-xl hover:border-red-600/20 transition-all duration-500">
+                <div className="bg-white border border-slate-100 rounded-[32px] p-8 h-full cursor-pointer relative overflow-hidden shadow-sm hover:shadow-xl hover:border-[#dc2626]/20 transition-all duration-500">
                   {/* Category Accent */}
                   <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${categoryColors[product.category] || 'from-slate-100 to-slate-200'} opacity-5 -translate-y-16 translate-x-16 rounded-full group-hover:scale-150 transition-transform duration-700`} />
                   
                   {/* Content */}
                   <div className="relative z-10 flex flex-col h-full">
                     <div className="mb-6">
-                      <span className="inline-block px-3 py-1 bg-red-600/10 rounded-full text-[10px] font-black text-red-600 uppercase tracking-widest mb-4">
+                      <span className="inline-block px-3 py-1 bg-[#dc2626]/10 rounded-full text-[10px] font-black text-[#dc2626] uppercase tracking-widest mb-4">
                         {categoryLabels[product.category]}
                       </span>
-                      <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight group-hover:text-red-600 transition-colors">
+                      <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
                         {product.name}
                       </h3>
                       <p className="text-slate-500 text-sm leading-relaxed font-medium line-clamp-3">
@@ -212,7 +212,7 @@ export default function LearnMore() {
                               window.location.href = createPageUrl('Home');
                             }, 100);
                           }}
-                          className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-red-600/10"
+                          className="flex-1 px-4 py-3 bg-[#dc2626] hover:bg-[#b91c1c] text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#dc2626]/10"
                         >
                           Initialize Order
                         </button>

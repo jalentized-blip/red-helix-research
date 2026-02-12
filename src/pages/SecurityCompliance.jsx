@@ -174,7 +174,7 @@ export default function SecurityCompliance() {
     <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
-        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-[#dc2626] rounded-full blur-[120px]" />
         <div className="absolute bottom-40 left-[-5%] w-[400px] h-[400px] bg-slate-400 rounded-full blur-[100px]" />
       </div>
 
@@ -186,19 +186,19 @@ export default function SecurityCompliance() {
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <Link to={createPageUrl('Home')}>
-          <Button variant="ghost" className="text-slate-500 hover:text-red-600 mb-8 font-bold uppercase tracking-widest text-xs">
+          <Button variant="ghost" className="text-slate-500 hover:text-[#dc2626] mb-8 font-bold uppercase tracking-widest text-xs">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-4 bg-red-600 text-white rounded-[24px] shadow-lg shadow-red-200">
+            <div className="p-4 bg-[#dc2626] text-white rounded-[24px] shadow-lg shadow-red-200">
               <Lock className="w-8 h-8" />
             </div>
             <div>
               <h1 className="text-5xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-none">
-                Security & <span className="text-red-600">Compliance</span>
+                Security & <span className="text-[#dc2626]">Compliance</span>
               </h1>
               <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mt-2">Pre-launch security verification and risk assessment</p>
             </div>
@@ -212,13 +212,13 @@ export default function SecurityCompliance() {
           className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-100 mb-12 relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 p-12 opacity-[0.05] pointer-events-none">
-            <Shield className="w-40 h-40 text-red-600" />
+            <Shield className="w-40 h-40 text-[#dc2626]" />
           </div>
           
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <span className="bg-red-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1 rounded-full">
+                <span className="bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1 rounded-full">
                   AUDIT STATUS
                 </span>
                 <span className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">
@@ -255,7 +255,7 @@ export default function SecurityCompliance() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 viewport={{ once: true }}
-                className="bg-white border border-slate-200 rounded-[40px] p-10 shadow-xl shadow-slate-100 hover:border-red-600/30 transition-colors"
+                className="bg-white border border-slate-200 rounded-[40px] p-10 shadow-xl shadow-slate-100 hover:border-[#dc2626]/30 transition-colors"
               >
                 <div className="flex items-start justify-between mb-8">
                   <div>
@@ -265,7 +265,7 @@ export default function SecurityCompliance() {
                     </p>
                   </div>
                   <span className={`text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest ${
-                    isPassed ? 'bg-green-100 text-green-700' : 'bg-red-600 text-white'
+                    isPassed ? 'bg-green-100 text-green-700' : 'bg-[#dc2626] text-white'
                   }`}>
                     {category.status}
                   </span>
@@ -277,7 +277,7 @@ export default function SecurityCompliance() {
                     whileInView={{ width: `${percent}%` }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className={`h-full ${isPassed ? 'bg-green-500' : 'bg-red-600'}`}
+                    className={`h-full ${isPassed ? 'bg-green-500' : 'bg-[#dc2626]'}`}
                   />
                 </div>
 
@@ -287,9 +287,9 @@ export default function SecurityCompliance() {
                       {item.status ? (
                         <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       ) : (
-                        <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                        <AlertCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                       )}
-                      <span className={`text-sm font-bold uppercase tracking-tight ${item.status ? 'text-slate-600' : 'text-red-600'}`}>
+                      <span className={`text-sm font-bold uppercase tracking-tight ${item.status ? 'text-slate-600' : 'text-[#dc2626]'}`}>
                         {item.item}
                       </span>
                     </li>
@@ -308,7 +308,7 @@ export default function SecurityCompliance() {
           className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-100 mb-16"
         >
           <h2 className="text-4xl font-black text-slate-900 mb-10 uppercase tracking-tighter flex items-center gap-3">
-            <FileText className="w-8 h-8 text-red-600" />
+            <FileText className="w-8 h-8 text-[#dc2626]" />
             Risk Assessment
           </h2>
           <div className="overflow-x-auto">
@@ -329,7 +329,7 @@ export default function SecurityCompliance() {
                       <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
                         risk.likelihood === 'Low' ? 'bg-green-100 text-green-700' : 
                         risk.likelihood === 'Medium' ? 'bg-orange-100 text-orange-600' : 
-                        'bg-red-600 text-white'
+                        'bg-[#dc2626] text-white'
                       }`}>
                         {risk.likelihood}
                       </span>
@@ -338,7 +338,7 @@ export default function SecurityCompliance() {
                       <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
                         risk.impact === 'Low' ? 'bg-green-100 text-green-700' : 
                         risk.impact === 'Medium' ? 'bg-orange-100 text-orange-600' : 
-                        'bg-red-600 text-white'
+                        'bg-[#dc2626] text-white'
                       }`}>
                         {risk.impact}
                       </span>
@@ -361,20 +361,20 @@ export default function SecurityCompliance() {
           className="bg-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-900/20"
         >
           <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter flex items-center gap-3">
-            <CheckCircle className="w-8 h-8 text-red-600" />
+            <CheckCircle className="w-8 h-8 text-[#dc2626]" />
             Critical Action Items
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {actionItems.map((action, idx) => (
               <div key={idx} className={`p-8 rounded-[32px] border-2 transition-all ${
                 action.priority === 'CRITICAL' 
-                  ? 'bg-red-600/10 border-red-600/30 shadow-lg shadow-red-900/20' 
+                  ? 'bg-[#dc2626]/10 border-[#dc2626]/30 shadow-lg shadow-red-900/20' 
                   : 'bg-slate-800 border-slate-700'
               }`}>
                 <div className="flex items-start justify-between mb-4">
                   <h3 className="text-xl font-black uppercase tracking-tight leading-tight max-w-[70%]">{action.item}</h3>
                   <span className={`text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest ${
-                    action.priority === 'CRITICAL' ? 'bg-red-600 text-white' :
+                    action.priority === 'CRITICAL' ? 'bg-[#dc2626] text-white' :
                     action.priority === 'HIGH' ? 'bg-orange-500 text-white' :
                     'bg-slate-700 text-slate-300'
                   }`}>

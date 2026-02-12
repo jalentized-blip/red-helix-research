@@ -75,11 +75,11 @@ export default function InboxMessages({ onSelectConversation }) {
 
       <button
         onClick={() => setExpanded(!expanded)}
-        className="relative p-4 bg-red-700 rounded-full shadow-lg hover:bg-red-600 transition-all group"
+        className="relative p-4 bg-red-700 rounded-full shadow-lg hover:bg-[#dc2626] transition-all group"
       >
         <MessageSquare className="w-6 h-6 text-amber-50" />
         {conversations.length > 0 && (
-          <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-red-600 to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-red-600">
+          <span className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-br from-[#dc2626] to-red-700 text-amber-50 text-xs font-bold rounded-full flex items-center justify-center shadow-lg border border-[#dc2626]">
             {conversations.length}
           </span>
         )}

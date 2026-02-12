@@ -41,7 +41,7 @@ export default function DataRetentionPolicy() {
       retention: '7 years',
       reason: 'Tax compliance and customer service',
       autoDelete: true,
-      icon: <FileText className="w-5 h-5 text-red-600" />
+      icon: <FileText className="w-5 h-5 text-[#dc2626]" />
     },
     {
       category: 'User Account Data',
@@ -78,7 +78,7 @@ export default function DataRetentionPolicy() {
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}
-          className="mb-8 text-slate-500 hover:text-red-600 font-bold uppercase tracking-widest text-xs"
+          className="mb-8 text-slate-500 hover:text-[#dc2626] font-bold uppercase tracking-widest text-xs"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
@@ -86,7 +86,7 @@ export default function DataRetentionPolicy() {
 
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-6">
-            <Database className="w-4 h-4 text-red-600" />
+            <Database className="w-4 h-4 text-[#dc2626]" />
             <span className="text-sm font-bold text-red-700 uppercase tracking-wide">Data Management</span>
           </div>
 
@@ -125,7 +125,7 @@ export default function DataRetentionPolicy() {
 
           <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-all">
             <div className="w-12 h-12 bg-red-50 border border-red-100 rounded-xl flex items-center justify-center mb-4">
-              <Trash2 className="w-6 h-6 text-red-600" />
+              <Trash2 className="w-6 h-6 text-[#dc2626]" />
             </div>
             <h3 className="text-lg font-bold text-slate-900 mb-2 uppercase tracking-tight">User Control</h3>
             <p className="text-sm text-slate-500 font-medium">
@@ -187,7 +187,7 @@ export default function DataRetentionPolicy() {
         <div className="space-y-8">
           <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm">
             <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3 uppercase tracking-tight">
-              <Trash2 className="w-6 h-6 text-red-600" />
+              <Trash2 className="w-6 h-6 text-[#dc2626]" />
               Automated Deletion Process
             </h3>
             <div className="space-y-3 text-slate-600 font-medium">
@@ -273,7 +273,7 @@ export default function DataRetentionPolicy() {
           </p>
           <a
             href="mailto:privacy@redhelixresearch.com"
-            className="inline-flex items-center gap-2 text-red-600 hover:underline font-bold"
+            className="inline-flex items-center gap-2 text-[#dc2626] hover:underline font-bold"
           >
             privacy@redhelixresearch.com
           </a>

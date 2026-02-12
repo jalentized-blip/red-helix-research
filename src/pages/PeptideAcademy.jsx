@@ -53,7 +53,7 @@ const LEARNING_MODULES = [
     title: 'Advanced Research',
     level: 'Advanced',
     icon: GraduationCap,
-    color: 'bg-red-600',
+    color: 'bg-[#dc2626]',
     topics: [
       'Synergistic combinations',
       'Advanced dosing strategies',
@@ -114,7 +114,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="text-left bg-slate-50 border border-slate-200 rounded-[32px] md:rounded-[40px] p-8 md:p-10 hover:border-red-600/50 hover:bg-white hover:shadow-2xl transition-all group"
+      className="text-left bg-slate-50 border border-slate-200 rounded-[32px] md:rounded-[40px] p-8 md:p-10 hover:border-[#dc2626]/50 hover:bg-white hover:shadow-2xl transition-all group"
     >
       <div className={`w-14 h-14 ${module.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-slate-200`}>
         <Icon className="w-7 h-7 text-white" />
@@ -122,7 +122,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
       <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">
         {module.level} Protocol
       </div>
-      <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 group-hover:text-red-600 transition-colors uppercase tracking-tight">
+      <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
         {module.title}
       </h3>
       <ul className="space-y-3 mb-6">
@@ -145,7 +145,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
             {userProgress}% Complete
           </span>
         </div>
-        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#dc2626] transition-colors">
           <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-white transition-all" />
         </div>
       </div>
@@ -156,7 +156,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
 const QuestionSection = React.memo(({ section, onQuestionClick }) => (
   <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-shadow">
     <h3 className="text-sm font-black text-slate-900 mb-6 flex items-center gap-3 uppercase tracking-widest">
-      <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center">
+      <div className="w-8 h-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
         <FlaskConical className="w-4 h-4 text-white" />
       </div>
       {section.category}
@@ -166,9 +166,9 @@ const QuestionSection = React.memo(({ section, onQuestionClick }) => (
         <li key={qIdx}>
           <button
             onClick={() => onQuestionClick(question)}
-            className="text-left text-sm text-slate-600 hover:text-red-600 transition-colors flex items-start gap-3 group w-full font-medium"
+            className="text-left text-sm text-slate-600 hover:text-[#dc2626] transition-colors flex items-start gap-3 group w-full font-medium"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-slate-200 mt-1.5 group-hover:bg-red-600 transition-colors" />
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-200 mt-1.5 group-hover:bg-[#dc2626] transition-colors" />
             {question}
           </button>
         </li>
@@ -179,7 +179,7 @@ const QuestionSection = React.memo(({ section, onQuestionClick }) => (
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center py-20">
-    <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+    <div className="w-8 h-8 border-4 border-[#dc2626] border-t-transparent rounded-full animate-spin" />
   </div>
 );
 
@@ -238,13 +238,13 @@ export default function PeptideAcademy() {
         {/* Hero Section */}
         {activeView === 'overview' && (
           <div className="text-center mb-16 md:mb-24">
-            <div className="inline-flex items-center gap-2 px-6 py-2 bg-red-600 border border-red-600 rounded-full mb-8">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-8">
               <Sparkles className="w-4 h-4 text-white" />
               <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">Protocol Verified AI Learning</span>
             </div>
             
             <h1 className="text-5xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-[0.9]">
-              Research <span className="text-red-600">Academy</span>
+              Research <span className="text-[#dc2626]">Academy</span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
@@ -258,7 +258,7 @@ export default function PeptideAcademy() {
                 className="w-full sm:w-auto bg-slate-900 hover:bg-black text-white px-10 py-8 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-slate-200"
                 onClick={() => setActiveView('assistant')}
               >
-                <Brain className="w-5 h-5 mr-3 text-red-600" />
+                <Brain className="w-5 h-5 mr-3 text-[#dc2626]" />
                 Start AI Assistant
               </Button>
               <Button 
@@ -267,7 +267,7 @@ export default function PeptideAcademy() {
                 className="w-full sm:w-auto border-slate-200 text-slate-900 px-10 py-8 rounded-full font-black uppercase tracking-widest text-sm hover:bg-slate-50"
                 onClick={() => setActiveView('visualizer')}
               >
-                <Dna className="w-5 h-5 mr-3 text-red-600" />
+                <Dna className="w-5 h-5 mr-3 text-[#dc2626]" />
                 Explore Mechanisms
               </Button>
             </div>
@@ -282,18 +282,18 @@ export default function PeptideAcademy() {
             </div>
             <button
               onClick={() => setShowQuickStart(false)}
-              className="absolute top-6 right-6 md:top-8 md:right-8 text-slate-300 hover:text-red-600 text-3xl leading-none transition-colors z-20"
+              className="absolute top-6 right-6 md:top-8 md:right-8 text-slate-300 hover:text-[#dc2626] text-3xl leading-none transition-colors z-20"
             >
               ×
             </button>
             
             <div className="flex flex-col lg:flex-row items-start gap-10 md:gap-12 relative z-10">
               <div className="w-20 h-20 bg-white rounded-[24px] shadow-lg shadow-slate-200 flex items-center justify-center flex-shrink-0">
-                <Zap className="w-10 h-10 text-red-600" />
+                <Zap className="w-10 h-10 text-[#dc2626]" />
               </div>
               <div className="flex-1">
                 <h3 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 uppercase tracking-tight">
-                  Learning <span className="text-red-600">Quick-Start</span>
+                  Learning <span className="text-[#dc2626]">Quick-Start</span>
                 </h3>
                 <p className="text-lg md:text-xl text-slate-500 mb-10 font-medium leading-relaxed max-w-2xl">
                   Choose your starting point based on your current knowledge level, or dive straight 
@@ -302,7 +302,7 @@ export default function PeptideAcademy() {
                 <div className="grid md:grid-cols-3 gap-4 md:gap-6">
                   <button
                     onClick={() => handleModuleClick('beginner')}
-                    className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-red-600/50 hover:shadow-xl transition-all group"
+                    className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#dc2626]/50 hover:shadow-xl transition-all group"
                   >
                     <BookOpen className="w-6 h-6 text-green-500 mb-4 group-hover:scale-110 transition-transform" />
                     <div className="font-black text-slate-900 mb-1 uppercase tracking-tight">New to Peptides?</div>
@@ -310,7 +310,7 @@ export default function PeptideAcademy() {
                   </button>
                   <button
                     onClick={() => setActiveView('assistant')}
-                    className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-red-600/50 hover:shadow-xl transition-all group"
+                    className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#dc2626]/50 hover:shadow-xl transition-all group"
                   >
                     <Brain className="w-6 h-6 text-blue-500 mb-4 group-hover:scale-110 transition-transform" />
                     <div className="font-black text-slate-900 mb-1 uppercase tracking-tight">Have Questions?</div>
@@ -318,9 +318,9 @@ export default function PeptideAcademy() {
                   </button>
                   <button
                     onClick={() => setActiveView('visualizer')}
-                    className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-red-600/50 hover:shadow-xl transition-all group"
+                    className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#dc2626]/50 hover:shadow-xl transition-all group"
                   >
-                    <Dna className="w-6 h-6 text-red-600 mb-4 group-hover:scale-110 transition-transform" />
+                    <Dna className="w-6 h-6 text-[#dc2626] mb-4 group-hover:scale-110 transition-transform" />
                     <div className="font-black text-slate-900 mb-1 uppercase tracking-tight">Visual Learner?</div>
                     <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">See 3D Mechanisms</div>
                   </button>
@@ -338,7 +338,7 @@ export default function PeptideAcademy() {
               <div className="mb-24 md:mb-32">
                 <div className="flex items-center gap-4 mb-10 md:mb-12">
                   <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
-                    <GraduationCap className="w-6 h-6 text-red-600" />
+                    <GraduationCap className="w-6 h-6 text-[#dc2626]" />
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
                     Learning <span className="text-slate-400">Paths</span>
@@ -360,7 +360,7 @@ export default function PeptideAcademy() {
               <div className="mb-24 md:mb-32">
                 <div className="flex items-center gap-4 mb-10 md:mb-12">
                   <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-red-600" />
+                    <Sparkles className="w-6 h-6 text-[#dc2626]" />
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
                     Research <span className="text-slate-400">Tools</span>
@@ -369,7 +369,7 @@ export default function PeptideAcademy() {
                 <div className="grid lg:grid-cols-3 gap-8 md:gap-10">
                   <button
                     onClick={() => setActiveView('assistant')}
-                    className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-red-600/50 hover:shadow-2xl transition-all group relative overflow-hidden"
+                    className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-[#dc2626]/50 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
                       <Brain className="w-48 h-48 text-slate-900" />
@@ -390,12 +390,12 @@ export default function PeptideAcademy() {
 
                   <button
                     onClick={() => setActiveView('visualizer')}
-                    className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-red-600/50 hover:shadow-2xl transition-all group relative overflow-hidden"
+                    className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-[#dc2626]/50 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
                       <Dna className="w-48 h-48 text-slate-900" />
                     </div>
-                    <Dna className="w-16 h-16 text-red-600 mb-8 group-hover:scale-110 transition-transform" />
+                    <Dna className="w-16 h-16 text-[#dc2626] mb-8 group-hover:scale-110 transition-transform" />
                     <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">
                       Mechanism Visualizer
                     </h3>
@@ -403,7 +403,7 @@ export default function PeptideAcademy() {
                       Explore interactive 3D visualizations of peptide mechanisms of action. 
                       See how research peptides interact at the cellular level.
                     </p>
-                    <div className="flex items-center gap-3 text-red-600 font-black uppercase tracking-widest text-xs">
+                    <div className="flex items-center gap-3 text-[#dc2626] font-black uppercase tracking-widest text-xs">
                       Explore Mechanisms
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -411,7 +411,7 @@ export default function PeptideAcademy() {
 
                   <button
                     onClick={() => setActiveView('quiz')}
-                    className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-red-600/50 hover:shadow-2xl transition-all group relative overflow-hidden"
+                    className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-[#dc2626]/50 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
                       <GraduationCap className="w-48 h-48 text-slate-900" />
@@ -436,7 +436,7 @@ export default function PeptideAcademy() {
               <div>
                 <div className="flex items-center gap-4 mb-10 md:mb-12">
                   <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
-                    <Target className="w-6 h-6 text-red-600" />
+                    <Target className="w-6 h-6 text-[#dc2626]" />
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
                     Clinical <span className="text-slate-400">FAQ</span>
@@ -508,7 +508,7 @@ export default function PeptideAcademy() {
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Exit Visualizer
                 </Button>
-                <div className="flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full">
+                <div className="flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full">
                   <Activity className="w-4 h-4 text-white" />
                   <span className="text-[10px] font-black text-white uppercase tracking-widest">Interactive 3D Engine</span>
                 </div>

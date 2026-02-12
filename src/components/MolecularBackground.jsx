@@ -65,7 +65,7 @@ export default function MolecularBackground() {
 function SVGMolecule({ size }) {
   const isRed = Math.random() > 0.7;
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={isRed ? "text-red-600" : "text-slate-200"}>
+    <svg width={size} height={size} viewBox="0 0 100 100" className={isRed ? "text-[#dc2626]" : "text-slate-200"}>
       <circle cx="50" cy="30" r="6" fill="currentColor" opacity="0.4" />
       <circle cx="30" cy="60" r="5" fill="currentColor" opacity="0.3" />
       <circle cx="70" cy="60" r="5" fill="currentColor" opacity="0.3" />

@@ -244,34 +244,34 @@ export default function Login() {
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Email Address</label>
         <div className="relative">
-          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="researcher@institution.com"
-            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="peer pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
           />
+          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
         </div>
       </div>
 
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Password</label>
         <div className="relative">
-          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="peer pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
           />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-600 transition-colors"
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-[#dc2626] transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -282,7 +282,7 @@ export default function Login() {
         <button
           type="button"
           onClick={() => setView('forgot-password')}
-          className="text-xs font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors"
+          className="text-xs font-black text-[#dc2626] uppercase tracking-widest hover:text-[#b91c1c] transition-colors"
         >
           Forgot password?
         </button>
@@ -309,7 +309,7 @@ export default function Login() {
           <button
             type="button"
             onClick={() => setView('register')}
-            className="text-red-600 font-black uppercase tracking-widest hover:text-red-700 transition-colors"
+            className="text-[#dc2626] font-black uppercase tracking-widest hover:text-red-700 transition-colors"
           >
             Create one
           </button>
@@ -323,49 +323,48 @@ export default function Login() {
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Full Name</label>
         <div className="relative">
-          <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="John Doe"
-            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="peer pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
           />
+          <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
         </div>
       </div>
 
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Email Address</label>
         <div className="relative">
-          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="researcher@institution.com"
-            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="peer pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
           />
+          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
         </div>
       </div>
 
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Password</label>
         <div className="relative">
-          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Min. 8 characters"
-            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            placeholder="••••••••"
+            className="peer pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
-            minLength={8}
           />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-600 transition-colors"
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-[#dc2626] transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -375,15 +374,15 @@ export default function Login() {
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Confirm Password</label>
         <div className="relative">
-          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
           <Input
             type={showPassword ? 'text' : 'password'}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
-            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="peer pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
           />
+          <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
         </div>
       </div>
 
@@ -408,7 +407,7 @@ export default function Login() {
           <button
             type="button"
             onClick={() => setView('login')}
-            className="text-red-600 font-black uppercase tracking-widest hover:text-red-700 transition-colors"
+            className="text-[#dc2626] font-black uppercase tracking-widest hover:text-red-700 transition-colors"
           >
             Sign in
           </button>
@@ -428,15 +427,18 @@ export default function Login() {
 
       <div className="space-y-2">
         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center block">Verification Code</label>
-        <Input
-          type="text"
-          value={otpCode}
-          onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-          placeholder="123456"
-          className="text-center text-4xl tracking-[0.5em] bg-slate-50 border-slate-100 rounded-2xl px-6 py-10 text-slate-900 placeholder:text-slate-200 focus:bg-white focus:border-red-600/30 transition-all font-black"
-          maxLength={6}
-          required
-        />
+        <div className="relative max-w-[200px] mx-auto">
+          <Input
+            type="text"
+            value={otpCode}
+            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            placeholder="123456"
+            className="peer text-center tracking-[0.5em] font-black text-2xl h-16 bg-slate-50 border-slate-100 rounded-2xl text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all"
+            required
+            maxLength={6}
+          />
+          <ShieldCheck className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 peer-focus:opacity-0 transition-opacity" />
+        </div>
       </div>
 
       <Button
@@ -459,7 +461,7 @@ export default function Login() {
           type="button"
           onClick={handleResendOtp}
           disabled={loading}
-          className="text-xs font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors"
+          className="text-xs font-black text-[#dc2626] uppercase tracking-widest hover:text-red-700 transition-colors"
         >
           Didn't receive a code? Resend
         </button>
@@ -484,7 +486,7 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="researcher@institution.com"
-            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="pl-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
           />
         </div>
@@ -535,14 +537,14 @@ export default function Login() {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Min. 8 characters"
-            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-red-600/30 transition-all font-bold"
+            className="pl-14 pr-14 bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
             required
             minLength={8}
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-600 transition-colors"
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-[#dc2626] transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -595,7 +597,7 @@ export default function Login() {
 
       {/* Decorative Background */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
-        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full blur-[120px]" />
+        <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-[#dc2626] rounded-full blur-[120px]" />
         <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-600 rounded-full blur-[120px]" />
       </div>
 
@@ -607,7 +609,7 @@ export default function Login() {
         {/* Back to Home */}
         <Link 
           to={createPageUrl('Home')} 
-          className="inline-flex items-center gap-2 text-slate-400 font-black uppercase tracking-widest text-[10px] hover:text-red-600 mb-8 transition-colors group"
+          className="inline-flex items-center gap-2 text-slate-400 font-black uppercase tracking-widest text-[10px] hover:text-[#dc2626] mb-8 transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Laboratory Home
@@ -622,12 +624,12 @@ export default function Login() {
 
           {/* Logo / Header */}
           <div className="text-center mb-10 relative z-10">
-            <div className="w-20 h-20 bg-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-100 rotate-3">
+            <div className="w-20 h-20 bg-[#dc2626] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-100 rotate-3">
               <span className="text-3xl font-black text-white">RH</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">
               {getTitle().split(' ').map((word, i) => (
-                <span key={i} className={i === 1 ? "text-red-600" : ""}>{word} </span>
+                <span key={i} className={i === 1 ? "text-[#dc2626]" : ""}>{word} </span>
               ))}
             </h1>
             <p className="text-slate-400 text-sm font-bold uppercase tracking-widest">{getSubtitle()}</p>
@@ -640,7 +642,7 @@ export default function Login() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mb-8 p-6 bg-red-600 border border-red-500 rounded-2xl flex items-start gap-4"
+                className="mb-8 p-6 bg-[#dc2626] border border-red-500 rounded-2xl flex items-start gap-4"
               >
                 <AlertCircle className="w-6 h-6 text-white flex-shrink-0" />
                 <p className="text-sm font-bold text-white uppercase tracking-tight leading-tight">{error}</p>
@@ -673,7 +675,7 @@ export default function Login() {
         <div className="mt-8 text-center">
           <Link 
             to={createPageUrl('Contact')}
-            className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-red-600 transition-colors"
+            className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-[#dc2626] transition-colors"
           >
             Need technical assistance? Contact Support
           </Link>

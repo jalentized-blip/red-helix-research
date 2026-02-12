@@ -10,7 +10,7 @@ import { createPageUrl } from '@/utils';
 import { Link } from 'react-router-dom';
 
 const badgeConfig = {
-  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-red-600 text-white border-red-600" },
+  bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-[#dc2626] text-white border-[#dc2626]" },
   trending: { icon: TrendingUp, label: "Trending", color: "bg-blue-600 text-white border-blue-600" },
   top_rated: { icon: Star, label: "Top Rated", color: "bg-yellow-500 text-white border-yellow-500" },
   popular: { icon: BarChart2, label: "Popular", color: "bg-purple-600 text-white border-purple-600" },
@@ -99,18 +99,18 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         className="relative z-50 h-full cursor-pointer"
       >
       
-      <Card className={`group relative bg-white border-slate-100 hover:border-red-600/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-[40px] flex flex-col ${
+      <Card className={`group relative bg-white border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-[40px] flex flex-col ${
         isAdmin && localHidden ? 'opacity-60 grayscale' : ''
       }`}>
         {/* Animated Glow Overlay - Subtle Medical Pulse */}
-        <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#dc2626]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         
         {/* Admin Visibility Toggle */}
         {isAdmin && (
           <div className="absolute top-6 right-6 z-20" onClick={(e) => e.stopPropagation()}>
             <div className={`flex items-center gap-2 bg-white border rounded-2xl px-3 py-2 transition-all shadow-sm ${
               isUpdating ? 'border-yellow-500/50 animate-pulse' : 
-              localHidden ? 'border-red-500/50' : 'border-green-500/50'
+              localHidden ? 'border-[#ef4444]/50' : 'border-green-500/50'
             }`}>
               <Checkbox
                 checked={!localHidden}
@@ -120,7 +120,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               />
               <span className={`text-[10px] font-black uppercase tracking-tighter transition-colors ${
                 isUpdating ? 'text-yellow-600' :
-                localHidden ? 'text-red-600' : 'text-green-600'
+                localHidden ? 'text-[#dc2626]' : 'text-green-600'
               }`}>
                 {isUpdating ? 'Updating...' : localHidden ? 'Hidden' : 'Visible'}
               </span>
@@ -137,14 +137,14 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             </Badge>
           )}
           <Badge className="bg-white border-slate-100 text-slate-900 text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
-            <Microscope className="w-3.5 h-3.5 text-red-600" />
+            <Microscope className="w-3.5 h-3.5 text-[#dc2626]" />
             HPLC VERIFIED
           </Badge>
         </div>
 
         <div className="p-10 flex flex-col h-full">
           {/* Product Image Container */}
-          <div className={`relative mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-red-100 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
+          <div className={`relative mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#dc2626]/20 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
             {displayImage ? (
               <img 
                 src={displayImage} 
@@ -163,14 +163,14 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             <motion.div 
               animate={{ top: ['0%', '100%', '0%'] }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className="absolute left-0 right-0 h-[1px] bg-red-600/10 shadow-[0_0_15px_rgba(239,68,68,0.3)] z-10"
+              className="absolute left-0 right-0 h-[1px] bg-[#dc2626]/10 shadow-[0_0_15px_rgba(220,38,38,0.3)] z-10"
             />
           </div>
 
           {/* Product Info */}
           <div className="flex-grow">
             <div className="flex justify-between items-start mb-3">
-              <span className="text-[10px] font-black tracking-[0.2em] text-red-600 uppercase transition-colors">
+              <span className="text-[10px] font-black tracking-[0.2em] text-[#dc2626] uppercase transition-colors">
                 {categoryLabels[product.category]}
               </span>
               <div className="flex items-center gap-1.5">
@@ -179,7 +179,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               </div>
             </div>
 
-            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-red-600 transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-[#dc2626] transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.name}
             </h3>
             
@@ -192,7 +192,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             <div className="flex flex-col">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Acquisition Cost</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-red-600 transition-colors">
+                <span className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#dc2626] transition-colors">
                   ${lowestVisiblePrice}
                 </span>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest transition-colors">USD</span>
@@ -200,13 +200,13 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             </div>
             <div className="text-right">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Thermal Stability</span>
-              <span className="text-[10px] font-black text-red-600 uppercase block tracking-widest transition-colors">-20°C Verified</span>
+              <span className="text-[10px] font-black text-[#dc2626] uppercase block tracking-widest transition-colors">-20°C Verified</span>
             </div>
           </div>
 
           <Button 
             onClick={handleSelectStrength}
-            className={`w-full h-16 bg-red-600 hover:bg-red-700 border-2 border-red-600 hover:border-red-700 text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-red-600/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
+            className={`w-full h-16 bg-[#dc2626] hover:bg-[#b91c1c] border-2 border-[#dc2626] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
           >
             <span className="flex items-center gap-3">
               Initialize Order
@@ -215,7 +215,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           </Button>
           
           <div className="mt-8 flex items-center justify-center gap-2">
-            <div className="w-1 h-1 rounded-full bg-red-600 transition-colors" />
+            <div className="w-1 h-1 rounded-full bg-[#dc2626] transition-colors" />
             <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Clinical Grade Logistics</span>
           </div>
         </div>

@@ -36,11 +36,11 @@ export default function ConversionTracking() {
     return (
       <div className="min-h-screen bg-stone-950 pt-32 pb-20">
         <div className="max-w-2xl mx-auto px-4 text-center">
-          <Lock className="w-16 h-16 text-red-600 mx-auto mb-6" />
+          <Lock className="w-16 h-16 text-[#dc2626] mx-auto mb-6" />
           <h1 className="text-4xl font-black text-amber-50 mb-4">Admin Only</h1>
           <p className="text-stone-300 mb-8">Conversion tracking data is restricted to administrators.</p>
           <Link to={createPageUrl('Home')}>
-            <Button className="bg-red-700 hover:bg-red-600">Back to Home</Button>
+            <Button className="bg-red-700 hover:bg-[#dc2626]">Back to Home</Button>
           </Link>
         </div>
       </div>
@@ -168,7 +168,7 @@ export default function ConversionTracking() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -186,7 +186,7 @@ export default function ConversionTracking() {
           className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
-            <Target className="w-6 h-6 text-red-600" />
+            <Target className="w-6 h-6 text-[#dc2626]" />
             Why Conversion Tracking Matters
           </h2>
           <p className="text-stone-300 mb-4">
@@ -194,23 +194,23 @@ export default function ConversionTracking() {
           </p>
           <ul className="space-y-2 text-stone-300">
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Identify bottlenecks:</strong> See where users drop off in the funnel</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Measure ROI:</strong> Calculate return on SEO and marketing efforts</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Optimize campaigns:</strong> Double down on what works</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Segment audiences:</strong> Understand which traffic sources convert best</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">✓</span>
+              <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>Track customer value:</strong> Know lifetime customer value</span>
             </li>
           </ul>
@@ -306,7 +306,7 @@ export default function ConversionTracking() {
               <ul className="space-y-3 ml-16">
                 {section.details.map((detail, i) => (
                   <li key={i} className="text-stone-300 flex items-start gap-3">
-                    <span className="text-red-600 font-bold mt-1">→</span>
+                    <span className="text-[#dc2626] font-bold mt-1">→</span>
                     <span>{detail}</span>
                   </li>
                 ))}
@@ -323,40 +323,40 @@ export default function ConversionTracking() {
           className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8"
         >
           <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
-            <Zap className="w-6 h-6 text-red-600" />
+            <Zap className="w-6 h-6 text-[#dc2626]" />
             Quick Implementation Checklist
           </h2>
           <ul className="space-y-3 text-stone-300">
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Set up GA4 property and get Measurement ID</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Install gtag.js script in Layout.js</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Implement all 8 critical events in product pages</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Create conversion goals for purchase & newsletter</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Connect GA4 to Google Search Console</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Set up email alerts for anomalies</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Test all events in GA4 Real-time report</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">□</span>
+              <span className="text-[#dc2626] font-bold">□</span>
               <span>Create conversion funnel dashboard</span>
             </li>
           </ul>

@@ -244,7 +244,7 @@ export default function VoiceAssistant() {
         {/* Header with Controls */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-medium">
+            <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-[#dc2626] hover:text-red-700 font-medium">
               <ArrowLeft className="w-4 h-4" />
               Back
             </Link>
@@ -253,7 +253,7 @@ export default function VoiceAssistant() {
                 onClick={newConversation}
                 variant="outline"
                 size="sm"
-                className="text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-red-600"
+                className="text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-[#dc2626]"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 New
@@ -263,7 +263,7 @@ export default function VoiceAssistant() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-red-600"
+                    className="text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-[#dc2626]"
                   >
                     <Save className="w-4 h-4 mr-1" />
                     Save
@@ -280,7 +280,7 @@ export default function VoiceAssistant() {
                     className="bg-slate-50 border-slate-200 text-slate-900"
                   />
                   <div className="flex gap-2 mt-4">
-                    <Button onClick={saveConversation} className="bg-red-600 hover:bg-red-700 text-white flex-1">
+                    <Button onClick={saveConversation} className="bg-[#dc2626] hover:bg-red-700 text-white flex-1">
                       Save
                     </Button>
                     <Button onClick={() => setShowSaveDialog(false)} variant="outline" className="flex-1 border-slate-200 text-slate-600 hover:bg-slate-50">
@@ -333,7 +333,7 @@ export default function VoiceAssistant() {
                 >
                   <div className={`max-w-[80%] rounded-2xl px-6 py-4 shadow-sm ${
                     msg.role === 'user' 
-                      ? 'bg-red-600 text-white rounded-br-none' 
+                      ? 'bg-[#dc2626] text-white rounded-br-none' 
                       : 'bg-slate-100 text-slate-800 rounded-bl-none border border-slate-200'
                   }`}>
                     <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -378,10 +378,10 @@ export default function VoiceAssistant() {
               disabled={isSpeaking || isLoading}
               className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all disabled:opacity-50 ${
                 isRecording
-                  ? 'bg-red-600 shadow-xl shadow-red-200'
+                  ? 'bg-[#dc2626] shadow-xl shadow-red-200'
                   : isSpeaking
                   ? 'bg-blue-600 shadow-xl shadow-blue-200'
-                  : 'bg-red-600 hover:bg-red-700 shadow-xl shadow-red-200'
+                  : 'bg-[#dc2626] hover:bg-red-700 shadow-xl shadow-red-200'
               }`}
               animate={
                 isRecording
@@ -405,7 +405,7 @@ export default function VoiceAssistant() {
 
             <div className="h-6">
               {isRecording && (
-                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-600 text-sm font-bold uppercase tracking-wider">
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[#dc2626] text-sm font-bold uppercase tracking-wider">
                   Listening...
                 </motion.p>
               )}
@@ -431,13 +431,13 @@ export default function VoiceAssistant() {
             onChange={(e) => setTextInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder="Type your message..."
-            className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-6 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all shadow-sm"
+            className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-6 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626] transition-all shadow-sm"
             disabled={isLoading || isSpeaking}
           />
           <button
             onClick={handleSendMessage}
             disabled={isLoading || isSpeaking || !textInput.trim()}
-            className="bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-sm text-white"
+            className="bg-[#dc2626] hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-sm text-white"
           >
             <Send className="w-5 h-5" />
           </button>
@@ -452,13 +452,13 @@ export default function VoiceAssistant() {
                 <div key={conv.id} className="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100 text-sm text-slate-600 hover:border-slate-300 transition-colors">
                   <button
                     onClick={() => loadConversation(conv)}
-                    className="flex-1 text-left truncate hover:text-red-600 font-medium"
+                    className="flex-1 text-left truncate hover:text-[#dc2626] font-medium"
                   >
                     {conv.title}
                   </button>
                   <button
                     onClick={() => deleteConversation(conv.id)}
-                    className="text-slate-400 hover:text-red-600 transition-colors"
+                    className="text-slate-400 hover:text-[#dc2626] transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

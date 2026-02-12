@@ -39,12 +39,12 @@ export default function AlertsDropdown() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2.5 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-600/30 transition-all shadow-sm"
+        className="relative p-2.5 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626]/30 transition-all shadow-sm"
         title="COA Submission Alerts"
       >
         <Mail className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#dc2626] text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -63,7 +63,7 @@ export default function AlertsDropdown() {
               <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide">COA Submissions ({unreadCount})</h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-red-600 transition-colors"
+                className="text-slate-400 hover:text-[#dc2626] transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -86,7 +86,7 @@ export default function AlertsDropdown() {
                       key={alert.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="p-3 bg-white border border-slate-100 rounded-xl hover:border-red-600/30 hover:shadow-md transition-all cursor-pointer group"
+                      className="p-3 bg-white border border-slate-100 rounded-xl hover:border-[#dc2626]/30 hover:shadow-md transition-all cursor-pointer group"
                     >
                       <Link to={createPageUrl('COAReports')}>
                         <div className="flex items-start justify-between">
@@ -102,7 +102,7 @@ export default function AlertsDropdown() {
                             className="p-1 rounded hover:bg-slate-100 transition-colors opacity-0 group-hover:opacity-100"
                             title="Mark as read"
                           >
-                            <X className="w-3 h-3 text-slate-400 hover:text-red-600" />
+                            <X className="w-3 h-3 text-slate-400 hover:text-[#dc2626]" />
                           </button>
                         </div>
                       </Link>
@@ -117,7 +117,7 @@ export default function AlertsDropdown() {
                 <Link to={createPageUrl('COAReports')}>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="w-full px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-colors shadow-lg shadow-red-600/20"
+                    className="w-full px-3 py-2 bg-[#dc2626] hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-colors shadow-lg shadow-[#dc2626]/20"
                   >
                     Review Submissions
                   </button>

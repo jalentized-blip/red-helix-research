@@ -118,7 +118,7 @@ export default function LaunchChecklist() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -140,7 +140,7 @@ export default function LaunchChecklist() {
               <p className="text-stone-300 mt-2">{stats.completed} of {stats.total} items completed</p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-red-600">{launchReadiness}</p>
+              <p className="text-2xl font-bold text-[#dc2626]">{launchReadiness}</p>
               <p className="text-xs text-stone-400 mt-1">Overall Status</p>
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function LaunchChecklist() {
               initial={{ width: 0 }}
               animate={{ width: `${stats.percent}%` }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="h-full bg-gradient-to-r from-red-600 to-red-700"
+              className="h-full bg-gradient-to-r from-[#dc2626] to-red-700"
             />
           </div>
         </motion.div>
@@ -176,14 +176,14 @@ export default function LaunchChecklist() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-red-600">{sectionStats.percent}%</p>
+                    <p className="text-2xl font-bold text-[#dc2626]">{sectionStats.percent}%</p>
                     <div className="relative h-2 bg-stone-800 rounded-full w-24 mt-2 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${sectionStats.percent}%` }}
                         transition={{ duration: 0.5, ease: 'easeOut' }}
                         viewport={{ once: true }}
-                        className="h-full bg-red-600"
+                        className="h-full bg-[#dc2626]"
                       />
                     </div>
                   </div>

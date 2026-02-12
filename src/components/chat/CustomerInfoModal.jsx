@@ -86,7 +86,7 @@ export default function CustomerInfoModal({ isOpen, onClose, onSubmit }) {
           </Button>
           <Button
             onClick={handleSubmit}
-            className="flex-1 bg-red-700 hover:bg-red-600"
+            className="flex-1 bg-red-700 hover:bg-[#dc2626]"
           >
             Message
           </Button>

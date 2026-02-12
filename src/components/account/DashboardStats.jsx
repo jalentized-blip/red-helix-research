@@ -8,8 +8,8 @@ export default function DashboardStats({ preferences, orders }) {
       icon: Heart,
       label: 'Favorites',
       value: preferences?.favorite_products?.length || 0,
-      color: 'text-red-600',
-      bgColor: 'bg-red-600/10'
+      color: 'text-[#dc2626]',
+      bgColor: 'bg-[#dc2626]/10'
     },
     {
       icon: Eye,
@@ -42,7 +42,7 @@ export default function DashboardStats({ preferences, orders }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: idx * 0.1 }}
-          className="bg-white border border-slate-100 rounded-lg p-5 hover:border-red-600/30 transition-all shadow-sm"
+          className="bg-white border border-slate-100 rounded-lg p-5 hover:border-[#dc2626]/30 transition-all shadow-sm"
         >
           <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${stat.bgColor} mb-3`}>
             <stat.icon className={`w-5 h-5 ${stat.color}`} />

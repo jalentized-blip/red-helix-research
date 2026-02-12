@@ -101,7 +101,7 @@ export default function ProductTB500() {
     <div className="min-h-screen bg-white pt-24 md:pt-32 pb-12 md:pb-20 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
-        <div className="absolute top-20 right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-red-600 rounded-full blur-[80px] md:blur-[120px]" />
+        <div className="absolute top-20 right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#dc2626] rounded-full blur-[80px] md:blur-[120px]" />
         <div className="absolute bottom-40 left-[-5%] w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-slate-400 rounded-full blur-[60px] md:blur-[100px]" />
       </div>
 
@@ -114,7 +114,7 @@ export default function ProductTB500() {
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <Link to={createPageUrl('Home')}>
-          <Button variant="ghost" className="text-slate-500 hover:text-red-600 mb-6 md:mb-8 font-bold uppercase tracking-widest text-[10px] md:text-xs p-0 md:p-4">
+          <Button variant="ghost" className="text-slate-500 hover:text-[#dc2626] mb-6 md:mb-8 font-bold uppercase tracking-widest text-[10px] md:text-xs p-0 md:p-4">
             <ArrowLeft className="w-3 h-3 md:w-4 md:h-4 mr-2" /> Back to Products
           </Button>
         </Link>
@@ -137,7 +137,7 @@ export default function ProductTB500() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="bg-slate-50 border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8">
                 <h3 className="text-lg md:text-xl font-black text-slate-900 mb-3 md:mb-4 uppercase tracking-tighter flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-red-600" />
+                  <ShieldCheck className="w-5 h-5 text-[#dc2626]" />
                   Purity Verified
                 </h3>
                 <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
@@ -146,7 +146,7 @@ export default function ProductTB500() {
               </div>
               <div className="bg-slate-50 border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8">
                 <h3 className="text-lg md:text-xl font-black text-slate-900 mb-3 md:mb-4 uppercase tracking-tighter flex items-center gap-2">
-                  <Microscope className="w-5 h-5 text-red-600" />
+                  <Microscope className="w-5 h-5 text-[#dc2626]" />
                   Lab Grade
                 </h3>
                 <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
@@ -166,7 +166,7 @@ export default function ProductTB500() {
             <div className="bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-6 md:p-12 shadow-xl shadow-slate-100 h-full flex flex-col">
               <div className="mb-6 md:mb-8">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-red-600 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-2 md:px-3 py-1 rounded-full">
+                  <span className="bg-[#dc2626] text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-2 md:px-3 py-1 rounded-full">
                     IN STOCK
                   </span>
                   <span className="text-slate-400 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">
@@ -176,11 +176,11 @@ export default function ProductTB500() {
                 <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-none">
                   {product.name}
                 </h1>
-                <p className="text-xl md:text-2xl font-bold text-red-600 mb-4 tracking-tight">{product.fullName}</p>
+                <p className="text-xl md:text-2xl font-bold text-[#dc2626] mb-4 tracking-tight">{product.fullName}</p>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={i < Math.floor(product.rating) ? 'text-red-600 text-base md:text-lg' : 'text-slate-200 text-base md:text-lg'}>★</span>
+                      <span key={i} className={i < Math.floor(product.rating) ? 'text-[#dc2626] text-base md:text-lg' : 'text-slate-200 text-base md:text-lg'}>★</span>
                     ))}
                   </div>
                   <span className="text-slate-500 font-bold text-[10px] md:text-sm uppercase tracking-widest">{product.reviews} REVIEWS</span>
@@ -197,7 +197,7 @@ export default function ProductTB500() {
                       className={`w-full p-4 md:p-6 rounded-[20px] md:rounded-[24px] border-2 transition-all text-left flex justify-between items-center group ${
                         selectedStrength?.name === spec.name
                           ? 'bg-slate-900 border-slate-900 text-white'
-                          : 'bg-white border-slate-100 text-slate-900 hover:border-red-600/30'
+                          : 'bg-white border-slate-100 text-slate-900 hover:border-[#dc2626]/30'
                       }`}
                     >
                       <div>
@@ -214,16 +214,16 @@ export default function ProductTB500() {
 
               <div className="mt-auto">
                 <Button 
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-8 md:py-10 rounded-[20px] md:rounded-[24px] text-xl md:text-2xl font-black uppercase tracking-tighter shadow-lg shadow-red-200 transition-all active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none" 
+                  className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white py-8 md:py-10 rounded-[20px] md:rounded-[24px] text-xl md:text-2xl font-black uppercase tracking-tighter shadow-lg shadow-red-200 transition-all active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none" 
                   disabled={!selectedStrength}
                 >
                   ADD TO RESEARCH CART
                 </Button>
                 
                 <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-[20px] flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                   <p className="text-[9px] md:text-[10px] leading-tight font-bold text-slate-500 uppercase tracking-wider">
-                    <span className="text-red-600">WARNING:</span> This compound is strictly for laboratory research use only. Not for human or animal consumption.
+                    <span className="text-[#dc2626]">WARNING:</span> This compound is strictly for laboratory research use only. Not for human or animal consumption.
                   </p>
                 </div>
               </div>
@@ -240,7 +240,7 @@ export default function ProductTB500() {
             className="bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-8 md:p-10 shadow-xl shadow-slate-100"
           >
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 uppercase tracking-tighter flex items-center gap-3">
-              <FlaskConical className="w-6 h-6 md:w-8 md:h-8 text-red-600" />
+              <FlaskConical className="w-6 h-6 md:w-8 md:h-8 text-[#dc2626]" />
               Technical Data
             </h2>
             <div className="space-y-3 md:space-y-4">
@@ -268,13 +268,13 @@ export default function ProductTB500() {
             className="bg-slate-900 text-white rounded-[32px] md:rounded-[40px] p-8 md:p-10 shadow-xl shadow-slate-900/10"
           >
             <h2 className="text-3xl md:text-4xl font-black mb-6 md:mb-8 uppercase tracking-tighter flex items-center gap-3">
-              <Beaker className="w-6 h-6 md:w-8 md:h-8 text-red-600" />
+              <Beaker className="w-6 h-6 md:w-8 md:h-8 text-[#dc2626]" />
               Reconstitution
             </h2>
             <div className="space-y-5 md:space-y-6">
               {reconstitutionSteps.slice(0, 4).map((step, idx) => (
                 <div key={idx} className="flex gap-4">
-                  <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full bg-red-600 flex items-center justify-center font-black text-[10px] md:text-sm">
+                  <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#dc2626] flex items-center justify-center font-black text-[10px] md:text-sm">
                     {idx + 1}
                   </div>
                   <div>
@@ -284,7 +284,7 @@ export default function ProductTB500() {
                 </div>
               ))}
               <Link to={createPageUrl('PeptideAcademy')}>
-                <Button variant="outline" className="w-full mt-4 border-slate-700 text-white hover:bg-red-600 hover:border-red-600 rounded-[16px] md:rounded-[20px] font-black uppercase tracking-tighter text-xs md:text-sm h-12 md:h-auto">
+                <Button variant="outline" className="w-full mt-4 border-slate-700 text-white hover:bg-[#dc2626] hover:border-[#dc2626] rounded-[16px] md:rounded-[20px] font-black uppercase tracking-tighter text-xs md:text-sm h-12 md:h-auto">
                   View Full Reconstitution Guide
                 </Button>
               </Link>
@@ -301,14 +301,14 @@ export default function ProductTB500() {
         >
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter mb-4">
-              Research <span className="text-red-600">Insights</span>
+              Research <span className="text-[#dc2626]">Insights</span>
             </h2>
             <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px] md:text-sm">Frequently Asked Questions</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="bg-white border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8 hover:border-red-600/30 transition-colors">
+              <div key={idx} className="bg-white border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8 hover:border-[#dc2626]/30 transition-colors">
                 <h3 className="text-lg md:text-xl font-black text-slate-900 mb-3 md:mb-4 uppercase tracking-tighter leading-tight">{faq.question}</h3>
                 <p className="text-slate-600 text-xs md:text-sm leading-relaxed">{faq.answer}</p>
               </div>
@@ -324,12 +324,12 @@ export default function ProductTB500() {
           className="bg-slate-50 border border-slate-200 rounded-[32px] md:rounded-[40px] p-8 md:p-20 text-center relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.05]">
-            <div className="absolute top-[-50%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-red-600 rounded-full blur-[80px] md:blur-[100px]" />
+            <div className="absolute top-[-50%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#dc2626] rounded-full blur-[80px] md:blur-[100px]" />
           </div>
           
           <div className="relative z-10 max-w-2xl mx-auto">
             <h3 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 md:mb-6 uppercase tracking-tighter">
-              Ready to Initiate <span className="text-red-600">Protocol?</span>
+              Ready to Initiate <span className="text-[#dc2626]">Protocol?</span>
             </h3>
             <p className="text-slate-600 font-bold mb-8 md:mb-10 leading-relaxed uppercase tracking-wide text-[10px] md:text-sm">
               All TB-500 orders include serialized COA verification and priority cold-chain shipping options.

@@ -100,7 +100,7 @@ export default function SEOGuide() {
 
       <div className="max-w-4xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-red-600 hover:border-red-600 mb-8">
+          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
@@ -124,7 +124,7 @@ export default function SEOGuide() {
               <ul className="space-y-2">
                 {section.items.map((item, i) => (
                   <li key={i} className="text-stone-300 flex items-start gap-3">
-                    <Check className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -140,7 +140,7 @@ export default function SEOGuide() {
           className="mt-12 bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8"
         >
           <div className="flex gap-4 items-start">
-            <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+            <AlertCircle className="w-6 h-6 text-[#dc2626] flex-shrink-0" />
             <div>
               <h3 className="text-xl font-bold text-amber-50 mb-2">Implementation Timeline</h3>
               <p className="text-stone-300">Phase 1 (Week 1-2): Technical fixes, robots.txt, sitemap. Phase 2 (Week 3-4): Content expansion, schema markup. Phase 3 (Ongoing): Backlink building, monitoring, updates.</p>

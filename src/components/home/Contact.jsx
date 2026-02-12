@@ -17,7 +17,7 @@ const contactMethods = [
     icon: Mail,
     label: "Email",
     value: "Email us",
-    color: "bg-red-700/20 text-red-600 hover:bg-red-700/30",
+    color: "bg-red-700/20 text-[#dc2626] hover:bg-red-700/30",
     link: "mailto:jake@redhelixresearch.com"
   },
   {
@@ -40,7 +40,7 @@ export default function Contact() {
   return (
     <section className="py-24 px-4 bg-white relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-red-600/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#dc2626]/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -50,12 +50,12 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 border border-red-600 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Support Protocol</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6 uppercase">
             Researcher <br />
-            <span className="text-red-600">Assistance</span>
+            <span className="text-[#dc2626]">Assistance</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Direct communication channels for laboratory procurement inquiries and technical research support.
@@ -73,7 +73,7 @@ export default function Contact() {
               viewport={{ once: true }}
             >
               <Card 
-                className="bg-white border-slate-100 hover:border-red-600/30 transition-all duration-500 p-10 text-center cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl group"
+                className="bg-white border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 p-10 text-center cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl group"
                 onClick={() => method.link && window.open(method.link, '_blank')}
               >
                 <div className={`inline-flex items-center justify-center w-20 h-20 rounded-[24px] ${method.color} mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-sm`}>
@@ -95,7 +95,7 @@ export default function Contact() {
           className="text-center"
         >
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-red-600/20 transition-all hover:-translate-y-1">
+            <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1">
               OPEN FORMAL INQUIRY
               <ArrowRight className="w-6 h-6 ml-3" />
             </Button>
