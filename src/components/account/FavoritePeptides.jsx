@@ -13,9 +13,12 @@ export default function FavoritePeptides({ preferences, onRemoveFavorite }) {
     queryFn: () => base44.entities.Product.list(),
   });
 
-  const favoriteProducts = products.filter(p => 
-    preferences?.favorite_products?.includes(p.id)
-  );
+  const favoriteProducts = products.filter(p => {
+    if (!preferences?.favorite_products?.includes(p.id)) return false;
+    if (p.is_deleted || p.hidden) return false;
+    const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
+    return visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+  });
 
   if (favoriteProducts.length === 0) {
     return (

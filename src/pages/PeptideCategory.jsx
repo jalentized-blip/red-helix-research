@@ -71,7 +71,14 @@ export default function PeptideCategory() {
   });
 
   const categoryProducts = useMemo(() => {
-    return products.filter(p => p.category === category && !p.hidden);
+    return products.filter(p => {
+      if (p.category !== category || p.hidden || p.is_deleted) return false;
+
+      // Check if any visible specification is in stock
+      const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
+      const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+      return inStock;
+    });
   }, [products, category]);
 
   if (!config) {

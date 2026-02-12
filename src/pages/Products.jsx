@@ -27,7 +27,7 @@ const CATEGORIES = [
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [hideOutOfStock, setHideOutOfStock] = useState(false);
+  const [hideOutOfStock, setHideOutOfStock] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -51,17 +51,19 @@ export default function Products() {
   }, [refetch]);
 
   const filteredProducts = products.filter(p => {
+    if (p.is_deleted || p.hidden) return false;
+
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
-    
-    // Check if any specification is in stock and not hidden
-    const hasAvailableSpec = p.specifications?.some(spec => spec.in_stock && !spec.hidden) || false;
-    const productInStock = p.in_stock || hasAvailableSpec;
-    const stockMatch = hideOutOfStock ? productInStock : true;
-    
-    const searchMatch = searchQuery === '' || 
+
+    // Check if any visible specification is in stock
+    const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
+    const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+    const stockMatch = hideOutOfStock ? inStock : true;
+
+    const searchMatch = searchQuery === '' ||
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+
     return categoryMatch && stockMatch && searchMatch;
   });
 

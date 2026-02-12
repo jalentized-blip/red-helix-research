@@ -21,7 +21,12 @@ export default function RecommendedPeptides({ preferences, orders }) {
 
     // Score products based on user behavior
     const scoredProducts = products
-      .filter(p => !favoriteIds.includes(p.id)) // Exclude already favorited
+      .filter(p => {
+        if (favoriteIds.includes(p.id)) return false; // Exclude already favorited
+        if (p.is_deleted || p.hidden) return false;
+        const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
+        return visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+      })
       .map(product => {
         let score = 0;
         

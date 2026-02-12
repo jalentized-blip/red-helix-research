@@ -43,7 +43,11 @@ export default function QuickShop() {
     setIsOpen(false);
   };
 
-  const featuredProducts = products.filter(p => p.is_featured).slice(0, 4);
+  const featuredProducts = products.filter(p => {
+    if (!p.is_featured || p.is_deleted || p.hidden) return false;
+    const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
+    return visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+  }).slice(0, 4);
 
   return (
     <>
@@ -115,7 +119,11 @@ export default function QuickShop() {
                               {category.name}
                             </div>
                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">
-                              {products.filter(p => p.category === category.value).length} research units
+                              {products.filter(p => {
+                              if (p.category !== category.value || p.is_deleted || p.hidden) return false;
+                              const vs = p.specifications?.filter(s => !s.hidden) || [];
+                              return vs.some(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === undefined));
+                            }).length} research units
                             </div>
                           </div>
                           <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] group-hover:translate-x-1 transition-all" />
