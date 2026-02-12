@@ -121,7 +121,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
     }, [products, activeCategory, searchQuery, isAdmin, sortBy, showAll]);
 
   return (
-    <section id="products" className="py-24 px-4 relative overflow-hidden bg-slate-50">
+    <section id="products" className="py-12 md:py-24 px-4 relative overflow-hidden bg-slate-50">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
           className="absolute bottom-20 left-20 text-[#dc2626]/5 text-8xl"
@@ -140,12 +140,12 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-10 md:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 rounded-full mb-6">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Complete Inventory</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
             RESEARCH <br />
             <span className="text-[#dc2626]">REPOSITORY</span>
           </h2>
@@ -179,7 +179,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
                   <TabsTrigger 
                     key={cat.id} 
                     value={cat.id}
-                    className="h-11 px-6 data-[state=active]:bg-[#dc2626] data-[state=active]:text-white text-slate-500 font-black uppercase tracking-widest text-[10px] rounded-xl transition-all"
+                    className="h-11 px-3 md:px-6 data-[state=active]:bg-[#dc2626] data-[state=active]:text-white text-slate-500 font-black uppercase tracking-wider md:tracking-widest text-[11px] rounded-xl transition-all"
                   >
                     {cat.label}
                   </TabsTrigger>
@@ -207,7 +207,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
           {displayedProducts.map((product, index) => (
             <ProductCard 
               key={product.id} 
@@ -228,11 +228,11 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         )}
 
         {/* Action Bar */}
-        <div className="mt-20 flex flex-col items-center gap-6">
+        <div className="mt-10 md:mt-20 flex flex-col items-center gap-6">
           {hasMore && (
             <button
               onClick={handleShowAllToggle}
-              className="group relative px-12 py-5 bg-white border-2 border-slate-200 hover:border-[#dc2626] text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#dc2626]/10"
+              className="group relative px-6 md:px-12 py-5 bg-white border-2 border-slate-200 hover:border-[#dc2626] text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#dc2626]/10"
             >
               <span className="relative z-10">
                 {showAll ? 'Collapse Catalog' : 'Expand Full Repository'}

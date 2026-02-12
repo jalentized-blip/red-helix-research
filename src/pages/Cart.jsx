@@ -83,7 +83,7 @@ export default function Cart() {
   const finalTotal = subtotal - discount + SHIPPING_COST;
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20 px-4">
+    <div className="min-h-screen bg-white pt-24 lg:pt-32 pb-20 px-4">
       <SEO
         title="Shopping Cart"
         description="Review your research peptide order before checkout."
@@ -100,7 +100,7 @@ export default function Cart() {
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="text-center py-20 bg-slate-50 rounded-[40px] border border-slate-100">
+          <div className="text-center py-20 bg-slate-50 rounded-2xl md:rounded-[40px] border border-slate-100">
             <ShoppingBag className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <p className="text-slate-400 text-lg mb-6 font-semibold">Your research cart is empty</p>
             <Link to={createPageUrl('Home')}>
@@ -114,7 +114,7 @@ export default function Cart() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item) => (
-                <div key={item.id} className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div key={item.id} className="bg-white border border-slate-100 rounded-2xl md:rounded-[32px] p-4 md:p-8 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-xl font-black text-slate-900">{item.productName}</h3>
@@ -142,7 +142,7 @@ export default function Cart() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-slate-50 border border-slate-100 rounded-[40px] p-8 sticky top-32 shadow-sm">
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[40px] p-5 md:p-8 sticky top-24 lg:top-32 shadow-sm">
                 <h2 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight">Summary</h2>
 
                 {/* Promo Code Section */}
@@ -247,7 +247,7 @@ export default function Cart() {
                             setAgreedToTerms(e.target.checked);
                             setShowAgreementError(false);
                           }}
-                          className="w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626] cursor-pointer"
+                          className="w-5 h-5 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626] cursor-pointer"
                         />
                       </div>
                       <span className="text-[10px] text-slate-500 font-bold leading-relaxed uppercase tracking-wider group-hover:text-slate-700 transition-colors">
@@ -274,7 +274,7 @@ export default function Cart() {
                       }
                       navigate(createPageUrl('CustomerInfo'));
                     }}
-                    className={`w-full font-black py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#dc2626] hover:bg-[#b91c1c] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                    className={`w-full font-black py-5 md:py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#dc2626] hover:bg-[#b91c1c] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                   >
                     Checkout <ArrowRight className="w-5 h-5 ml-2" />
                     {!isAuthenticated && !isCheckingAuth && (

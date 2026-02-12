@@ -60,6 +60,7 @@ const HeaderSearch = () => {
   return (
     <div className="flex justify-center pb-3 pt-2 border-t border-slate-100">
       <motion.div
+        onClick={() => !isExpanded && setIsExpanded(true)}
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => {
           if (!searchQuery) {
@@ -69,7 +70,7 @@ const HeaderSearch = () => {
             }, 300);
           }
         }}
-        className="relative px-8 py-4 pb-8"
+        className="relative px-4 md:px-8 py-4 pb-8 w-full max-w-lg mx-auto"
       >
         {/* Magnifying Glass Icon */}
         <motion.div
@@ -90,7 +91,7 @@ const HeaderSearch = () => {
         <motion.div
           initial={false}
           animate={{
-            width: isExpanded ? '400px' : '24px',
+            width: isExpanded ? '100%' : '24px',
             opacity: isExpanded ? 1 : 0,
           }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -135,7 +136,7 @@ const HeaderSearch = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
               onMouseEnter={() => setIsExpanded(true)}
-              className="absolute top-full mt-2 w-[400px] max-h-[60vh] overflow-y-auto bg-white border border-slate-200 rounded-2xl shadow-2xl z-[100]"
+              className="absolute top-full left-0 right-0 mt-2 max-h-[60vh] overflow-y-auto bg-white border border-slate-200 rounded-2xl shadow-2xl z-[100]"
             >
               {!hasResults ? (
                 <div className="p-6 text-center text-slate-400 text-sm">
@@ -394,13 +395,13 @@ const HeaderSearch = () => {
             className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 transition-transform duration-300 shadow-sm" 
             style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
           >
-          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-4 py-2 lg:py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="flex items-center relative group">
             <img 
               src="https://i.ibb.co/M5CYvjkG/websitelogo.png"
               alt="Red Helix Research"
-              className="h-32 w-auto object-contain brightness-0"
+              className="h-16 lg:h-32 w-auto object-contain brightness-0"
               style={{ 
                 opacity: logoOpacity,
                 transform: `translate(${logoOffset.x}px, ${logoOffset.y}px) scale(${logoScale})`,
@@ -429,7 +430,7 @@ const HeaderSearch = () => {
           </nav>
 
           {/* Action Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 lg:gap-4">
             <AlertsDropdown />
             <NotificationCenter />
             
@@ -497,7 +498,7 @@ const HeaderSearch = () => {
         <HeaderSearch />
       </header>
 
-      <main className="relative pt-16">
+      <main className="relative pt-20">
         {children}
       </main>
 

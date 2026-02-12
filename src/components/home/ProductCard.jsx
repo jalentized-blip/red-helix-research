@@ -99,7 +99,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         className="relative z-50 h-full cursor-pointer"
       >
       
-      <Card className={`group relative bg-white border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-[40px] flex flex-col ${
+      <Card className={`group relative bg-white border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-2xl md:rounded-[40px] flex flex-col ${
         isAdmin && localHidden ? 'opacity-60 grayscale' : ''
       }`}>
         {/* Animated Glow Overlay - Subtle Medical Pulse */}
@@ -142,9 +142,9 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           </Badge>
         </div>
 
-        <div className="p-10 flex flex-col h-full">
+        <div className="p-5 md:p-10 flex flex-col h-full">
           {/* Product Image Container */}
-          <div className={`relative mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#dc2626]/20 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
+          <div className={`relative mb-5 md:mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-xl md:rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#dc2626]/20 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
             {displayImage ? (
               <img 
                 src={displayImage} 
@@ -179,7 +179,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               </div>
             </div>
 
-            <h3 className={`text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-[#dc2626] transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className={`text-xl md:text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-[#dc2626] transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.name}
             </h3>
             
@@ -188,11 +188,11 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             </p>
           </div>
 
-          <div className={`flex items-end justify-between mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+          <div className={`flex items-end justify-between mb-4 md:mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
             <div className="flex flex-col">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Acquisition Cost</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#dc2626] transition-colors">
+                <span className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#dc2626] transition-colors">
                   ${lowestVisiblePrice}
                 </span>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest transition-colors">USD</span>
@@ -206,7 +206,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
           <Button 
             onClick={handleSelectStrength}
-            className={`w-full h-16 bg-[#dc2626] hover:bg-[#b91c1c] border-2 border-[#dc2626] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
+            className={`w-full h-12 md:h-16 bg-[#dc2626] hover:bg-[#b91c1c] border-2 border-[#dc2626] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
           >
             <span className="flex items-center gap-3">
               Initialize Order
@@ -214,9 +214,9 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             </span>
           </Button>
           
-          <div className="mt-8 flex items-center justify-center gap-2">
+          <div className="mt-4 md:mt-8 flex items-center justify-center gap-2">
             <div className="w-1 h-1 rounded-full bg-[#dc2626] transition-colors" />
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Clinical Grade Logistics</span>
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Clinical Grade Logistics</span>
           </div>
         </div>
       </Card>
