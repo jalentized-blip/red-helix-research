@@ -93,35 +93,56 @@ What would you like to learn about today?`
 Available Research Peptides Knowledge Base:
 
 **Weight Loss & Metabolic:**
-- Semaglutide (GLP-1 agonist): Activates GLP-1 receptors, regulates insulin secretion, slows gastric emptying, affects appetite centers
-- Tirzepatide (GLP-1/GIP dual agonist): Dual receptor activation for enhanced metabolic effects
-- AOD 9604: Modified growth hormone fragment targeting lipolysis without growth effects
+- Semaglutide (GLP-1 agonist): Activates GLP-1 receptors, regulates insulin secretion, slows gastric emptying, affects appetite centers. ~4,113 Da, 31 AA.
+- Tirzepatide (GLP-1/GIP dual agonist): Dual receptor activation for enhanced metabolic effects. ~4,672 Da, 39 AA. Do NOT combine with Semaglutide — overlapping receptor activation.
+- AOD-9604: Modified hGH fragment (177-191) targeting beta-3 adrenergic lipolysis without IGF-1 elevation. ~1,817 Da, 16 AA. TGA-listed in Australia for osteoarthritis.
+- MOTS-c: Mitochondrial-derived peptide (MDP), exercise mimetic via AMPK activation, metabolic regulation. ~2,174 Da, 16 AA. Discovered by Lee lab at USC.
 
 **Recovery & Healing:**
-- BPC-157: Promotes angiogenesis via VEGF pathway, enhances fibroblast migration, accelerates tissue repair
-- TB-500 (Thymosin Beta-4): Regulates actin polymerization, cell migration, reduces inflammation
-- GHK-Cu: Copper peptide stimulating collagen synthesis, wound healing, anti-inflammatory effects
+- BPC-157: Promotes angiogenesis via VEGF pathway, enhances fibroblast migration, accelerates tissue repair. ~1,494 Da, 15 AA. Sequence: GEPPPGKPADDDAGD.
+- TB-500 (Thymosin Beta-4): Primary G-actin sequestering molecule, regulates cell migration, angiogenesis, anti-inflammatory signaling. ~4,963 Da, 43 AA.
+- GHK-Cu: Copper tripeptide stimulating collagen synthesis via gene expression modulation, wound healing, anti-inflammatory effects. ~517 Da, 3 AA.
+- KPV: C-terminal tripeptide of α-MSH, potent anti-inflammatory via NF-κB inhibition. ~342 Da, 3 AA. Commonly used for gut health.
 
-**Performance & Longevity:**
-- CJC-1295/Ipamorelin: Growth hormone secretagogue combination for sustained GH release
-- Ipamorelin: Selective ghrelin receptor agonist, minimal cortisol/prolactin elevation
-- NAD+: Cellular energy metabolism, DNA repair, sirtuin activation
-- MOTS-c: Mitochondrial-derived peptide, metabolic regulation, exercise mimetic
-- Epithalon: Telomerase activator, circadian rhythm regulation
+**GH Secretagogues:**
+- CJC-1295: Synthetic GHRH analog providing sustained GH elevation. ~3,649 Da, 30 AA. Synergizes with GHRP-class peptides.
+- Ipamorelin: Selective ghrelin receptor agonist, minimal cortisol/prolactin elevation. ~711 Da, 5 AA. Cleanest GHRP profile.
+- Sermorelin (GRF 1-29): Shortest functional GHRH fragment, physiological pulsatile GH release. ~3,358 Da, 29 AA. Previously FDA-approved diagnostic.
+- Tesamorelin: FDA-approved GHRH analog (Egrifta) for HIV lipodystrophy. ~5,136 Da, 44 AA. Enhanced stability vs Sermorelin.
+- GHRP-2: Most potent GHRP-class peptide for GH release, causes appetite increase and mild cortisol/prolactin elevation. ~817 Da, 6 AA.
+- GHRP-6: First-generation GHRP with strongest appetite stimulation, gastroprotective effects. ~873 Da, 6 AA.
+- Hexarelin: Strongest GH-releasing GHRP with unique CD36-mediated cardioprotective effects. ~887 Da, 6 AA. Subject to tachyphylaxis.
+- MK-677 (Ibutamoren): Non-peptide oral GH secretagogue, 24-hour half-life, sustained IGF-1 elevation. ~528 Da. Not a peptide — small molecule.
 
 **Cognitive & Focus:**
-- Semax: Nootropic with BDNF enhancement, cognitive performance
-- Selank: Anxiolytic with immune modulation, stress reduction
-- Dihexa: Neurogenesis promoter, synapse formation
-- P21: CREB pathway activator, memory formation
+- Semax: ACTH(4-10) analog with Pro-Gly-Pro, BDNF upregulation (2-8x), neuroprotection. ~813 Da, 7 AA. Approved in Russia/Ukraine. Intranasal.
+- Selank: Tuftsin analog with Pro-Gly-Pro, anxiolytic via GABAergic modulation without sedation, immunomodulator. ~751 Da, 7 AA. Approved in Russia.
+- Dihexa: Angiotensin IV analog, 10M x more potent than BDNF at HGF/c-Met signaling, synaptogenesis. ~507 Da. Preclinical only — no human trials.
+- P21: CNTF-derived peptide promoting hippocampal neurogenesis via CREB pathway. ~1,339 Da, 11 AA. Preclinical only.
+- Pinealon: Glu-Asp-Arg tripeptide bioregulator for CNS neuroprotection. ~404 Da, 3 AA. Distinct from Epithalon.
+
+**Anti-Aging & Longevity:**
+- Epithalon (Ala-Glu-Asp-Gly): Tetrapeptide telomerase activator via hTERT expression, melatonin regulation. ~390 Da, 4 AA. Khavinson research program.
+- NAD+: Essential coenzyme for sirtuins, PARPs, CD38. Levels decline ~50% ages 40-60. ~663 Da. Not a peptide — dinucleotide coenzyme.
+- SS-31 (Elamipretide): Mitochondria-targeted tetrapeptide stabilizing cardiolipin, restoring electron transport chain. ~640 Da, 4 AA. Active FDA trials.
 
 **Sexual Health:**
-- PT-141 (Bremelanotide): MC4R agonist for libido enhancement
-- Kisspeptin-10: Gonadotropin regulation, reproductive function
+- PT-141 (Bremelanotide): MC4R agonist, FDA-approved (Vyleesi 2019) for HSDD. ~1,025 Da, 7 AA. Do NOT combine with Melanotan II.
+- Kisspeptin-10: KISS1R agonist, master HPG axis regulator, IVF oocyte maturation trigger research. ~1,302 Da, 10 AA. Very short half-life (~28 min).
+- Gonadorelin (GnRH): Natural reproductive axis regulator. ~1,182 Da, 10 AA.
+- Melanotan II: Non-selective melanocortin agonist (MC1R-MC5R) for pigmentation and sexual function. ~1,024 Da, 7 AA. Do NOT combine with PT-141.
+
+**Sleep & Neurohormonal:**
+- DSIP: Endogenous delta sleep-inducing peptide, sleep architecture regulation. ~848 Da, 9 AA.
+- Oxytocin: Hypothalamic neuropeptide for social behavior, mood, and neuroendocrine regulation. ~1,007 Da, 9 AA.
 
 **Blends:**
 - KLOW Blend (KPV+BPC-157+GHK-Cu+TB-500): Multi-pathway healing blend combining anti-inflammatory (KPV via NF-κB inhibition), localized tissue repair (BPC-157 via VEGF/NO system), collagen synthesis and gene expression modulation (GHK-Cu), and systemic cell migration/protection (TB-500 via actin regulation)
-- NAD+ Stack: Comprehensive cellular health combination
+
+**Key Contraindications:**
+- Semaglutide + Tirzepatide: NEVER combine — overlapping GLP-1 receptor activation increases adverse effects
+- PT-141 + Melanotan II: NEVER combine — excessive melanocortin receptor activation
+- Kisspeptin-10 + Gonadorelin: MODERATE caution — both stimulate GnRH pathways
 
 Question: \${question}
 
