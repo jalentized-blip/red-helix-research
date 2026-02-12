@@ -120,7 +120,7 @@ Available Research Peptides Knowledge Base:
 - Kisspeptin-10: Gonadotropin regulation, reproductive function
 
 **Blends:**
-- KLOW80: KPV+GHK-Cu+BPC+TB500 multi-pathway healing blend
+- KLOW Blend (KPV+BPC-157+GHK-Cu+TB-500): Multi-pathway healing blend combining anti-inflammatory (KPV via NF-κB inhibition), localized tissue repair (BPC-157 via VEGF/NO system), collagen synthesis and gene expression modulation (GHK-Cu), and systemic cell migration/protection (TB-500 via actin regulation)
 - NAD+ Stack: Comprehensive cellular health combination
 
 Question: \${question}

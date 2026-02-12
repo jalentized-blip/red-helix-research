@@ -95,24 +95,24 @@ const PEPTIDE_RESEARCH_DATA = {
     clinicalNotes: 'Provides sustained GH elevation over extended periods. Synergizes powerfully with Ipamorelin.'
   },
   'Pinealon': {
-    fullName: 'Pinealon (Epitalon Bioregulator)',
-    description: 'Pineal gland peptide bioregulator supporting cellular regeneration and neuroprotection',
-    molecularWeight: '~518 Da',
+    fullName: 'Pinealon (Glu-Asp-Arg Tripeptide Bioregulator)',
+    description: 'Short regulatory peptide (Glu-Asp-Arg) studied for neuroprotective properties and CNS function support',
+    molecularWeight: '~404 Da',
     aminoAcids: 3,
     stability: 'High',
-    mechanism: 'Pineal function optimization and telomerase regulation',
-    class: 'Cellular Bioregulator',
+    mechanism: 'Neuroprotective bioregulation and CNS cellular support',
+    class: 'Neuroprotective Bioregulator',
     benefits: {
-      'Anti-Aging & Longevity': { score: 10, studies: 'Clinical research on telomerase activity and cellular aging' },
-      'Sleep Quality': { score: 9, studies: 'Studies on circadian rhythm regulation and sleep architecture' },
-      'Cognitive Function': { score: 8, studies: 'Research on neuroprotection and mental clarity' },
-      'Neurological Health': { score: 8, studies: 'Evidence for brain health and neural protection' },
-      'Immune Support': { score: 7, studies: 'Studies on immune system regulation and optimization' },
-      'Stress Management': { score: 7, studies: 'Research on cortisol regulation and stress response' },
-      'Cellular Health': { score: 8, studies: 'Data on mitochondrial function and cellular vitality' }
+      'Cognitive Function': { score: 9, studies: 'Preclinical research on neuroprotection and cognitive support' },
+      'Neurological Health': { score: 9, studies: 'Studies on CNS cellular protection and neural function' },
+      'Sleep Quality': { score: 8, studies: 'Research on circadian rhythm regulation through CNS modulation' },
+      'Anti-Aging & Longevity': { score: 7, studies: 'Studies on cellular bioregulation and aging' },
+      'Stress Management': { score: 7, studies: 'Research on stress response and neuroendocrine regulation' },
+      'Immune Support': { score: 6, studies: 'Studies on neuroimmune interactions' },
+      'Cellular Health': { score: 7, studies: 'Data on peptide bioregulation of cellular function' }
     },
     contraindications: [],
-    clinicalNotes: 'Russian bioregulator with decades of safety data. Supports deep cellular regeneration and longevity pathways.'
+    clinicalNotes: 'Short peptide bioregulator from the Khavinson research program. Studied primarily for CNS support and neuroprotection. Distinct from Epithalon (Ala-Glu-Asp-Gly), which is the telomerase-associated peptide.'
   },
   'DSIP': {
     fullName: 'DSIP (Delta Sleep-Inducing Peptide)',
@@ -154,11 +154,11 @@ const PEPTIDE_RESEARCH_DATA = {
   },
   'KPV': {
     fullName: 'KPV (Lysine-Proline-Valine)',
-    description: 'Tripeptide from alpha-melanocyte-stimulating hormone with anti-inflammatory properties',
-    molecularWeight: '~345 Da',
+    description: 'C-terminal tripeptide fragment of alpha-melanocyte-stimulating hormone (α-MSH) with potent anti-inflammatory properties via NF-κB inhibition',
+    molecularWeight: '~342 Da',
     aminoAcids: 3,
     stability: 'High',
-    mechanism: 'Anti-inflammatory and immune modulation',
+    mechanism: 'NF-κB inhibition and anti-inflammatory immune modulation',
     class: 'Anti-Inflammatory',
     benefits: {
       'Chronic Inflammation': { score: 10, studies: 'Clinical evidence for inflammatory marker reduction' },
@@ -171,8 +171,8 @@ const PEPTIDE_RESEARCH_DATA = {
     clinicalNotes: 'Potent anti-inflammatory with broad systemic benefits. Commonly stacked with tissue repair peptides.'
   },
   'Oxytocin': {
-    fullName: 'Oxytocin (Love & Bonding Hormone)',
-    description: 'Neurohormone regulating social bonding, mood, and sexual function',
+    fullName: 'Oxytocin (Endogenous Neuropeptide Hormone)',
+    description: 'Hypothalamic neuropeptide hormone involved in social behavior, reproductive function, and neuroendocrine regulation',
     molecularWeight: '~1,007 Da',
     aminoAcids: 9,
     stability: 'Moderate',
@@ -189,13 +189,13 @@ const PEPTIDE_RESEARCH_DATA = {
     clinicalNotes: 'Well-researched neurohormone with strong safety profile. Supports emotional and relational wellness.'
   },
   'TB-500': {
-    fullName: 'Thymosin Beta-4',
-    description: 'Endogenous peptide naturally present in wound healing fluid with broad cellular protection research',
+    fullName: 'Thymosin Beta-4 (Tβ4)',
+    description: 'Endogenous 43-amino acid peptide that is the primary G-actin sequestering molecule in eukaryotic cells, naturally present in wound fluid and blood platelets',
     molecularWeight: '~4,963 Da',
     aminoAcids: 43,
     stability: 'Highly Stable',
-    mechanism: 'Systemic cellular protection and proliferation',
-    class: 'Cellular Protection',
+    mechanism: 'Actin sequestration regulating cell migration, angiogenesis, and anti-inflammatory signaling',
+    class: 'Cellular Protection & Repair',
     benefits: {
       'General Athletic Recovery': { score: 10, studies: 'Clinical research on post-exercise recovery and tissue repair' },
       'Heart Health & Circulation': { score: 10, studies: 'Studies on cardiac tissue repair and cardiovascular function' },

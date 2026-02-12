@@ -8,80 +8,80 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import ProductModal from '@/components/product/ProductModal';
 
-// Hardcoded data for KLOW Blend
+// Hardcoded data for KLOW Blend (KPV + BPC-157 + GHK-Cu + TB-500)
 const KLOW_DATA = {
-  overview: "KLOW is a sophisticated peptide blend formulated to support comprehensive weight management and metabolic optimization. This multi-peptide complex combines synergistic compounds designed to enhance satiety signaling, optimize glucose metabolism, and support sustainable body composition changes through complementary mechanisms of action.",
+  overview: "KLOW is a multi-pathway healing and recovery blend combining four well-researched peptides: KPV (Lys-Pro-Val), BPC-157 (Body Protection Compound-157), GHK-Cu (Copper Tripeptide), and TB-500 (Thymosin Beta-4). Each component targets a distinct but complementary mechanism — anti-inflammatory modulation (KPV), localized tissue repair (BPC-157), collagen synthesis and cellular remodeling (GHK-Cu), and systemic cellular migration and protection (TB-500). Together, these peptides provide broad-spectrum support for tissue repair, wound healing, inflammation reduction, and cellular regeneration.",
   potentialUses: [
     {
-      title: "Appetite & Satiety Regulation",
-      description: "KLOW's blend is designed to enhance appetite suppression through multiple pathways. The combination targets GLP-1 receptor signaling and related satiety mechanisms, helping to reduce overall caloric intake by promoting feelings of fullness and satisfaction with smaller meal portions.",
-      mechanism: "The peptides work synergistically to modulate neuropeptide Y (NPY) and pro-opiomelanocortin (POMC) pathways in the hypothalamus, the brain's appetite control center. This dual-pathway approach provides more robust and sustained appetite suppression compared to single-peptide formulations."
+      title: "Tissue Repair & Wound Healing",
+      description: "The KLOW blend combines BPC-157 and TB-500, two of the most extensively studied tissue repair peptides. BPC-157 promotes localized angiogenesis (new blood vessel formation) and accelerates healing of tendons, ligaments, muscle, and gut lining. TB-500 complements this by promoting systemic cell migration and differentiation through actin regulation, allowing repair cells to reach damaged tissue more effectively.",
+      mechanism: "BPC-157 upregulates vascular endothelial growth factor (VEGF) and stimulates the nitric oxide (NO) system, enhancing blood flow to injured areas. TB-500 sequesters G-actin monomers, promoting actin polymerization which drives cell motility, enabling fibroblasts, keratinocytes, and endothelial cells to migrate into wound sites. GHK-Cu further supports this by stimulating collagen I, III, and elastin synthesis at the repair site."
     },
     {
-      title: "Metabolic Rate & Energy Expenditure",
-      description: "The KLOW blend is formulated to support thermogenesis and metabolic rate optimization. The peptide combination enhances mitochondrial function and metabolic efficiency, potentially increasing daily energy expenditure through multiple biochemical pathways.",
-      mechanism: "The blend activates brown adipose tissue (BAT) and enhances oxidative metabolism through sympathetic nervous system signaling. This increases calorie burning even at rest, supporting faster metabolic adaptation during weight management protocols."
+      title: "Anti-Inflammatory & Immune Modulation",
+      description: "KPV is the C-terminal tripeptide fragment of alpha-melanocyte-stimulating hormone (α-MSH), a naturally occurring anti-inflammatory signaling peptide. KPV has demonstrated potent anti-inflammatory activity by inhibiting NF-κB activation and reducing pro-inflammatory cytokine production. BPC-157 provides additional anti-inflammatory support through modulation of the nitric oxide system and serotonergic pathways.",
+      mechanism: "KPV enters cells and directly interacts with inflammatory signaling cascades, inhibiting NF-κB nuclear translocation and suppressing production of TNF-α, IL-6, and IL-1β. This reduces local and systemic inflammation without immunosuppression. BPC-157 modulates the NO system and interacts with dopamine and serotonin pathways, providing neuroprotective anti-inflammatory effects. TB-500 further reduces inflammation through downregulation of inflammatory chemokines at the injury site."
     },
     {
-      title: "Blood Glucose & Insulin Sensitivity",
-      description: "KLOW supports healthy glucose metabolism and insulin sensitivity through peptides that enhance pancreatic beta cell function and improve peripheral insulin signaling. This helps maintain stable energy levels and reduces cravings throughout the day.",
-      mechanism: "The peptides stimulate GLP-1 secretion and enhance insulin-independent glucose uptake in muscle tissue. This improves glucose homeostasis, reduces post-meal glucose spikes, and supports more stable energy levels for sustained weight management efforts."
+      title: "Collagen Synthesis & Skin Regeneration",
+      description: "GHK-Cu (glycyl-L-histidyl-L-lysine copper complex) is a naturally occurring tripeptide found in human plasma, saliva, and urine that declines with age. It is one of the most studied peptides for collagen stimulation, wound remodeling, and anti-aging applications. In the KLOW blend, GHK-Cu provides the matrix remodeling component that complements the tissue repair driven by BPC-157 and TB-500.",
+      mechanism: "GHK-Cu activates tissue remodeling by stimulating synthesis of collagen types I, III, and V, as well as decorin, elastin, and glycosaminoglycans. It also upregulates matrix metalloproteinases (MMPs) for controlled breakdown of damaged tissue and increases production of tissue inhibitors of metalloproteinases (TIMPs) for balanced remodeling. Research by Pickart et al. has shown GHK-Cu modulates expression of over 4,000 genes, resetting gene expression patterns toward a healthier state."
     },
     {
-      title: "Lean Muscle Preservation",
-      description: "During weight management phases, KLOW's formulation includes peptides specifically designed to preserve lean muscle mass while promoting fat loss. This helps maintain metabolic rate and improves body composition outcomes.",
-      mechanism: "The blend activates myogenic pathways through growth hormone and insulin-like growth factor (IGF-1) signaling while simultaneously promoting selective fat cell apoptosis. This dual action preserves metabolically active tissue while reducing fat stores."
+      title: "Gut Health & Mucosal Protection",
+      description: "BPC-157 has extensive research demonstrating its cytoprotective effects on gastrointestinal mucosa. Originally isolated from human gastric juice, BPC-157 has shown protective and healing effects on the stomach, intestinal lining, and esophagus in numerous preclinical studies. KPV further supports gut health through its anti-inflammatory effects on intestinal epithelial cells, making this blend particularly relevant for gut barrier integrity research.",
+      mechanism: "BPC-157 promotes gastric mucosal integrity through enhanced prostaglandin synthesis, nitric oxide modulation, and direct cytoprotective action on epithelial cells. It has demonstrated protective effects against NSAID-induced gastric lesions, ethanol damage, and inflammatory bowel conditions in animal models. KPV has been shown to reduce colonic inflammation by inhibiting NF-κB in intestinal epithelial cells and macrophages, with preclinical evidence supporting its role in inflammatory bowel conditions."
     }
   ],
   clinicalTrials: [
     {
-      title: "Multi-Peptide Blend Efficacy in Weight Management",
-      year: "2023",
-      institution: "International Journal of Obesity Research",
-      participants: "487 participants over 24 weeks",
-      duration: "6-month randomized controlled trial",
-      findings: "Participants using the KLOW-equivalent blend showed average weight loss of 8.3kg compared to 2.1kg in placebo group. Notably, lean muscle mass was preserved in 94% of users, with significant improvements in insulin sensitivity (HOMA-IR reduction of 28%) and appetite control metrics (satiety scores improved by 42%).",
-      conclusion: "Multi-peptide formulations targeting complementary satiety and metabolic pathways demonstrated superior efficacy for weight management compared to single-peptide approaches, with preserved lean mass being a key differentiator."
+      title: "BPC-157 Cytoprotective and Healing Properties",
+      year: "2018",
+      institution: "Current Pharmaceutical Design (Sikiric et al.)",
+      participants: "Comprehensive review of preclinical studies",
+      duration: "Ongoing research program spanning 20+ years",
+      findings: "BPC-157 demonstrated consistent wound healing acceleration across multiple tissue types including tendon, ligament, muscle, nerve, and gastrointestinal mucosa in preclinical models. The peptide promoted angiogenesis through VEGF upregulation and enhanced nitric oxide system function. It showed protective effects against multiple types of tissue damage including NSAID-induced gastric lesions, and promoted tendon-to-bone healing in rat models.",
+      conclusion: "BPC-157 shows robust and reproducible tissue-protective and healing-promoting properties across diverse tissue types through angiogenic and cytoprotective mechanisms. Further clinical trials in humans are warranted based on the strength of preclinical evidence."
     },
     {
-      title: "GLP-1 and Accessory Peptide Synergy Study",
-      year: "2022",
-      institution: "Endocrinology & Metabolism Reviews",
-      participants: "312 participants with metabolic syndrome",
-      duration: "16-week intervention study",
-      findings: "The combination of GLP-1-mimetic peptides with accessory metabolic-enhancing compounds showed synergistic effects on appetite (35% additional reduction vs. GLP-1 alone) and thermogenesis (22% greater increase in resting metabolic rate). Glucose control improved in 89% of participants.",
-      conclusion: "Peptide blends formulated with complementary mechanisms provide additive benefits beyond single-peptide therapies, particularly for appetite regulation and metabolic efficiency."
+      title: "Thymosin Beta-4 in Tissue Repair and Regeneration",
+      year: "2019",
+      institution: "Expert Opinion on Biological Therapy (Goldstein et al.)",
+      participants: "Review including clinical wound healing studies",
+      duration: "Multi-study review",
+      findings: "Thymosin Beta-4 (TB-500) promoted cell migration through actin cytoskeleton regulation, enhanced angiogenesis, and reduced inflammation in wound sites. In clinical studies on chronic non-healing wounds, topical Tβ4 improved healing rates. Preclinical cardiac studies showed reduced scar formation and improved cardiac function following myocardial infarction in animal models.",
+      conclusion: "TB-500 demonstrates multi-faceted tissue repair properties through its unique mechanism of actin regulation and cell migration promotion, with translational potential across wound healing, cardiac repair, and neurological recovery applications."
     },
     {
-      title: "Body Composition Changes and Lean Mass Preservation",
-      year: "2023",
-      institution: "Journal of Sports Medicine & Research",
-      participants: "156 participants",
-      duration: "12-week study with body composition analysis via DEXA",
-      findings: "Users of multi-peptide weight management blends lost an average of 6.8kg of fat mass while maintaining 98% of baseline lean muscle mass. Control groups using caloric restriction alone lost 5.2kg total with 32% lean mass loss. Fat mass loss was concentrated in visceral and subcutaneous adipose tissue.",
-      conclusion: "Peptide blends specifically formulated for weight management preserve lean muscle mass during caloric deficit, a critical advantage for long-term metabolic health and sustainable weight maintenance."
+      title: "GHK-Cu Gene Expression and Tissue Remodeling",
+      year: "2020",
+      institution: "International Journal of Molecular Sciences (Pickart et al.)",
+      participants: "Gene expression analysis and clinical review",
+      duration: "Cumulative research spanning decades",
+      findings: "GHK-Cu was found to modulate expression of over 4,000 human genes, shifting gene activity patterns toward tissue repair and regeneration. It increased collagen synthesis, stimulated decorin production for organized tissue remodeling, attracted immune cells for wound cleanup, and demonstrated antioxidant properties through upregulation of superoxide dismutase and glutathione pathways. Clinical studies showed improved wound healing rate and reduced scarring.",
+      conclusion: "GHK-Cu acts as a broad-spectrum regenerative signal, resetting gene expression toward a healthier tissue remodeling state. Its natural decline with age correlates with reduced healing capacity, supporting its therapeutic potential in regenerative research."
     },
     {
-      title: "Metabolic Rate Recovery and Long-term Weight Maintenance",
-      year: "2023",
-      institution: "Obesity & Weight Management Clinics",
-      participants: "234 participants followed for 12 months",
-      duration: "6-month treatment, 6-month follow-up",
-      findings: "Participants who used the peptide blend maintained 87% of initial weight loss 6 months after discontinuation. Metabolic rate remained elevated compared to baseline (6% above pre-treatment levels). Appetite control gradually normalized but remained improved vs. untreated controls.",
-      conclusion: "Multi-peptide weight management formulations support sustainable weight loss with improved metabolic retention compared to diet-only approaches, providing lasting benefits even after treatment discontinuation."
+      title: "KPV Anti-Inflammatory Activity via NF-κB Inhibition",
+      year: "2015",
+      institution: "Journal of Biological Chemistry / PLoS ONE (Kannengiesser et al.)",
+      participants: "In vitro and preclinical inflammatory bowel models",
+      duration: "Controlled preclinical studies",
+      findings: "KPV demonstrated significant anti-inflammatory activity by directly entering cells and inhibiting NF-κB activation, reducing production of pro-inflammatory cytokines including TNF-α, IL-6, and IL-1β. In colitis models, KPV reduced inflammation scores and improved mucosal healing. The peptide showed efficacy both through systemic and oral administration routes, with anti-inflammatory effects comparable to established treatments but without immunosuppressive side effects.",
+      conclusion: "KPV represents a targeted anti-inflammatory peptide with a favorable safety profile, acting through NF-κB modulation rather than broad immunosuppression. Its efficacy in intestinal inflammation models supports its inclusion in multi-peptide healing formulations."
     }
   ],
-  safetyProfile: "KLOW has been formulated with safety as a priority, combining well-studied peptide components at research-grade concentrations. The blend is generally well-tolerated with minimal adverse effects reported in research settings. Some users may experience mild gastrointestinal adjustments during the first 1-2 weeks as appetite signaling normalizes, which typically resolves quickly. The peptide combination avoids targeting problematic pathways and focuses only on established physiological mechanisms. Individuals with a personal or family history of medullary thyroid carcinoma should not use this product. Always consult with qualified healthcare providers before use, particularly if taking medications affecting appetite or glucose metabolism.",
-  dosage: "Typical research protocols recommend starting with low doses and titrating upward over 2-4 weeks to optimize individual response. Most research studies employ doses of 0.5-2.4mg administered subcutaneously 5-7 times per week, depending on the specific study protocol and individual goals. Dosing is typically spread throughout the week for optimal satiety support. Administration timing relative to meals varies by protocol, with some studies using pre-meal dosing and others using consistent daily timing. Users should work within established research guidelines and medical supervision when appropriate.",
+  safetyProfile: "The KLOW blend combines four peptides with well-established preclinical safety profiles. BPC-157 has been studied extensively in animal models with no reported toxic dose identified (LD-1 not established due to absence of toxicity at tested doses). GHK-Cu is a naturally occurring human peptide present in plasma at approximately 200 ng/mL in young adults, declining with age. TB-500 (Thymosin Beta-4) is an endogenous peptide found naturally in wound fluid, blood platelets, and many cell types. KPV is derived from the naturally occurring hormone alpha-MSH. As with all research peptides, this blend is for laboratory and research use only. Researchers should follow established protocols and consult relevant safety literature. Individuals with known copper sensitivity should exercise caution with GHK-Cu-containing formulations.",
+  dosage: "Research protocols for multi-peptide healing blends vary by study design and target application. Individual component dosing in published research: BPC-157 has been studied at 1-10 μg/kg in preclinical models; TB-500 at 0.1-0.5 mg/kg loading with maintenance protocols; GHK-Cu at varying concentrations depending on delivery method (topical vs. subcutaneous); KPV at doses ranging from μg to low mg ranges in preclinical studies. Blend ratios and total dosing should follow manufacturer specifications and established research guidelines. Subcutaneous administration is the most common route in research settings. Always reconstitute with bacteriostatic water using proper sterile technique.",
   keyBenefits: [
-    "Multi-peptide synergy for superior appetite suppression",
-    "Metabolic rate enhancement through complementary pathways",
-    "Preservation of lean muscle mass during weight loss",
-    "Improved insulin sensitivity and glucose control",
-    "Sustained appetite suppression with normalized ghrelin and enhanced GLP-1",
-    "Enhanced thermogenesis and resting energy expenditure",
-    "Research-backed formulation with proven efficacy",
-    "Comprehensive weight management support"
+    "Multi-pathway tissue repair via complementary healing mechanisms (BPC-157 + TB-500)",
+    "Potent anti-inflammatory action through NF-κB inhibition (KPV)",
+    "Enhanced collagen synthesis and tissue remodeling (GHK-Cu)",
+    "Accelerated wound healing through angiogenesis and cell migration",
+    "Gut mucosal protection and intestinal barrier support (BPC-157 + KPV)",
+    "Systemic cellular protection through actin regulation (TB-500)",
+    "Gene expression modulation toward regenerative patterns (GHK-Cu)",
+    "Broad-spectrum recovery support with naturally occurring peptide components"
   ]
 };
 
@@ -199,7 +199,7 @@ export default function PeptideLearn() {
         
         // Check if this is KLOW blend
         const productNameUpper = foundProduct.name.toUpperCase();
-        if (productNameUpper === 'KLOW' || productNameUpper === 'KLOW80') {
+        if (productNameUpper === 'KLOW' || productNameUpper === 'KLOW80' || productNameUpper === 'KLOW BLEND' || productNameUpper.includes('KLOW')) {
           setIsBacWater(false);
           setPeptideData(KLOW_DATA);
         } else if (productNameUpper === 'BAC RESEARCH' || 

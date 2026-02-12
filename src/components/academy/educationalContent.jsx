@@ -383,9 +383,9 @@ export const EDUCATIONAL_CONTENT = {
     examples: [
       "BPC-157 + TB-500: Angiogenesis + cell migration for enhanced tissue repair",
       "CJC-1295 + Ipamorelin: Prolonged GH pulse + selective ghrelin activation",
-      "KLOW80 blend: KPV+GHK-Cu+BPC-157+TB-500 multi-pathway healing",
+      "KLOW blend (KPV+BPC-157+GHK-Cu+TB-500): Anti-inflammatory (NF-κB inhibition) + tissue repair (VEGF/NO) + collagen remodeling + cell migration (actin regulation)",
       "NAD+ stack: NMN + resveratrol + pterostilbene for sirtuin activation",
-      "Semaglutide + Tirzepatide: Dual incretin approach (GLP-1 + GIP)"
+      "Semaglutide OR Tirzepatide (NOT combined): GLP-1 agonism vs dual GLP-1/GIP agonism — these should NOT be stacked due to overlapping receptor activation and increased adverse effect risk"
     ],
     safety: "Combinations multiply potential interactions and side effects. Start with established single peptide doses. Monitor for unexpected interactions. Some combinations are antagonistic (avoid pairing).",
     commonMistakes: [
