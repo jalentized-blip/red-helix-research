@@ -87,7 +87,7 @@ const Hero = React.memo(() => {
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
             <Button 
               onClick={() => scrollTo('products')}
-              className="group bg-red-600 hover:bg-red-700 text-white px-8 md:px-10 py-6 md:py-8 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
+              className="group bg-[#dc2626] hover:bg-[#b91c1c] text-white px-8 md:px-10 py-6 md:py-8 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
             >
               <ShoppingBag className="w-5 md:w-6 h-5 md:h-6 mr-3 group-hover:rotate-12 transition-transform" />
               EXPLORE CATALOG
@@ -95,7 +95,7 @@ const Hero = React.memo(() => {
             <Button 
               variant="outline"
               onClick={() => scrollTo('certificates')}
-              className="bg-white border-2 border-red-600 text-red-600 hover:bg-red-50 px-8 md:px-10 py-6 md:py-8 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm"
+              className="bg-white border-2 border-[#dc2626] text-[#dc2626] hover:bg-red-50 px-8 md:px-10 py-6 md:py-8 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm"
             >
               VIEW LAB REPORTS
             </Button>
