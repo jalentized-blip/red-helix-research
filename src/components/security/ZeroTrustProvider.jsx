@@ -110,27 +110,18 @@ export function ZeroTrustProvider({ children }) {
     }
   }, [activityLog]);
 
-  // Log security events server-side
-  const logSecurityEvent = useCallback(async (eventType, data) => {
-    const event = {
-      type: eventType,
-      timestamp: Date.now(),
-      data,
-      path: location.pathname
-    };
-
+  // Log security events - fire-and-forget to avoid Promise leaking into React context
+  const logSecurityEvent = useCallback((eventType, data) => {
     // Send critical security events to server for persistent audit logging
     if (['SECURITY_ALERT', 'SESSION_EXPIRED', 'SUSPICIOUS_ACTIVITY'].includes(eventType)) {
-      try {
-        await base44.functions.invoke('logSecurityEvent', {
-          eventType,
-          data,
-          path: location.pathname,
-          timestamp: Date.now()
-        });
-      } catch {
+      base44.functions.invoke('logSecurityEvent', {
+        eventType,
+        data,
+        path: location.pathname,
+        timestamp: Date.now()
+      }).catch(() => {
         // Silently fail - don't disrupt user experience for logging
-      }
+      });
     }
   }, [location.pathname]);
 
