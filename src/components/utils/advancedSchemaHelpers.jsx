@@ -32,7 +32,7 @@ export const generateOrganizationSchema = () => ({
     }
   ],
   sameAs: [
-    'https://discord.gg/zdn52v73',
+    'https://discord.gg/BwQHufvmQ8',
     'https://t.me/Redhelixresearch',
     'https://www.tiktok.com/@redhelixresearch'
   ],
@@ -339,7 +339,7 @@ export const generateLocalBusinessSchema = () => ({
     availableLanguage: 'English'
   },
   sameAs: [
-    'https://discord.gg/zdn52v73',
+    'https://discord.gg/BwQHufvmQ8',
     'https://t.me/Redhelixresearch',
     'https://www.tiktok.com/@redhelixresearch'
   ],

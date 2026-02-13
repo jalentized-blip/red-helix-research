@@ -28,7 +28,7 @@ export default function Footer() {
               <a href="mailto:jake@redhelixresearch.com" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">
                 <Mail className="w-5 h-5" />
               </a>
-              <a href="https://discord.gg/zdn52v73" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">
+              <a href="https://discord.gg/BwQHufvmQ8" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">
                 <MessageCircle className="w-5 h-5" />
               </a>
               <a href="https://t.me/Redhelixresearch" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#dc2626] hover:border-[#dc2626]/30 hover:bg-white transition-all shadow-sm">

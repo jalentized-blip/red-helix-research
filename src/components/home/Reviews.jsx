@@ -95,7 +95,7 @@ export default function Reviews() {
           <p className="text-slate-500 font-medium mb-8">Access our complete research community and live tracking reports.</p>
           <Button 
             className="bg-[#5865F2] hover:bg-[#4752C4] text-white px-10 py-8 rounded-2xl font-black uppercase tracking-widest text-lg shadow-lg hover:shadow-[#5865F2]/20 transition-all hover:-translate-y-1"
-            onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}
+            onClick={() => window.open('https://discord.gg/BwQHufvmQ8', '_blank')}
           >
             <ExternalLink className="w-6 h-6 mr-3" />
             JOIN DISCORD REPOSITORY

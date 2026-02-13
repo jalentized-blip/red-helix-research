@@ -8,7 +8,7 @@ Deno.serve(async (req) => {
     }
 
     // Channel ID for #Customer-Reviews (need to fetch from Discord)
-    // Using the invite link: https://discord.gg/8V7d6PxS
+    // Using the invite link: https://discord.gg/BwQHufvmQ8
     // First, we need to get the guild and channel
     
     // For now, we'll use a direct approach - fetch messages from the channel

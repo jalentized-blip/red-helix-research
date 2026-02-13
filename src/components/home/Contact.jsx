@@ -25,7 +25,7 @@ const contactMethods = [
     label: "Discord",
     value: "Join our server",
     color: "bg-[#5865F2]/20 text-[#5865F2] hover:bg-[#5865F2]/30",
-    link: "https://discord.gg/zdn52v73"
+    link: "https://discord.gg/BwQHufvmQ8"
   },
   {
     icon: Send,

@@ -105,7 +105,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-[#dc2626]/30 transition-all cursor-pointer" onClick={() => window.open('https://discord.gg/s78Jeajp', '_blank')}>
+                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-[#dc2626]/30 transition-all cursor-pointer" onClick={() => window.open('https://discord.gg/BwQHufvmQ8', '_blank')}>
                   <div className="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <MessageCircle className="w-6 h-6 text-[#dc2626]" />
                   </div>
