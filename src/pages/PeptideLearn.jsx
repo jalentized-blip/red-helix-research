@@ -1716,13 +1716,11 @@ export default function PeptideLearn() {
         const decodedName = decodeURIComponent(productNameParam);
         foundProduct = products.find(p => p.name === productNameParam || p.name === decodedName);
       }
-      console.log('[PeptideLearn] productId:', productId, 'productNameParam:', productNameParam, 'foundProduct:', foundProduct?.name, 'products count:', products.length);
       if (foundProduct) {
         setProduct(foundProduct);
 
         // Check for hardcoded data matches
         const productNameUpper = foundProduct.name.toUpperCase().trim();
-        console.log('[PeptideLearn] Looking up:', productNameUpper, 'exactMatch:', !!PEPTIDE_DATA_MAP[productNameUpper]);
 
         if (productNameUpper.includes('KLOW')) {
           setIsBacWater(false);
