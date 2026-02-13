@@ -15,6 +15,7 @@ const PROMO_CODES: Record<string, { discount: number; label: string; isAffiliate
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
   'GOMIE15': { discount: 0.15, label: '15% off', isAffiliate: true },
   'CJ15': { discount: 0.15, label: '15% off', isAffiliate: true },
+  'INDO88': { discount: 0.10, label: '10% off' },
 };
 
 const SHIPPING_COST = 15.00;
