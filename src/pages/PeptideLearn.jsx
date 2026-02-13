@@ -1701,6 +1701,7 @@ export default function PeptideLearn() {
 
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
+  const productNameParam = params.get('name');
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
@@ -1709,12 +1710,19 @@ export default function PeptideLearn() {
 
   useEffect(() => {
     const findAndLoadProduct = async () => {
-      const foundProduct = products.find(p => p.id === productId && p.in_stock && !p.hidden);
+      // Match by ID (loose equality to handle string/number mismatch), fall back to name match
+      let foundProduct = products.find(p => String(p.id) === String(productId));
+      if (!foundProduct && productNameParam) {
+        const decodedName = decodeURIComponent(productNameParam);
+        foundProduct = products.find(p => p.name === productNameParam || p.name === decodedName);
+      }
+      console.log('[PeptideLearn] productId:', productId, 'productNameParam:', productNameParam, 'foundProduct:', foundProduct?.name, 'products count:', products.length);
       if (foundProduct) {
         setProduct(foundProduct);
-        
+
         // Check for hardcoded data matches
         const productNameUpper = foundProduct.name.toUpperCase().trim();
+        console.log('[PeptideLearn] Looking up:', productNameUpper, 'exactMatch:', !!PEPTIDE_DATA_MAP[productNameUpper]);
 
         if (productNameUpper.includes('KLOW')) {
           setIsBacWater(false);
