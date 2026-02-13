@@ -7,19 +7,19 @@ import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, F
 import SEO from '@/components/SEO';
 import { generateProductSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema, generateMedicalWebPageSchema } from '@/components/utils/advancedSchemaHelpers';
 
-export default function ProductTirzepatide() {
+export default function ProductTRZ() {
   const [selectedStrength, setSelectedStrength] = useState(null);
 
   const breadcrumbs = [
     { name: 'Home', url: '/' },
     { name: 'Research Peptides', url: '/Products' },
-    { name: 'Tirzepatide', url: '/ProductTirzepatide' }
+    { name: 'TRZ', url: '/ProductTRZ' }
   ];
 
   const product = {
-    name: 'Tirzepatide',
-    fullName: 'Tirzepatide (Research Grade)',
-    description: 'Premium research-grade tirzepatide peptide with verified third-party COA',
+    name: 'TRZ',
+    fullName: 'TRZ (Research Grade)',
+    description: 'Premium research-grade TRZ peptide with verified third-party COA',
     image: 'https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png',
     price_from: 119.99,
     specifications: [
@@ -34,7 +34,7 @@ export default function ProductTirzepatide() {
   const reconstitutionSteps = [
     {
       title: 'Prepare Workspace',
-      description: 'Gather tirzepatide vial, 1mL bacteriostatic water, insulin syringe, alcohol pads, and sterile 18-20 gauge needle on clean surface.'
+      description: 'Gather TRZ vial, 1mL bacteriostatic water, insulin syringe, alcohol pads, and sterile 18-20 gauge needle on clean surface.'
     },
     {
       title: 'Sterilize Vial Top',
@@ -45,8 +45,8 @@ export default function ProductTirzepatide() {
       description: 'Draw exactly 1.0mL (100 units) of USP-grade bacteriostatic water. Accuracy is critical for consistent results.'
     },
     {
-      title: 'Inject Into Tirzepatide',
-      description: 'Slowly inject water into tirzepatide vial at slight angle. Do NOT shake—allow 2-3 minutes for complete dissolution.'
+      title: 'Inject Into TRZ',
+      description: 'Slowly inject water into TRZ vial at slight angle. Do NOT shake—allow 2-3 minutes for complete dissolution.'
     },
     {
       title: 'Check Clarity',
@@ -60,39 +60,39 @@ export default function ProductTirzepatide() {
 
   const faqs = [
     {
-      question: 'What is tirzepatide and why do researchers study it?',
-      answer: 'Tirzepatide is a 39-amino-acid dual GLP-1/GIP receptor agonist peptide. Researchers study it for metabolic regulation, dual-pathway endocrine signaling, glucose homeostasis, appetite suppression mechanisms, and weight regulation pathways. It\'s more complex than single-pathway peptides like semaglutide.'
+      question: 'What is TRZ and why do researchers study it?',
+      answer: 'TRZ is a 39-amino-acid dual GLP-1/GIP receptor agonist peptide. Researchers study it for metabolic regulation, dual-pathway endocrine signaling, glucose homeostasis, appetite suppression mechanisms, and weight regulation pathways. It\'s more complex than single-pathway peptides like semaglutide.'
     },
     {
-      question: 'How is tirzepatide different from semaglutide?',
-      answer: 'Tirzepatide activates both GLP-1 and GIP (glucose-dependent insulinotropic polypeptide) receptors, while semaglutide targets only GLP-1. This dual-pathway mechanism makes tirzepatide valuable for studying compound metabolic effects and provides broader endocrine pathway research opportunities.'
+      question: 'How is TRZ different from semaglutide?',
+      answer: 'TRZ activates both GLP-1 and GIP (glucose-dependent insulinotropic polypeptide) receptors, while semaglutide targets only GLP-1. This dual-pathway mechanism makes TRZ valuable for studying compound metabolic effects and provides broader endocrine pathway research opportunities.'
     },
     {
-      question: 'Is tirzepatide third-party tested?',
+      question: 'Is TRZ third-party tested?',
       answer: 'Yes, extensively. Every batch undergoes HPLC purity verification (>98%), mass spectrometry confirmation of the 39-amino-acid sequence, sterility and microbial screening, and endotoxin testing. Full Certificate of Analysis included with every order.'
     },
     {
-      question: 'What is the proper tirzepatide concentration?',
-      answer: 'Reconstitute 5mg tirzepatide with 1.0mL bacteriostatic water for 5,000mcg/mL concentration (250mcg per 100-unit insulin syringe mark). Use our Peptide Calculator to adjust water volume for different target concentrations.'
+      question: 'What is the proper TRZ concentration?',
+      answer: 'Reconstitute 5mg TRZ with 1.0mL bacteriostatic water for 5,000mcg/mL concentration (250mcg per 100-unit insulin syringe mark). Use our Peptide Calculator to adjust water volume for different target concentrations.'
     },
     {
-      question: 'How stable is reconstituted tirzepatide?',
-      answer: 'Properly reconstituted tirzepatide stored at 2-8°C is stable for 30+ days. Bacteriostatic water prevents bacterial contamination. Do not freeze, as this degrades the peptide. Store away from light when possible using amber vials.'
+      question: 'How stable is reconstituted TRZ?',
+      answer: 'Properly reconstituted TRZ stored at 2-8°C is stable for 30+ days. Bacteriostatic water prevents bacterial contamination. Do not freeze, as this degrades the peptide. Store away from light when possible using amber vials.'
     },
     {
-      question: 'What research applications use tirzepatide?',
-      answer: 'Researchers study tirzepatide for dual GLP-1/GIP receptor pathways, metabolic regulation via multiple mechanisms, glucose homeostasis, appetite signaling, weight regulation, endocrine system response, insulin secretion, and comparative efficacy studies versus single-pathway agonists.'
+      question: 'What research applications use TRZ?',
+      answer: 'Researchers study TRZ for dual GLP-1/GIP receptor pathways, metabolic regulation via multiple mechanisms, glucose homeostasis, appetite signaling, weight regulation, endocrine system response, insulin secretion, and comparative efficacy studies versus single-pathway agonists.'
     }
   ];
 
   const schemas = [
     generateProductSchema(product),
-    generateHowToSchema('How to Reconstitute Tirzepatide', reconstitutionSteps),
+    generateHowToSchema('How to Reconstitute TRZ', reconstitutionSteps),
     generateFAQSchema(faqs),
     generateBreadcrumbSchema(breadcrumbs),
     generateMedicalWebPageSchema({
-      title: 'Tirzepatide Dual Agonist Research Data',
-      description: 'Technical research data, chemical properties, and handling protocols for Tirzepatide peptide.'
+      title: 'TRZ Dual Agonist Research Data',
+      description: 'Technical research data, chemical properties, and handling protocols for TRZ peptide.'
     })
   ];
 
@@ -105,9 +105,9 @@ export default function ProductTirzepatide() {
       </div>
 
       <SEO
-        title="Buy Tirzepatide Research Peptide USA | Dual GLP-1/GIP Agonist | Red Helix Research"
-        description="Premium research-grade tirzepatide with verified COA. Dual GLP-1/GIP agonist for metabolic research. 5mg, 10mg, 30mg bulk. USA supplier."
-        keywords="tirzepatide research, buy tirzepatide, tirzepatide peptide, GLP-1 GIP agonist, dual-pathway peptide, metabolic research peptide"
+        title="Buy TRZ Research Peptide USA | Dual GLP-1/GIP Agonist | Red Helix Research"
+        description="Premium research-grade TRZ with verified COA. Dual GLP-1/GIP agonist for metabolic research. 5mg, 10mg, 30mg bulk. USA supplier."
+        keywords="TRZ research, buy TRZ, TRZ peptide, GLP-1 GIP agonist, dual-pathway peptide, metabolic research peptide"
         schema={schemas}
       />
 
@@ -140,7 +140,7 @@ export default function ProductTirzepatide() {
                   Purity Verified
                 </h3>
                 <p className="text-slate-600 text-xs md:text-sm leading-relaxed font-medium">
-                  Every batch of Tirzepatide undergoes rigorous HPLC and MS testing to ensure >98% purity and correct sequence identity.
+                  Every batch of TRZ undergoes rigorous HPLC and MS testing to ensure >98% purity and correct sequence identity.
                 </p>
               </div>
               <div className="bg-slate-50 border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8">
@@ -331,7 +331,7 @@ export default function ProductTirzepatide() {
               Ready to Initiate <span className="text-[#dc2626]">Protocol?</span>
             </h3>
             <p className="text-slate-600 font-bold mb-8 md:mb-10 leading-relaxed uppercase tracking-wide text-[10px] md:text-sm">
-              All Tirzepatide orders include serialized COA verification and priority cold-chain shipping options.
+              All TRZ orders include serialized COA verification and priority cold-chain shipping options.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Link to={createPageUrl('Home')}>

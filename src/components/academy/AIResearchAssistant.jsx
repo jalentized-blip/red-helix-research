@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 const SUGGESTED_PROMPTS = [
   'Explain how BPC-157 promotes tissue repair',
   'What is the proper reconstitution protocol?',
-  'Compare Semaglutide vs Tirzepatide for metabolic research',
+  'Compare SM vs TRZ for metabolic research',
   'How does TB-500 work for tissue recovery?',
   'What are the benefits of CJC/Ipamorelin blend?',
   'Explain NAD+ mechanisms for cellular health'
@@ -93,8 +93,8 @@ What would you like to learn about today?`
 Available Research Peptides Knowledge Base:
 
 **Weight Loss & Metabolic:**
-- Semaglutide (GLP-1 agonist): Activates GLP-1 receptors, regulates insulin secretion, slows gastric emptying, affects appetite centers. ~4,113 Da, 31 AA.
-- Tirzepatide (GLP-1/GIP dual agonist): Dual receptor activation for enhanced metabolic effects. ~4,672 Da, 39 AA. Do NOT combine with Semaglutide — overlapping receptor activation.
+- SM / Semaglutide (GLP-1 agonist): Activates GLP-1 receptors, regulates insulin secretion, slows gastric emptying, affects appetite centers. ~4,113 Da, 31 AA.
+- TRZ / Tirzepatide (GLP-1/GIP dual agonist): Dual receptor activation for enhanced metabolic effects. ~4,672 Da, 39 AA. Do NOT combine with SM — overlapping receptor activation.
 - AOD-9604: Modified hGH fragment (177-191) targeting beta-3 adrenergic lipolysis without IGF-1 elevation. ~1,817 Da, 16 AA. TGA-listed in Australia for osteoarthritis.
 - MOTS-c: Mitochondrial-derived peptide (MDP), exercise mimetic via AMPK activation, metabolic regulation. ~2,174 Da, 16 AA. Discovered by Lee lab at USC.
 
@@ -140,7 +140,7 @@ Available Research Peptides Knowledge Base:
 - KLOW Blend (KPV+BPC-157+GHK-Cu+TB-500): Multi-pathway healing blend combining anti-inflammatory (KPV via NF-κB inhibition), localized tissue repair (BPC-157 via VEGF/NO system), collagen synthesis and gene expression modulation (GHK-Cu), and systemic cell migration/protection (TB-500 via actin regulation)
 
 **Key Contraindications:**
-- Semaglutide + Tirzepatide: NEVER combine — overlapping GLP-1 receptor activation increases adverse effects
+- SM + TRZ (Semaglutide + Tirzepatide): NEVER combine — overlapping GLP-1 receptor activation increases adverse effects
 - PT-141 + Melanotan II: NEVER combine — excessive melanocortin receptor activation
 - Kisspeptin-10 + Gonadorelin: MODERATE caution — both stimulate GnRH pathways
 

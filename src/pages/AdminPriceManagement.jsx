@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 
 // New prices from the CSV - January 2026 pricing update
 const NEW_PRICES = {
-  'Tirzepatide': {
+  'TRZ': {
     '5mg x 10 vials': 80,
     '10mg x 10 vials': 100,
     '15mg x 10 vials': 120,
@@ -22,7 +22,7 @@ const NEW_PRICES = {
     '50mg x 10 vials': 200,
     '60mg x 10 vials': 220,
   },
-  'Retatrutide': {
+  'RT': {
     '5mg x 10 vials': 100,
     '10mg x 10 vials': 135,
     '12mg x 10 vials': 145,
@@ -33,7 +33,7 @@ const NEW_PRICES = {
     '50mg x 10 vials': 330,
     '60mg x 10 vials': 360,
   },
-  'Semaglutide': {
+  'SM': {
     '5mg x 10 vials': 80,
     '10mg x 10 vials': 95,
     '15mg x 10 vials': 110,

@@ -30,7 +30,7 @@ const QUIZ_QUESTIONS = [
   },
   {
     question: "Which peptide is known for its stability in gastric acid?",
-    options: ["TB-500", "BPC-157", "CJC-1295", "Semaglutide"],
+    options: ["TB-500", "BPC-157", "CJC-1295", "SM"],
     correct: 1,
     explanation: "BPC-157 is uniquely stable in gastric juice, which is why it has been studied for oral applications in research."
   }

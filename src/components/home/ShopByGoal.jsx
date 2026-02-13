@@ -6,9 +6,9 @@ import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
 
 const peptideInfo = {
-  "Retatrutide": "Triple agonist targeting GLP-1, GIP, and glucagon receptors for advanced metabolic research",
-  "Tirzepatide": "Dual GIP/GLP-1 receptor agonist for metabolic and weight management studies",
-  "Semaglutide": "GLP-1 receptor agonist used in diabetes and obesity research",
+  "RT": "Triple agonist targeting GLP-1, GIP, and glucagon receptors for advanced metabolic research",
+  "TRZ": "Dual GIP/GLP-1 receptor agonist for metabolic and weight management studies",
+  "SM": "GLP-1 receptor agonist used in diabetes and obesity research",
   "BPC 157": "Body Protection Compound for tissue repair and gut healing research",
   "TB500": "Thymosin Beta-4 fragment promoting cellular migration and wound healing",
   "BPC 157 + TB500": "Synergistic blend combining tissue repair and healing properties",
@@ -26,7 +26,7 @@ const goals = [
     title: "Weight Loss",
     description: "GLP-1 agonists and metabolic peptides for body composition research",
     icon: Scale,
-    products: ["Retatrutide", "Tirzepatide", "Semaglutide"],
+    products: ["RT", "TRZ", "SM"],
     gradient: "from-[#dc2626]/5 to-[#dc2626]/10",
     iconColor: "text-[#dc2626]"
   },

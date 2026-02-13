@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const GLP1_FORMULAS = [
-  { formula: 'C257H386N64O78S6', name: 'Semaglutide' },
-  { formula: 'C301H460N72O87S6', name: 'Tirzepatide' },
-  { formula: 'C248H382N62O75S5', name: 'Retatrutide' },
+  { formula: 'C257H386N64O78S6', name: 'SM' },
+  { formula: 'C301H460N72O87S6', name: 'TRZ' },
+  { formula: 'C248H382N62O75S5', name: 'RT' },
   { formula: 'C256H384N63O77S6', name: 'Liraglutide' },
   { formula: 'C287H418N70O82S6', name: 'Dulaglutide' },
 ];

@@ -113,7 +113,7 @@ CONVERSATION INTELLIGENCE & CONTEXT:
 You have perfect memory of this entire conversation. Analyze the full context below to understand:
 - What peptides we've already discussed
 - Follow-up questions (if they say "what about storage?" after discussing BPC-157, they mean BPC-157 storage)
-- Implied references (if they say "how much should I use?" after we talked about Semaglutide, they're asking about Semaglutide dosing)
+- Implied references (if they say "how much should I use?" after we talked about SM, they're asking about SM dosing)
 - Conversation flow and natural topic transitions
 - User's level of knowledge and adjust explanations accordingly
 

@@ -212,8 +212,8 @@ const PEPTIDE_RESEARCH_DATA = {
     contraindications: [],
     clinicalNotes: 'Systemic peptide with broad cellular protection mechanisms. Strong clinical evidence for comprehensive recovery and systemic health improvement.'
   },
-  'Semaglutide': {
-    fullName: 'Semaglutide (Research Grade)',
+  'SM': {
+    fullName: 'SM (Semaglutide - Research Grade)',
     description: 'GLP-1 receptor agonist analog for comprehensive metabolic and endocrine research',
     molecularWeight: '~4,113 Da',
     aminoAcids: 31,
@@ -231,12 +231,12 @@ const PEPTIDE_RESEARCH_DATA = {
       'Inflammation Markers': { score: 6, studies: 'Secondary anti-inflammatory effects in metabolic disease' }
     },
     contraindications: [
-      { peptide: 'Tirzepatide', severity: 'HIGH', reason: 'Combining two GLP-1 pathway agonists significantly increases risk of adverse effects. Dual GLP-1 activation can cause severe nausea, vomiting, pancreatitis risk, and hypoglycemia. No clinical evidence supports this combination.' }
+      { peptide: 'TRZ', severity: 'HIGH', reason: 'Combining two GLP-1 pathway agonists significantly increases risk of adverse effects. Dual GLP-1 activation can cause severe nausea, vomiting, pancreatitis risk, and hypoglycemia. No clinical evidence supports this combination.' }
     ],
     clinicalNotes: 'Metabolic and endocrine focused peptide. Proven clinical efficacy for glucose regulation, weight management, and cardiovascular health. Well-established safety profile in human studies.'
   },
-  'Tirzepatide': {
-    fullName: 'Tirzepatide (Research Grade)',
+  'TRZ': {
+    fullName: 'TRZ (Tirzepatide - Research Grade)',
     description: 'Dual GLP-1 and GIP receptor agonist for comprehensive metabolic research',
     molecularWeight: '~4,672 Da',
     aminoAcids: 39,
@@ -254,7 +254,7 @@ const PEPTIDE_RESEARCH_DATA = {
       'Digestive Wellness': { score: 6, studies: 'GI health improvement in metabolic disease research' }
     },
     contraindications: [
-      { peptide: 'Semaglutide', severity: 'HIGH', reason: 'Combining two GLP-1 pathway agonists significantly increases risk of adverse effects. Dual GLP-1 activation can cause severe nausea, vomiting, pancreatitis risk, and hypoglycemia. No clinical evidence supports this combination.' }
+      { peptide: 'SM', severity: 'HIGH', reason: 'Combining two GLP-1 pathway agonists significantly increases risk of adverse effects. Dual GLP-1 activation can cause severe nausea, vomiting, pancreatitis risk, and hypoglycemia. No clinical evidence supports this combination.' }
     ],
     clinicalNotes: 'Advanced dual-receptor metabolic peptide. Clinical evidence demonstrates superior efficacy to GLP-1 monotherapy. Strong safety profile in human studies with proven metabolic benefits.'
   },
@@ -605,8 +605,8 @@ const PEPTIDE_USAGE_TYPE = {
   'Gonadorelin': { type: 'CYCLE_BASED', duration: '8-12 week cycles', protocol: 'Multiple daily injections' },
   'KPV': { type: 'LONG_TERM', duration: '8-12 weeks continuous', protocol: 'Daily or every other day' },
   'Oxytocin': { type: 'CYCLE_BASED', duration: '4-8 week cycles', protocol: '1-2x daily nasal spray or injection' },
-  'Semaglutide': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' },
-  'Tirzepatide': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' },
+  'SM': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' },
+  'TRZ': { type: 'LONG_TERM', duration: 'Ongoing long-term use', protocol: 'Weekly injection protocol for sustained metabolic benefits' },
   'PT-141': { type: 'CYCLE_BASED', duration: 'As-needed (max 8x/month per FDA)', protocol: 'Single dose 45 min before activity, no more than once per 24 hours' },
   'Semax': { type: 'CYCLE_BASED', duration: '10-20 day cycles with breaks', protocol: 'Intranasal 2-3x daily, 200-600mcg per dose' },
   'Selank': { type: 'CYCLE_BASED', duration: '14-21 day cycles with breaks', protocol: 'Intranasal 2-3x daily, 250-500mcg per dose' },
@@ -638,8 +638,8 @@ const SAFE_STACKS = {
         usageCompatibility: true
       },
       {
-        peptide: 'Semaglutide',
-        protocol: 'Semaglutide (weekly) + BPC-157 (daily): Recovery + metabolic management. Extended BPC-157 cycle paired with Semaglutide for weight management. Common in comprehensive health protocols.',
+        peptide: 'SM',
+        protocol: 'SM (weekly) + BPC-157 (daily): Recovery + metabolic management. Extended BPC-157 cycle paired with SM for weight management. Common in comprehensive health protocols.',
         compatibilityReason: 'Separate pathways - repair focused vs metabolic focused',
         usageCompatibility: true
       }
@@ -654,18 +654,18 @@ const SAFE_STACKS = {
         usageCompatibility: true
       },
       {
-        peptide: 'Tirzepatide',
-        protocol: 'TB-500 (2x weekly, 8-12 week cycles) + Tirzepatide (weekly, long-term): Comprehensive protocol for recovery + metabolic health. TB-500 cycles support tissue while Tirzepatide maintains metabolic benefits.',
+        peptide: 'TRZ',
+        protocol: 'TB-500 (2x weekly, 8-12 week cycles) + TRZ (weekly, long-term): Comprehensive protocol for recovery + metabolic health. TB-500 cycles support tissue while TRZ maintains metabolic benefits.',
         compatibilityReason: 'Cellular repair complemented by metabolic optimization',
         usageCompatibility: true
       }
     ]
   },
-  'Semaglutide': {
+  'SM': {
     compatible: [
       {
         peptide: 'BPC-157',
-        protocol: 'Semaglutide (weekly) + BPC-157 (daily): Metabolic + recovery support. Long-term Semaglutide protocol paired with continuous BPC-157 for systemic wellness. High patient satisfaction in clinical reports.',
+        protocol: 'SM (weekly) + BPC-157 (daily): Metabolic + recovery support. Long-term SM protocol paired with continuous BPC-157 for systemic wellness. High patient satisfaction in clinical reports.',
         compatibilityReason: 'No known contraindications. Different biological targets.',
         usageCompatibility: true
       }

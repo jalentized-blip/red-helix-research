@@ -6,7 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const certificates = [
   {
-    peptide: "Retatrutide 10mg",
+    peptide: "RT 10mg",
     batch: "K748--001",
     purity: "99.044%",
     testDate: "26 NOV 2025",
@@ -14,7 +14,7 @@ const certificates = [
     imageUrl: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/b2321e104_image.png"
   },
   {
-    peptide: "Retatrutide 30mg",
+    peptide: "RT 30mg",
     batch: "K748--002",
     purity: "99.728%",
     testDate: "26 NOV 2025",
@@ -22,7 +22,7 @@ const certificates = [
     imageUrl: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/50426b7a5_image.png"
   },
   {
-    peptide: "Tirzepatide 30mg",
+    peptide: "TRZ 30mg",
     batch: "K748--003",
     purity: "99.828%",
     testDate: "26 NOV 2025",
@@ -30,7 +30,7 @@ const certificates = [
     imageUrl: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/d0d65d460_image.png"
   },
   {
-    peptide: "Tirzepatide 60mg",
+    peptide: "TRZ 60mg",
     batch: "K748--004",
     purity: "99.742%",
     testDate: "26 NOV 2025",
@@ -38,7 +38,7 @@ const certificates = [
     imageUrl: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6972f2b59e2787f045b7ae0d/5207fb61b_image.png"
   },
   {
-    peptide: "Retatrutide 10mg",
+    peptide: "RT 10mg",
     batch: "R10260104-300",
     purity: "99.251%",
     testDate: "19 JAN 2026",

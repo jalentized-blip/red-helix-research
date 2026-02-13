@@ -7,20 +7,20 @@ import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, F
 import SEO from '@/components/SEO';
 import { generateProductSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema, generateMedicalWebPageSchema } from '@/components/utils/advancedSchemaHelpers';
 
-export default function ProductSemaglutide() {
+export default function ProductSM() {
   const [selectedStrength, setSelectedStrength] = useState(null);
 
   // Breadcrumbs for SEO structure
   const breadcrumbs = [
     { name: 'Home', url: '/' },
     { name: 'Research Peptides', url: '/Products' },
-    { name: 'Semaglutide', url: '/ProductSemaglutide' }
+    { name: 'SM', url: '/ProductSM' }
   ];
 
   const product = {
-    name: 'Semaglutide',
-    fullName: 'Semaglutide (Research Grade)',
-    description: 'Premium research-grade semaglutide peptide with verified third-party COA',
+    name: 'SM',
+    fullName: 'SM (Research Grade)',
+    description: 'Premium research-grade SM peptide with verified third-party COA',
     image: 'https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png',
     price_from: 89.99,
     specifications: [
@@ -35,11 +35,11 @@ export default function ProductSemaglutide() {
   const reconstitutionSteps = [
     {
       title: 'Gather Materials',
-      description: 'Prepare semaglutide vial, 1mL bacteriostatic water, insulin syringe, alcohol pads, and sterile 18-20 gauge needle.'
+      description: 'Prepare SM vial, 1mL bacteriostatic water, insulin syringe, alcohol pads, and sterile 18-20 gauge needle.'
     },
     {
       title: 'Sanitize Vial',
-      description: 'Thoroughly clean the rubber top of semaglutide vial with alcohol pad. Allow 30+ seconds for complete drying.'
+      description: 'Thoroughly clean the rubber top of SM vial with alcohol pad. Allow 30+ seconds for complete drying.'
     },
     {
       title: 'Draw Water Precisely',
@@ -47,7 +47,7 @@ export default function ProductSemaglutide() {
     },
     {
       title: 'Inject Into Vial',
-      description: 'Slowly inject bacteriostatic water into semaglutide vial at a slight angle. Do NOT shake—allow 2-3 minutes for dissolution.'
+      description: 'Slowly inject bacteriostatic water into SM vial at a slight angle. Do NOT shake—allow 2-3 minutes for dissolution.'
     },
     {
       title: 'Verify Solution Clarity',
@@ -55,45 +55,45 @@ export default function ProductSemaglutide() {
     },
     {
       title: 'Refrigerate Immediately',
-      description: 'Store reconstituted semaglutide at 2-8°C. Stable for 30+ days. Keep away from direct light exposure.'
+      description: 'Store reconstituted SM at 2-8°C. Stable for 30+ days. Keep away from direct light exposure.'
     }
   ];
 
   const faqs = [
     {
-      question: 'What is semaglutide and why is it used in research?',
-      answer: 'Semaglutide is a 31-amino-acid synthetic peptide analog of GLP-1 (glucagon-like peptide-1). Researchers study it for metabolic regulation, glucose control, appetite signaling mechanisms, and endocrine system function. It\'s valuable for understanding how GLP-1 receptors modulate metabolism.'
+      question: 'What is SM and why is it used in research?',
+      answer: 'SM is a 31-amino-acid synthetic peptide analog of GLP-1 (glucagon-like peptide-1). Researchers study it for metabolic regulation, glucose control, appetite signaling mechanisms, and endocrine system function. It\'s valuable for understanding how GLP-1 receptors modulate metabolism.'
     },
     {
-      question: 'How does semaglutide differ from other peptides?',
-      answer: 'Semaglutide is a synthetic analog (not naturally occurring like BPC-157 or TB-500) designed to activate GLP-1 receptors. Its primary focus is metabolic and endocrine research rather than tissue repair or cellular protection. It\'s studied for its effects on glucose metabolism and appetite regulation.'
+      question: 'How does SM differ from other peptides?',
+      answer: 'SM is a synthetic analog (not naturally occurring like BPC-157 or TB-500) designed to activate GLP-1 receptors. Its primary focus is metabolic and endocrine research rather than tissue repair or cellular protection. It\'s studied for its effects on glucose metabolism and appetite regulation.'
     },
     {
-      question: 'Is your semaglutide third-party tested?',
+      question: 'Is your SM third-party tested?',
       answer: 'Yes. Every batch undergoes rigorous testing: HPLC purity verification (>98%), mass spectrometry confirmation of the 31-amino-acid sequence, sterility and microbial screening, and endotoxin testing. Full Certificate of Analysis included with every order.'
     },
     {
-      question: 'What is the recommended semaglutide concentration?',
-      answer: 'Reconstitute 5mg semaglutide with 1.0mL bacteriostatic water for 5,000mcg/mL concentration (250mcg per 100-unit insulin syringe mark). Use our Peptide Calculator to adjust for different volumes or target concentrations.'
+      question: 'What is the recommended SM concentration?',
+      answer: 'Reconstitute 5mg SM with 1.0mL bacteriostatic water for 5,000mcg/mL concentration (250mcg per 100-unit insulin syringe mark). Use our Peptide Calculator to adjust for different volumes or target concentrations.'
     },
     {
-      question: 'How long is reconstituted semaglutide stable?',
-      answer: 'Properly reconstituted semaglutide stored at 2-8°C is stable for 30+ days. Bacteriostatic water prevents bacterial growth. Do not freeze, as this damages the peptide structure. Store away from light when possible using amber vials.'
+      question: 'How long is reconstituted SM stable?',
+      answer: 'Properly reconstituted SM stored at 2-8°C is stable for 30+ days. Bacteriostatic water prevents bacterial growth. Do not freeze, as this damages the peptide structure. Store away from light when possible using amber vials.'
     },
     {
-      question: 'What research applications is semaglutide used for?',
-      answer: 'Researchers study semaglutide for GLP-1 receptor pathway function, metabolic regulation, glucose homeostasis, appetite signaling mechanisms, endocrine system response, and cellular glucose uptake pathways. It\'s particularly valuable in metabolic and endocrine research.'
+      question: 'What research applications is SM used for?',
+      answer: 'Researchers study SM for GLP-1 receptor pathway function, metabolic regulation, glucose homeostasis, appetite signaling mechanisms, endocrine system response, and cellular glucose uptake pathways. It\'s particularly valuable in metabolic and endocrine research.'
     }
   ];
 
   const schemas = [
     generateProductSchema(product),
-    generateHowToSchema('How to Reconstitute Semaglutide', reconstitutionSteps),
+    generateHowToSchema('How to Reconstitute SM', reconstitutionSteps),
     generateFAQSchema(faqs),
     generateBreadcrumbSchema(breadcrumbs),
     generateMedicalWebPageSchema({
-      title: 'Semaglutide GLP-1 Analog Research Data',
-      description: 'Technical research data, chemical properties, and handling protocols for Semaglutide peptide.'
+      title: 'SM GLP-1 Analog Research Data',
+      description: 'Technical research data, chemical properties, and handling protocols for SM peptide.'
     })
   ];
 
@@ -106,9 +106,9 @@ export default function ProductSemaglutide() {
       </div>
 
       <SEO
-        title="Buy Semaglutide Research Peptide USA | Lab-Tested GLP-1 Analog | Red Helix Research"
-        description="Premium research-grade semaglutide with verified COA. GLP-1 analog for metabolic and endocrine research. 5mg, 10mg, 30mg bulk. USA supplier."
-        keywords="semaglutide research, buy semaglutide, semaglutide peptide, GLP-1 analog, research peptide, metabolic research, lab-tested peptide"
+        title="Buy SM Research Peptide USA | Lab-Tested GLP-1 Analog | Red Helix Research"
+        description="Premium research-grade SM with verified COA. GLP-1 analog for metabolic and endocrine research. 5mg, 10mg, 30mg bulk. USA supplier."
+        keywords="SM research, buy SM, SM peptide, GLP-1 analog, research peptide, metabolic research, lab-tested peptide"
         schema={schemas}
       />
 
@@ -141,7 +141,7 @@ export default function ProductSemaglutide() {
                   Purity Verified
                 </h3>
                 <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                  Every batch of Semaglutide undergoes rigorous HPLC and MS testing to ensure >98% purity and correct sequence identity.
+                  Every batch of SM undergoes rigorous HPLC and MS testing to ensure >98% purity and correct sequence identity.
                 </p>
               </div>
               <div className="bg-slate-50 border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8">
@@ -332,7 +332,7 @@ export default function ProductSemaglutide() {
               Ready to Initiate <span className="text-[#dc2626]">Protocol?</span>
             </h3>
             <p className="text-slate-600 font-bold mb-8 md:mb-10 leading-relaxed uppercase tracking-wide text-[10px] md:text-sm">
-              All Semaglutide orders include serialized COA verification and priority cold-chain shipping options.
+              All SM orders include serialized COA verification and priority cold-chain shipping options.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Link to={createPageUrl('Home')}>

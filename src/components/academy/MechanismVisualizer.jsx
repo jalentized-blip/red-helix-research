@@ -41,7 +41,7 @@ const MECHANISMS = [
   },
   {
     id: 'semaglutide',
-    name: 'Semaglutide',
+    name: 'SM',
     title: 'GLP-1 Metabolic Regulation',
     description: 'GLP-1 receptor agonist for metabolic research applications',
     pathways: [
@@ -77,7 +77,7 @@ const MECHANISMS = [
   },
   {
     id: 'tirzepatide',
-    name: 'Tirzepatide',
+    name: 'TRZ',
     title: 'Dual GLP-1/GIP Agonist',
     description: 'Dual incretin receptor activation for enhanced metabolic effects',
     pathways: [

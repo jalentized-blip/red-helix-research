@@ -29,10 +29,10 @@ const protocols = {
     name: 'Metabolic Optimization',
     icon: Scale,
     description: 'Targeted GLP-1/GIP/Glucagon receptor research pathways.',
-    primary: 'Retatrutide',
+    primary: 'RT',
     synergistic: [
-      { name: 'Tirzepatide', effect: 'Dual agonist reinforcement' },
-      { name: 'Semaglutide', effect: 'Established GLP-1 baseline' },
+      { name: 'TRZ', effect: 'Dual agonist reinforcement' },
+      { name: 'SM', effect: 'Established GLP-1 baseline' },
       { name: 'MOTS-c', effect: 'Mitochondrial biogenesis support' }
     ],
     stats: {
