@@ -1586,6 +1586,61 @@ const HGHFRAG_DATA = {
   ]
 };
 
+// Hardcoded data for Thymosin Alpha-1
+const TA1_DATA = {
+  overview: "Thymosin Alpha-1 (Tα1, Thymalfasin) is a naturally occurring 28-amino acid peptide originally isolated from thymic tissue (thymosin fraction 5) by Dr. Allan Goldstein at George Washington University. It is one of the most clinically validated immunomodulatory peptides, with regulatory approval in over 35 countries for hepatitis B and C treatment and as an immune adjuvant. Tα1 enhances both innate and adaptive immune responses by activating dendritic cells, natural killer cells, and T-lymphocytes through Toll-like receptor (TLR) signaling.",
+  potentialUses: [
+    { title: "Immune System Enhancement", description: "Thymosin Alpha-1 is a potent immune enhancer that activates multiple arms of the immune system. It promotes T-cell maturation, dendritic cell activation, and natural killer cell cytotoxicity without causing harmful inflammatory overactivation.", mechanism: "Activates Toll-like receptors TLR2, TLR9, and TLR3 on dendritic cells, promoting antigen presentation and T-cell priming. Enhances CD4+ helper and CD8+ cytotoxic T-cell differentiation and function. Stimulates NK cell activity through NKG2D receptor upregulation. Promotes IL-2, IFN-α, and IFN-γ production." },
+    { title: "Antiviral Immune Support", description: "Tα1 is approved in 35+ countries for chronic hepatitis B and C as both monotherapy and in combination with interferon-alpha. It enhances antiviral immunity without the severe side effects of high-dose interferon.", mechanism: "Enhances TLR-mediated innate antiviral responses, promotes virus-specific cytotoxic T-lymphocyte generation, and increases interferon production for antiviral defense. Restores immune competence in chronic viral infections where T-cell exhaustion has occurred." },
+    { title: "Vaccine Adjuvant", description: "Thymosin Alpha-1 enhances vaccine responses, particularly in immunocompromised populations such as elderly, dialysis patients, and transplant recipients who typically mount poor responses to vaccination.", mechanism: "Promotes dendritic cell maturation and antigen cross-presentation, enhancing the generation of antigen-specific memory T-cells and B-cell antibody responses. Increases seroconversion rates and antibody titers post-vaccination." },
+    { title: "Cancer Immunotherapy Support", description: "Tα1 has been studied as an immunomodulatory adjunct in cancer treatment, enhancing anti-tumor immunity and reducing chemotherapy-induced immunosuppression.", mechanism: "Activates tumor-specific cytotoxic T-cells and NK cells for tumor recognition and killing. Counteracts chemotherapy-induced lymphopenia by promoting thymic T-cell output. Reduces regulatory T-cell-mediated immunosuppression in the tumor microenvironment." }
+  ],
+  clinicalTrials: [
+    { title: "Thymosin Alpha-1 for Chronic Hepatitis B", year: "2009", institution: "Expert Opinion on Biological Therapy (Garaci et al.)", participants: "Meta-analysis of >1,500 patients across multiple RCTs", duration: "6-12 month treatment protocols", findings: "Tα1 monotherapy (1.6 mg subcutaneously twice weekly) achieved sustained virological response rates of 26-40% in chronic hepatitis B. Combination with interferon-alpha increased response rates to 50-65%. Tα1 was significantly better tolerated than interferon monotherapy.", conclusion: "Thymosin Alpha-1 is an effective antiviral immunomodulator for chronic hepatitis B with a superior safety profile to interferon, supporting its regulatory approval in 35+ countries." },
+    { title: "Thymosin Alpha-1 as Vaccine Adjuvant", year: "2014", institution: "Vaccine (Elsevier)", participants: "Elderly and immunocompromised subjects", duration: "Vaccination response studies", findings: "Tα1 co-administration with influenza and hepatitis B vaccines increased seroconversion rates by 15-30% in elderly and dialysis patients. Antibody titers were significantly higher in Tα1-treated groups. T-cell responses to vaccine antigens were enhanced.", conclusion: "Tα1 is an effective vaccine adjuvant that restores immune responsiveness in populations with impaired vaccination responses." },
+    { title: "Thymosin Alpha-1 in Critical Illness", year: "2020", institution: "Critical Care Medicine (Multiple centers)", participants: "Patients with sepsis and severe infections", duration: "7-14 day ICU treatment protocols", findings: "Tα1 treatment in sepsis reduced 28-day mortality, restored lymphocyte counts faster, and improved monocyte HLA-DR expression (a marker of immune competence). Benefits were most pronounced in patients with lymphopenia-associated immunosuppression.", conclusion: "Tα1 shows promise for immune restoration in sepsis-associated immunoparalysis, addressing an unmet need in critical care." }
+  ],
+  safetyProfile: "Thymosin Alpha-1 has one of the most extensive safety records of any peptide, with regulatory approval in 35+ countries and decades of clinical use. It is well-tolerated with side effects limited to mild injection site reactions. Unlike interferon, it does not cause flu-like symptoms, cytopenias, or psychiatric effects. It modulates rather than stimulates immune function, reducing risk of inflammatory overactivation. For research use only outside of approved indications.",
+  dosage: "Approved dose: 1.6 mg subcutaneously, administered twice weekly (3-4 days apart). Research protocols may use daily dosing for short periods. Available as lyophilized powder for reconstitution with bacteriostatic water. Store refrigerated at 2-8°C.",
+  keyBenefits: [
+    "Regulatory approval in 35+ countries for hepatitis B/C",
+    "Enhances both innate and adaptive immune responses",
+    "Activates dendritic cells, NK cells, and T-lymphocytes",
+    "Effective vaccine adjuvant for immunocompromised populations",
+    "Decades of clinical safety data with minimal side effects",
+    "Immune modulation without inflammatory overactivation",
+    "Supports anti-tumor immunity as immunotherapy adjunct",
+    "Naturally occurring thymic peptide with established pharmacology"
+  ]
+};
+
+// Hardcoded data for Adipotide
+const ADIPOTIDE_DATA = {
+  overview: "Adipotide (CKGGRAKDC-GG-D(KLAKLAK)₂, also called Prohibitin Targeting Peptide-1 or PTP-1) is a synthetic peptidomimetic developed at the University of Texas MD Anderson Cancer Center. It consists of a targeting peptide (CKGGRAKDC) that binds to prohibitin on the surface of blood vessels supplying white adipose tissue, linked to a pro-apoptotic peptide (D(KLAKLAK)₂) that destroys the targeted cells. Adipotide causes selective destruction of blood vessels feeding fat tissue, leading to fat cell death through ischemia.",
+  potentialUses: [
+    { title: "Targeted Fat Reduction", description: "Adipotide causes targeted destruction of the vasculature supplying white adipose tissue (WAT), leading to fat cell apoptosis through blood supply deprivation. This results in rapid, significant fat loss in preclinical studies.", mechanism: "The CKGGRAKDC targeting peptide binds prohibitin (PHB) expressed on endothelial cells of WAT vasculature. The fused D(KLAKLAK)₂ peptide then disrupts mitochondrial membranes of targeted endothelial cells, causing apoptosis. Loss of blood supply leads to downstream fat cell death (ischemic adipocyte apoptosis)." },
+    { title: "Obesity Research", description: "Adipotide produced dramatic weight loss in primate studies (up to 11% body weight in 4 weeks), making it one of the most potent anti-obesity compounds studied in non-human primates.", mechanism: "Selective vascular ablation in WAT compartments reduces total fat mass. The mechanism is distinct from metabolic approaches (appetite suppression, lipolysis) as it physically eliminates fat tissue vasculature." },
+    { title: "Metabolic Improvement", description: "Alongside fat loss, adipotide treatment improved insulin sensitivity and metabolic markers in obese primate models.", mechanism: "Reduction in visceral and subcutaneous WAT mass decreases adipokine-driven insulin resistance. Improved metabolic parameters are secondary to fat mass reduction rather than direct metabolic effects." }
+  ],
+  clinicalTrials: [
+    { title: "Adipotide in Obese Non-Human Primates", year: "2012", institution: "Science Translational Medicine (Barnhart et al., MD Anderson Cancer Center)", participants: "Obese rhesus macaques", duration: "4-week treatment study", findings: "Adipotide (0.5-2 mg/kg subcutaneously, every other day for 28 days) produced 7-11% body weight loss and 27-38% reduction in abdominal fat measured by MRI. BMI decreased significantly. Insulin sensitivity improved. Reversible renal changes were observed at higher doses.", conclusion: "Adipotide produces rapid, significant fat loss in primates through targeted vascular ablation, representing a novel mechanism for obesity treatment. Renal monitoring is important." },
+    { title: "Prohibitin Targeting for Vascular Ablation", year: "2004", institution: "Nature Medicine (Kolonin et al., UT MD Anderson)", participants: "Preclinical vascular targeting studies", duration: "Proof-of-concept studies", findings: "Prohibitin was identified as a vascular surface marker selectively expressed on WAT blood vessels. The CKGGRAKDC peptide specifically bound WAT vasculature, and coupling with a pro-apoptotic sequence produced selective fat tissue destruction.", conclusion: "Prohibitin-targeted vascular ablation is a viable strategy for selective fat tissue destruction, establishing the mechanism for Adipotide development." },
+    { title: "Adipotide Mechanism and Safety Assessment", year: "2014", institution: "Peptides (Elsevier)", participants: "Mechanistic and toxicology studies", duration: "Multi-dose safety evaluation", findings: "Adipotide's effects were confirmed as prohibitin-mediated vascular targeting. The primary safety concern was reversible proximal tubular changes in kidneys at higher doses, attributed to peptide renal clearance. No significant effects on non-adipose vasculature were observed at therapeutic doses.", conclusion: "Adipotide shows acceptable selectivity for adipose vasculature with manageable renal effects requiring dose optimization and monitoring." }
+  ],
+  safetyProfile: "Adipotide is an experimental compound with limited safety data primarily from primate studies. The main safety concern is reversible kidney changes (proximal tubular effects) due to renal peptide clearance. Renal function monitoring is essential. The compound has not undergone human clinical trials. This is a potent vascular-ablative agent — it physically destroys blood vessels in fat tissue. Strictly for research use only.",
+  dosage: "Primate research protocols: 0.5-1 mg/kg subcutaneously, administered every other day for 4-week cycles. Human-equivalent dosing has not been established. Due to the vascular-ablative mechanism, conservative dosing with renal monitoring is essential. Reconstitute with bacteriostatic water.",
+  keyBenefits: [
+    "Novel vascular targeting mechanism for fat reduction",
+    "7-11% body weight loss in 4 weeks in primate studies",
+    "27-38% abdominal fat reduction measured by MRI",
+    "Developed at MD Anderson Cancer Center",
+    "Published in Science Translational Medicine and Nature Medicine",
+    "Selective targeting of adipose tissue vasculature",
+    "Improved insulin sensitivity alongside fat loss",
+    "Distinct mechanism from metabolic/appetite-based approaches"
+  ]
+};
+
 // Lookup map for all hardcoded peptide data
 const PEPTIDE_DATA_MAP = {
   'BPC-157': BPC157_DATA, 'BPC 157': BPC157_DATA, 'BPC157': BPC157_DATA,
@@ -1610,7 +1665,7 @@ const PEPTIDE_DATA_MAP = {
   'AOD-9604': AOD9604_DATA, 'AOD 9604': AOD9604_DATA, 'AOD9604': AOD9604_DATA,
   'NAD+': NAD_DATA, 'NAD': NAD_DATA, 'NICOTINAMIDE ADENINE DINUCLEOTIDE': NAD_DATA,
   'PT-141': PT141_DATA, 'PT141': PT141_DATA, 'PT 141': PT141_DATA, 'BREMELANOTIDE': PT141_DATA,
-  'SS-31': SS31_DATA, 'SS31': SS31_DATA, 'ELAMIPRETIDE': SS31_DATA, 'BENDAVIA': SS31_DATA,
+  'SS-31': SS31_DATA, 'SS31': SS31_DATA, 'SS 31': SS31_DATA, 'ELAMIPRETIDE': SS31_DATA, 'BENDAVIA': SS31_DATA,
   'DIHEXA': DIHEXA_DATA,
   'P21': P21_DATA, 'P021': P21_DATA,
   'GHRP-2': GHRP2_DATA, 'GHRP2': GHRP2_DATA, 'GHRP 2': GHRP2_DATA, 'PRALMORELIN': GHRP2_DATA,
@@ -1622,9 +1677,14 @@ const PEPTIDE_DATA_MAP = {
   'KISSPEPTIN-10': KISSPEPTIN_DATA, 'KISSPEPTIN': KISSPEPTIN_DATA, 'KISSPEPTIN 10': KISSPEPTIN_DATA,
   'SERMORELIN': SERMORELIN_DATA, 'GRF 1-29': SERMORELIN_DATA,
   'TESAMORELIN': TESAMORELIN_DATA, 'EGRIFTA': TESAMORELIN_DATA,
-  'IGF-1 LR3': IGF1LR3_DATA, 'IGF1 LR3': IGF1LR3_DATA, 'IGF-1': IGF1LR3_DATA, 'IGF1': IGF1LR3_DATA, 'IGF-1LR3': IGF1LR3_DATA,
+  'IGF-1 LR3': IGF1LR3_DATA, 'IGF1 LR3': IGF1LR3_DATA, 'IGF-1': IGF1LR3_DATA, 'IGF1': IGF1LR3_DATA, 'IGF-1LR3': IGF1LR3_DATA, 'IGF1-LR3': IGF1LR3_DATA, 'IGF-LR3': IGF1LR3_DATA,
   'HCG': HCG_DATA, 'HUMAN CHORIONIC GONADOTROPIN': HCG_DATA,
-  'HGH FRAG 176-191': HGHFRAG_DATA, 'HGH FRAGMENT 176-191': HGHFRAG_DATA, 'HGH FRAG': HGHFRAG_DATA, 'FRAGMENT 176-191': HGHFRAG_DATA, 'FRAG 176-191': HGHFRAG_DATA,
+  'HGH FRAG 176-191': HGHFRAG_DATA, 'HGH FRAGMENT 176-191': HGHFRAG_DATA, 'HGH FRAG': HGHFRAG_DATA, 'FRAGMENT 176-191': HGHFRAG_DATA, 'FRAG 176-191': HGHFRAG_DATA, 'PT176-191 (HGH FRAG)': HGHFRAG_DATA, 'PT176-191': HGHFRAG_DATA, 'HGH-FRAG': HGHFRAG_DATA,
+  'TB-500 + BPC-157': BPC_TB_COMBO_DATA, 'TB5+BPC5': BPC_TB_COMBO_DATA, 'TB10+BPC10': BPC_TB_COMBO_DATA,
+  'HGH (SOMATROPIN)': HGH_DATA, 'HIH(SOMATROPIN)': HGH_DATA, 'SOMATROPIN': HGH_DATA, 'HGH(SOMATROPIN)': HGH_DATA,
+  'TB500(THYMOSIN BETA-4)': TB500_DATA, 'TB500 (THYMOSIN BETA-4)': TB500_DATA, 'THYMOSIN BETA 4': TB500_DATA,
+  'THYMOSIN ALPHA-1': TA1_DATA, 'THYMOSIN ALPHA 1': TA1_DATA, 'THMOSIN ALPHA-1': TA1_DATA, 'TA1': TA1_DATA, 'THYMALFASIN': TA1_DATA, 'TA-1': TA1_DATA,
+  'ADIPOTIDE': ADIPOTIDE_DATA, 'PTP-1': ADIPOTIDE_DATA,
 };
 
 export default function PeptideLearn() {
@@ -1666,12 +1726,23 @@ export default function PeptideLearn() {
           setPeptideData(BAC_WATER_DATA);
         } else {
           setIsBacWater(false);
-          // Try exact match first, then partial matching
+          // Try exact match first, then partial, then normalized matching
           let matchedData = PEPTIDE_DATA_MAP[productNameUpper];
           if (!matchedData) {
             // Try partial matching for product names that contain the key
             for (const [key, data] of Object.entries(PEPTIDE_DATA_MAP)) {
               if (productNameUpper.includes(key) || key.includes(productNameUpper)) {
+                matchedData = data;
+                break;
+              }
+            }
+          }
+          if (!matchedData) {
+            // Normalize: strip non-alphanumeric chars and compare
+            const normalize = (s) => s.replace(/[^A-Z0-9]/g, '');
+            const normalizedName = normalize(productNameUpper);
+            for (const [key, data] of Object.entries(PEPTIDE_DATA_MAP)) {
+              if (normalize(key) === normalizedName || normalizedName.includes(normalize(key)) || normalize(key).includes(normalizedName)) {
                 matchedData = data;
                 break;
               }
