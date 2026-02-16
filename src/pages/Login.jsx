@@ -131,6 +131,16 @@ export default function Login() {
         full_name: fullName.trim() || undefined,
       });
 
+      // Send welcome email (fire-and-forget, don't block registration)
+      try {
+        await base44.functions.sendWelcomeEmail({
+          email: email.trim().toLowerCase(),
+          firstName: fullName.trim().split(' ')[0] || 'Researcher',
+        });
+      } catch (welcomeErr) {
+        console.warn('Welcome email failed (non-blocking):', welcomeErr);
+      }
+
       setSuccess('Registration successful! Please check your email for verification code.');
       setView('verify-otp');
       
