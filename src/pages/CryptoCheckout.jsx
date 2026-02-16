@@ -657,6 +657,41 @@ export default function CryptoCheckout() {
         }
       }
 
+      // Check if this purchase came from a referral link
+      const referralCode = localStorage.getItem('rdr_referral_code');
+      if (referralCode) {
+        try {
+          // Decode the referral code back to the referrer's email
+          // The code is REF + base64(email).replace(non-alphanum).substring(0,8)
+          // We need to look up all users to find who owns this code, or store it on the server
+          // For now, send a notification to admin to issue the reward
+          const discountCode = 'REFER' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+          await base44.integrations.Core.SendEmail({
+            from_name: 'Red Helix Research - Referral System',
+            to: 'jakehboen95@gmail.com',
+            subject: 'Referral Purchase Completed - Issue Discount Code',
+            body: '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">' +
+              '<h2 style="color: #dc2626;">Referral Purchase Completed!</h2>' +
+              '<div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">' +
+              '<p><strong>Referral Code Used:</strong> ' + referralCode + '</p>' +
+              '<p><strong>Order Number:</strong> ' + orderNumber + '</p>' +
+              '<p><strong>Order Total:</strong> $' + totalUSD.toFixed(2) + '</p>' +
+              '<p><strong>Buyer Email:</strong> ' + (userEmail || customerInfo?.email) + '</p>' +
+              '<p><strong>Suggested Discount Code:</strong> ' + discountCode + ' (10% off, one-time use)</p>' +
+              '</div>' +
+              '<p style="color: #64748b; font-size: 14px;">A customer purchased using referral code <strong>' + referralCode + '</strong>. ' +
+              'Please send the referrer a thank-you email with a <strong>one-time 10% discount code</strong>.</p>' +
+              '</div>'
+          });
+
+          // Clear the referral code after use
+          localStorage.removeItem('rdr_referral_code');
+        } catch (refError) {
+          console.error('Referral tracking error (non-blocking):', refError);
+        }
+      }
+
       // Track purchase in HubSpot
       trackPurchase({
         order_number: orderNumber,

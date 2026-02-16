@@ -97,6 +97,12 @@ export default function Home({ adminViewAsUser = false }) {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const section = params.get('section');
+    const refCode = params.get('ref');
+
+    // Capture referral code from URL and store it
+    if (refCode) {
+      localStorage.setItem('rdr_referral_code', refCode);
+    }
 
     if (section) {
       setTimeout(() => {

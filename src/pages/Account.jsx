@@ -3,10 +3,10 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History } from 'lucide-react';
+import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History, Share2, Gift, Copy, Check, CheckCircle2, ExternalLink, Loader2, Mail, Video, Link as LinkIcon, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '@/components/SEO';
 import DashboardStats from '@/components/account/DashboardStats';
 import FavoritePeptides from '@/components/account/FavoritePeptides';
@@ -14,6 +14,356 @@ import RecommendedPeptides from '@/components/account/RecommendedPeptides';
 import RecentActivity from '@/components/account/RecentActivity';
 import QuickCategories from '@/components/account/QuickCategories';
 import OrderTrackingDetails from '@/components/account/OrderTrackingDetails';
+
+// ─── REFERRAL LINK SECTION ───
+function ReferralSection({ user }) {
+  const [copied, setCopied] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+
+  // Generate a unique referral code from user email
+  const referralCode = user?.email
+    ? 'REF' + btoa(user.email).replace(/[^A-Za-z0-9]/g, '').substring(0, 8).toUpperCase()
+    : '';
+
+  const referralLink = `https://redhelixresearch.com/?ref=${referralCode}`;
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(referralCode);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2500);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Referral Link Card */}
+      <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-[#dc2626] rounded-2xl flex items-center justify-center shadow-lg shadow-[#dc2626]/20">
+            <Share2 className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Refer a Friend</h2>
+            <p className="text-xs text-slate-400 font-medium">Share your link and earn rewards when they buy</p>
+          </div>
+        </div>
+
+        {/* How it works */}
+        <div className="bg-white border border-slate-100 rounded-[24px] p-6 mb-6">
+          <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-4">How It Works</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-sm font-black text-[#dc2626]">1</span>
+              </div>
+              <div>
+                <p className="text-xs font-black text-slate-900 uppercase tracking-tight">Share Your Link</p>
+                <p className="text-[10px] text-slate-400 font-medium mt-1">Send your unique referral link to friends</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-sm font-black text-[#dc2626]">2</span>
+              </div>
+              <div>
+                <p className="text-xs font-black text-slate-900 uppercase tracking-tight">They Make a Purchase</p>
+                <p className="text-[10px] text-slate-400 font-medium mt-1">Your friend shops using your referral link</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-sm font-black text-[#dc2626]">3</span>
+              </div>
+              <div>
+                <p className="text-xs font-black text-slate-900 uppercase tracking-tight">You Get 10% Off</p>
+                <p className="text-[10px] text-slate-400 font-medium mt-1">We email you a one-time 10% discount code as a thank you</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Referral Link */}
+        <div className="space-y-4">
+          <div>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Your Referral Link</label>
+            <div className="flex items-center gap-3">
+              <div className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center gap-2 overflow-hidden">
+                <LinkIcon className="w-4 h-4 text-[#dc2626] flex-shrink-0" />
+                <span className="text-sm font-bold text-slate-700 truncate">{referralLink}</span>
+              </div>
+              <Button
+                onClick={copyLink}
+                className={`rounded-xl font-black uppercase tracking-widest text-xs px-6 py-3 transition-all ${
+                  copied
+                    ? 'bg-green-500 hover:bg-green-600 text-white'
+                    : 'bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-lg shadow-[#dc2626]/20'
+                }`}
+              >
+                {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
+                {copied ? 'Copied!' : 'Copy'}
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Your Referral Code</label>
+            <div className="flex items-center gap-3">
+              <div className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center gap-2">
+                <span className="text-lg font-black text-slate-900 tracking-widest">{referralCode}</span>
+              </div>
+              <Button
+                onClick={copyCode}
+                variant="outline"
+                className={`rounded-xl font-black uppercase tracking-widest text-xs px-6 py-3 transition-all ${
+                  copiedCode
+                    ? 'bg-green-50 border-green-300 text-green-600'
+                    : 'border-slate-200 text-slate-600 hover:border-[#dc2626] hover:text-[#dc2626]'
+                }`}
+              >
+                {copiedCode ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
+                {copiedCode ? 'Copied!' : 'Copy Code'}
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Share Buttons */}
+        <div className="mt-6 pt-6 border-t border-slate-100">
+          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Quick Share</label>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={`sms:?body=Check out Red Helix Research for premium research peptides! Use my referral link: ${referralLink}`}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-green-50 border border-green-100 text-green-700 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-green-100 transition-all"
+            >
+              <Mail className="w-3.5 h-3.5" /> Text
+            </a>
+            <a
+              href={`mailto:?subject=Check out Red Helix Research&body=Hey! I've been using Red Helix Research for premium research peptides and thought you might be interested. Use my referral link to shop: ${referralLink}`}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-50 border border-blue-100 text-blue-700 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-100 transition-all"
+            >
+              <Mail className="w-3.5 h-3.5" /> Email
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?text=Check out Red Helix Research for premium research peptides!&url=${encodeURIComponent(referralLink)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
+            >
+              <ExternalLink className="w-3.5 h-3.5" /> X / Twitter
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Referral Info */}
+      <div className="bg-white border border-slate-100 rounded-[24px] p-6 shadow-sm">
+        <div className="flex items-start gap-3">
+          <Gift className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-xs font-black text-slate-900 uppercase tracking-tight mb-1">Referral Reward Details</p>
+            <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
+              When someone makes a purchase using your referral link, we'll send a <strong className="text-[#dc2626]">one-time 10% discount code</strong> to your email (<strong>{user?.email}</strong>)
+              as a thank you. There's no limit to how many friends you can refer &mdash; each successful referral earns you a new code!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── TIKTOK REWARD SECTION ───
+function TikTokRewardSection({ user }) {
+  const [tiktokLink, setTiktokLink] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+
+  // Check if user already submitted
+  useEffect(() => {
+    const alreadySubmitted = localStorage.getItem(`tiktok_submitted_${user?.email}`);
+    if (alreadySubmitted) {
+      setSubmitted(true);
+    }
+  }, [user]);
+
+  const isValidTikTokLink = (url) => {
+    return url.includes('tiktok.com') && url.length > 20;
+  };
+
+  const handleSubmit = async () => {
+    if (!tiktokLink.trim()) {
+      setError('Please paste your TikTok video link');
+      return;
+    }
+    if (!isValidTikTokLink(tiktokLink)) {
+      setError('Please enter a valid TikTok video URL');
+      return;
+    }
+
+    setSubmitting(true);
+    setError('');
+
+    try {
+      // Send the TikTok link to the admin email for review
+      await base44.integrations.Core.SendEmail({
+        from_name: 'Red Helix Research - TikTok Promotion',
+        to: 'jakehboen95@gmail.com',
+        subject: 'TikTok Promotion Submission - ' + (user?.full_name || user?.email),
+        body: '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">' +
+          '<h2 style="color: #dc2626;">New TikTok Promotion Submission</h2>' +
+          '<div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">' +
+          '<p><strong>User Name:</strong> ' + (user?.full_name || 'Not provided') + '</p>' +
+          '<p><strong>User Email:</strong> ' + user?.email + '</p>' +
+          '<p><strong>TikTok Video Link:</strong> <a href="' + tiktokLink + '" style="color: #dc2626;">' + tiktokLink + '</a></p>' +
+          '<p><strong>Submitted At:</strong> ' + new Date().toLocaleString() + '</p>' +
+          '</div>' +
+          '<p style="color: #64748b; font-size: 14px;">This user is requesting a one-time <strong>20% discount code</strong> in exchange for promoting Red Helix Research on their TikTok.</p>' +
+          '<p style="color: #64748b; font-size: 14px;">Please review the video and send the discount code to <strong>' + user?.email + '</strong> if approved.</p>' +
+          '</div>'
+      });
+
+      // Mark as submitted locally
+      localStorage.setItem(`tiktok_submitted_${user?.email}`, 'true');
+      setSubmitted(true);
+      setTiktokLink('');
+    } catch (err) {
+      console.error('Failed to submit TikTok link:', err);
+      setError('Failed to submit. Please try again or contact support.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center shadow-lg">
+            <Video className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">TikTok Promotion</h2>
+            <p className="text-xs text-slate-400 font-medium">Get 20% off by sharing us on TikTok</p>
+          </div>
+        </div>
+
+        {submitted ? (
+          /* Already submitted state */
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-green-50 border border-green-100 rounded-[24px] p-8 text-center"
+          >
+            <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <h3 className="text-xl font-black text-green-800 uppercase tracking-tight mb-2">Submission Received!</h3>
+            <p className="text-sm text-green-600 font-medium max-w-md mx-auto">
+              Your TikTok video is under review. Once approved, you'll receive your one-time <strong>20% discount code</strong> via email at <strong>{user?.email}</strong>.
+            </p>
+            <p className="text-[10px] text-green-500 font-bold uppercase tracking-widest mt-4">
+              Please allow 24-48 hours for review
+            </p>
+          </motion.div>
+        ) : (
+          /* Submission form */
+          <>
+            {/* Instructions */}
+            <div className="bg-white border border-slate-100 rounded-[24px] p-6 mb-6">
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-4 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-[#dc2626]" /> Instructions
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-black text-[#dc2626]">1</span>
+                  </div>
+                  <p className="text-xs text-slate-600 font-medium">
+                    <strong className="text-slate-900">Create a TikTok video</strong> referring <strong className="text-[#dc2626]">Red Helix Research</strong>.
+                    Mention our products, show our website, or share your experience with our research peptides.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-black text-[#dc2626]">2</span>
+                  </div>
+                  <p className="text-xs text-slate-600 font-medium">
+                    <strong className="text-slate-900">Post the video</strong> on your TikTok account. Make sure it's public so we can view it.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-black text-[#dc2626]">3</span>
+                  </div>
+                  <p className="text-xs text-slate-600 font-medium">
+                    <strong className="text-slate-900">Copy the video link</strong> from TikTok and paste it in the field below, then hit submit.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                  </div>
+                  <p className="text-xs text-slate-600 font-medium">
+                    <strong className="text-green-700">Once the video is reviewed</strong>, you will receive your one-time <strong className="text-[#dc2626]">20% off discount code</strong> via email at <strong>{user?.email}</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* TikTok Link Input */}
+            <div className="space-y-4">
+              <div>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Paste Your TikTok Video Link</label>
+                <div className="flex flex-col md:flex-row gap-3">
+                  <div className="flex-1 relative">
+                    <Video className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="url"
+                      value={tiktokLink}
+                      onChange={(e) => { setTiktokLink(e.target.value); setError(''); }}
+                      placeholder="https://www.tiktok.com/@username/video/..."
+                      className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3.5 text-sm font-bold text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626]/20 transition-all"
+                    />
+                  </div>
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={submitting || !tiktokLink.trim()}
+                    className="bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs px-8 py-3.5 shadow-lg shadow-[#dc2626]/20 disabled:opacity-50 disabled:shadow-none"
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...
+                      </>
+                    ) : (
+                      'Submit for Review'
+                    )}
+                  </Button>
+                </div>
+                {error && (
+                  <p className="text-xs text-[#dc2626] font-bold mt-2 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" /> {error}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Fine print */}
+            <div className="mt-6 p-4 bg-slate-100 rounded-xl">
+              <p className="text-[10px] text-slate-500 font-bold leading-relaxed">
+                This is a one-time offer per account. The 20% discount code is single-use and will be sent to your registered email after we verify your TikTok video.
+                Videos must be genuine and publicly viewable. Red Helix Research reserves the right to deny submissions that don't meet our promotion standards.
+              </p>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Account() {
   const [user, setUser] = useState(null);
@@ -76,10 +426,6 @@ export default function Account() {
   };
 
   const handleLogout = () => {
-    // ✅ FIXED: Let Base44 SDK handle logout properly
-    // Do NOT clear localStorage/sessionStorage - the SDK manages token cleanup internally
-    // Clearing storage before logout breaks the SDK's ability to properly clean up
-    // and removes important app configuration like appId
     base44.auth.logout(createPageUrl('Home'));
   };
 
@@ -132,6 +478,30 @@ export default function Account() {
                 >
                   <LayoutDashboard className="w-4 h-4" />
                   <span className="text-xs font-black uppercase tracking-widest">Dashboard</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('referrals')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                    activeTab === 'referrals'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
+                  }`}
+                >
+                  <Share2 className="w-4 h-4" />
+                  <span className="text-xs font-black uppercase tracking-widest">Referrals</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('rewards')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                    activeTab === 'rewards'
+                      ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                      : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
+                  }`}
+                >
+                  <Gift className="w-4 h-4" />
+                  <span className="text-xs font-black uppercase tracking-widest">Rewards</span>
                 </button>
 
                 <button
@@ -239,6 +609,34 @@ export default function Account() {
                     <DashboardStats preferences={preferences} orders={orders} />
                   </div>
 
+                  {/* Quick Referral & Rewards Cards on Dashboard */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                      onClick={() => setActiveTab('referrals')}
+                      className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 shadow-sm text-left hover:border-[#dc2626]/30 hover:shadow-lg transition-all group"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-[#dc2626] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#dc2626]/20">
+                          <Share2 className="w-5 h-5 text-white" />
+                        </div>
+                        <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight">Refer a Friend</h3>
+                      </div>
+                      <p className="text-[10px] text-slate-400 font-medium">Share your link and earn a 10% discount when they buy</p>
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('rewards')}
+                      className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 shadow-sm text-left hover:border-[#dc2626]/30 hover:shadow-lg transition-all group"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                          <Video className="w-5 h-5 text-white" />
+                        </div>
+                        <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight">TikTok Promotion</h3>
+                      </div>
+                      <p className="text-[10px] text-slate-400 font-medium">Share us on TikTok and get a one-time 20% discount code</p>
+                    </button>
+                  </div>
+
                   <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
                     <h2 className="text-xl font-black text-slate-900 mb-4 tracking-tighter uppercase">Quick Access Categories</h2>
                     <QuickCategories preferences={preferences} />
@@ -249,6 +647,14 @@ export default function Account() {
                     <RecommendedPeptides preferences={preferences} orders={orders} />
                   </div>
                 </div>
+              )}
+
+              {activeTab === 'referrals' && (
+                <ReferralSection user={user} />
+              )}
+
+              {activeTab === 'rewards' && (
+                <TikTokRewardSection user={user} />
               )}
 
               {activeTab === 'favorites' && (
@@ -301,10 +707,10 @@ export default function Account() {
                             <div>
                               <p className="text-slate-900 font-black text-lg tracking-tighter uppercase">Order #{order.order_number}</p>
                               <p className="text-slate-500 text-xs mt-1 font-medium">
-                                Placed {new Date(order.created_date).toLocaleDateString('en-US', { 
-                                  year: 'numeric', 
-                                  month: 'short', 
-                                  day: 'numeric' 
+                                Placed {new Date(order.created_date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric'
                                 })}
                               </p>
                             </div>
@@ -370,7 +776,7 @@ export default function Account() {
                                    let shippingInfo = '';
                                    if (order.shipping_address) {
                                      const addr = order.shipping_address;
-                                     shippingInfo = '<h3>Shipping Address:</h3><p>' + order.customer_name + '<br>' + 
+                                     shippingInfo = '<h3>Shipping Address:</h3><p>' + order.customer_name + '<br>' +
                                        (addr.address || addr.shippingAddress) + '<br>' +
                                        (addr.city || addr.shippingCity) + ', ' + (addr.state || addr.shippingState) + ' ' + (addr.zip || addr.shippingZip) + '</p>';
                                    }
@@ -418,28 +824,28 @@ export default function Account() {
               )}
 
               {activeTab === 'settings' && (
-                <div className="bg-stone-900/50 border border-stone-700 rounded-lg p-8">
-                  <h2 className="text-2xl font-black text-amber-50 mb-6">Account Settings</h2>
+                <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+                  <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">Account Settings</h2>
 
                   <div className="space-y-6">
-                    <div className="pb-6 border-b border-stone-700">
-                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Full Name</p>
-                      <p className="text-amber-50 text-lg font-semibold">{user.full_name || 'Not set'}</p>
+                    <div className="pb-6 border-b border-slate-200">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Full Name</p>
+                      <p className="text-slate-900 text-lg font-bold">{user.full_name || 'Not set'}</p>
                     </div>
 
-                    <div className="pb-6 border-b border-stone-700">
-                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Email Address</p>
-                      <p className="text-amber-50 text-lg font-semibold">{user.email}</p>
+                    <div className="pb-6 border-b border-slate-200">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Email Address</p>
+                      <p className="text-slate-900 text-lg font-bold">{user.email}</p>
                     </div>
 
                     <div className="pb-6">
-                      <p className="text-stone-400 text-sm uppercase tracking-wide mb-2">Account Type</p>
-                      <p className="text-amber-50 text-lg font-semibold capitalize">{user.role}</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Account Type</p>
+                      <p className="text-slate-900 text-lg font-bold capitalize">{user.role}</p>
                     </div>
 
-                    <div className="bg-stone-800/50 border border-stone-700 rounded-lg p-4 mt-8">
-                      <p className="text-stone-400 text-sm mb-4">Need to update your information?</p>
-                      <p className="text-stone-500 text-xs">Contact support at support@redditresearch.com</p>
+                    <div className="bg-white border border-slate-100 rounded-2xl p-4 mt-8">
+                      <p className="text-slate-500 text-sm mb-2 font-medium">Need to update your information?</p>
+                      <p className="text-slate-400 text-xs font-medium">Contact support at support@redhelixresearch.com</p>
                     </div>
                   </div>
                 </div>
