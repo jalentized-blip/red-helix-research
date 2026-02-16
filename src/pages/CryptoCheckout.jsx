@@ -837,8 +837,13 @@ export default function CryptoCheckout() {
                     <p className="text-slate-500 font-medium mb-8 text-sm">Connect your bank account securely via Plaid.</p>
 
                     <PlaidACHCheckout
-                      totalAmount={totalUSD}
-                      onSuccess={async (paymentId) => {
+                      order={{
+                        order_number: `RDR-${Date.now().toString(36).toUpperCase()}`,
+                        total_amount: totalUSD,
+                        items: cartItems,
+                      }}
+                      onSuccess={async (data) => {
+                        const paymentId = data?.payment_id || data?.id || `ACH-${Date.now()}`;
                         await processSuccessfulPayment(paymentId, 'bank_ach');
                       }}
                     />
