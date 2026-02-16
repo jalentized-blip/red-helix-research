@@ -133,7 +133,7 @@ export default function Login() {
 
       // Send welcome email (fire-and-forget, don't block registration)
       try {
-        await base44.functions.sendWelcomeEmail({
+        await base44.functions.invoke('sendWelcomeEmail', {
           email: email.trim().toLowerCase(),
           firstName: fullName.trim().split(' ')[0] || 'Researcher',
         });
