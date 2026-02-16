@@ -109,7 +109,7 @@ export default function LaunchChecklist() {
   const launchReadiness = stats.percent >= 85 ? 'Ready to Launch! 🚀' : stats.percent >= 70 ? 'Almost Ready' : 'In Progress';
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Launch Readiness Checklist | Red Helix Research"
         description="Complete pre-launch checklist for redhelixresearch.com. SEO, content, security, analytics, and compliance requirements."
@@ -118,34 +118,34 @@ export default function LaunchChecklist() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 rounded-full font-bold uppercase tracking-wider text-xs hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Launch Readiness Checklist</h1>
-          <p className="text-xl text-stone-300">Track all requirements before going live</p>
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">Launch Readiness Checklist</h1>
+          <p className="text-xl text-slate-600">Track all requirements before going live</p>
         </motion.div>
 
         {/* Overall Progress */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8 mb-12"
+          className="bg-red-50 border border-red-200 rounded-2xl p-8 mb-12"
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-3xl font-black text-amber-50">{stats.percent}% Complete</h2>
-              <p className="text-stone-300 mt-2">{stats.completed} of {stats.total} items completed</p>
+              <h2 className="text-3xl font-black uppercase tracking-tight text-slate-900">{stats.percent}% Complete</h2>
+              <p className="text-slate-600 mt-2">{stats.completed} of {stats.total} items completed</p>
             </div>
             <div className="text-right">
               <p className="text-2xl font-bold text-[#dc2626]">{launchReadiness}</p>
-              <p className="text-xs text-stone-400 mt-1">Overall Status</p>
+              <p className="text-xs text-slate-500 mt-1">Overall Status</p>
             </div>
           </div>
 
-          <div className="relative h-3 bg-stone-800 rounded-full overflow-hidden">
+          <div className="relative h-3 bg-slate-200 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${stats.percent}%` }}
@@ -166,18 +166,18 @@ export default function LaunchChecklist() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 viewport={{ once: true }}
-                className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+                className="bg-slate-50 border border-slate-200 rounded-2xl p-8"
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h3 className="text-2xl font-bold text-amber-50">{section.title}</h3>
-                    <p className="text-sm text-stone-400 mt-1">
+                    <h3 className="text-2xl font-bold text-slate-900">{section.title}</h3>
+                    <p className="text-sm text-slate-500 mt-1">
                       {sectionStats.completed} of {sectionStats.total} completed
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-[#dc2626]">{sectionStats.percent}%</p>
-                    <div className="relative h-2 bg-stone-800 rounded-full w-24 mt-2 overflow-hidden">
+                    <div className="relative h-2 bg-slate-200 rounded-full w-24 mt-2 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${sectionStats.percent}%` }}
@@ -193,7 +193,7 @@ export default function LaunchChecklist() {
                   {section.items.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-800/30 transition cursor-pointer"
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 transition cursor-pointer"
                       onClick={() => toggleItem(sectionKey, item.id)}
                     >
                       <Checkbox
@@ -201,7 +201,7 @@ export default function LaunchChecklist() {
                         onChange={() => toggleItem(sectionKey, item.id)}
                         className="cursor-pointer"
                       />
-                      <span className={`flex-1 ${item.completed ? 'text-stone-500 line-through' : 'text-stone-300'}`}>
+                      <span className={`flex-1 ${item.completed ? 'text-slate-400 line-through' : 'text-slate-600'}`}>
                         {item.label}
                       </span>
                       {item.completed && <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />}
@@ -219,13 +219,13 @@ export default function LaunchChecklist() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mt-12"
+            className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mt-12"
           >
-            <h3 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
               <AlertCircle className="w-6 h-6 text-orange-500" />
               Priority Items Before Launch
             </h3>
-            <ul className="space-y-3 text-stone-300">
+            <ul className="space-y-3 text-slate-600">
               {!getSectionStats('seo').completed === getSectionStats('seo').total && (
                 <li className="flex items-start gap-3">
                   <span className="text-orange-500 font-bold">→</span>
@@ -260,11 +260,11 @@ export default function LaunchChecklist() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-700/30 rounded-lg p-8 mt-12 text-center"
+            className="bg-green-50 border border-green-200 rounded-2xl p-8 mt-12 text-center"
           >
             <TrendingUp className="w-12 h-12 text-green-600 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-amber-50 mb-2">🚀 Ready to Launch!</h3>
-            <p className="text-stone-300">Your site has all critical systems in place. Begin customer acquisition campaigns.</p>
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">🚀 Ready to Launch!</h3>
+            <p className="text-slate-600">Your site has all critical systems in place. Begin customer acquisition campaigns.</p>
           </motion.div>
         )}
       </div>

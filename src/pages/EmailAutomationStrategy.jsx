@@ -67,7 +67,7 @@ export default function EmailAutomationStrategy() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Email Marketing Automation Strategy | Red Helix Research"
         description="Complete email automation sequences for abandoned cart recovery, post-purchase nurture, and customer retention."
@@ -76,14 +76,14 @@ export default function EmailAutomationStrategy() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
+          <Button variant="outline" className="rounded-full font-bold uppercase tracking-wider text-xs border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Email Automation Strategy</h1>
-          <p className="text-xl text-stone-300">Turn browsers into buyers with targeted email sequences</p>
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">Email Automation Strategy</h1>
+          <p className="text-xl text-slate-600">Turn browsers into buyers with targeted email sequences</p>
         </motion.div>
 
         {/* Why Email Automation */}
@@ -91,13 +91,13 @@ export default function EmailAutomationStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-4 flex items-center gap-2">
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-4 flex items-center gap-2">
             <Mail className="w-6 h-6 text-[#dc2626]" />
             Why Email Automation Works
           </h2>
-          <ul className="space-y-3 text-stone-300">
+          <ul className="space-y-3 text-slate-600">
             <li className="flex items-start gap-3">
               <span className="text-[#dc2626] font-bold">✓</span>
               <span><strong>15-25% cart recovery:</strong> Abandoned cart emails recover lost sales automatically</span>
@@ -130,25 +130,25 @@ export default function EmailAutomationStrategy() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-8"
             >
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-amber-50 mb-2">{sequence.name}</h3>
-                  <p className="text-stone-400">Trigger: {sequence.trigger}</p>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-2">{sequence.name}</h3>
+                  <p className="text-slate-500">Trigger: {sequence.trigger}</p>
                 </div>
-                <span className="text-xs bg-red-700/30 text-red-400 px-3 py-1 rounded-full font-semibold whitespace-nowrap">
+                <span className="text-xs bg-red-50 text-[#dc2626] px-3 py-1 rounded-full font-semibold whitespace-nowrap">
                   {sequence.expectedResult}
                 </span>
               </div>
 
-              <div className="mb-6 pb-6 border-b border-stone-700">
-                <p className="text-xs text-stone-400 font-semibold mb-3 uppercase">Email Sequence:</p>
+              <div className="mb-6 pb-6 border-b border-slate-200">
+                <p className="text-xs text-slate-500 font-semibold mb-3 uppercase">Email Sequence:</p>
                 <div className="space-y-2">
                   {sequence.timing.map((email, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <span className="text-[#dc2626] font-bold whitespace-nowrap">{email.delay}:</span>
-                      <span className="text-stone-300">{email.subject}</span>
+                      <span className="text-slate-600">{email.subject}</span>
                     </div>
                   ))}
                 </div>
@@ -156,14 +156,14 @@ export default function EmailAutomationStrategy() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-stone-400 font-semibold mb-2">Implementation</p>
-                  <p className="text-stone-300 text-sm">{sequence.implementation}</p>
+                  <p className="text-xs text-slate-500 font-semibold mb-2">Implementation</p>
+                  <p className="text-slate-600 text-sm">{sequence.implementation}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-stone-400 font-semibold mb-2">Backend Functions</p>
+                  <p className="text-xs text-slate-500 font-semibold mb-2">Backend Functions</p>
                   <div className="flex flex-wrap gap-2">
                     {sequence.functions.map((fn, i) => (
-                      <span key={i} className="text-xs bg-stone-800 text-amber-50 px-2 py-1 rounded">
+                      <span key={i} className="text-xs bg-slate-100 text-slate-900 px-2 py-1 rounded">
                         {fn}
                       </span>
                     ))}
@@ -179,23 +179,23 @@ export default function EmailAutomationStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12 overflow-x-auto"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12 overflow-x-auto"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">6-Month Email Metrics Projection</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">6-Month Email Metrics Projection</h2>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-stone-700">
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Metric</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Baseline</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Month 3</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Month 6</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Value</th>
+              <tr className="border-b border-slate-200">
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Metric</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Baseline</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Month 3</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Month 6</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Value</th>
               </tr>
             </thead>
-            <tbody className="text-stone-300">
+            <tbody className="text-slate-600">
               {metrics.map((item, idx) => (
-                <tr key={idx} className="border-b border-stone-700/50 hover:bg-stone-800/30 transition">
-                  <td className="py-3 px-4 font-semibold text-amber-50">{item.metric}</td>
+                <tr key={idx} className="border-b border-slate-100 hover:bg-slate-100 transition">
+                  <td className="py-3 px-4 font-semibold text-slate-900">{item.metric}</td>
                   <td className="py-3 px-4">{item.baseline}</td>
                   <td className="py-3 px-4">{item.month3}</td>
                   <td className="py-3 px-4">{item.month6}</td>
@@ -211,13 +211,13 @@ export default function EmailAutomationStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Recommended Email Platforms</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Recommended Email Platforms</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="border border-stone-700 rounded-lg p-6">
-              <h3 className="font-bold text-amber-50 mb-3">Resend (Best for Developers)</h3>
-              <ul className="space-y-2 text-sm text-stone-300">
+            <div className="border border-slate-200 rounded-2xl p-6">
+              <h3 className="font-bold text-slate-900 mb-3">Resend (Best for Developers)</h3>
+              <ul className="space-y-2 text-sm text-slate-600">
                 <li>• Easy API integration</li>
                 <li>• Built for React</li>
                 <li>• $0.20 per email</li>
@@ -225,9 +225,9 @@ export default function EmailAutomationStrategy() {
               </ul>
             </div>
 
-            <div className="border border-stone-700 rounded-lg p-6">
-              <h3 className="font-bold text-amber-50 mb-3">SendGrid (Most Popular)</h3>
-              <ul className="space-y-2 text-sm text-stone-300">
+            <div className="border border-slate-200 rounded-2xl p-6">
+              <h3 className="font-bold text-slate-900 mb-3">SendGrid (Most Popular)</h3>
+              <ul className="space-y-2 text-sm text-slate-600">
                 <li>• 100 free emails/day</li>
                 <li>• Automation workflows</li>
                 <li>• Strong deliverability</li>
@@ -235,9 +235,9 @@ export default function EmailAutomationStrategy() {
               </ul>
             </div>
 
-            <div className="border border-stone-700 rounded-lg p-6">
-              <h3 className="font-bold text-amber-50 mb-3">Mailchimp (Best Free)</h3>
-              <ul className="space-y-2 text-sm text-stone-300">
+            <div className="border border-slate-200 rounded-2xl p-6">
+              <h3 className="font-bold text-slate-900 mb-3">Mailchimp (Best Free)</h3>
+              <ul className="space-y-2 text-sm text-slate-600">
                 <li>• Free up to 500 contacts</li>
                 <li>• Email automation</li>
                 <li>• Good segmentation</li>

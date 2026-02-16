@@ -150,7 +150,7 @@ export default function BacklinkStrategy() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="SEO Backlink & Authority Strategy | Red Helix Research"
         description="Comprehensive backlink building strategy for research peptide e-commerce. Guest posts, HARO, partnerships, and authority building."
@@ -159,14 +159,14 @@ export default function BacklinkStrategy() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
+          <Button variant="outline" className="rounded-full font-bold uppercase tracking-wider text-xs border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Backlink & Authority Strategy</h1>
-          <p className="text-xl text-stone-300">Build domain authority and organic search rankings through strategic partnerships and content placement</p>
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">Backlink & Authority Strategy</h1>
+          <p className="text-xl text-slate-600">Build domain authority and organic search rankings through strategic partnerships and content placement</p>
         </motion.div>
 
         {/* Overview */}
@@ -174,13 +174,13 @@ export default function BacklinkStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-4">Why Backlinks Matter</h2>
-          <p className="text-stone-300 mb-4">
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-4">Why Backlinks Matter</h2>
+          <p className="text-slate-600 mb-4">
             Google treats backlinks as "votes of confidence" from other websites. For a new site like Red Helix Research (launched Jan 26, 2026), backlinks are critical for:
           </p>
-          <ul className="space-y-2 text-stone-300">
+          <ul className="space-y-2 text-slate-600">
             <li className="flex items-start gap-3">
               <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
               <span>Domain Authority growth (helps all pages rank)</span>
@@ -213,20 +213,20 @@ export default function BacklinkStrategy() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-8"
             >
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-amber-50 mb-2">{strategy.title}</h3>
-                  <p className="text-stone-300">{strategy.description}</p>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{strategy.title}</h3>
+                  <p className="text-slate-600">{strategy.description}</p>
                 </div>
                 <div className="flex gap-4 ml-4">
                   <div className="text-right">
-                    <p className="text-xs text-stone-400 uppercase">Effort</p>
+                    <p className="text-xs text-slate-500 uppercase">Effort</p>
                     <p className="text-sm font-bold text-[#dc2626]">{strategy.effort}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-stone-400 uppercase">Links/Month</p>
+                    <p className="text-xs text-slate-500 uppercase">Links/Month</p>
                     <p className="text-sm font-bold text-[#dc2626]">{strategy.expectedLinks}</p>
                   </div>
                 </div>
@@ -234,10 +234,10 @@ export default function BacklinkStrategy() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <p className="text-xs text-stone-400 uppercase font-semibold mb-3">Target Sites</p>
+                  <p className="text-xs text-slate-500 uppercase font-semibold mb-3">Target Sites</p>
                   <ul className="space-y-2">
                     {strategy.targets.map((target, i) => (
-                      <li key={i} className="text-stone-300 text-sm flex items-center gap-2">
+                      <li key={i} className="text-slate-600 text-sm flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626]"></span>
                         {target}
                       </li>
@@ -246,10 +246,10 @@ export default function BacklinkStrategy() {
                 </div>
 
                 <div>
-                  <p className="text-xs text-stone-400 uppercase font-semibold mb-3">Content Topics</p>
+                  <p className="text-xs text-slate-500 uppercase font-semibold mb-3">Content Topics</p>
                   <ul className="space-y-2">
                     {strategy.topics.map((topic, i) => (
-                      <li key={i} className="text-stone-300 text-sm flex items-center gap-2">
+                      <li key={i} className="text-slate-600 text-sm flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626]"></span>
                         {topic}
                       </li>
@@ -258,8 +258,8 @@ export default function BacklinkStrategy() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-stone-700">
-                <p className="text-xs text-stone-400 uppercase font-semibold mb-2">Timeline: {strategy.timeline}</p>
+              <div className="mt-6 pt-6 border-t border-slate-200">
+                <p className="text-xs text-slate-500 uppercase font-semibold mb-2">Timeline: {strategy.timeline}</p>
               </div>
             </motion.div>
           ))}
@@ -270,22 +270,22 @@ export default function BacklinkStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-8">3-Month Backlink Roadmap</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-8">3-Month Backlink Roadmap</h2>
           <div className="space-y-6">
             {timeline.map((item, idx) => (
               <div key={idx} className="flex gap-6">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-red-700 text-amber-50 font-bold">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-[#dc2626] text-slate-900 font-bold">
                     {idx + 1}
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-amber-50 mb-4">{item.phase}</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-4">{item.phase}</h3>
                   <ul className="space-y-2">
                     {item.goals.map((goal, i) => (
-                      <li key={i} className="text-stone-300 flex items-start gap-3">
+                      <li key={i} className="text-slate-600 flex items-start gap-3">
                         <CheckCircle className="w-4 h-4 text-[#dc2626] flex-shrink-0 mt-0.5" />
                         {goal}
                       </li>
@@ -302,13 +302,13 @@ export default function BacklinkStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Recommended SEO Tools</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Recommended SEO Tools</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-bold text-amber-50 mb-4">Backlink Analysis</h3>
-              <ul className="space-y-2 text-stone-300 text-sm">
+              <h3 className="font-bold text-slate-900 mb-4">Backlink Analysis</h3>
+              <ul className="space-y-2 text-slate-600 text-sm">
                 <li>• Ahrefs – Comprehensive backlink database</li>
                 <li>• SEMrush – Domain authority tracking</li>
                 <li>• Moz – Page authority metrics</li>
@@ -316,8 +316,8 @@ export default function BacklinkStrategy() {
               </ul>
             </div>
             <div>
-              <h3 className="font-bold text-amber-50 mb-4">Outreach & Prospecting</h3>
-              <ul className="space-y-2 text-stone-300 text-sm">
+              <h3 className="font-bold text-slate-900 mb-4">Outreach & Prospecting</h3>
+              <ul className="space-y-2 text-slate-600 text-sm">
                 <li>• HARO (Help A Reporter Out) – Free</li>
                 <li>• Clearbit – Prospect research</li>
                 <li>• Hunter.io – Email finding</li>
@@ -332,10 +332,10 @@ export default function BacklinkStrategy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Guest Post Outreach Template</h2>
-          <div className="bg-stone-950 rounded-lg p-6 text-stone-300 text-sm font-mono">
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Guest Post Outreach Template</h2>
+          <div className="bg-slate-100 rounded-2xl p-6 text-slate-600 text-sm font-mono">
             <p className="mb-4">Subject: Guest Post Opportunity – Research Peptide Industry Transparency</p>
             <p className="mb-4">Hi [Editor Name],</p>
             <p className="mb-4">

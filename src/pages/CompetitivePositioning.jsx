@@ -130,7 +130,7 @@ export default function CompetitivePositioning() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Competitive Positioning Strategy | Red Helix Research Admin"
         description="Market positioning, competitive analysis, and growth strategy for Red Helix Research."
@@ -139,14 +139,14 @@ export default function CompetitivePositioning() {
 
       <div className="max-w-5xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 rounded-full font-bold uppercase tracking-wider text-xs hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">Competitive Positioning</h1>
-          <p className="text-xl text-stone-300">How Red Helix dominates the peptide market</p>
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">Competitive Positioning</h1>
+          <p className="text-xl text-slate-600">How Red Helix dominates the peptide market</p>
         </motion.div>
 
         {/* Competitor Comparison */}
@@ -154,24 +154,24 @@ export default function CompetitivePositioning() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12 overflow-x-auto"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12 overflow-x-auto"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Market Comparison</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Market Comparison</h2>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-stone-700">
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Competitor</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Pricing</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Testing</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Support</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">COA</th>
-                <th className="text-left py-3 px-4 text-amber-50 font-bold">Trust Score</th>
+              <tr className="border-b border-slate-200">
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Competitor</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Pricing</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Testing</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Support</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">COA</th>
+                <th className="text-left py-3 px-4 text-slate-900 font-bold">Trust Score</th>
               </tr>
             </thead>
-            <tbody className="text-stone-300">
+            <tbody className="text-slate-600">
               {competitors.map((comp, idx) => (
-                <tr key={idx} className={`border-b border-stone-700/50 ${comp.highlight ? 'bg-red-900/20' : 'hover:bg-stone-800/30'} transition`}>
-                  <td className={`py-4 px-4 font-semibold ${comp.highlight ? 'text-red-400' : 'text-amber-50'}`}>
+                <tr key={idx} className={`border-b border-slate-100 ${comp.highlight ? 'bg-red-50' : 'hover:bg-slate-100'} transition`}>
+                  <td className={`py-4 px-4 font-semibold ${comp.highlight ? 'text-[#dc2626]' : 'text-slate-900'}`}>
                     {comp.name}
                   </td>
                   <td className="py-4 px-4">{comp.pricing}</td>
@@ -196,25 +196,25 @@ export default function CompetitivePositioning() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-700 rounded-lg p-8"
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-8"
             >
               <div className="flex items-start gap-4 mb-6">
-                <div className="p-3 bg-red-700/20 rounded-lg">
+                <div className="p-3 bg-red-50 rounded-2xl">
                   <Target className="w-6 h-6 text-[#dc2626]" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-amber-50">{strategy.axis}</h3>
-                  <p className="text-stone-400 mt-1">{strategy.description}</p>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-slate-900">{strategy.axis}</h3>
+                  <p className="text-slate-500 mt-1">{strategy.description}</p>
                 </div>
               </div>
 
-              <p className="text-stone-300 mb-4">{strategy.strategy}</p>
+              <p className="text-slate-600 mb-4">{strategy.strategy}</p>
 
-              <div className="bg-stone-800/30 rounded-lg p-4">
-                <p className="text-xs text-stone-400 font-semibold mb-3 uppercase">Execution Tactics:</p>
+              <div className="bg-slate-100 rounded-2xl p-4">
+                <p className="text-xs text-slate-500 font-semibold mb-3 uppercase">Execution Tactics:</p>
                 <ul className="space-y-2">
                   {strategy.tactics.map((tactic, i) => (
-                    <li key={i} className="text-stone-300 flex items-start gap-2">
+                    <li key={i} className="text-slate-600 flex items-start gap-2">
                       <span className="text-[#dc2626] font-bold">→</span>
                       <span>{tactic}</span>
                     </li>
@@ -230,18 +230,18 @@ export default function CompetitivePositioning() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 mb-12"
+          className="bg-slate-50 border border-slate-200 rounded-2xl p-8 mb-12"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6 flex items-center gap-2">
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6 flex items-center gap-2">
             <TrendingUp className="w-6 h-6 text-green-600" />
             Market Growth Opportunities
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {marketOpportunities.map((opp, idx) => (
-              <div key={idx} className="border border-stone-700 rounded-lg p-6">
-                <h3 className="font-bold text-amber-50 mb-3">{opp.segment}</h3>
-                <div className="space-y-2 text-sm text-stone-300">
+              <div key={idx} className="border border-slate-200 rounded-2xl p-6">
+                <h3 className="font-bold text-slate-900 mb-3">{opp.segment}</h3>
+                <div className="space-y-2 text-sm text-slate-600">
                   <p><strong>Market Size:</strong> {opp.market_size}</p>
                   <p><strong>Annual Spend:</strong> {opp.annual_spend}</p>
                   <p><strong>Current Penetration:</strong> <span className="text-orange-500 font-bold">{opp.penetration}</span></p>
@@ -257,25 +257,25 @@ export default function CompetitivePositioning() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8"
+          className="bg-red-50 border border-red-200 rounded-2xl p-8"
         >
-          <h2 className="text-2xl font-bold text-amber-50 mb-6">Our Unmatched Advantages</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Our Unmatched Advantages</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-bold text-amber-50 mb-2">✓ 100% Transparency</h3>
-              <p className="text-stone-300 text-sm">Every batch includes third-party HPLC verification & complete COA. No hidden testing results.</p>
+              <h3 className="font-bold text-slate-900 mb-2">✓ 100% Transparency</h3>
+              <p className="text-slate-600 text-sm">Every batch includes third-party HPLC verification & complete COA. No hidden testing results.</p>
             </div>
             <div>
-              <h3 className="font-bold text-amber-50 mb-2">✓ Premium at Gray Market Prices</h3>
-              <p className="text-stone-300 text-sm">98%+ purity at $45-65/vial beats $30-40 vials at 80-90% purity.</p>
+              <h3 className="font-bold text-slate-900 mb-2">✓ Premium at Gray Market Prices</h3>
+              <p className="text-slate-600 text-sm">98%+ purity at $45-65/vial beats $30-40 vials at 80-90% purity.</p>
             </div>
             <div>
-              <h3 className="font-bold text-amber-50 mb-2">✓ Researcher-First Education</h3>
-              <p className="text-stone-300 text-sm">Only vendor with proprietary Peptide Calculator, guides, and comparison tools.</p>
+              <h3 className="font-bold text-slate-900 mb-2">✓ Researcher-First Education</h3>
+              <p className="text-slate-600 text-sm">Only vendor with proprietary Peptide Calculator, guides, and comparison tools.</p>
             </div>
             <div>
-              <h3 className="font-bold text-amber-50 mb-2">✓ Community Trust</h3>
-              <p className="text-stone-300 text-sm">500+ verified researchers trust us. Growing Discord & community presence.</p>
+              <h3 className="font-bold text-slate-900 mb-2">✓ Community Trust</h3>
+              <p className="text-slate-600 text-sm">500+ verified researchers trust us. Growing Discord & community presence.</p>
             </div>
           </div>
         </motion.div>

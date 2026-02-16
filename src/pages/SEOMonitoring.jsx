@@ -95,7 +95,7 @@ export default function SEOMonitoring() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="SEO Monitoring & Analytics Dashboard | Red Helix Research"
         description="Comprehensive SEO monitoring strategy with keyword tracking, backlink analysis, and organic traffic goals."
@@ -104,26 +104,26 @@ export default function SEOMonitoring() {
 
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-8">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-full font-bold uppercase tracking-wider text-xs">
             ← Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-amber-50 mb-4">SEO Monitoring Dashboard</h1>
-          <p className="text-xl text-stone-300">Real-time tracking of keywords, traffic, and authority metrics</p>
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">SEO Monitoring Dashboard</h1>
+          <p className="text-xl text-slate-600">Real-time tracking of keywords, traffic, and authority metrics</p>
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-12 border-b border-stone-700 pb-4">
+        <div className="flex gap-4 mb-12 border-b border-slate-200 pb-4">
           {['overview', 'keywords', 'tools', 'goals'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-6 py-3 font-semibold transition-all capitalize ${
                 activeTab === tab
-                  ? 'text-amber-50 border-b-2 border-[#dc2626] -mb-4'
-                  : 'text-stone-400 hover:text-stone-300'
+                  ? 'text-slate-900 border-b-2 border-[#dc2626] -mb-4'
+                  : 'text-slate-500 hover:text-slate-700'
               }`}
             >
               {tab}
@@ -135,65 +135,65 @@ export default function SEOMonitoring() {
         {activeTab === 'overview' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-stone-400 font-semibold">Organic Sessions</h3>
+                  <h3 className="text-sm text-slate-500 font-semibold">Organic Sessions</h3>
                   <TrendingUp className="w-5 h-5 text-[#dc2626]" />
                 </div>
-                <p className="text-3xl font-black text-amber-50">~50/day</p>
-                <p className="text-xs text-stone-400 mt-2">Target: 500+/day by April</p>
+                <p className="text-3xl font-black text-slate-900">~50/day</p>
+                <p className="text-xs text-slate-500 mt-2">Target: 500+/day by April</p>
               </div>
 
-              <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-stone-400 font-semibold">Domain Authority</h3>
+                  <h3 className="text-sm text-slate-500 font-semibold">Domain Authority</h3>
                   <BarChart3 className="w-5 h-5 text-[#dc2626]" />
                 </div>
-                <p className="text-3xl font-black text-amber-50">~5-8</p>
-                <p className="text-xs text-stone-400 mt-2">Target: 20+ by April</p>
+                <p className="text-3xl font-black text-slate-900">~5-8</p>
+                <p className="text-xs text-slate-500 mt-2">Target: 20+ by April</p>
               </div>
 
-              <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-stone-400 font-semibold">Backlinks</h3>
+                  <h3 className="text-sm text-slate-500 font-semibold">Backlinks</h3>
                   <Target className="w-5 h-5 text-[#dc2626]" />
                 </div>
-                <p className="text-3xl font-black text-amber-50">~30-40</p>
-                <p className="text-xs text-stone-400 mt-2">Target: 100+ by April</p>
+                <p className="text-3xl font-black text-slate-900">~30-40</p>
+                <p className="text-xs text-slate-500 mt-2">Target: 100+ by April</p>
               </div>
 
-              <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-stone-400 font-semibold">Top Ranking</h3>
+                  <h3 className="text-sm text-slate-500 font-semibold">Top Ranking</h3>
                   <CheckCircle className="w-5 h-5 text-[#dc2626]" />
                 </div>
-                <p className="text-3xl font-black text-amber-50">Page 2</p>
-                <p className="text-xs text-stone-400 mt-2">Target: Page 1 by March</p>
+                <p className="text-3xl font-black text-slate-900">Page 2</p>
+                <p className="text-xs text-slate-500 mt-2">Target: Page 1 by March</p>
               </div>
             </div>
 
-            <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-amber-50 mb-6">Next Actions (Week of Jan 29)</h2>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+              <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Next Actions (Week of Jan 29)</h2>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-stone-300"><strong>Submit sitemap.xml</strong> to Google Search Console</span>
+                  <span className="text-slate-600"><strong>Submit sitemap.xml</strong> to Google Search Console</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-stone-300"><strong>Set up GA4 and GSC</strong> conversion tracking</span>
+                  <span className="text-slate-600"><strong>Set up GA4 and GSC</strong> conversion tracking</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-stone-300"><strong>Begin HARO responses</strong> (3-5 this week)</span>
+                  <span className="text-slate-600"><strong>Begin HARO responses</strong> (3-5 this week)</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-stone-300"><strong>Outreach to 10 guest post targets</strong></span>
+                  <span className="text-slate-600"><strong>Outreach to 10 guest post targets</strong></span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-stone-300"><strong>Implement internal linking</strong> across all pages</span>
+                  <span className="text-slate-600"><strong>Implement internal linking</strong> across all pages</span>
                 </li>
               </ul>
             </div>
@@ -203,26 +203,26 @@ export default function SEOMonitoring() {
         {/* Keywords */}
         {activeTab === 'keywords' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-8 overflow-x-auto">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8 overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-stone-700">
-                    <th className="text-left py-3 px-4 text-amber-50 font-bold">Keyword</th>
-                    <th className="text-left py-3 px-4 text-amber-50 font-bold">Position</th>
-                    <th className="text-left py-3 px-4 text-amber-50 font-bold">Monthly Vol.</th>
-                    <th className="text-left py-3 px-4 text-amber-50 font-bold">Difficulty</th>
-                    <th className="text-left py-3 px-4 text-amber-50 font-bold">Target</th>
+                  <tr className="border-b border-slate-200">
+                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Keyword</th>
+                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Position</th>
+                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Monthly Vol.</th>
+                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Difficulty</th>
+                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Target</th>
                   </tr>
                 </thead>
-                <tbody className="text-stone-300">
+                <tbody className="text-slate-600">
                   {rankingMetrics.map((metric, idx) => (
-                    <tr key={idx} className="border-b border-stone-700/50 hover:bg-stone-800/30 transition">
-                      <td className="py-3 px-4 text-amber-50">{metric.keyword}</td>
+                    <tr key={idx} className="border-b border-slate-100 hover:bg-slate-100 transition">
+                      <td className="py-3 px-4 text-slate-900">{metric.keyword}</td>
                       <td className="py-3 px-4">{metric.position}</td>
                       <td className="py-3 px-4">{metric.volume}</td>
                       <td className="py-3 px-4">
                         <span className={`text-xs font-bold ${
-                          metric.difficulty === 'Very High' ? 'text-red-500' : 
+                          metric.difficulty === 'Very High' ? 'text-red-500' :
                           metric.difficulty === 'High' ? 'text-orange-500' :
                           'text-yellow-500'
                         }`}>
@@ -242,27 +242,27 @@ export default function SEOMonitoring() {
         {activeTab === 'tools' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
             {toolsAndMetrics.map((section, idx) => (
-              <div key={idx} className="bg-stone-900/60 border border-stone-700 rounded-lg p-8">
-                <h3 className="text-xl font-bold text-amber-50 mb-6">{section.category}</h3>
+              <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+                <h3 className="text-xl font-black uppercase tracking-tight text-slate-900 mb-6">{section.category}</h3>
                 <div className="space-y-4">
                   {section.tools.map((tool, i) => (
-                    <div key={i} className="flex justify-between items-center pb-4 border-b border-stone-700/50 last:border-0 last:pb-0">
+                    <div key={i} className="flex justify-between items-center pb-4 border-b border-slate-100 last:border-0 last:pb-0">
                       <div>
-                        <p className="font-semibold text-amber-50">{tool.name}</p>
-                        <p className="text-sm text-stone-400">{tool.metric}</p>
+                        <p className="font-semibold text-slate-900">{tool.name}</p>
+                        <p className="text-sm text-slate-500">{tool.metric}</p>
                       </div>
-                      <span className="text-xs bg-red-700/20 text-red-400 px-3 py-1 rounded-full font-semibold">{tool.update}</span>
+                      <span className="text-xs bg-red-50 text-[#dc2626] px-3 py-1 rounded-full font-semibold">{tool.update}</span>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
 
-            <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-6 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-yellow-300 mb-2">Premium Tools Recommended</p>
-                <p className="text-sm text-yellow-200">
+                <p className="font-semibold text-amber-700 mb-2">Premium Tools Recommended</p>
+                <p className="text-sm text-amber-600">
                   SEMrush ($120-240/mo) and Ahrefs ($99-399/mo) are essential for serious SEO monitoring. Free alternatives: Google Search Console + GA4 provide baseline data.
                 </p>
               </div>
@@ -274,19 +274,19 @@ export default function SEOMonitoring() {
         {activeTab === 'goals' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
             {monthlyGoals.map((month, idx) => (
-              <div key={idx} className="bg-stone-900/60 border border-stone-700 rounded-lg p-8">
-                <h3 className="text-2xl font-bold text-amber-50 mb-6">{month.month}</h3>
+              <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+                <h3 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">{month.month}</h3>
                 <div className="space-y-4">
                   {month.goals.map((item, i) => (
-                    <div key={i} className="flex items-start gap-4 pb-4 border-b border-stone-700/50 last:border-0">
+                    <div key={i} className="flex items-start gap-4 pb-4 border-b border-slate-100 last:border-0">
                       <div className="flex-1">
-                        <p className="font-semibold text-amber-50">{item.goal}</p>
-                        <p className="text-sm text-stone-400">{item.target}</p>
+                        <p className="font-semibold text-slate-900">{item.goal}</p>
+                        <p className="text-sm text-slate-500">{item.target}</p>
                       </div>
                       <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                        item.status === 'In Progress' ? 'bg-blue-700/30 text-blue-400' :
-                        item.status === 'Planned' ? 'bg-stone-700/50 text-stone-300' :
-                        'bg-red-700/30 text-red-400'
+                        item.status === 'In Progress' ? 'bg-blue-50 text-blue-600' :
+                        item.status === 'Planned' ? 'bg-slate-100 text-slate-600' :
+                        'bg-red-50 text-[#dc2626]'
                       }`}>
                         {item.status}
                       </span>
@@ -296,16 +296,16 @@ export default function SEOMonitoring() {
               </div>
             ))}
 
-            <div className="bg-gradient-to-r from-red-900/20 to-red-800/10 border border-red-700/30 rounded-lg p-8">
-              <h3 className="text-xl font-bold text-amber-50 mb-4">Red Flags & Quick Fixes</h3>
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+              <h3 className="text-xl font-black uppercase tracking-tight text-slate-900 mb-4">Red Flags & Quick Fixes</h3>
               <div className="space-y-4">
                 {redFlags.map((flag, idx) => (
-                  <div key={idx} className="bg-stone-900/60 border border-stone-700 rounded-lg p-4">
+                  <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
                     <div className="flex justify-between items-start mb-2">
-                      <p className="font-semibold text-amber-50">{flag.issue}</p>
-                      <span className="text-xs text-stone-400">Check: {flag.frequency}</span>
+                      <p className="font-semibold text-slate-900">{flag.issue}</p>
+                      <span className="text-xs text-slate-500">Check: {flag.frequency}</span>
                     </div>
-                    <p className="text-sm text-stone-300">→ {flag.action}</p>
+                    <p className="text-sm text-slate-600">→ {flag.action}</p>
                   </div>
                 ))}
               </div>
