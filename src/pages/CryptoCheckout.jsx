@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import {
-  Wallet,
   Copy,
   Check,
   AlertCircle,
   ArrowLeft,
   Loader2,
-  RefreshCw,
   ExternalLink,
   Shield,
   Clock,
   CheckCircle2,
-  XCircle,
-  ChevronDown,
-  Zap,
-  Link as LinkIcon,
+  ChevronRight,
+  HelpCircle,
+  Smartphone,
   QrCode,
   ShieldCheck,
   Lock,
+  LinkIcon,
+  Info,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -35,87 +33,9 @@ import {
   loadAffiliateCodes
 } from '@/components/utils/cart';
 import { trackPurchase } from '@/utils/hubspotAnalytics';
-import CryptoWalletHelp from '@/components/crypto/CryptoWalletHelp';
 import { base44 } from '@/api/base44Client';
 import PCIComplianceBadge from '@/components/PCIComplianceBadge';
 import PlaidACHCheckout from '@/components/payment/PlaidACHCheckout';
-
-// Supported wallet configurations
-const WALLET_CONFIGS = {
-  coinbase: {
-    id: 'coinbase',
-    name: 'Coinbase Wallet',
-    icon: '💰',
-    color: '#0052FF',
-    deepLink: 'https://www.coinbase.com/wallet',
-    chains: ['ETH', 'BTC', 'USDT', 'USDC'],
-    detectProvider: () => typeof window !== 'undefined' && (window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension),
-  },
-  cashapp: {
-    id: 'cashapp',
-    name: 'Cash App',
-    icon: '💚',
-    color: '#00D632',
-    deepLink: null,
-    chains: ['BTC'],
-    detectProvider: () => true,
-  },
-  manual: {
-    id: 'manual',
-    name: 'Manual Payment',
-    icon: '📋',
-    color: '#78716c',
-    deepLink: null,
-    chains: ['ETH', 'BTC', 'USDT', 'USDC'],
-    detectProvider: () => true,
-  },
-};
-
-// Supported cryptocurrencies with their configurations
-const CRYPTO_OPTIONS = [
-  {
-    id: 'BTC',
-    name: 'Bitcoin',
-    symbol: 'BTC',
-    icon: '₿',
-    color: '#F7931A',
-    network: 'Bitcoin Network',
-    confirmations: '3-6 confirmations (~30-60 min)',
-    minConfirmations: 3,
-  },
-  {
-    id: 'ETH',
-    name: 'Ethereum',
-    symbol: 'ETH',
-    icon: 'Ξ',
-    color: '#627EEA',
-    network: 'Ethereum Mainnet',
-    confirmations: '12 confirmations (~3-5 min)',
-    minConfirmations: 12,
-  },
-  {
-    id: 'USDT',
-    name: 'Tether USD',
-    symbol: 'USDT',
-    icon: '₮',
-    color: '#26A17B',
-    network: 'Ethereum (ERC-20)',
-    confirmations: '12 confirmations (~3-5 min)',
-    minConfirmations: 12,
-    isStablecoin: true,
-  },
-  {
-    id: 'USDC',
-    name: 'USD Coin',
-    symbol: 'USDC',
-    icon: '$',
-    color: '#2775CA',
-    network: 'Ethereum (ERC-20)',
-    confirmations: '12 confirmations (~3-5 min)',
-    minConfirmations: 12,
-    isStablecoin: true,
-  },
-];
 
 // Payment wallet addresses
 const PAYMENT_ADDRESSES = {
@@ -125,79 +45,161 @@ const PAYMENT_ADDRESSES = {
   USDC: '0xbC1bF337c63B2A1B8115001b356E6b5C2F09685c',
 };
 
-// Checkout stages
-const CHECKOUT_STAGE = {
-  SELECT_PAYMENT: 'select_payment',
-  SELECT_CRYPTO: 'select_crypto',
-  CONNECT_WALLET: 'connect_wallet',
-  PAYMENT: 'payment',
-  BANK_ACH: 'bank_ach',
-  STRIPE: 'stripe',
-  CONFIRMING: 'confirming',
-  COMPLETED: 'completed',
-  FAILED: 'failed',
-};
+const CRYPTO_OPTIONS = [
+  {
+    id: 'USDT',
+    name: 'Tether (USDT)',
+    symbol: 'USDT',
+    icon: '₮',
+    color: '#26A17B',
+    network: 'Ethereum (ERC-20)',
+    minConfirmations: 12,
+    isStablecoin: true,
+    description: 'Stablecoin — always $1.00',
+    badge: 'Easiest',
+  },
+  {
+    id: 'USDC',
+    name: 'USD Coin (USDC)',
+    symbol: 'USDC',
+    icon: '$',
+    color: '#2775CA',
+    network: 'Ethereum (ERC-20)',
+    minConfirmations: 12,
+    isStablecoin: true,
+    description: 'Stablecoin — always $1.00',
+    badge: 'Popular',
+  },
+  {
+    id: 'BTC',
+    name: 'Bitcoin (BTC)',
+    symbol: 'BTC',
+    icon: '₿',
+    color: '#F7931A',
+    network: 'Bitcoin Network',
+    minConfirmations: 3,
+    isStablecoin: false,
+    description: 'The original cryptocurrency',
+    badge: null,
+  },
+  {
+    id: 'ETH',
+    name: 'Ethereum (ETH)',
+    symbol: 'ETH',
+    icon: 'Ξ',
+    color: '#627EEA',
+    network: 'Ethereum Mainnet',
+    minConfirmations: 12,
+    isStablecoin: false,
+    description: 'Smart contract platform',
+    badge: null,
+  },
+];
 
 const SHIPPING_COST = 15.00;
+
+// Simple step indicator
+function StepIndicator({ currentStep }) {
+  const steps = [
+    { num: 1, label: 'Choose Coin' },
+    { num: 2, label: 'Send Payment' },
+    { num: 3, label: 'Confirm' },
+  ];
+
+  return (
+    <div className="flex items-center justify-center gap-2 mb-10">
+      {steps.map((step, i) => (
+        <React.Fragment key={step.num}>
+          <div className="flex items-center gap-2">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-black transition-all ${
+              currentStep === step.num
+                ? 'bg-[#dc2626] text-white scale-110 shadow-lg shadow-red-200'
+                : currentStep > step.num
+                  ? 'bg-green-500 text-white'
+                  : 'bg-slate-100 text-slate-400'
+            }`}>
+              {currentStep > step.num ? <Check className="w-4 h-4" /> : step.num}
+            </div>
+            <span className={`text-xs font-bold uppercase tracking-wider hidden sm:block ${
+              currentStep === step.num ? 'text-slate-900' : 'text-slate-400'
+            }`}>
+              {step.label}
+            </span>
+          </div>
+          {i < steps.length - 1 && (
+            <div className={`w-8 sm:w-12 h-0.5 rounded-full ${
+              currentStep > step.num ? 'bg-green-500' : 'bg-slate-200'
+            }`} />
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+// Beginner help tooltip
+function HelpTip({ children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="relative inline-block">
+      <button
+        onClick={() => setOpen(!open)}
+        className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors ml-1"
+      >
+        <HelpCircle className="w-3 h-3 text-slate-500" />
+      </button>
+      {open && (
+        <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-slate-900 text-white text-xs font-medium rounded-xl shadow-xl">
+          {children}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-slate-900 rotate-45" />
+        </div>
+      )}
+    </span>
+  );
+}
 
 export default function CryptoCheckout() {
   const navigate = useNavigate();
 
-  // Cart and customer data
+  // Data
   const [cartItems, setCartItems] = useState([]);
   const [customerInfo, setCustomerInfo] = useState(null);
   const [promoCode, setPromoCode] = useState(null);
 
-  // Payment state
+  // Flow: 'select_method' | 'pick_coin' | 'send_payment' | 'confirm' | 'bank_ach' | 'completed' | 'failed'
+  const [step, setStep] = useState('select_method');
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [cryptoAmount, setCryptoAmount] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
-  const [stage, setStage] = useState(CHECKOUT_STAGE.SELECT_PAYMENT);
-  const [paymentMethod, setPaymentMethod] = useState(null);
-  const [orderData] = useState(() => ({
-    order_number: `ORD-${Date.now()}`,
-    total_amount: 0,
-    items: [],
-    shipping_address: null
-  }));
+  const [isLoadingRate, setIsLoadingRate] = useState(false);
 
-  // Wallet connection
-  const [availableWallets, setAvailableWallets] = useState([]);
-  const [connectedWallet, setConnectedWallet] = useState(null);
-  const [walletAddress, setWalletAddress] = useState('');
-  const [connectionState, setConnectionState] = useState('idle');
-  const [connectionError, setConnectionError] = useState('');
-
-  // Transaction state
+  // Transaction
   const [transactionId, setTransactionId] = useState('');
   const [verificationStatus, setVerificationStatus] = useState('idle');
   const [verificationMessage, setVerificationMessage] = useState('');
-  const [autoVerifyEnabled, setAutoVerifyEnabled] = useState(true);
-
-  // UI state
-  const [copied, setCopied] = useState(false);
-  const [isLoadingRate, setIsLoadingRate] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
 
-  // Timer state
+  // UI
+  const [copied, setCopied] = useState(false);
+  const [copiedAmount, setCopiedAmount] = useState(false);
   const [timeLeft, setTimeLeft] = useState(900);
+  const [showNewTooltip, setShowNewTooltip] = useState(false);
 
-  // Timer effect
+  const txVerifyRef = useRef(null);
+
+  // Timer for rate expiration
   useEffect(() => {
-    if (stage === CHECKOUT_STAGE.PAYMENT) {
+    if (step === 'send_payment') {
       setTimeLeft(900);
       const timer = setInterval(() => {
         setTimeLeft((prev) => {
-          if (prev <= 0) {
-            clearInterval(timer);
-            return 0;
-          }
+          if (prev <= 0) { clearInterval(timer); return 0; }
           return prev - 1;
         });
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [stage]);
+  }, [step]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -205,125 +207,53 @@ export default function CryptoCheckout() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Refs for intervals
-  const walletMonitorRef = useRef(null);
-  const txVerifyRef = useRef(null);
-  
-  // Redirect effect for completed stage
+  // Redirect on completion
   useEffect(() => {
-    if (stage === CHECKOUT_STAGE.COMPLETED) {
+    if (step === 'completed') {
       const orderNumber = localStorage.getItem('lastOrderNumber');
       const txHash = localStorage.getItem('lastTransactionId');
-      
       const timer = setTimeout(() => {
         window.location.href = `${createPageUrl('PaymentCompleted')}?txid=${txHash}&order=${orderNumber}`;
-      }, 2000);
-      
+      }, 2500);
       return () => clearTimeout(timer);
     }
-  }, [stage]);
+  }, [step]);
 
-  // Initialize data on mount
+  // Init
   useEffect(() => {
-    const checkAuth = async () => {
+    const init = async () => {
       try {
         const authenticated = await base44.auth.isAuthenticated();
         if (!authenticated) {
           base44.auth.redirectToLogin(createPageUrl('Cart'));
-          return false;
+          return;
         }
-        return true;
-      } catch (error) {
+      } catch {
         base44.auth.redirectToLogin(createPageUrl('Cart'));
-        return false;
+        return;
       }
-    };
-
-    const init = async () => {
-      const isAuth = await checkAuth();
-      if (!isAuth) return;
 
       const cart = getCart();
       const customer = JSON.parse(localStorage.getItem('customerInfo') || 'null');
       const promo = getPromoCode();
 
-      if (cart.length === 0) {
-        navigate(createPageUrl('Cart'));
-        return;
-      }
-
-      if (!customer) {
-        navigate(createPageUrl('CustomerInfo'));
-        return;
-      }
+      if (cart.length === 0) { navigate(createPageUrl('Cart')); return; }
+      if (!customer) { navigate(createPageUrl('CustomerInfo')); return; }
 
       setCartItems(cart);
       setCustomerInfo(customer);
       setPromoCode(promo);
-
-      // Update order data
-      const subtotal = getCartTotal();
-      const discount = promo ? getDiscountAmount(promo, subtotal) : 0;
-      const total = subtotal - discount + SHIPPING_COST;
-      
-      orderData.total_amount = total;
-      orderData.items = cart;
-      orderData.shipping_address = customer;
-
-      // Check if this is a test order
-      const isTestOrder = cart.every(item => item.productName.includes('TEST PRODUCT'));
-      if (isTestOrder) {
-        window.__isTestOrder = true;
-      }
     };
-
     init();
   }, [navigate]);
 
-  // Detect available wallets when crypto is selected
+  // Fetch exchange rate
   useEffect(() => {
     if (!selectedCrypto) return;
+    const crypto = CRYPTO_OPTIONS.find(c => c.id === selectedCrypto);
 
-    const detectWallets = () => {
-      const detected = [];
-      Object.values(WALLET_CONFIGS).forEach(wallet => {
-        if (wallet.chains.includes(selectedCrypto)) {
-          const isInstalled = wallet.detectProvider();
-          detected.push({
-            ...wallet,
-            isInstalled,
-            isRecommended: wallet.id === 'coinbase',
-          });
-        }
-      });
-
-      detected.sort((a, b) => {
-        if (a.id === 'manual') return 1;
-        if (b.id === 'manual') return -1;
-        if (a.isInstalled !== b.isInstalled) return b.isInstalled ? 1 : -1;
-        if (a.isRecommended !== b.isRecommended) return b.isRecommended ? 1 : -1;
-        return a.name.localeCompare(b.name);
-      });
-
-      setAvailableWallets(detected);
-    };
-
-    detectWallets();
-  }, [selectedCrypto]);
-
-  // Calculate totals
-  const subtotal = getCartTotal();
-  const discount = promoCode ? getDiscountAmount(promoCode, subtotal) : 0;
-  const totalUSD = subtotal - discount + SHIPPING_COST;
-
-  // Fetch exchange rate when crypto is selected
-  useEffect(() => {
-    if (!selectedCrypto) return;
-
-    const fetchExchangeRate = async () => {
+    const fetchRate = async () => {
       setIsLoadingRate(true);
-      const crypto = CRYPTO_OPTIONS.find(c => c.id === selectedCrypto);
-
       if (crypto?.isStablecoin) {
         setExchangeRate(1);
         setCryptoAmount(totalUSD.toFixed(2));
@@ -332,180 +262,48 @@ export default function CryptoCheckout() {
       }
 
       try {
-        // Use CoinGecko free API for real exchange rates
         const coinIds = { BTC: 'bitcoin', ETH: 'ethereum' };
-        const coinId = coinIds[selectedCrypto];
-        const response = await fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`
-        );
+        const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIds[selectedCrypto]}&vs_currencies=usd`);
         const data = await response.json();
-        const rate = data[coinId]?.usd;
-
+        const rate = data[coinIds[selectedCrypto]]?.usd;
         if (rate) {
           setExchangeRate(rate);
-          const amount = (totalUSD / rate).toFixed(8);
-          setCryptoAmount(amount);
-        } else {
-          throw new Error('Rate not found');
-        }
-      } catch (error) {
-        console.error('Failed to fetch exchange rate:', error);
-        const fallbackRates = { BTC: 95000, ETH: 3200 };
-        const rate = fallbackRates[selectedCrypto] || 1;
+          setCryptoAmount((totalUSD / rate).toFixed(8));
+        } else throw new Error('Rate not found');
+      } catch {
+        const fallback = { BTC: 95000, ETH: 3200 };
+        const rate = fallback[selectedCrypto] || 1;
         setExchangeRate(rate);
         setCryptoAmount((totalUSD / rate).toFixed(8));
       }
-
       setIsLoadingRate(false);
     };
 
-    fetchExchangeRate();
-  }, [selectedCrypto, totalUSD]);
+    fetchRate();
+  }, [selectedCrypto]);
 
-  // Helper to find any available provider
-  const getAnyProvider = () => {
-    if (typeof window === 'undefined') return null;
-    
-    try {
-      if (window.ethereum) {
-        if (Array.isArray(window.ethereum.providers)) {
-          return window.ethereum; 
-        }
-        return window.ethereum;
-      }
-      
-      if (window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
-      if (window.phantom?.ethereum) return window.phantom.ethereum;
-      if (window.solana) return window.solana; 
-    } catch (error) {
-      console.warn('Provider detection error:', error);
-    }
-    
-    return null;
-  };
-
-  // Helper to find specific provider with retries
-  const findProvider = async (walletId) => {
-    const check = () => {
-      if (typeof window === 'undefined') return null;
-      
-      try {
-        let provider = null;
-        if (walletId === 'coinbase') {
-          if (window.ethereum?.isCoinbaseWallet) provider = window.ethereum;
-          else if (window.coinbaseWalletExtension) provider = window.coinbaseWalletExtension;
-          else if (window.ethereum?.providers?.find(p => p.isCoinbaseWallet)) provider = window.ethereum.providers.find(p => p.isCoinbaseWallet);
-        }
-        
-        return provider;
-      } catch (error) {
-        console.warn('Provider check error:', error);
-        return null;
-      }
-    };
-
-    let p = check();
-    if (p) return p;
-
-    for (let i = 0; i < 20; i++) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      p = check();
-      if (p) return p;
-    }
-    
-    if (window.ethereum) return window.ethereum;
-    return getAnyProvider();
-  };
-
-  // Connect wallet function
-  const connectWallet = useCallback(async (wallet) => {
-    setConnectionState('connecting');
-    setConnectionError('');
-
-    try {
-      if (wallet.id === 'manual' || wallet.id === 'cashapp') {
-        setConnectedWallet({ ...wallet, isManual: true, isCashApp: wallet.id === 'cashapp' });
-        setStage(CHECKOUT_STAGE.PAYMENT);
-        setConnectionState('connected');
-        return;
-      }
-
-      const provider = await findProvider(wallet.id);
-
-      if (provider) {
-        try {
-          const accounts = await provider.request({ method: 'eth_requestAccounts' });
-
-          if (accounts && accounts.length > 0) {
-            const address = accounts[0];
-            setWalletAddress(address);
-            setConnectedWallet({ ...wallet, provider, address });
-            setStage(CHECKOUT_STAGE.PAYMENT);
-            setConnectionState('connected');
-
-            try {
-              const balanceHex = await provider.request({
-                method: 'eth_getBalance',
-                params: [address, 'latest'],
-              });
-              const balance = parseInt(balanceHex, 16) / 1e18;
-              setConnectedWallet(prev => ({ ...prev, balance }));
-            } catch (e) {
-              console.warn('Could not fetch balance');
-            }
-          } else {
-            throw new Error('No accounts returned');
-          }
-        } catch (reqError) {
-          throw reqError;
-        }
-      } else {
-        setConnectionState('error');
-        setConnectionError(`${wallet.name} not detected. Please install it first.`);
-      }
-    } catch (error) {
-      setConnectionState('error');
-      
-      if (error.code === 4001) {
-        setConnectionError('Connection rejected. Please approve the connection request in your wallet.');
-      } else if (error.code === -32002) {
-        setConnectionError('Connection pending. Please check your wallet extension.');
-      } else {
-        setConnectionError(error.message || 'Failed to connect wallet.');
-      }
-    }
-  }, []);
-
-  // Wallet monitoring removed - users submit transaction hash manually
-  // LLM-based blockchain monitoring was unreliable and insecure
-
-  // Auto-verify transaction ID
+  // Auto-verify transaction
   useEffect(() => {
-    if (!transactionId || verificationStatus === 'verified') return;
-    if (stage !== CHECKOUT_STAGE.CONFIRMING) return;
+    if (!transactionId || verificationStatus === 'verified' || step !== 'confirm') return;
 
     txVerifyRef.current = setInterval(async () => {
       await verifyTransaction(transactionId);
     }, 10000);
-
     verifyTransaction(transactionId);
 
-    return () => {
-      if (txVerifyRef.current) clearInterval(txVerifyRef.current);
-    };
-  }, [transactionId, stage]);
+    return () => { if (txVerifyRef.current) clearInterval(txVerifyRef.current); };
+  }, [transactionId, step]);
 
-  const handleTransactionDetected = async (txHash) => {
-    setStage(CHECKOUT_STAGE.CONFIRMING);
-    setVerificationStatus('checking');
-  };
+  // Calculate totals
+  const subtotal = getCartTotal();
+  const discount = promoCode ? getDiscountAmount(promoCode, subtotal) : 0;
+  const totalUSD = subtotal - discount + SHIPPING_COST;
 
   const verifyTransaction = async (txHash) => {
     setVerificationStatus('checking');
-    setVerificationMessage('Verifying transaction on blockchain...');
+    setVerificationMessage('Checking the blockchain for your payment...');
 
     try {
-      // Use server-side blockchain API verification instead of LLM
       const result = await base44.functions.invoke('verifyCryptoTransaction', {
         txHash,
         crypto: selectedCrypto,
@@ -519,13 +317,12 @@ export default function CryptoCheckout() {
         await processSuccessfulPayment(txHash);
       } else if (result?.status === 'pending') {
         const crypto = CRYPTO_OPTIONS.find(c => c.id === selectedCrypto);
-        setVerificationMessage(`Waiting for confirmations (${result.confirmations || 0}/${crypto?.minConfirmations || 3})`);
+        setVerificationMessage(`Waiting for network confirmations (${result.confirmations || 0}/${crypto?.minConfirmations || 3})... This can take a few minutes.`);
       } else if (result?.status === 'failed') {
         setVerificationStatus('failed');
-        setVerificationMessage(result.message || 'Transaction verification failed');
+        setVerificationMessage(result.message || 'We couldn\'t verify this transaction. Please double-check your transaction ID.');
       }
-    } catch (error) {
-      console.error('Verification error:', error);
+    } catch {
       setRetryCount(prev => prev + 1);
       if (retryCount >= 3) {
         setVerificationMessage('Having trouble verifying. Please contact support with your transaction ID.');
@@ -534,22 +331,18 @@ export default function CryptoCheckout() {
   };
 
   const processSuccessfulPayment = async (txHash, method = 'cryptocurrency') => {
-    setStage(CHECKOUT_STAGE.COMPLETED);
+    setStep('completed');
 
     try {
       const orderNumber = `RDR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
       let userEmail = null;
-      try {
-        const user = await base44.auth.me();
-        userEmail = user?.email;
-      } catch (e) {}
+      try { const user = await base44.auth.me(); userEmail = user?.email; } catch {}
 
       const customerName = customerInfo?.firstName && customerInfo?.lastName
         ? `${customerInfo.firstName} ${customerInfo.lastName}`
         : customerInfo?.name || 'Guest Customer';
 
-      // Get affiliate info if an affiliate code was used
       const affiliateInfo = getAffiliateInfo();
 
       // Update stock
@@ -567,9 +360,7 @@ export default function CryptoCheckout() {
             }
             return spec;
           });
-
           const allOutOfStock = updatedSpecs.every(spec => !spec.in_stock);
-
           await base44.entities.Product.update(product.id, {
             specifications: updatedSpecs,
             in_stock: !allOutOfStock
@@ -577,7 +368,7 @@ export default function CryptoCheckout() {
         }
       }
 
-      // Build order data with affiliate tracking
+      // Build order
       const orderPayload = {
         order_number: orderNumber,
         customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
@@ -610,30 +401,26 @@ export default function CryptoCheckout() {
         },
       };
 
-      // Store affiliate tracking fields on the order
       if (affiliateInfo) {
         orderPayload.affiliate_code = affiliateInfo.code;
         orderPayload.affiliate_email = affiliateInfo.email;
         orderPayload.affiliate_name = affiliateInfo.name;
-        orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2)); // 10% commission
+        orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
       }
 
-      // Store referral code on order if present
       const referralCode = localStorage.getItem('rdr_referral_code');
       if (referralCode) {
         orderPayload.referral_code = referralCode;
       }
 
-      // Create order
       await base44.entities.Order.create(orderPayload);
 
-      // ─── BLOCKCHAIN CONFIRMED: Credit affiliate rewards now ───
+      // ─── BLOCKCHAIN CONFIRMED: Credit affiliate rewards ───
       if (affiliateInfo) {
         try {
-          const pointsEarned = parseFloat((totalUSD * 0.015).toFixed(2)); // 1.5%
-          const commission = parseFloat((totalUSD * 0.10).toFixed(2)); // 10%
+          const pointsEarned = parseFloat((totalUSD * 0.015).toFixed(2));
+          const commission = parseFloat((totalUSD * 0.10).toFixed(2));
 
-          // Record the affiliate transaction
           await base44.entities.AffiliateTransaction.create({
             affiliate_email: affiliateInfo.email,
             affiliate_name: affiliateInfo.name,
@@ -646,7 +433,6 @@ export default function CryptoCheckout() {
             status: 'pending',
           });
 
-          // Update affiliate's total points balance
           const affiliateCodes = await base44.entities.AffiliateCode.list();
           const affiliateRecord = affiliateCodes.find(a => a.affiliate_email === affiliateInfo.email && a.code === affiliateInfo.code);
           if (affiliateRecord) {
@@ -666,7 +452,6 @@ export default function CryptoCheckout() {
       if (referralCode) {
         try {
           const discountCode = 'REFER' + Math.random().toString(36).substring(2, 8).toUpperCase();
-
           await base44.integrations.Core.SendEmail({
             from_name: 'Red Helix Research - Referral System',
             to: 'jakehboen95@gmail.com',
@@ -685,14 +470,12 @@ export default function CryptoCheckout() {
               'Please send the referrer a thank-you email with a <strong>one-time 10% discount code</strong>.</p>' +
               '</div>'
           });
-
           localStorage.removeItem('rdr_referral_code');
         } catch (refError) {
           console.error('Referral tracking error (non-blocking):', refError);
         }
       }
 
-      // Track purchase in HubSpot
       trackPurchase({
         order_number: orderNumber,
         customer_email: userEmail || customerInfo?.email,
@@ -708,512 +491,475 @@ export default function CryptoCheckout() {
     }
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text, type = 'address') => {
     navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (type === 'amount') {
+      setCopiedAmount(true);
+      setTimeout(() => setCopiedAmount(false), 2000);
+    } else {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
+  const handleSelectCrypto = (cryptoId) => {
+    setSelectedCrypto(cryptoId);
+    setStep('send_payment');
+  };
+
+  const handleSubmitTx = () => {
+    if (!transactionId.trim()) return;
+    setStep('confirm');
+  };
+
+  // Current step number for indicator
+  const stepNumber = step === 'pick_coin' ? 1 : step === 'send_payment' ? 2 : step === 'confirm' ? 3 : 0;
+
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.03]">
+    <div className="min-h-screen bg-white pt-28 pb-20 relative overflow-hidden">
+      {/* Subtle background */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-[0.02]">
         <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-[#dc2626] rounded-full blur-[120px]" />
-        <div className="absolute bottom-20 left-[-10%] w-[600px] h-[600px] bg-slate-400 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 left-[-10%] w-[400px] h-[400px] bg-slate-400 rounded-full blur-[120px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Main Content */}
+      <div className="max-w-5xl mx-auto px-4 relative z-10">
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+          <Link to={createPageUrl('CustomerInfo')}>
+            <Button variant="outline" className="mb-6 border-slate-200 text-slate-600 hover:bg-slate-50 rounded-full font-bold uppercase tracking-wider text-xs">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back
+            </Button>
+          </Link>
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+            Checkout
+          </h1>
+          <p className="text-lg text-slate-500 font-medium mt-2">Choose how you'd like to pay</p>
+        </motion.div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main */}
           <div className="flex-1">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="mb-12"
-            >
-              <Link to={createPageUrl('CustomerInfo')}>
-                <Button variant="outline" className="mb-8 border-slate-200 text-slate-600 hover:bg-slate-50 rounded-full font-bold uppercase tracking-wider text-xs">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Customer Info
-                </Button>
-              </Link>
-              
-              <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">
-                Secure <span className="text-[#dc2626]">Checkout</span>
-              </h1>
-              <p className="text-xl text-slate-500 font-medium">Select your preferred clinical research payment method.</p>
-            </motion.div>
-
             <AnimatePresence mode="wait">
-              {/* STAGE: Select Payment Method */}
-              {stage === CHECKOUT_STAGE.SELECT_PAYMENT && (
-                <motion.div
-                  key="select_payment"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <button
-                      onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
-                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-[#dc2626] hover:shadow-2xl transition-all relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
-                        <Wallet className="w-32 h-32 text-slate-900" />
-                      </div>
-                      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <Wallet className="w-8 h-8 text-[#dc2626]" />
-                      </div>
-                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">Cryptocurrency</h3>
-                      <p className="text-slate-500 font-medium leading-relaxed">Pay with Bitcoin, Ethereum, or Stablecoins. Fast, private, and secure.</p>
-                      <div className="mt-6 inline-flex items-center text-[#dc2626] font-black uppercase tracking-widest text-xs">
-                        Select Crypto <ChevronDown className="w-4 h-4 ml-2" />
-                      </div>
-                    </button>
 
-                    <button
-                      onClick={() => setStage(CHECKOUT_STAGE.BANK_ACH)}
-                      className="group p-8 bg-white border border-slate-200 rounded-[40px] text-left hover:border-[#dc2626] hover:shadow-2xl transition-all relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
-                        <ShieldCheck className="w-32 h-32 text-slate-900" />
-                      </div>
-                      <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <LinkIcon className="w-8 h-8 text-[#dc2626]" />
-                      </div>
-                      <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">Bank Transfer</h3>
-                      <p className="text-slate-500 font-medium leading-relaxed">Connect your bank account securely via Plaid for instant ACH payment.</p>
-                      <div className="mt-6 inline-flex items-center text-[#dc2626] font-black uppercase tracking-widest text-xs">
-                        Link Account <ChevronDown className="w-4 h-4 ml-2" />
-                      </div>
-                    </button>
+              {/* ───── SELECT METHOD ───── */}
+              {step === 'select_method' && (
+                <motion.div key="method" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-4">
+                  {/* Crypto option */}
+                  <button
+                    onClick={() => setStep('pick_coin')}
+                    className="w-full group p-6 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-[#dc2626] hover:shadow-lg transition-all flex items-center gap-5"
+                  >
+                    <div className="w-14 h-14 bg-orange-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <span className="text-2xl">₿</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
+                        Pay with Crypto
+                      </h3>
+                      <p className="text-sm text-slate-500 font-medium">Bitcoin, Ethereum, USDT, or USDC</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
+                  </button>
+
+                  {/* Bank ACH option */}
+                  <button
+                    onClick={() => setStep('bank_ach')}
+                    className="w-full group p-6 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-[#dc2626] hover:shadow-lg transition-all flex items-center gap-5"
+                  >
+                    <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <LinkIcon className="w-7 h-7 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
+                        Bank Transfer (ACH)
+                      </h3>
+                      <p className="text-sm text-slate-500 font-medium">Connect your bank securely via Plaid</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
+                  </button>
+
+                  {/* Security note */}
+                  <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <Shield className="w-5 h-5 text-[#dc2626] flex-shrink-0" />
+                    <p className="text-xs text-slate-500 font-medium">All payments are encrypted and securely processed.</p>
                   </div>
 
-                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex items-center gap-6">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
-                      <Shield className="w-6 h-6 text-[#dc2626]" />
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-black text-slate-900 uppercase tracking-tight">Clinical Security Standards</h4>
-                      <p className="text-sm text-slate-500 font-medium">All transactions are encrypted and processed through secure research fulfillment protocols.</p>
-                    </div>
+                  {/* New to crypto? */}
+                  <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                    <button onClick={() => setShowNewTooltip(!showNewTooltip)} className="flex items-center gap-2 w-full text-left">
+                      <Info className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                      <span className="text-sm font-bold text-blue-700">New to crypto? Tap here for a quick guide</span>
+                    </button>
+                    {showNewTooltip && (
+                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="mt-3 text-sm text-blue-700 space-y-2 overflow-hidden">
+                        <p><strong>1.</strong> Download a crypto app like <strong>Coinbase</strong> or <strong>Cash App</strong> on your phone.</p>
+                        <p><strong>2.</strong> Buy some crypto (we recommend <strong>USDT</strong> — it's always worth $1, so no surprises).</p>
+                        <p><strong>3.</strong> Come back here, pick your coin, and we'll give you an address to send to.</p>
+                        <p><strong>4.</strong> After sending, paste the transaction ID and you're done!</p>
+                        <p className="text-blue-500 text-xs mt-2">It takes about 5 minutes your first time. After that, it's faster than a credit card.</p>
+                      </motion.div>
+                    )}
                   </div>
                 </motion.div>
               )}
 
-              {/* STAGE: Select Crypto */}
-              {stage === CHECKOUT_STAGE.SELECT_CRYPTO && (
-                <motion.div
-                  key="select_crypto"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                >
-                  <Button
-                    variant="ghost"
-                    onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
-                    className="mb-8 text-slate-500 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs p-0"
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
-                  </Button>
+              {/* ───── PICK COIN ───── */}
+              {step === 'pick_coin' && (
+                <motion.div key="pick" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+                  <StepIndicator currentStep={1} />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <button onClick={() => setStep('select_method')} className="flex items-center gap-1 text-sm text-slate-400 hover:text-[#dc2626] font-bold mb-6 transition-colors">
+                    <ArrowLeft className="w-4 h-4" /> Back
+                  </button>
+
+                  <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-2">Which crypto do you have?</h2>
+                  <p className="text-slate-500 font-medium mb-6 text-sm">Pick the coin you want to pay with. Not sure? <strong>USDT is the easiest</strong> — it's always worth $1.</p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {CRYPTO_OPTIONS.map((crypto) => (
                       <button
                         key={crypto.id}
-                        onClick={() => {
-                          setSelectedCrypto(crypto.id);
-                          setStage(CHECKOUT_STAGE.CONNECT_WALLET);
-                        }}
-                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-[#dc2626] hover:shadow-xl transition-all text-left"
+                        onClick={() => handleSelectCrypto(crypto.id)}
+                        className="group p-5 bg-white border-2 border-slate-200 rounded-2xl flex items-center gap-4 hover:border-[#dc2626] hover:shadow-lg transition-all text-left"
                       >
-                        <div 
-                          className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-lg transition-transform group-hover:scale-110"
-                          style={{ backgroundColor: `${crypto.color}15`, color: crypto.color }}
+                        <div
+                          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl transition-transform group-hover:scale-110"
+                          style={{ backgroundColor: `${crypto.color}12`, color: crypto.color }}
                         >
                           {crypto.icon}
                         </div>
-                        <div className="flex-1">
-                          <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{crypto.name}</h4>
-                          <p className="text-sm text-slate-500 font-medium">{crypto.network}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-base font-black text-slate-900 uppercase tracking-tight">{crypto.symbol}</h4>
+                            {crypto.badge && (
+                              <span className="px-2 py-0.5 bg-green-50 text-green-600 text-[9px] font-black uppercase tracking-widest rounded-full">{crypto.badge}</span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-400 font-medium truncate">{crypto.description}</p>
                         </div>
-                        <ChevronDown className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] -rotate-90 transition-colors" />
+                        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-[#dc2626]" />
                       </button>
                     ))}
                   </div>
                 </motion.div>
               )}
 
-              {/* STAGE: Bank ACH */}
-              {stage === CHECKOUT_STAGE.BANK_ACH && (
-                <motion.div
-                  key="bank_ach"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100"
-                >
-                  <Button
-                    variant="ghost"
-                    onClick={() => setStage(CHECKOUT_STAGE.SELECT_PAYMENT)}
-                    className="mb-8 text-slate-500 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs p-0"
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to methods
-                  </Button>
+              {/* ───── SEND PAYMENT ───── */}
+              {step === 'send_payment' && selectedCrypto && (
+                <motion.div key="send" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+                  <StepIndicator currentStep={2} />
+
+                  <button onClick={() => { setStep('pick_coin'); setSelectedCrypto(null); }} className="flex items-center gap-1 text-sm text-slate-400 hover:text-[#dc2626] font-bold mb-6 transition-colors">
+                    <ArrowLeft className="w-4 h-4" /> Change coin
+                  </button>
+
+                  <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8 space-y-6">
+                    {/* Header */}
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">
+                        Send {selectedCrypto}
+                      </h2>
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-100 rounded-full">
+                        <Clock className="w-3.5 h-3.5 text-orange-500" />
+                        <span className="text-[10px] font-bold text-orange-600 uppercase tracking-wider">{formatTime(timeLeft)}</span>
+                      </div>
+                    </div>
+
+                    {/* Instructions */}
+                    <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                      <p className="text-sm text-blue-700 font-medium">
+                        <strong>How it works:</strong> Open your crypto app (Coinbase, Cash App, etc.), tap <strong>Send</strong>, paste the address below, enter the exact amount, and hit send. That's it!
+                      </p>
+                    </div>
+
+                    {/* Amount */}
+                    <div>
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">
+                        Amount to Send
+                        <HelpTip>This is the exact amount of {selectedCrypto} to send. Make sure you send this exact amount so we can match your payment.</HelpTip>
+                      </label>
+                      <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                        <div className="flex-1">
+                          <span className="text-3xl font-black text-slate-900 tracking-tight">
+                            {isLoadingRate ? <Loader2 className="w-6 h-6 animate-spin inline" /> : cryptoAmount}
+                          </span>
+                          <span className="text-lg font-black text-[#dc2626] ml-2 uppercase">{selectedCrypto}</span>
+                          <p className="text-sm text-slate-400 font-medium mt-0.5">= ${totalUSD.toFixed(2)} USD</p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => copyToClipboard(cryptoAmount, 'amount')}
+                          className="rounded-lg border-slate-200 text-xs font-bold"
+                        >
+                          {copiedAmount ? <Check className="w-4 h-4 text-green-500" /> : <><Copy className="w-3 h-3 mr-1" /> Copy</>}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Address */}
+                    <div>
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">
+                        Send To This Address
+                        <HelpTip>Copy this address and paste it into the "To" or "Recipient" field in your crypto app. Double-check it matches!</HelpTip>
+                      </label>
+                      <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                        <code className="flex-1 text-xs sm:text-sm font-bold text-slate-900 break-all select-all">
+                          {PAYMENT_ADDRESSES[selectedCrypto]}
+                        </code>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => copyToClipboard(PAYMENT_ADDRESSES[selectedCrypto])}
+                          className="rounded-lg border-slate-200 text-xs font-bold flex-shrink-0"
+                        >
+                          {copied ? <Check className="w-4 h-4 text-green-500" /> : <><Copy className="w-3 h-3 mr-1" /> Copy</>}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* QR Code */}
+                    <div className="flex flex-col items-center pt-2">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Or scan with your crypto app</p>
+                      <div className="p-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <img
+                          src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${selectedCrypto === 'BTC' ? 'bitcoin' : 'ethereum'}:${PAYMENT_ADDRESSES[selectedCrypto]}?amount=${cryptoAmount}`}
+                          alt="Payment QR Code"
+                          className="w-40 h-40"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Network warning */}
+                    <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+                      <AlertCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-bold text-[#dc2626]">Important: Send on the correct network</p>
+                        <p className="text-xs text-red-600 mt-1">
+                          Make sure you're sending on <strong>{CRYPTO_OPTIONS.find(c => c.id === selectedCrypto)?.network}</strong>.
+                          Sending on the wrong network means your funds can't be recovered.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* TX Hash input */}
+                  <div className="mt-6 bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
+                    <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-2">Already sent it?</h3>
+                    <p className="text-sm text-slate-500 font-medium mb-4">
+                      Paste your transaction ID below. You can find it in your crypto app under "Activity" or "Transaction History."
+                      <HelpTip>A transaction ID (or "hash") is a long string of letters and numbers that proves your payment was sent. Every crypto transaction has one. Look in your wallet app's history/activity tab.</HelpTip>
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <input
+                        type="text"
+                        value={transactionId}
+                        onChange={(e) => setTransactionId(e.target.value)}
+                        placeholder="Paste your transaction ID here"
+                        className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626]/20 transition-all font-medium text-sm"
+                      />
+                      <Button
+                        onClick={handleSubmitTx}
+                        disabled={!transactionId.trim()}
+                        className="bg-[#dc2626] hover:bg-[#b91c1c] text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest text-xs h-auto shadow-lg shadow-red-200 hover:shadow-red-300 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none transition-all"
+                      >
+                        Verify Payment
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ───── CONFIRM ───── */}
+              {step === 'confirm' && (
+                <motion.div key="confirming" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="bg-white border-2 border-slate-200 rounded-2xl p-8 md:p-12 text-center">
+                  <StepIndicator currentStep={3} />
+
+                  <div className="max-w-sm mx-auto">
+                    {verificationStatus !== 'failed' ? (
+                      <>
+                        <div className="w-20 h-20 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                          <Loader2 className="w-10 h-10 text-[#dc2626] animate-spin" />
+                        </div>
+                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-3">Checking Your Payment</h2>
+                        <p className="text-slate-500 font-medium mb-6 text-sm">{verificationMessage || 'Looking for your transaction on the blockchain...'}</p>
+
+                        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-4">
+                          <motion.div
+                            initial={{ width: "5%" }}
+                            animate={{ width: "95%" }}
+                            transition={{ duration: 30, ease: "linear" }}
+                            className="h-full bg-[#dc2626] rounded-full"
+                          />
+                        </div>
+                        <p className="text-xs text-slate-400 font-medium">
+                          This usually takes 1-5 minutes. You can stay on this page — we'll update automatically.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-20 h-20 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                          <AlertCircle className="w-10 h-10 text-[#dc2626]" />
+                        </div>
+                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-3">Couldn't Verify</h2>
+                        <p className="text-slate-500 font-medium mb-6 text-sm">{verificationMessage}</p>
+                        <div className="flex flex-col gap-3">
+                          <Button
+                            onClick={() => { setStep('send_payment'); setVerificationStatus('idle'); setRetryCount(0); }}
+                            className="bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-3"
+                          >
+                            Try Again
+                          </Button>
+                          <p className="text-xs text-slate-400">
+                            If this keeps happening, contact support with your transaction ID: <span className="font-mono text-slate-600 break-all">{transactionId}</span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ───── BANK ACH ───── */}
+              {step === 'bank_ach' && (
+                <motion.div key="ach" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
+                  <button onClick={() => setStep('select_method')} className="flex items-center gap-1 text-sm text-slate-400 hover:text-[#dc2626] font-bold mb-6 transition-colors">
+                    <ArrowLeft className="w-4 h-4" /> Back
+                  </button>
 
                   <div className="max-w-md mx-auto text-center">
-                    <div className="w-20 h-20 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-red-100">
-                      <LinkIcon className="w-10 h-10 text-[#dc2626]" />
+                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                      <LinkIcon className="w-8 h-8 text-blue-600" />
                     </div>
-                    <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Bank Connection</h2>
-                    <p className="text-slate-500 font-medium mb-10">Securely link your bank account via Plaid for instant research material funding.</p>
-                    
-                    <PlaidACHCheckout 
+                    <h2 className="text-2xl font-black text-slate-900 mb-3 uppercase tracking-tight">Bank Transfer</h2>
+                    <p className="text-slate-500 font-medium mb-8 text-sm">Connect your bank account securely via Plaid.</p>
+
+                    <PlaidACHCheckout
                       totalAmount={totalUSD}
                       onSuccess={async (paymentId) => {
                         await processSuccessfulPayment(paymentId, 'bank_ach');
                       }}
                     />
 
-                    <div className="mt-12 flex flex-wrap justify-center gap-6 opacity-50 grayscale hover:grayscale-0 transition-all">
+                    <div className="mt-8 flex justify-center gap-4 opacity-60">
                       <PCIComplianceBadge />
-                      <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full">
-                        <Lock className="w-4 h-4 text-slate-600" />
-                        <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">256-bit Encrypted</span>
+                      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full">
+                        <Lock className="w-3 h-3 text-slate-500" />
+                        <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">256-bit Encrypted</span>
                       </div>
                     </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* STAGE: Connect Wallet */}
-              {stage === CHECKOUT_STAGE.CONNECT_WALLET && (
-                <motion.div
-                  key="connect_wallet"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                >
-                  <div className="flex items-center justify-between mb-8">
-                    <Button
-                      variant="ghost"
-                      onClick={() => setStage(CHECKOUT_STAGE.SELECT_CRYPTO)}
-                      className="text-slate-500 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs p-0"
-                    >
-                      <ArrowLeft className="w-4 h-4 mr-2" /> Back to crypto
-                    </Button>
-                    <div className="px-4 py-2 bg-slate-50 border border-slate-100 rounded-full flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#dc2626]" />
-                      <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Paying with {selectedCrypto}</span>
+              {/* ───── COMPLETED ───── */}
+              {step === 'completed' && (
+                <motion.div key="done" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white border-2 border-green-200 rounded-2xl p-8 md:p-12 text-center">
+                  <div className="max-w-sm mx-auto">
+                    <div className="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle2 className="w-10 h-10 text-green-500" />
                     </div>
-                  </div>
+                    <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-3">
+                      Payment <span className="text-green-500">Confirmed!</span>
+                    </h2>
+                    <p className="text-slate-500 font-medium mb-8 text-sm">Your order has been placed and is being processed.</p>
 
-                  <div className="grid gap-4">
-                    {availableWallets.map((wallet) => (
-                      <button
-                        key={wallet.id}
-                        onClick={() => connectWallet(wallet)}
-                        disabled={connectionState === 'connecting'}
-                        className="group p-6 bg-white border border-slate-200 rounded-[32px] flex items-center gap-6 hover:border-[#dc2626] hover:shadow-xl transition-all text-left disabled:opacity-50"
-                      >
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                          {wallet.icon}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3">
-                            <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{wallet.name}</h4>
-                            {wallet.isRecommended && (
-                              <span className="px-3 py-1 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Recommended</span>
-                            )}
-                          </div>
-                          <p className="text-sm text-slate-500 font-medium">
-                            {wallet.isInstalled ? 'Installed & Ready' : 'External Wallet'}
-                          </p>
-                        </div>
-                        {connectionState === 'connecting' ? (
-                          <Loader2 className="w-5 h-5 text-[#dc2626] animate-spin" />
-                        ) : (
-                          <ExternalLink className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-
-                  {connectionError && (
-                    <div className="mt-8 p-6 bg-[#dc2626] border border-red-500 rounded-[24px] flex items-start gap-4">
-                      <AlertCircle className="w-6 h-6 text-white flex-shrink-0" />
-                      <div>
-                        <h4 className="text-sm font-black text-white uppercase tracking-tight mb-1">Connection Error</h4>
-                        <p className="text-sm text-red-50 font-medium">{connectionError}</p>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-
-              {/* STAGE: Payment (QR & Address) */}
-              {stage === CHECKOUT_STAGE.PAYMENT && (
-                <motion.div
-                  key="payment"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="space-y-8"
-                >
-                  <div className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 overflow-hidden relative">
-                    <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none">
-                      <Zap className="w-48 h-48 text-slate-900" />
-                    </div>
-
-                    <div className="flex flex-col md:flex-row gap-12 relative z-10">
-                      {/* QR Code Column */}
-                      <div className="flex flex-col items-center">
-                        <div className="p-6 bg-slate-50 border border-slate-100 rounded-[40px] shadow-inner mb-6 group transition-all hover:bg-white hover:shadow-xl">
-                          <img 
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${selectedCrypto === 'BTC' ? 'bitcoin' : 'ethereum'}:${PAYMENT_ADDRESSES[selectedCrypto]}?amount=${cryptoAmount}`}
-                            alt="Payment QR Code"
-                            className="w-48 h-48 group-hover:scale-105 transition-transform"
-                          />
-                        </div>
-                        <div className="flex items-center gap-2 px-4 py-2 bg-[#dc2626] text-white rounded-full">
-                          <Clock className="w-4 h-4 animate-pulse" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Rate expires in {formatTime(timeLeft)}</span>
-                        </div>
-                      </div>
-
-                      {/* Details Column */}
-                      <div className="flex-1 space-y-8">
-                        <div>
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Amount to send</label>
-                          <div className="flex items-baseline gap-3">
-                            <span className="text-5xl font-black text-slate-900 tracking-tighter">
-                              {isLoadingRate ? '...' : cryptoAmount}
-                            </span>
-                            <span className="text-2xl font-black text-[#dc2626] uppercase">{selectedCrypto}</span>
-                          </div>
-                          <p className="text-slate-500 font-medium mt-1">≈ ${totalUSD.toFixed(2)} USD</p>
-                        </div>
-
-                        <div>
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Recipient Address</label>
-                          <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-[#dc2626] transition-all">
-                            <code className="flex-1 text-sm font-bold text-slate-900 break-all">
-                              {PAYMENT_ADDRESSES[selectedCrypto]}
-                            </code>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => copyToClipboard(PAYMENT_ADDRESSES[selectedCrypto])}
-                              className="text-[#dc2626] hover:bg-red-50 rounded-xl"
-                            >
-                              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            </Button>
-                          </div>
-                        </div>
-
-                        <div className="p-6 bg-[#dc2626] border border-red-500 rounded-3xl">
-                          <div className="flex items-center gap-3 mb-3">
-                            <ShieldCheck className="w-5 h-5 text-white" />
-                            <h4 className="text-sm font-black text-white uppercase tracking-tight">Security Protocol</h4>
-                          </div>
-                          <p className="text-xs text-white font-medium leading-relaxed">
-                            Please ensure you are sending on the <strong>{CRYPTO_OPTIONS.find(c => c.id === selectedCrypto)?.network}</strong>. 
-                            Sending to the wrong network will result in permanent loss of laboratory funds.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Manual TX Input */}
-                  <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-12 opacity-[0.05] pointer-events-none">
-                      <RefreshCw className="w-32 h-32 text-slate-900" />
-                    </div>
-                    
-                    <div className="relative z-10">
-                      <h3 className="text-2xl font-black text-slate-900 mb-4 uppercase tracking-tight">Manual Verification</h3>
-                      <p className="text-slate-500 font-medium mb-8">If your wallet doesn't auto-verify, enter your transaction hash below.</p>
-                      
-                      <div className="flex flex-col md:flex-row gap-4">
-                        <input
-                          type="text"
-                          value={transactionId}
-                          onChange={(e) => setTransactionId(e.target.value)}
-                          placeholder="Enter Transaction ID / Hash"
-                          className="flex-1 bg-white border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626] transition-all font-bold"
-                        />
-                        <Button
-                          onClick={() => setStage(CHECKOUT_STAGE.CONFIRMING)}
-                          disabled={!transactionId}
-                          className="bg-[#dc2626] hover:bg-[#b91c1c] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs h-auto shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px] transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none disabled:opacity-100"
-                        >
-                          Verify Payment
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* STAGE: Confirming */}
-              {stage === CHECKOUT_STAGE.CONFIRMING && (
-                <motion.div
-                  key="confirming"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white border border-slate-200 rounded-[40px] p-12 md:p-20 text-center shadow-xl shadow-slate-100"
-                >
-                  <div className="max-w-md mx-auto">
-                    <div className="w-24 h-24 bg-red-50 rounded-[32px] flex items-center justify-center mx-auto mb-10 shadow-lg shadow-red-100 relative">
-                      <Loader2 className="w-12 h-12 text-[#dc2626] animate-spin" />
-                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white border-4 border-white rounded-full flex items-center justify-center shadow-md">
-                        <ShieldCheck className="w-4 h-4 text-[#dc2626]" />
-                      </div>
-                    </div>
-
-                    <h2 className="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Verifying Transaction</h2>
-                    <p className="text-xl text-slate-500 font-medium mb-8">{verificationMessage}</p>
-
-                    <div className="space-y-4">
-                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: "0%" }}
-                          animate={{ width: "100%" }}
-                          transition={{ duration: 10, repeat: Infinity }}
-                          className="h-full bg-[#dc2626]"
-                        />
-                      </div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Blockchain confirmation in progress</p>
-                    </div>
-
-                    {verificationStatus === 'failed' && (
-                      <div className="mt-12">
-                        <Button
-                          variant="outline"
-                          onClick={() => setStage(CHECKOUT_STAGE.PAYMENT)}
-                          className="border-[#dc2626] text-[#dc2626] hover:bg-red-50 rounded-full px-8 py-6 font-black uppercase tracking-widest text-xs"
-                        >
-                          Return to Payment
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* STAGE: Completed */}
-              {stage === CHECKOUT_STAGE.COMPLETED && (
-                <motion.div
-                  key="completed"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white border border-slate-200 rounded-[40px] p-12 md:p-20 text-center shadow-2xl shadow-slate-200"
-                >
-                  <div className="max-w-md mx-auto">
-                    <div className="w-24 h-24 bg-green-50 rounded-[32px] flex items-center justify-center mx-auto mb-10 shadow-lg shadow-green-100">
-                      <CheckCircle2 className="w-12 h-12 text-green-500" />
-                    </div>
-                    <h2 className="text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none">Discovery <span className="text-green-500">Confirmed</span></h2>
-                    <p className="text-xl text-slate-500 font-medium mb-12">Your research materials have been funded and are entering fulfillment.</p>
-                    
-                    <div className="p-6 bg-slate-50 border border-slate-100 rounded-[32px] text-left space-y-4 mb-10">
+                    <div className="p-4 bg-slate-50 rounded-xl text-left space-y-3 mb-6">
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Order Status</span>
-                        <span className="px-3 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-full">Processing</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase">Status</span>
+                        <span className="px-2 py-0.5 bg-green-50 text-green-600 text-[10px] font-bold uppercase rounded-full">Processing</span>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment ID</span>
-                        <span className="text-xs font-bold text-slate-900 truncate ml-4">{transactionId || 'Confirmed via Bank'}</span>
-                      </div>
+                      {transactionId && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs font-bold text-slate-400 uppercase">Transaction</span>
+                          <span className="text-xs font-mono text-slate-600 truncate ml-4 max-w-[180px]">{transactionId}</span>
+                        </div>
+                      )}
                     </div>
 
-                    <div className="flex items-center justify-center gap-3 text-slate-400">
+                    <div className="flex items-center justify-center gap-2 text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-[10px] font-black uppercase tracking-widest">Redirecting to receipt...</span>
+                      <span className="text-xs font-bold uppercase tracking-wider">Redirecting to your receipt...</span>
                     </div>
                   </div>
                 </motion.div>
               )}
+
             </AnimatePresence>
           </div>
 
-          {/* Sidebar Summary */}
-          <div className="lg:w-96 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-xl shadow-slate-100"
-            >
-              <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight flex items-center justify-between">
-                Order Summary
-                <span className="px-3 py-1 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Secure</span>
-              </h3>
+          {/* ───── SIDEBAR ───── */}
+          <div className="lg:w-80 space-y-4">
+            {/* Order Summary */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 sticky top-28">
+              <h3 className="text-lg font-black text-slate-900 mb-5 uppercase tracking-tight">Order Summary</h3>
 
-              <div className="space-y-6 mb-8">
+              <div className="space-y-4 mb-5">
                 {cartItems.map((item, idx) => (
-                  <div key={idx} className="flex justify-between items-start gap-4">
-                    <div className="flex-1">
-                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">{item.productName}</h4>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.specification} × {item.quantity}</p>
+                  <div key={idx} className="flex justify-between items-start gap-3">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-bold text-slate-900 truncate">{item.productName}</h4>
+                      <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">{item.specification} × {item.quantity}</p>
                     </div>
-                    <span className="text-sm font-black text-slate-900">${(item.price * item.quantity).toFixed(2)}</span>
+                    <span className="text-sm font-bold text-slate-900">${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-4 pt-6 border-t border-slate-100">
+              <div className="space-y-2 pt-4 border-t border-slate-100">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500 font-medium">Research Subtotal</span>
+                  <span className="text-slate-500">Subtotal</span>
                   <span className="text-slate-900 font-bold">${subtotal.toFixed(2)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-green-600 font-medium">Protocol Discount</span>
+                    <span className="text-green-600">Discount</span>
                     <span className="text-green-600 font-bold">-${discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500 font-medium">Secure Shipping</span>
+                  <span className="text-slate-500">Shipping</span>
                   <span className="text-slate-900 font-bold">${SHIPPING_COST.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between items-center pt-4">
-                  <span className="text-lg font-black text-slate-900 uppercase tracking-tight">Total Funding</span>
-                  <span className="text-2xl font-black text-[#dc2626]">${totalUSD.toFixed(2)}</span>
+                <div className="flex justify-between items-center pt-3 border-t border-slate-100">
+                  <span className="text-base font-black text-slate-900 uppercase">Total</span>
+                  <span className="text-xl font-black text-[#dc2626]">${totalUSD.toFixed(2)}</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-slate-900 rounded-[40px] p-8 shadow-2xl relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                <ShieldCheck className="w-32 h-32 text-white" />
+            {/* Security badge */}
+            <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <ShieldCheck className="w-5 h-5 text-[#dc2626]" />
+                <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Secure Checkout</h4>
               </div>
-              <h4 className="text-sm font-black text-white uppercase tracking-widest mb-4 relative z-10">Research Integrity</h4>
-              <p className="text-xs text-slate-400 font-medium leading-relaxed relative z-10">
-                Red Helix Research enforces strict chain-of-custody protocols. All research materials are handled in 
-                compliance with clinical documentation standards.
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-green-500" />
+                  <span className="text-[10px] font-medium text-slate-500">Encrypted transactions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-green-500" />
+                  <span className="text-[10px] font-medium text-slate-500">Blockchain verified</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-green-500" />
+                  <span className="text-[10px] font-medium text-slate-500">Discrete packaging</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Need help */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider mb-2">Need Help?</h4>
+              <p className="text-xs text-slate-500">
+                Email <strong>support@redhelixresearch.com</strong> or check our{' '}
+                <Link to={createPageUrl('ExpandedFAQ')} className="text-[#dc2626] font-bold hover:underline">FAQ</Link>.
               </p>
-              <div className="mt-6 space-y-3 relative z-10">
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
-                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">Temperature Controlled</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
-                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">Discrete Packaging</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
-                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">Verified Purity</span>
-                </div>
-              </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
