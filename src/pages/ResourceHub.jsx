@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, BookOpen, Calculator, BarChart3, Users, Zap, Shield } from 'lucide-react';
+import { ArrowLeft, BookOpen, Calculator, BarChart3, Users, Zap, Shield, ChevronRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 
 export default function ResourceHub() {
