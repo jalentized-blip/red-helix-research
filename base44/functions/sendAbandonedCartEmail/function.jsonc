@@ -1,0 +1,4 @@
+{
+  "name": "sendAbandonedCartEmail",
+  "entry": "index.ts"
+}
