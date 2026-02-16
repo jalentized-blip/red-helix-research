@@ -64,12 +64,14 @@ const STATIC_PROMO_CODES = {
   'INDO88': { discount: 0.10, label: '10% off' },
 };
 
-// Cache for affiliate codes loaded from DB
+import { loadActiveAffiliateCodes } from '@/components/utils/affiliateStore';
+
+// Cache for affiliate codes loaded from DB or localStorage
 let affiliateCodesCache = null;
 let affiliateCacheTime = 0;
 const CACHE_DURATION = 60000; // 1 minute cache
 
-// Load affiliate codes from the database
+// Load affiliate codes (uses affiliateStore which falls back to localStorage)
 export const loadAffiliateCodes = async (base44) => {
   const now = Date.now();
   if (affiliateCodesCache && (now - affiliateCacheTime) < CACHE_DURATION) {
@@ -77,20 +79,7 @@ export const loadAffiliateCodes = async (base44) => {
   }
 
   try {
-    const affiliates = await base44.entities.AffiliateCode.list();
-    const codes = {};
-    affiliates.forEach(aff => {
-      if (aff.is_active) {
-        codes[aff.code.toUpperCase()] = {
-          discount: aff.discount_percent / 100,
-          label: `${aff.discount_percent}% off`,
-          isAffiliate: true,
-          affiliateEmail: aff.affiliate_email,
-          affiliateId: aff.id,
-          affiliateName: aff.affiliate_name,
-        };
-      }
-    });
+    const codes = await loadActiveAffiliateCodes(base44);
     affiliateCodesCache = codes;
     affiliateCacheTime = now;
     return codes;

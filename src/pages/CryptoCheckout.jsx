@@ -34,6 +34,7 @@ import {
 } from '@/components/utils/cart';
 import { trackPurchase } from '@/utils/hubspotAnalytics';
 import { base44 } from '@/api/base44Client';
+import { recordAffiliateOrder } from '@/components/utils/affiliateStore';
 import PCIComplianceBadge from '@/components/PCIComplianceBadge';
 import PlaidACHCheckout from '@/components/payment/PlaidACHCheckout';
 
@@ -424,31 +425,10 @@ export default function CryptoCheckout() {
       // ─── BLOCKCHAIN CONFIRMED: Credit affiliate rewards ───
       if (affiliateInfo) {
         try {
-          const pointsEarned = parseFloat((totalUSD * 0.015).toFixed(2));
-          const commission = parseFloat((totalUSD * 0.10).toFixed(2));
-
-          await base44.entities.AffiliateTransaction.create({
-            affiliate_email: affiliateInfo.email,
-            affiliate_name: affiliateInfo.name,
-            affiliate_code: affiliateInfo.code,
-            order_number: orderNumber,
-            order_total: totalUSD,
-            commission_amount: commission,
-            points_earned: pointsEarned,
-            customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
-            status: 'pending',
-          });
-
-          const affiliateCodes = await base44.entities.AffiliateCode.list();
-          const affiliateRecord = affiliateCodes.find(a => a.affiliate_email === affiliateInfo.email && a.code === affiliateInfo.code);
-          if (affiliateRecord) {
-            await base44.entities.AffiliateCode.update(affiliateRecord.id, {
-              total_points: (affiliateRecord.total_points || 0) + pointsEarned,
-              total_commission: (affiliateRecord.total_commission || 0) + commission,
-              total_orders: (affiliateRecord.total_orders || 0) + 1,
-              total_revenue: (affiliateRecord.total_revenue || 0) + totalUSD,
-            });
-          }
+          await recordAffiliateOrder(base44, {
+            ...affiliateInfo,
+            customerEmail: userEmail || customerInfo?.email || 'guest@redhelixresearch.com',
+          }, orderNumber, totalUSD);
         } catch (affError) {
           console.error('Affiliate tracking error (non-blocking):', affError);
         }
