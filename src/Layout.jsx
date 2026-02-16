@@ -322,6 +322,25 @@ const HeaderSearch = () => {
             `}
           </script>
         </Helmet>
+        {/* Auto-noindex for admin, internal strategy, checkout, and private pages */}
+        {(() => {
+          const path = window.location.pathname;
+          const noindexPaths = [
+            '/Admin', '/Plaid', '/Security', '/Payment', '/Deployment',
+            '/Production', '/Launch', '/Competitive', '/Conversion',
+            '/SEOMonitoring', '/SEOGuide', '/Backlink', '/Email',
+            '/Internal', '/Monitoring', '/DataRetention', '/Login',
+            '/CryptoCheckout', '/PaymentCompleted', '/CustomerInfo',
+            '/OrderTracking', '/GrayMarket', '/VoiceAssistant', '/PeppyBot'
+          ];
+          const shouldNoindex = noindexPaths.some(p => path.startsWith(p));
+          return shouldNoindex ? (
+            <Helmet>
+              <meta name="robots" content="noindex, nofollow" />
+              <meta name="googlebot" content="noindex, nofollow" />
+            </Helmet>
+          ) : null;
+        })()}
         <style>{`
           :root {
             --red-dirt-red: #8B2635;

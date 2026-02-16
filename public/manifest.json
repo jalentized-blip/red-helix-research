@@ -1,0 +1,21 @@
+{
+  "name": "Red Helix Research",
+  "short_name": "Red Helix",
+  "description": "Premium research-grade peptides with HPLC-verified purity and third-party COA verification. USA-based supplier.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8B2635",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["science", "shopping", "health"],
+  "icons": [
+    {
+      "src": "https://i.ibb.co/M5CYvjkG/websitelogo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

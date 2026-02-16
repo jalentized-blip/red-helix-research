@@ -13,6 +13,9 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <link rel="canonical" href="https://redhelixresearch.com/" />
 
+    <!-- Fragment Meta for JS-Heavy SPA Crawling -->
+    <meta name="fragment" content="!" />
+
     <!-- Favicon & App Icons -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/M5CYvjkG/websitelogo.png" />
     <link rel="apple-touch-icon" href="https://i.ibb.co/M5CYvjkG/websitelogo.png" />
@@ -40,6 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://api.coingecko.com" />
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -49,9 +53,136 @@
     <meta name="language" content="English" />
     <link rel="alternate" hreflang="en-us" href="https://redhelixresearch.com/" />
     <link rel="alternate" hreflang="x-default" href="https://redhelixresearch.com/" />
+
+    <!-- Inline Critical Schema.org Structured Data (visible to crawlers before JS loads) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://redhelixresearch.com/#organization",
+          "name": "Red Helix Research",
+          "url": "https://redhelixresearch.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://i.ibb.co/M5CYvjkG/websitelogo.png",
+            "width": 512,
+            "height": 512
+          },
+          "description": "USA-based supplier of premium research-grade peptides with HPLC-verified purity and third-party Certificates of Analysis.",
+          "email": "jake@redhelixresearch.com",
+          "foundingDate": "2024",
+          "address": { "@type": "PostalAddress", "addressCountry": "US" },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Customer Service",
+            "email": "jake@redhelixresearch.com",
+            "availableLanguage": "English"
+          },
+          "sameAs": [
+            "https://discord.gg/BwQHufvmQ8",
+            "https://t.me/Redhelixresearch",
+            "https://www.tiktok.com/@redhelixresearch"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://redhelixresearch.com/#website",
+          "name": "Red Helix Research",
+          "url": "https://redhelixresearch.com",
+          "publisher": { "@id": "https://redhelixresearch.com/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://redhelixresearch.com/Products?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "Store",
+          "@id": "https://redhelixresearch.com/#store",
+          "name": "Red Helix Research",
+          "image": "https://i.ibb.co/M5CYvjkG/websitelogo.png",
+          "description": "USA-based supplier of lab-tested research peptides with third-party verified certificates of analysis.",
+          "url": "https://redhelixresearch.com",
+          "address": { "@type": "PostalAddress", "addressCountry": "US" },
+          "priceRange": "$$",
+          "paymentAccepted": ["ACH Bank Transfer", "Cryptocurrency"],
+          "currenciesAccepted": "USD"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Main Navigation",
+          "hasPart": [
+            { "@type": "WebPage", "name": "Products", "url": "https://redhelixresearch.com/Products" },
+            { "@type": "WebPage", "name": "About", "url": "https://redhelixresearch.com/About" },
+            { "@type": "WebPage", "name": "Research Guides", "url": "https://redhelixresearch.com/BlogGuide" },
+            { "@type": "WebPage", "name": "Peptide Calculator", "url": "https://redhelixresearch.com/PeptideCalculator" },
+            { "@type": "WebPage", "name": "COA Reports", "url": "https://redhelixresearch.com/COAReports" },
+            { "@type": "WebPage", "name": "FAQ", "url": "https://redhelixresearch.com/ExpandedFAQ" },
+            { "@type": "WebPage", "name": "Contact", "url": "https://redhelixresearch.com/Contact" }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Noscript Fallback: Provides crawlable content when JS is disabled/slow -->
+    <noscript>
+      <div style="max-width:900px;margin:40px auto;padding:20px;font-family:system-ui,sans-serif;color:#1e293b;">
+        <h1>Red Helix Research — Premium Research Peptides USA</h1>
+        <p>USA-based supplier of HPLC-verified, lab-tested research peptides with third-party Certificates of Analysis (COA). For research use only.</p>
+
+        <h2>Research Peptides</h2>
+        <ul>
+          <li><a href="/ProductBPC157">BPC-157 (Body Protection Compound-157)</a> — Tissue repair research peptide, 15 amino acids</li>
+          <li><a href="/ProductTB500">TB-500 (Thymosin Beta-4)</a> — Cellular protection peptide, 43 amino acids</li>
+          <li><a href="/ProductSemaglutide">Semaglutide</a> — GLP-1 receptor agonist for metabolic research</li>
+          <li><a href="/ProductTirzepatide">Tirzepatide</a> — Dual GLP-1/GIP receptor agonist</li>
+          <li><a href="/Products">View All Products →</a></li>
+        </ul>
+
+        <h2>Product Categories</h2>
+        <ul>
+          <li>Weight Loss &amp; Metabolic — Semaglutide, Tirzepatide, Retatrutide</li>
+          <li>Recovery &amp; Healing — BPC-157, TB-500, GHK-Cu</li>
+          <li>Cognitive &amp; Focus — Semax, Selank, Pinealon</li>
+          <li>Performance &amp; Longevity — CJC-1295, Ipamorelin, MOTS-c, Epithalon</li>
+          <li>Sexual Health — PT-141, Kisspeptin, Melanotan</li>
+          <li>Immune Support — Thymosin Alpha-1, LL-37</li>
+        </ul>
+
+        <h2>Research Resources</h2>
+        <ul>
+          <li><a href="/BlogGuide">Research Guides &amp; Education</a></li>
+          <li><a href="/PeptideCalculator">Peptide Reconstitution Calculator</a></li>
+          <li><a href="/PeptideReconstitutionGuide">Complete Reconstitution Guide</a></li>
+          <li><a href="/PeptideComparison">Peptide Comparison Tool</a></li>
+          <li><a href="/PeptideAcademy">Peptide Academy</a></li>
+          <li><a href="/COAReports">Certificate of Analysis Reports</a></li>
+          <li><a href="/ExpandedFAQ">Frequently Asked Questions</a></li>
+        </ul>
+
+        <h2>About Red Helix Research</h2>
+        <ul>
+          <li><a href="/About">About Us</a></li>
+          <li><a href="/OurStory">Our Story</a></li>
+          <li><a href="/Contact">Contact Us</a></li>
+          <li><a href="/Policies">Policies &amp; Terms</a></li>
+        </ul>
+
+        <p><strong>Disclaimer:</strong> All products are sold for laboratory research purposes only. Not for human consumption, therapeutic use, or veterinary applications.</p>
+        <p>Contact: jake@redhelixresearch.com</p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -16,21 +16,27 @@ export default function SEO({
   noindex = false,
   article
 }) {
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : SITE_URL;
-  const cleanCanonical = canonical || (typeof window !== 'undefined' ? window.location.origin + window.location.pathname : SITE_URL);
+  // Build clean canonical URL — strip query params and hash for consistent canonical
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const cleanCanonical = canonical || `${SITE_URL}${pathname === '/' || pathname === '/Home' ? '/' : pathname}`;
 
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+
+  // Truncate description for SEO (max ~160 chars recommended)
+  const trimmedDescription = description.length > 160
+    ? description.substring(0, 157) + '...'
+    : description;
 
   return (
     <Helmet>
       {/* Primary Meta Tags */}
       <title>{fullTitle}</title>
       <meta name="title" content={fullTitle} />
-      <meta name="description" content={description} />
+      <meta name="description" content={trimmedDescription} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content={SITE_NAME} />
 
-      {/* Canonical URL */}
+      {/* Canonical URL — critical for SPA deduplication */}
       <link rel="canonical" href={cleanCanonical} />
 
       {/* Robots */}
@@ -43,7 +49,7 @@ export default function SEO({
       <meta property="og:type" content={type} />
       <meta property="og:url" content={cleanCanonical} />
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
+      <meta property="og:description" content={trimmedDescription} />
       <meta property="og:image" content={image} />
       <meta property="og:image:alt" content={fullTitle} />
       <meta property="og:image:width" content="1200" />
@@ -55,7 +61,7 @@ export default function SEO({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:url" content={cleanCanonical} />
       <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:description" content={trimmedDescription} />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:image:alt" content={fullTitle} />
 

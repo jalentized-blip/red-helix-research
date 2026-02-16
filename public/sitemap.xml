@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://redhelixresearch.com/</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Core Product Pages -->
+  <url>
+    <loc>https://redhelixresearch.com/Products</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Individual Product Pages -->
+  <url>
+    <loc>https://redhelixresearch.com/ProductBPC157</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://i.ibb.co/M5CYvjkG/websitelogo.png</image:loc>
+      <image:title>BPC-157 Research Peptide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/ProductTB500</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://i.ibb.co/M5CYvjkG/websitelogo.png</image:loc>
+      <image:title>TB-500 Research Peptide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/ProductSemaglutide</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://i.ibb.co/M5CYvjkG/websitelogo.png</image:loc>
+      <image:title>Semaglutide Research Peptide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/ProductTirzepatide</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://i.ibb.co/M5CYvjkG/websitelogo.png</image:loc>
+      <image:title>Tirzepatide Research Peptide</image:title>
+    </image:image>
+  </url>
+
+  <!-- Educational / Content Pages (High SEO Value) -->
+  <url>
+    <loc>https://redhelixresearch.com/BlogGuide</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/LearnMore</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/PeptideAcademy</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/PeptideReconstitutionGuide</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/PeptideComparison</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/ExpandedFAQ</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Tools -->
+  <url>
+    <loc>https://redhelixresearch.com/PeptideCalculator</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Trust & About Pages -->
+  <url>
+    <loc>https://redhelixresearch.com/About</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/OurStory</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/COAReports</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/Contact</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/CustomerTestimonials</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <!-- Community & Commerce -->
+  <url>
+    <loc>https://redhelixresearch.com/GroupBuy</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://redhelixresearch.com/ResourceHub</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Legal / Policy -->
+  <url>
+    <loc>https://redhelixresearch.com/Policies</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.40</priority>
+  </url>
+
+</urlset>
