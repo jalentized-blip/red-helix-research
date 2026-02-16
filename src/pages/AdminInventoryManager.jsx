@@ -57,19 +57,19 @@ function SpecificationRow({ spec, index, onChange, onRemove, isOnly }) {
           value={spec.name}
           onChange={(e) => onChange(index, { ...spec, name: e.target.value })}
           placeholder="e.g. 5mg x 10 vials"
-          className="bg-stone-800 border-stone-600 text-amber-50 text-sm h-9"
+          className="bg-white border-slate-200 text-slate-900 text-sm h-9 focus:border-[#dc2626]/30"
         />
       </div>
       <div className="col-span-2">
         <div className="relative">
-          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm">$</span>
+          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
           <Input
             type="number"
             step="0.01"
             min="0"
             value={spec.price}
             onChange={(e) => onChange(index, { ...spec, price: parseFloat(e.target.value) || 0 })}
-            className="bg-stone-800 border-stone-600 text-amber-50 text-sm h-9 pl-6"
+            className="bg-white border-slate-200 text-slate-900 text-sm h-9 pl-6 focus:border-[#dc2626]/30"
           />
         </div>
       </div>
@@ -80,7 +80,7 @@ function SpecificationRow({ spec, index, onChange, onRemove, isOnly }) {
           value={spec.stock_quantity}
           onChange={(e) => onChange(index, { ...spec, stock_quantity: parseInt(e.target.value) || 0 })}
           placeholder="-1 = unlimited"
-          className="bg-stone-800 border-stone-600 text-amber-50 text-sm h-9"
+          className="bg-white border-slate-200 text-slate-900 text-sm h-9 focus:border-[#dc2626]/30"
         />
       </div>
       <div className="col-span-1 flex justify-center">
@@ -103,7 +103,7 @@ function SpecificationRow({ spec, index, onChange, onRemove, isOnly }) {
           size="sm"
           onClick={() => onRemove(index)}
           disabled={isOnly}
-          className="text-stone-500 hover:text-red-400 hover:bg-red-950/30 h-8 w-8 p-0"
+          className="text-slate-400 hover:text-red-500 hover:bg-red-50 h-8 w-8 p-0"
         >
           <Trash2 className="w-3.5 h-3.5" />
         </Button>
@@ -198,16 +198,16 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
   };
 
   return (
-    <div className="bg-stone-900/80 border border-stone-700 rounded-xl overflow-hidden">
+    <div className="bg-white border border-slate-200 rounded-[32px] overflow-hidden shadow-xl shadow-slate-200/50">
       {/* Header */}
-      <div className="bg-stone-800/50 border-b border-stone-700 px-6 py-4 flex items-center justify-between">
+      <div className="bg-slate-50 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Settings2 className="w-5 h-5 text-[#dc2626]" />
-          <h3 className="text-lg font-bold text-amber-50">
+          <h3 className="text-lg font-black text-slate-900 tracking-tight">
             {product ? `Edit: ${product.name}` : 'New Product'}
           </h3>
           {product && (
-            <Badge variant="outline" className="text-stone-400 border-stone-600 text-xs">
+            <Badge variant="outline" className="text-slate-400 border-slate-300 text-xs">
               ID: {product.id?.slice(0, 8)}
             </Badge>
           )}
@@ -218,7 +218,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
               variant="outline"
               size="sm"
               onClick={() => setShowDeleteConfirm(true)}
-              className="border-red-800 text-red-400 hover:bg-red-950/50 hover:text-red-300"
+              className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
             >
               <Trash2 className="w-4 h-4 mr-1" />
               Delete
@@ -228,7 +228,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
             variant="outline"
             size="sm"
             onClick={onCancel}
-            className="border-stone-600 text-stone-400 hover:text-amber-50"
+            className="border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-300"
           >
             <X className="w-4 h-4 mr-1" />
             Cancel
@@ -237,7 +237,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
             size="sm"
             onClick={handleSave}
             disabled={isSaving}
-            className="bg-[#dc2626] hover:bg-red-700 text-amber-50"
+            className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold shadow-lg shadow-[#dc2626]/20"
           >
             <Save className="w-4 h-4 mr-1" />
             {isSaving ? 'Saving...' : 'Save Product'}
@@ -249,42 +249,42 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
         {/* Row 1: Name, Category, Badge */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="text-stone-400 text-xs uppercase tracking-wide mb-1.5 block font-semibold">
+            <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
               Product Name *
             </label>
             <Input
               value={form.name}
               onChange={(e) => updateField('name', e.target.value)}
               placeholder="e.g. BPC-157"
-              className="bg-stone-800 border-stone-600 text-amber-50"
+              className="bg-slate-50 border-slate-200 text-slate-900 focus:border-[#dc2626]/30 focus:bg-white"
             />
           </div>
           <div>
-            <label className="text-stone-400 text-xs uppercase tracking-wide mb-1.5 block font-semibold">
+            <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
               Category
             </label>
             <Select value={form.category} onValueChange={(v) => updateField('category', v)}>
-              <SelectTrigger className="bg-stone-800 border-stone-600 text-amber-50">
+              <SelectTrigger className="bg-slate-50 border-slate-200 text-slate-900">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-stone-900 border-stone-700">
+              <SelectContent className="bg-white border-slate-200">
                 {CATEGORIES.map(c => (
-                  <SelectItem key={c.id} value={c.id} className="text-amber-50">{c.label}</SelectItem>
+                  <SelectItem key={c.id} value={c.id} className="text-slate-900">{c.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
           <div>
-            <label className="text-stone-400 text-xs uppercase tracking-wide mb-1.5 block font-semibold">
+            <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
               Badge
             </label>
             <Select value={form.badge || 'none'} onValueChange={(v) => updateField('badge', v === 'none' ? '' : v)}>
-              <SelectTrigger className="bg-stone-800 border-stone-600 text-amber-50">
+              <SelectTrigger className="bg-slate-50 border-slate-200 text-slate-900">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-stone-900 border-stone-700">
+              <SelectContent className="bg-white border-slate-200">
                 {BADGES.map(b => (
-                  <SelectItem key={b.id || 'none'} value={b.id || 'none'} className="text-amber-50">
+                  <SelectItem key={b.id || 'none'} value={b.id || 'none'} className="text-slate-900">
                     {b.label}
                   </SelectItem>
                 ))}
@@ -295,7 +295,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
 
         {/* Row 2: Description */}
         <div>
-          <label className="text-stone-400 text-xs uppercase tracking-wide mb-1.5 block font-semibold">
+          <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
             Description
           </label>
           <Textarea
@@ -303,22 +303,22 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
             onChange={(e) => updateField('description', e.target.value)}
             placeholder="Product description..."
             rows={3}
-            className="bg-stone-800 border-stone-600 text-amber-50 resize-none"
+            className="bg-slate-50 border-slate-200 text-slate-900 resize-none focus:border-[#dc2626]/30 focus:bg-white"
           />
         </div>
 
         {/* Row 3: Image + Toggles */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="text-stone-400 text-xs uppercase tracking-wide mb-1.5 block font-semibold">
+            <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
               Product Image
             </label>
             <div className="flex gap-3 items-start">
-              <div className="w-20 h-20 rounded-lg border border-stone-700 bg-stone-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <div className="w-20 h-20 rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden flex-shrink-0">
                 {form.image_url ? (
                   <img src={form.image_url} alt="Product" className="w-full h-full object-cover" />
                 ) : (
-                  <ImagePlus className="w-6 h-6 text-stone-500" />
+                  <ImagePlus className="w-6 h-6 text-slate-300" />
                 )}
               </div>
               <div className="flex flex-col gap-2 flex-1">
@@ -326,7 +326,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
                   value={form.image_url}
                   onChange={(e) => updateField('image_url', e.target.value)}
                   placeholder="Image URL or upload"
-                  className="bg-stone-800 border-stone-600 text-amber-50 text-sm"
+                  className="bg-slate-50 border-slate-200 text-slate-900 text-sm focus:border-[#dc2626]/30"
                 />
                 <div className="flex gap-2">
                   <input
@@ -341,7 +341,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
                     size="sm"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={imageUploading}
-                    className="border-stone-600 text-stone-400 hover:text-amber-50 text-xs"
+                    className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626]/30 text-xs"
                   >
                     <Upload className="w-3 h-3 mr-1" />
                     {imageUploading ? 'Uploading...' : 'Upload'}
@@ -351,7 +351,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
                       variant="outline"
                       size="sm"
                       onClick={() => updateField('image_url', '')}
-                      className="border-stone-600 text-stone-400 hover:text-red-400 text-xs"
+                      className="border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 text-xs"
                     >
                       <X className="w-3 h-3 mr-1" />
                       Clear
@@ -362,10 +362,10 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
             </div>
           </div>
           <div className="flex flex-col gap-4 justify-center">
-            <div className="flex items-center justify-between bg-stone-800/50 rounded-lg px-4 py-3 border border-stone-700">
+            <div className="flex items-center justify-between bg-slate-50 rounded-2xl px-4 py-3 border border-slate-200">
               <div>
-                <span className="text-amber-50 text-sm font-semibold">Featured Product</span>
-                <p className="text-stone-500 text-xs">Show in Best Sellers section</p>
+                <span className="text-slate-900 text-sm font-bold">Featured Product</span>
+                <p className="text-slate-400 text-xs">Show in Best Sellers section</p>
               </div>
               <Switch
                 checked={form.is_featured}
@@ -373,10 +373,10 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
                 className="data-[state=checked]:bg-[#dc2626]"
               />
             </div>
-            <div className="flex items-center justify-between bg-stone-800/50 rounded-lg px-4 py-3 border border-stone-700">
+            <div className="flex items-center justify-between bg-slate-50 rounded-2xl px-4 py-3 border border-slate-200">
               <div>
-                <span className="text-amber-50 text-sm font-semibold">Visible to Customers</span>
-                <p className="text-stone-500 text-xs">Toggle product visibility on storefront</p>
+                <span className="text-slate-900 text-sm font-bold">Visible to Customers</span>
+                <p className="text-slate-400 text-xs">Toggle product visibility on storefront</p>
               </div>
               <Switch
                 checked={!form.hidden}
@@ -390,14 +390,14 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
         {/* Specifications */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="text-stone-400 text-xs uppercase tracking-wide font-semibold">
+            <label className="text-slate-500 text-xs uppercase tracking-widest font-black">
               Strength Options / Specifications
             </label>
             <Button
               variant="outline"
               size="sm"
               onClick={addSpec}
-              className="border-stone-600 text-stone-400 hover:text-amber-50 hover:border-[#dc2626] text-xs"
+              className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626]/30 text-xs"
             >
               <Plus className="w-3 h-3 mr-1" />
               Add Option
@@ -406,12 +406,12 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
 
           {/* Spec Table Header */}
           <div className="grid grid-cols-12 gap-2 mb-2 px-1">
-            <span className="col-span-4 text-stone-500 text-[10px] uppercase tracking-wider font-semibold">Strength Name</span>
-            <span className="col-span-2 text-stone-500 text-[10px] uppercase tracking-wider font-semibold">Price</span>
-            <span className="col-span-2 text-stone-500 text-[10px] uppercase tracking-wider font-semibold">Stock Qty</span>
-            <span className="col-span-1 text-stone-500 text-[10px] uppercase tracking-wider font-semibold text-center">In Stock</span>
-            <span className="col-span-1 text-stone-500 text-[10px] uppercase tracking-wider font-semibold text-center">Visible</span>
-            <span className="col-span-2 text-stone-500 text-[10px] uppercase tracking-wider font-semibold text-right">Actions</span>
+            <span className="col-span-4 text-slate-400 text-[10px] uppercase tracking-widest font-black">Strength Name</span>
+            <span className="col-span-2 text-slate-400 text-[10px] uppercase tracking-widest font-black">Price</span>
+            <span className="col-span-2 text-slate-400 text-[10px] uppercase tracking-widest font-black">Stock Qty</span>
+            <span className="col-span-1 text-slate-400 text-[10px] uppercase tracking-widest font-black text-center">In Stock</span>
+            <span className="col-span-1 text-slate-400 text-[10px] uppercase tracking-widest font-black text-center">Visible</span>
+            <span className="col-span-2 text-slate-400 text-[10px] uppercase tracking-widest font-black text-right">Actions</span>
           </div>
 
           <div className="space-y-2">
@@ -431,10 +431,10 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
-        <DialogContent className="bg-stone-900 border-stone-700 text-amber-50">
+        <DialogContent className="bg-white border-slate-200 text-slate-900">
           <DialogHeader>
-            <DialogTitle className="text-red-400">Delete Product</DialogTitle>
-            <DialogDescription className="text-stone-400">
+            <DialogTitle className="text-red-500 font-black">Delete Product</DialogTitle>
+            <DialogDescription className="text-slate-500">
               Are you sure you want to delete "{product?.name}"? This will mark the product as deleted and hide it from all customers. This action can be undone by an admin.
             </DialogDescription>
           </DialogHeader>
@@ -442,7 +442,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
             <Button
               variant="outline"
               onClick={() => setShowDeleteConfirm(false)}
-              className="border-stone-600 text-stone-400"
+              className="border-slate-200 text-slate-500"
             >
               Cancel
             </Button>
@@ -477,59 +477,59 @@ function ProductRow({ product, onEdit, onQuickToggle, isUpdating }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className={`bg-stone-900/50 border rounded-lg px-5 py-4 transition-all cursor-pointer hover:border-[#dc2626]/40 group ${
-        isDeleted ? 'border-red-900/50 opacity-50' :
-        allHidden ? 'border-stone-800 opacity-60' :
-        'border-stone-700'
+      className={`bg-white border-2 rounded-2xl px-5 py-4 transition-all cursor-pointer hover:border-[#dc2626]/30 hover:shadow-lg hover:shadow-slate-200/50 group ${
+        isDeleted ? 'border-red-200 opacity-50' :
+        allHidden ? 'border-slate-100 opacity-60' :
+        'border-slate-100'
       }`}
       onClick={() => onEdit(product)}
     >
       <div className="flex items-center gap-4">
         {/* Image */}
-        <div className="w-12 h-12 rounded-lg border border-stone-700 bg-stone-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+        <div className="w-12 h-12 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden flex-shrink-0">
           {product.image_url ? (
             <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
           ) : (
-            <Package className="w-5 h-5 text-stone-500" />
+            <Package className="w-5 h-5 text-slate-300" />
           )}
         </div>
 
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
-            <h4 className="text-amber-50 font-bold text-sm truncate">{product.name}</h4>
+            <h4 className="text-slate-900 font-black text-sm truncate tracking-tight">{product.name}</h4>
             {product.badge && (
-              <Badge variant="outline" className="text-[10px] border-stone-600 text-stone-400 px-1.5 py-0">
+              <Badge variant="outline" className="text-[10px] border-slate-200 text-slate-400 px-1.5 py-0 font-bold">
                 {BADGES.find(b => b.id === product.badge)?.label || product.badge}
               </Badge>
             )}
             {product.is_featured && (
-              <Badge className="text-[10px] bg-[#dc2626]/20 text-red-400 border-[#dc2626]/30 px-1.5 py-0">
+              <Badge className="text-[10px] bg-[#dc2626]/10 text-[#dc2626] border-[#dc2626]/20 px-1.5 py-0 font-bold">
                 Featured
               </Badge>
             )}
             {isDeleted && (
-              <Badge className="text-[10px] bg-red-900/50 text-red-300 border-red-800 px-1.5 py-0">
+              <Badge className="text-[10px] bg-red-50 text-red-500 border-red-200 px-1.5 py-0 font-bold">
                 Deleted
               </Badge>
             )}
           </div>
-          <div className="flex items-center gap-3 text-xs text-stone-400">
+          <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
             <span>{CATEGORIES.find(c => c.id === product.category)?.label || product.category}</span>
-            <span className="text-stone-600">|</span>
+            <span className="text-slate-200">|</span>
             <span>{product.specifications?.length || 0} options</span>
-            <span className="text-stone-600">|</span>
-            <span className="text-[#dc2626] font-semibold">${product.price_from}</span>
+            <span className="text-slate-200">|</span>
+            <span className="text-[#dc2626] font-black">${product.price_from}</span>
           </div>
         </div>
 
         {/* Stock Summary */}
         <div className="flex items-center gap-4 flex-shrink-0">
           <div className="text-right">
-            <div className={`text-sm font-bold ${inStockSpecs.length > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <div className={`text-sm font-black ${inStockSpecs.length > 0 ? 'text-green-600' : 'text-red-500'}`}>
               {inStockSpecs.length}/{visibleSpecs.length} in stock
             </div>
-            <div className="text-xs text-stone-500">
+            <div className="text-xs text-slate-400 font-medium">
               {hasUnlimitedStock ? 'Unlimited' : `${totalStock} units`}
             </div>
           </div>
@@ -543,8 +543,8 @@ function ProductRow({ product, onEdit, onQuickToggle, isUpdating }) {
               disabled={isUpdating}
               className={`h-8 px-2 ${
                 allHidden
-                  ? 'text-stone-500 hover:text-blue-400'
-                  : 'text-blue-400 hover:text-stone-400'
+                  ? 'text-slate-300 hover:text-blue-500'
+                  : 'text-blue-500 hover:text-slate-400'
               }`}
             >
               {allHidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -552,7 +552,7 @@ function ProductRow({ product, onEdit, onQuickToggle, isUpdating }) {
           </div>
 
           {/* Edit arrow */}
-          <Edit3 className="w-4 h-4 text-stone-600 group-hover:text-[#dc2626] transition-colors" />
+          <Edit3 className="w-4 h-4 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
         </div>
       </div>
     </motion.div>
@@ -738,11 +738,8 @@ export default function AdminInventoryManager() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 pt-32 flex items-center justify-center">
-        <div className="flex items-center gap-3">
-          <RefreshCw className="w-5 h-5 text-[#dc2626] animate-spin" />
-          <p className="text-stone-400">Loading...</p>
-        </div>
+      <div className="min-h-screen bg-white pt-32 flex items-center justify-center">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-100 border-t-[#dc2626]"></div>
       </div>
     );
   }
@@ -752,27 +749,30 @@ export default function AdminInventoryManager() {
   const isEditing = editingProduct || isCreating;
 
   return (
-    <div className="min-h-screen bg-stone-950 pt-32 pb-20">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="max-w-6xl mx-auto px-4">
         {/* Back Button */}
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-stone-600 text-stone-400 hover:text-[#dc2626] hover:border-[#dc2626] mb-6">
+          <Button variant="ghost" className="mb-4 hover:bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-xs">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
+            Back to Dashboard
           </Button>
         </Link>
 
         {/* Page Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-black text-amber-50 mb-1 tracking-tight">
-                Inventory Manager
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-none">
+                Inventory <span className="text-[#dc2626]">Manager</span>
               </h1>
-              <p className="text-stone-400 text-sm">
-                Full product management — add, edit, delete, and configure everything in one place
+              <p className="text-xl text-slate-500 font-medium">
+                Full product management — add, edit, delete, and configure everything in one place.
               </p>
-            </div>
+            </motion.div>
             <Button
               onClick={() => {
                 setEditingProduct(null);
@@ -788,7 +788,7 @@ export default function AdminInventoryManager() {
                   specifications: [{ ...EMPTY_SPEC }],
                 });
               }}
-              className="bg-[#dc2626] hover:bg-red-700 text-amber-50"
+              className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs px-6 py-6 rounded-full shadow-lg shadow-[#dc2626]/20"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Product
@@ -796,42 +796,42 @@ export default function AdminInventoryManager() {
           </div>
 
           {/* Stats Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8">
             <button
               onClick={() => { setStockFilter('all'); setShowDeleted(false); }}
-              className={`bg-stone-900/50 border rounded-lg p-3 text-left transition-all ${
-                stockFilter === 'all' && !showDeleted ? 'border-[#dc2626]/50' : 'border-stone-700 hover:border-stone-600'
+              className={`bg-white border-2 rounded-2xl p-4 text-left transition-all hover:shadow-md ${
+                stockFilter === 'all' && !showDeleted ? 'border-[#dc2626]/30 shadow-lg shadow-[#dc2626]/5' : 'border-slate-100 hover:border-slate-200'
               }`}
             >
-              <div className="text-2xl font-black text-amber-50">{totalProducts}</div>
-              <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider">Total Products</div>
+              <div className="text-3xl font-black text-slate-900">{totalProducts}</div>
+              <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1">Total Products</div>
             </button>
             <button
               onClick={() => { setStockFilter('in_stock'); setShowDeleted(false); }}
-              className={`bg-stone-900/50 border rounded-lg p-3 text-left transition-all ${
-                stockFilter === 'in_stock' ? 'border-green-600/50' : 'border-stone-700 hover:border-stone-600'
+              className={`bg-white border-2 rounded-2xl p-4 text-left transition-all hover:shadow-md ${
+                stockFilter === 'in_stock' ? 'border-green-300 shadow-lg shadow-green-50' : 'border-slate-100 hover:border-slate-200'
               }`}
             >
-              <div className="text-2xl font-black text-green-400">{totalProducts - outOfStockProducts - hiddenProducts}</div>
-              <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider">Active & In Stock</div>
+              <div className="text-3xl font-black text-green-600">{totalProducts - outOfStockProducts - hiddenProducts}</div>
+              <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1">Active & In Stock</div>
             </button>
             <button
               onClick={() => { setStockFilter('out_of_stock'); setShowDeleted(false); }}
-              className={`bg-stone-900/50 border rounded-lg p-3 text-left transition-all ${
-                stockFilter === 'out_of_stock' ? 'border-red-600/50' : 'border-stone-700 hover:border-stone-600'
+              className={`bg-white border-2 rounded-2xl p-4 text-left transition-all hover:shadow-md ${
+                stockFilter === 'out_of_stock' ? 'border-red-300 shadow-lg shadow-red-50' : 'border-slate-100 hover:border-slate-200'
               }`}
             >
-              <div className="text-2xl font-black text-red-400">{outOfStockProducts}</div>
-              <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider">Out of Stock</div>
+              <div className="text-3xl font-black text-red-500">{outOfStockProducts}</div>
+              <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1">Out of Stock</div>
             </button>
             <button
               onClick={() => { setStockFilter('all'); setShowDeleted(true); }}
-              className={`bg-stone-900/50 border rounded-lg p-3 text-left transition-all ${
-                showDeleted ? 'border-orange-600/50' : 'border-stone-700 hover:border-stone-600'
+              className={`bg-white border-2 rounded-2xl p-4 text-left transition-all hover:shadow-md ${
+                showDeleted ? 'border-orange-300 shadow-lg shadow-orange-50' : 'border-slate-100 hover:border-slate-200'
               }`}
             >
-              <div className="text-2xl font-black text-orange-400">{deletedProducts}</div>
-              <div className="text-xs text-stone-400 font-semibold uppercase tracking-wider">Deleted</div>
+              <div className="text-3xl font-black text-orange-500">{deletedProducts}</div>
+              <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1">Deleted</div>
             </button>
           </div>
         </div>
@@ -859,59 +859,62 @@ export default function AdminInventoryManager() {
 
         {/* Search & Filters */}
         <div className="flex flex-col md:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500" />
+          <div className="relative flex-1 group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#dc2626] transition-colors" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search products..."
-              className="bg-stone-900/50 border-stone-700 text-amber-50 pl-10"
+              className="bg-slate-50 border-slate-200 text-slate-900 pl-11 rounded-full h-12 focus:border-[#dc2626]/30 focus:bg-white"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
+                className="absolute right-4 top-1/2 -translate-y-1/2"
               >
-                <X className="w-4 h-4 text-stone-500 hover:text-amber-50" />
+                <X className="w-4 h-4 text-slate-400 hover:text-[#dc2626]" />
               </button>
             )}
           </div>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="bg-stone-900/50 border-stone-700 text-amber-50 w-full md:w-48">
+            <SelectTrigger className="bg-slate-50 border-slate-200 text-slate-900 w-full md:w-48 rounded-full h-12">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
-            <SelectContent className="bg-stone-900 border-stone-700">
-              <SelectItem value="all" className="text-amber-50">All Categories</SelectItem>
+            <SelectContent className="bg-white border-slate-200">
+              <SelectItem value="all" className="text-slate-900">All Categories</SelectItem>
               {CATEGORIES.map(c => (
-                <SelectItem key={c.id} value={c.id} className="text-amber-50">{c.label}</SelectItem>
+                <SelectItem key={c.id} value={c.id} className="text-slate-900">{c.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
           <Select value={stockFilter} onValueChange={setStockFilter}>
-            <SelectTrigger className="bg-stone-900/50 border-stone-700 text-amber-50 w-full md:w-44">
+            <SelectTrigger className="bg-slate-50 border-slate-200 text-slate-900 w-full md:w-44 rounded-full h-12">
               <SelectValue placeholder="All Stock" />
             </SelectTrigger>
-            <SelectContent className="bg-stone-900 border-stone-700">
-              <SelectItem value="all" className="text-amber-50">All Products</SelectItem>
-              <SelectItem value="in_stock" className="text-amber-50">In Stock</SelectItem>
-              <SelectItem value="out_of_stock" className="text-amber-50">Out of Stock</SelectItem>
-              <SelectItem value="hidden" className="text-amber-50">Hidden</SelectItem>
+            <SelectContent className="bg-white border-slate-200">
+              <SelectItem value="all" className="text-slate-900">All Products</SelectItem>
+              <SelectItem value="in_stock" className="text-slate-900">In Stock</SelectItem>
+              <SelectItem value="out_of_stock" className="text-slate-900">Out of Stock</SelectItem>
+              <SelectItem value="hidden" className="text-slate-900">Hidden</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
-          <p className="text-stone-500 text-sm">
-            {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
-            {showDeleted ? ' (showing deleted)' : ''}
-          </p>
+          <div className="flex items-center gap-3 text-slate-400">
+            <Package className="w-4 h-4" />
+            <p className="text-xs font-black uppercase tracking-widest">
+              {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
+              {showDeleted ? ' (showing deleted)' : ''}
+            </p>
+          </div>
           {showDeleted && (
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
               onClick={() => setShowDeleted(false)}
-              className="border-stone-600 text-stone-400 hover:text-amber-50 text-xs"
+              className="text-slate-500 hover:text-[#dc2626] hover:bg-slate-50 text-xs font-bold uppercase tracking-widest"
             >
               Show Active Products
             </Button>
@@ -920,15 +923,20 @@ export default function AdminInventoryManager() {
 
         {/* Product List */}
         {isLoading ? (
-          <div className="flex items-center justify-center py-20">
-            <RefreshCw className="w-5 h-5 text-[#dc2626] animate-spin mr-2" />
-            <p className="text-stone-400">Loading products...</p>
+          <div className="text-center py-40">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-100 border-t-[#dc2626]"></div>
+            <p className="text-slate-500 font-bold mt-4 uppercase tracking-widest text-xs">Loading Products...</p>
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="text-center py-20 border border-stone-800 rounded-xl">
-            <Package className="w-12 h-12 text-stone-600 mx-auto mb-3" />
-            <p className="text-stone-400 mb-1">No products found</p>
-            <p className="text-stone-600 text-sm">Try adjusting your search or filters</p>
+          <div className="text-center py-40 bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">
+            <Package className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">No products found</p>
+            <button
+              onClick={() => { setSearchQuery(''); setCategoryFilter('all'); setStockFilter('all'); }}
+              className="mt-4 text-[#dc2626] font-black uppercase text-xs hover:underline"
+            >
+              Clear All Filters
+            </button>
           </div>
         ) : (
           <div className="space-y-2">
@@ -941,13 +949,13 @@ export default function AdminInventoryManager() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="bg-stone-900/50 border border-red-900/30 rounded-lg px-5 py-4 flex items-center justify-between"
+                      className="bg-white border-2 border-red-100 rounded-2xl px-5 py-4 flex items-center justify-between"
                     >
                       <div className="flex items-center gap-3">
-                        <Package className="w-5 h-5 text-stone-600" />
+                        <Package className="w-5 h-5 text-slate-300" />
                         <div>
-                          <h4 className="text-stone-400 font-bold text-sm">{product.name}</h4>
-                          <p className="text-stone-600 text-xs">
+                          <h4 className="text-slate-500 font-black text-sm tracking-tight">{product.name}</h4>
+                          <p className="text-slate-400 text-xs font-medium">
                             {CATEGORIES.find(c => c.id === product.category)?.label} - {product.specifications?.length || 0} options
                           </p>
                         </div>
@@ -956,7 +964,7 @@ export default function AdminInventoryManager() {
                         variant="outline"
                         size="sm"
                         onClick={() => handleRestoreProduct(product)}
-                        className="border-green-800 text-green-400 hover:bg-green-950/50 text-xs"
+                        className="border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300 text-xs font-bold"
                       >
                         <RefreshCw className="w-3 h-3 mr-1" />
                         Restore
