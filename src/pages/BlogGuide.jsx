@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, BookOpen, FlaskConical, Microscope, GraduationCap } from 'lucide-react';
+import { ArrowLeft, BookOpen, FlaskConical, Microscope, GraduationCap, Beaker, Dna, Brain, Heart, Shield, Zap, Activity, Flame, Sun } from 'lucide-react';
 import SEO from '@/components/SEO';
 
 const blogPosts = [
@@ -24,10 +24,12 @@ Body Protection Compound-157 (BPC-157) is a synthetic peptide derived from a pro
 
 ## Molecular Structure and Properties
 
-**Chemical Formula:** GEPPPGKPADDDAGD  
-**Molecular Weight:** ~1,494 Da  
-**Sequence Length:** 15 amino acids  
-**Stability:** Highly stable synthetic peptide  
+**Chemical Formula:** C₆₂H₉₈N₁₆O₂₂
+**Amino Acid Sequence:** GEPPPGKPADDAGLV
+**Molecular Weight:** ~1,419.55 Da
+**Sequence Length:** 15 amino acids
+**CAS Number:** 137525-51-0
+**Stability:** Highly stable synthetic peptide, remains intact in gastric juice for 24+ hours
 **Solubility:** Water-soluble, compatible with bacteriostatic water reconstitution
 
 ## Reconstitution Protocol for Research
@@ -35,7 +37,7 @@ Body Protection Compound-157 (BPC-157) is a synthetic peptide derived from a pro
 ### Standard Laboratory Reconstitution:
 1. **Materials Required:**
    - Lyophilized BPC-157 vial
-   - Bacteriostatic water (0.9% sodium chloride)
+   - Bacteriostatic water (sterile water with 0.9% benzyl alcohol)
    - Sterile syringe and needle
    - Alcohol wipes
 
@@ -134,11 +136,13 @@ TB-500 is the synthetic version of Thymosin Beta-4 (Tβ4), a naturally occurring
 
 ## Molecular Structure
 
-**Full Name:** Thymosin Beta-4  
-**Molecular Weight:** ~4,963 Da  
-**Amino Acid Sequence Length:** 43 amino acids  
-**Stability:** Highly stable, resistant to degradation  
-**Solubility:** Excellent water solubility  
+**Full Name:** Thymosin Beta-4
+**Molecular Formula:** C₂₁₂H₃₅₀N₅₆O₇₈S
+**Molecular Weight:** ~4,963 Da
+**Amino Acid Sequence Length:** 43 amino acids
+**Key Active Motif:** LKKTETQ (residues 17-23, the actin-binding domain)
+**Stability:** Highly stable, resistant to degradation
+**Solubility:** Excellent water solubility
 **Storage:** Requires refrigeration (2-8°C) after reconstitution
 
 ## Mechanisms of Action (Research Findings)
@@ -612,7 +616,7 @@ Lyophilization (freeze-drying) is the process of removing water from peptide sol
 ### Required Materials:
 
 **Solvents:**
-- **Bacteriostatic Water (0.9% NaCl)** - Primary choice for most peptides
+- **Bacteriostatic Water (0.9% Benzyl Alcohol)** - Primary choice for most peptides
 - **Sterile Water** - Alternative for short-term use
 - **Acetic Acid (0.1M)** - For poorly soluble peptides
 - **DMSO** - For highly hydrophobic peptides (use with caution)
@@ -1014,6 +1018,925 @@ Key Takeaways:
 
 **Need Help?** Contact our research support team for peptide-specific reconstitution guidance and troubleshooting assistance.
     `
+  },
+  {
+    id: 'tirzepatide-research-guide',
+    title: 'Tirzepatide (TRZ) Research Guide',
+    excerpt: 'Comprehensive guide on Tirzepatide, a dual GLP-1/GIP receptor agonist for metabolic and endocrine research. Includes molecular data, reconstitution protocols, and published study references.',
+    date: '2026-02-01',
+    readTime: '10 min read',
+    icon: Flame,
+    keywords: 'tirzepatide research, GLP-1 GIP agonist, dual incretin, metabolic peptide',
+    content: `
+# Tirzepatide (TRZ) Research Guide
+
+## Overview
+
+Tirzepatide is a synthetic dual-acting glucose-dependent insulinotropic polypeptide (GIP) and glucagon-like peptide-1 (GLP-1) receptor agonist. It is the first approved dual incretin agonist and has demonstrated significant efficacy in metabolic research.
+
+## Molecular Characteristics
+
+**Classification:** Dual GLP-1/GIP Receptor Agonist
+**Molecular Weight:** ~4,813.45 Da
+**Amino Acid Length:** 39 amino acids (modified GIP analog)
+**Half-Life:** ~5 days (~120 hours)
+**CAS Number:** 2023788-19-2
+**Modifications:** C20 fatty diacid moiety for albumin binding and extended half-life
+
+## Mechanism of Action
+
+### Dual Receptor Activation:
+1. **GIP Receptor Agonism:** Full agonist activity at the GIP receptor, promoting insulin secretion and adipocyte lipid metabolism
+2. **GLP-1 Receptor Agonism:** Partial agonist at the GLP-1 receptor, enhancing glucose-dependent insulin release and suppressing glucagon
+3. **Synergistic Effect:** Dual pathway activation produces enhanced metabolic effects compared to single-receptor agonists
+
+### Key Research Findings:
+- SURPASS clinical trial series demonstrated superior efficacy to semaglutide in head-to-head trials
+- Significant effects on body weight reduction in clinical studies
+- Improved glycemic control with lower hypoglycemia risk
+- Cardiovascular outcome data under investigation
+
+## Reconstitution Protocol
+
+**For 10mg Tirzepatide vial:**
+- Add 4mL bacteriostatic water for 2.5mg/mL concentration
+- Inject slowly down vial wall at 45-degree angle
+- Gently rotate — do NOT shake
+- Allow 5-10 minutes for complete dissolution
+- Store at 2-8°C, protect from light
+- Use within 30 days; do NOT freeze reconstituted solution
+
+## Quality Standards
+- HPLC purity ≥98%
+- Mass spectrometry molecular weight confirmation
+- Endotoxin testing: <10 EU/mg
+- Third-party COA with batch-specific data
+
+**DISCLAIMER:** Tirzepatide is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'retatrutide-research-guide',
+    title: 'Retatrutide (RT) Triple Agonist Research Guide',
+    excerpt: 'Research overview of Retatrutide, the first-in-class triple hormone receptor agonist targeting GLP-1, GIP, and glucagon receptors. Molecular data, mechanisms, and research applications.',
+    date: '2026-02-02',
+    readTime: '10 min read',
+    icon: Flame,
+    keywords: 'retatrutide research, triple agonist, GLP-1 GIP glucagon, metabolic peptide',
+    content: `
+# Retatrutide (RT) Triple Agonist Research Guide
+
+## Overview
+
+Retatrutide (LY3437943) is a first-in-class triple hormone receptor agonist that activates GLP-1, GIP, and glucagon receptors simultaneously. This novel mechanism makes it one of the most potent metabolic research peptides currently under investigation.
+
+## Molecular Characteristics
+
+**Classification:** Triple GLP-1/GIP/Glucagon Receptor Agonist
+**Molecular Weight:** ~4,605 Da
+**Amino Acid Length:** 39 amino acids
+**Half-Life:** ~6 days
+**Structure:** Modified GIP-based peptide with C20 fatty acid chain
+
+## Triple Receptor Mechanism
+
+1. **GLP-1 Receptor:** Enhances glucose-dependent insulin secretion, suppresses appetite
+2. **GIP Receptor:** Promotes insulin release, modulates lipid metabolism in adipose tissue
+3. **Glucagon Receptor:** Increases hepatic energy expenditure, promotes lipolysis, thermogenesis
+
+### Why Triple Agonism Matters:
+- Glucagon receptor activation adds energy expenditure that dual agonists lack
+- Phase 2 trials showed up to 24.2% body weight reduction at 48 weeks
+- Represents a new paradigm in metabolic peptide research
+
+## Reconstitution Protocol
+
+**For standard lyophilized vial:**
+- Use bacteriostatic water as solvent
+- Inject slowly down vial wall
+- Gently swirl — do NOT shake
+- Store reconstituted solution at 2-8°C
+- Protect from light, use within 30 days
+
+## Research Applications
+- Metabolic syndrome and obesity research
+- Hepatic steatosis (NASH/NAFLD) investigation
+- Energy expenditure and thermogenesis studies
+- Comparative studies vs dual agonists
+
+**DISCLAIMER:** Retatrutide is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'cjc-1295-research-guide',
+    title: 'CJC-1295 Research Guide',
+    excerpt: 'Research overview of CJC-1295, a growth hormone releasing hormone (GHRH) analog. Includes molecular data, mechanism of action, reconstitution protocols, and research applications.',
+    date: '2026-02-03',
+    readTime: '9 min read',
+    icon: Activity,
+    keywords: 'CJC-1295 research, GHRH analog, growth hormone releasing, peptide research',
+    content: `
+# CJC-1295 Research Guide
+
+## Overview
+
+CJC-1295 is a synthetic analog of growth hormone releasing hormone (GHRH) with amino acid substitutions that provide resistance to enzymatic degradation. It is commonly studied for its ability to stimulate pulsatile growth hormone secretion.
+
+## Molecular Characteristics
+
+**Classification:** GHRH Analog (Modified GRF 1-29)
+**Molecular Weight:** ~3,647.28 Da
+**Amino Acid Length:** 30 amino acids
+**Half-Life:** ~8 days (with DAC), ~30 minutes (without DAC)
+**CAS Number:** 863288-34-0
+**Variants:** CJC-1295 with DAC (Drug Affinity Complex) and CJC-1295 no DAC (also called Modified GRF 1-29)
+
+## Mechanism of Action
+
+1. **GHRH Receptor Binding:** Binds to GHRH receptors on anterior pituitary somatotroph cells
+2. **Pulsatile GH Release:** Amplifies natural growth hormone release pulses without disrupting normal feedback
+3. **IGF-1 Elevation:** Downstream increase in Insulin-like Growth Factor 1 production
+4. **DAC Variant:** Drug Affinity Complex binds to serum albumin, extending half-life from minutes to days
+
+## Reconstitution Protocol
+
+**For 2mg or 5mg vial:**
+- Add 1-2mL bacteriostatic water
+- Inject slowly down vial wall
+- Gently swirl until fully dissolved
+- Store at 2-8°C, protect from light
+- Use within 30 days
+
+## Research Applications
+- Growth hormone axis research
+- Age-related GH decline studies
+- Body composition research
+- Synergistic protocols with GHRPs (e.g., Ipamorelin)
+
+**DISCLAIMER:** CJC-1295 is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'ipamorelin-research-guide',
+    title: 'Ipamorelin Research Guide',
+    excerpt: 'Research guide on Ipamorelin, a selective growth hormone secretagogue receptor (GHSR) agonist. Molecular data, selectivity profile, and research protocols.',
+    date: '2026-02-03',
+    readTime: '9 min read',
+    icon: Activity,
+    keywords: 'ipamorelin research, growth hormone secretagogue, GHSR agonist, selective GH peptide',
+    content: `
+# Ipamorelin Research Guide
+
+## Overview
+
+Ipamorelin is a synthetic pentapeptide and selective growth hormone secretagogue receptor (GHS-R1a) agonist. It is notable for its high selectivity — it stimulates growth hormone release without significantly affecting cortisol, prolactin, or ACTH levels, making it one of the cleanest GH-releasing peptides.
+
+## Molecular Characteristics
+
+**Classification:** Selective GHS-R1a Agonist (Ghrelin Mimetic)
+**Molecular Weight:** ~711.85 Da
+**Amino Acid Sequence:** Aib-His-D-2-Nal-D-Phe-Lys-NH2 (5 amino acids)
+**CAS Number:** 170851-70-4
+**Half-Life:** ~2 hours
+**Selectivity:** Highly selective for GH release; minimal effect on cortisol, prolactin, ACTH
+
+## Mechanism of Action
+
+1. **GHS-R1a Activation:** Mimics ghrelin at the growth hormone secretagogue receptor
+2. **Pulsatile GH Release:** Stimulates GH pulses from the anterior pituitary
+3. **Dose-Dependent Response:** Linear dose-response relationship in published studies
+4. **Synergy with GHRH:** Often studied in combination with CJC-1295 for amplified GH release
+
+## Reconstitution Protocol
+
+**For 2mg or 5mg vial:**
+- Add 1-2mL bacteriostatic water
+- Inject slowly down vial wall
+- Gently swirl until dissolved (typically 1-2 minutes)
+- Store at 2-8°C
+- Stable for 30 days refrigerated
+
+## Research Applications
+- Selective growth hormone release studies
+- GH axis research without cortisol interference
+- Body composition and metabolic research
+- Combination protocols with GHRH analogs
+
+**DISCLAIMER:** Ipamorelin is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'sermorelin-research-guide',
+    title: 'Sermorelin Research Guide',
+    excerpt: 'Research overview of Sermorelin, a GHRH analog consisting of the first 29 amino acids of endogenous GHRH. Molecular structure, research protocols, and applications.',
+    date: '2026-02-04',
+    readTime: '8 min read',
+    icon: Activity,
+    keywords: 'sermorelin research, GHRH 1-29, growth hormone releasing, sermorelin peptide',
+    content: `
+# Sermorelin Research Guide
+
+## Overview
+
+Sermorelin (GRF 1-29 NH2) is a synthetic peptide analog consisting of the first 29 amino acids of the naturally occurring 44-amino acid human growth hormone releasing hormone (GHRH). It retains full biological activity of the parent molecule and has been extensively studied since the 1980s.
+
+## Molecular Characteristics
+
+**Classification:** GHRH Analog (GRF 1-29)
+**Molecular Weight:** ~3,357.93 Da
+**Amino Acid Length:** 29 amino acids
+**CAS Number:** 86168-78-7
+**Half-Life:** ~10-20 minutes
+**Solubility:** Water-soluble
+
+## Mechanism of Action
+
+1. **GHRH Receptor Binding:** Directly activates GHRH receptors on pituitary somatotrophs
+2. **Physiological GH Release:** Stimulates growth hormone in a natural pulsatile pattern
+3. **Preserved Feedback:** Does not override negative feedback mechanisms, maintaining safety profile
+4. **IGF-1 Stimulation:** Downstream elevation of IGF-1 levels
+
+## Reconstitution and Storage
+
+- Add 1-2mL bacteriostatic water per vial
+- Inject slowly, swirl gently
+- Refrigerate at 2-8°C immediately
+- Use within 14-21 days (shorter half-life peptide)
+
+**DISCLAIMER:** Sermorelin is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'tesamorelin-research-guide',
+    title: 'Tesamorelin Research Guide',
+    excerpt: 'Research guide on Tesamorelin, an FDA-recognized GHRH analog studied for growth hormone stimulation and lipodystrophy research. Molecular data and protocols.',
+    date: '2026-02-04',
+    readTime: '8 min read',
+    icon: Activity,
+    keywords: 'tesamorelin research, GHRH analog, lipodystrophy peptide, growth hormone',
+    content: `
+# Tesamorelin Research Guide
+
+## Overview
+
+Tesamorelin is a synthetic GHRH analog with a trans-3-hexenoic acid modification at the N-terminus that enhances stability over native GHRH. It is the only GHRH analog that received FDA approval (for HIV-associated lipodystrophy), making it one of the most clinically validated peptides in this class.
+
+## Molecular Characteristics
+
+**Classification:** Modified GHRH Analog
+**Molecular Weight:** ~5,135.87 Da
+**Amino Acid Length:** 44 amino acids (full GHRH length + modification)
+**CAS Number:** 218949-48-5
+**Modification:** Trans-3-hexenoic acid at N-terminus
+**Half-Life:** ~26 minutes
+
+## Research Applications
+
+- Growth hormone axis stimulation studies
+- Visceral adiposity and lipodystrophy research
+- Cognitive function preservation studies (emerging research in mild cognitive impairment)
+- Hepatic fat reduction research
+
+## Reconstitution Protocol
+
+- Add 2mL bacteriostatic water per vial
+- Inject slowly, gently swirl
+- Refrigerate at 2-8°C
+- Use within 21-30 days
+
+**DISCLAIMER:** Tesamorelin is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'ghk-cu-research-guide',
+    title: 'GHK-Cu (Copper Peptide) Research Guide',
+    excerpt: 'Research overview of GHK-Cu, a naturally occurring copper-binding tripeptide studied for tissue remodeling, collagen synthesis, and wound healing mechanisms.',
+    date: '2026-02-05',
+    readTime: '9 min read',
+    icon: Shield,
+    keywords: 'GHK-Cu research, copper peptide, collagen synthesis, tissue remodeling peptide',
+    content: `
+# GHK-Cu (Copper Peptide) Research Guide
+
+## Overview
+
+GHK-Cu (glycyl-L-histidyl-L-lysine copper complex) is a naturally occurring tripeptide-copper complex found in human plasma, saliva, and urine. It was first identified by Dr. Loren Pickart in the 1970s. GHK-Cu levels decline with age, and research suggests it plays roles in tissue remodeling, wound healing, and gene expression modulation.
+
+## Molecular Characteristics
+
+**Full Name:** Glycyl-L-Histidyl-L-Lysine Copper(II) Complex
+**Molecular Formula:** C₁₄H₂₃CuN₆O₄
+**Molecular Weight:** ~403.92 Da (with copper)
+**Amino Acid Sequence:** Gly-His-Lys (tripeptide)
+**CAS Number:** 49557-75-7
+**Copper Binding:** Strong affinity for Cu²⁺ ions
+**Appearance:** May have slight blue tint (normal — copper complex)
+
+## Mechanism of Action
+
+1. **Copper Delivery:** Serves as a bioavailable copper transport molecule
+2. **Gene Expression:** Research shows modulation of ~4,000+ genes (Pickart et al.), many involved in tissue repair
+3. **Collagen Stimulation:** Promotes collagen I, III, and elastin synthesis
+4. **Anti-Inflammatory:** Reduces pro-inflammatory cytokines (TNF-α, IL-6)
+5. **Antioxidant Activity:** Superoxide dismutase support via copper delivery
+
+## Reconstitution Protocol
+
+**For 50mg or 100mg vial:**
+- Add 2-5mL bacteriostatic water
+- Dissolves rapidly — very water-soluble
+- Solution may appear slightly blue (normal)
+- Store at 2-8°C, stable for 30-60 days
+- Higher concentrations (10mg/mL) are feasible
+
+**DISCLAIMER:** GHK-Cu is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'pt-141-research-guide',
+    title: 'PT-141 (Bremelanotide) Research Guide',
+    excerpt: 'Research guide on PT-141 (Bremelanotide), a melanocortin receptor agonist studied for its unique central nervous system mechanism of action in sexual function research.',
+    date: '2026-02-05',
+    readTime: '8 min read',
+    icon: Heart,
+    keywords: 'PT-141 research, bremelanotide, melanocortin agonist, MC4R peptide',
+    content: `
+# PT-141 (Bremelanotide) Research Guide
+
+## Overview
+
+PT-141 (Bremelanotide) is a synthetic cyclic heptapeptide melanocortin receptor agonist. Unlike PDE5 inhibitors that act on the vascular system, PT-141 acts through the central nervous system via melanocortin-4 receptor (MC4R) activation. It received FDA approval as Vyleesi in 2019 for hypoactive sexual desire disorder.
+
+## Molecular Characteristics
+
+**Classification:** Melanocortin-4 Receptor (MC4R) Agonist
+**Molecular Weight:** ~1,025.18 Da
+**Structure:** Cyclic heptapeptide (7 amino acids)
+**Sequence:** Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-OH
+**CAS Number:** 189691-06-3
+**Half-Life:** ~2.7 hours
+**Origin:** Derived from Melanotan II with metabolite optimization
+
+## Mechanism of Action
+
+1. **MC4R Activation:** Activates melanocortin-4 receptors in the hypothalamus
+2. **Central Mechanism:** Acts on the CNS rather than peripheral vasculature
+3. **Dopaminergic Effects:** Downstream modulation of dopamine pathways
+
+## Reconstitution Protocol
+
+- Add 1-2mL bacteriostatic water per vial
+- Dissolves readily in water
+- Store at 2-8°C, use within 30 days
+
+**DISCLAIMER:** PT-141 is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'selank-research-guide',
+    title: 'Selank Research Guide',
+    excerpt: 'Research overview of Selank, a synthetic analog of tuftsin with anxiolytic and nootropic properties. Molecular data, mechanism of action, and cognitive research applications.',
+    date: '2026-02-06',
+    readTime: '8 min read',
+    icon: Brain,
+    keywords: 'selank research, tuftsin analog, anxiolytic peptide, nootropic research',
+    content: `
+# Selank Research Guide
+
+## Overview
+
+Selank (TP-7) is a synthetic heptapeptide analog of the naturally occurring immunomodulatory peptide tuftsin (Thr-Lys-Pro-Arg) with an added Pro-Gly-Pro sequence. Developed at the Institute of Molecular Genetics of the Russian Academy of Sciences, Selank is studied for its anxiolytic, nootropic, and immunomodulatory properties.
+
+## Molecular Characteristics
+
+**Classification:** Tuftsin Analog / Anxiolytic-Nootropic Peptide
+**Molecular Weight:** ~751.87 Da
+**Amino Acid Sequence:** Thr-Lys-Pro-Arg-Pro-Gly-Pro (7 amino acids)
+**CAS Number:** 129954-34-3
+**Half-Life:** Several minutes (intranasal administration extends effective duration)
+**Stability:** Stable synthetic peptide
+
+## Mechanism of Action
+
+1. **GABA Modulation:** Influences GABAergic neurotransmission without direct receptor binding
+2. **BDNF Expression:** Increases brain-derived neurotrophic factor expression
+3. **Enkephalin Modulation:** Affects endogenous enkephalin metabolism
+4. **Serotonin Metabolism:** Modulates serotonin and dopamine turnover
+5. **IL-6 Modulation:** Immunomodulatory effects through cytokine regulation
+
+## Research Applications
+- Anxiety and stress resilience research
+- Cognitive enhancement and memory studies
+- Immune function modulation
+- Neuroprotection research
+
+## Reconstitution
+- Dissolve in bacteriostatic water or sterile saline
+- Store at 2-8°C
+- Typically studied via intranasal administration in research models
+
+**DISCLAIMER:** Selank is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'semax-research-guide',
+    title: 'Semax Research Guide',
+    excerpt: 'Research guide on Semax, a synthetic ACTH analog peptide studied for cognitive enhancement, neuroprotection, and neuroplasticity mechanisms.',
+    date: '2026-02-06',
+    readTime: '8 min read',
+    icon: Brain,
+    keywords: 'semax research, ACTH analog, nootropic peptide, neuroprotection',
+    content: `
+# Semax Research Guide
+
+## Overview
+
+Semax is a synthetic heptapeptide analog of the adrenocorticotropic hormone (ACTH) fragment 4-10, with an added Pro-Gly-Pro C-terminal tripeptide for stability. Developed at the Institute of Molecular Genetics in Russia, it has been studied extensively for cognitive enhancement and neuroprotective properties.
+
+## Molecular Characteristics
+
+**Classification:** ACTH(4-10) Analog / Nootropic Peptide
+**Molecular Weight:** ~813.93 Da
+**Amino Acid Sequence:** Met-Glu-His-Phe-Pro-Gly-Pro (7 amino acids)
+**CAS Number:** 80714-61-0
+**Half-Life:** Short (minutes), though effects persist longer
+**Key Feature:** Retains neurotropic activity of ACTH without hormonal/steroidogenic effects
+
+## Mechanism of Action
+
+1. **BDNF Upregulation:** Significant increase in brain-derived neurotrophic factor
+2. **NGF Modulation:** Affects nerve growth factor expression
+3. **Dopamine/Serotonin Systems:** Modulates monoamine neurotransmitter turnover
+4. **No Hormonal Activity:** Unlike ACTH, does not stimulate adrenal cortisol production
+5. **Neuroplasticity:** Promotes dendritic branching and synaptic formation
+
+## Research Applications
+- Cognitive enhancement and attention studies
+- Stroke recovery and neuroprotection research
+- Neurodegenerative disease research
+- BDNF-mediated neuroplasticity studies
+
+**DISCLAIMER:** Semax is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'pinealon-research-guide',
+    title: 'Pinealon Research Guide',
+    excerpt: 'Research overview of Pinealon, a brain-specific tripeptide studied for neuroprotection and cognitive function. Part of the Khavinson peptide bioregulator family.',
+    date: '2026-02-07',
+    readTime: '7 min read',
+    icon: Brain,
+    keywords: 'pinealon research, brain peptide, neuroprotective tripeptide, Khavinson peptide',
+    content: `
+# Pinealon Research Guide
+
+## Overview
+
+Pinealon (EDR) is a synthetic tripeptide (Glu-Asp-Arg) studied as a brain-specific peptide bioregulator. It belongs to the family of short peptides researched by Professor Vladimir Khavinson at the Saint Petersburg Institute of Bioregulation and Gerontology. Research suggests it may have neuroprotective and gene-regulatory properties.
+
+## Molecular Characteristics
+
+**Classification:** Brain-Specific Peptide Bioregulator
+**Molecular Weight:** ~418.40 Da
+**Amino Acid Sequence:** Glu-Asp-Arg (3 amino acids)
+**Structure:** Linear tripeptide
+**Solubility:** Water-soluble
+
+## Mechanism of Action (Research Findings)
+
+1. **Gene Expression:** Research suggests modulation of genes involved in neuronal function
+2. **Antioxidant Effects:** May reduce oxidative stress markers in neural tissue
+3. **Cell Proliferation:** Studies indicate potential stimulation of neural cell proliferation
+4. **Pineal Gland:** Named for its purported affinity for pineal gland tissue
+
+## Research Applications
+- Neuroprotection and cognitive aging research
+- Peptide bioregulation studies
+- Oxidative stress in neural tissue
+- Short peptide gene modulation research
+
+**DISCLAIMER:** Pinealon is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'epithalon-research-guide',
+    title: 'Epithalon Research Guide',
+    excerpt: 'Research guide on Epithalon (Epitalon), a tetrapeptide studied for its effects on telomerase activation, circadian rhythm, and aging research.',
+    date: '2026-02-07',
+    readTime: '9 min read',
+    icon: Dna,
+    keywords: 'epithalon research, epitalon, telomerase peptide, anti-aging research',
+    content: `
+# Epithalon (Epitalon) Research Guide
+
+## Overview
+
+Epithalon (also spelled Epitalon) is a synthetic tetrapeptide (Ala-Glu-Asp-Gly) based on the naturally occurring peptide Epithalamin, which is produced by the pineal gland. Research by Professor Vladimir Khavinson and colleagues has focused on its potential effects on telomerase activity, circadian rhythm regulation, and biomarkers of aging.
+
+## Molecular Characteristics
+
+**Classification:** Pineal Peptide / Telomerase Research Peptide
+**Molecular Weight:** ~390.35 Da
+**Amino Acid Sequence:** Ala-Glu-Asp-Gly (4 amino acids)
+**CAS Number:** 307297-39-8
+**Solubility:** Water-soluble
+**Stability:** Stable as lyophilized powder
+
+## Mechanism of Action (Research Findings)
+
+1. **Telomerase Activation:** Published studies suggest Epithalon activates telomerase in human somatic cells (Khavinson et al., 2003)
+2. **Melatonin Regulation:** Research indicates modulation of pineal gland melatonin production
+3. **Circadian Rhythm:** May help normalize disrupted circadian patterns in aging models
+4. **Antioxidant Gene Expression:** Studies suggest upregulation of antioxidant enzyme genes
+
+## Reconstitution Protocol
+- Add 1-2mL bacteriostatic water
+- Dissolves easily — very water-soluble
+- Store at 2-8°C
+- Stable for 30+ days refrigerated
+
+## Research Applications
+- Telomere biology and aging research
+- Circadian rhythm studies
+- Pineal gland function research
+- Biomarkers of cellular aging
+
+**DISCLAIMER:** Epithalon is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'mots-c-research-guide',
+    title: 'MOTS-c Research Guide',
+    excerpt: 'Research overview of MOTS-c, a mitochondrial-derived peptide studied for metabolic regulation, exercise mimetic effects, and cellular energy metabolism.',
+    date: '2026-02-08',
+    readTime: '9 min read',
+    icon: Zap,
+    keywords: 'MOTS-c research, mitochondrial peptide, metabolic regulation, exercise mimetic',
+    content: `
+# MOTS-c Research Guide
+
+## Overview
+
+MOTS-c (Mitochondrial Open Reading Frame of the 12S rRNA Type-c) is a mitochondrial-derived peptide (MDP) discovered in 2015 by Dr. Changhan Lee's lab at USC. It is encoded within the mitochondrial genome and is one of the first identified mitochondrial-encoded signaling peptides that regulate nuclear gene expression — a form of retrograde signaling.
+
+## Molecular Characteristics
+
+**Classification:** Mitochondrial-Derived Peptide (MDP)
+**Molecular Weight:** ~2,174.67 Da
+**Amino Acid Length:** 16 amino acids
+**Sequence:** MRWQEMGYIFYPRKLR
+**Encoded By:** Mitochondrial 12S rRNA gene
+**CAS Number:** 1627580-64-6
+
+## Mechanism of Action
+
+1. **AMPK Activation:** Activates AMP-activated protein kinase, a master metabolic regulator
+2. **Folate-Methionine Cycle:** Regulates one-carbon metabolism and de novo purine biosynthesis
+3. **Nuclear Translocation:** Under metabolic stress, MOTS-c translocates to the nucleus and regulates gene expression
+4. **Insulin Sensitivity:** Enhances glucose uptake and insulin sensitivity in skeletal muscle
+5. **Exercise Mimetic:** Mimics some metabolic effects of physical exercise
+
+## Research Applications
+- Metabolic syndrome and insulin resistance research
+- Exercise physiology and mimetic studies
+- Mitochondrial biology and retrograde signaling
+- Aging and cellular energy metabolism
+- Obesity and metabolic disease research
+
+## Reconstitution
+- Add 1-2mL bacteriostatic water
+- Store at 2-8°C, use within 30 days
+- Protect from light
+
+**DISCLAIMER:** MOTS-c is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'melanotan-2-research-guide',
+    title: 'Melanotan II (MT-2) Research Guide',
+    excerpt: 'Research guide on Melanotan II, a synthetic melanocortin receptor agonist studied for melanogenesis, photoprotection, and melanocortin pathway research.',
+    date: '2026-02-08',
+    readTime: '8 min read',
+    icon: Sun,
+    keywords: 'melanotan 2 research, MT-2, melanocortin agonist, melanogenesis peptide',
+    content: `
+# Melanotan II (MT-2) Research Guide
+
+## Overview
+
+Melanotan II (MT-2) is a synthetic cyclic heptapeptide analog of alpha-melanocyte-stimulating hormone (α-MSH). Originally developed at the University of Arizona, it is a non-selective melanocortin receptor agonist that activates MC1R through MC5R. It is primarily studied for melanogenesis and melanocortin pathway research.
+
+## Molecular Characteristics
+
+**Classification:** Non-Selective Melanocortin Receptor Agonist
+**Molecular Weight:** ~1,024.18 Da
+**Structure:** Cyclic heptapeptide
+**Sequence:** Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-NH2
+**CAS Number:** 121062-08-6
+**Half-Life:** ~1-2 hours
+
+## Mechanism of Action
+
+1. **MC1R Activation:** Stimulates melanocytes to produce melanin (melanogenesis)
+2. **Non-Selective Binding:** Activates multiple melanocortin receptor subtypes (MC1R-MC5R)
+3. **cAMP Pathway:** MC1R activation increases intracellular cAMP, triggering tyrosinase and melanin production
+
+## Research Applications
+- Melanogenesis and pigmentation research
+- UV photoprotection studies
+- Melanocortin receptor signaling pathways
+- Comparison studies with selective agonists (MT-1/Afamelanotide)
+
+**DISCLAIMER:** Melanotan II is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'melanotan-1-research-guide',
+    title: 'Melanotan I (Afamelanotide) Research Guide',
+    excerpt: 'Research overview of Melanotan I (Afamelanotide), a linear α-MSH analog with selective MC1R activity studied for photoprotection and melanogenesis.',
+    date: '2026-02-09',
+    readTime: '7 min read',
+    icon: Sun,
+    keywords: 'melanotan 1 research, afamelanotide, MC1R agonist, photoprotection peptide',
+    content: `
+# Melanotan I (Afamelanotide) Research Guide
+
+## Overview
+
+Melanotan I (also known as Afamelanotide) is a synthetic linear tridecapeptide analog of α-melanocyte-stimulating hormone (α-MSH). Unlike the non-selective Melanotan II, Afamelanotide is more selective for the MC1R receptor. It received EMA approval under the brand name Scenesse for erythropoietic protoporphyria (EPP).
+
+## Molecular Characteristics
+
+**Classification:** MC1R-Preferring Melanocortin Agonist
+**Molecular Weight:** ~1,646.85 Da
+**Amino Acid Length:** 13 amino acids (linear peptide)
+**CAS Number:** 75921-69-6
+**Half-Life:** ~30 minutes
+**Key Difference from MT-2:** Linear structure, more selective, no cyclic ring
+
+## Mechanism of Action
+
+1. **Selective MC1R Activation:** Preferential activation of melanocortin-1 receptor on melanocytes
+2. **Eumelanin Production:** Stimulates production of photoprotective eumelanin (brown/black melanin)
+3. **Fewer Off-Target Effects:** More selective than MT-2, reducing non-melanogenic effects
+
+**DISCLAIMER:** Melanotan I is for laboratory research use only (except under approved clinical use as Scenesse). Research-grade peptides are not for human consumption.
+    `
+  },
+  {
+    id: 'kisspeptin-research-guide',
+    title: 'Kisspeptin Research Guide',
+    excerpt: 'Research guide on Kisspeptin, a neuropeptide critical for GnRH signaling, reproductive endocrinology, and puberty onset research.',
+    date: '2026-02-09',
+    readTime: '8 min read',
+    icon: Heart,
+    keywords: 'kisspeptin research, GnRH signaling, reproductive peptide, KISS1',
+    content: `
+# Kisspeptin Research Guide
+
+## Overview
+
+Kisspeptin refers to a family of peptides encoded by the KISS1 gene. The full-length kisspeptin-54 and its shorter fragments (kisspeptin-14, -13, -10) act on the kisspeptin receptor (KISS1R/GPR54) and are critical upstream regulators of GnRH (gonadotropin-releasing hormone) neurons. Kisspeptin is considered the master regulator of reproductive hormone signaling.
+
+## Molecular Characteristics
+
+**Classification:** GnRH Upstream Regulator / Reproductive Neuropeptide
+**Gene:** KISS1
+**Primary Form:** Kisspeptin-54 (54 amino acids)
+**Active Fragments:** Kisspeptin-10, -13, -14
+**Receptor:** KISS1R (GPR54)
+**CAS Number (Kisspeptin-10):** 374675-21-5
+
+## Mechanism of Action
+
+1. **GnRH Stimulation:** Directly activates GnRH neurons in the hypothalamus
+2. **LH/FSH Release:** Downstream stimulation of luteinizing hormone and follicle-stimulating hormone
+3. **Puberty Regulation:** Loss-of-function mutations in KISS1R cause hypogonadotropic hypogonadism
+4. **Reproductive Axis Master Switch:** Central gatekeeper for reproductive maturation
+
+## Research Applications
+- Reproductive endocrinology research
+- Puberty onset and timing studies
+- Fertility and IVF research
+- Hypothalamic-pituitary-gonadal axis research
+
+**DISCLAIMER:** Kisspeptin is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'thymosin-alpha-1-research-guide',
+    title: 'Thymosin Alpha-1 Research Guide',
+    excerpt: 'Research overview of Thymosin Alpha-1, an immune-modulating peptide derived from the thymus gland. FDA orphan drug with extensive immunological research.',
+    date: '2026-02-10',
+    readTime: '9 min read',
+    icon: Shield,
+    keywords: 'thymosin alpha-1 research, immune peptide, thymus peptide, immunomodulation',
+    content: `
+# Thymosin Alpha-1 Research Guide
+
+## Overview
+
+Thymosin Alpha-1 (Tα1) is a naturally occurring peptide originally isolated from thymic tissue (Thymosin Fraction 5) by Allan Goldstein in the 1970s. It is a 28-amino acid peptide that plays a central role in adaptive immune function. It is approved in over 35 countries as Zadaxin for hepatitis B and C treatment and as an immune adjuvant.
+
+## Molecular Characteristics
+
+**Classification:** Thymic Immunomodulatory Peptide
+**Molecular Weight:** ~3,108 Da
+**Amino Acid Length:** 28 amino acids
+**CAS Number:** 62304-98-7
+**N-Terminal:** Acetylated (Ac-Ser)
+**Solubility:** Water-soluble
+
+## Mechanism of Action
+
+1. **T-Cell Maturation:** Promotes differentiation and maturation of T-lymphocytes
+2. **Dendritic Cell Activation:** Enhances dendritic cell function and antigen presentation
+3. **TLR Signaling:** Activates Toll-like receptors (TLR2, TLR9), bridging innate and adaptive immunity
+4. **NK Cell Enhancement:** Increases natural killer cell cytotoxicity
+5. **Cytokine Modulation:** Balances Th1/Th2 immune response
+
+## Research Applications
+- Immune function and immunodeficiency research
+- Vaccine adjuvant studies
+- Hepatitis and viral infection research
+- Cancer immunology and immune checkpoint studies
+- Sepsis and critical care immunomodulation
+
+**DISCLAIMER:** Thymosin Alpha-1 is for laboratory research use only. Not for human consumption outside of approved clinical formulations.
+    `
+  },
+  {
+    id: 'ss-31-research-guide',
+    title: 'SS-31 (Elamipretide) Research Guide',
+    excerpt: 'Research guide on SS-31 (Elamipretide), a mitochondrial-targeting tetrapeptide studied for cardiolipin binding, electron transport optimization, and mitochondrial disease.',
+    date: '2026-02-10',
+    readTime: '9 min read',
+    icon: Zap,
+    keywords: 'SS-31 research, elamipretide, mitochondrial peptide, cardiolipin binding',
+    content: `
+# SS-31 (Elamipretide) Research Guide
+
+## Overview
+
+SS-31 (also known as Elamipretide or Bendavia) is a synthetic cell-permeable tetrapeptide that selectively targets the inner mitochondrial membrane. Developed by Dr. Hazel Szeto and colleagues, it binds to cardiolipin, a phospholipid essential for electron transport chain function, and has been studied in clinical trials for mitochondrial diseases.
+
+## Molecular Characteristics
+
+**Classification:** Mitochondria-Targeting Peptide (Szeto-Schiller Peptide)
+**Molecular Weight:** ~640.77 Da
+**Amino Acid Sequence:** D-Arg-Dmt-Lys-Phe-NH2 (4 amino acids)
+**CAS Number:** 736992-21-5
+**Key Feature:** Cell-permeable, concentrates 1000-5000x in mitochondria
+**Charge:** Cationic (+3 at physiological pH)
+
+## Mechanism of Action
+
+1. **Cardiolipin Binding:** Selectively binds cardiolipin in the inner mitochondrial membrane
+2. **ETC Optimization:** Stabilizes electron transport chain complexes, reducing electron leak
+3. **ROS Reduction:** Decreases mitochondrial reactive oxygen species production
+4. **ATP Restoration:** Restores ATP production in dysfunctional mitochondria
+5. **Membrane Potential:** Preserves mitochondrial membrane potential under stress
+
+## Research Applications
+- Mitochondrial disease research
+- Cardiac ischemia-reperfusion injury studies
+- Aging and mitochondrial dysfunction
+- Kidney disease and organ transplant research
+- Neurodegenerative disease (mitochondrial component)
+
+**DISCLAIMER:** SS-31 is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'igf1-lr3-research-guide',
+    title: 'IGF-1 LR3 Research Guide',
+    excerpt: 'Research overview of IGF-1 LR3, a modified insulin-like growth factor with extended half-life. Molecular data, mechanism, and growth factor research applications.',
+    date: '2026-02-11',
+    readTime: '9 min read',
+    icon: Dna,
+    keywords: 'IGF-1 LR3 research, insulin-like growth factor, long R3, growth peptide',
+    content: `
+# IGF-1 LR3 Research Guide
+
+## Overview
+
+IGF-1 LR3 (Long R3 Insulin-like Growth Factor-1) is a modified version of human IGF-1 with an arginine substitution at position 3 and a 13-amino acid N-terminal extension. These modifications significantly reduce binding to IGF binding proteins (IGFBPs), resulting in a much longer half-life and enhanced bioactivity compared to native IGF-1.
+
+## Molecular Characteristics
+
+**Classification:** Modified Insulin-like Growth Factor
+**Molecular Weight:** ~9,111 Da
+**Amino Acid Length:** 83 amino acids (70 native + 13 extension)
+**Modifications:** Glu3→Arg3 substitution + 13-AA N-terminal extension
+**CAS Number:** 946870-92-4
+**Half-Life:** ~20-30 hours (vs ~15 minutes for native IGF-1)
+**Key Feature:** Reduced IGFBP binding = higher free bioactive concentration
+
+## Mechanism of Action
+
+1. **IGF-1R Activation:** Binds to the IGF-1 receptor with full agonist activity
+2. **Reduced IGFBP Binding:** Modifications prevent sequestration by binding proteins
+3. **PI3K/Akt Pathway:** Activates phosphoinositide 3-kinase and Akt signaling
+4. **Cell Proliferation:** Potent stimulator of cell growth and differentiation
+5. **Anti-Apoptotic:** Promotes cell survival via Akt-mediated pathways
+
+## Research Applications
+- Growth factor signaling research
+- Muscle cell proliferation and differentiation studies
+- Cancer biology (IGF axis dysregulation)
+- Metabolic research and glucose homeostasis
+
+## Reconstitution
+- Add 0.1M acetic acid or bacteriostatic water
+- Handle carefully — sensitive to pH extremes
+- Store at -20°C for long-term, 2-8°C for short-term use
+
+**DISCLAIMER:** IGF-1 LR3 is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'hgh-fragment-176-191-research-guide',
+    title: 'HGH Fragment 176-191 Research Guide',
+    excerpt: 'Research guide on HGH Fragment 176-191 (AOD-9604), the lipolytic fragment of human growth hormone. Mechanism, fat metabolism research, and protocols.',
+    date: '2026-02-11',
+    readTime: '8 min read',
+    icon: Flame,
+    keywords: 'HGH fragment research, AOD-9604, growth hormone fragment, lipolytic peptide',
+    content: `
+# HGH Fragment 176-191 Research Guide
+
+## Overview
+
+HGH Fragment 176-191 (also known as AOD-9604) is a modified peptide fragment corresponding to amino acids 176-191 of the human growth hormone molecule. This specific fragment retains the lipolytic (fat-burning) activity of GH while having no effect on growth or insulin resistance. Research was pioneered at Monash University in Australia.
+
+## Molecular Characteristics
+
+**Classification:** Growth Hormone Fragment / Lipolytic Peptide
+**Molecular Weight:** ~1,817.12 Da
+**Amino Acid Length:** 16 amino acids (positions 176-191 of hGH)
+**CAS Number:** 221231-10-3
+**Modifications:** C-terminal tyrosine added for stability
+**Key Feature:** Isolates fat metabolism effects from GH's growth/diabetogenic effects
+
+## Mechanism of Action
+
+1. **Lipolysis Stimulation:** Activates beta-3 adrenergic receptor-mediated fat breakdown
+2. **Anti-Lipogenic:** Inhibits lipogenesis (new fat formation)
+3. **No IGF-1 Elevation:** Does not stimulate IGF-1 or promote growth
+4. **No Insulin Resistance:** Unlike full GH, does not impair glucose tolerance
+
+## Research Applications
+- Fat metabolism and lipolysis research
+- Obesity and metabolic syndrome studies
+- Growth hormone fragment biology
+- Selective GH activity research
+
+**DISCLAIMER:** HGH Fragment 176-191 is for laboratory research use only. Not for human consumption.
+    `
+  },
+  {
+    id: 'll-37-research-guide',
+    title: 'LL-37 Antimicrobial Peptide Research Guide',
+    excerpt: 'Research overview of LL-37 (Cathelicidin), the only human cathelicidin antimicrobial peptide. Innate immunity, wound healing, and antimicrobial research.',
+    date: '2026-02-12',
+    readTime: '9 min read',
+    icon: Shield,
+    keywords: 'LL-37 research, cathelicidin, antimicrobial peptide, innate immunity',
+    content: `
+# LL-37 Antimicrobial Peptide Research Guide
+
+## Overview
+
+LL-37 is the only cathelicidin antimicrobial peptide (CAMP) found in humans. It is a 37-amino acid peptide cleaved from the C-terminus of the precursor protein hCAP18 by proteinase 3. LL-37 is expressed by neutrophils, macrophages, epithelial cells, and other immune cells, and serves as a critical component of the innate immune system.
+
+## Molecular Characteristics
+
+**Classification:** Human Cathelicidin Antimicrobial Peptide
+**Molecular Weight:** ~4,493.33 Da
+**Amino Acid Length:** 37 amino acids
+**Sequence Start:** LLGDFFRKSKEKIGKEFKR...
+**CAS Number:** 154947-66-7
+**Structure:** Alpha-helical in membrane environments
+**Charge:** +6 at physiological pH (cationic)
+**Precursor:** hCAP18 (human cationic antimicrobial protein, 18 kDa)
+
+## Mechanism of Action
+
+1. **Membrane Disruption:** Inserts into bacterial membranes, forming pores
+2. **Broad-Spectrum Activity:** Active against gram-positive, gram-negative bacteria, fungi, and enveloped viruses
+3. **Immunomodulation:** Recruits immune cells, modulates TLR signaling
+4. **Wound Healing:** Promotes re-epithelialization and angiogenesis
+5. **Biofilm Disruption:** Inhibits and disrupts bacterial biofilm formation
+
+## Research Applications
+- Antimicrobial resistance research
+- Innate immunity and host defense studies
+- Wound healing mechanism research
+- Biofilm disruption studies
+- Inflammatory and autoimmune research
+
+**DISCLAIMER:** LL-37 is for laboratory research use only. Not for human consumption.
+    `
   }
 ];
 
@@ -1067,8 +1990,8 @@ export default function BlogGuide() {
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Research Peptide Guides & Education | Red Helix Research Blog"
-        description="In-depth research guides on BPC-157, TB-500, Semaglutide, reconstitution protocols, lab techniques. Educational resources for peptide researchers. Evidence-based information."
-        keywords="peptide research guide, BPC-157 guide, TB-500 research, semaglutide protocol, peptide reconstitution, peptide education, research peptide blog, lab protocols, peptide research blog"
+        description="In-depth research guides on BPC-157, TB-500, Semaglutide, Tirzepatide, CJC-1295, Ipamorelin, GHK-Cu, PT-141, Selank, Semax, MOTS-c, Epithalon, and more. Evidence-based peptide education for researchers."
+        keywords="peptide research guide, BPC-157 guide, TB-500 research, semaglutide protocol, tirzepatide guide, CJC-1295, ipamorelin, GHK-Cu, PT-141, selank, semax, MOTS-c, epithalon, peptide reconstitution, peptide education, research peptide blog"
       />
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>

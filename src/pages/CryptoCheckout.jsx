@@ -166,6 +166,12 @@ export default function CryptoCheckout() {
   const [customerInfo, setCustomerInfo] = useState(null);
   const [promoCode, setPromoCode] = useState(null);
 
+  // Stable order number — generated once, persists across re-renders
+  const orderNumberRef = useRef(null);
+  if (!orderNumberRef.current) {
+    orderNumberRef.current = `RDR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+  }
+
   // Flow: 'select_method' | 'pick_coin' | 'send_payment' | 'confirm' | 'bank_ach' | 'completed' | 'failed'
   const [step, setStep] = useState('select_method');
   const [selectedCrypto, setSelectedCrypto] = useState(null);
@@ -838,7 +844,7 @@ export default function CryptoCheckout() {
 
                     <PlaidACHCheckout
                       order={{
-                        order_number: `RDR-${Date.now().toString(36).toUpperCase()}`,
+                        order_number: orderNumberRef.current,
                         total_amount: totalUSD,
                         items: cartItems,
                       }}
@@ -848,9 +854,9 @@ export default function CryptoCheckout() {
                       }}
                     />
 
-                    <div className="mt-8 flex justify-center gap-4 opacity-60">
-                      <PCIComplianceBadge />
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full">
+                    <div className="mt-8 flex justify-center gap-4">
+                      <PCIComplianceBadge variant="minimal" />
+                      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-full">
                         <Lock className="w-3 h-3 text-slate-500" />
                         <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">256-bit Encrypted</span>
                       </div>
