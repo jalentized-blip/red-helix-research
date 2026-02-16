@@ -12,6 +12,7 @@ Allow: /PeptideCalculator
 Allow: /LearnMore
 Allow: /PeptideAcademy
 Allow: /PeptideComparison
+Allow: /PeptideGlossary
 Allow: /BlogGuide
 Allow: /COAReports
 Allow: /OurStory

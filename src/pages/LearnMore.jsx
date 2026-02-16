@@ -95,10 +95,11 @@ export default function LearnMore() {
 
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
-      <SEO 
-        title="Peptide Research Guide - Gray Market Research Chemicals & Clinical Studies"
-        description="Comprehensive peptide research database for gray market research chemicals. Scientific studies on BPC-157, TB-500, semaglutide, tirzepatide, and performance peptides. Evidence-based information for peptide researchers and underground research community."
-        keywords="peptide research, gray market peptide research, research chemical studies, peptide education, weight loss peptides research, BPC-157 research, TB-500 studies, semaglutide research, peptide science, peptide clinical trials, underground peptide research, research peptide community, peptide vendor research, alternative medicine peptides"
+      <SEO
+        title="Peptide Research Database — Scientific Studies & Product Information"
+        description="Browse our complete peptide research database. Scientific data on BPC-157, TB-500, semaglutide, tirzepatide, and 25+ research peptides. Evidence-based information for researchers."
+        keywords="peptide research database, peptide information, BPC-157 data, TB-500 research, semaglutide studies, tirzepatide research, peptide science, peptide clinical data, research peptide information, peptide product research, peptide education, weight loss peptide research, recovery peptide studies"
+        canonical="https://redhelixresearch.com/LearnMore"
       />
       {/* Disclaimer Modal */}
       <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>

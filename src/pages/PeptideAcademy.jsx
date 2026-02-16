@@ -221,9 +221,10 @@ export default function PeptideAcademy() {
   return (
     <div className="min-h-screen bg-white pt-24 md:pt-32 pb-20">
       <SEO
-        title="Peptide Research Academy - Interactive Learning Platform | Red Helix Research"
-        description="Master peptide research with our AI-powered learning platform. Interactive modules, mechanism visualizations, and personalized guidance for researchers at all levels."
-        keywords="peptide education, research peptides learning, peptide mechanisms, peptide research training, interactive peptide guide"
+        title="Peptide Academy — Free Research Peptide Education & Training"
+        description="Free peptide education platform. Learn about BPC-157, TB-500, semaglutide, and more with interactive modules, mechanism visualizations, and research quizzes."
+        keywords="peptide education, peptide academy, learn about peptides, peptide research training, how peptides work, peptide mechanisms explained, BPC-157 education, peptide science course, free peptide training, research peptide guide, peptide learning platform, peptide fundamentals"
+        canonical="https://redhelixresearch.com/PeptideAcademy"
         schema={schemas}
       />
 

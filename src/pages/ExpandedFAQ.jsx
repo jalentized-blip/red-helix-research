@@ -241,9 +241,10 @@ export default function ExpandedFAQ() {
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
-        title="Frequently Asked Questions | Red Helix Research"
-        description="Complete FAQ about Red Helix Research peptides, ordering, reconstitution, shipping, quality, and customer support."
-        keywords="FAQ, frequently asked questions, help, support, peptides, ordering, shipping"
+        title="Research Peptide FAQ — Ordering, Quality, Shipping & Reconstitution"
+        description="Answers to common questions about buying research peptides. Learn about COA verification, HPLC purity testing, shipping, reconstitution, and quality standards."
+        keywords="research peptide FAQ, peptide questions, how to buy peptides, peptide quality testing, COA verification, peptide shipping, peptide reconstitution help, are research peptides legal, peptide purity HPLC, peptide storage, bacteriostatic water FAQ, peptide vendor FAQ"
+        canonical="https://redhelixresearch.com/ExpandedFAQ"
       />
 
       <div className="max-w-4xl mx-auto px-4">

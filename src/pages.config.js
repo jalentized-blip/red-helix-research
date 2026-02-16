@@ -88,6 +88,7 @@ import PeptideAcademy from './pages/PeptideAcademy';
 import PeptideCalculator from './pages/PeptideCalculator';
 import PeptideCategory from './pages/PeptideCategory';
 import PeptideComparison from './pages/PeptideComparison';
+import PeptideGlossary from './pages/PeptideGlossary';
 import PeptideInstructions from './pages/PeptideInstructions';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
@@ -155,6 +156,7 @@ export const PAGES = {
     "PeptideCalculator": PeptideCalculator,
     "PeptideCategory": PeptideCategory,
     "PeptideComparison": PeptideComparison,
+    "PeptideGlossary": PeptideGlossary,
     "PeptideInstructions": PeptideInstructions,
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,

@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, FlaskConical } from 'lucide-react';
+import { ArrowLeft, CheckCircle, AlertCircle, Beaker, ShieldCheck, Microscope, FlaskConical, FileText, Calculator, BookOpen } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { generateProductSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema, generateMedicalWebPageSchema } from '@/components/utils/advancedSchemaHelpers';
+import { RelatedPeptides, ResourceLinks, InternalLinkFooter } from '@/components/RelatedPeptides';
 
 export default function ProductTB500() {
   const [selectedStrength, setSelectedStrength] = useState(null);
@@ -106,10 +107,11 @@ export default function ProductTB500() {
       </div>
 
       <SEO
-        title="Buy TB-500 (Thymosin Beta-4) Peptide USA | Lab-Tested Research Compound"
-        description="Premium TB-500 thymosin beta-4 peptide with verified third-party COA. 5mg, 10mg, bulk options. High purity research-grade peptide supplier USA."
-        keywords="TB-500, thymosin beta-4, TB-500 peptide, research peptide, lab-tested thymosin, buy TB-500, recovery peptide, tissue healing peptide"
+        title="Buy TB-500 (Thymosin Beta-4) — Lab-Tested 5mg, 10mg, 50mg | USA Supplier"
+        description="Buy TB-500 Thymosin Beta-4 from $59.99. HPLC-verified >98.5% purity with third-party COA. 5mg, 10mg, and 50mg bulk. USA-based research peptide supplier."
+        keywords="buy TB-500, TB-500 peptide, thymosin beta 4, TB-500 5mg, TB-500 10mg, TB-500 50mg, TB-500 for sale, TB-500 USA, TB-500 research, buy thymosin beta-4, TB-500 purity, TB-500 COA, TB-500 reconstitution, TB-500 price, TB-500 vs BPC-157, recovery peptide, tissue repair peptide, TB-500 lab tested"
         schema={schemas}
+        canonical="https://redhelixresearch.com/ProductTB500"
       />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -316,6 +318,30 @@ export default function ProductTB500() {
           </div>
         </motion.div>
 
+        {/* E-E-A-T Trust Signals */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 md:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="bg-white border border-slate-200 rounded-[24px] p-6 text-center">
+              <FileText className="w-8 h-8 text-[#dc2626] mx-auto mb-3" />
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Third-Party Tested</h3>
+              <p className="text-xs text-slate-500 font-medium">Every TB-500 batch includes an independent COA with HPLC purity, MS confirmation, and sterility results.</p>
+              <Link to={createPageUrl('COAReports')} className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest mt-3 inline-block hover:underline">View COA Reports →</Link>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-[24px] p-6 text-center">
+              <Calculator className="w-8 h-8 text-[#dc2626] mx-auto mb-3" />
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Dosage Calculator</h3>
+              <p className="text-xs text-slate-500 font-medium">Use our free peptide calculator to determine exact TB-500 reconstitution volumes and concentrations.</p>
+              <Link to={createPageUrl('PeptideCalculator')} className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest mt-3 inline-block hover:underline">Calculate Dosage →</Link>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-[24px] p-6 text-center">
+              <BookOpen className="w-8 h-8 text-[#dc2626] mx-auto mb-3" />
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Research Guide</h3>
+              <p className="text-xs text-slate-500 font-medium">Read our comprehensive TB-500 research guide with molecular data, clinical references, and protocols.</p>
+              <Link to={createPageUrl('BlogGuide')} className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest mt-3 inline-block hover:underline">Read Research →</Link>
+            </div>
+          </div>
+        </motion.div>
+
         {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -326,7 +352,6 @@ export default function ProductTB500() {
           <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.05]">
             <div className="absolute top-[-50%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#dc2626] rounded-full blur-[80px] md:blur-[100px]" />
           </div>
-          
           <div className="relative z-10 max-w-2xl mx-auto">
             <h3 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 md:mb-6 uppercase tracking-tighter">
               Ready to Initiate <span className="text-[#dc2626]">Protocol?</span>
@@ -335,19 +360,23 @@ export default function ProductTB500() {
               All TB-500 orders include serialized COA verification and priority cold-chain shipping options.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-              <Link to={createPageUrl('Home')}>
+              <Link to={createPageUrl('Products')}>
                 <Button className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 md:px-12 py-6 md:py-8 rounded-[20px] md:rounded-[24px] font-black uppercase tracking-tighter text-base md:text-lg">
                   Browse Catalog
                 </Button>
               </Link>
-              <Link to={createPageUrl('Contact')}>
+              <Link to={createPageUrl('PeptideComparison')}>
                 <Button variant="outline" className="w-full sm:w-auto border-slate-200 text-slate-900 px-8 md:px-12 py-6 md:py-8 rounded-[20px] md:rounded-[24px] font-black uppercase tracking-tighter text-base md:text-lg hover:bg-slate-50">
-                  Consultation
+                  Compare Peptides
                 </Button>
               </Link>
             </div>
           </div>
         </motion.div>
+
+        <RelatedPeptides currentPeptide="TB-500" />
+        <ResourceLinks maxItems={8} />
+        <InternalLinkFooter />
       </div>
     </div>
   );

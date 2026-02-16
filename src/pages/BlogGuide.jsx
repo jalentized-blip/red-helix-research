@@ -1989,9 +1989,10 @@ export default function BlogGuide() {
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
-        title="Research Peptide Guides & Education | Red Helix Research Blog"
-        description="In-depth research guides on BPC-157, TB-500, Semaglutide, Tirzepatide, CJC-1295, Ipamorelin, GHK-Cu, PT-141, Selank, Semax, MOTS-c, Epithalon, and more. Evidence-based peptide education for researchers."
-        keywords="peptide research guide, BPC-157 guide, TB-500 research, semaglutide protocol, tirzepatide guide, CJC-1295, ipamorelin, GHK-Cu, PT-141, selank, semax, MOTS-c, epithalon, peptide reconstitution, peptide education, research peptide blog"
+        title="Peptide Research Guides — 23+ In-Depth Articles on BPC-157, TB-500 & More"
+        description="Free research guides on 23+ peptides: BPC-157, TB-500, semaglutide, tirzepatide, CJC-1295, ipamorelin, GHK-Cu, and more. Molecular data, clinical references, and protocols."
+        keywords="peptide research guide, BPC-157 research, TB-500 guide, semaglutide peptide guide, tirzepatide research, CJC-1295 guide, ipamorelin research, GHK-Cu studies, PT-141 guide, selank research, semax guide, MOTS-c research, epithalon guide, peptide blog, research peptide articles, peptide education, peptide molecular data, peptide clinical studies"
+        canonical="https://redhelixresearch.com/BlogGuide"
       />
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>

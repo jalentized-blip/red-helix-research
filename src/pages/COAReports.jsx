@@ -114,10 +114,11 @@ export default function COAReports() {
 
   return (
     <div className="min-h-screen bg-white pt-32 pb-8">
-      <SEO 
-        title="Gray Market Peptide COA Database - Community Lab Testing Verification"
-        description="Comprehensive database of verified peptide COAs from gray market suppliers. Community-uploaded third-party lab testing results for research peptides. Verify peptide purity, potency, and authenticity before purchase."
-        keywords="peptide COA, gray market peptide testing, certificate of analysis, peptide lab testing, third party peptide testing, peptide purity verification, research peptide COA, community COA database, underground peptide testing, peptide vendor verification, research chemical COA, peptide source verification"
+      <SEO
+        title="Certificate of Analysis (COA) Reports — Third-Party Lab Testing Results"
+        description="View third-party Certificates of Analysis for all peptide batches. HPLC purity, mass spectrometry, sterility, and endotoxin testing results. Full transparency for researchers."
+        keywords="peptide COA, certificate of analysis, peptide lab testing, third party peptide testing, peptide purity verification, HPLC purity results, mass spectrometry peptide, peptide quality testing, research peptide COA, peptide batch testing, endotoxin testing, sterility testing peptides"
+        canonical="https://redhelixresearch.com/COAReports"
       />
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}

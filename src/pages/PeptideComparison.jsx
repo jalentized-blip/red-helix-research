@@ -824,9 +824,10 @@ export default function PeptideComparison() {
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
-        title="Peptide Research Recommendation Tool | Red Helix Research"
-        description="Intelligent peptide selection tool matching your research benefits to the ideal peptides. Clinical research-based recommendations."
-        keywords="peptide recommendation, research benefits, BPC-157, TB-500, Semaglutide, Tirzepatide, peptide selection"
+        title="Peptide Comparison Tool — BPC-157 vs TB-500 vs Semaglutide vs Tirzepatide"
+        description="Compare research peptides side-by-side. BPC-157 vs TB-500, semaglutide vs tirzepatide, and 28+ peptides ranked by research benefit scores. Free peptide recommendation tool."
+        keywords="peptide comparison, BPC-157 vs TB-500, semaglutide vs tirzepatide, peptide recommendation tool, compare peptides, best research peptide, BPC-157 vs semaglutide, TB-500 vs BPC-157, which peptide is best, peptide benefits comparison, research peptide guide, peptide stacking, peptide selection tool, ipamorelin vs CJC-1295, semax vs selank"
+        canonical="https://redhelixresearch.com/PeptideComparison"
       />
 
       <div className="max-w-6xl mx-auto px-4">
