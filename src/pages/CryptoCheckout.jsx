@@ -610,87 +610,25 @@ export default function CryptoCheckout() {
         },
       };
 
-      // Add affiliate tracking fields to order
+      // Store affiliate tracking fields on the order (points/commission credited when order is delivered)
       if (affiliateInfo) {
         orderPayload.affiliate_code = affiliateInfo.code;
         orderPayload.affiliate_email = affiliateInfo.email;
         orderPayload.affiliate_name = affiliateInfo.name;
         orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2)); // 10% commission
+        orderPayload.affiliate_rewards_credited = false; // Flag: rewards not yet issued
+      }
+
+      // Store referral code on order if present (reward sent when order is delivered)
+      const referralCode = localStorage.getItem('rdr_referral_code');
+      if (referralCode) {
+        orderPayload.referral_code = referralCode;
+        orderPayload.referral_reward_sent = false; // Flag: referral reward not yet sent
+        localStorage.removeItem('rdr_referral_code');
       }
 
       // Create order
       await base44.entities.Order.create(orderPayload);
-
-      // If affiliate code was used, credit points and record commission
-      if (affiliateInfo) {
-        try {
-          // Calculate 1.5% of total as reward points (1 point = $1)
-          const pointsEarned = parseFloat((totalUSD * 0.015).toFixed(2));
-          const commission = parseFloat((totalUSD * 0.10).toFixed(2));
-
-          // Record the affiliate transaction
-          await base44.entities.AffiliateTransaction.create({
-            affiliate_email: affiliateInfo.email,
-            affiliate_name: affiliateInfo.name,
-            affiliate_code: affiliateInfo.code,
-            order_number: orderNumber,
-            order_total: totalUSD,
-            commission_amount: commission,
-            points_earned: pointsEarned,
-            customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
-            status: 'pending',
-          });
-
-          // Update affiliate's total points balance
-          const affiliateCodes = await base44.entities.AffiliateCode.list();
-          const affiliateRecord = affiliateCodes.find(a => a.affiliate_email === affiliateInfo.email && a.code === affiliateInfo.code);
-          if (affiliateRecord) {
-            await base44.entities.AffiliateCode.update(affiliateRecord.id, {
-              total_points: (affiliateRecord.total_points || 0) + pointsEarned,
-              total_commission: (affiliateRecord.total_commission || 0) + commission,
-              total_orders: (affiliateRecord.total_orders || 0) + 1,
-              total_revenue: (affiliateRecord.total_revenue || 0) + totalUSD,
-            });
-          }
-        } catch (affError) {
-          console.error('Affiliate tracking error (non-blocking):', affError);
-        }
-      }
-
-      // Check if this purchase came from a referral link
-      const referralCode = localStorage.getItem('rdr_referral_code');
-      if (referralCode) {
-        try {
-          // Decode the referral code back to the referrer's email
-          // The code is REF + base64(email).replace(non-alphanum).substring(0,8)
-          // We need to look up all users to find who owns this code, or store it on the server
-          // For now, send a notification to admin to issue the reward
-          const discountCode = 'REFER' + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-          await base44.integrations.Core.SendEmail({
-            from_name: 'Red Helix Research - Referral System',
-            to: 'jakehboen95@gmail.com',
-            subject: 'Referral Purchase Completed - Issue Discount Code',
-            body: '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">' +
-              '<h2 style="color: #dc2626;">Referral Purchase Completed!</h2>' +
-              '<div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">' +
-              '<p><strong>Referral Code Used:</strong> ' + referralCode + '</p>' +
-              '<p><strong>Order Number:</strong> ' + orderNumber + '</p>' +
-              '<p><strong>Order Total:</strong> $' + totalUSD.toFixed(2) + '</p>' +
-              '<p><strong>Buyer Email:</strong> ' + (userEmail || customerInfo?.email) + '</p>' +
-              '<p><strong>Suggested Discount Code:</strong> ' + discountCode + ' (10% off, one-time use)</p>' +
-              '</div>' +
-              '<p style="color: #64748b; font-size: 14px;">A customer purchased using referral code <strong>' + referralCode + '</strong>. ' +
-              'Please send the referrer a thank-you email with a <strong>one-time 10% discount code</strong>.</p>' +
-              '</div>'
-          });
-
-          // Clear the referral code after use
-          localStorage.removeItem('rdr_referral_code');
-        } catch (refError) {
-          console.error('Referral tracking error (non-blocking):', refError);
-        }
-      }
 
       // Track purchase in HubSpot
       trackPurchase({

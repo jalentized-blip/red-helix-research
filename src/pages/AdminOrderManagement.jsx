@@ -816,11 +816,101 @@ export default function AdminOrderManagement() {
     checkAuth();
   }, [navigate]);
 
+  // Process affiliate rewards and referral discounts when order is marked delivered
+  const processOrderRewards = async (order) => {
+    if (!order) return;
+
+    // 1) Affiliate points & commission — only if not already credited
+    if (order.affiliate_code && !order.affiliate_rewards_credited) {
+      try {
+        const pointsEarned = parseFloat((order.total_amount * 0.015).toFixed(2)); // 1.5%
+        const commission = parseFloat((order.total_amount * 0.10).toFixed(2)); // 10%
+
+        // Record affiliate transaction
+        await base44.entities.AffiliateTransaction.create({
+          affiliate_email: order.affiliate_email,
+          affiliate_name: order.affiliate_name,
+          affiliate_code: order.affiliate_code,
+          order_number: order.order_number,
+          order_total: order.total_amount,
+          commission_amount: commission,
+          points_earned: pointsEarned,
+          customer_email: order.customer_email,
+          status: 'pending',
+        });
+
+        // Update affiliate's totals
+        const affiliateCodes = await base44.entities.AffiliateCode.list();
+        const affiliateRecord = affiliateCodes.find(a =>
+          a.affiliate_email === order.affiliate_email && a.code === order.affiliate_code
+        );
+        if (affiliateRecord) {
+          await base44.entities.AffiliateCode.update(affiliateRecord.id, {
+            total_points: (affiliateRecord.total_points || 0) + pointsEarned,
+            total_commission: (affiliateRecord.total_commission || 0) + commission,
+            total_orders: (affiliateRecord.total_orders || 0) + 1,
+            total_revenue: (affiliateRecord.total_revenue || 0) + order.total_amount,
+          });
+        }
+
+        // Mark as credited on the order
+        await base44.entities.Order.update(order.id, { affiliate_rewards_credited: true });
+        toast.success(`Affiliate rewards credited: ${pointsEarned} pts + $${commission} commission to ${order.affiliate_name}`);
+      } catch (affErr) {
+        console.error('Affiliate reward error:', affErr);
+        toast.error('Failed to credit affiliate rewards');
+      }
+    }
+
+    // 2) Referral discount — only if not already sent
+    if (order.referral_code && !order.referral_reward_sent) {
+      try {
+        const discountCode = 'REFER' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+        await base44.integrations.Core.SendEmail({
+          from_name: 'Red Helix Research - Referral System',
+          to: 'jakehboen95@gmail.com',
+          subject: 'Referral Purchase Delivered - Issue 10% Discount Code',
+          body: '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">' +
+            '<h2 style="color: #dc2626;">Referral Order Delivered!</h2>' +
+            '<div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">' +
+            '<p><strong>Referral Code Used:</strong> ' + order.referral_code + '</p>' +
+            '<p><strong>Order Number:</strong> ' + order.order_number + '</p>' +
+            '<p><strong>Order Total:</strong> $' + order.total_amount.toFixed(2) + '</p>' +
+            '<p><strong>Buyer Email:</strong> ' + order.customer_email + '</p>' +
+            '<p><strong>Suggested Discount Code:</strong> ' + discountCode + ' (10% off, one-time use)</p>' +
+            '</div>' +
+            '<p style="color: #64748b; font-size: 14px;">This order was placed via referral code <strong>' + order.referral_code + '</strong> and has been delivered. ' +
+            'Please send the referrer a thank-you email with a <strong>one-time 10% discount code</strong>.</p>' +
+            '</div>'
+        });
+
+        // Mark as sent on the order
+        await base44.entities.Order.update(order.id, { referral_reward_sent: true });
+        toast.success('Referral reward notification sent to admin');
+      } catch (refErr) {
+        console.error('Referral reward error:', refErr);
+        toast.error('Failed to send referral reward notification');
+      }
+    }
+  };
+
   const updateOrderMutation = useMutation({
-    mutationFn: ({ orderId, updates }) => base44.entities.Order.update(orderId, updates),
-    onSuccess: () => {
+    mutationFn: async ({ orderId, updates }) => {
+      await base44.entities.Order.update(orderId, updates);
+      return { orderId, updates };
+    },
+    onSuccess: async ({ orderId, updates }) => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       toast.success('Order updated');
+
+      // If status changed to delivered, process rewards
+      if (updates.status === 'delivered') {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+          await processOrderRewards({ ...order, ...updates });
+        }
+      }
     },
     onError: (err) => {
       toast.error('Failed to update order', { description: err.message });
@@ -838,6 +928,16 @@ export default function AdminOrderManagement() {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       setSelectedOrders(new Set());
       toast.success(`${orderIds.length} orders updated to ${updates.status}`);
+
+      // If bulk-setting to delivered, process rewards for each
+      if (updates.status === 'delivered') {
+        for (const id of orderIds) {
+          const order = orders.find(o => o.id === id);
+          if (order) {
+            await processOrderRewards({ ...order, ...updates });
+          }
+        }
+      }
     } catch (err) {
       toast.error('Bulk update failed', { description: err.message });
     }
