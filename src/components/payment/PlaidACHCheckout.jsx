@@ -22,22 +22,35 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
 
   const checkExistingConsent = async () => {
     try {
-      const user = await base44.auth.me();
-      const consents = await base44.entities.FinancialConsent.filter({
-        user_email: user.email,
-        consent_type: 'plaid_ach',
-        consent_given: true
-      });
+      // Check localStorage first as a fallback
+      const localConsent = localStorage.getItem('plaid_ach_consent');
+      if (localConsent === 'true') {
+        setConsentGiven(true);
+        return;
+      }
 
-      if (consents && consents.length > 0) {
-        // Check if consent is still valid (not withdrawn)
-        const validConsent = consents.find(c => !c.withdrawal_timestamp);
-        if (validConsent) {
-          setConsentGiven(true);
+      const user = await base44.auth.me();
+      if (base44.entities.FinancialConsent) {
+        const consents = await base44.entities.FinancialConsent.filter({
+          user_email: user.email,
+          consent_type: 'plaid_ach',
+          consent_given: true
+        });
+
+        if (consents && consents.length > 0) {
+          const validConsent = consents.find(c => !c.withdrawal_timestamp);
+          if (validConsent) {
+            setConsentGiven(true);
+            localStorage.setItem('plaid_ach_consent', 'true');
+          }
         }
       }
     } catch (error) {
-      console.error('Error checking consent:', error);
+      // If entity doesn't exist, check localStorage
+      const localConsent = localStorage.getItem('plaid_ach_consent');
+      if (localConsent === 'true') {
+        setConsentGiven(true);
+      }
     }
   };
 
@@ -62,7 +75,6 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     try {
       setLoading(true);
 
-      // Exchange token and store payment method
       const { data } = await base44.functions.invoke('plaidExchangeToken', {
         public_token,
         account_id: metadata.account_id,
@@ -99,7 +111,6 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     if (!consentGiven) {
       setShowConsent(true);
     } else {
-      // Require MFA BEFORE showing Plaid Link
       await requireMFA('plaid_link', async () => {
         await createLinkToken();
       });
@@ -114,7 +125,6 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
 
   useEffect(() => {
     if (ready && linkToken) {
-      console.log('Opening Plaid Link - ready:', ready, 'linkToken:', !!linkToken);
       open();
     }
   }, [ready, linkToken, open]);
@@ -125,7 +135,6 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     try {
       setProcessingPayment(true);
 
-      // Require MFA for financial transaction
       await requireMFA('payment_processing', async () => {
         const { data } = await base44.functions.invoke('plaidCreatePayment', {
           order_id: order.order_number,
@@ -134,14 +143,6 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
         });
 
         if (data.success) {
-          // Track purchase in HubSpot
-          trackPurchase({
-            order_number: order.order_number,
-            // Assuming order object has customer email or we can get it from auth context
-            // Ideally pass email into this component
-            total_amount: order.total_amount,
-            items: order.items
-          });
           onSuccess?.(data);
         } else {
           throw new Error(data.error || 'Payment failed');
@@ -156,15 +157,15 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 text-left">
       {/* Service Downtime Notice */}
-      <div className="p-4 bg-amber-950/20 border border-amber-700/30 rounded-xl mb-4">
+      <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
-          <div className="text-sm text-stone-300">
-            <p className="font-semibold text-amber-500 mb-1">Service Temporarily Unavailable</p>
-            <p>
-              ACH payments are currently down for maintenance. We apologize for the inconvenience. 
+          <div className="text-sm text-slate-700">
+            <p className="font-bold text-amber-600 mb-1">Service Temporarily Unavailable</p>
+            <p className="text-slate-500">
+              ACH payments are currently down for maintenance. We apologize for the inconvenience.
               Please verify your order details, and we will email you as soon as payment services are restored.
             </p>
           </div>
@@ -172,14 +173,14 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
       </div>
 
       {/* Security Badge */}
-      <div className="p-4 bg-green-950/20 border border-green-700/30 rounded-xl">
+      <div className="p-4 bg-green-50 border border-green-200 rounded-xl">
         <div className="flex items-start gap-3">
-          <Shield className="w-5 h-5 text-green-400 mt-0.5" />
+          <Shield className="w-5 h-5 text-green-600 mt-0.5" />
           <div>
-            <p className="text-sm text-green-300 font-medium mb-1">
+            <p className="text-sm text-green-700 font-bold mb-1">
               Secure Bank Payment via Plaid
             </p>
-            <p className="text-xs text-stone-400">
+            <p className="text-xs text-slate-500">
               Bank-level encryption. Your login credentials are never stored. Powered by Plaid's secure infrastructure.
             </p>
           </div>
@@ -188,17 +189,17 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
 
       {/* Payment Method Display */}
       {paymentMethod ? (
-        <div className="p-4 bg-stone-800/50 border border-stone-700 rounded-xl">
+        <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600/20 border border-blue-600/30 rounded-lg flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-blue-400" />
+              <div className="w-10 h-10 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-bold text-slate-900">
                   {paymentMethod.institution_name}
                 </p>
-                <p className="text-xs text-stone-400">
+                <p className="text-xs text-slate-500">
                   {paymentMethod.account_type} ••••{paymentMethod.account_mask}
                 </p>
               </div>
@@ -210,7 +211,7 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
         <Button
           onClick={handleConnectBank}
           disabled={loading}
-          className="w-full"
+          className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-6 h-auto shadow-lg shadow-red-200"
           size="lg"
         >
           {loading ? (
@@ -228,20 +229,20 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
       )}
 
       {/* Order Summary */}
-      <div className="p-4 bg-stone-900/60 border border-stone-700 rounded-xl">
-        <h4 className="text-sm font-bold text-white mb-3">Order Summary</h4>
+      <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+        <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-3">Order Summary</h4>
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-stone-400">Order Number</span>
-            <span className="text-white font-medium">{order.order_number}</span>
+            <span className="text-slate-500">Order Number</span>
+            <span className="text-slate-900 font-bold">{order.order_number}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-stone-400">Items</span>
-            <span className="text-white">{order.items?.length || 0}</span>
+            <span className="text-slate-500">Items</span>
+            <span className="text-slate-900 font-bold">{order.items?.length || 0}</span>
           </div>
-          <div className="pt-2 border-t border-stone-700 flex justify-between">
-            <span className="text-white font-bold">Total Amount</span>
-            <span className="text-2xl font-bold text-white">
+          <div className="pt-2 border-t border-slate-200 flex justify-between items-center">
+            <span className="text-slate-900 font-black uppercase text-sm">Total</span>
+            <span className="text-xl font-black text-[#dc2626]">
               ${order.total_amount.toFixed(2)}
             </span>
           </div>
@@ -253,7 +254,7 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
         <Button
           onClick={handlePayment}
           disabled={processingPayment}
-          className="w-full"
+          className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-6 h-auto shadow-lg shadow-red-200"
           size="lg"
         >
           {processingPayment ? (
@@ -263,17 +264,17 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
             </>
           ) : (
             <>
-              Complete Payment - ${order.total_amount.toFixed(2)}
+              Complete Payment — ${order.total_amount.toFixed(2)}
             </>
           )}
         </Button>
       )}
 
       {/* Important Notice */}
-      <div className="p-4 bg-blue-950/20 border border-blue-700/30 rounded-xl">
+      <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
         <div className="flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-          <div className="text-xs text-stone-400 space-y-1">
+          <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+          <div className="text-xs text-slate-500 space-y-1">
             <p>• ACH payments typically take 3-5 business days to process</p>
             <p>• Your order will ship once payment is confirmed</p>
             <p>• You'll receive email notifications on payment status</p>
