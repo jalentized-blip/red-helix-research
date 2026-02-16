@@ -25,16 +25,19 @@
     <meta property="og:title" content="Red Helix Research | Premium Research Peptides USA" />
     <meta property="og:description" content="HPLC-verified research peptides with third-party COA. BPC-157, TB-500, Semaglutide, Tirzepatide. USA-based supplier." />
     <meta property="og:image" content="https://i.ibb.co/M5CYvjkG/websitelogo.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Red Helix Research — Premium Research Peptides USA" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
     <meta property="og:site_name" content="Red Helix Research" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@redhelixresearch" />
     <meta name="twitter:title" content="Red Helix Research | Premium Research Peptides USA" />
     <meta name="twitter:description" content="HPLC-verified research peptides with third-party COA. USA-based supplier." />
     <meta name="twitter:image" content="https://i.ibb.co/M5CYvjkG/websitelogo.png" />
+    <meta name="twitter:image:alt" content="Red Helix Research Logo" />
 
     <!-- Preconnect to critical origins for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,6 +53,72 @@
     <meta name="language" content="English" />
     <link rel="alternate" hreflang="en-us" href="https://redhelixresearch.com/" />
     <link rel="alternate" hreflang="x-default" href="https://redhelixresearch.com/" />
+
+    <!-- Route-Aware SEO: Sets per-page meta tags before React loads (visible to crawlers) -->
+    <script>
+    (function(){
+      var S='https://redhelixresearch.com',p=location.pathname.replace(/\/$/,''),d=document,
+      R={
+        '/Products':{t:'Buy Research Peptides Online — 29+ HPLC-Verified Compounds | USA Supplier',d:'Browse 29+ research-grade peptides. BPC-157, TB-500, Semaglutide, Tirzepatide. Lab-tested with third-party COA. Free shipping over $200.',k:'buy research peptides, peptides for sale, BPC-157, TB-500, semaglutide, tirzepatide, USA peptide supplier'},
+        '/ProductBPC157':{t:'Buy BPC-157 Peptide — Lab-Tested 5mg, 10mg, 50mg | USA Supplier',d:'Buy BPC-157 Body Protection Compound-157 from $44.99. HPLC-verified >98% purity with COA. 5mg, 10mg, 50mg. USA-based research peptide supplier.',k:'buy BPC-157, BPC-157 peptide, body protection compound 157, BPC-157 5mg, BPC-157 for sale, BPC-157 USA'},
+        '/ProductTB500':{t:'Buy TB-500 (Thymosin Beta-4) — Lab-Tested 5mg, 10mg, 50mg | USA Supplier',d:'Buy TB-500 Thymosin Beta-4 from $59.99. HPLC-verified >98.5% purity with COA. 5mg, 10mg, 50mg. USA-based research peptide supplier.',k:'buy TB-500, TB-500 peptide, thymosin beta 4, TB-500 5mg, TB-500 for sale, TB-500 USA'},
+        '/ProductSemaglutide':{t:'Buy Semaglutide Research Peptide — GLP-1 Agonist | Lab-Tested USA',d:'Buy Semaglutide GLP-1 receptor agonist for research. HPLC-verified purity with COA. Multiple sizes. USA-based supplier.',k:'buy semaglutide, semaglutide peptide, GLP-1 agonist, semaglutide for sale, semaglutide USA'},
+        '/ProductTirzepatide':{t:'Buy Tirzepatide Research Peptide — Dual GLP-1/GIP Agonist | Lab-Tested USA',d:'Buy Tirzepatide dual GLP-1/GIP receptor agonist for research. HPLC-verified purity with COA. USA-based supplier.',k:'buy tirzepatide, tirzepatide peptide, GLP-1 GIP agonist, tirzepatide for sale, tirzepatide USA'},
+        '/BlogGuide':{t:'Research Peptide Guides — 23+ In-Depth Articles on BPC-157, TB-500 & More',d:'Comprehensive research peptide guides covering BPC-157, TB-500, Semaglutide, Tirzepatide mechanisms, protocols, and clinical references.',k:'peptide research guides, BPC-157 guide, TB-500 guide, semaglutide research, peptide education'},
+        '/PeptideGlossary':{t:'Peptide Glossary — 40+ Research Terms & Definitions',d:'Comprehensive peptide glossary covering HPLC, lyophilization, amino acids, BPC-157, reconstitution, and 40+ research terms.',k:'peptide glossary, what is BPC-157, HPLC meaning, peptide terms, lyophilization, reconstitution'},
+        '/PeptideCalculator':{t:'Peptide Reconstitution Calculator — Free Dosage Tool',d:'Free peptide reconstitution calculator. Calculate volumes, concentrations, and dosages for BPC-157, TB-500, Semaglutide, and more.',k:'peptide calculator, reconstitution calculator, peptide dosage calculator, BPC-157 dosage'},
+        '/PeptideComparison':{t:'BPC-157 vs TB-500 vs Semaglutide vs Tirzepatide — Peptide Comparison',d:'Compare research peptides side-by-side. Molecular weight, purity, pricing, and research applications.',k:'BPC-157 vs TB-500, semaglutide vs tirzepatide, peptide comparison, compare peptides'},
+        '/PeptideAcademy':{t:'Peptide Academy — Free Research Peptide Education & Training',d:'Free peptide education modules covering science fundamentals, reconstitution, storage, and research protocols.',k:'peptide academy, peptide education, learn about peptides, peptide course'},
+        '/COAReports':{t:'Certificate of Analysis (COA) Reports — Third-Party Lab Testing Results',d:'Third-party COA reports for all Red Helix Research peptides. HPLC purity, mass spectrometry, and endotoxin testing.',k:'COA reports, certificate of analysis, peptide testing, HPLC results, peptide purity'},
+        '/ExpandedFAQ':{t:'Research Peptide FAQ — Ordering, Quality, Shipping & Reconstitution',d:'FAQ about Red Helix Research peptides. Ordering, payment, shipping, quality testing, reconstitution, and storage.',k:'peptide FAQ, peptide questions, ordering peptides, peptide shipping'},
+        '/LearnMore':{t:'Peptide Research Database — Scientific Studies & Product Information',d:'Research database with scientific studies, mechanisms of action, and product information for 29+ research peptides.',k:'peptide research, peptide studies, peptide mechanisms, peptide science'},
+        '/PeptideReconstitutionGuide':{t:'Peptide Reconstitution Guide — Step-by-Step Instructions',d:'Complete guide to reconstituting research peptides. Step-by-step for BPC-157, TB-500, Semaglutide using bacteriostatic water.',k:'peptide reconstitution, how to reconstitute peptides, bacteriostatic water, peptide mixing'},
+        '/About':{t:'About Red Helix Research — USA Research Peptide Supplier',d:'Learn about Red Helix Research commitment to transparency, quality, and affordable research peptides with verified COAs.',k:'about Red Helix Research, peptide supplier USA, research peptide company'},
+        '/Contact':{t:'Contact Red Helix Research — Research Peptide Inquiries & Support',d:'Contact Red Helix Research for peptide inquiries, support, and wholesale orders. Email: jake@redhelixresearch.com',k:'contact Red Helix Research, peptide support, wholesale peptides'},
+        '/OurStory':{t:'Our Story — Red Helix Research',d:'The story behind Red Helix Research and our mission for affordable, high-quality research peptides.',k:'Red Helix Research story, peptide company history'},
+        '/CustomerTestimonials':{t:'Customer Testimonials — Red Helix Research Reviews',d:'Read verified customer testimonials and reviews for Red Helix Research peptides.',k:'Red Helix Research reviews, peptide reviews, customer testimonials'},
+        '/GroupBuy':{t:'Group Buy — Bulk Research Peptide Discounts',d:'Join group buys for discounted bulk research peptides. Save on BPC-157, TB-500, Semaglutide and more.',k:'group buy peptides, bulk peptides, wholesale peptides, peptide discounts'},
+        '/ResourceHub':{t:'Resource Hub — Research Peptide Tools & Guides',d:'Central hub for research peptide tools, guides, calculators, and educational resources.',k:'peptide resources, research tools, peptide guides'},
+        '/Policies':{t:'Policies & Terms — Red Helix Research',d:'Red Helix Research policies: terms of service, privacy policy, refund policy, and shipping information.',k:'terms of service, privacy policy, refund policy, shipping policy'}
+      },
+      m=R[p]||R[p+'/'];
+      if(m){
+        var N='Red Helix Research',
+            ft=m.t.indexOf(N)>-1?m.t:m.t+' | '+N,
+            c=S+(p||'/');
+        d.title=ft;
+        function setM(n,v,a){var e=d.querySelector('meta['+(a||'name')+'="'+n+'"]');if(e)e.setAttribute('content',v);}
+        setM('description',m.d);
+        setM('keywords',m.k);
+        setM('og:title',ft,'property');
+        setM('og:description',m.d,'property');
+        setM('og:url',c,'property');
+        setM('twitter:title',ft);
+        setM('twitter:description',m.d);
+        var cn=d.querySelector('link[rel="canonical"]');if(cn)cn.setAttribute('href',c);
+        var hl=d.querySelectorAll('link[hreflang]');hl.forEach(function(l){l.setAttribute('href',c);});
+      }
+      // Inject per-page Product schema for product pages
+      var PS={
+        '/ProductBPC157':{name:'BPC-157 Research Peptide',desc:'Research-grade BPC-157 Body Protection Compound-157. HPLC-verified >98% purity with third-party COA. Available in 5mg, 10mg, 50mg.',low:'44.99',high:'399.99',sku:'BPC157'},
+        '/ProductTB500':{name:'TB-500 Thymosin Beta-4 Research Peptide',desc:'Research-grade TB-500 Thymosin Beta-4. HPLC-verified >98.5% purity with third-party COA. Available in 5mg, 10mg, 50mg.',low:'59.99',high:'449.99',sku:'TB500'},
+        '/ProductSemaglutide':{name:'Semaglutide GLP-1 Research Peptide',desc:'Research-grade Semaglutide GLP-1 receptor agonist. HPLC-verified purity with third-party COA.',low:'89.99',high:'499.99',sku:'SEMA'},
+        '/ProductTirzepatide':{name:'Tirzepatide Dual GLP-1/GIP Research Peptide',desc:'Research-grade Tirzepatide dual GLP-1/GIP receptor agonist. HPLC-verified purity with third-party COA.',low:'119.99',high:'599.99',sku:'TRZ'}
+      };
+      var ps=PS[p];
+      if(ps){
+        var se=d.createElement('script');se.type='application/ld+json';
+        se.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Product","name":ps.name,"description":ps.desc,"brand":{"@type":"Brand","name":"Red Helix Research"},"sku":ps.sku,"url":S+p,"image":"https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png","offers":{"@type":"AggregateOffer","priceCurrency":"USD","lowPrice":ps.low,"highPrice":ps.high,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Red Helix Research"}}});
+        d.head.appendChild(se);
+      }
+      // Inject FAQ schema for FAQ page
+      if(p==='/ExpandedFAQ'){
+        var fse=d.createElement('script');fse.type='application/ld+json';
+        fse.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are research peptides?","acceptedAnswer":{"@type":"Answer","text":"Research peptides are short chains of amino acids used in laboratory research. They are sold for research purposes only and are not intended for human consumption."}},{"@type":"Question","name":"How do I reconstitute peptides?","acceptedAnswer":{"@type":"Answer","text":"Add bacteriostatic water to the lyophilized peptide vial slowly along the side. Gently swirl until dissolved. See our reconstitution guide for step-by-step instructions."}},{"@type":"Question","name":"Do you provide Certificates of Analysis?","acceptedAnswer":{"@type":"Answer","text":"Yes, every batch includes third-party COA with HPLC purity verification and mass spectrometry results. View reports on our COA Reports page."}},{"@type":"Question","name":"What payment methods do you accept?","acceptedAnswer":{"@type":"Answer","text":"We accept cryptocurrency (BTC, ETH, USDC, SOL) and ACH bank transfers. All transactions are secure and encrypted."}}]});
+        d.head.appendChild(fse);
+      }
+    })();
+    </script>
 
     <!-- Inline Critical Schema.org Structured Data (visible to crawlers before JS loads) -->
     <script type="application/ld+json">
