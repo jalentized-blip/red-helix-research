@@ -1,0 +1,59 @@
+{
+  "name": "AffiliateCode",
+  "type": "object",
+  "title": "Affiliate Code",
+  "description": "Affiliate partner codes with discount rates, commission tracking, and reward points",
+  "properties": {
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "affiliate_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "affiliate_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "discount_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 15
+    },
+    "commission_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 10
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "total_points": {
+      "type": "number",
+      "default": 0
+    },
+    "total_commission": {
+      "type": "number",
+      "default": 0
+    },
+    "total_orders": {
+      "type": "integer",
+      "default": 0
+    },
+    "total_revenue": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": ["code", "affiliate_name", "affiliate_email"]
+}

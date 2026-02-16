@@ -1,0 +1,48 @@
+{
+  "name": "AffiliateTransaction",
+  "type": "object",
+  "title": "Affiliate Transaction",
+  "description": "Records of orders placed using affiliate codes, tracking commissions and reward points earned",
+  "properties": {
+    "affiliate_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "affiliate_name": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "affiliate_code": {
+      "type": "string",
+      "maxLength": 30
+    },
+    "order_number": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "order_total": {
+      "type": "number",
+      "minimum": 0,
+      "default": 0
+    },
+    "commission_amount": {
+      "type": "number",
+      "minimum": 0,
+      "default": 0
+    },
+    "points_earned": {
+      "type": "number",
+      "default": 0
+    },
+    "customer_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "paid", "cancelled"],
+      "default": "pending"
+    }
+  },
+  "required": ["affiliate_email", "affiliate_name", "affiliate_code", "order_number"]
+}
