@@ -15,7 +15,7 @@ import {
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
 import RedHelixBackground from '@/components/effects/RedHelixBackground';
-import { Package, ClipboardList, DollarSign, User, Settings2 } from 'lucide-react';
+import { Package, ClipboardList, DollarSign, User, Settings2, Users } from 'lucide-react';
 import SEO from '@/components/SEO';
 import QuickShop from '@/components/QuickShop';
 
@@ -184,6 +184,11 @@ export default function Home({ adminViewAsUser = false }) {
           <Link to={createPageUrl('AdminInventoryManager')}>
             <button className="fixed top-24 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-600/50 rounded-xl shadow-lg hover:shadow-purple-600/10 transition-all hover:scale-110 group" style={{ right: '12rem' }}>
               <Settings2 className="w-5 h-5 text-slate-400 group-hover:text-purple-600" />
+            </button>
+          </Link>
+          <Link to={createPageUrl('AdminAffiliateManager')}>
+            <button className="fixed top-24 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-amber-600/50 rounded-xl shadow-lg hover:shadow-amber-600/10 transition-all hover:scale-110 group" style={{ right: '15.5rem' }}>
+              <Users className="w-5 h-5 text-slate-400 group-hover:text-amber-600" />
             </button>
           </Link>
         </>

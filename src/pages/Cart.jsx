@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode } from '@/components/utils/cart';
+import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, loadAffiliateCodes } from '@/components/utils/cart';
 import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -32,7 +32,10 @@ export default function Cart() {
         setIsCheckingAuth(false);
       }
     };
-    
+
+    // Pre-load affiliate codes from DB so they validate at checkout
+    loadAffiliateCodes(base44);
+
     checkAuth();
     setCartItems(getCart());
     setAppliedPromo(getPromoCode());
@@ -56,9 +59,11 @@ export default function Cart() {
     setCartItems([]);
   };
 
-  const handleApplyPromo = () => {
-    const promoDetails = validatePromoCode(promoCode);
-    if (addPromoCode(promoCode)) {
+  const handleApplyPromo = async () => {
+    // Try async validation first (checks DB affiliate codes)
+    const success = await addPromoCodeAsync(promoCode, base44);
+    if (success) {
+      const promoDetails = validatePromoCode(promoCode);
       setAppliedPromo(promoCode.toUpperCase());
       setPromoCode('');
       setPromoError('');

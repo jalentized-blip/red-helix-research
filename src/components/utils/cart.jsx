@@ -55,19 +55,82 @@ export const getCartTotal = () => {
   return getCart().reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
 
-// Promo codes - validated client-side for UX, re-validated server-side at order creation
-const PROMO_CODES = {
+// Static promo codes - always available
+const STATIC_PROMO_CODES = {
   'SAVE10': { discount: 0.10, label: '10% off' },
   'SAVE20': { discount: 0.20, label: '20% off' },
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
-  'GOMIE15': { discount: 0.15, label: '15% off', isAffiliate: true },
-  'CJ15': { discount: 0.15, label: '15% off', isAffiliate: true },
   'INDO88': { discount: 0.10, label: '10% off' },
 };
 
+// Cache for affiliate codes loaded from DB
+let affiliateCodesCache = null;
+let affiliateCacheTime = 0;
+const CACHE_DURATION = 60000; // 1 minute cache
+
+// Load affiliate codes from the database
+export const loadAffiliateCodes = async (base44) => {
+  const now = Date.now();
+  if (affiliateCodesCache && (now - affiliateCacheTime) < CACHE_DURATION) {
+    return affiliateCodesCache;
+  }
+
+  try {
+    const affiliates = await base44.entities.AffiliateCode.list();
+    const codes = {};
+    affiliates.forEach(aff => {
+      if (aff.is_active) {
+        codes[aff.code.toUpperCase()] = {
+          discount: aff.discount_percent / 100,
+          label: `${aff.discount_percent}% off`,
+          isAffiliate: true,
+          affiliateEmail: aff.affiliate_email,
+          affiliateId: aff.id,
+          affiliateName: aff.affiliate_name,
+        };
+      }
+    });
+    affiliateCodesCache = codes;
+    affiliateCacheTime = now;
+    return codes;
+  } catch (error) {
+    console.warn('Failed to load affiliate codes:', error);
+    return {};
+  }
+};
+
+// Clear the affiliate cache (call when affiliates are updated)
+export const clearAffiliateCache = () => {
+  affiliateCodesCache = null;
+  affiliateCacheTime = 0;
+};
+
+// Get all promo codes (static + dynamic affiliate codes)
+export const getAllPromoCodes = async (base44) => {
+  const affiliateCodes = base44 ? await loadAffiliateCodes(base44) : {};
+  return { ...STATIC_PROMO_CODES, ...affiliateCodes };
+};
+
+// Synchronous validation against static codes only (for immediate UI)
 export const validatePromoCode = (code) => {
-  return PROMO_CODES[code.toUpperCase()] || null;
+  const upper = code.toUpperCase();
+  // Check static codes first
+  if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
+  // Check cached affiliate codes
+  if (affiliateCodesCache && affiliateCodesCache[upper]) return affiliateCodesCache[upper];
+  return null;
+};
+
+// Async validation that checks both static and DB codes
+export const validatePromoCodeAsync = async (code, base44) => {
+  const upper = code.toUpperCase();
+  // Check static codes first
+  if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
+  // Load and check affiliate codes from DB
+  const affiliateCodes = await loadAffiliateCodes(base44);
+  if (affiliateCodes[upper]) return affiliateCodes[upper];
+  return null;
 };
 
 export const getDiscountAmount = (code, total) => {
@@ -78,6 +141,39 @@ export const getDiscountAmount = (code, total) => {
 export const addPromoCode = (code) => {
   if (validatePromoCode(code)) {
     localStorage.setItem('rdr_promo', code.toUpperCase());
+    // Also store affiliate info if it's an affiliate code
+    const promo = validatePromoCode(code);
+    if (promo?.isAffiliate) {
+      localStorage.setItem('rdr_affiliate', JSON.stringify({
+        code: code.toUpperCase(),
+        email: promo.affiliateEmail,
+        id: promo.affiliateId,
+        name: promo.affiliateName,
+      }));
+    } else {
+      localStorage.removeItem('rdr_affiliate');
+    }
+    window.dispatchEvent(new Event('promoUpdated'));
+    return true;
+  }
+  return false;
+};
+
+// Async version that checks DB affiliate codes too
+export const addPromoCodeAsync = async (code, base44) => {
+  const promo = await validatePromoCodeAsync(code, base44);
+  if (promo) {
+    localStorage.setItem('rdr_promo', code.toUpperCase());
+    if (promo.isAffiliate) {
+      localStorage.setItem('rdr_affiliate', JSON.stringify({
+        code: code.toUpperCase(),
+        email: promo.affiliateEmail,
+        id: promo.affiliateId,
+        name: promo.affiliateName,
+      }));
+    } else {
+      localStorage.removeItem('rdr_affiliate');
+    }
     window.dispatchEvent(new Event('promoUpdated'));
     return true;
   }
@@ -88,7 +184,17 @@ export const getPromoCode = () => {
   return localStorage.getItem('rdr_promo');
 };
 
+export const getAffiliateInfo = () => {
+  try {
+    const info = localStorage.getItem('rdr_affiliate');
+    return info ? JSON.parse(info) : null;
+  } catch {
+    return null;
+  }
+};
+
 export const removePromoCode = () => {
   localStorage.removeItem('rdr_promo');
+  localStorage.removeItem('rdr_affiliate');
   window.dispatchEvent(new Event('promoUpdated'));
 };

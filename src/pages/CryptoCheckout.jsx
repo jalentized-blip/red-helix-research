@@ -29,7 +29,10 @@ import {
   getCartTotal,
   clearCart,
   getPromoCode,
-  getDiscountAmount
+  getDiscountAmount,
+  getAffiliateInfo,
+  validatePromoCode,
+  loadAffiliateCodes
 } from '@/components/utils/cart';
 import { trackPurchase } from '@/utils/hubspotAnalytics';
 import CryptoWalletHelp from '@/components/crypto/CryptoWalletHelp';
@@ -546,6 +549,9 @@ export default function CryptoCheckout() {
         ? `${customerInfo.firstName} ${customerInfo.lastName}`
         : customerInfo?.name || 'Guest Customer';
 
+      // Get affiliate info if an affiliate code was used
+      const affiliateInfo = getAffiliateInfo();
+
       // Update stock
       const products = await base44.entities.Product.list();
       for (const item of cartItems) {
@@ -571,8 +577,8 @@ export default function CryptoCheckout() {
         }
       }
 
-      // Create order
-      await base44.entities.Order.create({
+      // Build order data with affiliate tracking
+      const orderPayload = {
         order_number: orderNumber,
         customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
         customer_name: customerName,
@@ -602,7 +608,54 @@ export default function CryptoCheckout() {
           zip: customerInfo?.shippingZip || customerInfo?.zip,
           country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
         },
-      });
+      };
+
+      // Add affiliate tracking fields to order
+      if (affiliateInfo) {
+        orderPayload.affiliate_code = affiliateInfo.code;
+        orderPayload.affiliate_email = affiliateInfo.email;
+        orderPayload.affiliate_name = affiliateInfo.name;
+        orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2)); // 10% commission
+      }
+
+      // Create order
+      await base44.entities.Order.create(orderPayload);
+
+      // If affiliate code was used, credit points and record commission
+      if (affiliateInfo) {
+        try {
+          // Calculate 1.5% of total as reward points (1 point = $1)
+          const pointsEarned = parseFloat((totalUSD * 0.015).toFixed(2));
+          const commission = parseFloat((totalUSD * 0.10).toFixed(2));
+
+          // Record the affiliate transaction
+          await base44.entities.AffiliateTransaction.create({
+            affiliate_email: affiliateInfo.email,
+            affiliate_name: affiliateInfo.name,
+            affiliate_code: affiliateInfo.code,
+            order_number: orderNumber,
+            order_total: totalUSD,
+            commission_amount: commission,
+            points_earned: pointsEarned,
+            customer_email: userEmail || customerInfo?.email || 'guest@redhelix.com',
+            status: 'pending',
+          });
+
+          // Update affiliate's total points balance
+          const affiliateCodes = await base44.entities.AffiliateCode.list();
+          const affiliateRecord = affiliateCodes.find(a => a.affiliate_email === affiliateInfo.email && a.code === affiliateInfo.code);
+          if (affiliateRecord) {
+            await base44.entities.AffiliateCode.update(affiliateRecord.id, {
+              total_points: (affiliateRecord.total_points || 0) + pointsEarned,
+              total_commission: (affiliateRecord.total_commission || 0) + commission,
+              total_orders: (affiliateRecord.total_orders || 0) + 1,
+              total_revenue: (affiliateRecord.total_revenue || 0) + totalUSD,
+            });
+          }
+        } catch (affError) {
+          console.error('Affiliate tracking error (non-blocking):', affError);
+        }
+      }
 
       // Track purchase in HubSpot
       trackPurchase({

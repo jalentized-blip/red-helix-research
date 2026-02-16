@@ -49,6 +49,7 @@
  */
 import About from './pages/About';
 import Account from './pages/Account';
+import AdminAffiliateManager from './pages/AdminAffiliateManager';
 import AdminCustomerManagement from './pages/AdminCustomerManagement';
 import AdminInventoryManager from './pages/AdminInventoryManager';
 import AdminManualOrders from './pages/AdminManualOrders';
@@ -115,6 +116,7 @@ import __Layout from './Layout.jsx';
 export const PAGES = {
     "About": About,
     "Account": Account,
+    "AdminAffiliateManager": AdminAffiliateManager,
     "AdminCustomerManagement": AdminCustomerManagement,
     "AdminInventoryManager": AdminInventoryManager,
     "AdminManualOrders": AdminManualOrders,
