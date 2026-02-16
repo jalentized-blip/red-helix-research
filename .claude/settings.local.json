@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npx vite:*)",
+      "Bash(node node_modules/.bin/vite build:*)",
+      "Bash(node node_modules/vite/bin/vite.js build:*)",
+      "Bash(ls:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd complete admin inventory management system\n\nImplements a full-featured AdminInventoryManager page for product CRUD operations including adding, editing, deleting, and configuring all product attributes \\(name, description, category, badge, image, strength options, stock, pricing, visibility\\) from a single unified admin interface with real-time database sync.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}

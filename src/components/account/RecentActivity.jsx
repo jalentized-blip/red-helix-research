@@ -1,0 +1,85 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Clock, Search, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+import { format } from 'date-fns';
+
+export default function RecentActivity({ preferences }) {
+  const recentViews = preferences?.viewed_products?.slice(-10).reverse() || [];
+  const recentSearches = preferences?.search_history?.slice(-8).reverse() || [];
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Recently Viewed */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <Eye className="w-5 h-5 text-[#dc2626]" />
+          <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight">Recently Viewed</h3>
+        </div>
+
+        {recentViews.length === 0 ? (
+          <div className="text-center py-8 bg-slate-50 rounded-2xl border border-slate-100">
+            <p className="text-slate-400 text-sm font-medium">No recently viewed peptides</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {recentViews.map((view, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.05 }}
+              >
+                <Link
+                  to={`${createPageUrl('PeptideLearn')}?id=${view.product_id}&name=${encodeURIComponent(view.product_name)}`}
+                  className="block bg-white border border-slate-100 rounded-2xl p-4 hover:border-[#dc2626]/30 hover:bg-slate-50 transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-slate-900 font-bold text-sm group-hover:text-[#dc2626] transition-colors">{view.product_name}</p>
+                    <p className="text-slate-400 text-xs font-medium">
+                      {format(new Date(view.viewed_at), 'MMM d')}
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Recent Searches */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <Search className="w-5 h-5 text-[#dc2626]" />
+          <h3 className="text-slate-900 font-black text-lg uppercase tracking-tight">Recent Searches</h3>
+        </div>
+
+        {recentSearches.length === 0 ? (
+          <div className="text-center py-8 bg-slate-50 rounded-2xl border border-slate-100">
+            <p className="text-slate-400 text-sm font-medium">No search history</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {recentSearches.map((search, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="bg-white border border-slate-100 rounded-2xl p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-slate-700 font-bold text-sm">{search.query}</p>
+                  <p className="text-slate-400 text-xs font-medium">
+                    {format(new Date(search.searched_at), 'MMM d')}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
