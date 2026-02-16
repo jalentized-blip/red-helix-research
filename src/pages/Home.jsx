@@ -15,7 +15,11 @@ import {
 import TechGrid from '@/components/effects/TechGrid';
 import ParticleField from '@/components/effects/ParticleField';
 import RedHelixBackground from '@/components/effects/RedHelixBackground';
+<<<<<<< HEAD
 import { Package, ClipboardList, DollarSign, User, Settings2 } from 'lucide-react';
+=======
+import { Package, ClipboardList, DollarSign, User } from 'lucide-react';
+>>>>>>> bd657be8b5c359affd39e247ecbb0a7951dc8d97
 import SEO from '@/components/SEO';
 import QuickShop from '@/components/QuickShop';
 
