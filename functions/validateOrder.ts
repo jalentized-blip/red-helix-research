@@ -7,16 +7,37 @@ import { rateLimit, sanitizeInput, createSecureResponse } from './securityUtils.
  * and creates orders with verified amounts
  */
 
-// Promo codes stored server-side only
-const PROMO_CODES: Record<string, { discount: number; label: string; isAffiliate?: boolean }> = {
+// Static promo codes stored server-side
+const STATIC_PROMO_CODES: Record<string, { discount: number; label: string; isAffiliate?: boolean }> = {
   'SAVE10': { discount: 0.10, label: '10% off' },
   'SAVE20': { discount: 0.20, label: '20% off' },
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
-  'GOMIE15': { discount: 0.15, label: '15% off', isAffiliate: true },
-  'CJ15': { discount: 0.15, label: '15% off', isAffiliate: true },
   'INDO88': { discount: 0.10, label: '10% off' },
 };
+
+// Load all promo codes (static + dynamic affiliate codes from DB)
+async function getAllPromoCodes(base44: any): Promise<Record<string, { discount: number; label: string; isAffiliate?: boolean }>> {
+  const codes = { ...STATIC_PROMO_CODES };
+  try {
+    const affiliates = await base44.asServiceRole.entities.AffiliateCode.list();
+    if (affiliates && Array.isArray(affiliates)) {
+      for (const aff of affiliates) {
+        if (aff.is_active && aff.code) {
+          codes[aff.code.toUpperCase()] = {
+            discount: (aff.discount_percent || 15) / 100,
+            label: `${aff.discount_percent || 15}% off`,
+            isAffiliate: true,
+          };
+        }
+      }
+    }
+  } catch (e) {
+    // If AffiliateCode entity doesn't exist yet, just use static codes
+    console.warn('Could not load affiliate codes from DB:', e);
+  }
+  return codes;
+}
 
 const SHIPPING_COST = 15.00;
 
@@ -49,7 +70,8 @@ Deno.serve(async (req) => {
           return createSecureResponse({ valid: false, error: 'Invalid promo code' });
         }
 
-        const promo = PROMO_CODES[code];
+        const allCodes = await getAllPromoCodes(base44);
+        const promo = allCodes[code];
         if (!promo) {
           return createSecureResponse({ valid: false, error: 'Invalid promo code' });
         }
@@ -107,12 +129,13 @@ Deno.serve(async (req) => {
           });
         }
 
-        // Validate promo code server-side
+        // Validate promo code server-side (includes dynamic affiliate codes)
         let discount = 0;
         let validatedPromo = null;
         if (promoCode) {
           const code = promoCode.toUpperCase().trim();
-          const promo = PROMO_CODES[code];
+          const allCodes = await getAllPromoCodes(base44);
+          const promo = allCodes[code];
           if (promo) {
             discount = subtotal * promo.discount;
             validatedPromo = code;

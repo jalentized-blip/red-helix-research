@@ -684,6 +684,9 @@ export default function AdminAffiliateManager() {
   const [affiliates, setAffiliates] = useState([]);
   const [transactions, setTransactions] = useState([]);
 
+  // Entity status
+  const [entityError, setEntityError] = useState(null);
+
   // UI State
   const [editingAffiliate, setEditingAffiliate] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -724,13 +727,18 @@ export default function AdminAffiliateManager() {
   const loadData = useCallback(async () => {
     try {
       const [affData, txData] = await Promise.all([
-        base44.entities.AffiliateCode.list(),
-        base44.entities.AffiliateTransaction.list(),
+        base44.entities.AffiliateCode.list().catch(e => { throw { source: 'AffiliateCode', original: e }; }),
+        base44.entities.AffiliateTransaction.list().catch(e => { throw { source: 'AffiliateTransaction', original: e }; }),
       ]);
       setAffiliates(affData || []);
       setTransactions(txData || []);
+      setEntityError(null);
     } catch (error) {
       console.error('Failed to load affiliate data:', error);
+      const errMsg = error?.original?.message || error?.message || '';
+      if (errMsg.includes('not found') || errMsg.includes('entity') || errMsg.includes('Entity') || errMsg.includes('404')) {
+        setEntityError(error.source || 'AffiliateCode');
+      }
       setAffiliates([]);
       setTransactions([]);
     }
@@ -757,6 +765,31 @@ export default function AdminAffiliateManager() {
   const handleSaveAffiliate = async (form) => {
     setIsSaving(true);
     try {
+      // Validate required fields before attempting save
+      if (!form.affiliate_name?.trim()) {
+        alert('Please enter the affiliate name.');
+        return;
+      }
+      if (!form.affiliate_email?.trim()) {
+        alert('Please enter the affiliate email.');
+        return;
+      }
+      if (!form.code?.trim()) {
+        alert('Please enter or generate an affiliate code.');
+        return;
+      }
+
+      // Check for duplicate codes when creating new
+      if (!editingAffiliate) {
+        const existingCode = affiliates.find(
+          a => a.code?.toUpperCase() === form.code.toUpperCase()
+        );
+        if (existingCode) {
+          alert(`The code "${form.code}" is already in use by ${existingCode.affiliate_name}. Please choose a different code.`);
+          return;
+        }
+      }
+
       if (editingAffiliate) {
         await base44.entities.AffiliateCode.update(editingAffiliate.id, form);
       } else {
@@ -774,7 +807,46 @@ export default function AdminAffiliateManager() {
       await loadData();
     } catch (error) {
       console.error('Save error:', error);
-      alert('Failed to save affiliate. Make sure the AffiliateCode entity exists.');
+      const errMsg = error?.message || error?.toString() || 'Unknown error';
+
+      // Provide specific guidance based on common error patterns
+      if (errMsg.includes('not found') || errMsg.includes('entity') || errMsg.includes('Entity') || errMsg.includes('schema') || errMsg.includes('404')) {
+        alert(
+          `Entity Error: The "AffiliateCode" entity has not been created in the Base44 platform yet.\n\n` +
+          `To fix this:\n` +
+          `1. Go to your Base44 dashboard\n` +
+          `2. Navigate to Entities / Data Models\n` +
+          `3. Create a new entity called "AffiliateCode" with these fields:\n` +
+          `   - code (text)\n` +
+          `   - affiliate_name (text)\n` +
+          `   - affiliate_email (text)\n` +
+          `   - discount_percent (number)\n` +
+          `   - commission_percent (number)\n` +
+          `   - is_active (boolean)\n` +
+          `   - total_points (number)\n` +
+          `   - total_commission (number)\n` +
+          `   - total_orders (number)\n` +
+          `   - total_revenue (number)\n` +
+          `   - notes (text)\n\n` +
+          `4. Also create "AffiliateTransaction" entity with:\n` +
+          `   - affiliate_email (text)\n` +
+          `   - affiliate_name (text)\n` +
+          `   - affiliate_code (text)\n` +
+          `   - order_number (text)\n` +
+          `   - order_total (number)\n` +
+          `   - commission_amount (number)\n` +
+          `   - points_earned (number)\n` +
+          `   - customer_email (text)\n` +
+          `   - status (text)\n\n` +
+          `Original error: ${errMsg}`
+        );
+      } else if (errMsg.includes('permission') || errMsg.includes('auth') || errMsg.includes('401') || errMsg.includes('403')) {
+        alert(`Permission Error: You don't have permission to create affiliate codes. Make sure you're logged in as an admin.\n\nError: ${errMsg}`);
+      } else if (errMsg.includes('duplicate') || errMsg.includes('unique') || errMsg.includes('already exists')) {
+        alert(`Duplicate Error: An affiliate with this code already exists. Please use a different code.\n\nError: ${errMsg}`);
+      } else {
+        alert(`Failed to save affiliate.\n\nError: ${errMsg}\n\nIf this is your first time using the affiliate system, you may need to create the "AffiliateCode" entity in your Base44 dashboard.`);
+      }
     } finally {
       setIsSaving(false);
     }
@@ -930,6 +1002,34 @@ export default function AdminAffiliateManager() {
             </div>
           </div>
         </div>
+
+        {/* Entity Setup Warning */}
+        {entityError && (
+          <div className="mb-8 bg-amber-50 border border-amber-200 rounded-[24px] p-6">
+            <div className="flex items-start gap-4">
+              <AlertCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-black text-amber-800 uppercase tracking-tight mb-2">Entity Setup Required</h3>
+                <p className="text-xs text-amber-700 font-medium mb-3">
+                  The <span className="font-black">"{entityError}"</span> entity hasn't been created in your Base44 dashboard yet. The affiliate system needs two entities to work:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-amber-700">
+                  <div className="bg-white/60 rounded-xl p-3">
+                    <p className="font-black text-amber-800 mb-1">1. AffiliateCode</p>
+                    <p className="font-medium">Fields: code, affiliate_name, affiliate_email, discount_percent, commission_percent, is_active, total_points, total_commission, total_orders, total_revenue, notes</p>
+                  </div>
+                  <div className="bg-white/60 rounded-xl p-3">
+                    <p className="font-black text-amber-800 mb-1">2. AffiliateTransaction</p>
+                    <p className="font-medium">Fields: affiliate_email, affiliate_name, affiliate_code, order_number, order_total, commission_amount, points_earned, customer_email, status</p>
+                  </div>
+                </div>
+                <p className="text-[10px] text-amber-600 font-bold mt-3 uppercase tracking-widest">
+                  Go to Base44 Dashboard → Entities → Create these entities, then refresh this page.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
