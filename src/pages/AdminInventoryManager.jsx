@@ -847,6 +847,7 @@ export default function AdminInventoryManager() {
               className="mb-8"
             >
               <ProductEditor
+                key={editingProduct.id || 'new'}
                 product={editingProduct.id ? editingProduct : null}
                 onSave={handleSave}
                 onCancel={() => { setEditingProduct(null); setIsCreating(false); }}
