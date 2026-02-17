@@ -1,16 +1,22 @@
 /**
  * Affiliate Data Store
  *
- * Provides CRUD operations for affiliate data.
- * Tries Base44 entities first; falls back to localStorage if entities don't exist.
- * This ensures the affiliate system works even without creating Base44 entities.
+ * HARDCODED_AFFILIATES is the primary source of truth for all affiliates.
+ * To add a new affiliate, add an entry to the array below.
+ * To remove one, delete it from the array (or mark is_active: false).
+ *
+ * localStorage is used only for:
+ *   - Runtime stat updates (points, commission, orders, revenue)
+ *   - Tracking deleted hardcoded affiliates (so admin delete works without code changes)
+ *   - Transaction history
  */
 
-const AFFILIATES_KEY = 'rdr_affiliates';
+const AFFILIATES_KEY = 'rdr_affiliates_overrides';
+const DELETED_KEY = 'rdr_affiliates_deleted';
 const TRANSACTIONS_KEY = 'rdr_affiliate_transactions';
 
-// ─── HARDCODED AFFILIATES ───
-// These always exist regardless of storage backend
+// ─── HARDCODED AFFILIATES (PRIMARY DATABASE) ───
+// Add new affiliates here. They will always exist unless explicitly deleted via admin.
 const HARDCODED_AFFILIATES = [
   {
     id: 'aff_melissa_thomas',
@@ -33,30 +39,32 @@ function generateId() {
   return `aff_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 6)}`;
 }
 
-function mergeHardcoded(affiliates) {
-  const result = [...affiliates];
-  for (const hc of HARDCODED_AFFILIATES) {
-    const exists = result.find(a =>
-      a.code === hc.code || a.affiliate_email === hc.affiliate_email
-    );
-    if (!exists) {
-      result.push({ ...hc });
-    }
-  }
-  return result;
-}
-
-function getStoredAffiliates() {
+// Get stat overrides from localStorage (points, commission, etc.)
+function getOverrides() {
   try {
     const data = localStorage.getItem(AFFILIATES_KEY);
+    return data ? JSON.parse(data) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveOverrides(overrides) {
+  localStorage.setItem(AFFILIATES_KEY, JSON.stringify(overrides));
+}
+
+// Get list of deleted affiliate IDs
+function getDeletedIds() {
+  try {
+    const data = localStorage.getItem(DELETED_KEY);
     return data ? JSON.parse(data) : [];
   } catch {
     return [];
   }
 }
 
-function saveAffiliates(affiliates) {
-  localStorage.setItem(AFFILIATES_KEY, JSON.stringify(affiliates));
+function saveDeletedIds(ids) {
+  localStorage.setItem(DELETED_KEY, JSON.stringify(ids));
 }
 
 function getStoredTransactions() {
@@ -72,16 +80,41 @@ function saveTransactions(transactions) {
   localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(transactions));
 }
 
+// Build the live affiliate list from hardcoded + overrides, minus deleted
+function buildAffiliateList() {
+  const overrides = getOverrides();
+  const deletedIds = getDeletedIds();
+  const hardcodedIds = new Set(HARDCODED_AFFILIATES.map(a => a.id));
+
+  // Start with hardcoded affiliates, applying any stat overrides
+  const result = HARDCODED_AFFILIATES
+    .filter(aff => !deletedIds.includes(aff.id))
+    .map(aff => {
+      const override = overrides[aff.id];
+      if (override) {
+        return { ...aff, ...override };
+      }
+      return { ...aff };
+    });
+
+  // Add any affiliates that were created via admin (stored only in overrides)
+  for (const [id, data] of Object.entries(overrides)) {
+    if (!hardcodedIds.has(id) && !deletedIds.includes(id) && data.code) {
+      result.push(data);
+    }
+  }
+
+  return result;
+}
+
 // ─── DETECT IF BASE44 ENTITIES EXIST ───
 
-let base44Available = null; // null = unknown, true/false = tested
+let base44Available = null;
 let base44LastCheck = 0;
-const BASE44_RECHECK_INTERVAL = 30000; // Retry every 30s if previously failed
+const BASE44_RECHECK_INTERVAL = 30000;
 
 async function checkBase44Entities(base44) {
-  // If previously succeeded, keep using Base44
   if (base44Available === true) return true;
-  // If previously failed, retry after interval (don't cache failures permanently)
   if (base44Available === false && (Date.now() - base44LastCheck) < BASE44_RECHECK_INTERVAL) {
     return false;
   }
@@ -98,7 +131,6 @@ async function checkBase44Entities(base44) {
   }
 }
 
-// Reset the check (useful after entity creation)
 export function resetBase44Check() {
   base44Available = null;
   base44LastCheck = 0;
@@ -106,97 +138,82 @@ export function resetBase44Check() {
 
 // ─── AFFILIATE CODE OPERATIONS ───
 
-export async function listAffiliates(base44) {
-  let affiliates;
-  try {
-    if (await checkBase44Entities(base44)) {
-      affiliates = await base44.entities.AffiliateCode.list();
-    }
-  } catch {
-    // fall through to localStorage
-  }
-  if (!affiliates) {
-    affiliates = getStoredAffiliates();
-  }
-  return mergeHardcoded(affiliates);
+export async function listAffiliates() {
+  // Always return from hardcoded + overrides (Base44 entities are bonus if available)
+  return buildAffiliateList();
 }
 
 export async function createAffiliate(base44, data) {
-  try {
-    if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateCode.create(data);
-    }
-  } catch {
-    // fall through to localStorage
-  }
-
-  // localStorage fallback
-  const affiliates = getStoredAffiliates();
+  // Add to hardcoded list at runtime by storing in overrides with a new ID
+  const id = generateId();
   const newAffiliate = {
     ...data,
-    id: generateId(),
+    id,
     created_date: new Date().toISOString(),
+    total_points: data.total_points || 0,
+    total_commission: data.total_commission || 0,
+    total_orders: data.total_orders || 0,
+    total_revenue: data.total_revenue || 0,
   };
-  affiliates.push(newAffiliate);
-  saveAffiliates(affiliates);
+
+  // Add to the hardcoded array at runtime so it shows immediately
+  HARDCODED_AFFILIATES.push(newAffiliate);
+
+  // Also persist the full record as an override so it survives page reload
+  const overrides = getOverrides();
+  overrides[id] = newAffiliate;
+  saveOverrides(overrides);
+
+  // Remove from deleted list if re-adding
+  const deletedIds = getDeletedIds();
+  const filtered = deletedIds.filter(did => did !== id);
+  if (filtered.length !== deletedIds.length) saveDeletedIds(filtered);
+
   return newAffiliate;
 }
 
 export async function updateAffiliate(base44, id, data) {
-  try {
-    if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateCode.update(id, data);
-    }
-  } catch {
-    // fall through to localStorage
+  // Update the override for this affiliate
+  const overrides = getOverrides();
+  overrides[id] = { ...(overrides[id] || {}), ...data };
+  saveOverrides(overrides);
+
+  // Also update the runtime hardcoded array
+  const idx = HARDCODED_AFFILIATES.findIndex(a => a.id === id);
+  if (idx !== -1) {
+    HARDCODED_AFFILIATES[idx] = { ...HARDCODED_AFFILIATES[idx], ...data };
   }
 
-  const affiliates = getStoredAffiliates();
-  const index = affiliates.findIndex(a => a.id === id);
-  if (index !== -1) {
-    affiliates[index] = { ...affiliates[index], ...data };
-    saveAffiliates(affiliates);
-    return affiliates[index];
-  }
-  throw new Error('Affiliate not found');
+  return { id, ...data };
 }
 
 export async function deleteAffiliate(base44, id) {
-  try {
-    if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateCode.delete(id);
-    }
-  } catch {
-    // fall through to localStorage
+  // Add to deleted list
+  const deletedIds = getDeletedIds();
+  if (!deletedIds.includes(id)) {
+    deletedIds.push(id);
+    saveDeletedIds(deletedIds);
   }
 
-  const affiliates = getStoredAffiliates();
-  const filtered = affiliates.filter(a => a.id !== id);
-  saveAffiliates(filtered);
+  // Remove from runtime hardcoded array
+  const idx = HARDCODED_AFFILIATES.findIndex(a => a.id === id);
+  if (idx !== -1) {
+    HARDCODED_AFFILIATES.splice(idx, 1);
+  }
+
+  // Clean up override
+  const overrides = getOverrides();
+  delete overrides[id];
+  saveOverrides(overrides);
 }
 
 // ─── AFFILIATE TRANSACTION OPERATIONS ───
 
-export async function listTransactions(base44) {
-  try {
-    if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateTransaction.list();
-    }
-  } catch {
-    // fall through to localStorage
-  }
+export async function listTransactions() {
   return getStoredTransactions();
 }
 
 export async function createTransaction(base44, data) {
-  try {
-    if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateTransaction.create(data);
-    }
-  } catch {
-    // fall through to localStorage
-  }
-
   const transactions = getStoredTransactions();
   const newTx = {
     ...data,
@@ -209,14 +226,6 @@ export async function createTransaction(base44, data) {
 }
 
 export async function updateTransaction(base44, id, data) {
-  try {
-    if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateTransaction.update(id, data);
-    }
-  } catch {
-    // fall through to localStorage
-  }
-
   const transactions = getStoredTransactions();
   const index = transactions.findIndex(t => t.id === id);
   if (index !== -1) {
@@ -227,35 +236,20 @@ export async function updateTransaction(base44, id, data) {
   throw new Error('Transaction not found');
 }
 
-// ─── SUBSCRIBE (no-op for localStorage, real-time for Base44) ───
+// ─── SUBSCRIBE (no-op — data is local) ───
 
 export function subscribeAffiliates(base44, callback) {
-  try {
-    if (base44Available === true) {
-      return base44.entities.AffiliateCode.subscribe(callback);
-    }
-  } catch {
-    // no-op
-  }
-  // Return a no-op unsubscribe
   return () => {};
 }
 
 export function subscribeTransactions(base44, callback) {
-  try {
-    if (base44Available === true) {
-      return base44.entities.AffiliateTransaction.subscribe(callback);
-    }
-  } catch {
-    // no-op
-  }
   return () => {};
 }
 
 // ─── LOAD AFFILIATE CODES FOR PROMO VALIDATION ───
 
-export async function loadActiveAffiliateCodes(base44) {
-  const affiliates = await listAffiliates(base44);
+export async function loadActiveAffiliateCodes() {
+  const affiliates = await listAffiliates();
   const codes = {};
   if (affiliates && Array.isArray(affiliates)) {
     affiliates.forEach(aff => {
@@ -294,7 +288,7 @@ export async function recordAffiliateOrder(base44, affiliateInfo, orderNumber, t
   });
 
   // Update affiliate totals
-  const affiliates = await listAffiliates(base44);
+  const affiliates = await listAffiliates();
   const affiliateRecord = affiliates.find(
     a => a.affiliate_email === affiliateInfo.email && a.code === affiliateInfo.code
   );
@@ -315,7 +309,7 @@ export async function recordAffiliateOrder(base44, affiliateInfo, orderNumber, t
 
 export async function getAffiliateByEmail(base44, email) {
   if (!email) return null;
-  const affiliates = await listAffiliates(base44);
+  const affiliates = await listAffiliates();
   return affiliates.find(
     a => a.affiliate_email?.toLowerCase() === email.toLowerCase()
   ) || null;
@@ -323,7 +317,7 @@ export async function getAffiliateByEmail(base44, email) {
 
 export async function getTransactionsForAffiliate(base44, affiliateCode) {
   if (!affiliateCode) return [];
-  const transactions = await listTransactions(base44);
+  const transactions = await listTransactions();
   return transactions.filter(
     t => t.affiliate_code?.toUpperCase() === affiliateCode.toUpperCase()
   );
@@ -332,7 +326,5 @@ export async function getTransactionsForAffiliate(base44, affiliateCode) {
 // ─── STORAGE MODE INFO ───
 
 export function getStorageMode() {
-  if (base44Available === true) return 'base44';
-  if (base44Available === false) return 'localStorage';
-  return 'unknown';
+  return 'hardcoded';
 }
