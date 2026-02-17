@@ -69,7 +69,7 @@ import { loadActiveAffiliateCodes } from '@/components/utils/affiliateStore';
 // Cache for affiliate codes loaded from DB or localStorage
 let affiliateCodesCache = null;
 let affiliateCacheTime = 0;
-const CACHE_DURATION = 60000; // 1 minute cache
+const CACHE_DURATION = 15000; // 15 second cache for faster pickup of new codes
 
 // Load affiliate codes (uses affiliateStore which falls back to localStorage)
 export const loadAffiliateCodes = async (base44) => {
@@ -85,7 +85,8 @@ export const loadAffiliateCodes = async (base44) => {
     return codes;
   } catch (error) {
     console.warn('Failed to load affiliate codes:', error);
-    return {};
+    // Return cached codes if available, empty object only as last resort
+    return affiliateCodesCache || {};
   }
 };
 

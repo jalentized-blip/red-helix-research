@@ -54,6 +54,7 @@ import {
   subscribeAffiliates,
   subscribeTransactions,
   getStorageMode,
+  resetBase44Check,
 } from '@/components/utils/affiliateStore';
 
 // ─── POINTS VALUE CONFIG ───
@@ -218,11 +219,19 @@ function AffiliateEditor({ affiliate, onSave, onCancel, isSaving }) {
 // ─── AFFILIATE ROW ───
 function AffiliateRow({ affiliate, onEdit, onDelete, onToggle, expanded, onExpand }) {
   const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const copyCode = () => {
     navigator.clipboard.writeText(affiliate.code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const copyAffiliateLink = () => {
+    const baseUrl = window.location.origin;
+    navigator.clipboard.writeText(`${baseUrl}/?affiliate=${affiliate.code}`);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
   };
 
   return (
@@ -334,6 +343,21 @@ function AffiliateRow({ affiliate, onEdit, onDelete, onToggle, expanded, onExpan
                 <div className="bg-green-50 rounded-xl p-3">
                   <p className="text-[8px] font-black text-green-600 uppercase tracking-widest mb-1">Commission Owed</p>
                   <p className="text-lg font-black text-green-600">${(affiliate.total_commission || 0).toFixed(2)}</p>
+                </div>
+              </div>
+              {/* Shareable Affiliate Link */}
+              <div className="bg-blue-50 border border-blue-100 rounded-xl p-3">
+                <p className="text-[8px] font-black text-blue-600 uppercase tracking-widest mb-2">Shareable Link</p>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 text-[10px] text-blue-800 font-bold bg-blue-100/50 rounded-lg px-3 py-2 truncate">
+                    {window.location.origin}/?affiliate={affiliate.code}
+                  </code>
+                  <button
+                    onClick={copyAffiliateLink}
+                    className="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-colors flex items-center gap-1"
+                  >
+                    {linkCopied ? <><Check className="w-3 h-3" /> Copied</> : <><Copy className="w-3 h-3" /> Copy Link</>}
+                  </button>
                 </div>
               </div>
               {affiliate.notes && (
@@ -805,6 +829,7 @@ export default function AdminAffiliateManager() {
           total_revenue: 0,
         });
       }
+      resetBase44Check();
       clearAffiliateCache();
       setEditingAffiliate(null);
       setIsCreating(false);
@@ -823,6 +848,7 @@ export default function AdminAffiliateManager() {
       await updateAffiliate(base44, affiliate.id, {
         is_active: !affiliate.is_active,
       });
+      resetBase44Check();
       clearAffiliateCache();
       await loadData();
     } catch (error) {
@@ -839,6 +865,7 @@ export default function AdminAffiliateManager() {
     }
     try {
       await deleteAffiliateStore(base44, affiliate.id);
+      resetBase44Check();
       clearAffiliateCache();
       setDeleteConfirm(null);
       await loadData();

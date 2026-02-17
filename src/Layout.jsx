@@ -4,7 +4,7 @@ import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package, User, ToggleLe
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { getCartCount } from '@/components/utils/cart';
+import { getCartCount, addPromoCodeAsync, getPromoCode, loadAffiliateCodes } from '@/components/utils/cart';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
@@ -277,6 +277,23 @@ const HeaderSearch = () => {
           const handleCartUpdate = () => setCartCount(getCartCount());
           window.addEventListener('cartUpdated', handleCartUpdate);
           return () => window.removeEventListener('cartUpdated', handleCartUpdate);
+        }, []);
+
+        // Auto-apply affiliate code from URL (?affiliate=CODE)
+        useEffect(() => {
+          const params = new URLSearchParams(window.location.search);
+          const affiliateCode = params.get('affiliate') || params.get('aff');
+          if (affiliateCode && !getPromoCode()) {
+            // Pre-load affiliate codes then auto-apply
+            loadAffiliateCodes(base44).then(() => {
+              addPromoCodeAsync(affiliateCode, base44);
+            });
+            // Clean up URL without reloading (remove affiliate param)
+            const url = new URL(window.location);
+            url.searchParams.delete('affiliate');
+            url.searchParams.delete('aff');
+            window.history.replaceState({}, '', url.toString());
+          }
         }, []);
 
         useEffect(() => {

@@ -44,15 +44,24 @@ function saveTransactions(transactions) {
 // ─── DETECT IF BASE44 ENTITIES EXIST ───
 
 let base44Available = null; // null = unknown, true/false = tested
+let base44LastCheck = 0;
+const BASE44_RECHECK_INTERVAL = 30000; // Retry every 30s if previously failed
 
 async function checkBase44Entities(base44) {
-  if (base44Available !== null) return base44Available;
+  // If previously succeeded, keep using Base44
+  if (base44Available === true) return true;
+  // If previously failed, retry after interval (don't cache failures permanently)
+  if (base44Available === false && (Date.now() - base44LastCheck) < BASE44_RECHECK_INTERVAL) {
+    return false;
+  }
   try {
     await base44.entities.AffiliateCode.list();
     base44Available = true;
+    base44LastCheck = Date.now();
     return true;
   } catch {
     base44Available = false;
+    base44LastCheck = Date.now();
     return false;
   }
 }
@@ -60,6 +69,7 @@ async function checkBase44Entities(base44) {
 // Reset the check (useful after entity creation)
 export function resetBase44Check() {
   base44Available = null;
+  base44LastCheck = 0;
 }
 
 // ─── AFFILIATE CODE OPERATIONS ───
