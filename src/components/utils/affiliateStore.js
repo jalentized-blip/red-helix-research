@@ -9,10 +9,41 @@
 const AFFILIATES_KEY = 'rdr_affiliates';
 const TRANSACTIONS_KEY = 'rdr_affiliate_transactions';
 
+// ─── HARDCODED AFFILIATES ───
+// These always exist regardless of storage backend
+const HARDCODED_AFFILIATES = [
+  {
+    id: 'aff_melissa_thomas',
+    code: 'MELISSA10',
+    affiliate_name: 'Melissa Thomas',
+    affiliate_email: 'mizzmariee3@gmail.com',
+    discount_percent: 10,
+    commission_percent: 10,
+    is_active: true,
+    total_points: 0,
+    total_commission: 0,
+    total_orders: 0,
+    total_revenue: 0,
+  },
+];
+
 // ─── HELPERS ───
 
 function generateId() {
   return `aff_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 6)}`;
+}
+
+function mergeHardcoded(affiliates) {
+  const result = [...affiliates];
+  for (const hc of HARDCODED_AFFILIATES) {
+    const exists = result.find(a =>
+      a.code === hc.code || a.affiliate_email === hc.affiliate_email
+    );
+    if (!exists) {
+      result.push({ ...hc });
+    }
+  }
+  return result;
 }
 
 function getStoredAffiliates() {
@@ -59,7 +90,8 @@ async function checkBase44Entities(base44) {
     base44Available = true;
     base44LastCheck = Date.now();
     return true;
-  } catch {
+  } catch (err) {
+    console.error('[AffiliateStore] Base44 entity check failed:', err?.message || err);
     base44Available = false;
     base44LastCheck = Date.now();
     return false;
@@ -75,14 +107,18 @@ export function resetBase44Check() {
 // ─── AFFILIATE CODE OPERATIONS ───
 
 export async function listAffiliates(base44) {
+  let affiliates;
   try {
     if (await checkBase44Entities(base44)) {
-      return await base44.entities.AffiliateCode.list();
+      affiliates = await base44.entities.AffiliateCode.list();
     }
   } catch {
     // fall through to localStorage
   }
-  return getStoredAffiliates();
+  if (!affiliates) {
+    affiliates = getStoredAffiliates();
+  }
+  return mergeHardcoded(affiliates);
 }
 
 export async function createAffiliate(base44, data) {
@@ -273,6 +309,24 @@ export async function recordAffiliateOrder(base44, affiliateInfo, orderNumber, t
   }
 
   return { pointsEarned, commission };
+}
+
+// ─── AFFILIATE LOOKUP BY EMAIL (for account dashboard) ───
+
+export async function getAffiliateByEmail(base44, email) {
+  if (!email) return null;
+  const affiliates = await listAffiliates(base44);
+  return affiliates.find(
+    a => a.affiliate_email?.toLowerCase() === email.toLowerCase()
+  ) || null;
+}
+
+export async function getTransactionsForAffiliate(base44, affiliateCode) {
+  if (!affiliateCode) return [];
+  const transactions = await listTransactions(base44);
+  return transactions.filter(
+    t => t.affiliate_code?.toUpperCase() === affiliateCode.toUpperCase()
+  );
 }
 
 // ─── STORAGE MODE INFO ───

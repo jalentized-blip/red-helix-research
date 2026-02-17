@@ -3,11 +3,12 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History, Share2, Gift, Copy, Check, CheckCircle2, ExternalLink, Loader2, Mail, Video, Link as LinkIcon, AlertCircle } from 'lucide-react';
+import { LogOut, Package, User, Settings, Home, LayoutDashboard, Heart, TrendingUp, History, Share2, Gift, Copy, Check, CheckCircle2, ExternalLink, Loader2, Mail, Video, Link as LinkIcon, AlertCircle, Award, DollarSign, Coins, BarChart3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '@/components/SEO';
+import { getAffiliateByEmail, getTransactionsForAffiliate } from '@/components/utils/affiliateStore';
 import DashboardStats from '@/components/account/DashboardStats';
 import FavoritePeptides from '@/components/account/FavoritePeptides';
 import RecommendedPeptides from '@/components/account/RecommendedPeptides';
@@ -365,11 +366,223 @@ function TikTokRewardSection({ user }) {
   );
 }
 
+// ─── AFFILIATE DASHBOARD SECTION ───
+function AffiliateDashboard({ user }) {
+  const [affiliate, setAffiliate] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const aff = await getAffiliateByEmail(base44, user?.email);
+        if (aff) {
+          setAffiliate(aff);
+          const txns = await getTransactionsForAffiliate(base44, aff.code);
+          setTransactions(txns);
+        }
+      } catch (err) {
+        console.error('Failed to load affiliate data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [user]);
+
+  const affiliateLink = affiliate ? `https://redhelixresearch.com/?affiliate=${affiliate.code}` : '';
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(affiliateLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Loader2 className="w-6 h-6 text-slate-400 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!affiliate) return null;
+
+  const totalPoints = affiliate.total_points || 0;
+  const totalCommission = affiliate.total_commission || 0;
+  const totalOrders = affiliate.total_orders || 0;
+  const totalRevenue = affiliate.total_revenue || 0;
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 shadow-xl">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-14 h-14 bg-[#dc2626] rounded-2xl flex items-center justify-center shadow-lg shadow-[#dc2626]/30">
+            <Award className="w-7 h-7 text-white" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-white tracking-tighter uppercase">Affiliate Dashboard</h2>
+            <p className="text-sm text-slate-400 font-medium">Welcome, {affiliate.affiliate_name}</p>
+          </div>
+        </div>
+
+        <div className="bg-white/10 backdrop-blur rounded-2xl px-5 py-4 flex items-center gap-3">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Your Code:</span>
+          <span className="text-xl font-black text-white tracking-widest">{affiliate.code}</span>
+          <span className="ml-auto text-[10px] font-black text-[#dc2626] bg-[#dc2626]/10 px-3 py-1 rounded-full uppercase tracking-widest">
+            {affiliate.discount_percent}% off
+          </span>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <Coins className="w-4 h-4 text-amber-500" />
+            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Points Earned</span>
+          </div>
+          <p className="text-3xl font-black text-slate-900 tracking-tighter">{totalPoints.toFixed(2)}</p>
+        </div>
+
+        <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <DollarSign className="w-4 h-4 text-green-500" />
+            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Commission</span>
+          </div>
+          <p className="text-3xl font-black text-slate-900 tracking-tighter">${totalCommission.toFixed(2)}</p>
+        </div>
+
+        <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <Package className="w-4 h-4 text-blue-500" />
+            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Orders</span>
+          </div>
+          <p className="text-3xl font-black text-slate-900 tracking-tighter">{totalOrders}</p>
+        </div>
+
+        <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <BarChart3 className="w-4 h-4 text-purple-500" />
+            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Revenue</span>
+          </div>
+          <p className="text-3xl font-black text-slate-900 tracking-tighter">${totalRevenue.toFixed(2)}</p>
+        </div>
+      </div>
+
+      {/* Shareable Link */}
+      <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+        <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-4">Your Affiliate Link</h3>
+        <p className="text-[10px] text-slate-400 font-medium mb-4">
+          Share this link with friends. When they use your code, you earn points and commission on every order.
+        </p>
+        <div className="flex items-center gap-3">
+          <div className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center gap-2 overflow-hidden">
+            <LinkIcon className="w-4 h-4 text-[#dc2626] flex-shrink-0" />
+            <span className="text-sm font-bold text-slate-700 truncate">{affiliateLink}</span>
+          </div>
+          <Button
+            onClick={copyLink}
+            className={`rounded-xl font-black uppercase tracking-widest text-xs px-6 py-3 transition-all ${
+              copied
+                ? 'bg-green-500 hover:bg-green-600 text-white'
+                : 'bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-lg shadow-[#dc2626]/20'
+            }`}
+          >
+            {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
+            {copied ? 'Copied!' : 'Copy'}
+          </Button>
+        </div>
+      </div>
+
+      {/* How Points Work */}
+      <div className="bg-white border border-slate-100 rounded-[24px] p-6 shadow-sm">
+        <div className="flex items-start gap-3">
+          <Gift className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-xs font-black text-slate-900 uppercase tracking-tight mb-1">How You Earn</p>
+            <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
+              When someone uses your code <strong className="text-[#dc2626]">{affiliate.code}</strong>, they get <strong>{affiliate.discount_percent}% off</strong> their order.
+              You earn <strong className="text-green-600">1.5% in reward points</strong> and <strong className="text-green-600">10% commission</strong> on every order placed with your code.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Transaction History */}
+      <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
+        <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-6">Transaction History</h3>
+        {transactions.length === 0 ? (
+          <div className="text-center py-10">
+            <Coins className="w-12 h-12 text-slate-200 mx-auto mb-3" />
+            <p className="text-slate-400 text-sm font-medium">No transactions yet</p>
+            <p className="text-[10px] text-slate-300 font-medium mt-1">Share your link to start earning</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {transactions.map((tx, idx) => (
+              <motion.div
+                key={tx.id || idx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+              >
+                <div>
+                  <p className="text-sm font-black text-slate-900 tracking-tight">Order #{tx.order_number}</p>
+                  <p className="text-[10px] text-slate-400 font-medium">
+                    {tx.created_date ? new Date(tx.created_date).toLocaleDateString('en-US', {
+                      year: 'numeric', month: 'short', day: 'numeric'
+                    }) : 'N/A'}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Order Total</p>
+                    <p className="text-sm font-black text-slate-900">${(tx.order_total || 0).toFixed(2)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[8px] font-black text-amber-500 uppercase tracking-widest">Points</p>
+                    <p className="text-sm font-black text-amber-600">+{(tx.points_earned || 0).toFixed(2)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[8px] font-black text-green-500 uppercase tracking-widest">Commission</p>
+                    <p className="text-sm font-black text-green-600">+${(tx.commission_amount || 0).toFixed(2)}</p>
+                  </div>
+                  <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full ${
+                    tx.status === 'paid' ? 'bg-green-100 text-green-600' :
+                    tx.status === 'cancelled' ? 'bg-red-100 text-red-600' :
+                    'bg-amber-100 text-amber-600'
+                  }`}>
+                    {tx.status || 'pending'}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Account() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
+
+  const [isAffiliate, setIsAffiliate] = useState(false);
+
+  useEffect(() => {
+    if (user?.email) {
+      getAffiliateByEmail(base44, user.email).then(aff => {
+        if (aff) setIsAffiliate(true);
+      });
+    }
+  }, [user]);
 
   const { data: orders = [] } = useQuery({
     queryKey: ['orders'],
@@ -479,6 +692,20 @@ export default function Account() {
                   <LayoutDashboard className="w-4 h-4" />
                   <span className="text-xs font-black uppercase tracking-widest">Dashboard</span>
                 </button>
+
+                {isAffiliate && (
+                  <button
+                    onClick={() => setActiveTab('affiliate')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                      activeTab === 'affiliate'
+                        ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/20'
+                        : 'text-slate-500 hover:text-[#dc2626] hover:bg-white'
+                    }`}
+                  >
+                    <Award className="w-4 h-4" />
+                    <span className="text-xs font-black uppercase tracking-widest">Affiliate</span>
+                  </button>
+                )}
 
                 <button
                   onClick={() => setActiveTab('referrals')}
@@ -609,6 +836,22 @@ export default function Account() {
                     <DashboardStats preferences={preferences} orders={orders} />
                   </div>
 
+                  {/* Affiliate Quick Card */}
+                  {isAffiliate && (
+                    <button
+                      onClick={() => setActiveTab('affiliate')}
+                      className="w-full bg-gradient-to-r from-slate-900 to-slate-800 rounded-[24px] p-6 shadow-lg text-left hover:shadow-xl transition-all group"
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 bg-[#dc2626] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#dc2626]/30">
+                          <Award className="w-5 h-5 text-white" />
+                        </div>
+                        <h3 className="text-sm font-black text-white uppercase tracking-tight">Affiliate Dashboard</h3>
+                      </div>
+                      <p className="text-[10px] text-slate-400 font-medium">Track your points, commission, and share your affiliate link</p>
+                    </button>
+                  )}
+
                   {/* Quick Referral & Rewards Cards on Dashboard */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button
@@ -647,6 +890,10 @@ export default function Account() {
                     <RecommendedPeptides preferences={preferences} orders={orders} />
                   </div>
                 </div>
+              )}
+
+              {activeTab === 'affiliate' && (
+                <AffiliateDashboard user={user} />
               )}
 
               {activeTab === 'referrals' && (
