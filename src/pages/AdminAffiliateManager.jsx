@@ -53,7 +53,6 @@ import {
   updateTransaction,
   subscribeAffiliates,
   subscribeTransactions,
-  getStorageMode,
   resetBase44Check,
 } from '@/components/utils/affiliateStore';
 
@@ -720,9 +719,6 @@ export default function AdminAffiliateManager() {
   const [affiliates, setAffiliates] = useState([]);
   const [transactions, setTransactions] = useState([]);
 
-  // Storage mode indicator
-  const [storageMode, setStorageMode] = useState('unknown');
-
   // UI State
   const [editingAffiliate, setEditingAffiliate] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -768,7 +764,6 @@ export default function AdminAffiliateManager() {
       ]);
       setAffiliates(affData || []);
       setTransactions(txData || []);
-      setStorageMode(getStorageMode());
     } catch (error) {
       console.error('Failed to load affiliate data:', error);
       setAffiliates([]);
@@ -994,18 +989,6 @@ export default function AdminAffiliateManager() {
             </div>
           </div>
         </div>
-
-        {/* Storage Mode Notice */}
-        {storageMode === 'localStorage' && (
-          <div className="mb-8 bg-blue-50 border border-blue-200 rounded-[24px] p-4">
-            <div className="flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0" />
-              <p className="text-xs text-blue-700 font-bold">
-                Affiliate data is stored in your browser's local storage. Data will persist on this device but won't sync across devices.
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
