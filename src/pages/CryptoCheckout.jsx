@@ -202,6 +202,8 @@ export default function CryptoCheckout() {
   const [squareError, setSquareError] = useState('');
   const [showSquareDisclaimer, setShowSquareDisclaimer] = useState(false);
   const [squareDisclaimerAccepted, setSquareDisclaimerAccepted] = useState(false);
+  const [squareRefundPolicyAccepted, setSquareRefundPolicyAccepted] = useState(false);
+  const [consentTimestamp, setConsentTimestamp] = useState(null);
 
   const txVerifyRef = useRef(null);
 
@@ -600,7 +602,7 @@ export default function CryptoCheckout() {
                     <p className="text-xs text-slate-500 font-medium">All payments are encrypted and securely processed.</p>
                   </div>
 
-                  {/* Card payment disclaimer modal */}
+                  {/* Card payment disclaimer + consent modal */}
                   <AnimatePresence>
                     {showSquareDisclaimer && (
                       <motion.div
@@ -608,60 +610,77 @@ export default function CryptoCheckout() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-                        onClick={(e) => { if (e.target === e.currentTarget && squareDisclaimerAccepted) setShowSquareDisclaimer(false); }}
+                        onClick={(e) => { if (e.target === e.currentTarget && squareDisclaimerAccepted && squareRefundPolicyAccepted) setShowSquareDisclaimer(false); }}
                       >
                         <motion.div
                           initial={{ scale: 0.9, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.9, opacity: 0 }}
-                          className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden"
+                          className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden max-h-[90vh] flex flex-col"
                         >
-                          <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 border-b border-amber-100">
+                          <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 border-b border-amber-100 flex-shrink-0">
                             <div className="flex items-center gap-3">
                               <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
                                 <AlertCircle className="w-6 h-6 text-amber-600" />
                               </div>
                               <div>
-                                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">Notice</h3>
+                                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">Order Agreement</h3>
                                 <p className="text-xs text-amber-600 font-bold uppercase tracking-wider">Please Read Before Continuing</p>
                               </div>
                             </div>
                           </div>
-                          <div className="p-6 space-y-4">
+                          <div className="p-6 space-y-4 overflow-y-auto">
                             <p className="text-sm text-slate-600 leading-relaxed">
-                              Card payments are currently handled through a <strong className="text-slate-900">temporary payment link service</strong> while we finalize our direct credit card processing integration.
+                              Card payments are currently handled through a <strong className="text-slate-900">secure payment link service</strong> powered by Square. We'll email you a secure link to complete your purchase — your card details are never shared with us.
                             </p>
-                            <p className="text-sm text-slate-600 leading-relaxed">
-                              When you proceed, we'll email you a secure payment link to complete your purchase. This is a fully secure and encrypted checkout — your card details are never shared with us.
-                            </p>
-                            <p className="text-sm text-slate-500 leading-relaxed">
-                              Direct on-site card processing is coming soon. We appreciate your patience as we build this out.
-                            </p>
+
+                            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Refund & Return Policy</h4>
+                              <ul className="text-xs text-slate-600 space-y-1.5 leading-relaxed">
+                                <li>• Returns accepted within <strong>14 days</strong> — items must be unopened in original packaging</li>
+                                <li>• Damaged items replaced at no cost — contact us with photos</li>
+                                <li>• <strong>All sales are final once shipped</strong> unless item arrives damaged</li>
+                                <li>• Please contact <strong>jake@redhelixresearch.com</strong> to resolve any issues <strong>before</strong> contacting your bank</li>
+                              </ul>
+                            </div>
+
                             <label className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:border-[#dc2626] transition-colors">
                               <input
                                 type="checkbox"
                                 checked={squareDisclaimerAccepted}
                                 onChange={(e) => setSquareDisclaimerAccepted(e.target.checked)}
-                                className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626]"
+                                className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626] flex-shrink-0"
                               />
                               <span className="text-xs text-slate-700 font-semibold leading-relaxed">
-                                I understand and agree that card payments are processed via a temporary payment link service.
+                                I have reviewed my order and confirm it is correct. I understand card payments are processed via a secure payment link.
+                              </span>
+                            </label>
+
+                            <label className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:border-[#dc2626] transition-colors">
+                              <input
+                                type="checkbox"
+                                checked={squareRefundPolicyAccepted}
+                                onChange={(e) => setSquareRefundPolicyAccepted(e.target.checked)}
+                                className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626] flex-shrink-0"
+                              />
+                              <span className="text-xs text-slate-700 font-semibold leading-relaxed">
+                                I agree to the <a href="/Policies" target="_blank" className="text-[#dc2626] underline">refund policy</a> and understand that all sales of research compounds are final once shipped. I will contact Red Helix Research support before initiating any payment dispute.
                               </span>
                             </label>
                           </div>
-                          <div className="p-6 pt-0 flex gap-3">
+                          <div className="p-6 pt-0 flex gap-3 flex-shrink-0">
                             <button
-                              onClick={() => { setShowSquareDisclaimer(false); setSquareDisclaimerAccepted(false); }}
+                              onClick={() => { setShowSquareDisclaimer(false); setSquareDisclaimerAccepted(false); setSquareRefundPolicyAccepted(false); }}
                               className="flex-1 py-3 px-4 rounded-xl border-2 border-slate-200 text-sm font-bold text-slate-500 uppercase tracking-wider hover:border-slate-300 transition-colors"
                             >
                               Cancel
                             </button>
                             <button
-                              onClick={() => { setShowSquareDisclaimer(false); setStep('square_payment'); }}
-                              disabled={!squareDisclaimerAccepted}
+                              onClick={() => { setConsentTimestamp(new Date().toISOString()); setShowSquareDisclaimer(false); setStep('square_payment'); }}
+                              disabled={!squareDisclaimerAccepted || !squareRefundPolicyAccepted}
                               className="flex-1 py-3 px-4 rounded-xl bg-[#dc2626] text-white text-sm font-black uppercase tracking-wider hover:bg-[#b91c1c] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                             >
-                              Continue
+                              I Agree & Continue
                             </button>
                           </div>
                         </motion.div>
@@ -1023,6 +1042,27 @@ export default function CryptoCheckout() {
                                   promoCode: promoCode || undefined,
                                   discountAmount: discount > 0 ? discount : undefined,
                                   shippingCost: SHIPPING_COST,
+                                  // Chargeback evidence — consent + device info
+                                  consentTimestamp: consentTimestamp || new Date().toISOString(),
+                                  consentVersion: 'v2-2025-02',
+                                  userAgent: navigator.userAgent,
+                                  screenResolution: `${window.screen.width}x${window.screen.height}`,
+                                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                                  language: navigator.language,
+                                  shippingAddress: customerInfo ? {
+                                    address: customerInfo.shippingAddress || customerInfo.address,
+                                    city: customerInfo.shippingCity || customerInfo.city,
+                                    state: customerInfo.shippingState || customerInfo.state,
+                                    zip: customerInfo.shippingZip || customerInfo.zip,
+                                    country: customerInfo.shippingCountry || customerInfo.country || 'USA',
+                                  } : undefined,
+                                  billingAddress: customerInfo ? {
+                                    address: customerInfo.address,
+                                    city: customerInfo.city,
+                                    state: customerInfo.state,
+                                    zip: customerInfo.zip,
+                                    country: customerInfo.country || 'USA',
+                                  } : undefined,
                                 }),
                               });
                               const fnData = await fnRes.json();
@@ -1031,7 +1071,48 @@ export default function CryptoCheckout() {
                               }
                               const checkoutUrl = fnData.checkoutUrl;
 
-                              // 2. Build and send email with dynamic checkout URL
+                              // 2. Create order record with Square payment link evidence
+                              try {
+                                const orderPayload = {
+                                  order_number: orderNumberRef.current,
+                                  customer_email: squareEmail.trim(),
+                                  customer_name: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : '',
+                                  customer_phone: customerInfo?.phone,
+                                  items: cartItems.map(item => ({
+                                    product_id: item.productId,
+                                    product_name: item.productName,
+                                    specification: item.specification,
+                                    quantity: item.quantity,
+                                    price: item.price,
+                                  })),
+                                  subtotal: subtotal,
+                                  discount_amount: discount,
+                                  shipping_cost: SHIPPING_COST,
+                                  total_amount: totalUSD,
+                                  payment_method: 'square_payment',
+                                  payment_status: 'pending',
+                                  transaction_id: fnData.paymentLinkId || null,
+                                  status: 'awaiting_payment',
+                                  shipping_address: {
+                                    address: customerInfo?.shippingAddress || customerInfo?.address,
+                                    city: customerInfo?.shippingCity || customerInfo?.city,
+                                    state: customerInfo?.shippingState || customerInfo?.state,
+                                    zip: customerInfo?.shippingZip || customerInfo?.zip,
+                                    country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
+                                  },
+                                };
+                                if (affiliateInfo) {
+                                  orderPayload.affiliate_code = affiliateInfo.code;
+                                  orderPayload.affiliate_email = affiliateInfo.email;
+                                  orderPayload.affiliate_name = affiliateInfo.name;
+                                  orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
+                                }
+                                await base44.entities.Order.create(orderPayload);
+                              } catch (orderErr) {
+                                console.warn('Failed to create order record:', orderErr);
+                              }
+
+                              // 3. Build and send email with dynamic checkout URL
                               const itemListHtml = cartItems.map(item =>
                                 `<tr>
                                   <td style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${item.productName}</td>
@@ -1055,7 +1136,7 @@ export default function CryptoCheckout() {
     <span style="color:#ffffff;font-size:20px;font-weight:900;letter-spacing:-1px;">RH</span>
   </div>
   <h1 style="color:#ffffff;font-size:24px;font-weight:800;margin:0 0 6px 0;letter-spacing:-0.5px;">Your Payment Link</h1>
-  <p style="color:#94a3b8;font-size:12px;font-weight:600;margin:0;letter-spacing:1px;text-transform:uppercase;">Red Helix Research</p>
+  <p style="color:#94a3b8;font-size:12px;font-weight:600;margin:0;letter-spacing:1px;text-transform:uppercase;">Red Helix Research | Order ${orderNumberRef.current}</p>
 </td>
 </tr>
 <tr>
@@ -1064,7 +1145,7 @@ export default function CryptoCheckout() {
   <p style="color:#64748b;font-size:14px;line-height:1.6;margin:0 0 16px 0;">Here's your secure payment link for your Red Helix Research order. Click the button below to complete your purchase.</p>
   <div style="background-color:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:0 0 24px 0;">
     <p style="color:#92400e;font-size:13px;line-height:1.6;margin:0 0 8px 0;font-weight:700;">Yeah, we know... a payment link email isn't exactly the checkout experience of the future.</p>
-    <p style="color:#a16207;font-size:12px;line-height:1.6;margin:0;">We're a small team laser-focused on bringing you research-grade peptides at fair prices — and right now that means our checkout is a little unconventional. We're actively building out <strong style="color:#92400e;">direct credit card processing</strong> and <strong style="color:#92400e;">ACH bank payments</strong> so you can pay right on-site without the extra step. Until then, this secure link gets the job done, and your patience means the world to us.</p>
+    <p style="color:#a16207;font-size:12px;line-height:1.6;margin:0;">We're a small team laser-focused on bringing you research-grade products at fair prices — and right now that means our checkout is a little unconventional. We're actively building out <strong style="color:#92400e;">direct credit card processing</strong> and <strong style="color:#92400e;">ACH bank payments</strong> so you can pay right on-site without the extra step. Until then, this secure link gets the job done, and your patience means the world to us.</p>
   </div>
 </td>
 </tr>
@@ -1090,16 +1171,24 @@ export default function CryptoCheckout() {
   <a href="${checkoutUrl}" target="_blank" style="display:inline-block;background-color:#dc2626;color:#ffffff;font-size:16px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:12px;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(220,38,38,0.3);">
     Complete Payment
   </a>
-  <p style="color:#94a3b8;font-size:11px;margin:12px 0 0 0;font-weight:500;">Powered by Square — secure card processing</p>
+  <p style="color:#94a3b8;font-size:11px;margin:12px 0 0 0;font-weight:500;">This charge will appear as <strong>RED HELIX RESEARCH</strong> on your card statement.</p>
 </td>
 </tr>
 <tr>
-<td style="padding:0 40px 32px 40px;">
+<td style="padding:0 40px;">
   <div style="background-color:#f8fafc;border-radius:10px;padding:16px;text-align:center;">
     <p style="color:#64748b;font-size:12px;line-height:1.5;margin:0;">
       If the button above doesn't work, copy and paste this link into your browser:<br/>
       <a href="${checkoutUrl}" style="color:#dc2626;font-weight:700;word-break:break-all;">${checkoutUrl}</a>
     </p>
+  </div>
+</td>
+</tr>
+<tr>
+<td style="padding:16px 40px;">
+  <div style="background-color:#f1f5f9;border-radius:10px;padding:14px 16px;">
+    <p style="color:#64748b;font-size:11px;font-weight:700;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:0.5px;">Refund & Dispute Policy</p>
+    <p style="color:#94a3b8;font-size:11px;line-height:1.6;margin:0;">Returns accepted within 14 days (unopened, original packaging). All sales are final once shipped unless item arrives damaged. If you have any issues with your order, please contact us at <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;font-weight:700;">jake@redhelixresearch.com</a> <strong>before</strong> contacting your bank — we resolve most issues within 24 hours.</p>
   </div>
 </td>
 </tr>

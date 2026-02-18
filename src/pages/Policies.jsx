@@ -29,9 +29,25 @@ We do not ship internationally at this time.`
     },
     {
       title: 'Returns & Refunds',
-      content: `Products must be returned unopened in original packaging for refunds. Return requests must be made within 14 days of purchase.
+      content: `Products must be returned unopened in original packaging for refunds. Return requests must be made within 14 days of purchase. All sales of research compounds are final once shipped, unless the item arrives damaged.
 
-Items damaged during shipping are replaced at no cost. Please contact us immediately with photos of damage for processing.`
+Items damaged during shipping are replaced at no cost. Please contact us immediately with photos of damage for processing.
+
+To request a return or report an issue, email jake@redhelixresearch.com with your order number and a description of the problem. Most issues are resolved within 24 hours.`
+    },
+    {
+      title: 'Payment Disputes & Chargebacks',
+      content: `If you have any questions or concerns about a charge on your account, please contact us directly at jake@redhelixresearch.com BEFORE filing a dispute with your bank or credit card company. We are committed to resolving any issue quickly and fairly.
+
+By placing an order, you agree that:
+• You will contact Red Helix Research support before initiating any payment dispute or chargeback
+• All orders are subject to our refund policy above
+• Fraudulent chargebacks (disputing a legitimate charge you authorized) may result in account suspension and collection efforts
+• We retain evidence of all transactions including consent timestamps, IP addresses, shipping confirmations, and order details for dispute resolution
+
+If you do not recognize a charge from RED HELIX RESEARCH on your statement, please reach out to us first — we can provide order details and resolve confusion quickly.
+
+We ship all orders with tracking and delivery confirmation. For orders over $150, signature confirmation may be required.`
     },
     {
       title: 'Privacy & Data Protection',
@@ -44,16 +60,17 @@ We never share customer information with third parties without consent. All data
       content: `Red Helix Research maintains PCI-DSS compliance for secure payment processing:
 
 • NO credit card data is stored on our servers
-• All payment transactions use cryptocurrency blockchain technology
+• Card payments are processed through Square's secure, PCI-compliant platform
 • Customer billing information is encrypted using industry-standard SSL/TLS
-• We never have access to your wallet private keys or seed phrases
-• Transaction data is securely transmitted and verified on-chain
+• All card transactions support 3D Secure (3DS) authentication for fraud prevention
 
 For cryptocurrency payments:
 - Transactions are processed directly on blockchain networks
 - No payment card data ever touches our systems
 - Your wallet maintains full custody of funds
 - We only receive the necessary transaction hash for order verification
+
+Card statement descriptor: Charges will appear as "RED HELIX RESEARCH" on your bank or credit card statement.
 
 We audit our security practices regularly and maintain strict data protection protocols.`
     },

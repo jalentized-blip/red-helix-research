@@ -238,6 +238,18 @@ Deno.serve(async (req) => {
     const { items, customerEmail, customerName, orderNumber, promoCode } = body;
     // NOTE: body.discountAmount and body.shippingCost are IGNORED — calculated server-side
 
+    // --- Chargeback evidence capture ---
+    const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('cf-connecting-ip') || req.headers.get('x-real-ip') || 'unknown';
+    const serverUserAgent = req.headers.get('user-agent') || 'unknown';
+    const consentTimestamp = body.consentTimestamp || null;
+    const consentVersion = body.consentVersion || null;
+    const clientUserAgent = body.userAgent || null;
+    const clientScreen = body.screenResolution || null;
+    const clientTimezone = body.timezone || null;
+    const clientLanguage = body.language || null;
+    const shippingAddr = body.shippingAddress || null;
+    const billingAddr = body.billingAddress || null;
+
     // --- Basic field validation ---
     if (!customerEmail || typeof customerEmail !== 'string') {
       console.warn('[SECURITY] Missing or invalid customerEmail');
@@ -399,10 +411,18 @@ Deno.serve(async (req) => {
       requestBody.payment_note = `Ref: ${orderNumber}`;
     }
 
-    // --- REQUEST LOGGING (server-side only, never sent to Square) ---
+    // --- CHARGEBACK EVIDENCE LOG (server-side only, never sent to Square) ---
+    // This log is your evidence package for dispute defense
     const catalogCount = resolvedItems.filter(i => i.source === 'catalog').length;
     const clientCount = resolvedItems.filter(i => i.source === 'client').length;
     console.log(`[CHECKOUT] email=${customerEmail} | items=${resolvedItems.length} (${catalogCount} catalog, ${clientCount} client-priced) | subtotal=$${subtotal} | discount=$${discount.discountAmount} (${promoCode || 'none'}) | shipping=$${serverShipping} | total=$${finalTotal} | order=${orderNumber || 'N/A'}`);
+    console.log(`[EVIDENCE] order=${orderNumber || 'N/A'} | ip=${clientIP} | consent_at=${consentTimestamp || 'N/A'} | consent_ver=${consentVersion || 'N/A'} | ua=${clientUserAgent || serverUserAgent} | screen=${clientScreen || 'N/A'} | tz=${clientTimezone || 'N/A'} | lang=${clientLanguage || 'N/A'}`);
+    if (shippingAddr) {
+      console.log(`[EVIDENCE][SHIPPING] order=${orderNumber || 'N/A'} | ${shippingAddr.address || ''}, ${shippingAddr.city || ''}, ${shippingAddr.state || ''} ${shippingAddr.zip || ''} ${shippingAddr.country || ''}`);
+    }
+    if (billingAddr) {
+      console.log(`[EVIDENCE][BILLING] order=${orderNumber || 'N/A'} | ${billingAddr.address || ''}, ${billingAddr.city || ''}, ${billingAddr.state || ''} ${billingAddr.zip || ''} ${billingAddr.country || ''}`);
+    }
 
     // --- Call Square API ---
     const squareRes = await fetch(SQUARE_API_URL, {
