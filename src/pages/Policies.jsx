@@ -28,12 +28,17 @@ Testing is performed by independent accredited laboratories to ensure accuracy a
 We do not ship internationally at this time.`
     },
     {
-      title: 'Returns & Refunds',
-      content: `Products must be returned unopened in original packaging for refunds. Return requests must be made within 14 days of purchase. All sales of research compounds are final once shipped, unless the item arrives damaged.
+      title: 'Returns, Refunds & Exchanges',
+      content: `Due to the sensitive nature of research compounds and the potential for degradation once shipped, ALL SALES ARE FINAL. We do not offer refunds or accept returns under any circumstances.
 
-Items damaged during shipping are replaced at no cost. Please contact us immediately with photos of damage for processing.
+We understand that shipping damage can occur. If your order arrives damaged, we offer a one-time exchange for the same product at no additional cost. To qualify for a damage exchange:
+• You must contact us within 48 hours of delivery
+• You must provide clear photos of the damaged product and packaging
+• The original shipping label and packaging must be retained
 
-To request a return or report an issue, email jake@redhelixresearch.com with your order number and a description of the problem. Most issues are resolved within 24 hours.`
+To report a damaged shipment, email jake@redhelixresearch.com with your order number, photos of the damage, and a description of the issue. Exchanges are typically processed within 1-2 business days.
+
+By placing an order, you acknowledge and agree to this no-refund, no-return policy.`
     },
     {
       title: 'Payment Disputes & Chargebacks',

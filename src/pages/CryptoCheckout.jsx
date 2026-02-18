@@ -635,11 +635,10 @@ export default function CryptoCheckout() {
                             </p>
 
                             <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Refund & Return Policy</h4>
+                              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">No Refund / No Return Policy</h4>
                               <ul className="text-xs text-slate-600 space-y-1.5 leading-relaxed">
-                                <li>• Returns accepted within <strong>14 days</strong> — items must be unopened in original packaging</li>
-                                <li>• Damaged items replaced at no cost — contact us with photos</li>
-                                <li>• <strong>All sales are final once shipped</strong> unless item arrives damaged</li>
+                                <li>• <strong>All sales are final — no refunds or returns</strong> due to potential degradation of research materials</li>
+                                <li>• Damaged shipments are eligible for a <strong>one-time exchange</strong> — contact us within 48 hours with photos</li>
                                 <li>• Please contact <strong>jake@redhelixresearch.com</strong> to resolve any issues <strong>before</strong> contacting your bank</li>
                               </ul>
                             </div>
@@ -664,7 +663,7 @@ export default function CryptoCheckout() {
                                 className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626] flex-shrink-0"
                               />
                               <span className="text-xs text-slate-700 font-semibold leading-relaxed">
-                                I agree to the <a href="/Policies" target="_blank" className="text-[#dc2626] underline">refund policy</a> and understand that all sales of research compounds are final once shipped. I will contact Red Helix Research support before initiating any payment dispute.
+                                I agree to the <a href="/Policies" target="_blank" className="text-[#dc2626] underline">no-refund policy</a> and understand that all sales are final with no refunds or returns. Exchanges are available only for damaged shipments. I will contact Red Helix Research support before initiating any payment dispute.
                               </span>
                             </label>
                           </div>
@@ -1187,8 +1186,8 @@ export default function CryptoCheckout() {
 <tr>
 <td style="padding:16px 40px;">
   <div style="background-color:#f1f5f9;border-radius:10px;padding:14px 16px;">
-    <p style="color:#64748b;font-size:11px;font-weight:700;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:0.5px;">Refund & Dispute Policy</p>
-    <p style="color:#94a3b8;font-size:11px;line-height:1.6;margin:0;">Returns accepted within 14 days (unopened, original packaging). All sales are final once shipped unless item arrives damaged. If you have any issues with your order, please contact us at <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;font-weight:700;">jake@redhelixresearch.com</a> <strong>before</strong> contacting your bank — we resolve most issues within 24 hours.</p>
+    <p style="color:#64748b;font-size:11px;font-weight:700;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:0.5px;">No Refund Policy</p>
+    <p style="color:#94a3b8;font-size:11px;line-height:1.6;margin:0;">All sales are final — no refunds or returns due to potential degradation of research materials. We offer exchanges for damaged shipments only (contact us within 48 hours with photos). If you have any issues, please contact us at <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;font-weight:700;">jake@redhelixresearch.com</a> <strong>before</strong> contacting your bank — we resolve most issues within 24 hours.</p>
   </div>
 </td>
 </tr>
