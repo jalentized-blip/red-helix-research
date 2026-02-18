@@ -12,11 +12,11 @@ const API_BASE = 'https://api.github.com';
 const PAT_STORAGE_KEY = 'rdr_github_pat';
 
 /**
- * Get the GitHub token — checks env var first, then localStorage.
- * Resolved dynamically each call so admin can set it at runtime.
+ * Get the GitHub token from localStorage (set by admin at runtime).
+ * NOTE: Never use VITE_ env vars for secrets — they get bundled into the client JS.
  */
 function getToken() {
-  return import.meta.env.VITE_GITHUB_PAT || localStorage.getItem(PAT_STORAGE_KEY) || '';
+  return localStorage.getItem(PAT_STORAGE_KEY) || '';
 }
 
 /** Save a GitHub PAT to localStorage (for admin setup on deployed site). */

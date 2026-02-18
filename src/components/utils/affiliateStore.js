@@ -258,14 +258,20 @@ export async function loadActiveAffiliateCodes() {
           discount: (aff.discount_percent || 15) / 100,
           label: `${aff.discount_percent || 15}% off`,
           isAffiliate: true,
-          affiliateEmail: aff.affiliate_email,
           affiliateId: aff.id,
-          affiliateName: aff.affiliate_name,
+          // PII (email, name) not included here — resolved at order time via getAffiliateById()
         };
       }
     });
   }
   return codes;
+}
+
+/** Look up full affiliate details by ID (for order recording — keeps PII out of promo flow). */
+export async function getAffiliateById(affiliateId) {
+  if (!affiliateId) return null;
+  const affiliates = await listAffiliates();
+  return affiliates.find(a => a.id === affiliateId) || null;
 }
 
 // ─── UPDATE AFFILIATE TOTALS AFTER AN ORDER ───

@@ -298,9 +298,10 @@ Deno.serve(async (req) => {
 
       console.log(`[SECURITY][TURNSTILE_OK] email=${customerEmail} ip=${clientIP} action=${turnstileData.action || 'n/a'}`);
     } catch (turnstileErr) {
-      // If Turnstile API is down, log but allow the request through (fail-open)
-      // This prevents checkout from breaking if Cloudflare has an outage
+      // Fail-closed: reject the request if we can't verify the token
+      // This prevents bots from bypassing verification during Cloudflare outages
       console.error(`[SECURITY][TURNSTILE_ERROR] email=${customerEmail} ip=${clientIP} error=${turnstileErr.message}`);
+      return Response.json({ error: 'Security verification unavailable. Please try again in a moment.' }, { status: 503 });
     }
 
     // --- Rate limiting ---

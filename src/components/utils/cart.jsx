@@ -64,7 +64,7 @@ const STATIC_PROMO_CODES = {
   'INDO88': { discount: 0.10, label: '10% off' },
 };
 
-import { loadActiveAffiliateCodes } from '@/components/utils/affiliateStore';
+import { loadActiveAffiliateCodes, getAffiliateById } from '@/components/utils/affiliateStore';
 
 // Cache for affiliate codes loaded from DB or localStorage
 let affiliateCodesCache = null;
@@ -131,14 +131,12 @@ export const getDiscountAmount = (code, total) => {
 export const addPromoCode = (code) => {
   if (validatePromoCode(code)) {
     localStorage.setItem('rdr_promo', code.toUpperCase());
-    // Also store affiliate info if it's an affiliate code
+    // Store minimal affiliate reference (no PII — resolved at order time)
     const promo = validatePromoCode(code);
     if (promo?.isAffiliate) {
       localStorage.setItem('rdr_affiliate', JSON.stringify({
         code: code.toUpperCase(),
-        email: promo.affiliateEmail,
         id: promo.affiliateId,
-        name: promo.affiliateName,
       }));
     } else {
       localStorage.removeItem('rdr_affiliate');
@@ -157,9 +155,7 @@ export const addPromoCodeAsync = async (code, base44) => {
     if (promo.isAffiliate) {
       localStorage.setItem('rdr_affiliate', JSON.stringify({
         code: code.toUpperCase(),
-        email: promo.affiliateEmail,
         id: promo.affiliateId,
-        name: promo.affiliateName,
       }));
     } else {
       localStorage.removeItem('rdr_affiliate');
@@ -181,6 +177,26 @@ export const getAffiliateInfo = () => {
   } catch {
     return null;
   }
+};
+
+/** Resolve full affiliate info (including PII) at order time from affiliate list. */
+export const resolveAffiliateInfo = async () => {
+  const basic = getAffiliateInfo();
+  if (!basic?.id) return basic;
+  try {
+    const full = await getAffiliateById(basic.id);
+    if (full) {
+      return {
+        code: basic.code,
+        id: basic.id,
+        email: full.affiliate_email,
+        name: full.affiliate_name,
+      };
+    }
+  } catch (err) {
+    console.warn('Failed to resolve affiliate details:', err);
+  }
+  return basic;
 };
 
 export const removePromoCode = () => {

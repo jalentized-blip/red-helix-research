@@ -88,10 +88,14 @@ export default function Login() {
       );
       
       setSuccess('Login successful! Redirecting...');
-      
+
       setTimeout(() => {
         const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
-        navigate(returnUrl || createPageUrl('Account'));
+        // Validate returnUrl is a safe relative path (prevent open redirect attacks)
+        const safeUrl = (returnUrl && returnUrl.startsWith('/') && !returnUrl.startsWith('//'))
+          ? returnUrl
+          : createPageUrl('Account');
+        navigate(safeUrl);
       }, 1000);
       
     } catch (err) {
@@ -149,11 +153,8 @@ export default function Login() {
       
     } catch (err) {
       console.error('Registration error:', err);
-      if (err.message?.includes('already exists') || err.status === 409) {
-        setError('An account with this email already exists. Try logging in instead.');
-      } else {
-        setError(err.message || 'Registration failed. Please try again.');
-      }
+      // Generic message to prevent email enumeration attacks
+      setError('Registration could not be completed. If you already have an account, try signing in instead.');
     } finally {
       setLoading(false);
     }

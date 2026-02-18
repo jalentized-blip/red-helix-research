@@ -32,6 +32,7 @@ import {
   getPromoCode,
   getDiscountAmount,
   getAffiliateInfo,
+  resolveAffiliateInfo,
   validatePromoCode,
   loadAffiliateCodes
 } from '@/components/utils/cart';
@@ -366,7 +367,7 @@ export default function CryptoCheckout() {
         ? `${customerInfo.firstName} ${customerInfo.lastName}`
         : customerInfo?.name || 'Guest Customer';
 
-      const affiliateInfo = getAffiliateInfo();
+      const affiliateInfo = await resolveAffiliateInfo();
 
       // Update stock
       const products = await base44.entities.Product.list();
@@ -1091,6 +1092,7 @@ export default function CryptoCheckout() {
 
                               // 2. Create order record with Square payment link evidence
                               try {
+                                const squareAffiliateInfo = await resolveAffiliateInfo();
                                 const orderPayload = {
                                   order_number: orderNumberRef.current,
                                   customer_email: squareEmail.trim(),
@@ -1119,10 +1121,10 @@ export default function CryptoCheckout() {
                                     country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
                                   },
                                 };
-                                if (affiliateInfo) {
-                                  orderPayload.affiliate_code = affiliateInfo.code;
-                                  orderPayload.affiliate_email = affiliateInfo.email;
-                                  orderPayload.affiliate_name = affiliateInfo.name;
+                                if (squareAffiliateInfo) {
+                                  orderPayload.affiliate_code = squareAffiliateInfo.code;
+                                  orderPayload.affiliate_email = squareAffiliateInfo.email;
+                                  orderPayload.affiliate_name = squareAffiliateInfo.name;
                                   orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
                                 }
                                 await base44.entities.Order.create(orderPayload);
