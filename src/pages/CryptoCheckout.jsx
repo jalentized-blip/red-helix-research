@@ -936,7 +936,7 @@ export default function CryptoCheckout() {
                             setSquareSending(true);
                             try {
                               // 1. Create dynamic Square checkout link via serverless function
-                              const squareRes = await base44.functions.execute('createSquareCheckout', {
+                              const squareRes = await base44.functions.invoke('createSquareCheckout', {
                                 items: cartItems.map(item => ({
                                   productName: item.productName,
                                   specification: item.specification,
@@ -951,11 +951,13 @@ export default function CryptoCheckout() {
                                 shippingCost: SHIPPING_COST,
                               });
 
-                              if (!squareRes?.checkoutUrl) {
-                                throw new Error(squareRes?.error || 'Failed to create checkout link');
+                              // Handle both direct response and {data: ...} wrapper
+                              const resData = squareRes?.data || squareRes;
+                              if (!resData?.checkoutUrl) {
+                                throw new Error(resData?.error || 'Failed to create checkout link');
                               }
 
-                              const checkoutUrl = squareRes.checkoutUrl;
+                              const checkoutUrl = resData.checkoutUrl;
 
                               // 2. Build and send email with dynamic checkout URL
                               const itemListHtml = cartItems.map(item =>
