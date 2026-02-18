@@ -577,7 +577,7 @@ export default function CryptoCheckout() {
                       <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
                         Bank Transfer (ACH)
                       </h3>
-                      <p className="text-sm text-slate-500 font-medium">Connect your bank securely via Plaid</p>
+                      <p className="text-sm text-slate-500 font-medium">Connect your bank securely</p>
                     </div>
                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                   </button>
@@ -939,13 +939,14 @@ export default function CryptoCheckout() {
                       <LinkIcon className="w-8 h-8 text-blue-600" />
                     </div>
                     <h2 className="text-2xl font-black text-slate-900 mb-3 uppercase tracking-tight">Bank Transfer</h2>
-                    <p className="text-slate-500 font-medium mb-8 text-sm">Connect your bank account securely via Plaid.</p>
+                    <p className="text-slate-500 font-medium mb-8 text-sm">Connect your bank account securely.</p>
 
                     <PlaidACHCheckout
                       order={{
                         order_number: orderNumberRef.current,
                         total_amount: totalUSD,
                         items: cartItems,
+                        customer_email: squareEmail || customerInfo?.email || '',
                       }}
                       onSuccess={async (data) => {
                         const paymentId = data?.payment_id || data?.id || `ACH-${Date.now()}`;
