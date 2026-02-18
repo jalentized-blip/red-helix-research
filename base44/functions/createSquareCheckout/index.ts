@@ -20,20 +20,24 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Missing or empty items array', receivedKeys: Object.keys(body || {}) }, { status: 400 });
     }
 
-    // Build Square line items from cart items — use simple dash instead of em-dash for safety
-    const lineItems = items.map((item: any) => ({
-      name: `${item.productName || 'Item'}${item.specification ? ' - ' + item.specification : ''}`,
-      quantity: String(item.quantity || 1),
-      base_price_money: {
-        amount: Math.round((item.price || 0) * 100), // Convert dollars to cents
-        currency: 'USD',
-      },
-    }));
+    // Build Square line items — abbreviate product names for privacy
+    const lineItems = items.map((item: any) => {
+      const abbrev = (item.productName || 'IT').substring(0, 2).toUpperCase();
+      const randNum = Math.floor(1000 + Math.random() * 9000);
+      return {
+        name: `${abbrev}-${randNum}`,
+        quantity: String(item.quantity || 1),
+        base_price_money: {
+          amount: Math.round((item.price || 0) * 100),
+          currency: 'USD',
+        },
+      };
+    });
 
     // Add shipping as a line item if present
     if (shippingCost && shippingCost > 0) {
       lineItems.push({
-        name: 'Shipping & Handling',
+        name: 'S&H',
         quantity: '1',
         base_price_money: {
           amount: Math.round(shippingCost * 100),
@@ -52,7 +56,7 @@ Deno.serve(async (req) => {
     if (discountAmount && discountAmount > 0) {
       orderObj.discounts = [
         {
-          name: promoCode ? `Promo: ${promoCode}` : 'Discount',
+          name: 'Discount',
           amount_money: {
             amount: Math.round(discountAmount * 100),
             currency: 'USD',
