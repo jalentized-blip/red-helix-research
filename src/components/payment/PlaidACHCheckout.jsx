@@ -17,7 +17,7 @@ const GREEN_MONEY_FUNCTION_URL = 'https://red-helix-research-f58be972.base44.app
 const GREEN_PLAID_BASE_URL = 'https://greenbyphone.com/Plaid';
 const GREEN_CLIENT_ID = '118636'; // Public — only used for iframe URL construction
 
-export default function PlaidACHCheckout({ order, onSuccess, onError }) {
+export default function PlaidACHCheckout({ order, billingInfo, onSuccess, onError }) {
   // Flow state: idle | creating_customer | plaid_iframe | confirming_bank | ready_to_pay | processing
   const [step, setStep] = useState('idle');
   const [loading, setLoading] = useState(false);
@@ -114,6 +114,12 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           email: order.customer_email || '',
+          phone: billingInfo?.phone || '',
+          address: billingInfo?.address || '',
+          city: billingInfo?.city || '',
+          state: billingInfo?.state || '',
+          zip: billingInfo?.zip || '',
+          country: billingInfo?.country || 'US',
         }),
       });
       const data = await res.json();

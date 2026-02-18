@@ -189,7 +189,7 @@ async function verifyTurnstile(token: string, clientIP: string): Promise<{ succe
 // even if empty. NickName, BankAccountCompanyName, and PhoneWork are also
 // required despite being listed as "optional" in the docs.
 async function handleCreateCustomer(body: any, clientIP: string): Promise<Response> {
-  const { firstName, lastName, email } = body;
+  const { firstName, lastName, email, phone, address, city, state, zip, country } = body;
 
   if (!firstName || typeof firstName !== 'string' || !firstName.trim()) {
     return Response.json({ error: 'First name is required.' }, { status: 400 });
@@ -201,26 +201,34 @@ async function handleCreateCustomer(body: any, clientIP: string): Promise<Respon
   // Generate a unique nickname (required by Green.money)
   const nickname = `${firstName.trim()}${lastName.trim()}_${Date.now()}`;
 
+  // Format phone for Green.money (requires 999-999-9999 format)
+  const rawPhone = (phone || '').replace(/\D/g, '');
+  const formattedPhone = rawPhone.length === 10
+    ? `${rawPhone.slice(0, 3)}-${rawPhone.slice(3, 6)}-${rawPhone.slice(6)}`
+    : rawPhone.length === 11 && rawPhone.startsWith('1')
+      ? `${rawPhone.slice(1, 4)}-${rawPhone.slice(4, 7)}-${rawPhone.slice(7)}`
+      : '100-000-0000'; // Fallback if no valid phone provided
+
   try {
     // Green.money requires ALL parameter elements present in XML, even if empty.
-    // NickName, PhoneWork, and BankAccountCompanyName are effectively required.
+    // NickName, PhoneWork, BankAccountCompanyName, and BankAccountAddress are effectively required.
     const responseXml = await callGreenMoney('CreateCustomer', {
       Client_ID: GREEN_CLIENT_ID,
       ApiPassword: GREEN_API_PASSWORD,
       NickName: nickname,
       NameFirst: firstName.trim(),
       NameLast: lastName.trim(),
-      PhoneWork: '100-000-0000',
+      PhoneWork: formattedPhone,
       PhoneWorkExtension: '',
       EmailAddress: email ? String(email).trim() : '',
       MerchantAccountNumber: '',
-      BankAccountCompanyName: 'N/A',
-      BankAccountAddress1: 'N/A',
+      BankAccountCompanyName: `${firstName.trim()} ${lastName.trim()}`,
+      BankAccountAddress1: (address || '').trim() || 'N/A',
       BankAccountAddress2: '',
-      BankAccountCity: 'N/A',
-      BankAccountState: 'CA',
-      BankAccountZip: '00000',
-      BankAccountCountry: 'US',
+      BankAccountCity: (city || '').trim() || 'N/A',
+      BankAccountState: (state || '').trim() || 'CA',
+      BankAccountZip: (zip || '').trim() || '00000',
+      BankAccountCountry: (country || '').trim() || 'US',
       BankName: '',
       RoutingNumber: '',
       AccountNumber: '',

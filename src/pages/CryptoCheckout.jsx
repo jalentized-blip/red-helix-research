@@ -948,6 +948,14 @@ export default function CryptoCheckout() {
                         items: cartItems,
                         customer_email: squareEmail || customerInfo?.email || '',
                       }}
+                      billingInfo={{
+                        phone: customerInfo?.phone || '',
+                        address: customerInfo?.address || customerInfo?.shippingAddress || '',
+                        city: customerInfo?.city || customerInfo?.shippingCity || '',
+                        state: customerInfo?.state || customerInfo?.shippingState || '',
+                        zip: customerInfo?.zip || customerInfo?.shippingZip || '',
+                        country: customerInfo?.country || customerInfo?.shippingCountry || 'US',
+                      }}
                       onSuccess={async (data) => {
                         const paymentId = data?.payment_id || data?.id || `ACH-${Date.now()}`;
                         await processSuccessfulPayment(paymentId, 'bank_ach');
