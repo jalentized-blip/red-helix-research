@@ -1061,7 +1061,11 @@ export default function CryptoCheckout() {
 <tr>
 <td style="padding:32px 40px 0 40px;">
   <p style="color:#334155;font-size:15px;font-weight:600;margin:0 0 6px 0;">Hi ${customerInfo?.firstName || 'there'},</p>
-  <p style="color:#64748b;font-size:14px;line-height:1.6;margin:0 0 24px 0;">Here's your secure payment link for your Red Helix Research order. Click the button below to complete your purchase.</p>
+  <p style="color:#64748b;font-size:14px;line-height:1.6;margin:0 0 16px 0;">Here's your secure payment link for your Red Helix Research order. Click the button below to complete your purchase.</p>
+  <div style="background-color:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin:0 0 24px 0;">
+    <p style="color:#92400e;font-size:13px;line-height:1.6;margin:0 0 8px 0;font-weight:700;">Yeah, we know... a payment link email isn't exactly the checkout experience of the future.</p>
+    <p style="color:#a16207;font-size:12px;line-height:1.6;margin:0;">We're a small team laser-focused on bringing you research-grade peptides at fair prices — and right now that means our checkout is a little unconventional. We're actively building out <strong style="color:#92400e;">direct credit card processing</strong> and <strong style="color:#92400e;">ACH bank payments</strong> so you can pay right on-site without the extra step. Until then, this secure link gets the job done, and your patience means the world to us.</p>
+  </div>
 </td>
 </tr>
 <tr>
