@@ -936,7 +936,7 @@ export default function CryptoCheckout() {
                             setSquareSending(true);
                             try {
                               // 1. Create dynamic Square checkout link via serverless function
-                              const invokePayload = {
+                              const squareRes = await base44.functions.invoke('createSquareCheckout', {
                                 items: cartItems.map(item => ({
                                   productName: item.productName,
                                   specification: item.specification,
@@ -949,24 +949,12 @@ export default function CryptoCheckout() {
                                 promoCode: promoCode || undefined,
                                 discountAmount: discount > 0 ? discount : undefined,
                                 shippingCost: SHIPPING_COST,
-                              };
-                              console.log('Invoking createSquareCheckout with:', JSON.stringify(invokePayload));
-
-                              let squareRes;
-                              try {
-                                squareRes = await base44.functions.invoke('createSquareCheckout', invokePayload);
-                              } catch (invokeErr) {
-                                console.error('invoke() threw:', invokeErr);
-                                console.error('invoke() error details:', JSON.stringify(invokeErr, Object.getOwnPropertyNames(invokeErr)));
-                                throw new Error(invokeErr?.response?.data?.error || invokeErr?.message || 'Function call failed');
-                              }
-
-                              console.log('createSquareCheckout response:', JSON.stringify(squareRes));
+                              });
 
                               // Handle both direct response and {data: ...} wrapper
                               const resData = squareRes?.data || squareRes;
                               if (!resData?.checkoutUrl) {
-                                throw new Error(resData?.error || JSON.stringify(resData) || 'Failed to create checkout link');
+                                throw new Error(resData?.error || 'Failed to create checkout link');
                               }
 
                               const checkoutUrl = resData.checkoutUrl;
