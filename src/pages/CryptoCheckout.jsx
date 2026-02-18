@@ -935,29 +935,30 @@ export default function CryptoCheckout() {
                             setSquareError('');
                             setSquareSending(true);
                             try {
-                              // 1. Create dynamic Square checkout link via serverless function
-                              const squareRes = await base44.functions.invoke('createSquareCheckout', {
-                                items: cartItems.map(item => ({
-                                  productName: item.productName,
-                                  specification: item.specification,
-                                  price: item.price,
-                                  quantity: item.quantity,
-                                })),
-                                customerEmail: squareEmail.trim(),
-                                customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : undefined,
-                                orderNumber: orderNumberRef.current,
-                                promoCode: promoCode || undefined,
-                                discountAmount: discount > 0 ? discount : undefined,
-                                shippingCost: SHIPPING_COST,
-                              });
-
-                              // Handle both direct response and {data: ...} wrapper
-                              const resData = squareRes?.data || squareRes;
-                              if (!resData?.checkoutUrl) {
-                                throw new Error(resData?.error || 'Failed to create checkout link');
+                              // 1. Try dynamic Square checkout link, fall back to static link
+                              let checkoutUrl = 'https://square.link/u/ry5pdEKS'; // fallback
+                              try {
+                                const squareRes = await base44.functions.invoke('createSquareCheckout', {
+                                  items: cartItems.map(item => ({
+                                    productName: item.productName,
+                                    specification: item.specification,
+                                    price: item.price,
+                                    quantity: item.quantity,
+                                  })),
+                                  customerEmail: squareEmail.trim(),
+                                  customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : undefined,
+                                  orderNumber: orderNumberRef.current,
+                                  promoCode: promoCode || undefined,
+                                  discountAmount: discount > 0 ? discount : undefined,
+                                  shippingCost: SHIPPING_COST,
+                                });
+                                const resData = squareRes?.data || squareRes;
+                                if (resData?.checkoutUrl) {
+                                  checkoutUrl = resData.checkoutUrl;
+                                }
+                              } catch (fnErr) {
+                                console.warn('Dynamic Square checkout failed, using static link:', fnErr?.message);
                               }
-
-                              const checkoutUrl = resData.checkoutUrl;
 
                               // 2. Build and send email with dynamic checkout URL
                               const itemListHtml = cartItems.map(item =>
