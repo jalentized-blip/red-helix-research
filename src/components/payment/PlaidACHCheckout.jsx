@@ -14,7 +14,7 @@ import ConsentModal from '@/components/financial/ConsentModal';
 import TurnstileWidget from '@/components/TurnstileWidget';
 
 const GREEN_MONEY_FUNCTION_URL = 'https://red-helix-research-f58be972.base44.app/functions/greenMoneyCheckout';
-const GREEN_PLAID_BASE_URL = 'https://greenbyphone.com/Secure/GreenPlaid.aspx';
+const GREEN_PLAID_BASE_URL = 'https://greenbyphone.com/Plaid';
 const GREEN_CLIENT_ID = '118636'; // Public — only used for iframe URL construction
 
 export default function PlaidACHCheckout({ order, onSuccess, onError }) {
