@@ -935,6 +935,29 @@ export default function CryptoCheckout() {
                             setSquareError('');
                             setSquareSending(true);
                             try {
+                              // 1. Create dynamic Square checkout link via serverless function
+                              const squareRes = await base44.functions.execute('createSquareCheckout', {
+                                items: cartItems.map(item => ({
+                                  productName: item.productName,
+                                  specification: item.specification,
+                                  price: item.price,
+                                  quantity: item.quantity,
+                                })),
+                                customerEmail: squareEmail.trim(),
+                                customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : undefined,
+                                orderNumber: orderNumberRef.current,
+                                promoCode: promoCode || undefined,
+                                discountAmount: discount > 0 ? discount : undefined,
+                                shippingCost: SHIPPING_COST,
+                              });
+
+                              if (!squareRes?.checkoutUrl) {
+                                throw new Error(squareRes?.error || 'Failed to create checkout link');
+                              }
+
+                              const checkoutUrl = squareRes.checkoutUrl;
+
+                              // 2. Build and send email with dynamic checkout URL
                               const itemListHtml = cartItems.map(item =>
                                 `<tr>
                                   <td style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${item.productName}</td>
@@ -986,7 +1009,7 @@ export default function CryptoCheckout() {
 </tr>
 <tr>
 <td style="padding:28px 40px;" align="center">
-  <a href="https://square.link/u/ry5pdEKS" target="_blank" style="display:inline-block;background-color:#dc2626;color:#ffffff;font-size:16px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:12px;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(220,38,38,0.3);">
+  <a href="${checkoutUrl}" target="_blank" style="display:inline-block;background-color:#dc2626;color:#ffffff;font-size:16px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:12px;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(220,38,38,0.3);">
     Complete Payment
   </a>
   <p style="color:#94a3b8;font-size:11px;margin:12px 0 0 0;font-weight:500;">Powered by Square — secure card processing</p>
@@ -997,7 +1020,7 @@ export default function CryptoCheckout() {
   <div style="background-color:#f8fafc;border-radius:10px;padding:16px;text-align:center;">
     <p style="color:#64748b;font-size:12px;line-height:1.5;margin:0;">
       If the button above doesn't work, copy and paste this link into your browser:<br/>
-      <a href="https://square.link/u/ry5pdEKS" style="color:#dc2626;font-weight:700;word-break:break-all;">https://square.link/u/ry5pdEKS</a>
+      <a href="${checkoutUrl}" style="color:#dc2626;font-weight:700;word-break:break-all;">${checkoutUrl}</a>
     </p>
   </div>
 </td>
@@ -1021,8 +1044,8 @@ export default function CryptoCheckout() {
 
                               setSquareSent(true);
                             } catch (err) {
-                              console.error('Square email send error:', err);
-                              setSquareError(err?.message || 'Failed to send email. Please try again.');
+                              console.error('Square checkout error:', err);
+                              setSquareError(err?.message || 'Failed to create checkout. Please try again.');
                             } finally {
                               setSquareSending(false);
                             }
@@ -1031,7 +1054,7 @@ export default function CryptoCheckout() {
                           className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-6 shadow-lg shadow-[#dc2626]/20 disabled:opacity-50"
                         >
                           {squareSending ? (
-                            <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Sending...</>
+                            <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Creating Checkout...</>
                           ) : (
                             <><Send className="w-4 h-4 mr-2" /> Send Payment Link</>
                           )}
