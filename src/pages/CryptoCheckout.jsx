@@ -18,6 +18,9 @@ import {
   Lock,
   LinkIcon,
   Info,
+  CreditCard,
+  Mail,
+  Send,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -173,7 +176,7 @@ export default function CryptoCheckout() {
     orderNumberRef.current = `RDR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
   }
 
-  // Flow: 'select_method' | 'pick_coin' | 'send_payment' | 'confirm' | 'bank_ach' | 'completed' | 'failed'
+  // Flow: 'select_method' | 'pick_coin' | 'send_payment' | 'confirm' | 'bank_ach' | 'square_payment' | 'completed' | 'failed'
   const [step, setStep] = useState('select_method');
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [cryptoAmount, setCryptoAmount] = useState(null);
@@ -191,6 +194,12 @@ export default function CryptoCheckout() {
   const [copiedAmount, setCopiedAmount] = useState(false);
   const [timeLeft, setTimeLeft] = useState(900);
   const [showNewTooltip, setShowNewTooltip] = useState(false);
+
+  // Square payment link
+  const [squareEmail, setSquareEmail] = useState('');
+  const [squareSending, setSquareSending] = useState(false);
+  const [squareSent, setSquareSent] = useState(false);
+  const [squareError, setSquareError] = useState('');
 
   const txVerifyRef = useRef(null);
 
@@ -250,6 +259,7 @@ export default function CryptoCheckout() {
       setCartItems(cart);
       setCustomerInfo(customer);
       setPromoCode(promo);
+      if (customer?.email) setSquareEmail(customer.email);
     };
     init();
   }, [navigate]);
@@ -565,6 +575,23 @@ export default function CryptoCheckout() {
                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                   </button>
 
+                  {/* Square payment link option */}
+                  <button
+                    onClick={() => setStep('square_payment')}
+                    className="w-full group p-6 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-[#dc2626] hover:shadow-lg transition-all flex items-center gap-5"
+                  >
+                    <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <CreditCard className="w-7 h-7 text-[#dc2626]" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
+                        Pay with Card (Square)
+                      </h3>
+                      <p className="text-sm text-slate-500 font-medium">We'll email you a secure payment link</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
+                  </button>
+
                   {/* Security note */}
                   <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
                     <Shield className="w-5 h-5 text-[#dc2626] flex-shrink-0" />
@@ -841,6 +868,226 @@ export default function CryptoCheckout() {
                         <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">256-bit Encrypted</span>
                       </div>
                     </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ───── SQUARE PAYMENT LINK ───── */}
+              {step === 'square_payment' && (
+                <motion.div key="square" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
+                  <button onClick={() => { setStep('select_method'); setSquareSent(false); setSquareError(''); }} className="flex items-center gap-1 text-sm text-slate-400 hover:text-[#dc2626] font-bold mb-6 transition-colors">
+                    <ArrowLeft className="w-4 h-4" /> Back
+                  </button>
+
+                  <div className="max-w-md mx-auto text-center">
+                    <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                      <CreditCard className="w-8 h-8 text-[#dc2626]" />
+                    </div>
+
+                    {!squareSent ? (
+                      <>
+                        <h2 className="text-2xl font-black text-slate-900 mb-3 uppercase tracking-tight">Pay with Card</h2>
+                        <p className="text-slate-500 font-medium mb-8 text-sm">
+                          We'll send a secure Square payment link to your email. Click the link to complete your purchase with any debit or credit card.
+                        </p>
+
+                        {/* Order total */}
+                        <div className="p-4 bg-slate-50 rounded-xl mb-6">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Order Total</span>
+                            <span className="text-2xl font-black text-slate-900">${totalUSD.toFixed(2)}</span>
+                          </div>
+                        </div>
+
+                        {/* Email input */}
+                        <div className="text-left mb-6">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                            Email Address
+                          </label>
+                          <div className="relative">
+                            <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                            <input
+                              type="email"
+                              value={squareEmail}
+                              onChange={(e) => setSquareEmail(e.target.value)}
+                              placeholder="your@email.com"
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-[#dc2626] transition-all"
+                            />
+                          </div>
+                          <p className="text-[10px] text-slate-400 mt-2 font-medium">
+                            We'll send your payment link to this email address.
+                          </p>
+                        </div>
+
+                        {squareError && (
+                          <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl mb-4 text-left">
+                            <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                            <p className="text-xs text-red-600 font-bold">{squareError}</p>
+                          </div>
+                        )}
+
+                        <Button
+                          onClick={async () => {
+                            if (!squareEmail?.trim() || !squareEmail.includes('@')) {
+                              setSquareError('Please enter a valid email address.');
+                              return;
+                            }
+                            setSquareError('');
+                            setSquareSending(true);
+                            try {
+                              const itemListHtml = cartItems.map(item =>
+                                `<tr>
+                                  <td style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${item.productName}</td>
+                                  <td style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:12px;color:#94a3b8;text-align:center;">${item.specification || ''}</td>
+                                  <td style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:12px;color:#94a3b8;text-align:center;">x${item.quantity}</td>
+                                  <td style="padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px;color:#0f172a;font-weight:700;text-align:right;">$${(item.price * item.quantity).toFixed(2)}</td>
+                                </tr>`
+                              ).join('');
+
+                              const emailBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#f8fafc;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc;padding:40px 20px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
+<tr>
+<td style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:36px 40px;text-align:center;">
+  <div style="width:50px;height:50px;background-color:#dc2626;border-radius:14px;display:inline-block;line-height:50px;margin-bottom:16px;">
+    <span style="color:#ffffff;font-size:20px;font-weight:900;letter-spacing:-1px;">RH</span>
+  </div>
+  <h1 style="color:#ffffff;font-size:24px;font-weight:800;margin:0 0 6px 0;letter-spacing:-0.5px;">Your Payment Link</h1>
+  <p style="color:#94a3b8;font-size:12px;font-weight:600;margin:0;letter-spacing:1px;text-transform:uppercase;">Red Helix Research</p>
+</td>
+</tr>
+<tr>
+<td style="padding:32px 40px 0 40px;">
+  <p style="color:#334155;font-size:15px;font-weight:600;margin:0 0 6px 0;">Hi ${customerInfo?.firstName || 'there'},</p>
+  <p style="color:#64748b;font-size:14px;line-height:1.6;margin:0 0 24px 0;">Here's your secure payment link for your Red Helix Research order. Click the button below to complete your purchase.</p>
+</td>
+</tr>
+<tr>
+<td style="padding:0 40px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+    <tr style="background-color:#f8fafc;">
+      <th style="padding:10px 12px;text-align:left;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Item</th>
+      <th style="padding:10px 8px;text-align:center;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Spec</th>
+      <th style="padding:10px 8px;text-align:center;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Qty</th>
+      <th style="padding:10px 12px;text-align:right;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Price</th>
+    </tr>
+    ${itemListHtml}
+    <tr style="background-color:#f8fafc;">
+      <td colspan="3" style="padding:12px;font-size:13px;font-weight:800;color:#0f172a;text-transform:uppercase;letter-spacing:0.5px;">Total</td>
+      <td style="padding:12px;font-size:18px;font-weight:900;color:#dc2626;text-align:right;">$${totalUSD.toFixed(2)}</td>
+    </tr>
+  </table>
+</td>
+</tr>
+<tr>
+<td style="padding:28px 40px;" align="center">
+  <a href="https://square.link/u/ry5pdEKS" target="_blank" style="display:inline-block;background-color:#dc2626;color:#ffffff;font-size:16px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:12px;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(220,38,38,0.3);">
+    Complete Payment
+  </a>
+  <p style="color:#94a3b8;font-size:11px;margin:12px 0 0 0;font-weight:500;">Powered by Square — secure card processing</p>
+</td>
+</tr>
+<tr>
+<td style="padding:0 40px 32px 40px;">
+  <div style="background-color:#f8fafc;border-radius:10px;padding:16px;text-align:center;">
+    <p style="color:#64748b;font-size:12px;line-height:1.5;margin:0;">
+      If the button above doesn't work, copy and paste this link into your browser:<br/>
+      <a href="https://square.link/u/ry5pdEKS" style="color:#dc2626;font-weight:700;word-break:break-all;">https://square.link/u/ry5pdEKS</a>
+    </p>
+  </div>
+</td>
+</tr>
+<tr>
+<td style="background-color:#f8fafc;padding:20px 40px;text-align:center;border-top:1px solid #e2e8f0;">
+  <p style="color:#94a3b8;font-size:11px;margin:0;font-weight:500;">Red Helix Research | <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;text-decoration:none;">jake@redhelixresearch.com</a></p>
+</td>
+</tr>
+</table>
+</td></tr></table>
+</body>
+</html>`;
+
+                              await base44.integrations.Core.SendEmail({
+                                from_name: 'Red Helix Research',
+                                to: squareEmail.trim(),
+                                subject: `Your Payment Link — Order $${totalUSD.toFixed(2)}`,
+                                body: emailBody,
+                              });
+
+                              setSquareSent(true);
+                            } catch (err) {
+                              console.error('Square email send error:', err);
+                              setSquareError(err?.message || 'Failed to send email. Please try again.');
+                            } finally {
+                              setSquareSending(false);
+                            }
+                          }}
+                          disabled={squareSending || !squareEmail?.trim()}
+                          className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-6 shadow-lg shadow-[#dc2626]/20 disabled:opacity-50"
+                        >
+                          {squareSending ? (
+                            <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Sending...</>
+                          ) : (
+                            <><Send className="w-4 h-4 mr-2" /> Send Payment Link</>
+                          )}
+                        </Button>
+
+                        <div className="mt-6 flex justify-center gap-4">
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-full">
+                            <ShieldCheck className="w-3 h-3 text-slate-500" />
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Powered by Square</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-full">
+                            <Lock className="w-3 h-3 text-slate-500" />
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Secure Payment</span>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      /* ── Success state ── */
+                      <>
+                        <div className="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                          <CheckCircle2 className="w-10 h-10 text-green-500" />
+                        </div>
+                        <h2 className="text-2xl font-black text-slate-900 mb-3 uppercase tracking-tight">
+                          Payment Link <span className="text-green-500">Sent!</span>
+                        </h2>
+                        <p className="text-slate-500 font-medium mb-2 text-sm">
+                          We've sent a secure payment link to:
+                        </p>
+                        <p className="text-lg font-black text-slate-900 mb-6">{squareEmail}</p>
+
+                        <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl mb-6 text-left">
+                          <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest mb-2">What's Next?</h4>
+                          <ol className="text-sm text-blue-700 font-medium space-y-1.5 list-decimal list-inside">
+                            <li>Check your email inbox (and spam folder)</li>
+                            <li>Click the <strong>"Complete Payment"</strong> button in the email</li>
+                            <li>Enter your card details on the secure Square checkout page</li>
+                            <li>You'll receive an order confirmation once payment is complete</li>
+                          </ol>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            onClick={() => { setSquareSent(false); setSquareError(''); }}
+                            variant="outline"
+                            className="flex-1 border-slate-200 rounded-xl font-black uppercase tracking-widest text-xs py-5"
+                          >
+                            <Mail className="w-4 h-4 mr-2" /> Resend
+                          </Button>
+                          <Link to={createPageUrl('Home')} className="flex-1">
+                            <Button className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-5">
+                              Continue Shopping
+                            </Button>
+                          </Link>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </motion.div>
               )}
