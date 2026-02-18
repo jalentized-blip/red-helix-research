@@ -119,18 +119,27 @@ async function callGreenMoney(endpointName: string, params: Record<string, strin
     method: 'POST',
     headers: {
       'Content-Type': 'text/xml; charset=utf-8',
-      'SOAPAction': `CheckProcessing/${endpointName}`,
+      'SOAPAction': `"CheckProcessing/${endpointName}"`,
     },
     body,
   });
 
+  const text = await response.text();
+
+  // SOAP APIs can return 500 with a fault, but also return 200 with error Result codes.
+  // Check for SOAP Fault in the response body regardless of status code.
+  if (text.includes('soap:Fault') || text.includes('soap:fault')) {
+    const faultString = extractXmlValue(text, 'faultstring') || 'Unknown SOAP fault';
+    console.error(`[GREEN_MONEY][SOAP_FAULT] ${endpointName} status=${response.status} fault=${faultString}`);
+    throw new Error(`Green.money SOAP fault: ${faultString}`);
+  }
+
   if (!response.ok) {
-    const text = await response.text();
     console.error(`[GREEN_MONEY][API_ERROR] ${endpointName} status=${response.status} body=${text.substring(0, 500)}`);
     throw new Error(`Green.money API returned ${response.status}`);
   }
 
-  return await response.text();
+  return text;
 }
 
 // --- Client IP extraction (Cloudflare-aware) ---
@@ -176,6 +185,9 @@ async function verifyTurnstile(token: string, clientIP: string): Promise<{ succe
 // ============================================================================
 
 // --- createCustomer ---
+// Green.money SOAP API requires ALL parameter elements in the XML envelope,
+// even if empty. NickName, BankAccountCompanyName, and PhoneWork are also
+// required despite being listed as "optional" in the docs.
 async function handleCreateCustomer(body: any, clientIP: string): Promise<Response> {
   const { firstName, lastName, email } = body;
 
@@ -186,23 +198,48 @@ async function handleCreateCustomer(body: any, clientIP: string): Promise<Respon
     return Response.json({ error: 'Last name is required.' }, { status: 400 });
   }
 
+  // Generate a unique nickname (required by Green.money)
+  const nickname = `${firstName.trim()}${lastName.trim()}_${Date.now()}`;
+
   try {
+    // Green.money requires ALL parameter elements present in XML, even if empty.
+    // NickName, PhoneWork, and BankAccountCompanyName are effectively required.
     const responseXml = await callGreenMoney('CreateCustomer', {
       Client_ID: GREEN_CLIENT_ID,
       ApiPassword: GREEN_API_PASSWORD,
+      NickName: nickname,
       NameFirst: firstName.trim(),
       NameLast: lastName.trim(),
+      PhoneWork: '100-000-0000',
+      PhoneWorkExtension: '',
       EmailAddress: email ? String(email).trim() : '',
+      MerchantAccountNumber: '',
+      BankAccountCompanyName: 'N/A',
+      BankAccountAddress1: 'N/A',
+      BankAccountAddress2: '',
+      BankAccountCity: 'N/A',
+      BankAccountState: 'CA',
+      BankAccountZip: '00000',
+      BankAccountCountry: 'US',
+      BankName: '',
+      RoutingNumber: '',
+      AccountNumber: '',
+      Note: '',
+      x_delim_data: '',
+      x_delim_char: '',
     });
+
+    // Check for API-level error first (Result != 0)
+    const result = extractXmlValue(responseXml, 'Result');
+    const resultDescription = extractXmlValue(responseXml, 'ResultDescription');
 
     // Extract Payor_ID from response
     const payorId = extractXmlValue(responseXml, 'Payor_ID')
-                 || extractXmlValue(responseXml, 'PayorID')
-                 || extractXmlValue(responseXml, 'CreateCustomerResult');
+                 || extractXmlValue(responseXml, 'PayorID');
 
     if (!payorId || payorId === '0' || payorId === '') {
-      console.error(`[GREEN_MONEY][CREATE_CUSTOMER_FAILED] email=${email || 'N/A'} ip=${clientIP} xml=${responseXml.substring(0, 500)}`);
-      return Response.json({ error: 'Failed to initialize payment. Please try again.' }, { status: 500 });
+      console.error(`[GREEN_MONEY][CREATE_CUSTOMER_FAILED] email=${email || 'N/A'} ip=${clientIP} result=${result} desc=${resultDescription} xml=${responseXml.substring(0, 500)}`);
+      return Response.json({ error: resultDescription || 'Failed to initialize payment. Please try again.' }, { status: 500 });
     }
 
     console.log(`[GREEN_MONEY][CUSTOMER_CREATED] email=${email || 'N/A'} payor_id=${payorId} ip=${clientIP}`);
@@ -226,6 +263,8 @@ async function handleGetCustomerInfo(body: any, clientIP: string): Promise<Respo
       Client_ID: GREEN_CLIENT_ID,
       ApiPassword: GREEN_API_PASSWORD,
       Payor_ID: payorId,
+      x_delim_data: '',
+      x_delim_char: '',
     });
 
     // Extract bank info (obfuscated by Green.money)
@@ -300,9 +339,11 @@ async function handleCreateDraft(body: any, req: Request): Promise<Response> {
       Client_ID: GREEN_CLIENT_ID,
       ApiPassword: GREEN_API_PASSWORD,
       Payor_ID: payorId,
+      CheckMemo: `Order ${orderNumber}`,
       CheckAmount: checkAmount.toFixed(2),
       CheckDate: checkDate,
-      CheckMemo: `Order ${orderNumber}`,
+      x_delim_data: '',
+      x_delim_char: '',
     });
 
     const verifyResult = extractXmlValue(responseXml, 'VerifyResult');
