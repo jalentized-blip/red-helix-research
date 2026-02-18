@@ -936,7 +936,7 @@ export default function CryptoCheckout() {
                             setSquareSending(true);
                             try {
                               // 1. Create dynamic Square checkout link via direct function call
-                              const fnRes = await fetch('/functions/createSquareCheckout', {
+                              const fnRes = await fetch('https://red-helix-research-f58be972.base44.app/functions/createSquareCheckout', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
