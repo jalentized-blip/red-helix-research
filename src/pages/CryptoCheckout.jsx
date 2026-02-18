@@ -200,6 +200,8 @@ export default function CryptoCheckout() {
   const [squareSending, setSquareSending] = useState(false);
   const [squareSent, setSquareSent] = useState(false);
   const [squareError, setSquareError] = useState('');
+  const [showSquareDisclaimer, setShowSquareDisclaimer] = useState(false);
+  const [squareDisclaimerAccepted, setSquareDisclaimerAccepted] = useState(false);
 
   const txVerifyRef = useRef(null);
 
@@ -575,9 +577,9 @@ export default function CryptoCheckout() {
                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                   </button>
 
-                  {/* Square payment link option */}
+                  {/* Card payment option */}
                   <button
-                    onClick={() => setStep('square_payment')}
+                    onClick={() => setShowSquareDisclaimer(true)}
                     className="w-full group p-6 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-[#dc2626] hover:shadow-lg transition-all flex items-center gap-5"
                   >
                     <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -585,7 +587,7 @@ export default function CryptoCheckout() {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
-                        Pay with Card (Square)
+                        Pay with Card
                       </h3>
                       <p className="text-sm text-slate-500 font-medium">We'll email you a secure payment link</p>
                     </div>
@@ -597,6 +599,75 @@ export default function CryptoCheckout() {
                     <Shield className="w-5 h-5 text-[#dc2626] flex-shrink-0" />
                     <p className="text-xs text-slate-500 font-medium">All payments are encrypted and securely processed.</p>
                   </div>
+
+                  {/* Card payment disclaimer modal */}
+                  <AnimatePresence>
+                    {showSquareDisclaimer && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                        onClick={(e) => { if (e.target === e.currentTarget && squareDisclaimerAccepted) setShowSquareDisclaimer(false); }}
+                      >
+                        <motion.div
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.9, opacity: 0 }}
+                          className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden"
+                        >
+                          <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 border-b border-amber-100">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                                <AlertCircle className="w-6 h-6 text-amber-600" />
+                              </div>
+                              <div>
+                                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">Notice</h3>
+                                <p className="text-xs text-amber-600 font-bold uppercase tracking-wider">Please Read Before Continuing</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-6 space-y-4">
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                              Card payments are currently handled through a <strong className="text-slate-900">temporary payment link service</strong> while we finalize our direct credit card processing integration.
+                            </p>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                              When you proceed, we'll email you a secure payment link to complete your purchase. This is a fully secure and encrypted checkout — your card details are never shared with us.
+                            </p>
+                            <p className="text-sm text-slate-500 leading-relaxed">
+                              Direct on-site card processing is coming soon. We appreciate your patience as we build this out.
+                            </p>
+                            <label className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:border-[#dc2626] transition-colors">
+                              <input
+                                type="checkbox"
+                                checked={squareDisclaimerAccepted}
+                                onChange={(e) => setSquareDisclaimerAccepted(e.target.checked)}
+                                className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#dc2626] focus:ring-[#dc2626]"
+                              />
+                              <span className="text-xs text-slate-700 font-semibold leading-relaxed">
+                                I understand and agree that card payments are processed via a temporary payment link service.
+                              </span>
+                            </label>
+                          </div>
+                          <div className="p-6 pt-0 flex gap-3">
+                            <button
+                              onClick={() => { setShowSquareDisclaimer(false); setSquareDisclaimerAccepted(false); }}
+                              className="flex-1 py-3 px-4 rounded-xl border-2 border-slate-200 text-sm font-bold text-slate-500 uppercase tracking-wider hover:border-slate-300 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={() => { setShowSquareDisclaimer(false); setStep('square_payment'); }}
+                              disabled={!squareDisclaimerAccepted}
+                              className="flex-1 py-3 px-4 rounded-xl bg-[#dc2626] text-white text-sm font-black uppercase tracking-wider hover:bg-[#b91c1c] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                              Continue
+                            </button>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   {/* New to crypto? */}
                   <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
