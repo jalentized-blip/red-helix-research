@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Package, Truck, CheckCircle2, Clock, Bell, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Package, Truck, CheckCircle2, Clock, Bell, ExternalLink, Mail, Loader2 } from 'lucide-react';
+import { resendOrderConfirmationEmail } from '@/components/utils/resendOrderEmail';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,6 +12,7 @@ import { toast } from 'sonner';
 export default function OrderTracking() {
   const queryClient = useQueryClient();
   const [trackingUpdate, setTrackingUpdate] = useState(null);
+  const [resendingOrderId, setResendingOrderId] = useState(null);
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ['orders'],
@@ -272,6 +274,39 @@ export default function OrderTracking() {
                     </div>
                   </div>
                 )}
+
+                {/* Resend Confirmation Email */}
+                <div className="mt-4 pt-4 border-t border-slate-100 flex justify-end">
+                  <button
+                    disabled={resendingOrderId === order.id}
+                    onClick={async () => {
+                      setResendingOrderId(order.id);
+                      try {
+                        await resendOrderConfirmationEmail(base44, order);
+                        toast.success('Confirmation email resent!', {
+                          description: `Sent to ${order.customer_email}`,
+                          duration: 5000,
+                        });
+                      } catch (error) {
+                        console.error('Failed to resend email:', error);
+                        toast.error('Failed to resend email', {
+                          description: 'Please contact support if the issue persists.',
+                          duration: 5000,
+                        });
+                      } finally {
+                        setResendingOrderId(null);
+                      }
+                    }}
+                    className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-tighter text-[#dc2626] hover:text-red-500 underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {resendingOrderId === order.id ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <Mail className="w-3 h-3" />
+                    )}
+                    {resendingOrderId === order.id ? 'Sending...' : 'Resend Confirmation Email'}
+                  </button>
+                </div>
               </motion.div>
             ))}
           </div>
