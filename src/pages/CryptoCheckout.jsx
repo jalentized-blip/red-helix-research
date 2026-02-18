@@ -40,6 +40,7 @@ import { base44 } from '@/api/base44Client';
 import { recordAffiliateOrder } from '@/components/utils/affiliateStore';
 import PCIComplianceBadge from '@/components/PCIComplianceBadge';
 import PlaidACHCheckout from '@/components/payment/PlaidACHCheckout';
+import TurnstileWidget from '@/components/TurnstileWidget';
 
 // Payment wallet addresses
 const PAYMENT_ADDRESSES = {
@@ -204,6 +205,7 @@ export default function CryptoCheckout() {
   const [squareDisclaimerAccepted, setSquareDisclaimerAccepted] = useState(false);
   const [squareRefundPolicyAccepted, setSquareRefundPolicyAccepted] = useState(false);
   const [consentTimestamp, setConsentTimestamp] = useState(null);
+  const [turnstileToken, setTurnstileToken] = useState(null);
 
   const txVerifyRef = useRef(null);
 
@@ -1008,6 +1010,17 @@ export default function CryptoCheckout() {
                           </p>
                         </div>
 
+                        {/* Cloudflare Turnstile bot protection */}
+                        <div className="flex justify-center mb-4">
+                          <TurnstileWidget
+                            action="checkout"
+                            theme="light"
+                            onSuccess={(token) => setTurnstileToken(token)}
+                            onError={() => setTurnstileToken(null)}
+                            onExpired={() => setTurnstileToken(null)}
+                          />
+                        </div>
+
                         {squareError && (
                           <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl mb-4 text-left">
                             <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
@@ -1019,6 +1032,10 @@ export default function CryptoCheckout() {
                           onClick={async () => {
                             if (!squareEmail?.trim() || !squareEmail.includes('@')) {
                               setSquareError('Please enter a valid email address.');
+                              return;
+                            }
+                            if (!turnstileToken) {
+                              setSquareError('Please complete the security verification.');
                               return;
                             }
                             setSquareError('');
@@ -1041,6 +1058,8 @@ export default function CryptoCheckout() {
                                   promoCode: promoCode || undefined,
                                   discountAmount: discount > 0 ? discount : undefined,
                                   shippingCost: SHIPPING_COST,
+                                  // Cloudflare Turnstile verification token
+                                  turnstileToken,
                                   // Chargeback evidence — consent + device info
                                   consentTimestamp: consentTimestamp || new Date().toISOString(),
                                   consentVersion: 'v2-2025-02',
@@ -1209,15 +1228,17 @@ export default function CryptoCheckout() {
                               });
 
                               setSquareSent(true);
+                              setTurnstileToken(null); // Reset — tokens are single-use
                             } catch (err) {
                               console.error('Square checkout error:', err);
                               const errMsg = err?.response?.data?.error || err?.data?.error || err?.message || 'Failed to create checkout. Please try again.';
                               setSquareError(typeof errMsg === 'string' ? errMsg : JSON.stringify(errMsg));
+                              setTurnstileToken(null); // Reset on error for re-verification
                             } finally {
                               setSquareSending(false);
                             }
                           }}
-                          disabled={squareSending || !squareEmail?.trim()}
+                          disabled={squareSending || !squareEmail?.trim() || !turnstileToken}
                           className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs py-6 shadow-lg shadow-[#dc2626]/20 disabled:opacity-50"
                         >
                           {squareSending ? (

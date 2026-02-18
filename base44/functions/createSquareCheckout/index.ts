@@ -2,6 +2,7 @@
 // createSquareCheckout — Secured Server-Side Checkout
 // ============================================================================
 // Security layers:
+//   0. Cloudflare Turnstile verification (bot protection)
 //   1. Server-side price catalog (uses server price when available, flags mismatches)
 //   2. Rate limiting (per-email + global)
 //   3. Input validation (quantities, amounts, email)
@@ -9,6 +10,9 @@
 //   5. Request logging & fraud signals
 //   6. ZERO product metadata sent to Square — only generic codes + prices
 // ============================================================================
+
+const TURNSTILE_SECRET_KEY = '0x4AAAAAACfCmfXN08E0PuGUsBRffIvY_FE';
+const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 const SQUARE_ACCESS_TOKEN = 'EAAAl1jVckeTNXaK3mxKgcL_VzKUPtny1RzRoeMhHhyvFg5EkBYAw0Qz2DPwDjGK';
 const SQUARE_LOCATION_ID = 'L3WTCJAQGSP5G';
@@ -239,7 +243,9 @@ Deno.serve(async (req) => {
     // NOTE: body.discountAmount and body.shippingCost are IGNORED — calculated server-side
 
     // --- Chargeback evidence capture ---
-    const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('cf-connecting-ip') || req.headers.get('x-real-ip') || 'unknown';
+    // Priority: cf-connecting-ip (Cloudflare real IP) > x-forwarded-for (first in chain) > x-real-ip
+    const xForwardedFor = req.headers.get('x-forwarded-for');
+    const clientIP = req.headers.get('cf-connecting-ip') || (xForwardedFor ? xForwardedFor.split(',')[0].trim() : null) || req.headers.get('x-real-ip') || 'unknown';
     const serverUserAgent = req.headers.get('user-agent') || 'unknown';
     const consentTimestamp = body.consentTimestamp || null;
     const consentVersion = body.consentVersion || null;
@@ -264,6 +270,37 @@ Deno.serve(async (req) => {
     if (!items || !Array.isArray(items) || items.length === 0) {
       console.warn('[SECURITY] Missing or empty items array');
       return Response.json({ error: 'Cart is empty' }, { status: 400 });
+    }
+
+    // --- Cloudflare Turnstile verification ---
+    const turnstileToken = body.turnstileToken;
+    if (!turnstileToken || typeof turnstileToken !== 'string') {
+      console.warn(`[SECURITY][TURNSTILE_MISSING] email=${customerEmail} ip=${clientIP}`);
+      return Response.json({ error: 'Security verification required. Please complete the challenge and try again.' }, { status: 400 });
+    }
+
+    try {
+      const turnstileRes = await fetch(TURNSTILE_VERIFY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: TURNSTILE_SECRET_KEY,
+          response: turnstileToken,
+          remoteip: clientIP,
+        }),
+      });
+      const turnstileData = await turnstileRes.json();
+
+      if (!turnstileData.success) {
+        console.warn(`[SECURITY][TURNSTILE_FAILED] email=${customerEmail} ip=${clientIP} errors=${JSON.stringify(turnstileData['error-codes'] || [])}`);
+        return Response.json({ error: 'Verification failed. Please refresh the page and try again.' }, { status: 400 });
+      }
+
+      console.log(`[SECURITY][TURNSTILE_OK] email=${customerEmail} ip=${clientIP} action=${turnstileData.action || 'n/a'}`);
+    } catch (turnstileErr) {
+      // If Turnstile API is down, log but allow the request through (fail-open)
+      // This prevents checkout from breaking if Cloudflare has an outage
+      console.error(`[SECURITY][TURNSTILE_ERROR] email=${customerEmail} ip=${clientIP} error=${turnstileErr.message}`);
     }
 
     // --- Rate limiting ---

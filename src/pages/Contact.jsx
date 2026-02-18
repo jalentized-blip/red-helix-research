@@ -12,6 +12,7 @@ import {
   generateContactPageSchema,
   generateBreadcrumbSchema
 } from '@/components/utils/advancedSchemaHelpers';
+import TurnstileWidget from '@/components/TurnstileWidget';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ export default function Contact() {
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +35,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!turnstileToken) return;
     setLoading(true);
 
     try {
@@ -44,10 +47,12 @@ export default function Contact() {
 
       setSubmitted(true);
       setFormData({ name: '', email: '', phone: '', description: '' });
-      
+      setTurnstileToken(null); // Reset for next submission
+
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error('Failed to send email:', error);
+      setTurnstileToken(null); // Reset on error
     } finally {
       setLoading(false);
     }
@@ -194,9 +199,20 @@ export default function Contact() {
                 </motion.div>
               )}
 
+              {/* Cloudflare Turnstile bot protection */}
+              <div className="flex justify-center">
+                <TurnstileWidget
+                  action="contact"
+                  theme="light"
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onError={() => setTurnstileToken(null)}
+                  onExpired={() => setTurnstileToken(null)}
+                />
+              </div>
+
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !turnstileToken}
                 className="w-full bg-[#dc2626] hover:bg-red-700 text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
               >
                 {loading ? (

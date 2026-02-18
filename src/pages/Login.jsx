@@ -21,13 +21,14 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '@/components/SEO';
+import TurnstileWidget from '@/components/TurnstileWidget';
 
 export default function Login() {
   const navigate = useNavigate();
-  
+
   // View state: 'login' | 'register' | 'forgot-password' | 'verify-otp' | 'reset-password'
   const [view, setView] = useState('login');
-  
+
   // Form fields
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,12 +37,13 @@ export default function Login() {
   const [otpCode, setOtpCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [resetToken, setResetToken] = useState('');
-  
+
   // UI state
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState(null);
   
   // Check if user is already authenticated
   useEffect(() => {
@@ -66,10 +68,11 @@ export default function Login() {
     }
   }, [navigate]);
 
-  // Clear messages when switching views
+  // Clear messages and reset Turnstile when switching views
   useEffect(() => {
     setError('');
     setSuccess('');
+    setTurnstileToken(null);
   }, [view]);
 
   // Handle Login
@@ -298,9 +301,20 @@ export default function Login() {
         </button>
       </div>
 
+      {/* Cloudflare Turnstile bot protection */}
+      <div className="flex justify-center">
+        <TurnstileWidget
+          action="login"
+          theme="light"
+          onSuccess={(token) => setTurnstileToken(token)}
+          onError={() => setTurnstileToken(null)}
+          onExpired={() => setTurnstileToken(null)}
+        />
+      </div>
+
       <Button
         type="submit"
-        disabled={loading}
+        disabled={loading || !turnstileToken}
         className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
@@ -396,9 +410,20 @@ export default function Login() {
         </div>
       </div>
 
+      {/* Cloudflare Turnstile bot protection */}
+      <div className="flex justify-center">
+        <TurnstileWidget
+          action="register"
+          theme="light"
+          onSuccess={(token) => setTurnstileToken(token)}
+          onError={() => setTurnstileToken(null)}
+          onExpired={() => setTurnstileToken(null)}
+        />
+      </div>
+
       <Button
         type="submit"
-        disabled={loading}
+        disabled={loading || !turnstileToken}
         className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
@@ -502,9 +527,20 @@ export default function Login() {
         </div>
       </div>
 
+      {/* Cloudflare Turnstile bot protection */}
+      <div className="flex justify-center">
+        <TurnstileWidget
+          action="forgot-password"
+          theme="light"
+          onSuccess={(token) => setTurnstileToken(token)}
+          onError={() => setTurnstileToken(null)}
+          onExpired={() => setTurnstileToken(null)}
+        />
+      </div>
+
       <Button
         type="submit"
-        disabled={loading}
+        disabled={loading || !turnstileToken}
         className="w-full bg-slate-900 hover:bg-black text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
       >
         {loading ? (
