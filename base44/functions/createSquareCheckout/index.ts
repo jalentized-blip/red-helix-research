@@ -7,17 +7,26 @@ const SQUARE_API_URL = 'https://connect.squareup.com/v2/online-checkout/payment-
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const body = await req.json();
+
+    let body: any;
+    try {
+      body = await req.json();
+    } catch (parseErr) {
+      console.error('Failed to parse request body:', parseErr);
+      return Response.json({ error: 'Invalid request body', details: String(parseErr) }, { status: 400 });
+    }
+
+    console.log('Received body keys:', Object.keys(body || {}));
 
     const { items, customerEmail, customerName, orderNumber, promoCode, discountAmount, shippingCost } = body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return Response.json({ error: 'Missing or empty items array' }, { status: 400 });
+      return Response.json({ error: 'Missing or empty items array', receivedKeys: Object.keys(body || {}) }, { status: 400 });
     }
 
-    // Build Square line items from cart items
+    // Build Square line items from cart items — use simple dash instead of em-dash for safety
     const lineItems = items.map((item: any) => ({
-      name: `${item.productName}${item.specification ? ' — ' + item.specification : ''}`,
+      name: `${item.productName || 'Item'}${item.specification ? ' - ' + item.specification : ''}`,
       quantity: String(item.quantity || 1),
       base_price_money: {
         amount: Math.round((item.price || 0) * 100), // Convert dollars to cents
@@ -79,11 +88,13 @@ Deno.serve(async (req) => {
       requestBody.payment_note = `Order: ${orderNumber}`;
     }
 
+    console.log('Calling Square API with:', JSON.stringify(requestBody));
+
     // Call Square API to create payment link
     const squareRes = await fetch(SQUARE_API_URL, {
       method: 'POST',
       headers: {
-        'Square-Version': '2026-01-22',
+        'Square-Version': '2025-01-23',
         'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
       },
@@ -93,12 +104,14 @@ Deno.serve(async (req) => {
     const squareData = await squareRes.json();
 
     if (!squareRes.ok) {
-      console.error('Square API error:', JSON.stringify(squareData));
+      console.error('Square API error:', squareRes.status, JSON.stringify(squareData));
       return Response.json(
         { error: 'Failed to create Square checkout', details: squareData },
         { status: squareRes.status }
       );
     }
+
+    console.log('Square API success, payment_link:', JSON.stringify(squareData.payment_link));
 
     const paymentLink = squareData.payment_link;
     const checkoutUrl = paymentLink?.url || paymentLink?.long_url;
@@ -135,7 +148,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error('createSquareCheckout error:', error);
     return Response.json(
-      { error: error.message || 'Internal server error' },
+      { error: error.message || 'Internal server error', stack: String(error) },
       { status: 500 }
     );
   }

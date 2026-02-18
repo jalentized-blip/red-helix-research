@@ -1047,7 +1047,8 @@ export default function CryptoCheckout() {
                               setSquareSent(true);
                             } catch (err) {
                               console.error('Square checkout error:', err);
-                              setSquareError(err?.message || 'Failed to create checkout. Please try again.');
+                              const errMsg = err?.response?.data?.error || err?.data?.error || err?.message || 'Failed to create checkout. Please try again.';
+                              setSquareError(typeof errMsg === 'string' ? errMsg : JSON.stringify(errMsg));
                             } finally {
                               setSquareSending(false);
                             }
