@@ -935,10 +935,11 @@ export default function CryptoCheckout() {
                             setSquareError('');
                             setSquareSending(true);
                             try {
-                              // 1. Try dynamic Square checkout link, fall back to static link
-                              let checkoutUrl = 'https://square.link/u/ry5pdEKS'; // fallback
-                              try {
-                                const squareRes = await base44.functions.invoke('createSquareCheckout', {
+                              // 1. Create dynamic Square checkout link via direct function call
+                              const fnRes = await fetch('/functions/createSquareCheckout', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
                                   items: cartItems.map(item => ({
                                     productName: item.productName,
                                     specification: item.specification,
@@ -951,14 +952,13 @@ export default function CryptoCheckout() {
                                   promoCode: promoCode || undefined,
                                   discountAmount: discount > 0 ? discount : undefined,
                                   shippingCost: SHIPPING_COST,
-                                });
-                                const resData = squareRes?.data || squareRes;
-                                if (resData?.checkoutUrl) {
-                                  checkoutUrl = resData.checkoutUrl;
-                                }
-                              } catch (fnErr) {
-                                console.warn('Dynamic Square checkout failed, using static link:', fnErr?.message);
+                                }),
+                              });
+                              const fnData = await fnRes.json();
+                              if (!fnRes.ok || !fnData?.checkoutUrl) {
+                                throw new Error(fnData?.error || 'Failed to create checkout link');
                               }
+                              const checkoutUrl = fnData.checkoutUrl;
 
                               // 2. Build and send email with dynamic checkout URL
                               const itemListHtml = cartItems.map(item =>
