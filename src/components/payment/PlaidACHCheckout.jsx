@@ -11,7 +11,6 @@ import {
   User,
 } from 'lucide-react';
 import ConsentModal from '@/components/financial/ConsentModal';
-import { useMFA } from '@/components/security/MFAProvider';
 import TurnstileWidget from '@/components/TurnstileWidget';
 
 const GREEN_MONEY_FUNCTION_URL = 'https://red-helix-research-f58be972.base44.app/functions/greenMoneyCheckout';
@@ -24,10 +23,9 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // Consent & MFA
+  // Consent
   const [showConsent, setShowConsent] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
-  const { requireMFA } = useMFA();
 
   // Customer info
   const [firstName, setFirstName] = useState('');
@@ -104,37 +102,35 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
       return;
     }
 
-    await requireMFA('plaid_link', async () => {
-      setLoading(true);
-      setStep('creating_customer');
+    setLoading(true);
+    setStep('creating_customer');
 
-      try {
-        const res = await fetch(GREEN_MONEY_FUNCTION_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'createCustomer',
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-            email: order.customer_email || '',
-          }),
-        });
-        const data = await res.json();
+    try {
+      const res = await fetch(GREEN_MONEY_FUNCTION_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'createCustomer',
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: order.customer_email || '',
+        }),
+      });
+      const data = await res.json();
 
-        if (!res.ok || !data.payorId) {
-          throw new Error(data.error || 'Failed to initialize payment');
-        }
-
-        setPayorId(data.payorId);
-        setStep('plaid_iframe');
-      } catch (err) {
-        setErrorMessage(err.message);
-        setStep('idle');
-        onError?.(err.message);
-      } finally {
-        setLoading(false);
+      if (!res.ok || !data.payorId) {
+        throw new Error(data.error || 'Failed to initialize payment');
       }
-    });
+
+      setPayorId(data.payorId);
+      setStep('plaid_iframe');
+    } catch (err) {
+      setErrorMessage(err.message);
+      setStep('idle');
+      onError?.(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Step 2: After Plaid iframe success, verify bank was connected
@@ -172,39 +168,37 @@ export default function PlaidACHCheckout({ order, onSuccess, onError }) {
     setProcessingPayment(true);
     setErrorMessage(null);
 
-    await requireMFA('payment_processing', async () => {
-      try {
-        const res = await fetch(GREEN_MONEY_FUNCTION_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'createDraft',
-            payorId,
-            amount: order.total_amount,
-            orderNumber: order.order_number,
-            email: order.customer_email || '',
-            turnstileToken,
-          }),
-        });
-        const data = await res.json();
+    try {
+      const res = await fetch(GREEN_MONEY_FUNCTION_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'createDraft',
+          payorId,
+          amount: order.total_amount,
+          orderNumber: order.order_number,
+          email: order.customer_email || '',
+          turnstileToken,
+        }),
+      });
+      const data = await res.json();
 
-        if (data.success) {
-          onSuccess?.({
-            payment_id: data.checkId,
-            method: 'bank_ach',
-            verify_result: data.verifyResult,
-          });
-        } else {
-          throw new Error(data.error || 'Payment failed. Please try again.');
-        }
-      } catch (err) {
-        setErrorMessage(err.message);
-        onError?.(err.message);
-      } finally {
-        setProcessingPayment(false);
-        setTurnstileToken(null); // Tokens are single-use
+      if (data.success) {
+        onSuccess?.({
+          payment_id: data.checkId,
+          method: 'bank_ach',
+          verify_result: data.verifyResult,
+        });
+      } else {
+        throw new Error(data.error || 'Payment failed. Please try again.');
       }
-    });
+    } catch (err) {
+      setErrorMessage(err.message);
+      onError?.(err.message);
+    } finally {
+      setProcessingPayment(false);
+      setTurnstileToken(null); // Tokens are single-use
+    }
   };
 
   // Consent callback
