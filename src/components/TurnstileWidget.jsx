@@ -42,13 +42,20 @@ export default function TurnstileWidget({ onSuccess, onError, onExpired, action 
         sitekey: TURNSTILE_SITE_KEY,
         theme,
         action,
+        retry: 'auto',
+        'retry-interval': 5000,
         callback: (token) => {
+          console.log('[Turnstile] Success — token received');
           callbacksRef.current.onSuccess?.(token);
         },
         'error-callback': (errorCode) => {
+          console.error('[Turnstile] Error code:', errorCode);
           callbacksRef.current.onError?.(errorCode);
+          // Return true to suppress Turnstile's own console warnings
+          return true;
         },
         'expired-callback': () => {
+          console.warn('[Turnstile] Token expired');
           callbacksRef.current.onExpired?.();
         },
       });
