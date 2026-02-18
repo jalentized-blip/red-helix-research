@@ -1,13 +1,9 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
-
 const SQUARE_ACCESS_TOKEN = 'EAAAl1jVckeTNXaK3mxKgcL_VzKUPtny1RzRoeMhHhyvFg5EkBYAw0Qz2DPwDjGK';
 const SQUARE_LOCATION_ID = 'L3WTCJAQGSP5G';
 const SQUARE_API_URL = 'https://connect.squareup.com/v2/online-checkout/payment-links';
 
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
-
     let body: any;
     try {
       body = await req.json();
@@ -121,21 +117,6 @@ Deno.serve(async (req) => {
         { error: 'Square returned no checkout URL', details: squareData },
         { status: 500 }
       );
-    }
-
-    // Track the event
-    try {
-      base44.analytics.track({
-        eventName: 'square_checkout_created',
-        properties: {
-          order_number: orderNumber,
-          customer_email: customerEmail,
-          total_items: items.length,
-          checkout_url: checkoutUrl,
-        },
-      });
-    } catch (_trackErr) {
-      // non-blocking
     }
 
     return Response.json({
