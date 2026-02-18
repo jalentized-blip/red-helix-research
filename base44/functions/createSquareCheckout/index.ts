@@ -2,11 +2,12 @@
 // createSquareCheckout — Secured Server-Side Checkout
 // ============================================================================
 // Security layers:
-//   1. Server-side price catalog (client prices IGNORED)
+//   1. Server-side price catalog (uses server price when available, flags mismatches)
 //   2. Rate limiting (per-email + global)
 //   3. Input validation (quantities, amounts, email)
 //   4. Server-side promo/discount validation
 //   5. Request logging & fraud signals
+//   6. ZERO product metadata sent to Square — only generic codes + prices
 // ============================================================================
 
 const SQUARE_ACCESS_TOKEN = 'EAAAl1jVckeTNXaK3mxKgcL_VzKUPtny1RzRoeMhHhyvFg5EkBYAw0Qz2DPwDjGK';
@@ -15,8 +16,10 @@ const SQUARE_API_URL = 'https://connect.squareup.com/v2/online-checkout/payment-
 const SHIPPING_COST = 15; // Fixed shipping in dollars
 
 // ---------------------------------------------------------------------------
-// 1. SERVER-SIDE PRICE CATALOG — Single source of truth
-//    Client-submitted prices are COMPLETELY IGNORED.
+// 1. SERVER-SIDE PRICE CATALOG
+//    When a product is in this catalog, the server price OVERRIDES client price.
+//    Products NOT in catalog (blends, single vials, new DB items) use client price
+//    but are flagged in logs for monitoring.
 // ---------------------------------------------------------------------------
 const PRICE_CATALOG: Record<string, Record<string, number>> = {
   'TRZ': {
@@ -68,8 +71,6 @@ const PRICE_CATALOG: Record<string, Record<string, number>> = {
   'IGF1-LR3': { '0.1mg x 10 vials': 100, '1mg x 10 vials': 260 },
   'IGF-1 LR3': { '0.1mg x 10 vials': 100, '1mg x 10 vials': 260 },
   'Sermorelin': { '5mg x 10 vials': 110, '10mg x 10 vials': 220 },
-
-  // Alternate name variants (Tirzepatide, Retatrutide, Semaglutide)
   'Tirzepatide': {
     '5mg x 10 vials': 80, '10mg x 10 vials': 100, '15mg x 10 vials': 120,
     '20mg x 10 vials': 140, '30mg x 10 vials': 160, '40mg x 10 vials': 180,
@@ -124,7 +125,7 @@ function checkRateLimit(email: string): { allowed: boolean; reason?: string } {
     emailRateLimits.set(normalizedEmail, { count: 1, resetAt: now + oneHour });
   }
 
-  // Clean up expired entries every ~20 requests
+  // Clean up expired entries periodically
   if (Math.random() < 0.05) {
     for (const [key, val] of emailRateLimits) {
       if (now > val.resetAt) emailRateLimits.delete(key);
@@ -147,7 +148,6 @@ function validateEmail(email: string): boolean {
   if (!email || typeof email !== 'string') return false;
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!re.test(email)) return false;
-  // Block obviously fake/disposable domains
   const disposable = ['mailinator.com', 'guerrillamail.com', 'tempmail.com', 'throwaway.email', 'yopmail.com', 'sharklasers.com', 'guerrillamailblock.com', 'grr.la', 'dispostable.com', '10minutemail.com'];
   const domain = email.split('@')[1]?.toLowerCase();
   if (disposable.includes(domain)) return false;
@@ -156,7 +156,6 @@ function validateEmail(email: string): boolean {
 
 // ---------------------------------------------------------------------------
 // 4. PROMO / DISCOUNT VALIDATION — Server-side only
-//    Client-submitted discountAmount is COMPLETELY IGNORED.
 // ---------------------------------------------------------------------------
 const VALID_PROMOS: Record<string, number> = {
   'SAVE10': 0.10,
@@ -180,7 +179,7 @@ function getServerDiscount(promoCode: string | undefined, subtotal: number): { d
 }
 
 // ---------------------------------------------------------------------------
-// 5. PRICE LOOKUP — resolve server price from catalog
+// 5. PRICE LOOKUP — resolve server price from catalog (returns null if not found)
 // ---------------------------------------------------------------------------
 function lookupPrice(productName: string, specification: string): number | null {
   // Try exact match first
@@ -207,6 +206,19 @@ function lookupPrice(productName: string, specification: string): number | null 
   return null;
 }
 
+// ---------------------------------------------------------------------------
+// 6. GENERIC LINE ITEM NAME GENERATOR
+//    Produces fully random alphanumeric codes. ZERO product data leaks to Square.
+//    No product names, no abbreviations, no specifications, no dosages, nothing.
+// ---------------------------------------------------------------------------
+function generateGenericCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; // No I or O (avoid confusion with 1/0)
+  const c1 = chars[Math.floor(Math.random() * chars.length)];
+  const c2 = chars[Math.floor(Math.random() * chars.length)];
+  const num = Math.floor(1000 + Math.random() * 9000);
+  return `RH-${c1}${c2}${num}`;
+}
+
 // ============================================================================
 // MAIN HANDLER
 // ============================================================================
@@ -224,7 +236,7 @@ Deno.serve(async (req) => {
     }
 
     const { items, customerEmail, customerName, orderNumber, promoCode } = body;
-    // NOTE: body.price, body.discountAmount, body.shippingCost are IGNORED — calculated server-side
+    // NOTE: body.discountAmount and body.shippingCost are IGNORED — calculated server-side
 
     // --- Basic field validation ---
     if (!customerEmail || typeof customerEmail !== 'string') {
@@ -254,8 +266,8 @@ Deno.serve(async (req) => {
     for (const item of items) {
       const qty = Number(item.quantity) || 0;
       if (qty < 1 || qty > MAX_QUANTITY_PER_ITEM) {
-        console.warn(`[SECURITY] Invalid quantity ${qty} for item ${item.productName}`);
-        return Response.json({ error: `Invalid quantity for ${item.productName}. Max ${MAX_QUANTITY_PER_ITEM} per item.` }, { status: 400 });
+        console.warn(`[SECURITY] Invalid quantity ${qty}`);
+        return Response.json({ error: `Invalid quantity. Max ${MAX_QUANTITY_PER_ITEM} per item.` }, { status: 400 });
       }
       totalItemCount += qty;
     }
@@ -264,37 +276,45 @@ Deno.serve(async (req) => {
       return Response.json({ error: `Too many items. Maximum ${MAX_TOTAL_ITEMS} total.` }, { status: 400 });
     }
 
-    // --- Server-side price lookup (CLIENT PRICES IGNORED) ---
-    const verifiedItems: Array<{ productName: string; specification: string; serverPrice: number; quantity: number }> = [];
+    // --- Price resolution: catalog price wins, fallback to client price for dynamic DB products ---
+    const resolvedItems: Array<{ price: number; quantity: number; source: string }> = [];
     for (const item of items) {
       const name = String(item.productName || '').trim();
       const spec = String(item.specification || '').trim();
       const qty = Number(item.quantity) || 1;
+      const clientPrice = Number(item.price) || 0;
 
       if (!name || !spec) {
         console.warn(`[SECURITY] Missing product name or specification`);
         return Response.json({ error: 'Each item must have a product name and specification' }, { status: 400 });
       }
 
-      const serverPrice = lookupPrice(name, spec);
-      if (serverPrice === null) {
-        console.warn(`[SECURITY][UNKNOWN_PRODUCT] Rejected: "${name}" / "${spec}" — not in catalog`);
-        return Response.json({ error: `Unknown product or specification: ${name} — ${spec}` }, { status: 400 });
+      // Reject zero/negative client prices (can't have a free item)
+      if (clientPrice <= 0) {
+        console.warn(`[SECURITY][ZERO_PRICE] Rejected: client sent $${clientPrice} for an item`);
+        return Response.json({ error: 'Invalid item price' }, { status: 400 });
       }
 
-      // Log if client price differs from server price (fraud signal)
-      const clientPrice = Number(item.price) || 0;
-      if (Math.abs(clientPrice - serverPrice) > 0.01) {
-        console.warn(`[SECURITY][PRICE_MISMATCH] "${name}" "${spec}": client=$${clientPrice}, server=$${serverPrice} — using server price`);
-      }
+      const catalogPrice = lookupPrice(name, spec);
 
-      verifiedItems.push({ productName: name, specification: spec, serverPrice, quantity: qty });
+      if (catalogPrice !== null) {
+        // Product found in catalog — USE SERVER PRICE, ignore client
+        if (Math.abs(clientPrice - catalogPrice) > 0.01) {
+          console.warn(`[SECURITY][PRICE_MISMATCH] client=$${clientPrice}, server=$${catalogPrice} — using server price`);
+        }
+        resolvedItems.push({ price: catalogPrice, quantity: qty, source: 'catalog' });
+      } else {
+        // Product NOT in catalog (blends, single vials, new DB products)
+        // Accept client price but flag it for monitoring
+        console.warn(`[SECURITY][UNCATALOGED] "${name}" / "${spec}" not in catalog — using client price $${clientPrice}`);
+        resolvedItems.push({ price: clientPrice, quantity: qty, source: 'client' });
+      }
     }
 
-    // --- Calculate subtotal from server prices ---
-    const subtotal = verifiedItems.reduce((sum, item) => sum + (item.serverPrice * item.quantity), 0);
+    // --- Calculate subtotal ---
+    const subtotal = resolvedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    // --- Server-side discount calculation (CLIENT DISCOUNT IGNORED) ---
+    // --- Server-side discount (CLIENT DISCOUNT IGNORED) ---
     const discount = getServerDiscount(promoCode, subtotal);
     if (promoCode && !discount.validCode) {
       console.warn(`[SECURITY][INVALID_PROMO] Code "${promoCode}" not recognized — no discount applied`);
@@ -314,23 +334,22 @@ Deno.serve(async (req) => {
       return Response.json({ error: `Order total ($${finalTotal.toFixed(2)}) exceeds our maximum of $${MAX_ORDER_AMOUNT}. Please contact support.` }, { status: 400 });
     }
 
-    // --- Build Square line items (abbreviated names for privacy) ---
-    const lineItems = verifiedItems.map((item) => {
-      const abbrev = (item.productName || 'IT').substring(0, 2).toUpperCase();
-      const randNum = Math.floor(1000 + Math.random() * 9000);
-      return {
-        name: `${abbrev}-${randNum}`,
-        quantity: String(item.quantity),
-        base_price_money: {
-          amount: Math.round(item.serverPrice * 100), // SERVER price in cents
-          currency: 'USD',
-        },
-      };
-    });
+    // --- Build Square line items ---
+    // ZERO product metadata goes to Square. Each item gets a fully random
+    // generic code like "RH-KW4821". No product names, no abbreviations,
+    // no dosages, no specifications, no descriptions — nothing identifiable.
+    const lineItems = resolvedItems.map((item) => ({
+      name: generateGenericCode(),
+      quantity: String(item.quantity),
+      base_price_money: {
+        amount: Math.round(item.price * 100),
+        currency: 'USD',
+      },
+    }));
 
-    // Add shipping as a line item
+    // Add shipping as a generic line item
     lineItems.push({
-      name: 'S&H',
+      name: 'FEE',
       quantity: '1',
       base_price_money: {
         amount: Math.round(serverShipping * 100),
@@ -344,11 +363,11 @@ Deno.serve(async (req) => {
       line_items: lineItems,
     };
 
-    // Add discount if applicable
+    // Add discount if applicable (generic name only)
     if (discount.discountAmount > 0) {
       orderObj.discounts = [
         {
-          name: 'Discount',
+          name: 'PROMO',
           amount_money: {
             amount: Math.round(discount.discountAmount * 100),
             currency: 'USD',
@@ -359,28 +378,31 @@ Deno.serve(async (req) => {
     }
 
     // --- Build the payment link request ---
+    // No product data in the payment note, no descriptions, nothing identifiable.
     const requestBody: any = {
       idempotency_key: `rhr-${orderNumber || Date.now().toString(36)}-${Math.random().toString(36).substring(2, 8)}`,
       order: orderObj,
       checkout_options: {
         ask_for_shipping_address: true,
-        merchant_support_email: 'jake@redhelixresearch.com',
       },
     };
 
-    // Pre-populate customer email
+    // Pre-populate customer email only
     if (customerEmail) {
       requestBody.pre_populated_data = {
         buyer_email: customerEmail.trim(),
       };
     }
 
+    // Payment note is just the order number — no product info
     if (orderNumber) {
-      requestBody.payment_note = `Order: ${orderNumber}`;
+      requestBody.payment_note = `Ref: ${orderNumber}`;
     }
 
-    // --- 5. REQUEST LOGGING ---
-    console.log(`[CHECKOUT] email=${customerEmail} | items=${verifiedItems.length} | subtotal=$${subtotal} | discount=$${discount.discountAmount} (${promoCode || 'none'}) | shipping=$${serverShipping} | total=$${finalTotal} | order=${orderNumber || 'N/A'}`);
+    // --- REQUEST LOGGING (server-side only, never sent to Square) ---
+    const catalogCount = resolvedItems.filter(i => i.source === 'catalog').length;
+    const clientCount = resolvedItems.filter(i => i.source === 'client').length;
+    console.log(`[CHECKOUT] email=${customerEmail} | items=${resolvedItems.length} (${catalogCount} catalog, ${clientCount} client-priced) | subtotal=$${subtotal} | discount=$${discount.discountAmount} (${promoCode || 'none'}) | shipping=$${serverShipping} | total=$${finalTotal} | order=${orderNumber || 'N/A'}`);
 
     // --- Call Square API ---
     const squareRes = await fetch(SQUARE_API_URL, {
@@ -422,7 +444,6 @@ Deno.serve(async (req) => {
       checkoutUrl,
       paymentLinkId: paymentLink?.id,
       orderId: paymentLink?.order_id,
-      // Return server-calculated totals so frontend can display accurate info
       serverTotal: finalTotal,
       serverSubtotal: subtotal,
       serverDiscount: discount.discountAmount,
