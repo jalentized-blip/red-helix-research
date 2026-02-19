@@ -369,25 +369,12 @@ export default function CryptoCheckout() {
     }
   };
 
-  const processSuccessfulPayment = async (txHash, method = 'cryptocurrency') => {
-    setStep('completed');
-
+  // ─── Reserve stock: decrement quantities for purchased items ───
+  const decrementStock = async (items) => {
     try {
-      const orderNumber = `RDR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
-
-      let userEmail = null;
-      try { const user = await base44.auth.me(); userEmail = user?.email; } catch {}
-
-      const customerName = customerInfo?.firstName && customerInfo?.lastName
-        ? `${customerInfo.firstName} ${customerInfo.lastName}`
-        : customerInfo?.name || 'Guest Customer';
-
-      const affiliateInfo = await resolveAffiliateInfo();
-
-      // Update stock
       const products = await base44.entities.Product.list();
-      for (const item of cartItems) {
-        const product = products.find(p => p.name === item.productName);
+      for (const item of items) {
+        const product = products.find(p => p.id === item.productId || p.name === item.productName);
         if (product) {
           const updatedSpecs = product.specifications.map(spec => {
             if (spec.name === item.specification) {
@@ -406,6 +393,28 @@ export default function CryptoCheckout() {
           });
         }
       }
+    } catch (err) {
+      console.error('Failed to decrement stock:', err);
+    }
+  };
+
+  const processSuccessfulPayment = async (txHash, method = 'cryptocurrency') => {
+    setStep('completed');
+
+    try {
+      const orderNumber = `RDR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+
+      let userEmail = null;
+      try { const user = await base44.auth.me(); userEmail = user?.email; } catch {}
+
+      const customerName = customerInfo?.firstName && customerInfo?.lastName
+        ? `${customerInfo.firstName} ${customerInfo.lastName}`
+        : customerInfo?.name || 'Guest Customer';
+
+      const affiliateInfo = await resolveAffiliateInfo();
+
+      // Reserve stock immediately
+      await decrementStock(cartItems);
 
       // Build order
       const orderPayload = {
@@ -1152,6 +1161,9 @@ export default function CryptoCheckout() {
                                   orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
                                 }
                                 await base44.entities.Order.create(orderPayload);
+
+                                // Reserve stock immediately for Square orders
+                                await decrementStock(cartItems);
                               } catch (orderErr) {
                                 console.warn('Failed to create order record:', orderErr);
                               }

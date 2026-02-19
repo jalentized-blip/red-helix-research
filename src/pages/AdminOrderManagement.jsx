@@ -34,6 +34,7 @@ const STATUS_CONFIG = {
   processing: { color: 'bg-blue-50 border-blue-200 text-blue-700', icon: Package, label: 'Processing' },
   shipped: { color: 'bg-purple-50 border-purple-200 text-purple-700', icon: Truck, label: 'Shipped' },
   delivered: { color: 'bg-green-50 border-green-200 text-green-700', icon: CheckCircle, label: 'Delivered' },
+  cancelled: { color: 'bg-red-50 border-red-200 text-red-700', icon: AlertCircle, label: 'Cancelled' },
 };
 
 // ─── Resolve product name from order item using multiple strategies ───
@@ -302,6 +303,7 @@ function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {}, 
                     <SelectItem value="processing" className="text-slate-900">Processing</SelectItem>
                     <SelectItem value="shipped" className="text-slate-900">Shipped</SelectItem>
                     <SelectItem value="delivered" className="text-slate-900">Delivered</SelectItem>
+                    <SelectItem value="cancelled" className="text-red-600">Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -537,7 +539,7 @@ function TaxReportModal({ orders, isOpen, onClose }) {
   const filteredOrders = useMemo(() => {
     const now = new Date();
     return orders.filter(o => {
-      if (o.is_deleted) return false;
+      if (o.is_deleted || o.status === 'cancelled') return false;
       const d = new Date(o.created_date);
       if (dateRange === 'ytd') return d.getFullYear() === now.getFullYear();
       if (dateRange === 'last_year') return d.getFullYear() === now.getFullYear() - 1;
@@ -753,6 +755,7 @@ function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
       <button onClick={() => handleBulkStatus('processing')} className="text-xs font-bold hover:text-blue-400 transition-colors">Processing</button>
       <button onClick={() => handleBulkStatus('shipped')} className="text-xs font-bold hover:text-purple-400 transition-colors">Shipped</button>
       <button onClick={() => handleBulkStatus('delivered')} className="text-xs font-bold hover:text-green-400 transition-colors">Delivered</button>
+      <button onClick={() => handleBulkStatus('cancelled')} className="text-xs font-bold hover:text-red-400 transition-colors">Cancel</button>
     </motion.div>
   );
 }
@@ -935,13 +938,61 @@ export default function AdminOrderManagement() {
     },
   });
 
-  const handleSaveOrder = (orderId, updates) => {
+  // ─── Restore stock when an order is cancelled ───
+  const restoreStock = async (items) => {
+    if (!items?.length) return;
+    try {
+      const currentProducts = await base44.entities.Product.list();
+      for (const item of items) {
+        const product = currentProducts.find(p =>
+          p.id === item.product_id || p.id === item.productId ||
+          p.name === (item.productName || item.product_name)
+        );
+        if (product) {
+          const updatedSpecs = product.specifications.map(spec => {
+            if (spec.name === item.specification) {
+              return {
+                ...spec,
+                stock_quantity: (spec.stock_quantity || 0) + (item.quantity || 1),
+                in_stock: true
+              };
+            }
+            return spec;
+          });
+          await base44.entities.Product.update(product.id, {
+            specifications: updatedSpecs,
+            in_stock: true
+          });
+        }
+      }
+      toast.success('Stock restored for cancelled order');
+    } catch (err) {
+      console.error('Failed to restore stock:', err);
+      toast.error('Failed to restore stock', { description: err.message });
+    }
+  };
+
+  const handleSaveOrder = async (orderId, updates) => {
+    // If changing to cancelled from a non-cancelled status, restore stock
+    const order = orders.find(o => o.id === orderId);
+    if (updates.status === 'cancelled' && order?.status !== 'cancelled') {
+      await restoreStock(order.items);
+    }
     updateOrderMutation.mutate({ orderId, updates });
     setEditingOrder(null);
   };
 
   const handleBulkUpdate = async (orderIds, updates) => {
     try {
+      // If bulk-cancelling, restore stock for each order
+      if (updates.status === 'cancelled') {
+        for (const id of orderIds) {
+          const order = orders.find(o => o.id === id);
+          if (order && order.status !== 'cancelled') {
+            await restoreStock(order.items);
+          }
+        }
+      }
       await Promise.all(orderIds.map(id => base44.entities.Order.update(id, updates)));
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       setSelectedOrders(new Set());
@@ -981,7 +1032,7 @@ export default function AdminOrderManagement() {
   }, [orders, filterStatus, searchQuery, sortBy]);
 
   const statusCounts = useMemo(() => {
-    const counts = { pending: 0, processing: 0, shipped: 0, delivered: 0 };
+    const counts = { pending: 0, processing: 0, shipped: 0, delivered: 0, cancelled: 0 };
     orders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
     return counts;
   }, [orders]);
@@ -1101,6 +1152,7 @@ export default function AdminOrderManagement() {
               <SelectItem value="processing" className="text-slate-900">Processing</SelectItem>
               <SelectItem value="shipped" className="text-slate-900">Shipped</SelectItem>
               <SelectItem value="delivered" className="text-slate-900">Delivered</SelectItem>
+              <SelectItem value="cancelled" className="text-red-600">Cancelled</SelectItem>
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={setSortBy}>
