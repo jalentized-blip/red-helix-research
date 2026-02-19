@@ -759,6 +759,17 @@ function OrderRow({ order, isSelected, onSelect, onEdit }) {
             <span className="text-slate-200">|</span>
             <span>{order.items?.length || 0} items</span>
           </div>
+          {order.items?.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-1">
+              {order.items.map((item, i) => (
+                <span key={i} className="inline-flex items-center bg-slate-100 text-slate-600 text-[11px] font-semibold px-2 py-0.5 rounded-md">
+                  {item.productName || item.product_name || 'Product'}
+                  {item.specification ? ` — ${item.specification}` : ''}
+                  {item.quantity > 1 ? ` ×${item.quantity}` : ''}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Amount */}
