@@ -340,7 +340,7 @@ export default function CryptoCheckout() {
 
   const verifyTransaction = async (txHash) => {
     setVerificationStatus('checking');
-    setVerificationMessage('Checking the blockchain for your payment...');
+    setVerificationMessage('Verifying your payment...');
 
     try {
       const result = await base44.functions.invoke('verifyCryptoTransaction', {
@@ -463,7 +463,7 @@ export default function CryptoCheckout() {
 
       await base44.entities.Order.create(orderPayload);
 
-      // ─── BLOCKCHAIN CONFIRMED: Credit affiliate rewards ───
+      // ─── PAYMENT CONFIRMED: Credit affiliate rewards ───
       if (affiliateInfo) {
         try {
           await recordAffiliateOrder(base44, {
@@ -475,7 +475,7 @@ export default function CryptoCheckout() {
         }
       }
 
-      // ─── BLOCKCHAIN CONFIRMED: Send referral reward notification ───
+      // ─── PAYMENT CONFIRMED: Send referral reward notification ───
       if (referralCode) {
         try {
           const discountCode = 'REFER' + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -484,16 +484,16 @@ export default function CryptoCheckout() {
             to: 'jakehboen95@gmail.com',
             subject: 'Referral Purchase Confirmed - Issue 10% Discount Code',
             body: '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">' +
-              '<h2 style="color: #dc2626;">Referral Purchase Confirmed on Blockchain!</h2>' +
+              '<h2 style="color: #dc2626;">Referral Purchase Confirmed!</h2>' +
               '<div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">' +
               '<p><strong>Referral Code Used:</strong> ' + referralCode + '</p>' +
               '<p><strong>Order Number:</strong> ' + orderNumber + '</p>' +
               '<p><strong>Order Total:</strong> $' + totalUSD.toFixed(2) + '</p>' +
               '<p><strong>Buyer Email:</strong> ' + (userEmail || customerInfo?.email) + '</p>' +
-              '<p><strong>Payment Method:</strong> ' + (method === 'cryptocurrency' ? selectedCrypto + ' (blockchain verified)' : method) + '</p>' +
+              '<p><strong>Payment Method:</strong> ' + (method === 'cryptocurrency' ? selectedCrypto : method === 'bank_ach' ? 'Bank ACH' : method) + '</p>' +
               '<p><strong>Suggested Discount Code:</strong> ' + discountCode + ' (10% off, one-time use)</p>' +
               '</div>' +
-              '<p style="color: #64748b; font-size: 14px;">Payment has been <strong>confirmed on the blockchain</strong>. ' +
+              '<p style="color: #64748b; font-size: 14px;">Payment has been <strong>confirmed</strong>. ' +
               'Please send the referrer a thank-you email with a <strong>one-time 10% discount code</strong>.</p>' +
               '</div>'
           });
@@ -912,8 +912,8 @@ export default function CryptoCheckout() {
                         <div className="w-20 h-20 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
                           <Loader2 className="w-10 h-10 text-[#dc2626] animate-spin" />
                         </div>
-                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-3">Checking Your Payment</h2>
-                        <p className="text-slate-500 font-medium mb-6 text-sm">{verificationMessage || 'Looking for your transaction on the blockchain...'}</p>
+                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-3">Processing Payment</h2>
+                        <p className="text-slate-500 font-medium mb-6 text-sm">{verificationMessage || 'Waiting on processing payment...'}</p>
 
                         <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-4">
                           <motion.div
@@ -1430,7 +1430,7 @@ export default function CryptoCheckout() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-1 h-1 rounded-full bg-green-500" />
-                  <span className="text-[10px] font-medium text-slate-500">Blockchain verified</span>
+                  <span className="text-[10px] font-medium text-slate-500">Payment verified</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-1 h-1 rounded-full bg-green-500" />

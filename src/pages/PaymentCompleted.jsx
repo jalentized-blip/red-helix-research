@@ -43,7 +43,7 @@ export default function PaymentCompleted() {
 
           <h1 className="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tight">Payment Received</h1>
           <p className="text-slate-500 text-lg mb-10 max-w-lg mx-auto font-medium">
-            Your transaction has been successfully detected and confirmed on the blockchain.
+            Your payment has been successfully received and is being processed.
           </p>
 
           {(transactionId || orderNumber) && (
@@ -101,7 +101,7 @@ export default function PaymentCompleted() {
                 <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
                   <Check className="w-3 h-3 text-green-600" />
                 </div>
-                <span className="font-medium">Payment confirmed on blockchain</span>
+                <span className="font-medium">Payment confirmed</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
