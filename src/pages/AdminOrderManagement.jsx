@@ -36,6 +36,50 @@ const STATUS_CONFIG = {
   delivered: { color: 'bg-green-50 border-green-200 text-green-700', icon: CheckCircle, label: 'Delivered' },
 };
 
+// ─── Resolve product name from order item using multiple strategies ───
+const resolveProductName = (item, products = [], productMap = {}) => {
+  // 1. Already has name stored on the item
+  if (item.productName) return item.productName;
+  if (item.product_name) return item.product_name;
+
+  // 2. Lookup by product ID
+  const byId = productMap[item.product_id] || productMap[item.productId];
+  if (byId) return byId;
+
+  // 3. Exact spec name + price match
+  const specLower = item.specification?.toLowerCase().trim() || '';
+  const itemPrice = Number(item.price) || 0;
+
+  for (const p of products) {
+    const match = p.specifications?.find(s =>
+      s.name?.toLowerCase().trim() === specLower &&
+      Math.abs(Number(s.price) - itemPrice) < 0.01
+    );
+    if (match) return p.name;
+  }
+
+  // 4. Partial spec name match + price (e.g. "30mg single vial" contains "30mg")
+  for (const p of products) {
+    const match = p.specifications?.find(s => {
+      const sNameLower = s.name?.toLowerCase().trim() || '';
+      return (specLower.includes(sNameLower) || sNameLower.includes(specLower)) &&
+             sNameLower.length > 0 &&
+             Math.abs(Number(s.price) - itemPrice) < 0.01;
+    });
+    if (match) return p.name;
+  }
+
+  // 5. Price-only match (last resort — find the only product with this exact price)
+  const priceMatches = [];
+  for (const p of products) {
+    const match = p.specifications?.find(s => Math.abs(Number(s.price) - itemPrice) < 0.01);
+    if (match) priceMatches.push(p.name);
+  }
+  if (priceMatches.length === 1) return priceMatches[0];
+
+  return null;
+};
+
 // ─── Shipping Label Component ───
 function ShippingLabel({ order, carrier }) {
   const labelRef = useRef(null);
@@ -120,7 +164,7 @@ function ShippingLabel({ order, carrier }) {
 }
 
 // ─── Order Detail Editor ───
-function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {} }) {
+function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {}, products = [] }) {
   const [form, setForm] = useState({
     status: order.status || 'pending',
     tracking_number: order.tracking_number || '',
@@ -353,7 +397,7 @@ function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {} }
                 {order.items?.map((item, i) => (
                   <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex justify-between items-center">
                     <div>
-                      <p className="font-bold text-slate-900 text-sm">{item.productName || item.product_name || productMap[item.product_id] || productMap[item.productId] || 'Product'}</p>
+                      <p className="font-bold text-slate-900 text-sm">{resolveProductName(item, products, productMap) || 'Product'}</p>
                       <p className="text-xs text-slate-500 font-medium">{item.specification} &middot; Qty: {item.quantity}</p>
                     </div>
                     <p className="font-black text-[#dc2626] text-sm">${(item.price * item.quantity).toFixed(2)}</p>
@@ -714,7 +758,7 @@ function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
 }
 
 // ─── Order Row ───
-function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {} }) {
+function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {}, products = [] }) {
   const StatusIcon = STATUS_CONFIG[order.status]?.icon || Clock;
   const addr = order.shipping_address || {};
 
@@ -763,7 +807,7 @@ function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {} }) {
             <div className="flex flex-wrap gap-1.5 mt-1">
               {order.items.map((item, i) => (
                 <span key={i} className="inline-flex items-center bg-slate-100 text-slate-600 text-[11px] font-semibold px-2 py-0.5 rounded-md">
-                  {item.productName || item.product_name || productMap[item.product_id] || productMap[item.productId] || 'Product'}
+                  {resolveProductName(item, products, productMap) || 'Product'}
                   {item.specification ? ` — ${item.specification}` : ''}
                   {item.quantity > 1 ? ` ×${item.quantity}` : ''}
                 </span>
@@ -814,19 +858,6 @@ export default function AdminOrderManagement() {
     return map;
   }, [products]);
 
-  // Build a specification → product name map for matching items without product_id
-  const specToProductMap = useMemo(() => {
-    const map = {};
-    products.forEach(p => {
-      p.specifications?.forEach(spec => {
-        // key by spec name (e.g. "30mg") → product name
-        const key = spec.name?.toLowerCase()?.trim();
-        if (key) map[key] = p.name;
-      });
-    });
-    return map;
-  }, [products]);
-
   // Auto-backfill missing product names on orders (runs once on load)
   const backfillRan = useRef(false);
   useEffect(() => {
@@ -842,11 +873,7 @@ export default function AdminOrderManagement() {
         const updatedItems = order.items.map(item => {
           if (item.productName || item.product_name) return item;
 
-          let resolvedName = productMap[item.product_id] || productMap[item.productId];
-          if (!resolvedName && item.specification) {
-            resolvedName = specToProductMap[item.specification.toLowerCase().trim()];
-          }
-
+          const resolvedName = resolveProductName(item, products, productMap);
           if (resolvedName) {
             needsUpdate = true;
             return { ...item, product_name: resolvedName };
@@ -1042,6 +1069,7 @@ export default function AdminOrderManagement() {
                 onClose={() => setEditingOrder(null)}
                 isSaving={updateOrderMutation.isPending}
                 productMap={productMap}
+                products={products}
               />
             </motion.div>
           )}
@@ -1131,6 +1159,7 @@ export default function AdminOrderManagement() {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   productMap={productMap}
+                  products={products}
                 />
               ))}
             </AnimatePresence>
