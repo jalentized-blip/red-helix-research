@@ -16,7 +16,7 @@ import {
   ArrowLeft, Package, User, MapPin, Truck, Calendar, DollarSign, CheckCircle,
   Clock, AlertCircle, Search, X, ChevronDown, ChevronUp, Printer, Mail,
   Download, RefreshCw, Edit3, Save, FileText, BarChart2, Hash, CreditCard,
-  Globe, Phone, Copy, ExternalLink, Filter, ArrowUpDown, Receipt, Building2
+  Globe, Phone, Copy, ExternalLink, Filter, ArrowUpDown, Receipt, Building2, Trash2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
@@ -165,7 +165,8 @@ function ShippingLabel({ order, carrier }) {
 }
 
 // ─── Order Detail Editor ───
-function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {}, products = [] }) {
+function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, productMap = {}, products = [] }) {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [form, setForm] = useState({
     status: order.status || 'pending',
     tracking_number: order.tracking_number || '',
@@ -277,6 +278,9 @@ function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {}, 
           </span>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => setShowDeleteConfirm(true)} className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700">
+            <Trash2 className="w-4 h-4 mr-1" /> Delete
+          </Button>
           <Button variant="outline" size="sm" onClick={onClose} className="border-slate-200 text-slate-500 hover:text-slate-900">
             <X className="w-4 h-4 mr-1" /> Close
           </Button>
@@ -526,6 +530,21 @@ function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {}, 
           </div>
         </div>
       </div>
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+        <DialogContent className="bg-white border-slate-200 text-slate-900">
+          <DialogHeader>
+            <DialogTitle className="text-slate-900 font-black">Delete Order #{order.order_number}?</DialogTitle>
+            <DialogDescription className="text-slate-500">
+              This will permanently remove this order. Stock will NOT be restored.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowDeleteConfirm(false)} className="border-slate-200 text-slate-500">Cancel</Button>
+            <Button className="bg-red-600 hover:bg-red-700 text-white font-bold" onClick={() => onDelete(order.id)}>Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -978,8 +997,23 @@ export default function AdminOrderManagement() {
     if (updates.status === 'cancelled' && order?.status !== 'cancelled') {
       await restoreStock(order.items);
     }
-    updateOrderMutation.mutate({ orderId, updates });
-    setEditingOrder(null);
+    try {
+      await updateOrderMutation.mutateAsync({ orderId, updates });
+      setEditingOrder(null);
+    } catch (err) {
+      // Error toast already handled by mutation onError
+    }
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      await base44.entities.Order.delete(orderId);
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      setEditingOrder(null);
+      toast.success('Order deleted');
+    } catch (err) {
+      toast.error('Failed to delete order', { description: err.message });
+    }
   };
 
   const handleBulkUpdate = async (orderIds, updates) => {
@@ -1118,6 +1152,7 @@ export default function AdminOrderManagement() {
                 order={editingOrder}
                 onSave={handleSaveOrder}
                 onClose={() => setEditingOrder(null)}
+                onDelete={handleDeleteOrder}
                 isSaving={updateOrderMutation.isPending}
                 productMap={productMap}
                 products={products}
