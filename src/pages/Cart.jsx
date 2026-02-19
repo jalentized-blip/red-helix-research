@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, loadAffiliateCodes } from '@/components/utils/cart';
+import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, loadAffiliateCodes, validateCartStock } from '@/components/utils/cart';
 import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -39,6 +39,14 @@ export default function Cart() {
     checkAuth();
     setCartItems(getCart());
     setAppliedPromo(getPromoCode());
+
+    // Validate cart stock — auto-remove out-of-stock items
+    validateCartStock(base44).then(removed => {
+      if (removed.length > 0) {
+        setCartItems(getCart());
+        alert('The following items were removed from your cart because they are no longer available:\n\n' + removed.join('\n'));
+      }
+    });
     const handleCartUpdate = () => setCartItems(getCart());
     const handlePromoUpdate = () => setAppliedPromo(getPromoCode());
     window.addEventListener('cartUpdated', handleCartUpdate);

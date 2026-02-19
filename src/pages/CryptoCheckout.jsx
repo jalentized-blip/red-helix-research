@@ -34,7 +34,8 @@ import {
   getAffiliateInfo,
   resolveAffiliateInfo,
   validatePromoCode,
-  loadAffiliateCodes
+  loadAffiliateCodes,
+  validateCartStock
 } from '@/components/utils/cart';
 import { trackPurchase } from '@/utils/hubspotAnalytics';
 import { base44 } from '@/api/base44Client';
@@ -263,7 +264,21 @@ export default function CryptoCheckout() {
       if (cart.length === 0) { navigate(createPageUrl('Cart')); return; }
       if (!customer) { navigate(createPageUrl('CustomerInfo')); return; }
 
-      setCartItems(cart);
+      // Validate stock — remove out-of-stock items before checkout
+      try {
+        const removed = await validateCartStock(base44);
+        if (removed.length > 0) {
+          const updatedCart = getCart();
+          if (updatedCart.length === 0) {
+            alert('All items in your cart are no longer available. Redirecting to cart.');
+            navigate(createPageUrl('Cart'));
+            return;
+          }
+          alert('The following items were removed because they are no longer available:\n\n' + removed.join('\n'));
+        }
+      } catch (_) {}
+
+      setCartItems(getCart());
       setCustomerInfo(customer);
       setPromoCode(promo);
       if (customer?.email) setSquareEmail(customer.email);

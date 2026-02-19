@@ -205,3 +205,42 @@ export const removePromoCode = () => {
   localStorage.removeItem('rdr_affiliate');
   window.dispatchEvent(new Event('promoUpdated'));
 };
+
+// Validate cart items against live product stock — removes out-of-stock items
+export const validateCartStock = async (base44) => {
+  const cart = getCart();
+  if (cart.length === 0) return [];
+
+  try {
+    const products = await base44.entities.Product.list();
+    const removed = [];
+
+    const validCart = cart.filter(item => {
+      // Find the product by ID or name
+      const product = products.find(p => p.id === item.productId || p.name === item.productName);
+      if (!product) {
+        removed.push(item.productName || 'Unknown product');
+        return false;
+      }
+
+      // Check if the specific variant/specification is still in stock
+      const spec = product.specifications?.find(s => s.name === item.specification);
+      if (!spec || spec.in_stock === false || spec.stock_quantity === 0) {
+        removed.push(`${item.productName} (${item.specification})`);
+        return false;
+      }
+
+      return true;
+    });
+
+    if (removed.length > 0) {
+      localStorage.setItem(CART_KEY, JSON.stringify(validCart));
+      window.dispatchEvent(new Event('cartUpdated'));
+    }
+
+    return removed;
+  } catch (err) {
+    console.warn('[CART] Failed to validate stock:', err);
+    return [];
+  }
+};
