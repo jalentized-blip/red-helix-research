@@ -527,6 +527,16 @@ export default function AdminCustomerManagement() {
                           <div className="mt-2 text-xs text-slate-500">
                             {order.items?.length || 0} items
                           </div>
+                          {order.items?.length > 0 && (
+                            <div className="mt-1 space-y-1">
+                              {order.items.map((item, idx) => (
+                                <div key={idx} className="flex justify-between text-xs text-slate-600 bg-slate-50 px-2 py-1 rounded">
+                                  <span className="font-medium">{item.productName || item.product_name || 'Product'} <span className="text-slate-400">{item.specification}</span></span>
+                                  <span className="font-bold">{item.quantity}x ${Number(item.price || 0).toFixed(2)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
 
                           {/* Tracking Info Display */}
                           {order.tracking_number && editingOrder !== order.id && (

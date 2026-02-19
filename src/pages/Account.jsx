@@ -990,6 +990,18 @@ export default function Account() {
                              <p className="text-xs text-slate-500 mb-3 font-medium">
                                {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                              </p>
+                             <div className="space-y-2 mb-4">
+                               {order.items.map((item, idx) => (
+                                 <div key={idx} className="flex justify-between text-sm items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                   <span className="text-slate-700 font-medium">
+                                     {item.productName || item.product_name || 'Product'} <span className="text-slate-400 text-xs ml-1">{item.specification}</span>
+                                   </span>
+                                   <span className="text-slate-900 font-bold">
+                                     {item.quantity}x ${Number(item.price || 0).toFixed(2)}
+                                   </span>
+                                 </div>
+                               ))}
+                             </div>
 
                              {/* Real-time Tracking Information */}
                              <OrderTrackingDetails order={order} />
