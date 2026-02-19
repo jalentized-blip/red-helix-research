@@ -814,6 +814,64 @@ export default function AdminOrderManagement() {
     return map;
   }, [products]);
 
+  // Build a specification → product name map for matching items without product_id
+  const specToProductMap = useMemo(() => {
+    const map = {};
+    products.forEach(p => {
+      p.specifications?.forEach(spec => {
+        // key by spec name (e.g. "30mg") → product name
+        const key = spec.name?.toLowerCase()?.trim();
+        if (key) map[key] = p.name;
+      });
+    });
+    return map;
+  }, [products]);
+
+  // Auto-backfill missing product names on orders (runs once on load)
+  const backfillRan = useRef(false);
+  useEffect(() => {
+    if (backfillRan.current || !orders.length || !products.length) return;
+    backfillRan.current = true;
+
+    const backfillOrders = async () => {
+      let patched = 0;
+      for (const order of orders) {
+        if (!order.items?.length) continue;
+
+        let needsUpdate = false;
+        const updatedItems = order.items.map(item => {
+          if (item.productName || item.product_name) return item;
+
+          let resolvedName = productMap[item.product_id] || productMap[item.productId];
+          if (!resolvedName && item.specification) {
+            resolvedName = specToProductMap[item.specification.toLowerCase().trim()];
+          }
+
+          if (resolvedName) {
+            needsUpdate = true;
+            return { ...item, product_name: resolvedName };
+          }
+          return item;
+        });
+
+        if (needsUpdate) {
+          try {
+            await base44.entities.Order.update(order.id, { items: updatedItems });
+            patched++;
+          } catch (err) {
+            console.error(`Failed to backfill order ${order.order_number}:`, err);
+          }
+        }
+      }
+      if (patched > 0) {
+        queryClient.invalidateQueries({ queryKey: ['orders'] });
+        toast.success(`Fixed product names on ${patched} order${patched > 1 ? 's' : ''}`);
+      }
+    };
+
+    backfillOrders();
+  }, [orders, products]);
+
   useEffect(() => {
     const unsubscribe = base44.entities.Order.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
