@@ -120,7 +120,7 @@ function ShippingLabel({ order, carrier }) {
 }
 
 // ─── Order Detail Editor ───
-function OrderDetailEditor({ order, onSave, onClose, isSaving }) {
+function OrderDetailEditor({ order, onSave, onClose, isSaving, productMap = {} }) {
   const [form, setForm] = useState({
     status: order.status || 'pending',
     tracking_number: order.tracking_number || '',
@@ -353,7 +353,7 @@ function OrderDetailEditor({ order, onSave, onClose, isSaving }) {
                 {order.items?.map((item, i) => (
                   <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex justify-between items-center">
                     <div>
-                      <p className="font-bold text-slate-900 text-sm">{item.productName || item.product_name}</p>
+                      <p className="font-bold text-slate-900 text-sm">{item.productName || item.product_name || productMap[item.product_id] || productMap[item.productId] || 'Product'}</p>
                       <p className="text-xs text-slate-500 font-medium">{item.specification} &middot; Qty: {item.quantity}</p>
                     </div>
                     <p className="font-black text-[#dc2626] text-sm">${(item.price * item.quantity).toFixed(2)}</p>
@@ -714,7 +714,7 @@ function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
 }
 
 // ─── Order Row ───
-function OrderRow({ order, isSelected, onSelect, onEdit }) {
+function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {} }) {
   const StatusIcon = STATUS_CONFIG[order.status]?.icon || Clock;
   const addr = order.shipping_address || {};
 
@@ -763,7 +763,7 @@ function OrderRow({ order, isSelected, onSelect, onEdit }) {
             <div className="flex flex-wrap gap-1.5 mt-1">
               {order.items.map((item, i) => (
                 <span key={i} className="inline-flex items-center bg-slate-100 text-slate-600 text-[11px] font-semibold px-2 py-0.5 rounded-md">
-                  {item.productName || item.product_name || 'Product'}
+                  {item.productName || item.product_name || productMap[item.product_id] || productMap[item.productId] || 'Product'}
                   {item.specification ? ` — ${item.specification}` : ''}
                   {item.quantity > 1 ? ` ×${item.quantity}` : ''}
                 </span>
@@ -801,6 +801,18 @@ export default function AdminOrderManagement() {
     queryKey: ['orders'],
     queryFn: () => base44.entities.Order.list('-created_date'),
   });
+
+  const { data: products = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => base44.entities.Product.list(),
+  });
+
+  // Build a lookup map: product id → product name
+  const productMap = useMemo(() => {
+    const map = {};
+    products.forEach(p => { map[p.id] = p.name; });
+    return map;
+  }, [products]);
 
   useEffect(() => {
     const unsubscribe = base44.entities.Order.subscribe(() => {
@@ -971,6 +983,7 @@ export default function AdminOrderManagement() {
                 onSave={handleSaveOrder}
                 onClose={() => setEditingOrder(null)}
                 isSaving={updateOrderMutation.isPending}
+                productMap={productMap}
               />
             </motion.div>
           )}
@@ -1059,6 +1072,7 @@ export default function AdminOrderManagement() {
                     setEditingOrder(o);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
+                  productMap={productMap}
                 />
               ))}
             </AnimatePresence>
