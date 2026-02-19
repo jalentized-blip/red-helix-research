@@ -167,7 +167,7 @@ const VALID_PROMOS: Record<string, number> = {
   'WELCOME': 0.15,
   'FIRSTDAY15': 0.15,
   'INDO88': 0.10,
-  'MELISSA10': 0.10,
+  'MELLISA10': 0.10,
 };
 
 function getServerDiscount(promoCode: string | undefined, subtotal: number): { discountRate: number; discountAmount: number; validCode: boolean } {

@@ -20,7 +20,7 @@ const TRANSACTIONS_KEY = 'rdr_affiliate_transactions';
 const HARDCODED_AFFILIATES = [
   {
     id: 'aff_melissa_thomas',
-    code: 'MELISSA10',
+    code: 'MELLISA10',
     affiliate_name: 'Melissa Thomas',
     affiliate_email: 'mizzmariee3@gmail.com',
     discount_percent: 10,
