@@ -1164,6 +1164,18 @@ export default function CryptoCheckout() {
 
                                 // Reserve stock immediately for Square orders
                                 await decrementStock(cartItems);
+
+                                // Record affiliate commission (same as crypto/ACH flow)
+                                if (squareAffiliateInfo) {
+                                  try {
+                                    await recordAffiliateOrder(base44, {
+                                      ...squareAffiliateInfo,
+                                      customerEmail: squareEmail.trim(),
+                                    }, orderNumberRef.current, totalUSD);
+                                  } catch (affError) {
+                                    console.error('Affiliate tracking error (non-blocking):', affError);
+                                  }
+                                }
                               } catch (orderErr) {
                                 console.warn('Failed to create order record:', orderErr);
                               }

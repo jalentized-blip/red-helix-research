@@ -35,7 +35,6 @@ import {
   CheckCircle2,
   Clock,
   Coins,
-  ArrowUpRight,
   CreditCard,
   FileText,
   UserPlus,
@@ -55,7 +54,7 @@ import {
   subscribeTransactions,
   resetBase44Check,
 } from '@/components/utils/affiliateStore';
-import { syncAffiliatesToGitHub, saveGitHubToken, hasGitHubToken } from '@/components/utils/githubSync';
+// GitHub sync removed — Base44 is now the primary data store
 
 // ─── POINTS VALUE CONFIG ───
 const POINTS_REWARD_RATE = 0.015; // 1.5% of order total
@@ -731,11 +730,6 @@ export default function AdminAffiliateManager() {
   const [pointsAdjustAffiliate, setPointsAdjustAffiliate] = useState(null);
   const [txStatusFilter, setTxStatusFilter] = useState('all');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
-  const [githubSyncStatus, setGithubSyncStatus] = useState(null); // null | 'syncing' | 'success' | 'error'
-  const [githubSyncMessage, setGithubSyncMessage] = useState('');
-  const [showGitHubSettings, setShowGitHubSettings] = useState(false);
-  const [githubPatInput, setGithubPatInput] = useState('');
-  const [hasToken, setHasToken] = useState(hasGitHubToken());
 
   // Auth check
   useEffect(() => {
@@ -790,33 +784,6 @@ export default function AdminAffiliateManager() {
     return () => unsubs.forEach(u => { try { u(); } catch {} });
   }, [user]);
 
-  // GitHub sync helper — fire-and-forget, non-blocking
-  const triggerGitHubSync = async (action) => {
-    setGithubSyncStatus('syncing');
-    setGithubSyncMessage('Syncing to GitHub...');
-    try {
-      const currentAffiliates = await listAffiliates();
-      // Filter to only include affiliates that should be hardcoded (active, with code)
-      const toSync = (currentAffiliates || []).filter(a => a.code);
-      const result = await syncAffiliatesToGitHub(toSync, action);
-      if (result.success) {
-        setGithubSyncStatus('success');
-        setGithubSyncMessage(result.message);
-      } else {
-        setGithubSyncStatus('error');
-        setGithubSyncMessage(result.message);
-      }
-    } catch (err) {
-      setGithubSyncStatus('error');
-      setGithubSyncMessage(err.message || 'Sync failed');
-    }
-    // Auto-clear success status after 5 seconds
-    setTimeout(() => {
-      setGithubSyncStatus(prev => prev === 'syncing' ? prev : null);
-      setGithubSyncMessage('');
-    }, 5000);
-  };
-
   // Save affiliate
   const handleSaveAffiliate = async (form) => {
     setIsSaving(true);
@@ -862,12 +829,6 @@ export default function AdminAffiliateManager() {
       setEditingAffiliate(null);
       setIsCreating(false);
       await loadData();
-
-      // Sync to GitHub (fire-and-forget)
-      const action = editingAffiliate
-        ? `update ${form.code || 'affiliate'}`
-        : `add ${form.code || 'affiliate'}`;
-      triggerGitHubSync(action);
     } catch (error) {
       console.error('Save error:', error);
       alert(`Failed to save affiliate: ${error?.message || 'Unknown error'}`);
@@ -898,15 +859,11 @@ export default function AdminAffiliateManager() {
       return;
     }
     try {
-      const deletedCode = affiliate.code || 'affiliate';
       await deleteAffiliateStore(base44, affiliate.id);
       resetBase44Check();
       clearAffiliateCache();
       setDeleteConfirm(null);
       await loadData();
-
-      // Sync to GitHub (fire-and-forget)
-      triggerGitHubSync(`remove ${deletedCode}`);
     } catch (error) {
       console.error('Delete error:', error);
     }
@@ -1016,19 +973,6 @@ export default function AdminAffiliateManager() {
               <p className="text-slate-400 font-medium mt-2">Manage affiliates, track commissions, and reward points</p>
             </div>
             <div className="flex items-center gap-3">
-              {/* GitHub Sync Status */}
-              {githubSyncStatus && (
-                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                  githubSyncStatus === 'syncing' ? 'bg-blue-50 text-blue-600 border border-blue-200' :
-                  githubSyncStatus === 'success' ? 'bg-green-50 text-green-600 border border-green-200' :
-                  'bg-red-50 text-red-600 border border-red-200'
-                }`}>
-                  {githubSyncStatus === 'syncing' && <Loader2 className="w-3 h-3 animate-spin" />}
-                  {githubSyncStatus === 'success' && <CheckCircle2 className="w-3 h-3" />}
-                  {githubSyncStatus === 'error' && <AlertCircle className="w-3 h-3" />}
-                  <span className="hidden md:inline">{githubSyncStatus === 'syncing' ? 'Syncing...' : githubSyncStatus === 'success' ? 'Synced to GitHub' : 'Sync failed'}</span>
-                </div>
-              )}
               <Button
                 onClick={() => setShowCommissionReport(true)}
                 variant="outline"
@@ -1291,69 +1235,7 @@ export default function AdminAffiliateManager() {
           </div>
         </div>
 
-        {/* GitHub Sync Settings */}
-        <div className="mt-6 bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
-          <button
-            onClick={() => setShowGitHubSettings(!showGitHubSettings)}
-            className="w-full flex items-center justify-between"
-          >
-            <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
-              <ArrowUpRight className="w-5 h-5 text-slate-400" /> GitHub Auto-Sync Settings
-              {hasToken ? (
-                <span className="px-2 py-0.5 bg-green-50 text-green-600 text-[8px] font-black uppercase tracking-widest rounded-full">Connected</span>
-              ) : (
-                <span className="px-2 py-0.5 bg-yellow-50 text-yellow-600 text-[8px] font-black uppercase tracking-widest rounded-full">Not Set</span>
-              )}
-            </h3>
-            {showGitHubSettings ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
-          </button>
-
-          <AnimatePresence>
-            {showGitHubSettings && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="mt-6 space-y-4">
-                  <p className="text-xs text-slate-400 font-medium">
-                    When you add or delete an affiliate, the changes are automatically committed to the GitHub repository
-                    so they persist across deployments. A GitHub Personal Access Token with <code className="bg-slate-100 px-1 rounded">repo</code> scope is required.
-                  </p>
-                  <div className="flex gap-3">
-                    <input
-                      type="password"
-                      value={githubPatInput}
-                      onChange={(e) => setGithubPatInput(e.target.value)}
-                      placeholder={hasToken ? '••••••••••••••••••••••••' : 'ghp_xxxxxxxxxxxxxxxxxxxx'}
-                      className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-mono text-slate-900 focus:outline-none focus:border-[#dc2626] transition-all"
-                    />
-                    <Button
-                      onClick={() => {
-                        if (githubPatInput.trim()) {
-                          saveGitHubToken(githubPatInput.trim());
-                          setHasToken(true);
-                          setGithubPatInput('');
-                          alert('GitHub token saved!');
-                        }
-                      }}
-                      disabled={!githubPatInput.trim()}
-                      className="bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs px-6 disabled:opacity-50"
-                    >
-                      <Save className="w-4 h-4 mr-2" /> Save Token
-                    </Button>
-                  </div>
-                  {hasToken && (
-                    <p className="text-[10px] text-green-600 font-bold flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3" /> A GitHub token is configured. Affiliate changes will auto-sync.
-                    </p>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        {/* Data stored in Base44 — persists across all browsers */}
       </div>
 
       {/* Modals */}
