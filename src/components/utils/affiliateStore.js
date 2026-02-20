@@ -1,18 +1,30 @@
 /**
  * Affiliate Data Store
  *
- * Uses Base44 entities (AffiliateCode + AffiliateTransaction) as the
- * primary data store.  The SEED_AFFILIATES array below is only used to
- * auto-create the initial affiliate record if one doesn't already exist
- * in the database.
+ * Affiliate definitions are stored as a hardcoded list (+ localStorage overrides
+ * for admin-created affiliates).
+ *
+ * Commission tracking and transaction history are derived from ACTUAL Order
+ * records in Base44 — orders already store affiliate_code, affiliate_email,
+ * affiliate_name, and affiliate_commission fields.  This means the admin
+ * always sees real data computed from real orders, regardless of which browser
+ * or device the customer used to place the order.
  */
 
 import { base44 as base44Client } from '@/api/base44Client';
 
-// ─── SEED DATA (created in Base44 on first load if missing) ───
+// ─── CONSTANTS ───
 
-const SEED_AFFILIATES = [
+const AFFILIATES_KEY = 'rdr_affiliates_overrides';
+const DELETED_KEY = 'rdr_affiliates_deleted';
+
+const POINTS_REWARD_RATE = 0.015; // 1.5% of order total
+const COMMISSION_RATE = 0.10;     // 10% of order total
+
+// ─── HARDCODED AFFILIATES (PRIMARY DATABASE) ───
+const HARDCODED_AFFILIATES = [
   {
+    id: 'aff_melissa_thomas',
     code: 'MELLISA10',
     affiliate_name: 'Melissa Thomas',
     affiliate_email: 'mizzmariee3@gmail.com',
@@ -26,117 +38,246 @@ const SEED_AFFILIATES = [
   },
 ];
 
-// ─── ONE-TIME SEED CHECK ───
+// ─── HELPERS ───
 
-let seeded = false;
+function generateId() {
+  return `aff_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 6)}`;
+}
 
-async function ensureSeedAffiliates(b44) {
-  if (seeded) return;
+function getOverrides() {
   try {
-    const b = b44 || base44Client;
-    for (const seed of SEED_AFFILIATES) {
-      const existing = await b.entities.AffiliateCode.filter({ code: seed.code });
-      if (!existing || existing.length === 0) {
-        await b.entities.AffiliateCode.create(seed);
-        console.log(`[AffiliateStore] Seeded affiliate: ${seed.code}`);
-      }
-    }
-    seeded = true;
-  } catch (err) {
-    console.warn('[AffiliateStore] Seed check failed:', err);
+    const data = localStorage.getItem(AFFILIATES_KEY);
+    return data ? JSON.parse(data) : {};
+  } catch {
+    return {};
   }
 }
 
-// ─── CLEAN UP LEGACY LOCALSTORAGE (one-time) ───
+function saveOverrides(overrides) {
+  localStorage.setItem(AFFILIATES_KEY, JSON.stringify(overrides));
+}
 
-try {
-  localStorage.removeItem('rdr_affiliates_overrides');
-  localStorage.removeItem('rdr_affiliates_deleted');
-  localStorage.removeItem('rdr_affiliate_transactions');
-} catch {}
-
-// ─── AFFILIATE CODE OPERATIONS ───
-
-export async function listAffiliates(b44) {
-  const b = b44 || base44Client;
-  await ensureSeedAffiliates(b);
+function getDeletedIds() {
   try {
-    const affiliates = await b.entities.AffiliateCode.list('-created_date', 200);
-    return affiliates || [];
-  } catch (err) {
-    console.error('[AffiliateStore] Failed to list affiliates:', err);
+    const data = localStorage.getItem(DELETED_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch {
     return [];
   }
 }
 
-export async function createAffiliate(b44, data) {
-  const b = b44 || base44Client;
-  return await b.entities.AffiliateCode.create({
-    code: data.code,
-    affiliate_name: data.affiliate_name,
-    affiliate_email: data.affiliate_email,
-    discount_percent: data.discount_percent || 15,
-    commission_percent: data.commission_percent || 10,
-    is_active: data.is_active !== false,
+function saveDeletedIds(ids) {
+  localStorage.setItem(DELETED_KEY, JSON.stringify(ids));
+}
+
+// Build affiliate list from hardcoded + overrides, minus deleted
+function buildAffiliateList() {
+  const overrides = getOverrides();
+  const deletedIds = getDeletedIds();
+  const hardcodedIds = new Set(HARDCODED_AFFILIATES.map(a => a.id));
+
+  const result = HARDCODED_AFFILIATES
+    .filter(aff => !deletedIds.includes(aff.id))
+    .map(aff => {
+      const override = overrides[aff.id];
+      if (override) {
+        return { ...aff, ...override };
+      }
+      return { ...aff };
+    });
+
+  // Add any affiliates created via admin (stored only in overrides)
+  for (const [id, data] of Object.entries(overrides)) {
+    if (!hardcodedIds.has(id) && !deletedIds.includes(id) && data.code) {
+      result.push(data);
+    }
+  }
+
+  return result;
+}
+
+// ─── FETCH LIVE STATS FROM ORDER RECORDS ───
+
+/**
+ * Scan all Order records in Base44 and compute affiliate stats
+ * (commission, orders, revenue, points) from orders that have affiliate_code set.
+ */
+async function computeAffiliateStats() {
+  try {
+    const orders = await base44Client.entities.Order.list('-created_date');
+    const statsByCode = {};
+
+    for (const order of (orders || [])) {
+      const code = order.affiliate_code;
+      if (!code) continue;
+      // Skip cancelled orders
+      if (order.status === 'cancelled') continue;
+
+      const upperCode = code.toUpperCase();
+      if (!statsByCode[upperCode]) {
+        statsByCode[upperCode] = {
+          total_orders: 0,
+          total_revenue: 0,
+          total_commission: 0,
+          total_points: 0,
+        };
+      }
+
+      const total = order.total_amount || 0;
+      statsByCode[upperCode].total_orders += 1;
+      statsByCode[upperCode].total_revenue += total;
+      statsByCode[upperCode].total_commission += order.affiliate_commission || parseFloat((total * COMMISSION_RATE).toFixed(2));
+      statsByCode[upperCode].total_points += parseFloat((total * POINTS_REWARD_RATE).toFixed(2));
+    }
+
+    return statsByCode;
+  } catch (err) {
+    console.warn('[AffiliateStore] Failed to compute stats from orders:', err);
+    return {};
+  }
+}
+
+/**
+ * Build transactions list from Order records that have affiliate_code set.
+ */
+async function buildTransactionsFromOrders() {
+  try {
+    const orders = await base44Client.entities.Order.list('-created_date');
+    const transactions = [];
+
+    for (const order of (orders || [])) {
+      if (!order.affiliate_code) continue;
+
+      const total = order.total_amount || 0;
+      transactions.push({
+        id: `tx_${order.id}`,
+        affiliate_email: order.affiliate_email || '',
+        affiliate_name: order.affiliate_name || '',
+        affiliate_code: order.affiliate_code,
+        order_number: order.order_number || '',
+        order_total: total,
+        commission_amount: order.affiliate_commission || parseFloat((total * COMMISSION_RATE).toFixed(2)),
+        points_earned: parseFloat((total * POINTS_REWARD_RATE).toFixed(2)),
+        customer_email: order.customer_email || '',
+        status: order.status === 'cancelled' ? 'cancelled' : 'pending',
+        created_date: order.created_date,
+      });
+    }
+
+    return transactions;
+  } catch (err) {
+    console.warn('[AffiliateStore] Failed to build transactions from orders:', err);
+    return [];
+  }
+}
+
+// ─── AFFILIATE CODE OPERATIONS ───
+
+export async function listAffiliates() {
+  const affiliates = buildAffiliateList();
+
+  // Merge live stats from actual Order records
+  const stats = await computeAffiliateStats();
+
+  return affiliates.map(aff => {
+    const liveStats = stats[aff.code?.toUpperCase()];
+    if (liveStats) {
+      return {
+        ...aff,
+        total_orders: liveStats.total_orders,
+        total_revenue: liveStats.total_revenue,
+        total_commission: liveStats.total_commission,
+        total_points: liveStats.total_points,
+      };
+    }
+    return aff;
+  });
+}
+
+export async function createAffiliate(base44, data) {
+  const id = generateId();
+  const newAffiliate = {
+    ...data,
+    id,
+    created_date: new Date().toISOString(),
     total_points: data.total_points || 0,
     total_commission: data.total_commission || 0,
     total_orders: data.total_orders || 0,
     total_revenue: data.total_revenue || 0,
-    notes: data.notes || '',
-  });
+  };
+
+  HARDCODED_AFFILIATES.push(newAffiliate);
+
+  const overrides = getOverrides();
+  overrides[id] = newAffiliate;
+  saveOverrides(overrides);
+
+  const deletedIds = getDeletedIds();
+  const filtered = deletedIds.filter(did => did !== id);
+  if (filtered.length !== deletedIds.length) saveDeletedIds(filtered);
+
+  return newAffiliate;
 }
 
-export async function updateAffiliate(b44, id, data) {
-  const b = b44 || base44Client;
-  return await b.entities.AffiliateCode.update(id, data);
-}
+export async function updateAffiliate(base44, id, data) {
+  const overrides = getOverrides();
+  overrides[id] = { ...(overrides[id] || {}), ...data };
+  saveOverrides(overrides);
 
-export async function deleteAffiliate(b44, id) {
-  const b = b44 || base44Client;
-  return await b.entities.AffiliateCode.delete(id);
-}
-
-// ─── AFFILIATE TRANSACTION OPERATIONS ───
-
-export async function listTransactions(b44) {
-  const b = b44 || base44Client;
-  try {
-    const transactions = await b.entities.AffiliateTransaction.list('-created_date', 500);
-    return transactions || [];
-  } catch (err) {
-    console.error('[AffiliateStore] Failed to list transactions:', err);
-    return [];
+  const idx = HARDCODED_AFFILIATES.findIndex(a => a.id === id);
+  if (idx !== -1) {
+    HARDCODED_AFFILIATES[idx] = { ...HARDCODED_AFFILIATES[idx], ...data };
   }
+
+  return { id, ...data };
 }
 
-export async function createTransaction(b44, data) {
-  const b = b44 || base44Client;
-  return await b.entities.AffiliateTransaction.create({
-    affiliate_email: data.affiliate_email,
-    affiliate_name: data.affiliate_name,
-    affiliate_code: data.affiliate_code,
-    order_number: data.order_number,
-    order_total: data.order_total,
-    commission_amount: data.commission_amount,
-    points_earned: data.points_earned,
-    customer_email: data.customer_email,
-    status: data.status || 'pending',
-  });
+export async function deleteAffiliate(base44, id) {
+  const deletedIds = getDeletedIds();
+  if (!deletedIds.includes(id)) {
+    deletedIds.push(id);
+    saveDeletedIds(deletedIds);
+  }
+
+  const idx = HARDCODED_AFFILIATES.findIndex(a => a.id === id);
+  if (idx !== -1) {
+    HARDCODED_AFFILIATES.splice(idx, 1);
+  }
+
+  const overrides = getOverrides();
+  delete overrides[id];
+  saveOverrides(overrides);
 }
 
-export async function updateTransaction(b44, id, data) {
-  const b = b44 || base44Client;
-  return await b.entities.AffiliateTransaction.update(id, data);
+// ─── TRANSACTION OPERATIONS (derived from Orders) ───
+
+export async function listTransactions() {
+  return await buildTransactionsFromOrders();
 }
 
-// ─── SUBSCRIBE (real-time via Base44 WebSocket) ───
+export async function createTransaction(base44, data) {
+  // No-op — transactions are now derived from Order records.
+  // The Order.create() call in checkout already stores affiliate_code/commission.
+  return {
+    ...data,
+    id: generateId(),
+    created_date: new Date().toISOString(),
+  };
+}
 
-export function subscribeAffiliates(b44, callback) {
-  const b = b44 || base44Client;
+export async function updateTransaction(base44, id, data) {
+  // No-op — transaction status is derived from order status
+  return { id, ...data };
+}
+
+// ─── SUBSCRIBE ───
+
+export function subscribeAffiliates(base44, callback) {
+  // Subscribe to Order changes and recompute affiliate stats
   try {
-    return b.entities.AffiliateCode.subscribe(async () => {
+    return base44Client.entities.Order.subscribe(async () => {
       try {
-        const affiliates = await b.entities.AffiliateCode.list('-created_date', 200);
+        const affiliates = await listAffiliates();
         callback(affiliates || []);
       } catch (err) {
         console.warn('[AffiliateStore] Subscribe refresh failed:', err);
@@ -148,12 +289,12 @@ export function subscribeAffiliates(b44, callback) {
   }
 }
 
-export function subscribeTransactions(b44, callback) {
-  const b = b44 || base44Client;
+export function subscribeTransactions(base44, callback) {
+  // Subscribe to Order changes and rebuild transaction list
   try {
-    return b.entities.AffiliateTransaction.subscribe(async () => {
+    return base44Client.entities.Order.subscribe(async () => {
       try {
-        const transactions = await b.entities.AffiliateTransaction.list('-created_date', 500);
+        const transactions = await buildTransactionsFromOrders();
         callback(transactions || []);
       } catch (err) {
         console.warn('[AffiliateStore] Subscribe refresh failed:', err);
@@ -167,136 +308,68 @@ export function subscribeTransactions(b44, callback) {
 
 // ─── LOAD AFFILIATE CODES FOR PROMO VALIDATION ───
 
-export async function loadActiveAffiliateCodes(b44) {
-  const b = b44 || base44Client;
-  try {
-    await ensureSeedAffiliates(b);
-    const affiliates = await b.entities.AffiliateCode.filter(
-      { is_active: true },
-      '-created_date',
-      200
-    );
-    const codes = {};
-    if (affiliates && Array.isArray(affiliates)) {
-      affiliates.forEach(aff => {
-        if (aff.code) {
-          codes[aff.code.toUpperCase()] = {
-            discount: (aff.discount_percent || 15) / 100,
-            label: `${aff.discount_percent || 15}% off`,
-            isAffiliate: true,
-            affiliateId: aff.id,
-            // PII (email, name) not included here — resolved at order time via getAffiliateById()
-          };
-        }
-      });
-    }
-    return codes;
-  } catch (err) {
-    console.error('[AffiliateStore] Failed to load active affiliate codes:', err);
-    return {};
+export async function loadActiveAffiliateCodes() {
+  const affiliates = buildAffiliateList();
+  const codes = {};
+  if (affiliates && Array.isArray(affiliates)) {
+    affiliates.forEach(aff => {
+      if (aff.is_active && aff.code) {
+        codes[aff.code.toUpperCase()] = {
+          discount: (aff.discount_percent || 15) / 100,
+          label: `${aff.discount_percent || 15}% off`,
+          isAffiliate: true,
+          affiliateId: aff.id,
+        };
+      }
+    });
   }
+  return codes;
 }
 
 /** Look up full affiliate details by ID (for order recording — keeps PII out of promo flow). */
 export async function getAffiliateById(affiliateId) {
   if (!affiliateId) return null;
-  try {
-    const affiliate = await base44Client.entities.AffiliateCode.get(affiliateId);
-    return affiliate || null;
-  } catch (err) {
-    console.warn('[AffiliateStore] Failed to get affiliate by ID:', err);
-    // Fallback: try listing and finding by ID
-    try {
-      const affiliates = await base44Client.entities.AffiliateCode.list('-created_date', 200);
-      return (affiliates || []).find(a => a.id === affiliateId) || null;
-    } catch {
-      return null;
-    }
-  }
+  const affiliates = buildAffiliateList();
+  return affiliates.find(a => a.id === affiliateId) || null;
 }
 
 // ─── UPDATE AFFILIATE TOTALS AFTER AN ORDER ───
 
-export async function recordAffiliateOrder(b44, affiliateInfo, orderNumber, totalUSD) {
-  const b = b44 || base44Client;
-  const pointsEarned = parseFloat((totalUSD * 0.015).toFixed(2));
-  const commission = parseFloat((totalUSD * 0.10).toFixed(2));
-
-  // Create transaction in Base44
-  await createTransaction(b, {
-    affiliate_email: affiliateInfo.email,
-    affiliate_name: affiliateInfo.name,
-    affiliate_code: affiliateInfo.code,
-    order_number: orderNumber,
-    order_total: totalUSD,
-    commission_amount: commission,
-    points_earned: pointsEarned,
-    customer_email: affiliateInfo.customerEmail || 'guest@redhelixresearch.com',
-    status: 'pending',
-  });
-
-  // Update affiliate totals in Base44
-  try {
-    const affiliates = await b.entities.AffiliateCode.filter({ code: affiliateInfo.code });
-    const affiliateRecord = affiliates?.[0];
-
-    if (affiliateRecord) {
-      await b.entities.AffiliateCode.update(affiliateRecord.id, {
-        total_points: (affiliateRecord.total_points || 0) + pointsEarned,
-        total_commission: (affiliateRecord.total_commission || 0) + commission,
-        total_orders: (affiliateRecord.total_orders || 0) + 1,
-        total_revenue: (affiliateRecord.total_revenue || 0) + totalUSD,
-      });
-    }
-  } catch (err) {
-    console.warn('[AffiliateStore] Failed to update affiliate totals:', err);
-    // Transaction was already created, so this is non-fatal
-  }
-
+export async function recordAffiliateOrder(base44, affiliateInfo, orderNumber, totalUSD) {
+  // Stats are now computed live from Order records, so we don't need to
+  // store separate transaction records or update affiliate totals.
+  // The Order.create() call in checkout already stores:
+  //   affiliate_code, affiliate_email, affiliate_name, affiliate_commission
+  // This function is kept for backward compatibility.
+  const pointsEarned = parseFloat((totalUSD * POINTS_REWARD_RATE).toFixed(2));
+  const commission = parseFloat((totalUSD * COMMISSION_RATE).toFixed(2));
   return { pointsEarned, commission };
 }
 
 // ─── AFFILIATE LOOKUP BY EMAIL (for account dashboard) ───
 
-export async function getAffiliateByEmail(b44, email) {
+export async function getAffiliateByEmail(base44, email) {
   if (!email) return null;
-  const b = b44 || base44Client;
-  try {
-    const results = await b.entities.AffiliateCode.filter({ affiliate_email: email });
-    if (results && results.length > 0) return results[0];
-    // Fallback: case-insensitive search via full list
-    const all = await b.entities.AffiliateCode.list('-created_date', 200);
-    return (all || []).find(
-      a => a.affiliate_email?.toLowerCase() === email.toLowerCase()
-    ) || null;
-  } catch (err) {
-    console.warn('[AffiliateStore] Failed to get affiliate by email:', err);
-    return null;
-  }
+  const affiliates = await listAffiliates();
+  return affiliates.find(
+    a => a.affiliate_email?.toLowerCase() === email.toLowerCase()
+  ) || null;
 }
 
-export async function getTransactionsForAffiliate(b44, affiliateCode) {
+export async function getTransactionsForAffiliate(base44, affiliateCode) {
   if (!affiliateCode) return [];
-  const b = b44 || base44Client;
-  try {
-    const transactions = await b.entities.AffiliateTransaction.filter(
-      { affiliate_code: affiliateCode.toUpperCase() },
-      '-created_date',
-      500
-    );
-    return transactions || [];
-  } catch (err) {
-    console.warn('[AffiliateStore] Failed to get transactions for affiliate:', err);
-    return [];
-  }
+  const transactions = await buildTransactionsFromOrders();
+  return transactions.filter(
+    t => t.affiliate_code?.toUpperCase() === affiliateCode.toUpperCase()
+  );
 }
 
 // ─── STORAGE MODE INFO ───
 
 export function getStorageMode() {
-  return 'base44';
+  return 'orders';
 }
 
 export function resetBase44Check() {
-  // No-op — Base44 is now the only storage mode
+  // No-op
 }
