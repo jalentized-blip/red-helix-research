@@ -364,6 +364,53 @@ export async function getTransactionsForAffiliate(base44, affiliateCode) {
   );
 }
 
+// ─── BACKFILL: Tag old orders that used an affiliate promo but missing affiliate_code ───
+
+export async function backfillAffiliateOrders() {
+  try {
+    const orders = await base44Client.entities.Order.list('-created_date');
+    const affiliates = buildAffiliateList();
+    let patched = 0;
+
+    for (const order of (orders || [])) {
+      // Skip orders that already have affiliate_code set
+      if (order.affiliate_code) continue;
+      // Skip orders with no discount
+      if (!order.discount_amount || order.discount_amount <= 0) continue;
+
+      const subtotal = order.subtotal || order.total_amount || 0;
+      if (subtotal <= 0) continue;
+
+      // Calculate what discount percentage was applied
+      const discountPercent = Math.round((order.discount_amount / subtotal) * 100);
+
+      // Try to match to an affiliate by discount percentage
+      for (const aff of affiliates) {
+        if (aff.discount_percent === discountPercent) {
+          const commission = parseFloat((order.total_amount * COMMISSION_RATE).toFixed(2));
+          try {
+            await base44Client.entities.Order.update(order.id, {
+              affiliate_code: aff.code,
+              affiliate_email: aff.affiliate_email,
+              affiliate_name: aff.affiliate_name,
+              affiliate_commission: commission,
+            });
+            patched++;
+          } catch (err) {
+            console.warn(`[Backfill] Failed to patch order ${order.order_number}:`, err);
+          }
+          break; // Only match one affiliate per order
+        }
+      }
+    }
+
+    return { patched, total: (orders || []).length };
+  } catch (err) {
+    console.error('[AffiliateStore] Backfill failed:', err);
+    return { patched: 0, total: 0, error: err.message };
+  }
+}
+
 // ─── STORAGE MODE INFO ───
 
 export function getStorageMode() {

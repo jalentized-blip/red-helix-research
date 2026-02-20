@@ -62,7 +62,7 @@ const STATIC_PROMO_CODES = {
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
   'INDO88': { discount: 0.10, label: '10% off' },
-  'MELLISA10': { discount: 0.10, label: '10% off (Affiliate)', isAffiliate: true },
+  'MELLISA10': { discount: 0.10, label: '10% off (Affiliate)', isAffiliate: true, affiliateId: 'aff_melissa_thomas' },
 };
 
 import { loadActiveAffiliateCodes, getAffiliateById } from '@/components/utils/affiliateStore';
@@ -183,21 +183,45 @@ export const getAffiliateInfo = () => {
 /** Resolve full affiliate info (including PII) at order time from affiliate list. */
 export const resolveAffiliateInfo = async () => {
   const basic = getAffiliateInfo();
-  if (!basic?.id) return basic;
+  if (!basic?.code) return null;
+
+  // Try by ID first
+  if (basic.id) {
+    try {
+      const full = await getAffiliateById(basic.id);
+      if (full) {
+        return {
+          code: basic.code,
+          id: basic.id,
+          email: full.affiliate_email,
+          name: full.affiliate_name,
+        };
+      }
+    } catch (err) {
+      console.warn('Failed to resolve affiliate by ID:', err);
+    }
+  }
+
+  // Fallback: look up by code directly from the affiliate list
   try {
-    const full = await getAffiliateById(basic.id);
-    if (full) {
+    const { loadActiveAffiliateCodes: loadCodes } = await import('@/components/utils/affiliateStore');
+    // We need the full affiliate list, not just the promo codes
+    const { listAffiliates } = await import('@/components/utils/affiliateStore');
+    const affiliates = await listAffiliates();
+    const match = affiliates.find(a => a.code?.toUpperCase() === basic.code.toUpperCase());
+    if (match) {
       return {
         code: basic.code,
-        id: basic.id,
-        email: full.affiliate_email,
-        name: full.affiliate_name,
+        id: match.id,
+        email: match.affiliate_email,
+        name: match.affiliate_name,
       };
     }
   } catch (err) {
-    console.warn('Failed to resolve affiliate details:', err);
+    console.warn('Failed to resolve affiliate by code:', err);
   }
-  return basic;
+
+  return null;
 };
 
 export const removePromoCode = () => {

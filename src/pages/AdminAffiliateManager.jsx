@@ -53,8 +53,8 @@ import {
   subscribeAffiliates,
   subscribeTransactions,
   resetBase44Check,
+  backfillAffiliateOrders,
 } from '@/components/utils/affiliateStore';
-// GitHub sync removed — Base44 is now the primary data store
 
 // ─── POINTS VALUE CONFIG ───
 const POINTS_REWARD_RATE = 0.015; // 1.5% of order total
@@ -730,6 +730,8 @@ export default function AdminAffiliateManager() {
   const [pointsAdjustAffiliate, setPointsAdjustAffiliate] = useState(null);
   const [txStatusFilter, setTxStatusFilter] = useState('all');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [isBackfilling, setIsBackfilling] = useState(false);
+  const [backfillResult, setBackfillResult] = useState(null);
 
   // Auth check
   useEffect(() => {
@@ -981,6 +983,32 @@ export default function AdminAffiliateManager() {
                 <BarChart3 className="w-4 h-4 mr-2" /> Commission Report
               </Button>
               <Button
+                onClick={async () => {
+                  setIsBackfilling(true);
+                  setBackfillResult(null);
+                  try {
+                    const result = await backfillAffiliateOrders();
+                    setBackfillResult(result);
+                    // Refresh affiliate list to pick up new stats
+                    const refreshed = await listAffiliates();
+                    setAffiliates(refreshed || []);
+                    const txList = await listTransactions();
+                    setTransactions(txList || []);
+                  } catch (err) {
+                    setBackfillResult({ error: err.message });
+                  } finally {
+                    setIsBackfilling(false);
+                    setTimeout(() => setBackfillResult(null), 8000);
+                  }
+                }}
+                disabled={isBackfilling}
+                variant="outline"
+                className="border-slate-200 rounded-xl text-xs font-black uppercase tracking-wider hover:border-amber-500 hover:text-amber-600"
+              >
+                {isBackfilling ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
+                {isBackfilling ? 'Backfilling...' : 'Backfill Orders'}
+              </Button>
+              <Button
                 onClick={() => { setIsCreating(true); setEditingAffiliate(null); }}
                 className="bg-[#dc2626] hover:bg-[#b91c1c] text-white rounded-xl font-black uppercase tracking-widest text-xs shadow-lg shadow-[#dc2626]/20"
               >
@@ -989,6 +1017,25 @@ export default function AdminAffiliateManager() {
             </div>
           </div>
         </div>
+
+        {/* Backfill Result */}
+        {backfillResult && (
+          <div className={`mb-4 p-4 rounded-xl border flex items-center gap-3 ${
+            backfillResult.error
+              ? 'bg-red-50 border-red-200 text-red-700'
+              : backfillResult.patched > 0
+                ? 'bg-green-50 border-green-200 text-green-700'
+                : 'bg-blue-50 border-blue-200 text-blue-700'
+          }`}>
+            {backfillResult.error ? (
+              <><AlertCircle className="w-5 h-5 flex-shrink-0" /> <span className="text-sm font-bold">Backfill failed: {backfillResult.error}</span></>
+            ) : backfillResult.patched > 0 ? (
+              <><CheckCircle2 className="w-5 h-5 flex-shrink-0" /> <span className="text-sm font-bold">Backfill complete: {backfillResult.patched} of {backfillResult.total} orders patched with affiliate data.</span></>
+            ) : (
+              <><CheckCircle2 className="w-5 h-5 flex-shrink-0" /> <span className="text-sm font-bold">All {backfillResult.total} orders already up to date — no backfill needed.</span></>
+            )}
+          </div>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
