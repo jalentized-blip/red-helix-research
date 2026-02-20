@@ -63,6 +63,7 @@ const STATIC_PROMO_CODES = {
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
   'INDO88': { discount: 0.10, label: '10% off' },
   'MELLISA10': { discount: 0.10, label: '10% off (Affiliate)', isAffiliate: true, affiliateId: 'aff_melissa_thomas' },
+  'PEPMOMMA': { discount: 0.10, label: '10% off (Affiliate)', isAffiliate: true, affiliateId: 'aff_jessica_vice' },
 };
 
 import { loadActiveAffiliateCodes, getAffiliateById } from '@/components/utils/affiliateStore';

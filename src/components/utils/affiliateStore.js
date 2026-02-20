@@ -36,6 +36,19 @@ const HARDCODED_AFFILIATES = [
     total_orders: 0,
     total_revenue: 0,
   },
+  {
+    id: 'aff_jessica_vice',
+    code: 'PEPMOMMA',
+    affiliate_name: 'Jessica Vice',
+    affiliate_email: 'Flicka2591@yahoo.com',
+    discount_percent: 10,
+    commission_percent: 10,
+    is_active: true,
+    total_points: 0,
+    total_commission: 0,
+    total_orders: 0,
+    total_revenue: 0,
+  },
 ];
 
 // ─── HELPERS ───
