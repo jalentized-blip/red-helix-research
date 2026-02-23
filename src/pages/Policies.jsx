@@ -10,10 +10,20 @@ import ResearchDisclaimer from '@/components/ResearchDisclaimer';
 export default function Policies() {
   const sections = [
     {
-      title: 'Disclaimer & Terms of Use',
-      content: `Red Helix Research supplies research-grade peptides and compounds for laboratory research and educational purposes only. These products are NOT intended for human consumption, injection, or use in food or cosmetics.
+      title: '⚠️ CRITICAL LEGAL DISCLAIMER - RESEARCH USE ONLY',
+      content: `ALL PRODUCTS SOLD ARE STRICTLY FOR IN-VITRO LABORATORY RESEARCH AND EDUCATIONAL PURPOSES ONLY.
 
-Users of our products assume full responsibility for compliance with all applicable laws and regulations in their jurisdiction. We do not provide medical advice or recommendations for use beyond research applications.`
+❌ NOT FOR HUMAN CONSUMPTION, USE, OR INJECTION
+❌ NOT APPROVED BY FDA FOR HUMAN OR VETERINARY USE  
+❌ NOT INTENDED TO DIAGNOSE, TREAT, CURE, OR PREVENT ANY DISEASE
+
+By purchasing, you LEGALLY CERTIFY that you are:
+• 21+ years of age
+• A qualified researcher or research institution
+• Using products SOLELY for controlled laboratory research
+• In compliance with all applicable federal, state, and local laws
+
+LEGAL WARNING: Misuse of these research materials may violate the Federal Food, Drug, and Cosmetic Act and other regulations. Buyer assumes ALL liability and responsibility for proper handling, storage, and lawful use. We make NO medical claims and provide NO medical advice.`
     },
     {
       title: 'Product Quality & Testing',
@@ -86,15 +96,28 @@ We audit our security practices regularly and maintain strict data protection pr
 Age verification is performed via cookie-based system that respects your privacy while ensuring regulatory compliance.`
     },
     {
-      title: 'Liability Waiver',
-      content: `Red Helix Research disclaims all liability for misuse, improper handling, or unauthorized use of products. Users are solely responsible for:
-      
+      title: 'Comprehensive Liability Waiver & Legal Agreement',
+      content: `BY PURCHASING FROM RED HELIX RESEARCH, YOU ACKNOWLEDGE AND LEGALLY AGREE:
+
+(1) You assume ALL RISKS associated with purchase, possession, handling, storage, and use of research materials.
+
+(2) These products are RESEARCH CHEMICALS for laboratory use only and carry inherent risks if misused.
+
+(3) Red Helix Research, its owners, officers, directors, employees, agents, and affiliates shall NOT be held liable for ANY damages, injuries, death, health complications, legal consequences, regulatory violations, criminal charges, civil penalties, or any other adverse effects resulting from misuse, human consumption, improper handling, unauthorized use, or violation of research-only designation.
+
+(4) You INDEMNIFY and HOLD HARMLESS Red Helix Research from any and all claims, lawsuits, damages, losses, liabilities, costs, and expenses (including attorney fees) arising from your use, misuse, or possession of our products.
+
+(5) You acknowledge that misuse may violate federal and state laws and that you are solely responsible for compliance with all applicable laws and regulations.
+
+(6) Products are sold AS-IS for research purposes only with NO WARRANTIES of any kind, express or implied, including merchantability or fitness for any particular purpose.
+
+(7) You are solely responsible for:
 - Safe storage and handling of research chemicals
 - Compliance with local, state, and federal laws
-- Proper disposal of unused products
+- Proper disposal of unused products  
 - Any harm resulting from product misuse
 
-By purchasing from Red Helix Research, you acknowledge full understanding and acceptance of these terms.`
+This waiver survives any termination of purchase and represents a binding legal agreement.`
     }
   ];
 
