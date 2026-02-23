@@ -54,11 +54,16 @@ export default function Certificates() {
   const [showAll, setShowAll] = useState(false);
 
   // Fetch approved community COAs
-  const { data: userCOAs = [] } = useQuery({
+  const { data: userCOAs = [], refetch } = useQuery({
     queryKey: ['approvedUserCOAs'],
     queryFn: async () => {
-      const coas = await base44.entities.UserCOA.list('-created_date');
-      return coas.filter(coa => coa.approved === true);
+      try {
+        const coas = await base44.entities.UserCOA.list('-created_date');
+        return coas.filter(coa => coa.approved === true);
+      } catch (error) {
+        console.error('Error fetching COAs:', error);
+        return [];
+      }
     },
   });
 
@@ -67,14 +72,14 @@ export default function Certificates() {
     const unsubscribe = base44.entities.UserCOA.subscribe((event) => {
       // Refetch when any COA is created, updated, or deleted
       if (event.type === 'create' || event.type === 'update' || event.type === 'delete') {
-        // Force refetch through query invalidation would happen automatically
+        refetch();
       }
     });
 
     return () => {
       if (unsubscribe) unsubscribe();
     };
-  }, []);
+  }, [refetch]);
 
   // Combine static certificates with approved community COAs
   const combinedCertificates = [
