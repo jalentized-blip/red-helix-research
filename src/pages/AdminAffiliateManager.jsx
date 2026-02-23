@@ -40,7 +40,27 @@ import {
   UserPlus,
   UserCheck,
   Loader2,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  MousePointerClick,
+  Calendar,
 } from 'lucide-react';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 import { clearAffiliateCache } from '@/components/utils/cart';
 import {
   listAffiliates,
@@ -725,13 +745,22 @@ export default function AdminAffiliateManager() {
   const [isSaving, setIsSaving] = useState(false);
   const [expandedId, setExpandedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('affiliates'); // affiliates | transactions
+  const [activeTab, setActiveTab] = useState('affiliates'); // affiliates | transactions | analytics
   const [showCommissionReport, setShowCommissionReport] = useState(false);
   const [pointsAdjustAffiliate, setPointsAdjustAffiliate] = useState(null);
   const [txStatusFilter, setTxStatusFilter] = useState('all');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [isBackfilling, setIsBackfilling] = useState(false);
   const [backfillResult, setBackfillResult] = useState(null);
+  
+  // Sorting State
+  const [sortField, setSortField] = useState('total_revenue');
+  const [sortOrder, setSortOrder] = useState('desc');
+  
+  // Date Range Filter
+  const [dateRange, setDateRange] = useState('all');
+  const [customStart, setCustomStart] = useState('');
+  const [customEnd, setCustomEnd] = useState('');
 
   // Auth check
   useEffect(() => {
@@ -909,23 +938,67 @@ export default function AdminAffiliateManager() {
     }
   };
 
-  // Filtered affiliates
-  const filteredAffiliates = useMemo(() => {
-    if (!searchQuery) return affiliates;
-    const q = searchQuery.toLowerCase();
-    return affiliates.filter(a =>
-      a.affiliate_name?.toLowerCase().includes(q) ||
-      a.affiliate_email?.toLowerCase().includes(q) ||
-      a.code?.toLowerCase().includes(q)
-    );
-  }, [affiliates, searchQuery]);
+  // Calculate conversion rate for each affiliate
+  const affiliatesWithMetrics = useMemo(() => {
+    return affiliates.map(aff => {
+      const clicks = aff.total_clicks || 0;
+      const orders = aff.total_orders || 0;
+      const conversionRate = clicks > 0 ? (orders / clicks) * 100 : 0;
+      return { ...aff, conversionRate };
+    });
+  }, [affiliates]);
 
-  // Filtered transactions
+  // Filtered and sorted affiliates
+  const filteredAffiliates = useMemo(() => {
+    let filtered = affiliatesWithMetrics;
+    
+    // Apply search filter
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(a =>
+        a.affiliate_name?.toLowerCase().includes(q) ||
+        a.affiliate_email?.toLowerCase().includes(q) ||
+        a.code?.toLowerCase().includes(q)
+      );
+    }
+    
+    // Apply sorting
+    filtered = [...filtered].sort((a, b) => {
+      const aVal = a[sortField] || 0;
+      const bVal = b[sortField] || 0;
+      return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+    });
+    
+    return filtered;
+  }, [affiliatesWithMetrics, searchQuery, sortField, sortOrder]);
+
+  // Filtered transactions with date range
   const filteredTransactions = useMemo(() => {
     let txs = transactions;
+    
+    // Apply date range filter
+    if (dateRange !== 'all') {
+      const now = new Date();
+      txs = txs.filter(tx => {
+        const txDate = new Date(tx.created_date);
+        if (dateRange === 'ytd') return txDate.getFullYear() === now.getFullYear();
+        if (dateRange === 'last30') return (now - txDate) / 86400000 <= 30;
+        if (dateRange === 'last90') return (now - txDate) / 86400000 <= 90;
+        if (dateRange === 'custom') {
+          const start = customStart ? new Date(customStart) : new Date(0);
+          const end = customEnd ? new Date(customEnd + 'T23:59:59') : now;
+          return txDate >= start && txDate <= end;
+        }
+        return true;
+      });
+    }
+    
+    // Apply status filter
     if (txStatusFilter !== 'all') {
       txs = txs.filter(t => t.status === txStatusFilter);
     }
+    
+    // Apply search filter
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       txs = txs.filter(t =>
@@ -935,18 +1008,27 @@ export default function AdminAffiliateManager() {
         t.order_number?.toLowerCase().includes(q)
       );
     }
+    
     return txs.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
-  }, [transactions, txStatusFilter, searchQuery]);
+  }, [transactions, txStatusFilter, searchQuery, dateRange, customStart, customEnd]);
 
-  // Stats
-  const stats = useMemo(() => ({
-    totalAffiliates: affiliates.length,
-    activeAffiliates: affiliates.filter(a => a.is_active).length,
-    totalCommissionOwed: transactions.filter(t => t.status === 'pending').reduce((s, t) => s + (t.commission_amount || 0), 0),
-    totalPointsIssued: affiliates.reduce((s, a) => s + (a.total_points || 0), 0),
-    totalRevenue: affiliates.reduce((s, a) => s + (a.total_revenue || 0), 0),
-    totalOrders: transactions.length,
-  }), [affiliates, transactions]);
+  // Stats with date-filtered transactions
+  const stats = useMemo(() => {
+    const totalClicks = affiliatesWithMetrics.reduce((s, a) => s + (a.total_clicks || 0), 0);
+    const totalOrders = filteredTransactions.length;
+    const avgConversionRate = totalClicks > 0 ? (totalOrders / totalClicks) * 100 : 0;
+    
+    return {
+      totalAffiliates: affiliates.length,
+      activeAffiliates: affiliates.filter(a => a.is_active).length,
+      totalCommissionOwed: filteredTransactions.filter(t => t.status === 'pending').reduce((s, t) => s + (t.commission_amount || 0), 0),
+      totalPointsIssued: affiliatesWithMetrics.reduce((s, a) => s + (a.total_points || 0), 0),
+      totalRevenue: filteredTransactions.reduce((s, t) => s + (t.order_total || 0), 0),
+      totalOrders: filteredTransactions.length,
+      totalClicks,
+      avgConversionRate,
+    };
+  }, [affiliatesWithMetrics, filteredTransactions, affiliates]);
 
   if (loading) {
     return (
@@ -1037,8 +1119,49 @@ export default function AdminAffiliateManager() {
           </div>
         )}
 
+        {/* Date Range Filter */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <span className="text-xs font-black text-slate-400 uppercase tracking-widest self-center mr-2">Date Range:</span>
+          {[
+            { value: 'all', label: 'All Time' },
+            { value: 'last30', label: 'Last 30 Days' },
+            { value: 'last90', label: 'Last 90 Days' },
+            { value: 'ytd', label: 'Year to Date' },
+            { value: 'custom', label: 'Custom' },
+          ].map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setDateRange(opt.value)}
+              className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                dateRange === opt.value
+                  ? 'bg-[#dc2626] text-white shadow-lg shadow-[#dc2626]/20'
+                  : 'bg-white text-slate-500 hover:bg-slate-100 border border-slate-200'
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+          {dateRange === 'custom' && (
+            <>
+              <input
+                type="date"
+                value={customStart}
+                onChange={e => setCustomStart(e.target.value)}
+                className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold"
+              />
+              <span className="text-slate-400 font-bold self-center">to</span>
+              <input
+                type="date"
+                value={customEnd}
+                onChange={e => setCustomEnd(e.target.value)}
+                className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold"
+              />
+            </>
+          )}
+        </div>
+
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
           <div className="bg-white border border-slate-200 rounded-[20px] p-4 shadow-sm">
             <div className="flex items-center gap-2 mb-2">
               <Users className="w-4 h-4 text-[#dc2626]" />
@@ -1081,6 +1204,20 @@ export default function AdminAffiliateManager() {
             </div>
             <p className="text-2xl font-black text-slate-900">{stats.totalOrders}</p>
           </div>
+          <div className="bg-white border border-slate-200 rounded-[20px] p-4 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <MousePointerClick className="w-4 h-4 text-indigo-500" />
+              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Clicks</span>
+            </div>
+            <p className="text-2xl font-black text-slate-900">{stats.totalClicks}</p>
+          </div>
+          <div className="bg-white border border-slate-200 rounded-[20px] p-4 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <TrendingUp className="w-4 h-4 text-emerald-500" />
+              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Conv. Rate</span>
+            </div>
+            <p className="text-2xl font-black text-emerald-600">{stats.avgConversionRate.toFixed(1)}%</p>
+          </div>
         </div>
 
         {/* Editor */}
@@ -1105,7 +1242,7 @@ export default function AdminAffiliateManager() {
 
         {/* Tabs + Search */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => setActiveTab('affiliates')}
               className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
@@ -1125,6 +1262,16 @@ export default function AdminAffiliateManager() {
               }`}
             >
               <CreditCard className="w-4 h-4 inline mr-2" /> Transactions ({transactions.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                activeTab === 'analytics'
+                  ? 'bg-[#dc2626] text-white shadow-lg shadow-[#dc2626]/20'
+                  : 'bg-white text-slate-500 hover:text-[#dc2626] border border-slate-200'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4 inline mr-2" /> Analytics
             </button>
           </div>
 
@@ -1167,6 +1314,125 @@ export default function AdminAffiliateManager() {
               exit={{ opacity: 0 }}
               className="space-y-3"
             >
+              {/* Sortable Table Header */}
+              {filteredAffiliates.length > 0 && (
+                <div className="bg-white border border-slate-200 rounded-[24px] p-4 mb-3">
+                  <div className="grid grid-cols-7 gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <button
+                      onClick={() => {
+                        if (sortField === 'affiliate_name') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('affiliate_name'); setSortOrder('asc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-left"
+                    >
+                      Name
+                      {sortField === 'affiliate_name' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'affiliate_name' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (sortField === 'total_orders') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('total_orders'); setSortOrder('desc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-center justify-center"
+                    >
+                      Orders
+                      {sortField === 'total_orders' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'total_orders' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (sortField === 'total_revenue') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('total_revenue'); setSortOrder('desc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-center justify-center"
+                    >
+                      Revenue
+                      {sortField === 'total_revenue' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'total_revenue' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (sortField === 'total_commission') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('total_commission'); setSortOrder('desc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-center justify-center"
+                    >
+                      Commission
+                      {sortField === 'total_commission' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'total_commission' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (sortField === 'total_points') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('total_points'); setSortOrder('desc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-center justify-center"
+                    >
+                      Points
+                      {sortField === 'total_points' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'total_points' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (sortField === 'total_clicks') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('total_clicks'); setSortOrder('desc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-center justify-center"
+                    >
+                      Clicks
+                      {sortField === 'total_clicks' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'total_clicks' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (sortField === 'conversionRate') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+                        else { setSortField('conversionRate'); setSortOrder('desc'); }
+                      }}
+                      className="flex items-center gap-1 hover:text-[#dc2626] transition-colors text-center justify-center"
+                    >
+                      Conv. Rate
+                      {sortField === 'conversionRate' && (sortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+                      {sortField !== 'conversionRate' && <ArrowUpDown className="w-3 h-3 opacity-30" />}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* CSV Export for Affiliates */}
+              {filteredAffiliates.length > 0 && (
+                <div className="flex justify-end mb-3">
+                  <Button
+                    onClick={() => {
+                      const headers = ['Name', 'Email', 'Code', 'Orders', 'Revenue', 'Commission', 'Points', 'Clicks', 'Conversion Rate'];
+                      const rows = filteredAffiliates.map(a => [
+                        a.affiliate_name,
+                        a.affiliate_email,
+                        a.code,
+                        a.total_orders || 0,
+                        (a.total_revenue || 0).toFixed(2),
+                        (a.total_commission || 0).toFixed(2),
+                        (a.total_points || 0).toFixed(2),
+                        a.total_clicks || 0,
+                        a.conversionRate.toFixed(2) + '%'
+                      ]);
+                      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+                      const blob = new Blob([csv], { type: 'text/csv' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `affiliates-report-${new Date().toISOString().split('T')[0]}.csv`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    }}
+                    variant="outline"
+                    className="border-slate-200 rounded-xl text-xs font-black uppercase tracking-wider"
+                  >
+                    <Download className="w-4 h-4 mr-2" /> Export CSV
+                  </Button>
+                </div>
+              )}
+
               {filteredAffiliates.length === 0 ? (
                 <div className="bg-white border border-slate-200 rounded-[32px] p-16 text-center">
                   <Users className="w-16 h-16 text-slate-200 mx-auto mb-4" />
