@@ -554,10 +554,10 @@ const HeaderSearch = () => {
                 <span className="relative z-10">RESEARCH</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#dc2626] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
-              <button onClick={() => scrollTo('#certificates')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-[#dc2626] px-3 py-2 transition-all duration-300">
+              <Link to={createPageUrl('COAReports')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-[#dc2626] px-3 py-2 transition-all duration-300">
                 <span className="relative z-10">COAs</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#dc2626] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </button>
+              </Link>
             </div>
 
             {isAuthenticated && (
@@ -703,9 +703,9 @@ const HeaderSearch = () => {
                         Compare Peptides
                       </Link>
 
-                      <button onClick={() => scrollTo('#certificates')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full">
+                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full block">
                         Certificates of Analysis
-                      </button>
+                      </Link>
                       
                       <div className="border-t border-slate-100 my-4 mx-4 pt-4" />
                       

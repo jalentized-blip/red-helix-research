@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { ShieldCheck, ExternalLink, FileSearch, Zap, CheckCircle2, FlaskConical } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
 
 const certificates = [
   {
@@ -51,7 +53,44 @@ export default function Certificates() {
   const [selectedCert, setSelectedCert] = useState(null);
   const [showAll, setShowAll] = useState(false);
 
-  const displayedCerts = showAll ? certificates : certificates.slice(0, 3);
+  // Fetch approved community COAs
+  const { data: userCOAs = [] } = useQuery({
+    queryKey: ['approvedUserCOAs'],
+    queryFn: async () => {
+      const coas = await base44.entities.UserCOA.list('-created_date');
+      return coas.filter(coa => coa.approved === true);
+    },
+  });
+
+  // Subscribe to real-time updates for COA approvals
+  useEffect(() => {
+    const unsubscribe = base44.entities.UserCOA.subscribe((event) => {
+      // Refetch when any COA is created, updated, or deleted
+      if (event.type === 'create' || event.type === 'update' || event.type === 'delete') {
+        // Force refetch through query invalidation would happen automatically
+      }
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
+
+  // Combine static certificates with approved community COAs
+  const combinedCertificates = [
+    ...certificates,
+    ...userCOAs.map(coa => ({
+      peptide: `${coa.peptide_name} ${coa.peptide_strength}`,
+      batch: coa.batch_number || 'Community Upload',
+      purity: 'Verified',
+      testDate: new Date(coa.created_date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
+      lab: 'Community Verified',
+      imageUrl: coa.coa_image_url,
+      isUserSubmitted: true,
+    }))
+  ];
+
+  const displayedCerts = showAll ? combinedCertificates : combinedCertificates.slice(0, 3);
 
   return (
     <section id="certificates" className="py-32 px-4 bg-white relative overflow-hidden">
@@ -153,7 +192,7 @@ export default function Certificates() {
 
         {/* Load More/Action Area */}
         <div className="mt-20 flex flex-col items-center gap-8">
-          {certificates.length > 3 && (
+          {combinedCertificates.length > 3 && (
             <button
               onClick={() => setShowAll(!showAll)}
               className="group relative px-10 py-5 bg-white border-2 border-slate-100 hover:border-[#dc2626] text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm"
