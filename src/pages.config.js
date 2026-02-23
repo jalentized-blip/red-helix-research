@@ -93,6 +93,7 @@ import PeptideInstructions from './pages/PeptideInstructions';
 import PeptideLearn from './pages/PeptideLearn';
 import PeptideReconstitution from './pages/PeptideReconstitution';
 import PeptideReconstitutionGuide from './pages/PeptideReconstitutionGuide';
+import PlaidAdminDashboard from './pages/PlaidAdminDashboard';
 import PlaidCompliance from './pages/PlaidCompliance';
 import PlaidDataRetention from './pages/PlaidDataRetention';
 import PlaidPrivacy from './pages/PlaidPrivacy';
@@ -110,7 +111,6 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import SecurityDashboard from './pages/SecurityDashboard';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import PlaidAdminDashboard from './pages/PlaidAdminDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -161,6 +161,7 @@ export const PAGES = {
     "PeptideLearn": PeptideLearn,
     "PeptideReconstitution": PeptideReconstitution,
     "PeptideReconstitutionGuide": PeptideReconstitutionGuide,
+    "PlaidAdminDashboard": PlaidAdminDashboard,
     "PlaidCompliance": PlaidCompliance,
     "PlaidDataRetention": PlaidDataRetention,
     "PlaidPrivacy": PlaidPrivacy,
@@ -178,7 +179,6 @@ export const PAGES = {
     "SecurityDashboard": SecurityDashboard,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "PlaidAdminDashboard": PlaidAdminDashboard,
 }
 
 export const pagesConfig = {

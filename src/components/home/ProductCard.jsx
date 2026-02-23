@@ -136,9 +136,9 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               {badge.label}
             </Badge>
           )}
-          <Badge className="bg-white border-slate-100 text-slate-900 text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
-            <Microscope className="w-3.5 h-3.5 text-[#dc2626]" />
-            HPLC VERIFIED
+          <Badge className="bg-[#dc2626] border-red-600 text-white text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            RESEARCH ONLY
           </Badge>
         </div>
 
@@ -216,7 +216,10 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           
           <div className="mt-4 md:mt-8 flex items-center justify-center gap-2">
             <div className="w-1 h-1 rounded-full bg-[#dc2626] transition-colors" />
-            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Clinical Grade Logistics</span>
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Laboratory Research Materials</span>
+          </div>
+          <div className="mt-2 text-center">
+            <span className="text-[9px] font-black text-[#dc2626] uppercase tracking-wider">NOT FOR HUMAN USE</span>
           </div>
         </div>
       </Card>

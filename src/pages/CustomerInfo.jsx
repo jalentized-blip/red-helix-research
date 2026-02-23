@@ -86,6 +86,18 @@ export default function CustomerInfo() {
       return;
     }
 
+    // Check if we came from Account page or Cart
+    const isUpdatingFromAccount = document.referrer.includes('Account') || window.location.search.includes('source=account');
+
+    // Verify research acknowledgment checkbox is checked (only for checkout flow)
+    if (!isUpdatingFromAccount) {
+      const researchAck = document.getElementById('researchAck');
+      if (!researchAck || !researchAck.checked) {
+        alert('You must certify that you are a qualified researcher and will use these products for research purposes only.');
+        return;
+      }
+    }
+
     // Save to localStorage
     const customerData = {
       ...formData,
@@ -96,9 +108,6 @@ export default function CustomerInfo() {
     };
 
     localStorage.setItem('customerInfo', JSON.stringify(customerData));
-    
-    // Check if we came from Account page or Cart
-    const isUpdatingFromAccount = document.referrer.includes('Account') || window.location.search.includes('source=account');
     
     if (isUpdatingFromAccount) {
       alert('Information updated successfully!');
@@ -344,6 +353,25 @@ export default function CustomerInfo() {
               </motion.div>
             )}
           </div>
+
+          {/* Research Compliance Acknowledgment */}
+          {!isFromAccount && (
+            <div className="border-t border-slate-100 pt-10">
+              <div className="bg-[#dc2626]/5 border-2 border-[#dc2626]/20 rounded-2xl p-6 space-y-4">
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="researchAck"
+                    required
+                    className="mt-1 w-5 h-5 rounded border-[#dc2626] text-[#dc2626] focus:ring-[#dc2626]/20"
+                  />
+                  <label htmlFor="researchAck" className="text-xs font-bold text-slate-700 leading-relaxed">
+                    <span className="text-[#dc2626] font-black uppercase">REQUIRED CERTIFICATION:</span> I certify that I am 21+ years of age, a qualified researcher or institution, and will use these products SOLELY for in-vitro laboratory research purposes. I understand these products are NOT for human consumption, NOT approved by FDA, and NOT intended to diagnose, treat, cure, or prevent any disease. I accept full responsibility for proper handling and compliance with all applicable laws.
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Action Button */}
           <div className="pt-6">

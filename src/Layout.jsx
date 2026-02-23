@@ -21,6 +21,7 @@ import { ZeroTrustProvider } from '@/components/security/ZeroTrustProvider';
 import SecurityMonitor from '@/components/security/SecurityMonitor';
 import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
+import ComplianceBanner from '@/components/ComplianceBanner';
 
 const HeaderSearch = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -328,6 +329,11 @@ const HeaderSearch = () => {
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-[100] focus:bg-white focus:text-[#dc2626] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:shadow-lg">
           Skip to main content
         </a>
+
+        {/* Compliance Banner - Always visible */}
+        <div className="fixed top-0 left-0 right-0 z-[90]">
+          <ComplianceBanner />
+        </div>
         <Helmet>
           <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>
           <script>
@@ -506,8 +512,11 @@ const HeaderSearch = () => {
                   setMobileHeaderCollapsed(true);
                 }
               }}
-              className="fixed top-0 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-b border-slate-100 transition-transform duration-300 shadow-sm"
-              style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
+              className="fixed left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-b border-slate-100 transition-transform duration-300 shadow-sm"
+              style={{ 
+                top: '40px',
+                transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' 
+              }}
             >
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}

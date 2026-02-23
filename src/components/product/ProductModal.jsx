@@ -296,18 +296,29 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
             </div>
 
             {/* Compliance Disclaimer - Non-bypassable */}
-            <div className="mt-8 p-6 bg-[#dc2626] rounded-[32px] border border-[#ef4444] relative overflow-hidden shadow-inner flex-shrink-0">
+            <div className="mt-8 p-6 bg-[#dc2626] rounded-[32px] border-2 border-[#ef4444] relative overflow-hidden shadow-lg flex-shrink-0">
               <div className="absolute top-0 right-0 w-24 h-24 bg-[#b91c1c]/20 rounded-full -mr-12 -mt-12 pointer-events-none" />
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-3">
+              <div className="relative z-10 space-y-3">
+                <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  <p className="text-[10px] font-black text-white uppercase tracking-widest whitespace-normal">Research Use Notification</p>
+                  <p className="text-xs font-black text-white uppercase tracking-widest whitespace-normal">⚠️ MANDATORY COMPLIANCE NOTICE</p>
                 </div>
-                <p className="text-[11px] font-bold text-white leading-relaxed break-words whitespace-normal">
-                  This product is supplied for <span className="text-white">RESEARCH AND LABORATORY USE ONLY</span>. 
-                  Strictly <span className="text-white underline decoration-2 underline-offset-2">NOT FOR HUMAN CONSUMPTION</span>. 
-                  By ordering, you certify you are 21+ and a qualified researcher.
-                </p>
+                <div className="space-y-2 text-white">
+                  <p className="text-xs font-bold leading-relaxed">
+                    <span className="underline">FOR RESEARCH USE ONLY</span> - NOT FOR HUMAN CONSUMPTION OR USE
+                  </p>
+                  <p className="text-[10px] font-bold leading-relaxed">
+                    This product is sold EXCLUSIVELY for in-vitro laboratory research and educational purposes. 
+                    NOT approved by FDA for human or veterinary use. NOT intended to diagnose, treat, cure, or prevent any disease or condition.
+                  </p>
+                  <p className="text-[10px] font-bold leading-relaxed border-t border-white/30 pt-2">
+                    By ordering, you legally certify you are:<br/>
+                    ✓ 21+ years of age<br/>
+                    ✓ A qualified researcher or institution<br/>
+                    ✓ Using solely for laboratory research<br/>
+                    ✓ Complying with all applicable laws
+                  </p>
+                </div>
               </div>
             </div>
           </div>
