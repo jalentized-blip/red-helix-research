@@ -1,113 +1,18 @@
 /**
  * Affiliate Data Store
  *
- * Affiliate definitions are stored as a hardcoded list (+ localStorage overrides
- * for admin-created affiliates).
- *
+ * Affiliate definitions are stored in Base44 entities (site-wide, permanent).
  * Commission tracking and transaction history are derived from ACTUAL Order
- * records in Base44 — orders already store affiliate_code, affiliate_email,
- * affiliate_name, and affiliate_commission fields.  This means the admin
- * always sees real data computed from real orders, regardless of which browser
- * or device the customer used to place the order.
+ * records in Base44 — orders store affiliate_code, affiliate_email,
+ * affiliate_name, and affiliate_commission fields.
  */
 
 import { base44 as base44Client } from '@/api/base44Client';
 
 // ─── CONSTANTS ───
 
-const AFFILIATES_KEY = 'rdr_affiliates_overrides';
-const DELETED_KEY = 'rdr_affiliates_deleted';
-
 const POINTS_REWARD_RATE = 0.015; // 1.5% of order total
 const COMMISSION_RATE = 0.10;     // 10% of order total
-
-// ─── HARDCODED AFFILIATES (PRIMARY DATABASE) ───
-const HARDCODED_AFFILIATES = [
-  {
-    id: 'aff_melissa_thomas',
-    code: 'MELLISA10',
-    affiliate_name: 'Melissa Thomas',
-    affiliate_email: 'mizzmariee3@gmail.com',
-    discount_percent: 10,
-    commission_percent: 10,
-    is_active: true,
-    total_points: 0,
-    total_commission: 0,
-    total_orders: 0,
-    total_revenue: 0,
-  },
-  {
-    id: 'aff_jessica_vice',
-    code: 'PEPMOMMA',
-    affiliate_name: 'Jessica Vice',
-    affiliate_email: 'Flicka2591@yahoo.com',
-    discount_percent: 10,
-    commission_percent: 10,
-    is_active: true,
-    total_points: 0,
-    total_commission: 0,
-    total_orders: 0,
-    total_revenue: 0,
-  },
-];
-
-// ─── HELPERS ───
-
-function generateId() {
-  return `aff_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 6)}`;
-}
-
-function getOverrides() {
-  try {
-    const data = localStorage.getItem(AFFILIATES_KEY);
-    return data ? JSON.parse(data) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveOverrides(overrides) {
-  localStorage.setItem(AFFILIATES_KEY, JSON.stringify(overrides));
-}
-
-function getDeletedIds() {
-  try {
-    const data = localStorage.getItem(DELETED_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveDeletedIds(ids) {
-  localStorage.setItem(DELETED_KEY, JSON.stringify(ids));
-}
-
-// Build affiliate list from hardcoded + overrides, minus deleted
-function buildAffiliateList() {
-  const overrides = getOverrides();
-  const deletedIds = getDeletedIds();
-  const hardcodedIds = new Set(HARDCODED_AFFILIATES.map(a => a.id));
-
-  const result = HARDCODED_AFFILIATES
-    .filter(aff => !deletedIds.includes(aff.id))
-    .map(aff => {
-      const override = overrides[aff.id];
-      if (override) {
-        return { ...aff, ...override };
-      }
-      return { ...aff };
-    });
-
-  // Add any affiliates created via admin (stored only in overrides)
-  for (const [id, data] of Object.entries(overrides)) {
-    if (!hardcodedIds.has(id) && !deletedIds.includes(id) && data.code) {
-      result.push(data);
-    }
-  }
-
-  return result;
-}
 
 // ─── FETCH LIVE STATS FROM ORDER RECORDS ───
 
@@ -187,76 +92,74 @@ async function buildTransactionsFromOrders() {
 // ─── AFFILIATE CODE OPERATIONS ───
 
 export async function listAffiliates() {
-  const affiliates = buildAffiliateList();
+  try {
+    // Fetch all affiliates from Base44 entities (site-wide, permanent)
+    const affiliates = await base44Client.entities.Affiliate.list();
 
-  // Merge live stats from actual Order records
-  const stats = await computeAffiliateStats();
+    // Merge live stats from actual Order records
+    const stats = await computeAffiliateStats();
 
-  return affiliates.map(aff => {
-    const liveStats = stats[aff.code?.toUpperCase()];
-    if (liveStats) {
-      return {
-        ...aff,
-        total_orders: liveStats.total_orders,
-        total_revenue: liveStats.total_revenue,
-        total_commission: liveStats.total_commission,
-        total_points: liveStats.total_points,
-      };
-    }
-    return aff;
-  });
+    return (affiliates || []).map(aff => {
+      const liveStats = stats[aff.code?.toUpperCase()];
+      if (liveStats) {
+        return {
+          ...aff,
+          total_orders: liveStats.total_orders,
+          total_revenue: liveStats.total_revenue,
+          total_commission: liveStats.total_commission,
+          total_points: liveStats.total_points,
+        };
+      }
+      return aff;
+    });
+  } catch (err) {
+    console.error('[AffiliateStore] Failed to list affiliates:', err);
+    return [];
+  }
 }
 
 export async function createAffiliate(base44, data) {
-  const id = generateId();
-  const newAffiliate = {
-    ...data,
-    id,
-    created_date: new Date().toISOString(),
-    total_points: data.total_points || 0,
-    total_commission: data.total_commission || 0,
-    total_orders: data.total_orders || 0,
-    total_revenue: data.total_revenue || 0,
-  };
+  try {
+    // Create in Base44 entities (permanent, site-wide)
+    const newAffiliate = await base44Client.entities.Affiliate.create({
+      affiliate_name: data.affiliate_name,
+      affiliate_email: data.affiliate_email,
+      code: data.code,
+      discount_percent: data.discount_percent || 15,
+      is_active: data.is_active !== false,
+      notes: data.notes || '',
+      total_points: 0,
+      total_commission: 0,
+      total_orders: 0,
+      total_revenue: 0,
+    });
 
-  // Store in localStorage (persistent across browser refreshes)
-  const overrides = getOverrides();
-  overrides[id] = newAffiliate;
-  saveOverrides(overrides);
-
-  // Remove from deleted list if it was previously deleted
-  const deletedIds = getDeletedIds();
-  const filtered = deletedIds.filter(did => did !== id);
-  if (filtered.length !== deletedIds.length) saveDeletedIds(filtered);
-
-  return newAffiliate;
+    return newAffiliate;
+  } catch (err) {
+    console.error('[AffiliateStore] Failed to create affiliate:', err);
+    throw err;
+  }
 }
 
 export async function updateAffiliate(base44, id, data) {
-  // Get current affiliate data
-  const affiliates = buildAffiliateList();
-  const current = affiliates.find(a => a.id === id);
-  
-  // Merge with updates and store in localStorage (persistent)
-  const overrides = getOverrides();
-  overrides[id] = { ...(current || {}), ...(overrides[id] || {}), ...data };
-  saveOverrides(overrides);
-
-  return { id, ...overrides[id] };
+  try {
+    // Update in Base44 entities (permanent, site-wide)
+    await base44Client.entities.Affiliate.update(id, data);
+    return { id, ...data };
+  } catch (err) {
+    console.error('[AffiliateStore] Failed to update affiliate:', err);
+    throw err;
+  }
 }
 
 export async function deleteAffiliate(base44, id) {
-  // Mark as deleted in localStorage (persistent)
-  const deletedIds = getDeletedIds();
-  if (!deletedIds.includes(id)) {
-    deletedIds.push(id);
-    saveDeletedIds(deletedIds);
+  try {
+    // Delete from Base44 entities (permanent, site-wide)
+    await base44Client.entities.Affiliate.delete(id);
+  } catch (err) {
+    console.error('[AffiliateStore] Failed to delete affiliate:', err);
+    throw err;
   }
-
-  // Remove from overrides
-  const overrides = getOverrides();
-  delete overrides[id];
-  saveOverrides(overrides);
 }
 
 // ─── TRANSACTION OPERATIONS (derived from Orders) ───
@@ -283,9 +186,9 @@ export async function updateTransaction(base44, id, data) {
 // ─── SUBSCRIBE ───
 
 export function subscribeAffiliates(base44, callback) {
-  // Subscribe to Order changes and recompute affiliate stats
+  // Subscribe to Affiliate entity changes
   try {
-    return base44Client.entities.Order.subscribe(async () => {
+    return base44Client.entities.Affiliate.subscribe(async () => {
       try {
         const affiliates = await listAffiliates();
         callback(affiliates || []);
@@ -319,28 +222,38 @@ export function subscribeTransactions(base44, callback) {
 // ─── LOAD AFFILIATE CODES FOR PROMO VALIDATION ───
 
 export async function loadActiveAffiliateCodes() {
-  const affiliates = buildAffiliateList();
-  const codes = {};
-  if (affiliates && Array.isArray(affiliates)) {
-    affiliates.forEach(aff => {
-      if (aff.is_active && aff.code) {
-        codes[aff.code.toUpperCase()] = {
-          discount: (aff.discount_percent || 15) / 100,
-          label: `${aff.discount_percent || 15}% off`,
-          isAffiliate: true,
-          affiliateId: aff.id,
-        };
-      }
-    });
+  try {
+    const affiliates = await base44Client.entities.Affiliate.list();
+    const codes = {};
+    if (affiliates && Array.isArray(affiliates)) {
+      affiliates.forEach(aff => {
+        if (aff.is_active && aff.code) {
+          codes[aff.code.toUpperCase()] = {
+            discount: (aff.discount_percent || 15) / 100,
+            label: `${aff.discount_percent || 15}% off`,
+            isAffiliate: true,
+            affiliateId: aff.id,
+          };
+        }
+      });
+    }
+    return codes;
+  } catch (err) {
+    console.error('[AffiliateStore] Failed to load affiliate codes:', err);
+    return {};
   }
-  return codes;
 }
 
 /** Look up full affiliate details by ID (for order recording — keeps PII out of promo flow). */
 export async function getAffiliateById(affiliateId) {
   if (!affiliateId) return null;
-  const affiliates = buildAffiliateList();
-  return affiliates.find(a => a.id === affiliateId) || null;
+  try {
+    const affiliates = await base44Client.entities.Affiliate.list();
+    return affiliates.find(a => a.id === affiliateId) || null;
+  } catch (err) {
+    console.error('[AffiliateStore] Failed to get affiliate by ID:', err);
+    return null;
+  }
 }
 
 // ─── UPDATE AFFILIATE TOTALS AFTER AN ORDER ───
@@ -379,7 +292,7 @@ export async function getTransactionsForAffiliate(base44, affiliateCode) {
 export async function backfillAffiliateOrders() {
   try {
     const orders = await base44Client.entities.Order.list('-created_date');
-    const affiliates = buildAffiliateList();
+    const affiliates = await base44Client.entities.Affiliate.list();
     let patched = 0;
 
     for (const order of (orders || [])) {
@@ -395,7 +308,7 @@ export async function backfillAffiliateOrders() {
       const discountPercent = Math.round((order.discount_amount / subtotal) * 100);
 
       // Try to match to an affiliate by discount percentage
-      for (const aff of affiliates) {
+      for (const aff of (affiliates || [])) {
         if (aff.discount_percent === discountPercent) {
           const commission = parseFloat((order.total_amount * COMMISSION_RATE).toFixed(2));
           try {
@@ -424,9 +337,9 @@ export async function backfillAffiliateOrders() {
 // ─── STORAGE MODE INFO ───
 
 export function getStorageMode() {
-  return 'orders';
+  return 'base44-entities';
 }
 
 export function resetBase44Check() {
-  // No-op
+  // No-op - no longer needed with Base44 entities
 }
