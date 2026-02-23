@@ -1510,6 +1510,160 @@ export default function AdminAffiliateManager() {
               )}
             </motion.div>
           )}
+
+          {activeTab === 'analytics' && (
+            <motion.div
+              key="analytics"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              {/* Top Performers */}
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
+                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-6 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-[#dc2626]" /> Top 5 Performers
+                </h3>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={filteredAffiliates.slice(0, 5).map(a => ({
+                      name: a.affiliate_name,
+                      revenue: a.total_revenue || 0,
+                      orders: a.total_orders || 0,
+                      commission: a.total_commission || 0,
+                    }))}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                      <XAxis dataKey="name" stroke="#64748b" style={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <YAxis stroke="#64748b" style={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <Tooltip 
+                        contentStyle={{ 
+                          background: '#ffffff', 
+                          border: '1px solid #e2e8f0', 
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          fontWeight: 'bold'
+                        }} 
+                      />
+                      <Legend wrapperStyle={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <Bar dataKey="revenue" fill="#dc2626" name="Revenue ($)" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="orders" fill="#3b82f6" name="Orders" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="commission" fill="#10b981" name="Commission ($)" radius={[8, 8, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Conversion Rates */}
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
+                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-6 flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-emerald-500" /> Conversion Rates by Affiliate
+                </h3>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={filteredAffiliates.filter(a => (a.total_clicks || 0) > 0).map(a => ({
+                      name: a.affiliate_name,
+                      rate: a.conversionRate,
+                      clicks: a.total_clicks || 0,
+                      orders: a.total_orders || 0,
+                    }))}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                      <XAxis dataKey="name" stroke="#64748b" style={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <YAxis stroke="#64748b" style={{ fontSize: '11px', fontWeight: 'bold' }} label={{ value: 'Conversion Rate (%)', angle: -90, position: 'insideLeft', style: { fontSize: '11px', fontWeight: 'bold' } }} />
+                      <Tooltip 
+                        contentStyle={{ 
+                          background: '#ffffff', 
+                          border: '1px solid #e2e8f0', 
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          fontWeight: 'bold'
+                        }} 
+                        formatter={(value, name) => name === 'rate' ? [`${value.toFixed(2)}%`, 'Conversion Rate'] : [value, name]}
+                      />
+                      <Legend wrapperStyle={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <Bar dataKey="rate" fill="#10b981" name="Conversion Rate (%)" radius={[8, 8, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Revenue Distribution */}
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
+                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-6 flex items-center gap-2">
+                  <DollarSign className="w-5 h-5 text-blue-500" /> Revenue Distribution
+                </h3>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={filteredAffiliates.filter(a => (a.total_revenue || 0) > 0).map(a => ({
+                          name: a.affiliate_name,
+                          value: a.total_revenue || 0,
+                        }))}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(1)}%`}
+                        outerRadius={120}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {filteredAffiliates.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={['#dc2626', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'][index % 6]} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ 
+                          background: '#ffffff', 
+                          border: '1px solid #e2e8f0', 
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          fontWeight: 'bold'
+                        }} 
+                        formatter={(value) => [`$${value.toFixed(2)}`, 'Revenue']}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Orders Over Time */}
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
+                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-6 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-purple-500" /> Orders Over Time
+                </h3>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={(() => {
+                      const ordersByDate = {};
+                      filteredTransactions.forEach(tx => {
+                        const date = new Date(tx.created_date).toLocaleDateString();
+                        ordersByDate[date] = (ordersByDate[date] || 0) + 1;
+                      });
+                      return Object.entries(ordersByDate)
+                        .sort((a, b) => new Date(a[0]) - new Date(b[0]))
+                        .slice(-30)
+                        .map(([date, count]) => ({ date, orders: count }));
+                    })()}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                      <XAxis dataKey="date" stroke="#64748b" style={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <YAxis stroke="#64748b" style={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <Tooltip 
+                        contentStyle={{ 
+                          background: '#ffffff', 
+                          border: '1px solid #e2e8f0', 
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          fontWeight: 'bold'
+                        }} 
+                      />
+                      <Legend wrapperStyle={{ fontSize: '11px', fontWeight: 'bold' }} />
+                      <Line type="monotone" dataKey="orders" stroke="#8b5cf6" strokeWidth={3} name="Orders" dot={{ fill: '#8b5cf6', r: 4 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* How It Works Info */}
