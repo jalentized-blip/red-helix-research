@@ -21,6 +21,7 @@ import { ZeroTrustProvider } from '@/components/security/ZeroTrustProvider';
 import SecurityMonitor from '@/components/security/SecurityMonitor';
 import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
+import ResearchDisclaimerGate from '@/components/ResearchDisclaimerGate';
 
 const HeaderSearch = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -320,6 +321,7 @@ const HeaderSearch = () => {
           }, []);
 
   return (
+    <ResearchDisclaimerGate>
     <ZeroTrustProvider>
     <MFAProvider>
     <SecurityGateway>
@@ -902,5 +904,6 @@ const HeaderSearch = () => {
       </SecurityGateway>
       </MFAProvider>
       </ZeroTrustProvider>
+      </ResearchDisclaimerGate>
       );
       }
