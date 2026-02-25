@@ -50,7 +50,49 @@ export default function Products() {
     return unsubscribe;
   }, [refetch]);
 
-  const filteredProducts = products.filter(p => {
+  // Extract all 10 vial kit options from all products
+  const allKitOptions = [];
+  products.forEach(product => {
+    const kitSpecs = product.specifications?.filter(spec => 
+      spec.name?.toLowerCase().includes('10 vial') && !spec.hidden
+    ) || [];
+    kitSpecs.forEach(spec => {
+      allKitOptions.push({
+        ...spec,
+        productName: product.name,
+        productId: product.id,
+        category: product.category
+      });
+    });
+  });
+
+  // Create synthetic Kits product if any kit options exist
+  const kitsProduct = allKitOptions.length > 0 ? {
+    id: 'kits-product',
+    name: 'Kits',
+    description: '10-vial research kits across our complete peptide catalog',
+    category: 'all',
+    specifications: allKitOptions,
+    price_from: Math.min(...allKitOptions.map(k => k.price)),
+    is_featured: true,
+    badge: 'bestseller',
+    hidden: false,
+    isKitsProduct: true
+  } : null;
+
+  // Filter out kit specs from individual products (show single vials only)
+  const productsWithSingleVials = products.map(product => ({
+    ...product,
+    specifications: product.specifications?.filter(spec => 
+      !spec.name?.toLowerCase().includes('10 vial')
+    ) || []
+  })).filter(product => {
+    // Remove products that only had kit specs
+    const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
+    return visibleSpecs.length > 0;
+  });
+
+  let filteredProducts = productsWithSingleVials.filter(p => {
     if (p.is_deleted || p.hidden) return false;
 
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
@@ -66,6 +108,22 @@ export default function Products() {
 
     return categoryMatch && stockMatch && searchMatch;
   });
+
+  // Add kits product to filtered results if it matches criteria
+  if (kitsProduct) {
+    const matchesCategory = selectedCategory === 'all';
+    const matchesSearch = searchQuery === '' || 
+      'kits'.includes(searchQuery.toLowerCase()) ||
+      kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const hasInStockKits = kitsProduct.specifications.some(spec => 
+      spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined)
+    );
+    const stockMatch = hideOutOfStock ? hasInStockKits : true;
+    
+    if (matchesCategory && matchesSearch && stockMatch) {
+      filteredProducts = [kitsProduct, ...filteredProducts];
+    }
+  }
 
   const handleSelectStrength = (product) => {
     setSelectedProduct(product);
