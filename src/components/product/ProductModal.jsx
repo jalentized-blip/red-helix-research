@@ -34,7 +34,11 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
       return;
     }
     if (selectedSpec) {
-      addToCart(product, selectedSpec);
+      // For kits product, we need to reference the original product
+      const cartProduct = product.isKitsProduct 
+        ? { ...product, id: selectedSpec.productId, name: selectedSpec.productName }
+        : product;
+      addToCart(cartProduct, selectedSpec);
       setAddedToCart(true);
       setTimeout(() => {
         setAddedToCart(false);
@@ -131,15 +135,15 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
 
             {/* Selection Grid */}
             <div className="space-y-8 flex-grow">
-              {/* Single Vials */}
-              {product.specifications?.filter(spec => !spec.hidden && spec.name?.toLowerCase().includes('single vial')).length > 0 && (
+              {product.isKitsProduct ? (
+                // Kits product displays all kit options in dropdown-style grid
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <FlaskConical className="w-4 h-4 text-slate-300" />
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Individual Unit Selection</h3>
+                    <Zap className="w-4 h-4 text-slate-300" />
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Select 10-Vial Kit</h3>
                   </div>
                   <div className="grid gap-3">
-                    {product.specifications?.filter(spec => !spec.hidden && spec.name?.toLowerCase().includes('single vial')).map((spec, index) => {
+                    {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
                       const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
                       return (
                         <button
@@ -147,7 +151,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                           onClick={() => !isOutOfStock && setSelectedSpec(spec)}
                           disabled={isOutOfStock}
                           className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
-                            selectedSpec?.name === spec.name
+                            selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName
                               ? 'border-[#dc2626] bg-[#dc2626]/5 shadow-sm'
                               : isOutOfStock
                               ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
@@ -156,10 +160,10 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#dc2626]' : 'text-slate-900'}`}>
-                                {spec.name}
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#dc2626]' : 'text-slate-900'}`}>
+                                {spec.productName} - {spec.name}
                               </div>
-                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Analysis Unit</div>
+                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">10-Vial Research Kit</div>
                             </div>
                             <div className="text-right">
                               <div className="text-2xl font-black text-slate-900 tracking-tighter">
@@ -172,17 +176,15 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                     })}
                   </div>
                 </div>
-              )}
-
-              {/* Kits Section */}
-              {product.specifications?.filter(spec => !spec.hidden && !spec.name?.toLowerCase().includes('single vial')).length > 0 && (
+              ) : (
+                // Regular products show single vials only
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <Zap className="w-4 h-4 text-slate-300" />
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Bulk Research Kits (10 Units)</h3>
+                    <FlaskConical className="w-4 h-4 text-slate-300" />
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Individual Unit Selection</h3>
                   </div>
                   <div className="grid gap-3">
-                    {product.specifications?.filter(spec => !spec.hidden && !spec.name?.toLowerCase().includes('single vial')).map((spec, index) => {
+                    {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
                       const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
                       return (
                         <button
@@ -202,7 +204,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                               <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#dc2626]' : 'text-slate-900'}`}>
                                 {spec.name}
                               </div>
-                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Laboratory 10-Pack Kit</div>
+                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
                             </div>
                             <div className="text-right">
                               <div className="text-2xl font-black text-slate-900 tracking-tighter">
