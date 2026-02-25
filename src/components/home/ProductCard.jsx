@@ -32,6 +32,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
   const [isHovered, setIsHovered] = React.useState(false);
   const [isUpdating, setIsUpdating] = React.useState(false);
   const [localHidden, setLocalHidden] = React.useState(product.hidden);
+  const isKitsProduct = product.isKitsProduct === true;
   
   const badge = useMemo(() => product.badge ? badgeConfig[product.badge] : null, [product.badge]);
 
@@ -183,9 +184,17 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               {product.name}
             </h3>
             
-            <p className={`text-sm text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className={`text-sm text-slate-500 mb-4 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.description}
             </p>
+
+            {isKitsProduct && (
+              <div className={`mb-4 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+                <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest block mb-2">
+                  {product.specifications?.length || 0} Kit Options Available
+                </span>
+              </div>
+            )}
           </div>
 
           <div className={`flex items-end justify-between mb-4 md:mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
