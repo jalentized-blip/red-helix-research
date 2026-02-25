@@ -638,7 +638,11 @@ export default function AdminInventoryManager() {
   });
 
   const handleSave = (formData) => {
-    const id = editingProduct?.id || null;
+    if (!editingProduct) {
+      toast.error('Unable to save - product not loaded');
+      return;
+    }
+    const id = editingProduct.id || null;
     saveMutation.mutate({ id, data: formData });
   };
 
