@@ -43,17 +43,20 @@ export default function AdminStockManagement() {
   }, [navigate]);
 
   const updateStockMutation = useMutation({
-    mutationFn: ({ productId, updates, showToast = true }) => 
+    mutationFn: ({ productId, updates }) => 
       base44.entities.Product.update(productId, updates),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      if (variables.showToast) {
-        const state = editingStates[variables.productId];
-        toast.success(`Stock updated for ${state?.selectedSpec || 'product'}`, {
-          description: `${state?.stockQuantity || 0} units - ${state?.inStock ? 'In Stock' : 'Out of Stock'}`
-        });
-        setEditingStates({});
-      }
+      const state = editingStates[variables.productId];
+      toast.success(`Stock updated for ${state?.selectedSpec || 'product'}`, {
+        description: `${state?.stockQuantity || 0} units - ${state?.inStock ? 'In Stock' : 'Out of Stock'}`
+      });
+      // Remove only the edited product's state, not all states
+      setEditingStates(prev => {
+        const newState = { ...prev };
+        delete newState[variables.productId];
+        return newState;
+      });
     },
   });
 
