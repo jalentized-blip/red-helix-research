@@ -45,9 +45,9 @@ export default function ResearchDisclaimerGate({ children }) {
               className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden"
             >
               {/* Header */}
-              <div className="bg-gradient-to-br from-[#dc2626] to-red-700 p-8 text-center">
-                <FlaskConical className="w-16 h-16 text-white mx-auto mb-4" />
-                <h2 className="text-3xl font-black text-white uppercase tracking-tight">
+              <div className="bg-gradient-to-br from-[#dc2626] to-red-700 p-4 md:p-8 text-center flex-shrink-0">
+                <FlaskConical className="w-12 h-12 md:w-16 md:h-16 text-white mx-auto mb-2 md:mb-4" />
+                <h2 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight">
                   Research Use Only
                 </h2>
               </div>
