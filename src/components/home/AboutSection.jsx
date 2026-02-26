@@ -21,25 +21,14 @@ export default function AboutSection() {
             className="relative order-2 lg:order-1"
           >
             <div className="aspect-[4/5] rounded-[40px] overflow-hidden border border-slate-100 bg-slate-50 relative shadow-2xl">
-              {vialImage ? (
-                <>
-                  <motion.img 
-                    src={vialImage}
-                    alt="Research Laboratory"
-                    className="w-full h-full object-cover"
-                    animate={{ scale: 1.05 }}
-                    transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60" />
-                </>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-slate-50">
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[#dc2626]/20 border-t-red-600 rounded-full animate-spin" />
-                    <div className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Initializing Visuals...</div>
-                  </div>
-                </div>
-              )}
+              <motion.img 
+                src={vialImage}
+                alt="Research Laboratory"
+                className="w-full h-full object-cover"
+                animate={{ scale: 1.05 }}
+                transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60" />
             </div>
             
             {/* Floating Achievement Badge */}
