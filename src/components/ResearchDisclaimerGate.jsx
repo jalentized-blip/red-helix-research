@@ -77,18 +77,18 @@ export default function ResearchDisclaimerGate({ children }) {
 
                 {/* Checkbox Agreement */}
                 <div 
-                  className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer active:bg-slate-100 transition-colors"
+                  className="flex items-start gap-3 p-3 md:p-4 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer active:bg-slate-100 transition-colors"
                   onClick={() => setAgreedToTerms(!agreedToTerms)}
                 >
                   <Checkbox
                     id="terms"
                     checked={agreedToTerms}
                     onCheckedChange={setAgreedToTerms}
-                    className="mt-1 flex-shrink-0"
+                    className="mt-0.5 flex-shrink-0"
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm text-slate-700 font-medium leading-relaxed cursor-pointer flex-1"
+                    className="text-xs md:text-sm text-slate-700 font-medium leading-relaxed cursor-pointer flex-1"
                   >
                     I confirm that I am purchasing these products exclusively for <strong>research and laboratory use only</strong>, 
                     and I will not use them for human consumption or any clinical purposes. I understand and accept all terms and restrictions.
