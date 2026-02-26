@@ -42,7 +42,7 @@ export default function ResearchDisclaimerGate({ children }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+              className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden"
             >
               {/* Header */}
               <div className="bg-gradient-to-br from-[#dc2626] to-red-700 p-8 text-center">
@@ -53,7 +53,7 @@ export default function ResearchDisclaimerGate({ children }) {
               </div>
 
               {/* Content */}
-              <div className="p-8 space-y-6 overflow-y-auto flex-1">
+              <div className="p-8 space-y-6">
                 <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-6">
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="w-6 h-6 text-[#dc2626] flex-shrink-0 mt-1" />
@@ -76,16 +76,19 @@ export default function ResearchDisclaimerGate({ children }) {
                 </div>
 
                 {/* Checkbox Agreement */}
-                <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div 
+                  className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer active:bg-slate-100 transition-colors"
+                  onClick={() => setAgreedToTerms(!agreedToTerms)}
+                >
                   <Checkbox
                     id="terms"
                     checked={agreedToTerms}
                     onCheckedChange={setAgreedToTerms}
-                    className="mt-1"
+                    className="mt-1 flex-shrink-0"
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm text-slate-700 font-medium leading-relaxed cursor-pointer"
+                    className="text-sm text-slate-700 font-medium leading-relaxed cursor-pointer flex-1"
                   >
                     I confirm that I am purchasing these products exclusively for <strong>research and laboratory use only</strong>, 
                     and I will not use them for human consumption or any clinical purposes. I understand and accept all terms and restrictions.
