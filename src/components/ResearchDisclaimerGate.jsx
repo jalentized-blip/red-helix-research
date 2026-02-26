@@ -53,7 +53,7 @@ export default function ResearchDisclaimerGate({ children }) {
               </div>
 
               {/* Content */}
-              <div className="p-8 space-y-6">
+              <div className="p-8 space-y-6 overflow-y-auto flex-1">
                 <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-6">
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="w-6 h-6 text-[#dc2626] flex-shrink-0 mt-1" />
