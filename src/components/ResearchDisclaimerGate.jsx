@@ -100,13 +100,13 @@ export default function ResearchDisclaimerGate({ children }) {
                   <Button
                     onClick={handleAgree}
                     disabled={!agreedToTerms}
-                    className="flex-1 bg-[#dc2626] hover:bg-red-700 text-white py-6 rounded-2xl font-black uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 bg-[#dc2626] hover:bg-red-700 text-white py-4 md:py-6 rounded-2xl font-black text-xs md:text-sm uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     I Agree - Proceed to Site
                   </Button>
                 </div>
 
-                <p className="text-xs text-slate-400 text-center">
+                <p className="text-[10px] md:text-xs text-slate-400 text-center">
                   By clicking "I Agree", you acknowledge that you have read and understood the research use disclaimer.
                 </p>
               </div>
