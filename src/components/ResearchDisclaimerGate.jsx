@@ -56,10 +56,10 @@ export default function ResearchDisclaimerGate({ children }) {
               <div className="p-4 md:p-8 space-y-4 md:space-y-6 overflow-y-auto flex-1">
                 <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-4 md:p-6">
                   <div className="flex items-start gap-3">
-                    <AlertTriangle className="w-6 h-6 text-[#dc2626] flex-shrink-0 mt-1" />
+                    <AlertTriangle className="w-5 h-5 md:w-6 md:h-6 text-[#dc2626] flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-lg font-black text-slate-900 mb-3 uppercase">Important Disclaimer</h3>
-                      <div className="text-slate-700 space-y-3 text-sm leading-relaxed">
+                      <h3 className="text-base md:text-lg font-black text-slate-900 mb-2 md:mb-3 uppercase">Important Disclaimer</h3>
+                      <div className="text-slate-700 space-y-2 md:space-y-3 text-xs md:text-sm leading-relaxed">
                         <p>
                           All products sold on this website are <strong>strictly for laboratory and research purposes only</strong>.
                         </p>
