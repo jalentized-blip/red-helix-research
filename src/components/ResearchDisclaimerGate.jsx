@@ -42,7 +42,7 @@ export default function ResearchDisclaimerGate({ children }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden"
+              className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
             >
               {/* Header */}
               <div className="bg-gradient-to-br from-[#dc2626] to-red-700 p-8 text-center">
