@@ -45,6 +45,18 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
         }
         return isFeatured && isVisible && inStock;
       })
+      .map(p => {
+        // Filter out 10-vial kit options from regular products (keep only single vials)
+        if (!p.isKitsProduct && p.specifications) {
+          return {
+            ...p,
+            specifications: p.specifications.filter(spec => 
+              spec.name?.toLowerCase().includes('single vial')
+            )
+          };
+        }
+        return p;
+      })
       .slice(0, 7);
   }, [products, effectiveIsAdmin]);
 
