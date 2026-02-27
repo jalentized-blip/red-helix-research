@@ -172,28 +172,18 @@ export default function Home({ adminViewAsUser = false }) {
       {/* Admin Buttons - Updated for Light Theme */}
       {isAdmin && (
         <>
-          <Link to={createPageUrl('AdminStockManagement')}>
-            <button className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#dc2626]/50 rounded-xl shadow-lg hover:shadow-[#dc2626]/10 transition-all hover:scale-110 group">
-              <Package className="w-5 h-5 text-slate-400 group-hover:text-[#dc2626]" />
-            </button>
-          </Link>
           <Link to={createPageUrl('AdminOrderManagement')}>
-            <button className="fixed top-24 right-20 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-600/50 rounded-xl shadow-lg hover:shadow-blue-600/10 transition-all hover:scale-110 group">
+            <button className="fixed top-24 right-6 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-600/50 rounded-xl shadow-lg hover:shadow-blue-600/10 transition-all hover:scale-110 group">
               <ClipboardList className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
             </button>
           </Link>
-          <Link to={createPageUrl('AdminPriceManagement')}>
-            <button className="fixed top-24 right-34 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-green-600/50 rounded-xl shadow-lg hover:shadow-green-600/10 transition-all hover:scale-110 group" style={{ right: '8.5rem' }}>
-              <DollarSign className="w-5 h-5 text-slate-400 group-hover:text-green-600" />
-            </button>
-          </Link>
           <Link to={createPageUrl('AdminInventoryManager')}>
-            <button className="fixed top-24 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-600/50 rounded-xl shadow-lg hover:shadow-purple-600/10 transition-all hover:scale-110 group" style={{ right: '12rem' }}>
+            <button className="fixed top-24 right-20 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-600/50 rounded-xl shadow-lg hover:shadow-purple-600/10 transition-all hover:scale-110 group">
               <Settings2 className="w-5 h-5 text-slate-400 group-hover:text-purple-600" />
             </button>
           </Link>
           <Link to={createPageUrl('AdminAffiliateManager')}>
-            <button className="fixed top-24 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-amber-600/50 rounded-xl shadow-lg hover:shadow-amber-600/10 transition-all hover:scale-110 group" style={{ right: '15.5rem' }}>
+            <button className="fixed top-24 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-amber-600/50 rounded-xl shadow-lg hover:shadow-amber-600/10 transition-all hover:scale-110 group" style={{ right: '8.5rem' }}>
               <Users className="w-5 h-5 text-slate-400 group-hover:text-amber-600" />
             </button>
           </Link>
