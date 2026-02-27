@@ -150,7 +150,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               <img 
                 src={displayImage} 
                 alt={product.name}
-                className="w-4/5 h-4/5 object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-2xl"
+                className="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-700 drop-shadow-2xl"
                 loading="lazy"
                 decoding="async"
               />
