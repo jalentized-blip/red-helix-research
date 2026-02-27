@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
 
       const formData = new URLSearchParams();
       formData.append('ClientID', GREEN_CLIENT_ID);
-      formData.append('SecretKey', GREEN_SECRET_KEY);
+      formData.append('ApiPassword', GREEN_SECRET_KEY);
       formData.append('FirstName', firstName || '');
       formData.append('LastName', lastName || '');
       formData.append('Email', email || '');
