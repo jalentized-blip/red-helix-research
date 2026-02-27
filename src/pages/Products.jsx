@@ -53,8 +53,9 @@ export default function Products() {
   // Extract all 10 vial kit options from all products (excluding BPC-157)
   const allKitOptions = [];
   products.forEach(product => {
+    const isBPC157 = product.name?.toLowerCase().includes('bpc');
     const kitSpecs = product.specifications?.filter(spec => 
-      spec.name?.toLowerCase().includes('10 vial') && !spec.hidden && !product.name?.toLowerCase().includes('bpc-157')
+      spec.name?.toLowerCase().includes('10 vial') && !spec.hidden && !isBPC157
     ) || [];
     kitSpecs.forEach(spec => {
       allKitOptions.push({
