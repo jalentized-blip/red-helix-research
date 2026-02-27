@@ -97,5 +97,9 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2",
     "vite": "^6.1.0"
+  },
+  "overrides": {
+    "quill@<=2.0.0": "2.0.0",
+    "minimatch@<=9.0.6": "9.0.6"
   }
 }
