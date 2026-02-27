@@ -1,8 +1,31 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
 const GREEN_CLIENT_ID = Deno.env.get("GREEN_MONEY_CLIENT_ID");
-const GREEN_SECRET_KEY = Deno.env.get("GREEN_MONEY_SECRET_KEY");
-const GREEN_BASE_URL = 'https://greenbyphone.com';
+const GREEN_API_PASSWORD = Deno.env.get("GREEN_MONEY_SECRET_KEY");
+const GREEN_ENDPOINT = 'https://greenbyphone.com/echeck.asmx';
+
+async function greenPost(method, params) {
+  const formData = new URLSearchParams({
+    Client_ID: GREEN_CLIENT_ID,
+    ApiPassword: GREEN_API_PASSWORD,
+    x_delim_data: 'FALSE',
+    ...params,
+  });
+
+  const res = await fetch(`${GREEN_ENDPOINT}/${method}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formData.toString(),
+  });
+
+  const text = await res.text();
+  console.log(`[${method}] status=${res.status} response=${text}`);
+
+  let data;
+  try { data = JSON.parse(text); } catch { data = { raw: text }; }
+
+  return { ok: res.ok, data, status: res.status };
+}
 
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
@@ -17,7 +40,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (!GREEN_CLIENT_ID || !GREEN_SECRET_KEY) {
+    if (!GREEN_CLIENT_ID || !GREEN_API_PASSWORD) {
       return Response.json({ error: 'Payment provider not configured' }, { status: 500 });
     }
 
@@ -25,57 +48,39 @@ Deno.serve(async (req) => {
     const { action } = body;
 
     if (action === 'createCustomer') {
-      const { firstName, lastName, email, phone, address, city, state, zip, country } = body;
+      const { firstName, lastName, email, address, city, state, zip, country } = body;
 
-      const formData = new URLSearchParams();
-      formData.append('ClientID', GREEN_CLIENT_ID);
-      formData.append('ApiPassword', GREEN_SECRET_KEY);
-      formData.append('FirstName', firstName || '');
-      formData.append('LastName', lastName || '');
-      formData.append('Email', email || '');
-      // Do NOT send phone — Green.money rejects if it matches the merchant's own phone number
-      formData.append('Address', address || '');
-      formData.append('City', city || '');
-      formData.append('State', state || '');
-      formData.append('Zip', zip || '');
-      formData.append('Country', country || 'US');
-
-      const res = await fetch(`${GREEN_BASE_URL}/API/CreatePayor`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
+      const { ok, data } = await greenPost('CreateCustomer', {
+        FirstName: firstName || '',
+        LastName: lastName || '',
+        EmailAddress: email || '',
+        Address1: address || '',
+        City: city || '',
+        State: state || '',
+        Zip: zip || '',
+        Country: country || 'US',
       });
 
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); } catch { data = { raw: text }; }
-
-      if (!res.ok || data.Error) {
-        console.error('CreatePayor error:', JSON.stringify(data));
-        return Response.json({ error: data.Error || data.Message || 'Failed to create customer', raw: data }, { status: 400 });
+      if (!ok || data.Error || data.Result === '0') {
+        const msg = data.Error || data.ResultDescription || data.Message || JSON.stringify(data);
+        return Response.json({ error: msg }, { status: 400 });
       }
 
-      return Response.json({ payorId: data.PayorID || data.payorId || data.ID });
+      const payorId = data.Customer_ID || data.CustomerID || data.customer_id || data.ID;
+      if (!payorId) {
+        return Response.json({ error: 'No customer ID returned', raw: data }, { status: 400 });
+      }
+
+      return Response.json({ payorId });
 
     } else if (action === 'getCustomerInfo') {
       const { payorId } = body;
 
-      const formData = new URLSearchParams();
-      formData.append('ClientID', GREEN_CLIENT_ID);
-      formData.append('SecretKey', GREEN_SECRET_KEY);
-      formData.append('PayorID', payorId);
-
-      const res = await fetch(`${GREEN_BASE_URL}/API/GetPayor`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
+      const { ok, data } = await greenPost('GetCustomerInformation', {
+        Customer_ID: payorId,
       });
 
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); } catch { data = { raw: text }; }
-
-      const bankConnected = !!(data.BankName || data.AccountLast4 || data.bankConnected);
+      const bankConnected = !!(data.BankName || data.AccountLast4 || data.RoutingNumber);
 
       return Response.json({
         bankConnected,
@@ -84,38 +89,50 @@ Deno.serve(async (req) => {
       });
 
     } else if (action === 'createDraft') {
-      const { payorId, amount, orderNumber, email, turnstileToken } = body;
+      const { payorId, amount, orderNumber, email, routingNumber, accountNumber, bankName } = body;
 
       if (!payorId || !amount || !orderNumber) {
         return Response.json({ error: 'Missing required fields' }, { status: 400 });
       }
 
-      const formData = new URLSearchParams();
-      formData.append('ClientID', GREEN_CLIENT_ID);
-      formData.append('SecretKey', GREEN_SECRET_KEY);
-      formData.append('PayorID', payorId);
-      formData.append('Amount', parseFloat(amount).toFixed(2));
-      formData.append('CheckMemo', `Order ${orderNumber}`);
-      formData.append('EmailAddress', email || '');
+      // Use CustomerOneTimeDraftRTV if we have a saved customer, or OneTimeDraftRTV with full bank info
+      let method, params;
 
-      const res = await fetch(`${GREEN_BASE_URL}/API/CreateDraft`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
-      });
+      if (routingNumber && accountNumber) {
+        // Direct draft with bank info
+        method = 'CustomerOneTimeDraftRTV';
+        params = {
+          Customer_ID: payorId,
+          Amount: parseFloat(amount).toFixed(2),
+          Memo: `Order ${orderNumber}`,
+          EmailAddress: email || '',
+          RoutingNumber: routingNumber,
+          AccountNumber: accountNumber,
+          BankName: bankName || '',
+        };
+      } else {
+        // Customer on file draft
+        method = 'CustomerOneTimeDraftRTV';
+        params = {
+          Customer_ID: payorId,
+          Amount: parseFloat(amount).toFixed(2),
+          Memo: `Order ${orderNumber}`,
+          EmailAddress: email || '',
+        };
+      }
 
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); } catch { data = { raw: text }; }
+      const { ok, data } = await greenPost(method, params);
 
-      if (!res.ok || data.Error) {
-        return Response.json({ error: data.Error || data.Message || 'Payment failed' }, { status: 400 });
+      if (!ok || data.Error || data.Result === '0') {
+        const msg = data.Error || data.ResultDescription || data.Message || JSON.stringify(data);
+        return Response.json({ error: msg }, { status: 400 });
       }
 
       return Response.json({
         success: true,
-        checkId: data.CheckID || data.checkId || data.ID,
-        verifyResult: data.VerifyResult || data.verifyResult || null,
+        checkId: data.Check_ID || data.CheckID || data.check_id || data.ID,
+        verifyResult: data.VerifyResult || data.verifyResult || data.Result || null,
+        resultDescription: data.ResultDescription || null,
       });
 
     } else {
@@ -124,6 +141,6 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error('GreenMoney checkout error:', error);
-    return Response.json({ error: 'Internal server error' }, { status: 500 });
+    return Response.json({ error: error.message || 'Internal server error' }, { status: 500 });
   }
 });
