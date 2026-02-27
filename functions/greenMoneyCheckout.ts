@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
       formData.append('FirstName', firstName || '');
       formData.append('LastName', lastName || '');
       formData.append('Email', email || '');
-      formData.append('Phone', phone || '');
+      // Do NOT send phone — Green.money rejects if it matches the merchant's own phone number
       formData.append('Address', address || '');
       formData.append('City', city || '');
       formData.append('State', state || '');
