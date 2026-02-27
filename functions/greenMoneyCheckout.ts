@@ -51,7 +51,8 @@ Deno.serve(async (req) => {
       try { data = JSON.parse(text); } catch { data = { raw: text }; }
 
       if (!res.ok || data.Error) {
-        return Response.json({ error: data.Error || data.Message || 'Failed to create customer' }, { status: 400 });
+        console.error('CreatePayor error:', JSON.stringify(data));
+        return Response.json({ error: data.Error || data.Message || 'Failed to create customer', raw: data }, { status: 400 });
       }
 
       return Response.json({ payorId: data.PayorID || data.payorId || data.ID });
