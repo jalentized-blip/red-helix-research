@@ -572,16 +572,7 @@ const HeaderSearch = () => {
               </>
             )}
 
-            {isAdmin && !viewAsUser && (
-              <>
-                <div className="h-4 w-px bg-slate-200" />
-                <Link to={createPageUrl('GrayMarketInsights')} className="group relative text-[13px] font-bold tracking-tight text-slate-500 hover:text-[#dc2626] px-3 py-2 transition-all duration-300 flex items-center gap-1.5">
-                  <Eye className="w-3.5 h-3.5" />
-                  <span className="relative z-10 uppercase">Market Intel</span>
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#dc2626] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                </Link>
-              </>
-            )}
+
           </nav>
 
           {/* Desktop Search */}
