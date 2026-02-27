@@ -114,7 +114,6 @@ export default function PlaidACHCheckout({ order, billingInfo, onSuccess, onErro
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           email: order.customer_email || '',
-          phone: billingInfo?.phone || '',
           address: billingInfo?.address || '',
           city: billingInfo?.city || '',
           state: billingInfo?.state || '',
