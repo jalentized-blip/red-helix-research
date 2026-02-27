@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { ShoppingCart, Menu, X, Send, Search, Eye, Mail, Package, User, ToggleLeft, ToggleRight } from 'lucide-react';
+import { ShoppingCart, Menu, X, Send, Search, Eye, ToggleLeft, ToggleRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
