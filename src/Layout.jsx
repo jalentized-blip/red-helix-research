@@ -730,11 +730,6 @@ const HeaderSearch = () => {
 
                           {!viewAsUser && (
                             <>
-                              <Link to={createPageUrl('GrayMarketInsights')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
-                                <Eye className="w-4 h-4" />
-                                Market Intelligence
-                              </Link>
-
                               <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                                 Manual Orders
                               </Link>
