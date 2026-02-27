@@ -54,8 +54,6 @@ import AdminCustomerManagement from './pages/AdminCustomerManagement';
 import AdminInventoryManager from './pages/AdminInventoryManager';
 import AdminManualOrders from './pages/AdminManualOrders';
 import AdminOrderManagement from './pages/AdminOrderManagement';
-import AdminPriceManagement from './pages/AdminPriceManagement';
-import AdminStockManagement from './pages/AdminStockManagement';
 import AdminSupport from './pages/AdminSupport';
 import BacklinkStrategy from './pages/BacklinkStrategy';
 import BlogGuide from './pages/BlogGuide';
@@ -122,8 +120,6 @@ export const PAGES = {
     "AdminInventoryManager": AdminInventoryManager,
     "AdminManualOrders": AdminManualOrders,
     "AdminOrderManagement": AdminOrderManagement,
-    "AdminPriceManagement": AdminPriceManagement,
-    "AdminStockManagement": AdminStockManagement,
     "AdminSupport": AdminSupport,
     "BacklinkStrategy": BacklinkStrategy,
     "BlogGuide": BlogGuide,
