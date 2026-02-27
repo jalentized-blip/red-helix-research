@@ -534,6 +534,24 @@ function ProductRow({ product, onEdit, onQuickToggle, isUpdating }) {
             </div>
           </div>
 
+          {/* Copy Image URL */}
+          {product.image_url && (
+            <div onClick={(e) => e.stopPropagation()}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  navigator.clipboard.writeText(product.image_url);
+                  toast.success('Image URL copied!');
+                }}
+                className="h-8 px-2 text-slate-300 hover:text-[#dc2626]"
+                title="Copy image URL"
+              >
+                <Copy className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+
           {/* Quick Visibility Toggle */}
           <div onClick={(e) => e.stopPropagation()}>
             <Button
