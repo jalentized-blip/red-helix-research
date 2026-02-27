@@ -743,14 +743,7 @@ const HeaderSearch = () => {
                                 <Eye className="w-4 h-4" />
                                 Market Intelligence
                               </Link>
-                              <Link to={createPageUrl('AdminPriceManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
-                                <Mail className="w-4 h-4" />
-                                Price Management
-                              </Link>
-                              <Link to={createPageUrl('AdminStockManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
-                                <Package className="w-4 h-4" />
-                                Stock Management
-                              </Link>
+
                               <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 flex items-center gap-2">
                                 <Package className="w-4 h-4" />
                                 Manual Orders
