@@ -144,7 +144,7 @@ export default function QuickShop() {
                           onClick={() => handleProductClick(product)}
                           className="w-full p-4 bg-slate-50 hover:bg-white border border-slate-100 hover:border-[#dc2626]/30 rounded-2xl transition-all text-left group shadow-sm hover:shadow-md flex gap-4"
                         >
-                          <div className="w-16 h-16 bg-white rounded-xl border border-slate-100 p-1 flex-shrink-0">
+                          <div className="w-20 h-20 bg-white rounded-xl border border-slate-100 p-1 flex-shrink-0">
                             <img 
                               src={product.image_url} 
                               alt={product.name}
