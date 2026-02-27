@@ -50,47 +50,22 @@ export default function Products() {
     return unsubscribe;
   }, [refetch]);
 
-  // Extract all 10 vial kit options from all products
-  const allKitOptions = [];
-  products.forEach(product => {
-    const kitSpecs = product.specifications?.filter(spec => 
-      spec.name?.toLowerCase().includes('10 vial') && !spec.hidden
-    ) || [];
-    kitSpecs.forEach(spec => {
-      allKitOptions.push({
-        ...spec,
-        productName: product.name,
-        productId: product.id,
-        category: product.category
-      });
+  // Filter out kit specs from individual products (show single vials only), exclude the real Kits product
+  const productsWithSingleVials = products
+    .filter(product => product.name !== 'Kits')
+    .map(product => ({
+      ...product,
+      specifications: product.specifications?.filter(spec => 
+        !spec.name?.toLowerCase().includes('10 vial')
+      ) || []
+    })).filter(product => {
+      // Remove products that only had kit specs
+      const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
+      return visibleSpecs.length > 0;
     });
-  });
 
-  // Create synthetic Kits product if any kit options exist
-  const kitsProduct = allKitOptions.length > 0 ? {
-    id: 'kits-product',
-    name: 'Kits',
-    description: '10-vial research kits across our complete peptide catalog',
-    category: 'all',
-    specifications: allKitOptions,
-    price_from: Math.min(...allKitOptions.map(k => k.price)),
-    is_featured: true,
-    badge: 'bestseller',
-    hidden: false,
-    isKitsProduct: true
-  } : null;
-
-  // Filter out kit specs from individual products (show single vials only)
-  const productsWithSingleVials = products.map(product => ({
-    ...product,
-    specifications: product.specifications?.filter(spec => 
-      !spec.name?.toLowerCase().includes('10 vial')
-    ) || []
-  })).filter(product => {
-    // Remove products that only had kit specs
-    const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-    return visibleSpecs.length > 0;
-  });
+  // The real Kits product from the database
+  const kitsProduct = products.find(p => p.name === 'Kits') || null;
 
   let filteredProducts = productsWithSingleVials.filter(p => {
     if (p.is_deleted || p.hidden) return false;
@@ -114,8 +89,8 @@ export default function Products() {
     const matchesCategory = selectedCategory === 'all';
     const matchesSearch = searchQuery === '' || 
       'kits'.includes(searchQuery.toLowerCase()) ||
-      kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const hasInStockKits = kitsProduct.specifications.some(spec => 
+      kitsProduct.description?.toLowerCase().includes(searchQuery.toLowerCase());
+    const hasInStockKits = kitsProduct.specifications?.some(spec => 
       spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined)
     );
     const stockMatch = hideOutOfStock ? hasInStockKits : true;
