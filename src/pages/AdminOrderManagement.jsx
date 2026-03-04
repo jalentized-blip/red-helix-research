@@ -1623,6 +1623,15 @@ export default function AdminOrderManagement() {
           <BulkActions selectedOrders={selectedOrders} orders={orders} onBulkUpdate={handleBulkUpdate} />
         </AnimatePresence>
 
+        {/* Prediction Dashboard */}
+        <PredictionDashboard
+          isOpen={showPredictions}
+          onClose={() => setShowPredictions(false)}
+          orders={orders}
+          products={products}
+          productCostMap={productCostMap}
+        />
+
         {/* Tax Report Modal */}
         <TaxReportModal
           orders={orders}
