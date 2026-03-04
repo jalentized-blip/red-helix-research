@@ -91,11 +91,9 @@ export default function Cart() {
   };
 
   const SHIPPING_COST = 15.00;
-  const TAX_RATE = 0.08; // 8% sales tax
   const subtotal = getCartTotal();
   const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
-  const taxAmount = (subtotal - discount) * TAX_RATE;
-  const finalTotal = subtotal - discount + taxAmount + SHIPPING_COST;
+  const finalTotal = subtotal - discount + SHIPPING_COST;
 
   return (
     <div className="min-h-screen bg-white pt-24 lg:pt-32 pb-20 px-4">
