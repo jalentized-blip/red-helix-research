@@ -736,28 +736,40 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {} }) {
             <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest">Est. Sales Tax (8%)</p>
             <p className="text-2xl font-black text-amber-700">${stats.totalTax.toFixed(2)}</p>
           </div>
+          <div className="bg-orange-50 rounded-2xl border border-orange-200 p-4">
+            <p className="text-[10px] text-orange-600 font-black uppercase tracking-widest">Total COGS</p>
+            <p className="text-2xl font-black text-orange-700">${stats.totalCOGS.toFixed(2)}</p>
+          </div>
+          <div className={`rounded-2xl border p-4 ${stats.totalProfit >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+            <p className={`text-[10px] font-black uppercase tracking-widest ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>Net Profit</p>
+            <p className={`text-2xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</p>
+          </div>
         </div>
 
         {/* Monthly Breakdown */}
         <div className="mb-6">
           <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Monthly Breakdown</h4>
           <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-            <div className="grid grid-cols-6 gap-2 px-4 py-2 bg-slate-100 border-b border-slate-200">
+            <div className="grid grid-cols-8 gap-2 px-4 py-2 bg-slate-100 border-b border-slate-200">
               <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Month</span>
               <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Orders</span>
               <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Revenue</span>
               <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Shipping</span>
               <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Discounts</span>
               <span className="text-[10px] text-amber-600 font-black uppercase tracking-widest text-right">Tax (8%)</span>
+              <span className="text-[10px] text-orange-600 font-black uppercase tracking-widest text-right">COGS</span>
+              <span className="text-[10px] text-green-600 font-black uppercase tracking-widest text-right">Profit</span>
             </div>
             {Object.entries(stats.byMonth).sort(([a], [b]) => a.localeCompare(b)).map(([month, data]) => (
-              <div key={month} className="grid grid-cols-6 gap-2 px-4 py-2.5 border-b border-slate-100 last:border-0">
+              <div key={month} className="grid grid-cols-8 gap-2 px-4 py-2.5 border-b border-slate-100 last:border-0">
                 <span className="text-sm text-slate-900 font-bold">{format(new Date(month + '-01'), 'MMM yyyy')}</span>
                 <span className="text-sm text-slate-900 text-right">{data.orders}</span>
                 <span className="text-sm text-slate-900 font-bold text-right">${data.revenue.toFixed(2)}</span>
                 <span className="text-sm text-slate-500 text-right">${data.shipping.toFixed(2)}</span>
                 <span className="text-sm text-red-500 text-right">-${data.discounts.toFixed(2)}</span>
                 <span className="text-sm text-amber-600 font-bold text-right">${data.tax.toFixed(2)}</span>
+                <span className="text-sm text-orange-600 text-right">${data.cogs.toFixed(2)}</span>
+                <span className={`text-sm font-bold text-right ${data.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>${data.profit.toFixed(2)}</span>
               </div>
             ))}
           </div>
