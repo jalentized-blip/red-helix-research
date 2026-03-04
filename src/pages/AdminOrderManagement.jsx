@@ -1277,12 +1277,14 @@ export default function AdminOrderManagement() {
       return statusMatch && searchMatch;
     });
 
+    if (hideCogsEntered) result = result.filter(o => o.total_product_cost == null || o.total_product_cost === '');
+
     if (sortBy === 'oldest') result.sort((a, b) => new Date(a.created_date) - new Date(b.created_date));
     else if (sortBy === 'highest') result.sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0));
     else if (sortBy === 'lowest') result.sort((a, b) => (a.total_amount || 0) - (b.total_amount || 0));
 
     return result;
-  }, [orders, filterStatus, searchQuery, sortBy]);
+  }, [orders, filterStatus, searchQuery, sortBy, hideCogsEntered]);
 
   const statusCounts = useMemo(() => {
     const counts = { awaiting_payment: 0, pending: 0, processing: 0, shipped: 0, delivered: 0, cancelled: 0 };
