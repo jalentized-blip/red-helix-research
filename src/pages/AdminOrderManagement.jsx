@@ -1048,12 +1048,14 @@ export default function AdminOrderManagement() {
     return map;
   }, [products]);
 
-  // Calculate COGS for an order
+  // Calculate COGS for an order (uses spec-level cost if available, falls back to product-level)
   const calcOrderCOGS = (order) => {
     if (!order.items?.length) return 0;
     return order.items.reduce((sum, item) => {
       const name = (item.productName || item.product_name || '').toLowerCase();
-      const cost = productCostMap[name] || 0;
+      const product = products.find(p => p.name?.toLowerCase() === name);
+      const spec = product?.specifications?.find(s => s.name === item.specification);
+      const cost = (spec?.cost_price != null ? spec.cost_price : productCostMap[name]) || 0;
       return sum + cost * (item.quantity || 1);
     }, 0);
   };
