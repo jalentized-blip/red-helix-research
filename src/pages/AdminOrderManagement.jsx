@@ -839,12 +839,13 @@ function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {}, produc
 
         {/* Order Info */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-0.5">
+          <div className="flex items-center gap-2 mb-0.5 flex-wrap">
             <h4 className="text-slate-900 font-black text-sm tracking-tight">#{order.order_number}</h4>
             <span className={`${STATUS_CONFIG[order.status]?.color} px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest border flex items-center gap-1`}>
               <StatusIcon className="w-3 h-3" />
               {order.status}
             </span>
+            <PaymentBadge order={order} />
             {order.tracking_number && (
               <Badge variant="outline" className="text-[10px] border-purple-200 text-purple-600 px-1.5 py-0 font-bold">
                 <Truck className="w-3 h-3 mr-0.5" /> Tracked
