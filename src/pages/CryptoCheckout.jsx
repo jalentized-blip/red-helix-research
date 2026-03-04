@@ -41,7 +41,6 @@ import { trackPurchase } from '@/utils/hubspotAnalytics';
 import { base44 } from '@/api/base44Client';
 import { recordAffiliateOrder } from '@/components/utils/affiliateStore';
 import PCIComplianceBadge from '@/components/PCIComplianceBadge';
-import PlaidACHCheckout from '@/components/payment/PlaidACHCheckout';
 import TurnstileWidget from '@/components/TurnstileWidget';
 
 // Payment wallet addresses
