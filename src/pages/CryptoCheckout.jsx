@@ -101,7 +101,6 @@ const CRYPTO_OPTIONS = [
 ];
 
 const SHIPPING_COST = 15.00;
-const TAX_RATE = 0.08; // 8% sales tax
 
 // Simple step indicator
 function StepIndicator({ currentStep }) {
