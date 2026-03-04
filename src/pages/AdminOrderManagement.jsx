@@ -625,7 +625,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {} }) {
       byPaymentMethod[method].count += 1;
     });
 
-    return { totalRevenue, totalShipping, totalDiscounts, totalSubtotal, totalTax, orderCount, avgOrderValue, byMonth, byPaymentMethod };
+    return { totalRevenue, totalShipping, totalDiscounts, totalSubtotal, totalTax, totalCOGS, totalProfit, orderCount, avgOrderValue, byMonth, byPaymentMethod };
   }, [filteredOrders]);
 
   const exportCSV = () => {
