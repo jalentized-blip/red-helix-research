@@ -1441,8 +1441,9 @@ export default function AdminOrderManagement() {
           onClose={() => setShowTaxReport(false)}
           productCostMap={productCostMap}
           products={products}
-          onUpdateProductCost={async (productId, newCost) => {
-            await base44.entities.Product.update(productId, { cost_price: newCost });
+          onUpdateProductCost={async (productId, newCost, updatedSpecs) => {
+            const updates = updatedSpecs ? { specifications: updatedSpecs } : { cost_price: newCost };
+            await base44.entities.Product.update(productId, updates);
             queryClient.invalidateQueries({ queryKey: ['products'] });
             toast.success('Cost price updated');
           }}
