@@ -664,7 +664,13 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
       return s + Math.max(0, sub - disc) * TAX_RATE;
     }, 0);
     const totalCOGS = filteredOrders.reduce((s, o) => s + calcCOGS(o), 0);
-    const totalProfit = totalRevenue - totalCOGS;
+    // Profit = product subtotal (excl. shipping) minus discount minus COGS
+    const totalProfit = filteredOrders.reduce((s, o) => {
+      const shipping = o.shipping_cost || 0;
+      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
+      const disc = o.discount_amount || 0;
+      return s + Math.max(0, sub - disc) - calcCOGS(o);
+    }, 0);
     const orderCount = filteredOrders.length;
     const avgOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0;
 
