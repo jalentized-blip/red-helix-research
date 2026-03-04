@@ -879,7 +879,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
         )}
 
         {/* Overview Tab */}
-        {activeTab === 'overview' && (
+        {activeTab === 'overview' && (<>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
           <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
             <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Total Revenue</p>
