@@ -782,6 +782,36 @@ function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
   );
 }
 
+// ─── Payment Status Badge ───
+function PaymentBadge({ order }) {
+  const isAbandoned = order.status === 'awaiting_payment' || order.payment_status === 'abandoned';
+  const isPaid = order.payment_status === 'completed' || 
+    (!isAbandoned && ['pending', 'processing', 'shipped', 'delivered'].includes(order.status));
+  const isCancelled = order.status === 'cancelled';
+
+  if (isCancelled) return null;
+
+  if (isPaid) {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-green-50 border border-green-200 text-green-700">
+        <CheckCircle className="w-3 h-3" /> Paid
+      </span>
+    );
+  }
+  if (isAbandoned) {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-orange-50 border border-orange-200 text-orange-700">
+        <AlertCircle className="w-3 h-3" /> Abandoned
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-100 border border-slate-200 text-slate-500">
+      <Clock className="w-3 h-3" /> {order.payment_status || 'Unknown'}
+    </span>
+  );
+}
+
 // ─── Order Row ───
 function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {}, products = [] }) {
   const StatusIcon = STATUS_CONFIG[order.status]?.icon || Clock;
