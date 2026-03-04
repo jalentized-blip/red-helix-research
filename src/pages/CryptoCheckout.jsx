@@ -430,6 +430,7 @@ export default function CryptoCheckout() {
         })),
         subtotal: subtotal,
         discount_amount: discount,
+        tax_amount: taxAmount,
         shipping_cost: SHIPPING_COST,
         total_amount: totalUSD,
         payment_method: method,
