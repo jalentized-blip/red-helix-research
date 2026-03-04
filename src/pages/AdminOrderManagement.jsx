@@ -576,24 +576,35 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {} }) {
   }, [orders, dateRange, customStart, customEnd]);
 
   const TAX_RATE = 0.08;
+
+  const calcCOGS = (order) => {
+    if (!order.items?.length) return 0;
+    return order.items.reduce((sum, item) => {
+      const name = (item.productName || item.product_name || '').toLowerCase();
+      const cost = productCostMap[name] || 0;
+      return sum + cost * (item.quantity || 1);
+    }, 0);
+  };
+
   const stats = useMemo(() => {
     const totalRevenue = filteredOrders.reduce((s, o) => s + (o.total_amount || 0), 0);
     const totalShipping = filteredOrders.reduce((s, o) => s + (o.shipping_cost || 15), 0);
     const totalDiscounts = filteredOrders.reduce((s, o) => s + (o.discount_amount || 0), 0);
     const totalSubtotal = filteredOrders.reduce((s, o) => s + (o.subtotal || o.total_amount || 0), 0);
-    // Calculate tax as 8% of (subtotal - discount) for each order
     const totalTax = filteredOrders.reduce((s, o) => {
       const sub = o.subtotal || o.total_amount || 0;
       const disc = o.discount_amount || 0;
       return s + (sub - disc) * TAX_RATE;
     }, 0);
+    const totalCOGS = filteredOrders.reduce((s, o) => s + calcCOGS(o), 0);
+    const totalProfit = totalRevenue - totalCOGS;
     const orderCount = filteredOrders.length;
     const avgOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0;
 
     const byMonth = {};
     filteredOrders.forEach(o => {
       const key = format(new Date(o.created_date), 'yyyy-MM');
-      if (!byMonth[key]) byMonth[key] = { revenue: 0, orders: 0, shipping: 0, discounts: 0, tax: 0 };
+      if (!byMonth[key]) byMonth[key] = { revenue: 0, orders: 0, shipping: 0, discounts: 0, tax: 0, cogs: 0, profit: 0 };
       byMonth[key].revenue += o.total_amount || 0;
       byMonth[key].orders += 1;
       byMonth[key].shipping += o.shipping_cost || 15;
@@ -601,6 +612,9 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {} }) {
       const sub = o.subtotal || o.total_amount || 0;
       const disc = o.discount_amount || 0;
       byMonth[key].tax += (sub - disc) * TAX_RATE;
+      const cogs = calcCOGS(o);
+      byMonth[key].cogs += cogs;
+      byMonth[key].profit += (o.total_amount || 0) - cogs;
     });
 
     const byPaymentMethod = {};
