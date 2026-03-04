@@ -1182,6 +1182,7 @@ export default function AdminOrderManagement() {
   const [editingOrder, setEditingOrder] = useState(null);
   const [selectedOrders, setSelectedOrders] = useState(new Set());
   const [showTaxReport, setShowTaxReport] = useState(false);
+  const [showPredictions, setShowPredictions] = useState(false);
   const [hideCogsEntered, setHideCogsEntered] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
