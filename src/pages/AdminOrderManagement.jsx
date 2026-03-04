@@ -918,8 +918,10 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
             <p className={`text-2xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</p>
           </div>
         </div>
+        )}
 
         {/* Monthly Breakdown */}
+        {activeTab === 'monthly' && (
         <div className="mb-6">
           <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Monthly Breakdown</h4>
           <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
