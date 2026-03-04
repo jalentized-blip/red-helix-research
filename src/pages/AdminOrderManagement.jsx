@@ -676,9 +676,10 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
       byMonth[key].orders += 1;
       byMonth[key].shipping += o.shipping_cost || 15;
       byMonth[key].discounts += o.discount_amount || 0;
-      const sub = o.subtotal || o.total_amount || 0;
+      const shipping = o.shipping_cost || 0;
+      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
       const disc = o.discount_amount || 0;
-      byMonth[key].tax += (sub - disc) * TAX_RATE;
+      byMonth[key].tax += Math.max(0, sub - disc) * TAX_RATE;
       const cogs = calcCOGS(o);
       byMonth[key].cogs += cogs;
       byMonth[key].profit += (o.total_amount || 0) - cogs;
