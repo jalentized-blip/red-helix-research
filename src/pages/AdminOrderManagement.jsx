@@ -1451,9 +1451,14 @@ export default function AdminOrderManagement() {
               Manage orders, shipping, tracking, and generate tax reports.
             </p>
           </motion.div>
-          <Button onClick={() => setShowTaxReport(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-xs px-6 py-5 rounded-full shadow-lg">
-            <Receipt className="w-4 h-4 mr-2" /> Tax Report
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={() => setShowPredictions(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs px-5 py-5 rounded-full shadow-lg">
+              <TrendingUp className="w-4 h-4 mr-2" /> Predictions
+            </Button>
+            <Button onClick={() => setShowTaxReport(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-xs px-6 py-5 rounded-full shadow-lg">
+              <Receipt className="w-4 h-4 mr-2" /> Tax Report
+            </Button>
+          </div>
         </div>
 
         {/* Stats */}
