@@ -842,13 +842,13 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
             {stats.totalProfit > 0 && (
               <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
                 <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
-                  <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">Federal Income Tax Estimates (2024 Self-Employed)</p>
+                  <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">Federal Income Tax Estimates (2026 Self-Employed)</p>
                 </div>
                 {[
                   { label: 'Self-Employment Tax (15.3%)', rate: 0.153, note: 'Social Security + Medicare on net profit' },
-                  { label: 'Federal Income Tax — 10% Bracket', rate: 0.10, note: 'If profit < $11,600 (single filer)' },
-                  { label: 'Federal Income Tax — 12% Bracket', rate: 0.12, note: 'If profit $11,600–$47,150' },
-                  { label: 'Federal Income Tax — 22% Bracket', rate: 0.22, note: 'If profit $47,150–$100,525' },
+                  { label: 'Federal Income Tax — 10% Bracket', rate: 0.10, note: 'If profit < $11,925 (single filer)' },
+                  { label: 'Federal Income Tax — 12% Bracket', rate: 0.12, note: 'If profit $11,925–$48,475' },
+                  { label: 'Federal Income Tax — 22% Bracket', rate: 0.22, note: 'If profit $48,475–$103,350' },
                 ].map((bracket) => (
                   <div key={bracket.label} className="flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0">
                     <div>
