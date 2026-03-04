@@ -552,7 +552,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
 }
 
 // ─── Tax Report Modal ───
-function TaxReportModal({ orders, isOpen, onClose }) {
+function TaxReportModal({ orders, isOpen, onClose, productCostMap = {} }) {
   const [dateRange, setDateRange] = useState('all');
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
@@ -1330,7 +1330,7 @@ export default function AdminOrderManagement() {
         </AnimatePresence>
 
         {/* Tax Report Modal */}
-        <TaxReportModal orders={orders} isOpen={showTaxReport} onClose={() => setShowTaxReport(false)} />
+        <TaxReportModal orders={orders} isOpen={showTaxReport} onClose={() => setShowTaxReport(false)} productCostMap={productCostMap} />
       </div>
     </div>
   );
