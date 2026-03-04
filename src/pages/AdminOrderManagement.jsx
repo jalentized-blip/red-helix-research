@@ -1432,6 +1432,17 @@ export default function AdminOrderManagement() {
             <p className="text-xs font-black uppercase tracking-widest">
               {filteredOrders.length} order{filteredOrders.length !== 1 ? 's' : ''}
             </p>
+            <button
+              onClick={() => setHideCogsEntered(prev => !prev)}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border-2 transition-all ${
+                hideCogsEntered
+                  ? 'bg-orange-500 border-orange-500 text-white'
+                  : 'bg-white border-slate-200 text-slate-500 hover:border-orange-300 hover:text-orange-500'
+              }`}
+            >
+              <DollarSign className="w-3 h-3" />
+              {hideCogsEntered ? 'Needs COGS Only' : 'All Orders'}
+            </button>
           </div>
           {selectedOrders.size > 0 && (
             <button onClick={() => setSelectedOrders(new Set())} className="text-xs text-[#dc2626] font-black uppercase tracking-widest hover:underline">
