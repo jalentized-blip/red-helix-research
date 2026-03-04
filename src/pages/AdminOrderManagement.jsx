@@ -715,6 +715,10 @@ function TaxReportModal({ orders, isOpen, onClose }) {
             <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Discounts Given</p>
             <p className="text-2xl font-black text-red-500">-${stats.totalDiscounts.toFixed(2)}</p>
           </div>
+          <div className="bg-amber-50 rounded-2xl border border-amber-200 p-4">
+            <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest">Est. Sales Tax (8%)</p>
+            <p className="text-2xl font-black text-amber-700">${stats.totalTax.toFixed(2)}</p>
+          </div>
         </div>
 
         {/* Monthly Breakdown */}
