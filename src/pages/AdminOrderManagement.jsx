@@ -933,6 +933,23 @@ export default function AdminOrderManagement() {
     return map;
   }, [products]);
 
+  // Build a lookup map: product name → cost_price
+  const productCostMap = useMemo(() => {
+    const map = {};
+    products.forEach(p => { if (p.name) map[p.name.toLowerCase()] = p.cost_price || 0; });
+    return map;
+  }, [products]);
+
+  // Calculate COGS for an order
+  const calcOrderCOGS = (order) => {
+    if (!order.items?.length) return 0;
+    return order.items.reduce((sum, item) => {
+      const name = (item.productName || item.product_name || '').toLowerCase();
+      const cost = productCostMap[name] || 0;
+      return sum + cost * (item.quantity || 1);
+    }, 0);
+  };
+
   // Auto-backfill missing product names on orders (runs once on load)
   const backfillRan = useRef(false);
   useEffect(() => {

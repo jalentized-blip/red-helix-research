@@ -294,6 +294,26 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
           </div>
         </div>
 
+        {/* Cost Price */}
+        <div>
+          <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
+            Cost Price (Your Cost)
+          </label>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
+            <Input
+              type="number"
+              step="0.01"
+              min="0"
+              value={form.cost_price}
+              onChange={(e) => updateField('cost_price', parseFloat(e.target.value) || '')}
+              placeholder="0.00"
+              className="bg-slate-50 border-slate-200 text-slate-900 pl-7 focus:border-[#dc2626]/30 focus:bg-white"
+            />
+          </div>
+          <p className="text-[10px] text-slate-400 mt-1">What you pay to acquire this product. Used for profit calculations in Order Hub.</p>
+        </div>
+
         {/* Row 2: Description */}
         <div>
           <label className="text-slate-500 text-xs uppercase tracking-widest mb-1.5 block font-black">
