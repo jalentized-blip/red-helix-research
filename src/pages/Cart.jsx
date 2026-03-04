@@ -234,10 +234,6 @@ export default function Cart() {
                     <span>Shipping Fee</span>
                     <span>${SHIPPING_COST.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-500 font-bold uppercase tracking-wider text-xs">
-                    <span>Sales Tax (8%)</span>
-                    <span>${taxAmount.toFixed(2)}</span>
-                  </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-green-600 font-bold uppercase tracking-wider text-xs">
                       <span>Discount</span>
