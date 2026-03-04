@@ -489,6 +489,33 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
                   <span className="text-[#dc2626] font-black text-lg">${order.total_amount?.toFixed(2)}</span>
                 </div>
               </div>
+              {/* Manual COGS override */}
+              <div className="border-t border-slate-200 mt-3 pt-3">
+                <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1.5">Total Product Cost (COGS) $</label>
+                <Input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="Enter total cost..."
+                  value={form.total_product_cost}
+                  onChange={(e) => updateField('total_product_cost', e.target.value)}
+                  className="bg-white border-slate-200 text-slate-900 h-9 text-sm"
+                />
+                {form.total_product_cost !== '' && !isNaN(parseFloat(form.total_product_cost)) && (
+                  <div className="mt-2 space-y-1 text-xs">
+                    <div className="flex justify-between text-slate-500">
+                      <span>Revenue</span><span className="font-bold">${(order.total_amount || 0).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-orange-600">
+                      <span>COGS</span><span className="font-bold">-${parseFloat(form.total_product_cost).toFixed(2)}</span>
+                    </div>
+                    <div className={`flex justify-between font-black border-t border-slate-200 pt-1 ${(order.total_amount || 0) - parseFloat(form.total_product_cost) >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                      <span>Profit</span>
+                      <span>${((order.total_amount || 0) - parseFloat(form.total_product_cost)).toFixed(2)}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Order Timeline */}
