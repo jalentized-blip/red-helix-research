@@ -16,7 +16,7 @@ import {
   ArrowLeft, Package, User, MapPin, Truck, Calendar, DollarSign, CheckCircle,
   Clock, AlertCircle, Search, X, ChevronDown, ChevronUp, Printer, Mail,
   Download, RefreshCw, Edit3, Save, FileText, BarChart2, Hash, CreditCard,
-  Globe, Phone, Copy, ExternalLink, Filter, ArrowUpDown, Receipt, Building2, Trash2
+  Globe, Phone, Copy, ExternalLink, Filter, ArrowUpDown, Receipt, Building2, Trash2, TrendingUp
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
