@@ -630,8 +630,23 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
     return order.items.reduce((sum, item) => {
       const name = (item.productName || item.product_name || '').toLowerCase();
       const product = products.find(p => p.name?.toLowerCase() === name);
-      const spec = product?.specifications?.find(s => s.name === item.specification);
-      const cost = (spec?.cost_price != null ? spec.cost_price : productCostMap[name]) || 0;
+      if (!product) return sum;
+
+      const specIdx = product.specifications?.findIndex(s => s.name === item.specification);
+      const specKey = specIdx != null && specIdx >= 0 ? `${product.id}__${specIdx}` : null;
+
+      // Use live editing cost if available (spec-level first, then product-level)
+      let cost = 0;
+      if (specKey && editingCosts[specKey] !== undefined) {
+        cost = parseFloat(editingCosts[specKey]) || 0;
+      } else if (specIdx != null && specIdx >= 0 && product.specifications[specIdx]?.cost_price != null) {
+        cost = product.specifications[specIdx].cost_price;
+      } else if (editingCosts[product.id] !== undefined) {
+        cost = parseFloat(editingCosts[product.id]) || 0;
+      } else {
+        cost = productCostMap[name] || 0;
+      }
+
       return sum + cost * (item.quantity || 1);
     }, 0);
   };
