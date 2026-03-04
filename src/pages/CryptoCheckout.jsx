@@ -933,52 +933,6 @@ export default function CryptoCheckout() {
                 </motion.div>
               )}
 
-              {/* ───── BANK ACH ───── */}
-              {step === 'bank_ach' && (
-                <motion.div key="ach" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
-                  <button onClick={() => setStep('select_method')} className="flex items-center gap-1 text-sm text-slate-400 hover:text-[#dc2626] font-bold mb-6 transition-colors">
-                    <ArrowLeft className="w-4 h-4" /> Back
-                  </button>
-
-                  <div className="max-w-md mx-auto text-center">
-                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                      <LinkIcon className="w-8 h-8 text-blue-600" />
-                    </div>
-                    <h2 className="text-2xl font-black text-slate-900 mb-3 uppercase tracking-tight">Bank Transfer</h2>
-                    <p className="text-slate-500 font-medium mb-8 text-sm">Connect your bank account securely.</p>
-
-                    <PlaidACHCheckout
-                      order={{
-                        order_number: orderNumberRef.current,
-                        total_amount: totalUSD,
-                        items: cartItems,
-                        customer_email: squareEmail || customerInfo?.email || '',
-                      }}
-                      billingInfo={{
-                        phone: customerInfo?.phone || '',
-                        address: customerInfo?.address || customerInfo?.shippingAddress || '',
-                        city: customerInfo?.city || customerInfo?.shippingCity || '',
-                        state: customerInfo?.state || customerInfo?.shippingState || '',
-                        zip: customerInfo?.zip || customerInfo?.shippingZip || '',
-                        country: customerInfo?.country || customerInfo?.shippingCountry || 'US',
-                      }}
-                      onSuccess={async (data) => {
-                        const paymentId = data?.payment_id || data?.id || `ACH-${Date.now()}`;
-                        await processSuccessfulPayment(paymentId, 'bank_ach');
-                      }}
-                    />
-
-                    <div className="mt-8 flex justify-center gap-4">
-                      <PCIComplianceBadge variant="minimal" />
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-full">
-                        <Lock className="w-3 h-3 text-slate-500" />
-                        <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">256-bit Encrypted</span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
               {/* ───── SQUARE PAYMENT LINK ───── */}
               {step === 'square_payment' && (
                 <motion.div key="square" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
