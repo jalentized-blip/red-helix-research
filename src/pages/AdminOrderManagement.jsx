@@ -708,11 +708,12 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
     const rows = filteredOrders.map(o => {
       const addr = o.shipping_address || {};
       const items = o.items?.map(i => `${i.productName || i.product_name} (${i.specification} x${i.quantity})`).join('; ') || '';
-      const sub = o.subtotal || o.total_amount || 0;
+      const shipping = o.shipping_cost || 0;
+      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
       const disc = o.discount_amount || 0;
-      const tax = (sub - disc) * 0.08;
+      const tax = Math.max(0, sub - disc) * 0.08;
       const cogs = calcCOGS(o);
-      const profit = (o.total_amount || 0) - cogs;
+      const profit = Math.max(0, sub - disc) - cogs;
       return [
         o.order_number, format(new Date(o.created_date), 'yyyy-MM-dd HH:mm'),
         `"${o.customer_name || ''}"`, o.customer_email || o.created_by || '',
