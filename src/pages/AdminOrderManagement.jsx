@@ -575,22 +575,32 @@ function TaxReportModal({ orders, isOpen, onClose }) {
     });
   }, [orders, dateRange, customStart, customEnd]);
 
+  const TAX_RATE = 0.08;
   const stats = useMemo(() => {
     const totalRevenue = filteredOrders.reduce((s, o) => s + (o.total_amount || 0), 0);
     const totalShipping = filteredOrders.reduce((s, o) => s + (o.shipping_cost || 15), 0);
     const totalDiscounts = filteredOrders.reduce((s, o) => s + (o.discount_amount || 0), 0);
     const totalSubtotal = filteredOrders.reduce((s, o) => s + (o.subtotal || o.total_amount || 0), 0);
+    // Calculate tax as 8% of (subtotal - discount) for each order
+    const totalTax = filteredOrders.reduce((s, o) => {
+      const sub = o.subtotal || o.total_amount || 0;
+      const disc = o.discount_amount || 0;
+      return s + (sub - disc) * TAX_RATE;
+    }, 0);
     const orderCount = filteredOrders.length;
     const avgOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0;
 
     const byMonth = {};
     filteredOrders.forEach(o => {
       const key = format(new Date(o.created_date), 'yyyy-MM');
-      if (!byMonth[key]) byMonth[key] = { revenue: 0, orders: 0, shipping: 0, discounts: 0 };
+      if (!byMonth[key]) byMonth[key] = { revenue: 0, orders: 0, shipping: 0, discounts: 0, tax: 0 };
       byMonth[key].revenue += o.total_amount || 0;
       byMonth[key].orders += 1;
       byMonth[key].shipping += o.shipping_cost || 15;
       byMonth[key].discounts += o.discount_amount || 0;
+      const sub = o.subtotal || o.total_amount || 0;
+      const disc = o.discount_amount || 0;
+      byMonth[key].tax += (sub - disc) * TAX_RATE;
     });
 
     const byPaymentMethod = {};
