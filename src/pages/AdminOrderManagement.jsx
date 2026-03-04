@@ -1016,6 +1016,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
         )}
 
         {/* Payment Method Breakdown */}
+        {activeTab === 'overview' && (
         <div className="mb-6">
           <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">By Payment Method</h4>
           <div className="grid grid-cols-2 gap-3">
@@ -1028,6 +1029,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
             ))}
           </div>
         </div>
+        )}
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose} className="border-slate-200 text-slate-500">Close</Button>
