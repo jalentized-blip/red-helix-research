@@ -182,6 +182,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
     shipping_country: order.shipping_address?.country || 'USA',
     admin_notes: order.admin_notes || '',
     estimated_delivery: order.estimated_delivery ? format(new Date(order.estimated_delivery), 'yyyy-MM-dd') : '',
+    total_product_cost: order.total_product_cost != null ? order.total_product_cost : '',
   });
   const [labelCarrier, setLabelCarrier] = useState(form.carrier || 'USPS');
   const [showLabel, setShowLabel] = useState(false);
