@@ -615,16 +615,19 @@ function TaxReportModal({ orders, isOpen, onClose }) {
   }, [filteredOrders]);
 
   const exportCSV = () => {
-    const headers = ['Order Number', 'Date', 'Customer Name', 'Customer Email', 'Items', 'Subtotal', 'Discount', 'Shipping', 'Total', 'Payment Method', 'Payment Status', 'Crypto Currency', 'Transaction ID', 'Status', 'Carrier', 'Tracking Number', 'Shipping Address', 'City', 'State', 'ZIP'];
+    const headers = ['Order Number', 'Date', 'Customer Name', 'Customer Email', 'Items', 'Subtotal', 'Discount', 'Shipping', 'Est. Tax (8%)', 'Total', 'Payment Method', 'Payment Status', 'Crypto Currency', 'Transaction ID', 'Status', 'Carrier', 'Tracking Number', 'Shipping Address', 'City', 'State', 'ZIP'];
     const rows = filteredOrders.map(o => {
       const addr = o.shipping_address || {};
       const items = o.items?.map(i => `${i.productName || i.product_name} (${i.specification} x${i.quantity})`).join('; ') || '';
+      const sub = o.subtotal || o.total_amount || 0;
+      const disc = o.discount_amount || 0;
+      const tax = (sub - disc) * 0.08;
       return [
         o.order_number, format(new Date(o.created_date), 'yyyy-MM-dd HH:mm'),
         `"${o.customer_name || ''}"`, o.customer_email || o.created_by || '',
         `"${items}"`,
-        (o.subtotal || 0).toFixed(2), (o.discount_amount || 0).toFixed(2),
-        (o.shipping_cost || 15).toFixed(2), (o.total_amount || 0).toFixed(2),
+        (o.subtotal || 0).toFixed(2), disc.toFixed(2),
+        (o.shipping_cost || 15).toFixed(2), tax.toFixed(2), (o.total_amount || 0).toFixed(2),
         o.payment_method || '', o.payment_status || '', o.crypto_currency || '',
         o.transaction_id || '', o.status || '',
         o.carrier || '', o.tracking_number || '',
