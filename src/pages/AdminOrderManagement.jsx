@@ -1080,8 +1080,11 @@ export default function AdminOrderManagement() {
     return map;
   }, [products]);
 
-  // Calculate COGS for an order (uses spec-level cost if available, falls back to product-level)
+  // Calculate COGS for an order (manual override takes priority, then spec-level, then product-level)
   const calcOrderCOGS = (order) => {
+    if (order.total_product_cost != null && order.total_product_cost !== '') {
+      return Number(order.total_product_cost);
+    }
     if (!order.items?.length) return 0;
     return order.items.reduce((sum, item) => {
       const name = (item.productName || item.product_name || '').toLowerCase();
