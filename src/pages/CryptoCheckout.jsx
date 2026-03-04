@@ -16,7 +16,6 @@ import {
   QrCode,
   ShieldCheck,
   Lock,
-  LinkIcon,
   Info,
   CreditCard,
   Mail,
