@@ -786,7 +786,100 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
           </div>
         )}
 
-        {/* Summary Cards */}
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6 border-b border-slate-200">
+          {[
+            { id: 'overview', label: '📊 Overview' },
+            { id: 'irs', label: '🏛️ IRS Estimate' },
+            { id: 'monthly', label: '📅 Monthly' },
+            { id: 'costs', label: '💰 Cost Editor' },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all -mb-px ${
+                activeTab === tab.id
+                  ? 'border-[#dc2626] text-[#dc2626]'
+                  : 'border-transparent text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* IRS Tab */}
+        {activeTab === 'irs' && (
+          <div className="space-y-4 mb-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-sm text-blue-800">
+              <p className="font-black mb-1">⚠️ Estimate Only — Consult a CPA</p>
+              <p className="text-xs text-blue-600">These figures are estimates based on your net profit. Actual taxes depend on your business structure, deductions, and state.</p>
+            </div>
+
+            {/* Key figures */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
+                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Gross Revenue</p>
+                <p className="text-2xl font-black text-slate-900">${stats.totalRevenue.toFixed(2)}</p>
+              </div>
+              <div className="bg-orange-50 rounded-2xl border border-orange-200 p-4">
+                <p className="text-[10px] text-orange-600 font-black uppercase tracking-widest">Total COGS (Deductible)</p>
+                <p className="text-2xl font-black text-orange-700">-${stats.totalCOGS.toFixed(2)}</p>
+              </div>
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
+                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Shipping Costs (Deductible)</p>
+                <p className="text-2xl font-black text-slate-700">-${stats.totalShipping.toFixed(2)}</p>
+              </div>
+              <div className={`rounded-2xl border p-4 ${stats.totalProfit >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                <p className={`text-[10px] font-black uppercase tracking-widest ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>Net Profit (Taxable Income)</p>
+                <p className={`text-2xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</p>
+              </div>
+            </div>
+
+            {/* Tax brackets */}
+            {stats.totalProfit > 0 && (
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
+                <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
+                  <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">Federal Income Tax Estimates (2024 Self-Employed)</p>
+                </div>
+                {[
+                  { label: 'Self-Employment Tax (15.3%)', rate: 0.153, note: 'Social Security + Medicare on net profit' },
+                  { label: 'Federal Income Tax — 10% Bracket', rate: 0.10, note: 'If profit < $11,600 (single filer)' },
+                  { label: 'Federal Income Tax — 12% Bracket', rate: 0.12, note: 'If profit $11,600–$47,150' },
+                  { label: 'Federal Income Tax — 22% Bracket', rate: 0.22, note: 'If profit $47,150–$100,525' },
+                ].map((bracket) => (
+                  <div key={bracket.label} className="flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0">
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">{bracket.label}</p>
+                      <p className="text-[11px] text-slate-400">{bracket.note}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-black text-red-600">${(stats.totalProfit * bracket.rate).toFixed(2)}</p>
+                      <p className="text-[10px] text-slate-400">{(bracket.rate * 100).toFixed(1)}% of ${stats.totalProfit.toFixed(0)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {stats.totalProfit <= 0 && (
+              <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
+                <p className="text-green-700 font-black text-lg">No Taxable Income</p>
+                <p className="text-green-600 text-sm mt-1">Your COGS exceeds or equals your revenue for this period.</p>
+              </div>
+            )}
+
+            {/* Sales tax reminder */}
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+              <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest mb-2">Sales Tax Collected (Owed to State)</p>
+              <p className="text-2xl font-black text-amber-700">${stats.totalTax.toFixed(2)}</p>
+              <p className="text-xs text-amber-600 mt-1">This is money collected from customers that must be remitted to your state. It is NOT income.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
           <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
             <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Total Revenue</p>
