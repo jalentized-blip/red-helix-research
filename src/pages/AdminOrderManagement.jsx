@@ -552,10 +552,25 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
 }
 
 // ─── Tax Report Modal ───
-function TaxReportModal({ orders, isOpen, onClose, productCostMap = {} }) {
+function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products = [], onUpdateProductCost }) {
   const [dateRange, setDateRange] = useState('all');
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
+  const [editingCosts, setEditingCosts] = useState({});
+  const [savingCosts, setSavingCosts] = useState({});
+
+  const handleCostChange = (productId, value) => {
+    setEditingCosts(prev => ({ ...prev, [productId]: value }));
+  };
+
+  const handleSaveCost = async (product) => {
+    const newCost = parseFloat(editingCosts[product.id]);
+    if (isNaN(newCost)) return;
+    setSavingCosts(prev => ({ ...prev, [product.id]: true }));
+    await onUpdateProductCost(product.id, newCost);
+    setSavingCosts(prev => ({ ...prev, [product.id]: false }));
+    setEditingCosts(prev => { const n = { ...prev }; delete n[product.id]; return n; });
+  };
 
   const filteredOrders = useMemo(() => {
     const now = new Date();
