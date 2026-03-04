@@ -588,23 +588,6 @@ export default function CryptoCheckout() {
                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                   </button>
 
-                  {/* Bank ACH option */}
-                  <button
-                    onClick={() => setStep('bank_ach')}
-                    className="w-full group p-6 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-[#dc2626] hover:shadow-lg transition-all flex items-center gap-5"
-                  >
-                    <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <LinkIcon className="w-7 h-7 text-blue-600" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
-                        Bank Transfer (ACH)
-                      </h3>
-                      <p className="text-sm text-slate-500 font-medium">Connect your bank securely</p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
-                  </button>
-
                   {/* Card payment option */}
                   <button
                     onClick={() => setShowSquareDisclaimer(true)}
