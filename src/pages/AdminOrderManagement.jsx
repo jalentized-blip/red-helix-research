@@ -949,9 +949,10 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
             ))}
           </div>
         </div>
+        )}
 
         {/* Product Cost Editor */}
-        {products.length > 0 && (
+        {activeTab === 'costs' && products.length > 0 && (
           <div className="mb-6">
             <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Product Cost Prices (per unit)</h4>
             <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
