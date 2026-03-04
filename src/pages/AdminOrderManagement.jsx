@@ -622,10 +622,13 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
   const TAX_RATE = 0.08;
 
   const calcCOGS = (order) => {
+    // If admin manually entered a total product cost, use that
+    if (order.total_product_cost != null && order.total_product_cost !== '') {
+      return Number(order.total_product_cost);
+    }
     if (!order.items?.length) return 0;
     return order.items.reduce((sum, item) => {
       const name = (item.productName || item.product_name || '').toLowerCase();
-      // Try to find spec-level cost first
       const product = products.find(p => p.name?.toLowerCase() === name);
       const spec = product?.specifications?.find(s => s.name === item.specification);
       const cost = (spec?.cost_price != null ? spec.cost_price : productCostMap[name]) || 0;
