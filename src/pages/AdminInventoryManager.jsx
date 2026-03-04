@@ -121,6 +121,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
     image_url: product?.image_url || '',
     is_featured: product?.is_featured || false,
     hidden: product?.hidden || false,
+    cost_price: product?.cost_price || '',
     specifications: product?.specifications?.length > 0
       ? product.specifications.map(s => ({ ...s }))
       : [{ ...EMPTY_SPEC }],
