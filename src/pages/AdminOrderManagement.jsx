@@ -793,24 +793,21 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
         {/* Product Cost Editor */}
         {products.length > 0 && (
           <div className="mb-6">
-            <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Product Cost Prices (COGS)</h4>
+            <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Product Cost Prices (per unit)</h4>
             <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-              {products.map((product, i) => (
-                <div key={product.id} className={`flex items-center gap-4 px-4 py-3 ${i < products.length - 1 ? 'border-b border-slate-100' : ''}`}>
-                  <span className="text-sm text-slate-900 font-bold flex-1">{product.name}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Cost per unit $</span>
+              {products.map((product, pi) => (
+                <div key={product.id} className={pi < products.length - 1 ? 'border-b border-slate-200' : ''}>
+                  {/* Product-level default cost */}
+                  <div className="flex items-center gap-4 px-4 py-3 bg-slate-100">
+                    <span className="text-sm text-slate-900 font-black flex-1">{product.name}</span>
+                    <span className="text-[10px] text-slate-400 font-bold">Default cost $</span>
                     <Input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      placeholder="0.00"
+                      type="number" step="0.01" min="0" placeholder="0.00"
                       value={editingCosts[product.id] !== undefined ? editingCosts[product.id] : (product.cost_price ?? '')}
                       onChange={(e) => handleCostChange(product.id, e.target.value)}
                       className="bg-white border-slate-200 text-slate-900 h-8 w-24 text-sm"
                     />
-                    <Button
-                      size="sm"
+                    <Button size="sm"
                       disabled={editingCosts[product.id] === undefined || savingCosts[product.id]}
                       onClick={() => handleSaveCost(product)}
                       className="h-8 px-3 text-xs bg-[#dc2626] hover:bg-[#b91c1c] text-white disabled:opacity-40"
@@ -818,6 +815,39 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
                       {savingCosts[product.id] ? 'Saving...' : 'Save'}
                     </Button>
                   </div>
+                  {/* Per-spec cost */}
+                  {product.specifications?.map((spec, si) => {
+                    const key = `${product.id}__${si}`;
+                    return (
+                      <div key={si} className="flex items-center gap-4 px-6 py-2.5 border-t border-slate-100">
+                        <span className="text-xs text-slate-600 font-semibold flex-1">{spec.name}</span>
+                        <span className="text-[10px] text-slate-400 font-bold">Cost per unit $</span>
+                        <Input
+                          type="number" step="0.01" min="0" placeholder="0.00"
+                          value={editingCosts[key] !== undefined ? editingCosts[key] : (spec.cost_price ?? '')}
+                          onChange={(e) => handleCostChange(key, e.target.value)}
+                          className="bg-white border-slate-200 text-slate-900 h-8 w-24 text-sm"
+                        />
+                        <Button size="sm"
+                          disabled={editingCosts[key] === undefined || savingCosts[key]}
+                          onClick={async () => {
+                            const newCost = parseFloat(editingCosts[key]);
+                            if (isNaN(newCost)) return;
+                            setSavingCosts(prev => ({ ...prev, [key]: true }));
+                            const updatedSpecs = product.specifications.map((s, idx) =>
+                              idx === si ? { ...s, cost_price: newCost } : s
+                            );
+                            await onUpdateProductCost(product.id, product.cost_price, updatedSpecs);
+                            setSavingCosts(prev => ({ ...prev, [key]: false }));
+                            setEditingCosts(prev => { const n = { ...prev }; delete n[key]; return n; });
+                          }}
+                          className="h-8 px-3 text-xs bg-slate-700 hover:bg-slate-800 text-white disabled:opacity-40"
+                        >
+                          {savingCosts[key] ? 'Saving...' : 'Save'}
+                        </Button>
+                      </div>
+                    );
+                  })}
                 </div>
               ))}
             </div>
