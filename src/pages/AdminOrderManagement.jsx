@@ -918,7 +918,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
             <p className={`text-2xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</p>
           </div>
         </div>
-        )}
+        </>)}
 
         {/* Monthly Breakdown */}
         {activeTab === 'monthly' && (
