@@ -1405,7 +1405,18 @@ export default function AdminOrderManagement() {
         </AnimatePresence>
 
         {/* Tax Report Modal */}
-        <TaxReportModal orders={orders} isOpen={showTaxReport} onClose={() => setShowTaxReport(false)} productCostMap={productCostMap} />
+        <TaxReportModal
+          orders={orders}
+          isOpen={showTaxReport}
+          onClose={() => setShowTaxReport(false)}
+          productCostMap={productCostMap}
+          products={products}
+          onUpdateProductCost={async (productId, newCost) => {
+            await base44.entities.Product.update(productId, { cost_price: newCost });
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            toast.success('Cost price updated');
+          }}
+        />
       </div>
     </div>
   );
