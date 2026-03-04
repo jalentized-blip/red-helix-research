@@ -793,6 +793,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
             { id: 'overview', label: '📊 Overview' },
             { id: 'irs', label: '🏛️ IRS Estimate' },
             { id: 'monthly', label: '📅 Monthly' },
+            { id: 'schedulec', label: '📋 Schedule C' },
             { id: 'costs', label: '💰 Cost Editor' },
           ].map(tab => (
             <button
