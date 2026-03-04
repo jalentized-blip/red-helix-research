@@ -596,7 +596,10 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
     if (!order.items?.length) return 0;
     return order.items.reduce((sum, item) => {
       const name = (item.productName || item.product_name || '').toLowerCase();
-      const cost = productCostMap[name] || 0;
+      // Try to find spec-level cost first
+      const product = products.find(p => p.name?.toLowerCase() === name);
+      const spec = product?.specifications?.find(s => s.name === item.specification);
+      const cost = (spec?.cost_price != null ? spec.cost_price : productCostMap[name]) || 0;
       return sum + cost * (item.quantity || 1);
     }, 0);
   };
