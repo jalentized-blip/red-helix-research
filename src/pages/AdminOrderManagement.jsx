@@ -679,7 +679,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
   }, [filteredOrders]);
 
   const exportCSV = () => {
-    const headers = ['Order Number', 'Date', 'Customer Name', 'Customer Email', 'Items', 'Subtotal', 'Discount', 'Shipping', 'Est. Tax (8%)', 'Total', 'Payment Method', 'Payment Status', 'Crypto Currency', 'Transaction ID', 'Status', 'Carrier', 'Tracking Number', 'Shipping Address', 'City', 'State', 'ZIP'];
+    const headers = ['Order Number', 'Date', 'Customer Name', 'Customer Email', 'Items', 'Subtotal', 'Discount', 'Shipping', 'Est. Tax (8%)', 'Total', 'COGS', 'Profit', 'Payment Method', 'Payment Status', 'Crypto Currency', 'Transaction ID', 'Status', 'Carrier', 'Tracking Number', 'Shipping Address', 'City', 'State', 'ZIP'];
     const rows = filteredOrders.map(o => {
       const addr = o.shipping_address || {};
       const items = o.items?.map(i => `${i.productName || i.product_name} (${i.specification} x${i.quantity})`).join('; ') || '';
