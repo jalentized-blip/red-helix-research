@@ -790,6 +790,40 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
           </div>
         </div>
 
+        {/* Product Cost Editor */}
+        {products.length > 0 && (
+          <div className="mb-6">
+            <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Product Cost Prices (COGS)</h4>
+            <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
+              {products.map((product, i) => (
+                <div key={product.id} className={`flex items-center gap-4 px-4 py-3 ${i < products.length - 1 ? 'border-b border-slate-100' : ''}`}>
+                  <span className="text-sm text-slate-900 font-bold flex-1">{product.name}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Cost $</span>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="0.00"
+                      value={editingCosts[product.id] !== undefined ? editingCosts[product.id] : (product.cost_price ?? '')}
+                      onChange={(e) => handleCostChange(product.id, e.target.value)}
+                      className="bg-white border-slate-200 text-slate-900 h-8 w-24 text-sm"
+                    />
+                    <Button
+                      size="sm"
+                      disabled={editingCosts[product.id] === undefined || savingCosts[product.id]}
+                      onClick={() => handleSaveCost(product)}
+                      className="h-8 px-3 text-xs bg-[#dc2626] hover:bg-[#b91c1c] text-white disabled:opacity-40"
+                    >
+                      {savingCosts[product.id] ? 'Saving...' : 'Save'}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Payment Method Breakdown */}
         <div className="mb-6">
           <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">By Payment Method</h4>
