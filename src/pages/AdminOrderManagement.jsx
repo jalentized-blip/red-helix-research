@@ -953,6 +953,87 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
         </div>
         )}
 
+        {/* Schedule C Helper */}
+        {activeTab === 'schedulec' && (
+          <div className="space-y-4 mb-6">
+            <div className="bg-green-50 border border-green-200 rounded-2xl p-4 text-sm text-green-800">
+              <p className="font-black mb-1">📋 Schedule C — Profit or Loss from Business</p>
+              <p className="text-xs text-green-700">Use these figures to fill out IRS Schedule C. Consult a CPA to confirm deductions for your situation.</p>
+            </div>
+
+            {/* Part I: Income */}
+            <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
+              <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Part I — Income</p>
+              </div>
+              {[
+                { line: '1', label: 'Gross receipts or sales', value: stats.totalRevenue, note: 'Your total_amount sum' },
+                { line: '2', label: 'Returns and allowances', value: stats.totalDiscounts, note: 'Promo codes / discounts given' },
+                { line: '3', label: 'Subtract Line 2 from Line 1', value: stats.totalRevenue - stats.totalDiscounts },
+                { line: '7', label: 'Gross income', value: stats.totalRevenue - stats.totalDiscounts, bold: true },
+              ].map(row => (
+                <div key={row.line} className={`flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0 ${row.bold ? 'bg-green-50' : ''}`}>
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-black mr-2">Line {row.line}</span>
+                    <span className={`text-sm ${row.bold ? 'font-black text-green-800' : 'text-slate-700'}`}>{row.label}</span>
+                    {row.note && <p className="text-[10px] text-slate-400 mt-0.5">{row.note}</p>}
+                  </div>
+                  <span className={`font-black ${row.bold ? 'text-green-700 text-lg' : 'text-slate-900'}`}>${row.value.toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Part II: Expenses */}
+            <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
+              <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Part II — Expenses (Deductible)</p>
+              </div>
+              {[
+                { line: '17', label: 'Cost of goods sold (COGS)', value: stats.totalCOGS, note: 'Product purchase costs' },
+                { line: '22', label: 'Supplies / packaging', value: 0, note: 'Enter manually if applicable' },
+                { line: '24', label: 'Shipping & postage', value: stats.totalShipping, note: 'Outbound shipping paid' },
+                { line: '28', label: 'Total expenses', value: stats.totalCOGS + stats.totalShipping, bold: true },
+              ].map(row => (
+                <div key={row.line} className={`flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0 ${row.bold ? 'bg-orange-50' : ''}`}>
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-black mr-2">Line {row.line}</span>
+                    <span className={`text-sm ${row.bold ? 'font-black text-orange-800' : 'text-slate-700'}`}>{row.label}</span>
+                    {row.note && <p className="text-[10px] text-slate-400 mt-0.5">{row.note}</p>}
+                  </div>
+                  <span className={`font-black ${row.bold ? 'text-orange-700 text-lg' : 'text-slate-900'}`}>${row.value.toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Net Profit Line 31 */}
+            <div className={`rounded-2xl border-2 p-5 flex justify-between items-center ${stats.totalProfit >= 0 ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+              <div>
+                <span className="text-[10px] text-slate-400 font-black mr-2">Line 31</span>
+                <span className="text-base font-black text-slate-900">Net profit (or loss)</span>
+                <p className="text-xs text-slate-500 mt-0.5">Enter on Schedule 1 (Form 1040), line 3</p>
+              </div>
+              <span className={`text-3xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</span>
+            </div>
+
+            {/* Quarterly reminders */}
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+              <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest mb-2">⏰ Quarterly Estimated Tax Due Dates</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                {[
+                  { q: 'Q1', date: 'Apr 15' }, { q: 'Q2', date: 'Jun 15' },
+                  { q: 'Q3', date: 'Sep 15' }, { q: 'Q4', date: 'Jan 15' },
+                ].map(d => (
+                  <div key={d.q} className="bg-white rounded-xl border border-amber-200 p-3 text-center">
+                    <p className="text-xs font-black text-amber-700">{d.q}</p>
+                    <p className="text-sm font-bold text-slate-900">{d.date}</p>
+                    <p className="text-[10px] text-slate-400">~${(stats.totalTax / 4).toFixed(0)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Product Cost Editor */}
         {activeTab === 'costs' && products.length > 0 && (
           <div className="mb-6">
