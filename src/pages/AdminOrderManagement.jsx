@@ -799,7 +799,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
                 <div key={product.id} className={`flex items-center gap-4 px-4 py-3 ${i < products.length - 1 ? 'border-b border-slate-100' : ''}`}>
                   <span className="text-sm text-slate-900 font-bold flex-1">{product.name}</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Cost $</span>
+                    <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Cost per unit $</span>
                     <Input
                       type="number"
                       step="0.01"
