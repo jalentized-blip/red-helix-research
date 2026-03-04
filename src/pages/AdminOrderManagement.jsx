@@ -198,6 +198,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
       customer_email: form.customer_email,
       customer_phone: form.customer_phone,
       admin_notes: form.admin_notes,
+      total_product_cost: form.total_product_cost !== '' ? parseFloat(form.total_product_cost) : null,
       shipping_address: {
         address: form.shipping_address,
         city: form.shipping_city,
