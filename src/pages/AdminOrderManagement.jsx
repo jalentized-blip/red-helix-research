@@ -587,6 +587,7 @@ function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products
   const [customEnd, setCustomEnd] = useState('');
   const [editingCosts, setEditingCosts] = useState({});
   const [savingCosts, setSavingCosts] = useState({});
+  const [activeTab, setActiveTab] = useState('overview');
 
   const handleCostChange = (productId, value) => {
     setEditingCosts(prev => ({ ...prev, [productId]: value }));
