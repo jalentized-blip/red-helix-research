@@ -16,11 +16,11 @@ export default function AddedToCartPopup({ item, onClose, onContinue }) {
     <AnimatePresence>
       {item && (
         <motion.div
-          initial={{ opacity: 0, y: 80, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 80, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          style={{ position: 'fixed', bottom: '1.5rem', left: 0, right: 0, marginLeft: 'auto', marginRight: 'auto', zIndex: 9000, width: 'calc(100vw - 2rem)', maxWidth: '384px' }}
+          style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 99999, width: 'calc(100vw - 2rem)', maxWidth: '400px' }}
         >
           <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
             {/* Green top bar */}
