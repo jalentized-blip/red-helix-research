@@ -1543,28 +1543,28 @@ export default function AdminOrderManagement() {
         </Link>
 
         {/* Header */}
-        <div className="flex items-start justify-between mb-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-none">
-              Order <span className="text-[#dc2626]">Hub</span>
-            </h1>
-            <p className="text-xl text-slate-500 font-medium">
-              Manage orders, shipping, tracking, and generate tax reports.
-            </p>
-          </motion.div>
-          <div className="flex gap-2">
-            <Link to={createPageUrl('AdminTrackingDashboard')}>
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs px-5 py-5 rounded-full shadow-lg">
-                <Truck className="w-4 h-4 mr-2" /> Tracking Hub
-              </Button>
-            </Link>
-            <Button onClick={() => setShowPredictions(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs px-5 py-5 rounded-full shadow-lg">
-              <TrendingUp className="w-4 h-4 mr-2" /> Predictions
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between mb-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-tight">
+            Order <span className="text-[#dc2626]">Hub</span>
+          </h1>
+          <p className="text-sm sm:text-base lg:text-xl text-slate-500 font-medium">
+            Manage orders, shipping, tracking, and generate tax reports.
+          </p>
+        </motion.div>
+        <div className="flex flex-wrap gap-2 lg:gap-2 flex-shrink-0">
+          <Link to={createPageUrl('AdminTrackingDashboard')} className="w-full sm:w-auto">
+            <Button className="bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg w-full sm:w-auto">
+              <Truck className="w-4 h-4 mr-2" /> <span className="hidden sm:inline">Tracking Hub</span><span className="sm:hidden">Track</span>
             </Button>
-            <Button onClick={() => setShowTaxReport(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-xs px-6 py-5 rounded-full shadow-lg">
-              <Receipt className="w-4 h-4 mr-2" /> Tax Report
-            </Button>
-          </div>
+          </Link>
+          <Button onClick={() => setShowPredictions(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg flex-1 sm:flex-none">
+            <TrendingUp className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Predictions</span><span className="sm:hidden">Stats</span>
+          </Button>
+          <Button onClick={() => setShowTaxReport(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-6 py-4 sm:py-5 rounded-full shadow-lg flex-1 sm:flex-none">
+            <Receipt className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Tax Report</span><span className="sm:hidden">Tax</span>
+          </Button>
+        </div>
         </div>
 
         {/* Stats */}
