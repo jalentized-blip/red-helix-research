@@ -59,6 +59,10 @@ function TrackingIframeModal({ order, onClose }) {
           </div>
         )}
       </div>
+
+      {trackingModal && (
+        <TrackingIframeModal order={trackingModal} onClose={() => setTrackingModal(null)} />
+      )}
     </div>
   );
 }
