@@ -670,6 +670,16 @@ const HeaderSearch = () => {
                     </div>
                     
                     <nav className="flex flex-col gap-1 flex-1 overflow-y-auto overflow-x-hidden px-2 pb-8">
+                      {/* Cart shortcut at top if items exist */}
+                      {cartCount > 0 && (
+                        <Link to={createPageUrl('Cart')} className="text-left text-sm font-black text-white bg-[#8B2635] hover:bg-[#6B1827] px-4 py-3.5 transition-all rounded-lg border border-red-700 shadow-sm flex items-center justify-between mb-1">
+                          <span className="flex items-center gap-2">
+                            <ShoppingCart className="w-4 h-4" />
+                            View Cart
+                          </span>
+                          <span className="bg-white text-[#8B2635] text-[11px] font-black px-2 py-0.5 rounded-full">{cartCount} item{cartCount !== 1 ? 's' : ''}</span>
+                        </Link>
+                      )}
                       <Link to={createPageUrl('Home')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Home
                       </Link>
