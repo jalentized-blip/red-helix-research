@@ -617,6 +617,11 @@ export default function AdminInventoryManager() {
     queryFn: () => base44.entities.Product.list(),
   });
 
+  const { data: orders = [] } = useQuery({
+    queryKey: ['orders'],
+    queryFn: () => base44.entities.Order.list('-created_date', 500),
+  });
+
   // Real-time sync
   useEffect(() => {
     const unsubscribe = base44.entities.Product.subscribe(() => {
