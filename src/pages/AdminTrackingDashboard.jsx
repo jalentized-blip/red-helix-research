@@ -255,6 +255,13 @@ export default function AdminTrackingDashboard() {
           })}
         </div>
 
+        {/* Shipment Map */}
+        {!isLoading && orders.filter(o => o.status === 'shipped' && o.tracking_number).length > 0 && (
+          <div className="mb-8">
+            <ShipmentMap orders={orders} />
+          </div>
+        )}
+
         <div className="relative mb-6">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input
