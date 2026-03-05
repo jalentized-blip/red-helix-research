@@ -15,12 +15,13 @@ export default function AddedToCartPopup({ item, onClose, onContinue }) {
   return (
     <AnimatePresence>
       {item && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 99999, width: 'calc(100vw - 2rem)', maxWidth: '400px' }}
+          style={{ width: 'calc(100vw - 2rem)', maxWidth: '400px', pointerEvents: 'auto' }}
         >
           <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
             {/* Green top bar */}
