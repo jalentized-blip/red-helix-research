@@ -606,6 +606,15 @@ export default function CryptoCheckout() {
                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                   </button>
 
+                  {/* Savings disclaimer */}
+                  <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-200">
+                    <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-1">Save 10% with Crypto</p>
+                      <p className="text-xs text-green-600 font-medium">Pay with Bitcoin, Ethereum, USDT, or USDC and avoid the 10% processing fee applied to card payments.</p>
+                    </div>
+                  </div>
+
                   {/* Security note */}
                   <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
                     <Shield className="w-5 h-5 text-[#dc2626] flex-shrink-0" />
