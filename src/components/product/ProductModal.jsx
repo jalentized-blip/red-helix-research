@@ -8,12 +8,14 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPageUrl } from '@/utils';
+import AddedToCartPopup from '@/components/AddedToCartPopup';
 
 export default function ProductModal({ product, isOpen, onClose, isAuthenticated = false }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
   const [addedToCart, setAddedToCart] = useState(false);
   const [showCOA, setShowCOA] = useState(false);
   const [currentCoaIndex, setCurrentCoaIndex] = useState(0);
+  const [cartPopupItem, setCartPopupItem] = useState(null);
 
   const { data: coas = [] } = useQuery({
     queryKey: ['coas'],
