@@ -110,19 +110,19 @@ export default function PirateShipLabelCreator({ order, onClose }) {
                                 </Button>
                             </div>
                         ) : (
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <h4 className="font-bold text-slate-900">PirateShip Label Creator</h4>
-                                    <Button onClick={() => setShowPirateShip(false)} variant="outline" size="sm">
+                            <div className="space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between gap-2 flex-shrink-0">
+                                    <h4 className="font-bold text-slate-900 text-sm sm:text-base truncate">PirateShip Label Creator</h4>
+                                    <Button onClick={() => setShowPirateShip(false)} variant="outline" size="sm" className="flex-shrink-0">
                                         Close
                                     </Button>
                                 </div>
-                                <p className="text-sm text-slate-600 mb-4">
+                                <p className="text-xs sm:text-sm text-slate-600 mb-2 flex-shrink-0">
                                     Order details are on your left. Copy any info you need and paste it into PirateShip below.
                                 </p>
                                 <iframe
                                     src="https://pirateship.com"
-                                    className="w-full h-[600px] border border-slate-300 rounded-lg"
+                                    className="w-full flex-1 border border-slate-300 rounded-lg min-h-[400px] sm:min-h-0"
                                     title="PirateShip"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
                                 />
