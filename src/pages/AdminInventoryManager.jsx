@@ -885,6 +885,9 @@ export default function AdminInventoryManager() {
           </div>
         </div>
 
+        {/* AI Inventory Intelligence */}
+        <InventoryAI products={products} orders={orders} />
+
         {/* Editor Panel */}
         <AnimatePresence mode="wait">
           {isEditing && editingProduct && (
