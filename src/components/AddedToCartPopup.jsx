@@ -20,7 +20,7 @@ export default function AddedToCartPopup({ item, onClose, onContinue }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 80, scale: 0.95 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9000] w-[calc(100vw-2rem)] max-w-sm"
+          style={{ position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)', zIndex: 9000, width: 'calc(100vw - 2rem)', maxWidth: '384px' }}
         >
           <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
             {/* Green top bar */}
