@@ -54,7 +54,7 @@ export default function QuickShop() {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed right-6 bottom-24 z-[60] p-4 bg-gradient-to-br from-[#dc2626] to-red-700 hover:from-red-700 hover:to-red-800 rounded-full shadow-2xl border-2 border-red-500/30"
+        className="fixed right-6 bottom-44 z-[60] p-4 bg-gradient-to-br from-[#dc2626] to-red-700 hover:from-red-700 hover:to-red-800 rounded-full shadow-2xl border-2 border-red-500/30"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0 }}
