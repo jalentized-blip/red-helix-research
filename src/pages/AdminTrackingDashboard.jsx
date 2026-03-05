@@ -6,7 +6,7 @@ import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
-  ArrowLeft, Truck, Package, Search, RefreshCw, ExternalLink,
+  ArrowLeft, Truck, Package, Search, RefreshCw,
   MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash, CreditCard, Loader2, Copy, X
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -34,9 +34,8 @@ function TrackingIframeModal({ order, onClose }) {
   const url = carrierUrl ? carrierUrl(order.tracking_number) : null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl flex flex-col overflow-hidden" style={{ height: '80vh' }}>
-        {/* Modal Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 flex-shrink-0">
           <div>
             <p className="font-black text-slate-900 text-sm">Tracking #{order.tracking_number}</p>
@@ -46,7 +45,6 @@ function TrackingIframeModal({ order, onClose }) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        {/* Iframe */}
         {url ? (
           <iframe
             src={url}
@@ -59,15 +57,10 @@ function TrackingIframeModal({ order, onClose }) {
           </div>
         )}
       </div>
-
-      {trackingModal && (
-        <TrackingIframeModal order={trackingModal} onClose={() => setTrackingModal(null)} />
-      )}
     </div>
   );
 }
 
-// ─── TrackingCard ───
 function TrackingCard({ order, onViewTracking }) {
   const addr = order.shipping_address || {};
   const statusCfg = ORDER_STATUS_CONFIG[order.status] || ORDER_STATUS_CONFIG.pending;
@@ -86,14 +79,11 @@ function TrackingCard({ order, onViewTracking }) {
       className="bg-white border-2 border-slate-100 rounded-2xl px-5 py-4 hover:border-slate-200 transition-all"
     >
       <div className="flex items-start gap-4">
-        {/* Status Icon */}
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 border ${statusCfg.color}`}>
           <StatusIcon className="w-5 h-5" />
         </div>
 
-        {/* Main Info */}
         <div className="flex-1 min-w-0">
-          {/* Top row: order number + status badge */}
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="font-black text-slate-900 text-sm">#{order.order_number}</span>
             <span className={`px-2 py-0.5 text-[10px] font-black uppercase tracking-widest rounded-full border ${statusCfg.color}`}>
@@ -109,8 +99,7 @@ function TrackingCard({ order, onViewTracking }) {
             </span>
           </div>
 
-          {/* Tracking Number row */}
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
             <Hash className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
             <span className="font-mono text-sm text-slate-800 font-bold">{order.tracking_number}</span>
             <button onClick={copyTracking} className="text-slate-400 hover:text-slate-600 transition-colors">
@@ -127,19 +116,12 @@ function TrackingCard({ order, onViewTracking }) {
             )}
           </div>
 
-          {/* Customer Info */}
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-2">
             {order.customer_name && (
-              <span className="flex items-center gap-1">
-                <User className="w-3 h-3" />
-                {order.customer_name}
-              </span>
+              <span className="flex items-center gap-1"><User className="w-3 h-3" />{order.customer_name}</span>
             )}
             {(order.customer_email || order.created_by) && (
-              <span className="flex items-center gap-1">
-                <Mail className="w-3 h-3" />
-                {order.customer_email || order.created_by}
-              </span>
+              <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{order.customer_email || order.created_by}</span>
             )}
             {addr.city && (
               <span className="flex items-center gap-1">
@@ -149,7 +131,6 @@ function TrackingCard({ order, onViewTracking }) {
             )}
           </div>
 
-          {/* Items */}
           {order.items?.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {order.items.map((item, i) => (
@@ -162,7 +143,6 @@ function TrackingCard({ order, onViewTracking }) {
             </div>
           )}
 
-          {/* Estimated delivery */}
           {order.estimated_delivery && (
             <div className="mt-2 flex items-center gap-1.5 text-xs text-blue-600">
               <Clock className="w-3 h-3" />
@@ -179,7 +159,6 @@ function TrackingCard({ order, onViewTracking }) {
           )}
         </div>
 
-        {/* Amount */}
         <div className="text-right flex-shrink-0">
           <p className="text-[#dc2626] font-black text-sm">${order.total_amount?.toFixed(2)}</p>
         </div>
@@ -225,14 +204,12 @@ export default function AdminTrackingDashboard() {
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="max-w-5xl mx-auto px-4">
-        {/* Back */}
         <Link to={createPageUrl('AdminOrderManagement')}>
           <Button variant="ghost" className="mb-4 hover:bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-xs">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Orders
           </Button>
         </Link>
 
-        {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
             <h1 className="text-5xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">
@@ -251,7 +228,6 @@ export default function AdminTrackingDashboard() {
           </Button>
         </div>
 
-        {/* Status Filter Pills */}
         <div className="flex flex-wrap gap-2 mb-4">
           <button
             onClick={() => setFilterStatus('all')}
@@ -278,7 +254,6 @@ export default function AdminTrackingDashboard() {
           })}
         </div>
 
-        {/* Search */}
         <div className="relative mb-6">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input
@@ -289,7 +264,6 @@ export default function AdminTrackingDashboard() {
           />
         </div>
 
-        {/* Orders List */}
         {isLoading ? (
           <div className="text-center py-32">
             <Loader2 className="w-10 h-10 animate-spin text-[#dc2626] mx-auto mb-4" />
@@ -310,6 +284,10 @@ export default function AdminTrackingDashboard() {
           </div>
         )}
       </div>
+
+      {trackingModal && (
+        <TrackingIframeModal order={trackingModal} onClose={() => setTrackingModal(null)} />
+      )}
     </div>
   );
 }
