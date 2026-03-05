@@ -586,9 +586,17 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
-  );
-}
+
+      {/* PirateShip Label Creator Modal */}
+      {showPirateShip && (
+        <PirateShipLabelCreator
+          order={labelOrder}
+          onClose={() => setShowPirateShip(false)}
+        />
+      )}
+      </div>
+      );
+      }
 
 // ─── Tax Report Modal ───
 function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products = [], onUpdateProductCost }) {
