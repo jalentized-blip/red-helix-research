@@ -526,13 +526,23 @@ const HeaderSearch = () => {
 
         {/* Shipping Delay Banner */}
         <div
-          className="fixed top-0 left-0 right-0 z-[69] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300"
+          className="fixed top-0 left-0 right-0 z-[69] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300 overflow-hidden"
           style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
         >
-          <div className="max-w-7xl mx-auto text-center">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-wider">
-              ⚠️ USPS backlogs (March 2026 rollout) + FedEx Memphis chemical spill delays. Postal Service: "Limited air shipping capability during recovery efforts." Orders arrive safely.
-            </p>
+          <style>{`
+            @keyframes scroll-banner {
+              0% { transform: translateX(100%); }
+              100% { transform: translateX(-100%); }
+            }
+            .banner-scroll {
+              animation: scroll-banner 30s linear infinite;
+              white-space: nowrap;
+              display: inline-block;
+              padding-right: 50px;
+            }
+          `}</style>
+          <div className="banner-scroll text-xs sm:text-sm font-bold uppercase tracking-wider">
+            ⚠️ USPS backlogs (March 2026 rollout) + FedEx Memphis chemical spill delays. Postal Service: "Limited air shipping capability during recovery efforts." Orders arrive safely.
           </div>
         </div>
 
