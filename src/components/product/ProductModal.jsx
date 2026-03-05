@@ -36,16 +36,16 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
       return;
     }
     if (selectedSpec) {
-      // For kits product, we need to reference the original product
       const cartProduct = product.isKitsProduct 
         ? { ...product, id: selectedSpec.productId, name: selectedSpec.productName }
         : product;
       addToCart(cartProduct, selectedSpec);
       setAddedToCart(true);
-      setTimeout(() => {
-        setAddedToCart(false);
-        onClose();
-      }, 1500);
+      setCartPopupItem({
+        productName: cartProduct.name,
+        specification: selectedSpec.name,
+      });
+      setTimeout(() => setAddedToCart(false), 2000);
     }
   };
 
