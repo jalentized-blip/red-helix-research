@@ -529,7 +529,7 @@ const HeaderSearch = () => {
         {/* Shipping Delay Banner */}
         {!bannerClosed && (
           <div
-            className="fixed top-0 left-0 right-0 z-[69] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300 overflow-hidden hover:bg-red-800 active:bg-red-900 flex items-center justify-between"
+            className="fixed top-0 left-0 right-0 z-[99] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300 overflow-hidden hover:bg-red-800 active:bg-red-900 flex items-center justify-between"
             onMouseEnter={() => setBannerHovered(true)}
             onMouseLeave={() => setBannerHovered(false)}
           >
