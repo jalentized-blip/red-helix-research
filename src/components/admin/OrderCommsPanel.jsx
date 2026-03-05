@@ -34,12 +34,12 @@ const buildTemplates = (order) => {
 <h2 style="color:#dc2626;">Your Order Has Shipped!</h2>
 <p>Hi ${name},</p>
 <p>Great news — your order <strong>#${num}</strong> is on its way!</p>
-${order.tracking_number ? `<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:20px;margin:20px 0;">
+<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:20px;margin:20px 0;">
   <p style="margin:0 0 4px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Tracking Number</p>
-  <p style="margin:0;font-size:18px;font-weight:700;font-family:monospace;">${order.tracking_number}</p>
-  <p style="margin:6px 0 0;font-size:13px;color:#64748b;">Carrier: ${order.carrier || '—'}</p>
+  <p style="margin:0;font-size:18px;font-weight:700;font-family:monospace;">${order.tracking_number || 'Tracking number will be added'}</p>
+  <p style="margin:6px 0 0;font-size:13px;color:#64748b;">Carrier: ${order.carrier || 'USPS'}</p>
   ${trackBtn}
-</div>` : ''}
+</div>
 <p style="color:#64748b;font-size:13px;">Thank you for choosing Red Helix Research!</p>
 </div>`,
     },
