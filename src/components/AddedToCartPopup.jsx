@@ -62,6 +62,7 @@ export default function AddedToCartPopup({ item, onClose, onContinue }) {
             </div>
           </div>
         </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
