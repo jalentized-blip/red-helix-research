@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   ArrowLeft, Truck, Package, Search, RefreshCw, ExternalLink,
-  MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash, CreditCard, Loader2, Copy
+  MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash, CreditCard, Loader2, Copy, X
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
