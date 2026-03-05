@@ -122,7 +122,6 @@ Deno.serve(async (req) => {
 
       if (squareOrderId) {
         const allOrders = await base44.asServiceRole.entities.Order.filter({
-          payment_method: 'square_payment',
           status: 'awaiting_payment',
         });
 
