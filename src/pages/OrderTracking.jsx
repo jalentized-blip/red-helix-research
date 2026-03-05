@@ -260,86 +260,33 @@ export default function OrderTracking() {
                       <Truck className="w-4 h-4 text-purple-600" />
                       <p className="text-xs font-bold text-purple-700 uppercase tracking-wider">Tracking Information</p>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex-1">
                         <p className="text-lg text-slate-900 font-mono font-bold tracking-tight">{order.tracking_number}</p>
                         <p className="text-sm text-slate-500 mt-1 font-medium">
                           Carrier: <span className="text-purple-700 font-bold">{order.carrier}</span>
                         </p>
                       </div>
-                      <button
-                        onClick={() => fetchRealTracking(order.id, order.tracking_number, order.carrier)}
-                        disabled={loadingTracking[order.id]}
-                        className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-purple-200 hover:border-purple-300 text-purple-700 hover:text-purple-800 text-sm font-bold rounded-xl transition-all shadow-sm hover:shadow disabled:opacity-50"
-                      >
-                        {loadingTracking[order.id] ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <ExternalLink className="w-4 h-4" />
-                        )}
-                        {loadingTracking[order.id] ? 'Fetching...' : 'Live Status'}
-                      </button>
-                    </div>
-
-                    {trackingCache[order.id] && (
-                      <div className="space-y-3 border-t border-purple-100 pt-4">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Live Status</p>
-                            <p className="text-lg font-bold text-slate-900">{trackingCache[order.id].status_description}</p>
-                          </div>
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                            trackingCache[order.id].status === 'delivered' ? 'bg-green-100 text-green-700' :
-                            trackingCache[order.id].status === 'out_for_delivery' ? 'bg-blue-100 text-blue-700' :
-                            trackingCache[order.id].status === 'in_transit' ? 'bg-purple-100 text-purple-700' :
-                            'bg-slate-100 text-slate-700'
-                          }`}>
-                            {trackingCache[order.id].status}
-                          </span>
-                        </div>
-
-                        {trackingCache[order.id].current_location && (
-                          <div>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Current Location</p>
-                            <p className="text-slate-900 font-medium">{trackingCache[order.id].current_location}</p>
-                          </div>
-                        )}
-
-                        {trackingCache[order.id].last_update && (
-                          <div>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Last Update</p>
-                            <p className="text-slate-700 text-sm">{new Date(trackingCache[order.id].last_update).toLocaleString()}</p>
-                          </div>
-                        )}
-
-                        {trackingCache[order.id].events && trackingCache[order.id].events.length > 0 && (
-                          <div>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Recent Events</p>
-                            <div className="space-y-2 max-h-48 overflow-y-auto">
-                              {trackingCache[order.id].events.slice(0, 5).map((event, idx) => (
-                                <div key={idx} className="text-sm bg-white bg-opacity-50 rounded-lg p-2 border border-purple-100">
-                                  <p className="font-medium text-slate-900">{event.description}</p>
-                                  <p className="text-xs text-slate-500 mt-0.5">{event.location} • {new Date(event.timestamp).toLocaleString()}</p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {order.carrier && getTrackingUrl(order.carrier, order.tracking_number) && (
-                      <div className="border-t border-purple-100 mt-4 pt-4">
+                      {order.carrier && getTrackingUrl(order.carrier, order.tracking_number) && (
                         <a
                           href={getTrackingUrl(order.carrier, order.tracking_number)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold rounded-xl transition-all shadow-sm hover:shadow-md w-full"
+                          className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold rounded-xl transition-all shadow-sm hover:shadow-md"
                         >
                           <ExternalLink className="w-4 h-4" />
-                          View on Carrier Website
+                          Track Package
                         </a>
-                      </div>
+                      )}
+                    </div>
+                    {order.estimated_delivery && (
+                      <p className="text-xs text-slate-400 mt-3 font-medium border-t border-purple-100 pt-3">
+                        Estimated delivery: {new Date(order.estimated_delivery).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </p>
                     )}
                   </motion.div>
                 ) : order.status === 'processing' ? (
