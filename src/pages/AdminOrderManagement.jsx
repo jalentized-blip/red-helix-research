@@ -346,32 +346,34 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
             {/* Tracking Number */}
             <div>
               <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1.5">Tracking Number</label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   value={form.tracking_number}
                   onChange={(e) => updateField('tracking_number', e.target.value)}
                   placeholder="Enter tracking number..."
                   className="bg-slate-50 border-slate-200 text-slate-900 font-mono flex-1 h-11"
                 />
-                {form.tracking_number && (
-                     <>
-                       <Button variant="outline" size="sm" onClick={handleCopyTracking} className="border-slate-200 text-slate-500 h-11 px-3">
-                         <Copy className="w-4 h-4" />
-                       </Button>
-                       <Button variant="outline" size="sm" onClick={() => {
-                         const c = CARRIERS.find(cr => cr.id === form.carrier);
-                         if (c) window.open(c.trackUrl(form.tracking_number), '_blank');
-                       }} className="border-slate-200 text-slate-500 h-11 px-3">
-                         <ExternalLink className="w-4 h-4" />
-                       </Button>
-                       <Button variant="outline" size="sm" onClick={handleSendTrackingEmail} className="border-blue-200 text-blue-600 hover:bg-blue-50 h-11">
-                         <Mail className="w-4 h-4 mr-1" /> Email
-                       </Button>
-                     </>
-                   )}
-                   <Button size="sm" onClick={() => setShowPirateShip(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white h-11 font-bold">
-                     <Package className="w-4 h-4 mr-1" /> Create Label
-                   </Button>
+                <div className="flex gap-2 flex-wrap sm:flex-nowrap">
+                  {form.tracking_number && (
+                       <>
+                         <Button variant="outline" size="sm" onClick={handleCopyTracking} className="border-slate-200 text-slate-500 h-11 px-3 flex-1 sm:flex-none">
+                           <Copy className="w-4 h-4" />
+                         </Button>
+                         <Button variant="outline" size="sm" onClick={() => {
+                           const c = CARRIERS.find(cr => cr.id === form.carrier);
+                           if (c) window.open(c.trackUrl(form.tracking_number), '_blank');
+                         }} className="border-slate-200 text-slate-500 h-11 px-3 flex-1 sm:flex-none">
+                           <ExternalLink className="w-4 h-4" />
+                         </Button>
+                         <Button variant="outline" size="sm" onClick={handleSendTrackingEmail} className="border-blue-200 text-blue-600 hover:bg-blue-50 h-11 flex-1 sm:flex-none">
+                           <Mail className="w-4 h-4 mr-1" /> Email
+                         </Button>
+                       </>
+                     )}
+                     <Button size="sm" onClick={() => setShowPirateShip(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white h-11 font-bold flex-1 sm:flex-none">
+                       <Package className="w-4 h-4 mr-1" /> Label
+                     </Button>
+                </div>
               </div>
             </div>
 
