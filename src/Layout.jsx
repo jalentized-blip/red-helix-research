@@ -524,14 +524,14 @@ const HeaderSearch = () => {
           </motion.div>
         )}
 
-        {/* USPS Shipping Delay Banner */}
+        {/* Shipping Delay Banner */}
         <div
           className="fixed top-0 left-0 right-0 z-[69] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300"
           style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
         >
           <div className="max-w-7xl mx-auto text-center">
             <p className="text-xs sm:text-sm font-bold uppercase tracking-wider">
-              ⚠️ USPS delays: Shipments may take longer than usual. Rest assured, your order will arrive.
+              ⚠️ Shipping delays: USPS + FedEx Memphis chemical spill may cause 10-15 day delays. Your order will arrive safely.
             </p>
           </div>
         </div>
