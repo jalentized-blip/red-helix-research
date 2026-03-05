@@ -11,10 +11,21 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const { subject, htmlBody } = body;
+    const { subject, htmlBody, testEmail } = body;
 
     if (!subject || !htmlBody) {
       return Response.json({ error: 'Missing subject or htmlBody' }, { status: 400 });
+    }
+
+    // If testEmail is provided, send ONLY to that address
+    if (testEmail) {
+      await base44.asServiceRole.integrations.Core.SendEmail({
+        to: testEmail,
+        subject: `[TEST] ${subject}`,
+        body: htmlBody,
+        from_name: 'Red Helix Research'
+      });
+      return Response.json({ success: true, total: 1, results: [{ email: testEmail, status: 'sent' }] });
     }
 
     // Get all active orders (pending, processing, shipped)
