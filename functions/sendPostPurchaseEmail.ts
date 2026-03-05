@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
 
 Deno.serve(async (req) => {
   try {
@@ -46,15 +46,6 @@ Research-Grade Peptides Since 2020`;
       subject: `Order Confirmed #${orderNumber} - Red Helix Research`,
       body: emailBody,
       from_name: 'Red Helix Research'
-    });
-
-    base44.analytics.track({
-      eventName: 'post_purchase_email_sent',
-      properties: { 
-        email: email,
-        order_number: orderNumber,
-        item_count: orderItems.length
-      }
     });
 
     return Response.json({ 
