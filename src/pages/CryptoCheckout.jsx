@@ -101,6 +101,7 @@ const CRYPTO_OPTIONS = [
 ];
 
 const SHIPPING_COST = 15.00;
+const SQUARE_PROCESSING_FEE_PERCENT = 0.10; // 10% processing fee for card payments
 
 // Simple step indicator
 function StepIndicator({ currentStep }) {
