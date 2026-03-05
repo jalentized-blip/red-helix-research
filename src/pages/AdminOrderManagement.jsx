@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import PredictionDashboard from '@/components/admin/PredictionDashboard';
+import OrderCommsPanel from '@/components/admin/OrderCommsPanel';
 
 const CARRIERS = [
   { id: 'USPS', label: 'USPS', trackUrl: (t) => `https://tools.usps.com/go/TrackConfirmAction?tLabels=${t}` },
