@@ -91,6 +91,7 @@ export default function Cart() {
   };
 
   const SHIPPING_COST = 15.00;
+  const SQUARE_PROCESSING_FEE_PERCENT = 0.10; // 10% processing fee for card payments
   const subtotal = getCartTotal();
   const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
   const finalTotal = subtotal - discount + SHIPPING_COST;
