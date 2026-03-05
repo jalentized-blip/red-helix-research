@@ -233,6 +233,7 @@ const HeaderSearch = () => {
         const isHomePage = window.location.pathname === '/' || window.location.pathname === '/Home';
         const [user, setUser] = useState(null);
         const [bannerHovered, setBannerHovered] = useState(false);
+        const [bannerClosed, setBannerClosed] = useState(false);
 
         useEffect(() => {
           const checkAuth = async () => {
