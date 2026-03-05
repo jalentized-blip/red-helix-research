@@ -524,6 +524,18 @@ const HeaderSearch = () => {
           </motion.div>
         )}
 
+        {/* USPS Shipping Delay Banner */}
+        <div
+          className="fixed top-0 left-0 right-0 z-[69] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300"
+          style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
+        >
+          <div className="max-w-7xl mx-auto text-center">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-wider">
+              ⚠️ USPS delays: Shipments may take longer than usual. Rest assured, your order will arrive.
+            </p>
+          </div>
+        </div>
+
         {/* Fixed Header */}
           <header
               role="banner"
@@ -533,7 +545,7 @@ const HeaderSearch = () => {
                   setMobileHeaderCollapsed(true);
                 }
               }}
-              className="fixed top-0 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-b border-slate-100 transition-transform duration-300 shadow-sm"
+              className="fixed top-10 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-b border-slate-100 transition-transform duration-300 shadow-sm"
               style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
             >
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
