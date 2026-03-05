@@ -330,12 +330,15 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
         </div>
       </DialogContent>
 
-      {/* Added to Cart Popup */}
-      <AddedToCartPopup
-        item={cartPopupItem}
-        onClose={() => { setCartPopupItem(null); onClose(); }}
-        onContinue={() => { setCartPopupItem(null); }}
-      />
+      {/* Added to Cart Popup - rendered in document body to escape dialog stacking context */}
+      {cartPopupItem && ReactDOM.createPortal(
+        <AddedToCartPopup
+          item={cartPopupItem}
+          onClose={() => { setCartPopupItem(null); onClose(); }}
+          onContinue={() => { setCartPopupItem(null); }}
+        />,
+        document.body
+      )}
 
       {/* COA Image Overlay */}
       <AnimatePresence>
