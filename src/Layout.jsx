@@ -528,7 +528,6 @@ const HeaderSearch = () => {
         {/* Shipping Delay Banner */}
         <div
           className="fixed top-0 left-0 right-0 z-[69] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300 overflow-hidden cursor-pointer hover:bg-red-800 active:bg-red-900"
-          style={{ transform: (isHomePage ? (mobileHeaderCollapsed && window.innerWidth < 1024 ? false : headerVisible) : mouseNearTop) ? 'translateY(0)' : 'translateY(-100%)' }}
           onMouseEnter={() => setBannerHovered(true)}
           onMouseLeave={() => setBannerHovered(false)}
           onClick={() => window.open('https://about.usps.com/newsroom/service-alerts/', '_blank')}
