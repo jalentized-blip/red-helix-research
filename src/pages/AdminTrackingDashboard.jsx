@@ -29,11 +29,44 @@ const ORDER_STATUS_CONFIG = {
   cancelled: { color: 'bg-red-50 border-red-200 text-red-700', icon: AlertCircle, label: 'Cancelled' },
 };
 
-function TrackingCard({ order }) {
+function TrackingIframeModal({ order, onClose }) {
+  const carrierUrl = CARRIER_TRACK_URL[order.carrier];
+  const url = carrierUrl ? carrierUrl(order.tracking_number) : null;
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl flex flex-col overflow-hidden" style={{ height: '80vh' }}>
+        {/* Modal Header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 flex-shrink-0">
+          <div>
+            <p className="font-black text-slate-900 text-sm">Tracking #{order.tracking_number}</p>
+            <p className="text-xs text-slate-400 font-medium">{order.carrier} — Order #{order.order_number} — {order.customer_name || order.customer_email || order.created_by}</p>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        {/* Iframe */}
+        {url ? (
+          <iframe
+            src={url}
+            className="flex-1 w-full border-0"
+            title={`Tracking ${order.tracking_number}`}
+          />
+        ) : (
+          <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-bold">
+            No tracking URL available for this carrier.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TrackingCard({ order, onViewTracking }) {
   const addr = order.shipping_address || {};
   const statusCfg = ORDER_STATUS_CONFIG[order.status] || ORDER_STATUS_CONFIG.pending;
   const StatusIcon = statusCfg.icon;
-  const carrierUrl = CARRIER_TRACK_URL[order.carrier];
 
   const copyTracking = () => {
     navigator.clipboard.writeText(order.tracking_number);
