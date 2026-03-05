@@ -8,6 +8,7 @@ import { getCartCount, addPromoCodeAsync, getPromoCode, loadAffiliateCodes } fro
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
+import { motion } from 'framer-motion';
 import MolecularBackground from '@/components/MolecularBackground';
 import FloatingMolecularFormulas from '@/components/FloatingMolecularFormulas';
 import { motion, AnimatePresence } from 'framer-motion';
