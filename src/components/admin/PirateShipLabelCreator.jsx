@@ -24,7 +24,7 @@ export default function PirateShipLabelCreator({ order, onClose }) {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white rounded-xl shadow-2xl max-w-7xl w-full max-h-[90vh] flex flex-col"
+                className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col"
             >
                 {/* Header */}
                 <div className="border-b border-slate-200 p-6 flex items-center justify-between">
@@ -32,32 +32,25 @@ export default function PirateShipLabelCreator({ order, onClose }) {
                         <h2 className="text-2xl font-bold text-slate-900">Create Shipping Label</h2>
                         <p className="text-sm text-slate-500 mt-1">Order #{order.order_number}</p>
                     </div>
-                    <button
-                        onClick={onClose}
-                        className="text-slate-400 hover:text-slate-600 text-2xl"
-                    >
-                        ✕
-                    </button>
+                    <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-2xl">✕</button>
                 </div>
 
-                {/* Content */}
+                {/* Content: Dual View */}
                 <div className="flex-1 overflow-hidden flex">
-                    {/* Left: Order Details */}
-                    <div className="w-1/3 border-r border-slate-200 overflow-y-auto p-6">
+                    {/* Left: Order Details (Fixed) */}
+                    <div className="w-80 border-r border-slate-200 overflow-y-auto p-6 bg-slate-50">
                         <h3 className="font-bold text-slate-900 mb-4">Order Details</h3>
                         <div className="space-y-4">
                             {/* Shipping Address */}
-                            <div className="bg-slate-50 p-4 rounded-lg">
+                            <div className="bg-white p-4 rounded-lg border border-slate-200">
                                 <p className="text-xs font-bold text-slate-500 uppercase mb-2">Ship To</p>
-                                <p className="text-sm font-semibold text-slate-900 mb-1">
-                                    {order.shipping_address?.address}
-                                </p>
-                                <p className="text-sm text-slate-600">
+                                <p className="text-sm font-semibold text-slate-900 mb-1">{order.shipping_address?.address}</p>
+                                <p className="text-sm text-slate-600 mb-3">
                                     {order.shipping_address?.city}, {order.shipping_address?.state} {order.shipping_address?.zip}
                                 </p>
                                 <button
                                     onClick={() => copyToClipboard(`${order.shipping_address?.address}\n${order.shipping_address?.city}, ${order.shipping_address?.state} ${order.shipping_address?.zip}`, 'address')}
-                                    className="mt-3 text-[11px] font-bold text-[#dc2626] hover:text-red-700 flex items-center gap-1"
+                                    className="text-[11px] font-bold text-[#dc2626] hover:text-red-700 flex items-center gap-1"
                                 >
                                     {copied.address ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                                     Copy Address
@@ -65,148 +58,74 @@ export default function PirateShipLabelCreator({ order, onClose }) {
                             </div>
 
                             {/* Items */}
-                            <div>
-                                <p className="text-xs font-bold text-slate-500 uppercase mb-2">Items</p>
+                            <div className="bg-white p-4 rounded-lg border border-slate-200">
+                                <p className="text-xs font-bold text-slate-500 uppercase mb-3">Items</p>
                                 <div className="space-y-2">
                                     {order.items?.map((item, i) => (
-                                        <div key={i} className="text-sm text-slate-700">
-                                            <p className="font-semibold">{item.productName}</p>
+                                        <div key={i} className="pb-2 border-b border-slate-100 last:border-b-0 last:pb-0">
+                                            <p className="font-semibold text-slate-900 text-sm">{item.productName}</p>
                                             <p className="text-xs text-slate-500">Qty: {item.quantity}</p>
+                                            <p className="text-xs text-slate-600">${item.price} each</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
+
+                            {/* Total */}
+                            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                <p className="text-xs font-bold text-blue-600 uppercase mb-1">Order Total</p>
+                                <p className="text-2xl font-bold text-blue-900">${order.total_amount}</p>
+                            </div>
+
+                            {/* Quick Copy Buttons */}
+                            <div className="space-y-2">
+                                <button
+                                    onClick={() => copyToClipboard(`${order.shipping_address?.city}, ${order.shipping_address?.state} ${order.shipping_address?.zip}`, 'city-state-zip')}
+                                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-center gap-1"
+                                >
+                                    {copied['city-state-zip'] ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                                    Copy City/State/ZIP
+                                </button>
+                                <button
+                                    onClick={() => copyToClipboard(order.items?.map(i => i.productName).join(', '), 'items')}
+                                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-center gap-1"
+                                >
+                                    {copied.items ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                                    Copy Items
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Right: Label Creator or PirateShip */}
-                    <div className="w-2/3 overflow-y-auto p-6">
+                    {/* Right: PirateShip */}
+                    <div className="flex-1 overflow-auto p-6">
                         {!showPirateShip ? (
-                            <div className="space-y-6">
-                                <div>
-                                    <h4 className="font-bold text-slate-900 mb-4">Shipping Details</h4>
-
-                                    {error && (
-                                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex gap-2">
-                                            <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
-                                            <p className="text-sm text-red-700">{error}</p>
-                                        </div>
-                                    )}
-
-                                    <div className="space-y-4">
-                                        {/* Weight & Dimensions */}
-                                        <div>
-                                            <label className="block text-sm font-semibold text-slate-900 mb-2">
-                                                Weight (lbs)
-                                            </label>
-                                            <div className="flex gap-2">
-                                                <Input
-                                                    type="number"
-                                                    step="0.1"
-                                                    placeholder="e.g., 2.5"
-                                                    value={labelData.weight}
-                                                    onChange={(e) => setLabelData({ ...labelData, weight: e.target.value })}
-                                                    className="flex-1"
-                                                />
-                                                <Button
-                                                    onClick={autofillFromAI}
-                                                    disabled={loading}
-                                                    variant="outline"
-                                                    className="whitespace-nowrap"
-                                                >
-                                                    {loading ? <Loader className="w-4 h-4 animate-spin" /> : 'AI Estimate'}
-                                                </Button>
-                                            </div>
-                                        </div>
-
-                                        {/* Carrier */}
-                                        <div>
-                                            <label className="block text-sm font-semibold text-slate-900 mb-2">
-                                                Carrier
-                                            </label>
-                                            <Select value={labelData.carrier} onValueChange={(v) => setLabelData({ ...labelData, carrier: v })}>
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="usps">USPS</SelectItem>
-                                                    <SelectItem value="ups">UPS</SelectItem>
-                                                    <SelectItem value="fedex">FedEx</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-
-                                        {/* Get Rates Button */}
-                                        <Button
-                                            onClick={getRates}
-                                            disabled={loading || !labelData.weight || !labelData.to_zip}
-                                            className="w-full"
-                                        >
-                                            {loading ? <Loader className="w-4 h-4 animate-spin mr-2" /> : null}
-                                            Get Shipping Rates
-                                        </Button>
-                                    </div>
-                                </div>
-
-                                {/* Rates */}
-                                {rates.length > 0 && (
-                                    <div>
-                                        <h4 className="font-bold text-slate-900 mb-3">Available Rates</h4>
-                                        <div className="space-y-2">
-                                            {rates.map((rate, i) => (
-                                                <button
-                                                    key={i}
-                                                    onClick={() => setSelectedRate(rate)}
-                                                    className={`w-full p-3 rounded-lg border-2 transition-all text-left ${
-                                                        selectedRate?.id === rate.id
-                                                            ? 'border-[#dc2626] bg-red-50'
-                                                            : 'border-slate-200 hover:border-slate-300'
-                                                    }`}
-                                                >
-                                                    <p className="font-semibold text-slate-900">{rate.service}</p>
-                                                    <p className="text-sm text-slate-600">${rate.rate}</p>
-                                                </button>
-                                            ))}
-                                        </div>
-
-                                        {selectedRate && (
-                                            <Button
-                                                onClick={() => setShowPirateShip(true)}
-                                                className="w-full mt-4"
-                                            >
-                                                Continue to PirateShip
-                                            </Button>
-                                        )}
-                                    </div>
-                                )}
-
-                                {rates.length === 0 && !loading && (
-                                    <Button
-                                        onClick={loginToPirateShip}
-                                        className="w-full"
-                                    >
-                                        Sign In to PirateShip
-                                    </Button>
-                                )}
+                            <div className="max-w-2xl">
+                                <h4 className="font-bold text-slate-900 mb-4 text-lg">Ready to Create Label?</h4>
+                                <p className="text-slate-600 mb-6">
+                                    Click below to open PirateShip in an embedded window. Your order details will stay visible on the left for easy reference while you fill in the shipping information.
+                                </p>
+                                <Button onClick={openPirateShip} className="w-full md:w-auto">
+                                    Open PirateShip Label Creator
+                                </Button>
                             </div>
                         ) : (
-                            <div>
-                                <h4 className="font-bold text-slate-900 mb-4">PirateShip Label Creator</h4>
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <h4 className="font-bold text-slate-900">PirateShip Label Creator</h4>
+                                    <Button onClick={() => setShowPirateShip(false)} variant="outline" size="sm">
+                                        Close
+                                    </Button>
+                                </div>
                                 <p className="text-sm text-slate-600 mb-4">
-                                    A new window will open. Complete your label creation there. The order details remain visible on the left for easy reference.
+                                    Order details are on your left. Copy any info you need and paste it into PirateShip below.
                                 </p>
                                 <iframe
-                                    src={pirateShipUrl}
-                                    className="w-full h-96 border border-slate-200 rounded-lg"
+                                    src="https://pirateship.com"
+                                    className="w-full h-[600px] border border-slate-300 rounded-lg"
                                     title="PirateShip"
+                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
                                 />
-                                <Button
-                                    onClick={() => setShowPirateShip(false)}
-                                    variant="outline"
-                                    className="w-full mt-4"
-                                >
-                                    Back to Details
-                                </Button>
                             </div>
                         )}
                     </div>
