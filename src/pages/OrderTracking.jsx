@@ -20,20 +20,6 @@ export default function OrderTracking() {
     initialData: [],
   });
 
-  // Auto-fetch tracking info for all tracked orders
-  useEffect(() => {
-    const fetchAllTracking = async () => {
-      const trackedOrders = orders.filter(o => o.tracking_number && !trackingCache[o.id]);
-      for (const order of trackedOrders) {
-        await fetchRealTracking(order.id, order.tracking_number, order.carrier);
-      }
-    };
-    
-    if (orders.length > 0) {
-      fetchAllTracking();
-    }
-  }, [orders]);
-
   // Subscribe to real-time order updates
   useEffect(() => {
     const unsubscribe = base44.entities.Order.subscribe((event) => {
@@ -41,9 +27,6 @@ export default function OrderTracking() {
       if (event.type === 'update' && event.data?.tracking_number) {
         // Refetch orders to get the latest data
         queryClient.invalidateQueries({ queryKey: ['orders'] });
-
-        // Fetch real tracking for this order
-        fetchRealTracking(event.data.id, event.data.tracking_number, event.data.carrier);
 
         // Show a toast notification for the tracking update
         setTrackingUpdate({
