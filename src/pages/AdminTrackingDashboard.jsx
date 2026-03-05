@@ -187,6 +187,7 @@ export default function AdminTrackingDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [trackingModal, setTrackingModal] = useState(null);
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ['orders', refreshKey],
