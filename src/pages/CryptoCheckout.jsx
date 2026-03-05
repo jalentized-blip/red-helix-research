@@ -1379,6 +1379,12 @@ export default function CryptoCheckout() {
                   <span className="text-slate-500">Shipping</span>
                   <span className="text-slate-900 font-bold">${SHIPPING_COST.toFixed(2)}</span>
                 </div>
+                {processingFee > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Processing Fee (10%)</span>
+                    <span className="text-slate-900 font-bold">${processingFee.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center pt-3 border-t border-slate-100">
                   <span className="text-base font-black text-slate-900 uppercase">Total</span>
                   <span className="text-xl font-black text-[#dc2626]">${totalUSD.toFixed(2)}</span>
