@@ -432,7 +432,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
             {/* Payment Info */}
             <div>
               <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Payment Details</h4>
-              <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+              <div className="bg-slate-50 rounded-xl p-3 lg:p-4 border border-slate-100 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 text-xs">
                 <div>
                   <p className="text-slate-400 font-bold uppercase tracking-wider mb-0.5">Method</p>
                   <p className="text-slate-900 font-bold">{order.payment_method || '—'}</p>
