@@ -1,84 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader, Copy, Check, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Copy, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function PirateShipLabelCreator({ order, onClose }) {
-    const [pirateShipUrl, setPirateShipUrl] = useState('');
     const [showPirateShip, setShowPirateShip] = useState(false);
-    const [labelData, setLabelData] = useState({
-        to_zip: order.shipping_address?.zip || '',
-        to_state: order.shipping_address?.state || '',
-        to_city: order.shipping_address?.city || '',
-        to_address: order.shipping_address?.address || '',
-        weight: '',
-        carrier: 'usps',
-        service: ''
-    });
-    const [rates, setRates] = useState([]);
-    const [selectedRate, setSelectedRate] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [copied, setCopied] = useState({});
-    const [error, setError] = useState('');
-
-    const autofillFromAI = async () => {
-        setLoading(true);
-        setError('');
-        try {
-            const response = await base44.integrations.Core.InvokeLLM({
-                prompt: `Based on this order, estimate the shipping weight and dimensions:
-Items: ${order.items?.map(i => `${i.productName} (qty: ${i.quantity})`).join(', ')}
-
-Respond with ONLY a JSON object: {"weight_oz": number, "length_in": number, "width_in": number, "height_in": number}`,
-                response_json_schema: {
-                    type: 'object',
-                    properties: {
-                        weight_oz: { type: 'number' },
-                        length_in: { type: 'number' },
-                        width_in: { type: 'number' },
-                        height_in: { type: 'number' }
-                    }
-                }
-            });
-
-            setLabelData(prev => ({
-                ...prev,
-                weight: (response.weight_oz / 16).toFixed(2) // Convert oz to lbs
-            }));
-        } catch (err) {
-            setError('Failed to estimate dimensions: ' + err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const getRates = async () => {
-        setLoading(true);
-        setError('');
-        try {
-            const response = await base44.functions.invoke('pirateShipAPI', {
-                action: 'get_rates',
-                labelData: {
-                    to_zip: labelData.to_zip,
-                    to_state: labelData.to_state,
-                    to_country: 'US',
-                    weight: labelData.weight
-                }
-            });
-
-            if (response.data.success) {
-                setRates(response.data.rates || []);
-            }
-        } catch (err) {
-            setError('Failed to fetch rates: ' + err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const copyToClipboard = (text, field) => {
         navigator.clipboard.writeText(text);
@@ -86,9 +14,7 @@ Respond with ONLY a JSON object: {"weight_oz": number, "length_in": number, "wid
         setTimeout(() => setCopied({ ...copied, [field]: false }), 2000);
     };
 
-    const loginToPirateShip = () => {
-        const pirateShipAuthUrl = `https://pirateship.com/oauth/authorize?client_id=${Deno.env.get('PIRATESHIP_CLIENT_ID')}&redirect_uri=${window.location.origin}/pirateship-callback&response_type=code&scope=read%20write`;
-        setPirateShipUrl(pirateShipAuthUrl);
+    const openPirateShip = () => {
         setShowPirateShip(true);
     };
 
