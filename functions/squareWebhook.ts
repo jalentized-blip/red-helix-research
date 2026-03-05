@@ -95,10 +95,9 @@ Deno.serve(async (req) => {
       console.log('Payment link completed. linkId:', paymentLinkId, 'orderId:', squareOrderId);
 
       if (paymentLinkId || squareOrderId) {
-        const allOrders = await base44.asServiceRole.entities.Order.filter({
-          payment_method: 'square_payment',
-          status: 'awaiting_payment',
-        });
+      const allOrders = await base44.asServiceRole.entities.Order.filter({
+        status: 'awaiting_payment',
+      });
 
         const matchedOrder = allOrders.find(o =>
           o.transaction_id === paymentLinkId || o.transaction_id === squareOrderId
