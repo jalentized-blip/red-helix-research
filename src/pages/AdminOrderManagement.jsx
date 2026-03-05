@@ -380,7 +380,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
             {/* Customer Info */}
             <div>
               <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Customer Details</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3">
                 <div>
                   <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1">Name</label>
                   <Input value={form.customer_name} onChange={(e) => updateField('customer_name', e.target.value)} className="bg-slate-50 border-slate-200 text-slate-900 h-10" />
