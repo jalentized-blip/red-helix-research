@@ -17,7 +17,6 @@ import UploadCOAModal from '@/components/COA/UploadCOAModal';
 import AlertsDropdown from '@/components/AlertsDropdown';
 import NotificationCenter from '@/components/NotificationCenter';
 import AbandonedCartTracker from '@/components/AbandonedCartTracker';
-import { getCartCount } from '@/components/utils/cart';
 import { Shield } from 'lucide-react';
 import { ZeroTrustProvider } from '@/components/security/ZeroTrustProvider';
 import SecurityMonitor from '@/components/security/SecurityMonitor';
