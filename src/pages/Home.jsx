@@ -190,15 +190,6 @@ export default function Home({ adminViewAsUser = false }) {
         </>
       )}
       
-      {/* USPS Shipping Delay Banner */}
-      <div className="bg-[#dc2626] text-white py-3 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-sm font-bold uppercase tracking-wider">
-            ⚠️ USPS delays: Shipments may take longer than usual. Rest assured, your order will arrive.
-          </p>
-        </div>
-      </div>
-
       <Hero />
       <TrustBar />
       <section aria-label="Value Proposition">
