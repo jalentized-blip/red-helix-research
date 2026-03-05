@@ -399,9 +399,9 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
             {/* Shipping Address */}
             <div>
               <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Shipping Address</h4>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-2 lg:gap-3">
                 <Input value={form.shipping_address} onChange={(e) => updateField('shipping_address', e.target.value)} placeholder="Street address" className="bg-slate-50 border-slate-200 text-slate-900 h-10" />
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2 lg:gap-3">
                   <Input value={form.shipping_city} onChange={(e) => updateField('shipping_city', e.target.value)} placeholder="City" className="bg-slate-50 border-slate-200 text-slate-900 h-10" />
                   <Input value={form.shipping_state} onChange={(e) => updateField('shipping_state', e.target.value)} placeholder="State" className="bg-slate-50 border-slate-200 text-slate-900 h-10" />
                   <Input value={form.shipping_zip} onChange={(e) => updateField('shipping_zip', e.target.value)} placeholder="ZIP" className="bg-slate-50 border-slate-200 text-slate-900 h-10" />
