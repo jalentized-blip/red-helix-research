@@ -111,16 +111,14 @@ function TrackingCard({ order, onViewTracking }) {
             <button onClick={copyTracking} className="text-slate-400 hover:text-slate-600 transition-colors">
               <Copy className="w-3.5 h-3.5" />
             </button>
-            {carrierUrl && (
-              <a
-                href={carrierUrl(order.tracking_number)}
-                target="_blank"
-                rel="noopener noreferrer"
+            {order.carrier && (
+              <button
+                onClick={() => onViewTracking(order)}
                 className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest bg-[#dc2626] text-white hover:bg-[#b91c1c] transition-colors"
               >
-                <ExternalLink className="w-3 h-3" />
+                <Truck className="w-3 h-3" />
                 Track on {order.carrier}
-              </a>
+              </button>
             )}
           </div>
 
