@@ -19,26 +19,26 @@ export default function PirateShipLabelCreator({ order, onClose }) {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-2 sm:p-4">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col"
+                className="bg-white rounded-xl shadow-2xl w-full max-h-[95vh] sm:max-h-[90vh] sm:max-w-6xl flex flex-col"
             >
                 {/* Header */}
-                <div className="border-b border-slate-200 p-6 flex items-center justify-between">
-                    <div>
-                        <h2 className="text-2xl font-bold text-slate-900">Create Shipping Label</h2>
-                        <p className="text-sm text-slate-500 mt-1">Order #{order.order_number}</p>
+                <div className="border-b border-slate-200 p-3 sm:p-6 flex items-center justify-between flex-shrink-0">
+                    <div className="min-w-0">
+                        <h2 className="text-lg sm:text-2xl font-bold text-slate-900 truncate">Create Shipping Label</h2>
+                        <p className="text-xs sm:text-sm text-slate-500 mt-1 truncate">Order #{order.order_number}</p>
                     </div>
-                    <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-2xl">✕</button>
+                    <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-2xl ml-4 flex-shrink-0">✕</button>
                 </div>
 
-                {/* Content: Dual View */}
-                <div className="flex-1 overflow-hidden flex">
+                {/* Content: Dual View (Stacked on mobile, side-by-side on desktop) */}
+                <div className="flex-1 overflow-hidden flex flex-col sm:flex-row">
                     {/* Left: Order Details (Fixed) */}
-                    <div className="w-80 border-r border-slate-200 overflow-y-auto p-6 bg-slate-50">
+                    <div className="w-full sm:w-80 border-b sm:border-b-0 sm:border-r border-slate-200 overflow-y-auto p-3 sm:p-6 bg-slate-50">
                         <h3 className="font-bold text-slate-900 mb-4">Order Details</h3>
                         <div className="space-y-4">
                             {/* Shipping Address */}
