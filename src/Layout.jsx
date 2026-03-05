@@ -538,14 +538,14 @@ const HeaderSearch = () => {
               100% { transform: translateX(-100%); }
             }
             .banner-scroll {
-              animation: ${bannerHovered ? 'none' : 'scroll-banner 30s linear infinite'};
+              animation: scroll-banner 30s linear infinite;
+              animation-play-state: ${bannerHovered ? 'paused' : 'running'};
               white-space: nowrap;
               display: inline-block;
               padding-right: 50px;
-              transition: animation 0.3s ease;
             }
           `}</style>
-          <div className={`banner-scroll text-xs sm:text-sm font-bold uppercase tracking-wider ${bannerHovered ? 'hover:text-yellow-200' : ''}`}>
+          <div className={`banner-scroll text-xs sm:text-sm font-bold uppercase tracking-wider ${bannerHovered ? 'text-yellow-200' : ''}`}>
             ⚠️ USPS backlogs (March 2026 rollout) + FedEx Memphis chemical spill impacts all carriers via shared shipping hubs. Postal Service: "Limited air shipping capability during recovery efforts." Expect 7-14 day delivery delays. We apologize for any inconvenience. ORDERS WILL STILL ARRIVE SAFELY.
           </div>
         </div>
