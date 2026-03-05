@@ -171,6 +171,7 @@ function ShippingLabel({ order, carrier }) {
 // ─── Order Detail Editor ───
 function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, productMap = {}, products = [], adminEmail }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showPirateShip, setShowPirateShip] = useState(false);
   const [form, setForm] = useState({
     status: order.status || 'pending',
     tracking_number: order.tracking_number || '',
