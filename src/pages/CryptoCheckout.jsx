@@ -334,7 +334,9 @@ export default function CryptoCheckout() {
   // Calculate totals
   const subtotal = getCartTotal();
   const discount = promoCode ? getDiscountAmount(promoCode, subtotal) : 0;
-  const totalUSD = subtotal - discount + SHIPPING_COST;
+  const subtotalAfterDiscount = subtotal - discount;
+  const processingFee = step === 'square_payment' ? subtotalAfterDiscount * SQUARE_PROCESSING_FEE_PERCENT : 0;
+  const totalUSD = subtotalAfterDiscount + SHIPPING_COST + processingFee;
 
   const verifyTransaction = async (txHash) => {
     setVerificationStatus('checking');
