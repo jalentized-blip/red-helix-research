@@ -490,14 +490,15 @@ const HeaderSearch = () => {
 
         {/* Mobile Header Toggle (when collapsed on home page) */}
         {isHomePage && mobileHeaderCollapsed && (
-          <div 
+          <motion.div 
             onClick={() => setMobileHeaderCollapsed(false)}
-            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-white/95 backdrop-blur-sm border-b border-slate-200/50 flex items-center justify-center gap-2 cursor-pointer active:bg-slate-50 transition-colors shadow-sm"
+            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-16 bg-white/95 backdrop-blur-sm border-b border-slate-200/50 flex items-center justify-center gap-3 cursor-pointer active:bg-slate-100 transition-colors shadow-md"
+            whileTap={{ scale: 0.98 }}
           >
-            <ChevronDown className="w-4 h-4 text-slate-400" />
-            <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Tap for Menu & Cart</span>
-            <ChevronDown className="w-4 h-4 text-slate-400" />
-          </div>
+            <ChevronDown className="w-5 h-5 text-slate-600 animate-bounce" />
+            <span className="text-sm font-black text-slate-700 uppercase tracking-widest">Tap for Menu & Cart</span>
+            <ChevronDown className="w-5 h-5 text-slate-600 animate-bounce" />
+          </motion.div>
         )}
 
         {/* Floating Cart Icon - only shown when cart has items */}
