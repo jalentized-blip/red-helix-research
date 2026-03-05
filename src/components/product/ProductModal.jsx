@@ -329,6 +329,13 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
         </div>
       </DialogContent>
 
+      {/* Added to Cart Popup */}
+      <AddedToCartPopup
+        item={cartPopupItem}
+        onClose={() => { setCartPopupItem(null); onClose(); }}
+        onContinue={() => { setCartPopupItem(null); }}
+      />
+
       {/* COA Image Overlay */}
       <AnimatePresence>
         {showCOA && productCOAs.length > 0 && (
