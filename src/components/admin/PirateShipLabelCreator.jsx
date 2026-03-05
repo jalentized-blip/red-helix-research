@@ -117,15 +117,18 @@ export default function PirateShipLabelCreator({ order, onClose }) {
                                         Close
                                     </Button>
                                 </div>
-                                <p className="text-xs sm:text-sm text-slate-600 mb-2 flex-shrink-0">
-                                    Order details are on your left. Copy any info you need and paste it into PirateShip below.
-                                </p>
-                                <iframe
-                                    src="https://pirateship.com"
-                                    className="w-full flex-1 border border-slate-300 rounded-lg min-h-[400px] sm:min-h-0"
-                                    title="PirateShip"
-                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
-                                />
+                                <div className="flex-1 flex flex-col items-center justify-center gap-4 p-6 bg-slate-50 rounded-lg border-2 border-dashed border-slate-300">
+                                    <p className="text-sm sm:text-base text-slate-700 text-center font-semibold">Ready to create your shipping label?</p>
+                                    <p className="text-xs sm:text-sm text-slate-600 text-center max-w-md">
+                                        Copy the order details from the left panel and use PirateShip to generate your label. Click the button below to open PirateShip in a new window.
+                                    </p>
+                                    <Button 
+                                        onClick={() => window.open('https://pirateship.com', '_blank')}
+                                        className="mt-4"
+                                    >
+                                        Open PirateShip in New Window
+                                    </Button>
+                                </div>
                             </div>
                         )}
                     </div>
