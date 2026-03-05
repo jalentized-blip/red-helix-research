@@ -1600,6 +1600,7 @@ export default function AdminOrderManagement() {
                 isSaving={updateOrderMutation.isPending}
                 productMap={productMap}
                 products={products}
+                adminEmail={user?.email}
               />
             </motion.div>
           )}
