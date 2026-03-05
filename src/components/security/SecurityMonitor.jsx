@@ -30,7 +30,7 @@ export default function SecurityMonitor() {
       {/* Floating Security Badge */}
       <motion.button
         onClick={() => setIsVisible(!isVisible)}
-        className={`fixed bottom-24 right-6 z-50 p-4 rounded-2xl shadow-2xl border backdrop-blur-sm transition-all ${trustLevel.bg} ${trustLevel.border}`}
+        className={`fixed bottom-6 right-6 z-50 p-4 rounded-2xl shadow-2xl border backdrop-blur-sm transition-all ${trustLevel.bg} ${trustLevel.border}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
