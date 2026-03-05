@@ -63,6 +63,7 @@ function TrackingIframeModal({ order, onClose }) {
   );
 }
 
+// ─── TrackingCard ───
 function TrackingCard({ order, onViewTracking }) {
   const addr = order.shipping_address || {};
   const statusCfg = ORDER_STATUS_CONFIG[order.status] || ORDER_STATUS_CONFIG.pending;
