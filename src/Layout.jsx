@@ -542,7 +542,7 @@ const HeaderSearch = () => {
             }
           `}</style>
           <div className="banner-scroll text-xs sm:text-sm font-bold uppercase tracking-wider">
-            ⚠️ USPS backlogs (March 2026 rollout) + FedEx Memphis chemical spill impacts all carriers via shared shipping hubs. Postal Service: "Limited air shipping capability during recovery efforts." ORDERS WILL STILL ARRIVE SAFELY.
+            ⚠️ USPS backlogs (March 2026 rollout) + FedEx Memphis chemical spill impacts all carriers via shared shipping hubs. Postal Service: "Limited air shipping capability during recovery efforts." Expect 7-14 day delivery delays. We apologize for any inconvenience. ORDERS WILL STILL ARRIVE SAFELY.
           </div>
         </div>
 
