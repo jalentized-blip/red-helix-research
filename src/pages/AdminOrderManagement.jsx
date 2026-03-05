@@ -469,7 +469,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
           </div>
 
           {/* Column 2: Shipping Label Preview */}
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0">
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black">Shipping Label</h4>
