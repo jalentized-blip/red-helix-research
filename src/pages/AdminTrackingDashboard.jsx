@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   ArrowLeft, Truck, Package, Search, RefreshCw,
-  MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash, CreditCard, Loader2, Copy, X
+  MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash, CreditCard, Loader2, Copy, X, Map
 } from 'lucide-react';
+import ShipmentMap from '@/components/admin/ShipmentMap';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
