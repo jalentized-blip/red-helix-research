@@ -494,10 +494,35 @@ const HeaderSearch = () => {
         {isHomePage && mobileHeaderCollapsed && (
           <div 
             onClick={() => setMobileHeaderCollapsed(false)}
-            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-12 bg-white/60 backdrop-blur-sm border-b border-slate-200/30 flex items-center justify-center cursor-pointer active:bg-slate-50/60 transition-colors"
+            className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-white/95 backdrop-blur-sm border-b border-slate-200/50 flex items-center justify-center gap-2 cursor-pointer active:bg-slate-50 transition-colors shadow-sm"
           >
-            <div className="w-12 h-1 bg-slate-300 rounded-full" />
+            <ChevronDown className="w-4 h-4 text-slate-400" />
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Tap for Menu & Cart</span>
+            <ChevronDown className="w-4 h-4 text-slate-400" />
           </div>
+        )}
+
+        {/* Floating Cart Icon - only shown when cart has items */}
+        {cartCount > 0 && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            className="fixed bottom-6 right-6 z-[60]"
+          >
+            <Link to={createPageUrl('Cart')}>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative w-14 h-14 bg-[#8B2635] rounded-full shadow-2xl shadow-red-900/40 flex items-center justify-center border-2 border-red-700/50"
+              >
+                <ShoppingCart className="w-6 h-6 text-white" />
+                <span className="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 bg-green-500 text-white text-[11px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+                  {cartCount}
+                </span>
+              </motion.div>
+            </Link>
+          </motion.div>
         )}
 
         {/* Fixed Header */}
