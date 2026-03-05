@@ -98,14 +98,14 @@ export default function PirateShipLabelCreator({ order, onClose }) {
                     </div>
 
                     {/* Right: PirateShip */}
-                    <div className="flex-1 overflow-auto p-6">
+                    <div className="flex-1 overflow-auto p-3 sm:p-6">
                         {!showPirateShip ? (
                             <div className="max-w-2xl">
-                                <h4 className="font-bold text-slate-900 mb-4 text-lg">Ready to Create Label?</h4>
-                                <p className="text-slate-600 mb-6">
+                                <h4 className="font-bold text-slate-900 mb-4 text-base sm:text-lg">Ready to Create Label?</h4>
+                                <p className="text-sm sm:text-base text-slate-600 mb-6">
                                     Click below to open PirateShip in an embedded window. Your order details will stay visible on the left for easy reference while you fill in the shipping information.
                                 </p>
-                                <Button onClick={openPirateShip} className="w-full md:w-auto">
+                                <Button onClick={openPirateShip} className="w-full">
                                     Open PirateShip Label Creator
                                 </Button>
                             </div>
