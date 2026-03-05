@@ -1,237 +1,158 @@
 import React, { useState, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import {
   ArrowLeft, Truck, Package, Search, RefreshCw, ExternalLink,
-  MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash,
-  ChevronDown, ChevronUp, Loader2
+  MapPin, Clock, CheckCircle, AlertCircle, User, Mail, Hash, CreditCard, Loader2, Copy
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
-const CARRIERS = {
+const CARRIER_TRACK_URL = {
   USPS: (t) => `https://tools.usps.com/go/TrackConfirmAction?tLabels=${t}`,
   UPS: (t) => `https://www.ups.com/track?tracknum=${t}`,
-  FedEx: (t) => `https://tracking.fedex.com/en/tracking/${t}`,
-  DHL: (t) => `https://www.dhl.com/en/en/shipped.html?AWB=${t}`,
+  FedEx: (t) => `https://www.fedex.com/fedextrack/?tracknumbers=${t}`,
+  DHL: (t) => `https://www.dhl.com/en/express/tracking.html?AWB=${t}`,
 };
 
-const STATUS_COLORS = {
-  delivered: 'bg-green-50 border-green-200 text-green-700',
-  out_for_delivery: 'bg-blue-50 border-blue-200 text-blue-700',
-  in_transit: 'bg-purple-50 border-purple-200 text-purple-700',
-  exception: 'bg-red-50 border-red-200 text-red-700',
-  pending: 'bg-amber-50 border-amber-200 text-amber-700',
-};
-
-const STATUS_ICONS = {
-  delivered: CheckCircle,
-  out_for_delivery: Truck,
-  in_transit: Truck,
-  exception: AlertCircle,
-  pending: Clock,
+const ORDER_STATUS_CONFIG = {
+  awaiting_payment: { color: 'bg-orange-50 border-orange-200 text-orange-700', icon: CreditCard, label: 'Awaiting Payment' },
+  pending: { color: 'bg-amber-50 border-amber-200 text-amber-700', icon: Clock, label: 'Pending' },
+  processing: { color: 'bg-blue-50 border-blue-200 text-blue-700', icon: Package, label: 'Processing' },
+  shipped: { color: 'bg-purple-50 border-purple-200 text-purple-700', icon: Truck, label: 'Shipped' },
+  delivered: { color: 'bg-green-50 border-green-200 text-green-700', icon: CheckCircle, label: 'Delivered' },
+  cancelled: { color: 'bg-red-50 border-red-200 text-red-700', icon: AlertCircle, label: 'Cancelled' },
 };
 
 function TrackingCard({ order }) {
-  const [expanded, setExpanded] = useState(false);
-  const [trackingData, setTrackingData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-
   const addr = order.shipping_address || {};
-  const carrierUrl = CARRIERS[order.carrier];
+  const statusCfg = ORDER_STATUS_CONFIG[order.status] || ORDER_STATUS_CONFIG.pending;
+  const StatusIcon = statusCfg.icon;
+  const carrierUrl = CARRIER_TRACK_URL[order.carrier];
 
-  const fetchTracking = async () => {
-    if (loading) return;
-    setLoading(true);
-    try {
-      const res = await base44.functions.invoke('getTrackingInfo', {
-        tracking_number: order.tracking_number,
-        carrier: order.carrier || 'auto-detect',
-      });
-      setTrackingData(res.data);
-      setLoaded(true);
-      setExpanded(true);
-    } catch (err) {
-      toast.error('Failed to fetch tracking', { description: err.message });
-    } finally {
-      setLoading(false);
-    }
+  const copyTracking = () => {
+    navigator.clipboard.writeText(order.tracking_number);
+    toast.success('Tracking number copied');
   };
-
-  const handleToggle = () => {
-    if (!loaded) {
-      fetchTracking();
-    } else {
-      setExpanded(!expanded);
-    }
-  };
-
-  const statusColor = trackingData ? (STATUS_COLORS[trackingData.status] || STATUS_COLORS.pending) : 'bg-slate-50 border-slate-200 text-slate-500';
-  const StatusIcon = trackingData ? (STATUS_ICONS[trackingData.status] || Clock) : Truck;
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white border-2 border-slate-100 rounded-2xl overflow-hidden hover:border-slate-200 transition-all"
+      className="bg-white border-2 border-slate-100 rounded-2xl px-5 py-4 hover:border-slate-200 transition-all"
     >
-      {/* Card Header */}
-      <div className="px-5 py-4">
-        <div className="flex items-start gap-4">
-          {/* Status Icon */}
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 border ${statusColor}`}>
-            <StatusIcon className="w-5 h-5" />
+      <div className="flex items-start gap-4">
+        {/* Status Icon */}
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 border ${statusCfg.color}`}>
+          <StatusIcon className="w-5 h-5" />
+        </div>
+
+        {/* Main Info */}
+        <div className="flex-1 min-w-0">
+          {/* Top row: order number + status badge */}
+          <div className="flex items-center gap-2 flex-wrap mb-1">
+            <span className="font-black text-slate-900 text-sm">#{order.order_number}</span>
+            <span className={`px-2 py-0.5 text-[10px] font-black uppercase tracking-widest rounded-full border ${statusCfg.color}`}>
+              {statusCfg.label}
+            </span>
+            {order.carrier && (
+              <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-full">
+                {order.carrier}
+              </span>
+            )}
+            <span className="text-[10px] text-slate-400 font-medium">
+              {format(new Date(order.created_date), 'MMM dd, yyyy')}
+            </span>
           </div>
 
-          {/* Main Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap mb-1">
-              <span className="font-black text-slate-900 text-sm">#{order.order_number}</span>
-              {order.carrier && (
-                <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-full">
-                  {order.carrier}
-                </span>
-              )}
-              {trackingData && (
-                <span className={`px-2 py-0.5 text-[10px] font-black uppercase tracking-widest rounded-full border ${statusColor}`}>
-                  {trackingData.status_description}
-                </span>
-              )}
-            </div>
-
-            {/* Tracking Number */}
-            <div className="flex items-center gap-2 mb-2">
-              <Hash className="w-3.5 h-3.5 text-slate-400" />
-              <span className="font-mono text-sm text-slate-700 font-bold">{order.tracking_number}</span>
-              {carrierUrl && (
-                <a href={carrierUrl(order.tracking_number)} target="_blank" rel="noopener noreferrer"
-                  className="text-[#dc2626] hover:text-[#b91c1c] transition-colors">
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
-            </div>
-
-            {/* Customer Info Row */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
-              {(order.customer_name) && (
-                <span className="flex items-center gap-1">
-                  <User className="w-3 h-3" />
-                  {order.customer_name}
-                </span>
-              )}
-              {(order.customer_email || order.created_by) && (
-                <span className="flex items-center gap-1">
-                  <Mail className="w-3 h-3" />
-                  {order.customer_email || order.created_by}
-                </span>
-              )}
-              {addr.city && (
-                <span className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  {addr.address}, {addr.city}, {addr.state} {addr.zip}
-                </span>
-              )}
-            </div>
-
-            {/* Items */}
-            {order.items?.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {order.items.map((item, i) => (
-                  <span key={i} className="bg-slate-100 text-slate-600 text-[11px] font-semibold px-2 py-0.5 rounded-md">
-                    {item.productName || item.product_name || 'Product'} — {item.specification}
-                    {item.quantity > 1 ? ` ×${item.quantity}` : ''}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Tracking Summary (when loaded) */}
-            {trackingData && (
-              <div className="mt-2 flex flex-wrap gap-3 text-xs">
-                {trackingData.current_location && (
-                  <span className="flex items-center gap-1 text-slate-600">
-                    <MapPin className="w-3 h-3 text-[#dc2626]" />
-                    <strong>Now:</strong> {trackingData.current_location}
-                  </span>
-                )}
-                {trackingData.estimated_delivery && (
-                  <span className="flex items-center gap-1 text-slate-600">
-                    <Clock className="w-3 h-3 text-blue-500" />
-                    <strong>Est:</strong> {format(new Date(trackingData.estimated_delivery), 'MMM dd, yyyy')}
-                  </span>
-                )}
-              </div>
+          {/* Tracking Number row */}
+          <div className="flex items-center gap-2 mb-2">
+            <Hash className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+            <span className="font-mono text-sm text-slate-800 font-bold">{order.tracking_number}</span>
+            <button onClick={copyTracking} className="text-slate-400 hover:text-slate-600 transition-colors">
+              <Copy className="w-3.5 h-3.5" />
+            </button>
+            {carrierUrl && (
+              <a
+                href={carrierUrl(order.tracking_number)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest bg-[#dc2626] text-white hover:bg-[#b91c1c] transition-colors"
+              >
+                <ExternalLink className="w-3 h-3" />
+                Track on {order.carrier}
+              </a>
             )}
           </div>
 
-          {/* Action Button */}
-          <button
-            onClick={handleToggle}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border-2 border-slate-200 hover:border-[#dc2626] hover:text-[#dc2626] transition-all text-slate-500 flex-shrink-0"
-          >
-            {loading ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : expanded ? (
-              <><ChevronUp className="w-3.5 h-3.5" /> Hide</>
-            ) : (
-              <><Truck className="w-3.5 h-3.5" /> Track</>
+          {/* Customer Info */}
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-2">
+            {order.customer_name && (
+              <span className="flex items-center gap-1">
+                <User className="w-3 h-3" />
+                {order.customer_name}
+              </span>
             )}
-          </button>
+            {(order.customer_email || order.created_by) && (
+              <span className="flex items-center gap-1">
+                <Mail className="w-3 h-3" />
+                {order.customer_email || order.created_by}
+              </span>
+            )}
+            {addr.city && (
+              <span className="flex items-center gap-1">
+                <MapPin className="w-3 h-3" />
+                {[addr.address, addr.city, addr.state, addr.zip].filter(Boolean).join(', ')}
+              </span>
+            )}
+          </div>
+
+          {/* Items */}
+          {order.items?.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {order.items.map((item, i) => (
+                <span key={i} className="bg-slate-100 text-slate-600 text-[11px] font-semibold px-2 py-0.5 rounded-md">
+                  {item.productName || item.product_name || 'Product'}
+                  {item.specification ? ` — ${item.specification}` : ''}
+                  {item.quantity > 1 ? ` ×${item.quantity}` : ''}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Estimated delivery */}
+          {order.estimated_delivery && (
+            <div className="mt-2 flex items-center gap-1.5 text-xs text-blue-600">
+              <Clock className="w-3 h-3" />
+              <span className="font-bold">Est. Delivery:</span>
+              {format(new Date(order.estimated_delivery), 'MMM dd, yyyy')}
+            </div>
+          )}
+          {order.delivered_date && (
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-green-600">
+              <CheckCircle className="w-3 h-3" />
+              <span className="font-bold">Delivered:</span>
+              {format(new Date(order.delivered_date), 'MMM dd, yyyy')}
+            </div>
+          )}
+        </div>
+
+        {/* Amount */}
+        <div className="text-right flex-shrink-0">
+          <p className="text-[#dc2626] font-black text-sm">${order.total_amount?.toFixed(2)}</p>
         </div>
       </div>
-
-      {/* Expanded Tracking Events */}
-      <AnimatePresence>
-        {expanded && trackingData?.events?.length > 0 && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="border-t border-slate-100 px-5 py-4 bg-slate-50">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Tracking History</p>
-              <div className="space-y-3">
-                {trackingData.events.map((event, i) => (
-                  <div key={i} className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 mt-1 ${i === 0 ? 'bg-[#dc2626]' : 'bg-slate-300'}`} />
-                      {i < trackingData.events.length - 1 && <div className="w-px flex-1 bg-slate-200 mt-1" />}
-                    </div>
-                    <div className="pb-3">
-                      <p className="text-sm font-bold text-slate-900">{event.description}</p>
-                      <div className="flex gap-3 text-xs text-slate-400 mt-0.5">
-                        {event.location && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{event.location}</span>}
-                        {event.timestamp && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {format(new Date(event.timestamp), 'MMM dd, h:mm a')}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }
 
 export default function AdminTrackingDashboard() {
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [refreshKey, setRefreshKey] = useState(0);
@@ -241,10 +162,9 @@ export default function AdminTrackingDashboard() {
     queryFn: () => base44.entities.Order.list('-created_date'),
   });
 
-  // Only orders that have a tracking number
-  const trackedOrders = useMemo(() => {
-    return orders.filter(o => o.tracking_number && o.tracking_number.trim() !== '');
-  }, [orders]);
+  const trackedOrders = useMemo(() =>
+    orders.filter(o => o.tracking_number?.trim()),
+  [orders]);
 
   const filteredOrders = useMemo(() => {
     return trackedOrders.filter(o => {
@@ -254,11 +174,16 @@ export default function AdminTrackingDashboard() {
         o.order_number?.toLowerCase().includes(q) ||
         o.tracking_number?.toLowerCase().includes(q) ||
         o.customer_name?.toLowerCase().includes(q) ||
-        o.customer_email?.toLowerCase().includes(q) ||
-        o.created_by?.toLowerCase().includes(q);
+        (o.customer_email || o.created_by || '').toLowerCase().includes(q);
       return statusMatch && searchMatch;
     });
   }, [trackedOrders, filterStatus, searchQuery]);
+
+  const statusCounts = useMemo(() => {
+    const counts = {};
+    trackedOrders.forEach(o => { counts[o.status] = (counts[o.status] || 0) + 1; });
+    return counts;
+  }, [trackedOrders]);
 
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
@@ -289,32 +214,42 @@ export default function AdminTrackingDashboard() {
           </Button>
         </div>
 
-        {/* Search & Filter */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by order, tracking, customer..."
-              className="bg-slate-50 border-slate-200 pl-11 rounded-full h-11"
-            />
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {['all', 'processing', 'shipped', 'delivered'].map(s => (
+        {/* Status Filter Pills */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button
+            onClick={() => setFilterStatus('all')}
+            className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border-2 transition-all ${
+              filterStatus === 'all' ? 'bg-[#dc2626] border-[#dc2626] text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+            }`}
+          >
+            All ({trackedOrders.length})
+          </button>
+          {Object.entries(ORDER_STATUS_CONFIG).map(([status, cfg]) => {
+            const count = statusCounts[status] || 0;
+            if (count === 0) return null;
+            return (
               <button
-                key={s}
-                onClick={() => setFilterStatus(s)}
+                key={status}
+                onClick={() => setFilterStatus(filterStatus === status ? 'all' : status)}
                 className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border-2 transition-all ${
-                  filterStatus === s
-                    ? 'bg-[#dc2626] border-[#dc2626] text-white'
-                    : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+                  filterStatus === status ? 'bg-slate-900 border-slate-900 text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
                 }`}
               >
-                {s === 'all' ? 'All' : s}
+                {cfg.label} ({count})
               </button>
-            ))}
-          </div>
+            );
+          })}
+        </div>
+
+        {/* Search */}
+        <div className="relative mb-6">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by order #, tracking number, customer name or email..."
+            className="bg-slate-50 border-slate-200 pl-11 rounded-full h-11"
+          />
         </div>
 
         {/* Orders List */}
