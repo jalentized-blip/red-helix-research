@@ -13,36 +13,12 @@ export default function OrderTracking() {
   const queryClient = useQueryClient();
   const [trackingUpdate, setTrackingUpdate] = useState(null);
   const [resendingOrderId, setResendingOrderId] = useState(null);
-  const [trackingCache, setTrackingCache] = useState({});
-  const [loadingTracking, setLoadingTracking] = useState({});
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ['orders'],
     queryFn: () => base44.entities.Order.list('-created_date'),
     initialData: [],
   });
-
-  const fetchRealTracking = async (orderId, tracking_number, carrier) => {
-    if (trackingCache[orderId]) {
-      return trackingCache[orderId];
-    }
-
-    setLoadingTracking(prev => ({ ...prev, [orderId]: true }));
-    try {
-      const response = await base44.functions.invoke('getTrackingInfo', {
-        tracking_number,
-        carrier
-      });
-      const data = response.data;
-      setTrackingCache(prev => ({ ...prev, [orderId]: data }));
-      return data;
-    } catch (error) {
-      console.error('Failed to fetch tracking:', error);
-      return null;
-    } finally {
-      setLoadingTracking(prev => ({ ...prev, [orderId]: false }));
-    }
-  };
 
   // Auto-fetch tracking info for all tracked orders
   useEffect(() => {
