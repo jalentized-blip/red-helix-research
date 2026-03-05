@@ -354,21 +354,24 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
                   className="bg-slate-50 border-slate-200 text-slate-900 font-mono flex-1 h-11"
                 />
                 {form.tracking_number && (
-                  <>
-                    <Button variant="outline" size="sm" onClick={handleCopyTracking} className="border-slate-200 text-slate-500 h-11 px-3">
-                      <Copy className="w-4 h-4" />
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => {
-                      const c = CARRIERS.find(cr => cr.id === form.carrier);
-                      if (c) window.open(c.trackUrl(form.tracking_number), '_blank');
-                    }} className="border-slate-200 text-slate-500 h-11 px-3">
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleSendTrackingEmail} className="border-blue-200 text-blue-600 hover:bg-blue-50 h-11">
-                      <Mail className="w-4 h-4 mr-1" /> Email
-                    </Button>
-                  </>
-                )}
+                     <>
+                       <Button variant="outline" size="sm" onClick={handleCopyTracking} className="border-slate-200 text-slate-500 h-11 px-3">
+                         <Copy className="w-4 h-4" />
+                       </Button>
+                       <Button variant="outline" size="sm" onClick={() => {
+                         const c = CARRIERS.find(cr => cr.id === form.carrier);
+                         if (c) window.open(c.trackUrl(form.tracking_number), '_blank');
+                       }} className="border-slate-200 text-slate-500 h-11 px-3">
+                         <ExternalLink className="w-4 h-4" />
+                       </Button>
+                       <Button variant="outline" size="sm" onClick={handleSendTrackingEmail} className="border-blue-200 text-blue-600 hover:bg-blue-50 h-11">
+                         <Mail className="w-4 h-4 mr-1" /> Email
+                       </Button>
+                     </>
+                   )}
+                   <Button size="sm" onClick={() => setShowPirateShip(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white h-11 font-bold">
+                     <Package className="w-4 h-4 mr-1" /> Create Label
+                   </Button>
               </div>
             </div>
 
