@@ -953,9 +953,29 @@ export default function CryptoCheckout() {
                           We'll send a secure Square payment link to your email. Click the link to complete your purchase with any debit or credit card.
                         </p>
 
-                        {/* Order total */}
-                        <div className="p-4 bg-slate-50 rounded-xl mb-6">
-                          <div className="flex justify-between items-center">
+                        {/* Order breakdown */}
+                        <div className="p-4 bg-slate-50 rounded-xl mb-6 space-y-2">
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-slate-600">Subtotal</span>
+                            <span className="text-slate-900 font-bold">${subtotal.toFixed(2)}</span>
+                          </div>
+                          {discount > 0 && (
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-green-600">Discount</span>
+                              <span className="text-green-600 font-bold">-${discount.toFixed(2)}</span>
+                            </div>
+                          )}
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-slate-600">Shipping</span>
+                            <span className="text-slate-900 font-bold">${SHIPPING_COST.toFixed(2)}</span>
+                          </div>
+                          {processingFee > 0 && (
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-slate-600">Processing Fee (10%)</span>
+                              <span className="text-slate-900 font-bold">${processingFee.toFixed(2)}</span>
+                            </div>
+                          )}
+                          <div className="border-t border-slate-200 pt-2 flex justify-between items-center">
                             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Order Total</span>
                             <span className="text-2xl font-black text-slate-900">${totalUSD.toFixed(2)}</span>
                           </div>
