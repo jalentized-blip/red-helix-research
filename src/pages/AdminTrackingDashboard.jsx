@@ -300,7 +300,7 @@ export default function AdminTrackingDashboard() {
         ) : (
           <div className="space-y-3">
             {filteredOrders.map(order => (
-              <TrackingCard key={order.id} order={order} />
+              <TrackingCard key={order.id} order={order} onViewTracking={setTrackingModal} />
             ))}
           </div>
         )}
