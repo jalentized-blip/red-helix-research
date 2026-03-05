@@ -298,9 +298,9 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
       </div>
 
       <div className="p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 overflow-hidden">
           {/* Column 1: Status & Shipping */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 lg:space-y-6 min-w-0">
             {/* Status & Tracking Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
