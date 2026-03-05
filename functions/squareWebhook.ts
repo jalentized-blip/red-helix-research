@@ -53,8 +53,8 @@ Deno.serve(async (req) => {
       console.log('Payment event:', event.type, '| status:', paymentStatus, '| squareOrderId:', squareOrderId);
 
       if (paymentStatus === 'COMPLETED' && squareOrderId) {
+        // Fetch all awaiting_payment orders (payment_method may not always be set)
         const allOrders = await base44.asServiceRole.entities.Order.filter({
-          payment_method: 'square_payment',
           status: 'awaiting_payment',
         });
 
