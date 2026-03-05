@@ -168,7 +168,7 @@ function ShippingLabel({ order, carrier }) {
 }
 
 // ─── Order Detail Editor ───
-function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, productMap = {}, products = [] }) {
+function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, productMap = {}, products = [], adminEmail }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [form, setForm] = useState({
     status: order.status || 'pending',
