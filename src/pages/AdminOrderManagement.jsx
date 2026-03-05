@@ -302,7 +302,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
           {/* Column 1: Status & Shipping */}
           <div className="lg:col-span-2 space-y-4 lg:space-y-6 min-w-0">
             {/* Status & Tracking Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
               <div>
                 <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1.5">Order Status</label>
                 <Select value={form.status} onValueChange={(v) => updateField('status', v)}>
