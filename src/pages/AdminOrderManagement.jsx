@@ -456,6 +456,9 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
                 className="bg-slate-50 border-slate-200 text-slate-900 resize-none"
               />
             </div>
+
+            {/* Customer Communications */}
+            <OrderCommsPanel order={{ ...order, customer_email: form.customer_email, customer_name: form.customer_name }} adminEmail={adminEmail} />
           </div>
 
           {/* Column 2: Shipping Label Preview */}
