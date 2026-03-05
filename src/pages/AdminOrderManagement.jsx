@@ -1534,6 +1534,11 @@ export default function AdminOrderManagement() {
             </p>
           </motion.div>
           <div className="flex gap-2">
+            <Link to={createPageUrl('AdminTrackingDashboard')}>
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs px-5 py-5 rounded-full shadow-lg">
+                <Truck className="w-4 h-4 mr-2" /> Tracking Hub
+              </Button>
+            </Link>
             <Button onClick={() => setShowPredictions(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs px-5 py-5 rounded-full shadow-lg">
               <TrendingUp className="w-4 h-4 mr-2" /> Predictions
             </Button>
