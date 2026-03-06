@@ -253,7 +253,7 @@ function Stage1Age({ formData, setFormData, onDeny, onAdvance }) {
           <p className="text-sm font-black text-slate-700 uppercase tracking-wide">Confirm your age:</p>
           <button
             onClick={() => { setFormData(f => ({ ...f, ageConfirmed: true })); onAdvance(); }}
-            className="w-full flex items-center justify-between px-6 py-5 bg-slate-900 hover:bg-[#8B2635] text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all group shadow-lg"
+            className="w-full flex items-center justify-between px-6 py-5 bg-black hover:bg-[#8B2635] text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all group shadow-lg"
           >
             <span>I am 21 years of age or older</span>
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -298,7 +298,7 @@ function Stage2DOB({ formData, setFormData, onDeny, onAdvance, computedAge }) {
             <select
               value={formData.dobMonth}
               onChange={e => setFormData(f => ({ ...f, dobMonth: e.target.value }))}
-              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-slate-900 font-bold text-sm focus:outline-none focus:border-[#8B2635]"
+              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-black font-bold text-sm focus:outline-none focus:border-[#8B2635]"
             >
               <option value="">Month</option>
               {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
@@ -309,7 +309,7 @@ function Stage2DOB({ formData, setFormData, onDeny, onAdvance, computedAge }) {
             <select
               value={formData.dobDay}
               onChange={e => setFormData(f => ({ ...f, dobDay: e.target.value }))}
-              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-slate-900 font-bold text-sm focus:outline-none focus:border-[#8B2635]"
+              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-black font-bold text-sm focus:outline-none focus:border-[#8B2635]"
             >
               <option value="">Day</option>
               {Array.from({ length: 31 }, (_, i) => i + 1).map(d => <option key={d} value={d}>{d}</option>)}
@@ -323,7 +323,7 @@ function Stage2DOB({ formData, setFormData, onDeny, onAdvance, computedAge }) {
               maxLength={4}
               value={formData.dobYear}
               onChange={e => setFormData(f => ({ ...f, dobYear: e.target.value.slice(0, 4) }))}
-              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-slate-900 font-bold text-sm focus:outline-none focus:border-[#8B2635]"
+              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-black font-bold text-sm focus:outline-none focus:border-[#8B2635]"
             />
           </div>
         </div>
@@ -345,7 +345,7 @@ function Stage2DOB({ formData, setFormData, onDeny, onAdvance, computedAge }) {
           <button
             onClick={onAdvance}
             disabled={!valid}
-            className="flex-1 flex items-center justify-between px-6 py-4 bg-slate-900 hover:bg-[#8B2635] disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all group shadow-lg"
+            className="flex-1 flex items-center justify-between px-6 py-4 bg-black hover:bg-[#8B2635] disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all group shadow-lg"
           >
             <span>Continue</span>
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -401,7 +401,7 @@ function Stage3Researcher({ formData, setFormData, onAdvance }) {
             >
               <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${formData.researcherType === t.value ? 'border-[#8B2635] bg-[#8B2635]' : 'border-slate-300'}`} />
               <div>
-                <p className="text-sm font-black text-slate-900">{t.label}</p>
+                <p className="text-sm font-black text-black">{t.label}</p>
                 <p className="text-[10px] text-slate-500 font-medium">{t.desc}</p>
               </div>
             </button>
@@ -415,14 +415,14 @@ function Stage3Researcher({ formData, setFormData, onAdvance }) {
             placeholder="e.g. MIT, LabCorp, Independent"
             value={formData.institutionName}
             onChange={e => setFormData(f => ({ ...f, institutionName: e.target.value }))}
-            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium text-sm focus:outline-none focus:border-[#8B2635]"
+            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-black font-medium text-sm focus:outline-none focus:border-[#8B2635]"
           />
         </div>
 
         <button
           onClick={onAdvance}
           disabled={!valid}
-          className="w-full flex items-center justify-between px-6 py-5 bg-slate-900 hover:bg-[#8B2635] disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all group shadow-lg"
+          className="w-full flex items-center justify-between px-6 py-5 bg-black hover:bg-[#8B2635] disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all group shadow-lg"
         >
           <span>Continue</span>
           <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -458,7 +458,7 @@ function Stage4Compliance({ formData, setFormData, onDeny, onAdvance }) {
           <select
             value={formData.stateCode}
             onChange={e => setFormData(f => ({ ...f, stateCode: e.target.value }))}
-            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-bold text-sm focus:outline-none focus:border-[#8B2635]"
+            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-black font-bold text-sm focus:outline-none focus:border-[#8B2635]"
           >
             <option value="">Select your state...</option>
             {states.map(s => <option key={s} value={s}>{s}</option>)}
@@ -505,7 +505,7 @@ function Stage4Compliance({ formData, setFormData, onDeny, onAdvance }) {
         </div>
 
         {/* Final compliance warning */}
-        <div className="bg-slate-900 rounded-2xl p-5">
+        <div className="bg-black rounded-2xl p-5">
           <p className="text-[10px] text-slate-400 leading-relaxed font-medium">
             <span className="text-white font-black uppercase tracking-wide block mb-2">Audit Trail Notice</span>
             A tamper-evident compliance record including your timestamp, device fingerprint, stated age, researcher category, state, and consent to all disclosures is being recorded. This record complies with PACT Act age verification requirements and may be reviewed in the event of a regulatory inquiry.
