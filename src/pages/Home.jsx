@@ -144,10 +144,7 @@ export default function Home({ adminViewAsUser = false }) {
       
       {/* Light version of effects or remove if too dark */}
       <QuickShop />
-      <AgeVerificationBot 
-        isOpen={showAgeVerification} 
-        onVerify={handleAgeVerification} 
-      />
+      {/* Age gate handled at Layout level */}
 
       {/* User Auth Button - Updated for Light Theme */}
       {!isAuthenticated && (
