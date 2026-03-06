@@ -894,7 +894,7 @@ export default function PeptideComparison() {
                 whileTap={{ scale: 0.95 }}
                 onClick={handleFindRecommendation}
                 disabled={selectedBenefits.length === 0}
-                className="w-full md:w-auto px-12 py-5 bg-slate-900 hover:bg-black text-white font-black uppercase tracking-widest rounded-full shadow-xl shadow-slate-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 transition-all"
+                className="w-full md:w-auto px-12 py-5 bg-black hover:bg-black text-white font-black uppercase tracking-widest rounded-full shadow-xl shadow-slate-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 transition-all"
               >
                 <Sparkles className="w-5 h-5 text-[#dc2626]" />
                 Analyze Research Data
@@ -1007,7 +1007,7 @@ export default function PeptideComparison() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-900 rounded-[32px] p-8 md:p-10 text-white relative overflow-hidden">
+                  <div className="bg-black rounded-[32px] p-8 md:p-10 text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-10">
                       <Zap className="w-24 h-24 text-[#dc2626]" />
                     </div>
@@ -1117,7 +1117,7 @@ export default function PeptideComparison() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-slate-900 border border-slate-800 rounded-[40px] p-8 md:p-12 relative overflow-hidden shadow-2xl"
+                className="bg-black border border-slate-800 rounded-[40px] p-8 md:p-12 relative overflow-hidden shadow-2xl"
               >
                 <div className="absolute top-0 right-0 p-12 opacity-5">
                   <Activity className="w-48 h-48 text-[#dc2626]" />

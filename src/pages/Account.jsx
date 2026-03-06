@@ -246,7 +246,7 @@ function TikTokRewardSection({ user }) {
     <div className="space-y-6">
       <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center shadow-lg">
             <Video className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -812,7 +812,7 @@ export default function Account() {
 
                 <Button
                   onClick={handleLogout}
-                  className="w-full bg-slate-900 hover:bg-[#dc2626] text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
+                  className="w-full bg-black hover:bg-[#dc2626] text-white gap-2 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs py-6"
                 >
                   <LogOut className="w-4 h-4" />
                   Sign Out
@@ -872,7 +872,7 @@ export default function Account() {
                       className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 shadow-sm text-left hover:border-[#dc2626]/30 hover:shadow-lg transition-all group"
                     >
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                        <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                           <Video className="w-5 h-5 text-white" />
                         </div>
                         <h3 className="text-sm font-black text-black uppercase tracking-tight">TikTok Promotion</h3>

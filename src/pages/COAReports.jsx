@@ -177,7 +177,7 @@ export default function COAReports() {
             
             <Button
               onClick={() => setShowUploadModal(true)}
-              className="bg-slate-900 hover:bg-[#dc2626] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6 shadow-lg shadow-slate-900/10"
+              className="bg-black hover:bg-[#dc2626] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6 shadow-lg shadow-slate-900/10"
             >
               <Upload className="w-4 h-4 mr-2" />
               Upload COA

@@ -218,7 +218,7 @@ export default function LearnMore() {
                           Initialize Order
                         </button>
                         <Link to={`${createPageUrl('PeptideLearn')}?id=${product.id}&name=${encodeURIComponent(product.name)}`} onClick={(e) => e.stopPropagation()} className="flex-1">
-                          <button className="w-full px-4 py-3 bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
+                          <button className="w-full px-4 py-3 bg-black hover:bg-black text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all">
                             Research Data
                           </button>
                         </Link>

@@ -178,7 +178,7 @@ export default function QuickShop() {
                         element?.scrollIntoView({ behavior: 'smooth' });
                         setIsOpen(false);
                       }}
-                      className="w-full text-left px-6 py-4 bg-slate-900 hover:bg-[#dc2626] text-white font-black uppercase tracking-widest text-[10px] rounded-2xl transition-all shadow-lg shadow-slate-900/10 hover:shadow-[#dc2626]/20"
+                      className="w-full text-left px-6 py-4 bg-black hover:bg-[#dc2626] text-white font-black uppercase tracking-widest text-[10px] rounded-2xl transition-all shadow-lg shadow-slate-900/10 hover:shadow-[#dc2626]/20"
                     >
                       View Full Catalog
                     </button>

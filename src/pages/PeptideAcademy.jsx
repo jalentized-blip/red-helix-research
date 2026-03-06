@@ -256,7 +256,7 @@ export default function PeptideAcademy() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button 
                 size="lg"
-                className="w-full sm:w-auto bg-slate-900 hover:bg-black text-white px-10 py-8 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-slate-200"
+                className="w-full sm:w-auto bg-black hover:bg-black text-white px-10 py-8 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-slate-200"
                 onClick={() => setActiveView('assistant')}
               >
                 <Brain className="w-5 h-5 mr-3 text-[#dc2626]" />
@@ -338,7 +338,7 @@ export default function PeptideAcademy() {
               {/* Learning Modules */}
               <div className="mb-24 md:mb-32">
                 <div className="flex items-center gap-4 mb-10 md:mb-12">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center">
                     <GraduationCap className="w-6 h-6 text-[#dc2626]" />
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">
@@ -360,7 +360,7 @@ export default function PeptideAcademy() {
               {/* Interactive Tools */}
               <div className="mb-24 md:mb-32">
                 <div className="flex items-center gap-4 mb-10 md:mb-12">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center">
                     <Sparkles className="w-6 h-6 text-[#dc2626]" />
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">
@@ -436,7 +436,7 @@ export default function PeptideAcademy() {
               {/* Popular Questions */}
               <div>
                 <div className="flex items-center gap-4 mb-10 md:mb-12">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center">
                     <Target className="w-6 h-6 text-[#dc2626]" />
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">

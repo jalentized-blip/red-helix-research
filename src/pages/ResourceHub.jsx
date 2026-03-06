@@ -240,21 +240,21 @@ export default function ResourceHub() {
                 </div>
               </li>
               <li className="flex items-start gap-4">
-                <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">2</span>
+                <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">2</span>
                 <div>
                   <span className="text-black font-bold block mb-1">Calculate Protocol</span>
                   <span className="text-slate-500 font-medium">Use the <Link to={createPageUrl('PeptideCalculator')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Peptide Calculator</Link> to plan your research</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
-                <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">3</span>
+                <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">3</span>
                 <div>
                   <span className="text-black font-bold block mb-1">Compare Options</span>
                   <span className="text-slate-500 font-medium">Compare efficacy using our <Link to={createPageUrl('PeptideComparison')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Comparison Tool</Link></span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
-                <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">4</span>
+                <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">4</span>
                 <div>
                   <span className="text-black font-bold block mb-1">Verify Quality</span>
                   <span className="text-slate-500 font-medium">Review <Link to={createPageUrl('COAReports')} className="text-[#dc2626] hover:text-red-700 underline font-bold">COA Reports</Link> to ensure batch purity</span>
