@@ -117,16 +117,7 @@ export default function Home({ adminViewAsUser = false }) {
     setAgeVerified(true);
   };
 
-  if (showAgeVerification && !ageVerified) {
-    return (
-      <div className="min-h-screen bg-white text-slate-900 flex items-center justify-center">
-        <AgeVerificationBot 
-          isOpen={true} 
-          onVerify={handleAgeVerification} 
-        />
-      </div>
-    );
-  }
+  // Age gate is now fully handled by ResearchDisclaimerGate in Layout
 
   const schemas = [
     generateOrganizationSchema(),
