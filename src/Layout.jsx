@@ -526,47 +526,7 @@ const HeaderSearch = () => {
           </motion.div>
         )}
 
-        {/* Shipping Delay Banner */}
-        {!bannerClosed && (
-          <div
-            className="fixed top-0 left-0 right-0 z-[99] bg-[#dc2626] text-white py-2.5 px-4 transition-transform duration-300 overflow-hidden hover:bg-red-800 active:bg-red-900 flex items-center justify-between"
-            onMouseEnter={() => setBannerHovered(true)}
-            onMouseLeave={() => setBannerHovered(false)}
-          >
-            <style>{`
-              @keyframes scroll-banner {
-                0% { transform: translateX(100%); }
-                100% { transform: translateX(-100%); }
-              }
-              .banner-scroll {
-                animation: scroll-banner 30s linear infinite;
-                animation-play-state: ${bannerHovered ? 'paused' : 'running'};
-                white-space: nowrap;
-                display: inline-block;
-                padding-right: 50px;
-                cursor: pointer;
-              }
-            `}</style>
-            <div 
-              className={`banner-scroll text-xs sm:text-sm font-bold uppercase tracking-wider ${bannerHovered ? 'text-yellow-200' : ''}`}
-              onClick={() => window.open('https://about.usps.com/newsroom/service-alerts/', '_blank')}
-              role="button"
-              tabIndex={0}
-            >
-              ⚠️ USPS backlogs (March 2026 rollout) + FedEx Memphis chemical spill impacts all carriers via shared shipping hubs. Postal Service: "Limited air shipping capability during recovery efforts." Expect 7-14 day delivery delays. We apologize for any inconvenience. ORDERS WILL STILL ARRIVE SAFELY. <span className="bg-white text-[#dc2626] px-2 py-0.5 rounded font-black animate-pulse">[CLICK FOR DETAILS]</span>
-            </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setBannerClosed(true);
-              }}
-              className="ml-4 flex-shrink-0 text-white hover:text-yellow-200 transition-colors"
-              aria-label="Close banner"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        )}
+
 
         {/* Fixed Header */}
           <header
