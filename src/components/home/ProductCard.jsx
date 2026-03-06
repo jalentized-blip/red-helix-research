@@ -180,7 +180,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               </div>
             </div>
 
-            <h3 className={`text-xl md:text-3xl font-black text-slate-900 mb-4 tracking-tighter group-hover:text-[#dc2626] transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className={`text-xl md:text-3xl font-black text-black mb-4 tracking-tighter group-hover:text-[#dc2626] transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
               {product.name}
             </h3>
             
@@ -201,7 +201,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             <div className="flex flex-col">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Acquisition Cost</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter group-hover:text-[#dc2626] transition-colors">
+                <span className="text-2xl md:text-4xl font-black text-black tracking-tighter group-hover:text-[#dc2626] transition-colors">
                   ${lowestVisiblePrice}
                 </span>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest transition-colors">USD</span>

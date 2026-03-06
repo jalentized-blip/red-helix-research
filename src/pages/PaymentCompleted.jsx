@@ -41,7 +41,7 @@ export default function PaymentCompleted() {
             <Check className="w-12 h-12 text-green-600" />
           </motion.div>
 
-          <h1 className="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tight">Payment Received</h1>
+          <h1 className="text-4xl font-black text-black mb-4 uppercase tracking-tight">Payment Received</h1>
           <p className="text-slate-500 text-lg mb-10 max-w-lg mx-auto font-medium">
             Your payment has been successfully received and is being processed.
           </p>
@@ -51,7 +51,7 @@ export default function PaymentCompleted() {
               {orderNumber && (
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Order Number</p>
-                  <p className="text-slate-900 font-mono text-lg font-bold break-all">{orderNumber}</p>
+                  <p className="text-black font-mono text-lg font-bold break-all">{orderNumber}</p>
                 </div>
               )}
               {transactionId && (
@@ -74,7 +74,7 @@ export default function PaymentCompleted() {
               <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-6 h-6 text-[#dc2626]" />
               </div>
-              <p className="font-bold text-slate-900 mb-1">Check your email</p>
+              <p className="font-bold text-black mb-1">Check your email</p>
               <p className="text-xs text-slate-500 font-medium">Order confirmation and details incoming</p>
             </motion.div>
 
@@ -87,7 +87,7 @@ export default function PaymentCompleted() {
               <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
                 <Package className="w-6 h-6 text-[#dc2626]" />
               </div>
-              <p className="font-bold text-slate-900 mb-1">Shipping soon</p>
+              <p className="font-bold text-black mb-1">Shipping soon</p>
               <p className="text-xs text-slate-500 font-medium">Same-day processing & shipping</p>
             </motion.div>
           </div>

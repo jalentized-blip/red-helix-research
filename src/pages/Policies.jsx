@@ -139,7 +139,7 @@ This waiver survives any termination of purchase and represents a binding legal 
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter uppercase leading-none">Policies & <span className="text-[#dc2626]">Terms</span></h1>
+          <h1 className="text-5xl md:text-7xl font-black text-black mb-6 tracking-tighter uppercase leading-none">Policies & <span className="text-[#dc2626]">Terms</span></h1>
           <p className="text-xl text-slate-500 font-medium">Important information about using Red Helix Research products</p>
         </motion.div>
 
@@ -157,7 +157,7 @@ This waiver survives any termination of purchase and represents a binding legal 
               viewport={{ once: true }}
               className="bg-slate-50 border border-slate-100 rounded-[32px] p-10 shadow-xl shadow-slate-200/50"
             >
-              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tighter uppercase">{section.title}</h2>
+              <h2 className="text-2xl font-black text-black mb-6 tracking-tighter uppercase">{section.title}</h2>
               <div className="text-slate-500 space-y-3 whitespace-pre-wrap text-sm leading-relaxed font-medium">
                 {section.content}
               </div>
@@ -173,7 +173,7 @@ This waiver survives any termination of purchase and represents a binding legal 
           className="mt-12 bg-white border border-red-100 rounded-[40px] p-12 text-center shadow-xl shadow-[#dc2626]/5 relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-[#dc2626]" />
-          <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tighter uppercase">Questions about our policies?</h3>
+          <h3 className="text-3xl font-black text-black mb-4 tracking-tighter uppercase">Questions about our policies?</h3>
           <p className="text-slate-500 mb-8 font-medium max-w-xl mx-auto">
             Contact us through our support channels for clarification on any terms or policies.
           </p>

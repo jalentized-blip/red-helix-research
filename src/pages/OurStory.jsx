@@ -18,7 +18,7 @@ const Section = ({ icon: Icon, title, children, delay = 0 }) => (
       <div className="p-3 bg-[#dc2626]/10 rounded-xl flex-shrink-0 shadow-sm border border-red-100">
         <Icon className="w-6 h-6 text-[#dc2626]" />
       </div>
-      <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">{title}</h2>
+      <h2 className="text-3xl lg:text-4xl font-black text-black tracking-tight">{title}</h2>
     </div>
     <div className="text-slate-600 text-lg leading-relaxed space-y-4 font-medium">
       {children}
@@ -48,7 +48,7 @@ export default function OurStory() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-16"
         >
-          <h1 className="text-5xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tighter">Our Story</h1>
+          <h1 className="text-5xl lg:text-7xl font-black text-black mb-6 tracking-tighter">Our Story</h1>
           <p className="text-xl text-slate-600 leading-relaxed font-medium">
             Red Helix Research wasn't built to maximize profit margins. We were built to solve a problem in the gray market that has plagued researchers, athletes, and health-conscious individuals for years: <span className="text-[#dc2626] font-bold">lack of transparency, vendor accountability, and fair pricing.</span>
           </p>
@@ -63,14 +63,14 @@ export default function OurStory() {
             Customers are left guessing. Some get legitimate products. Others get underdosed vials, contaminated batches, or nothing at all. There's no community vetting system. No transparency about where products actually come from. No pressure on vendors to be honest about their pricing structure.
           </p>
           <p>
-            We realized that the biggest barrier to the gray market improving wasn't regulations—it was <span className="font-bold text-slate-900">community standards and collective accountability.</span>
+            We realized that the biggest barrier to the gray market improving wasn't regulations—it was <span className="font-bold text-black">community standards and collective accountability.</span>
           </p>
         </Section>
 
         {/* Our Vision */}
         <Section icon={Heart} title="What We Actually Want to Build" delay={0.2}>
           <p>
-            Our primary mission isn't to become the biggest peptide vendor. It's to create a <span className="font-bold text-slate-900">transparent, trustworthy community</span> where researchers, athletes, and health-conscious people feel confident in their purchases and supported by their peers.
+            Our primary mission isn't to become the biggest peptide vendor. It's to create a <span className="font-bold text-black">transparent, trustworthy community</span> where researchers, athletes, and health-conscious people feel confident in their purchases and supported by their peers.
           </p>
           <p>
             We want to be the vendor that proves the gray market can operate with integrity. We publish our COAs publicly. We share our margins openly. We listen to community feedback and actually change based on it. We're not hiding behind anonymity—we're building in the open.
@@ -86,7 +86,7 @@ export default function OurStory() {
             Here's the reality: as a US-based vendor, we can get close to manufacturer costs on bulk orders. Some vendors charge 300-500% markups. We've decided our model is different.
           </p>
           <p>
-            We price aggressively to pass savings directly to our customers. Not because we're altruistic—but because we believe <span className="font-bold text-slate-900">if prices are fair, people will trust us, stay loyal, and help us build something bigger.</span>
+            We price aggressively to pass savings directly to our customers. Not because we're altruistic—but because we believe <span className="font-bold text-black">if prices are fair, people will trust us, stay loyal, and help us build something bigger.</span>
           </p>
           <p>
             We'd rather have 1,000 satisfied customers buying consistently at fair prices than 100 customers paying premium markups. Sustainable business built on trust beats short-term profit extraction every single time. Our margins are tight, but our growth is strong because our customers believe in what we're doing.

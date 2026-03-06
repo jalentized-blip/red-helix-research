@@ -28,7 +28,7 @@ const SourcesBubble = ({ productName }) => {
         className="inline-flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-full transition-all"
       >
         <Beaker className="w-4 h-4 text-blue-600" />
-        <span className="text-xs font-semibold text-slate-900">View Research</span>
+        <span className="text-xs font-semibold text-black">View Research</span>
       </button>
     </div>
   );
@@ -105,11 +105,11 @@ export default function LearnMore() {
       <Dialog open={!disclaimerAccepted} onOpenChange={() => {}}>
         <DialogContent className="bg-white border border-slate-200 max-w-md rounded-[32px] p-8">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 text-2xl font-black uppercase tracking-tight">Research <span className="text-[#dc2626]">Protocol</span></DialogTitle>
+            <DialogTitle className="text-black text-2xl font-black uppercase tracking-tight">Research <span className="text-[#dc2626]">Protocol</span></DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <DialogDescription className="text-slate-500 text-base leading-relaxed font-medium">
-              The information on this page is for <span className="font-black text-slate-900 uppercase text-xs">educational and research purposes only</span>. It is <span className="font-black text-slate-900 uppercase text-xs">not medical advice</span> and should not be taken as a substitute for professional medical consultation.
+              The information on this page is for <span className="font-black text-black uppercase text-xs">educational and research purposes only</span>. It is <span className="font-black text-black uppercase text-xs">not medical advice</span> and should not be taken as a substitute for professional medical consultation.
             </DialogDescription>
             <p className="text-slate-400 text-xs font-bold">
               Always consult with a qualified healthcare provider before using any research chemicals or peptides.
@@ -139,7 +139,7 @@ export default function LearnMore() {
               <div className="p-3 bg-[#dc2626]/10 rounded-2xl">
                 <BookOpen className="w-8 h-8 text-[#dc2626]" />
               </div>
-              <h1 className="text-6xl font-black text-slate-900 uppercase tracking-tighter">Learn <span className="text-[#dc2626]">More</span></h1>
+              <h1 className="text-6xl font-black text-black uppercase tracking-tighter">Learn <span className="text-[#dc2626]">More</span></h1>
             </div>
             <p className="text-slate-500 text-xl font-medium max-w-2xl leading-relaxed">
               Explore the science behind our research reagents. Discover clinical findings and laboratory data for each product.
@@ -150,17 +150,17 @@ export default function LearnMore() {
           <div className="mb-12">
             <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-3 ml-1">Research Category</label>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-72 bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl font-black uppercase tracking-widest text-xs">
+              <SelectTrigger className="w-full md:w-72 bg-slate-50 border-slate-100 text-black h-14 rounded-2xl font-black uppercase tracking-widest text-xs">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent className="bg-white border-slate-200">
-                <SelectItem value="all" className="text-slate-900 font-bold">All Products</SelectItem>
-                <SelectItem value="weight_loss" className="text-slate-900 font-bold">Weight Loss</SelectItem>
-                <SelectItem value="recovery_healing" className="text-slate-900 font-bold">Recovery & Healing</SelectItem>
-                <SelectItem value="cognitive_focus" className="text-slate-900 font-bold">Cognitive Focus</SelectItem>
-                <SelectItem value="performance_longevity" className="text-slate-900 font-bold">Performance & Longevity</SelectItem>
-                <SelectItem value="sexual_health" className="text-slate-900 font-bold">Sexual Health</SelectItem>
-                <SelectItem value="general_health" className="text-slate-900 font-bold">General Health</SelectItem>
+                <SelectItem value="all" className="text-black font-bold">All Products</SelectItem>
+                <SelectItem value="weight_loss" className="text-black font-bold">Weight Loss</SelectItem>
+                <SelectItem value="recovery_healing" className="text-black font-bold">Recovery & Healing</SelectItem>
+                <SelectItem value="cognitive_focus" className="text-black font-bold">Cognitive Focus</SelectItem>
+                <SelectItem value="performance_longevity" className="text-black font-bold">Performance & Longevity</SelectItem>
+                <SelectItem value="sexual_health" className="text-black font-bold">Sexual Health</SelectItem>
+                <SelectItem value="general_health" className="text-black font-bold">General Health</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -188,7 +188,7 @@ export default function LearnMore() {
                       <span className="inline-block px-3 py-1 bg-[#dc2626]/10 rounded-full text-[10px] font-black text-[#dc2626] uppercase tracking-widest mb-4">
                         {categoryLabels[product.category]}
                       </span>
-                      <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
+                      <h3 className="text-3xl font-black text-black mb-3 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
                         {product.name}
                       </h3>
                       <p className="text-slate-500 text-sm leading-relaxed font-medium line-clamp-3">
@@ -199,7 +199,7 @@ export default function LearnMore() {
                     <div className="mt-auto pt-6 border-t border-slate-50 flex flex-col gap-4">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Pricing</span>
-                        <span className="text-lg font-black text-slate-900">
+                        <span className="text-lg font-black text-black">
                           From ${product.price_from}
                         </span>
                       </div>

@@ -60,7 +60,7 @@ export default function AlertsDropdown() {
             className="absolute right-0 mt-2 w-80 max-h-96 bg-white border border-slate-100 rounded-2xl shadow-xl shadow-slate-200/50 z-50 overflow-hidden flex flex-col"
           >
             <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide">COA Submissions ({unreadCount})</h3>
+              <h3 className="text-sm font-black text-black uppercase tracking-wide">COA Submissions ({unreadCount})</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-slate-400 hover:text-[#dc2626] transition-colors"
@@ -91,7 +91,7 @@ export default function AlertsDropdown() {
                       <Link to={createPageUrl('COAReports')}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1" onClick={() => handleMarkAsRead(alert.id)}>
-                            <p className="text-sm font-black text-slate-900">{alert.peptide_name}</p>
+                            <p className="text-sm font-black text-black">{alert.peptide_name}</p>
                             <p className="text-xs text-slate-500 mt-1 font-medium">by {alert.uploaded_by.split('@')[0]}</p>
                           </div>
                           <button

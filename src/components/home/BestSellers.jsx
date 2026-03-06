@@ -89,7 +89,7 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
             <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">High Demand Reagents</span>
           </div>
           
-          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             BEST-SELLING <br />
             <span className="text-[#dc2626]">RESEARCH UNITS</span>
           </h2>

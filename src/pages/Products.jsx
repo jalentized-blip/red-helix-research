@@ -165,7 +165,7 @@ export default function Products() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-2 uppercase tracking-tighter leading-none">
+              <h1 className="text-5xl md:text-7xl font-black text-black mb-2 uppercase tracking-tighter leading-none">
                 Research <span className="text-[#dc2626]">Catalog</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium max-w-2xl">
@@ -193,7 +193,7 @@ export default function Products() {
               <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-slate-400" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-4">
+              <h2 className="text-3xl md:text-4xl font-black text-black uppercase tracking-tight mb-4">
                 Account <span className="text-[#dc2626]">Required</span>
               </h2>
               <p className="text-slate-500 font-medium max-w-lg mx-auto mb-8 leading-relaxed">
@@ -230,7 +230,7 @@ export default function Products() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search research database..."
-                    className="w-full pl-16 pr-12 py-6 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626]/30 focus:bg-white transition-all shadow-sm group-hover:shadow-md"
+                    className="w-full pl-16 pr-12 py-6 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-black placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626]/30 focus:bg-white transition-all shadow-sm group-hover:shadow-md"
                   />
                   {searchQuery && (
                     <button
@@ -270,7 +270,7 @@ export default function Products() {
               </div>
 
               <div className="lg:col-span-4">
-                <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 text-slate-900 h-full flex flex-col justify-between shadow-xl shadow-slate-200/50">
+                <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 text-black h-full flex flex-col justify-between shadow-xl shadow-slate-200/50">
                   <div>
                     <h3 className="text-xl font-black uppercase tracking-tight mb-4">Inventory Filters</h3>
                     <button

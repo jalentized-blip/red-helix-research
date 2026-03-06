@@ -169,7 +169,7 @@ export default function ResourceHub() {
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Resource <span className="text-[#dc2626]">Hub</span></h1>
+          <h1 className="text-5xl md:text-6xl font-black text-black mb-4 uppercase tracking-tighter">Resource <span className="text-[#dc2626]">Hub</span></h1>
           <p className="text-xl text-slate-500 font-medium">Everything you need for research, learning, and success</p>
         </motion.div>
 
@@ -189,7 +189,7 @@ export default function ResourceHub() {
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                     <IconComponent className={`w-6 h-6 ${category.color}`} />
                   </div>
-                  <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">{category.category}</h2>
+                  <h2 className="text-3xl font-black text-black uppercase tracking-tight">{category.category}</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -203,7 +203,7 @@ export default function ResourceHub() {
                       viewport={{ once: true }}
                       className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-[#dc2626] hover:shadow-xl transition-all shadow-sm"
                     >
-                      <h3 className="font-black text-slate-900 mb-2 group-hover:text-[#dc2626] transition uppercase tracking-tight text-lg">
+                      <h3 className="font-black text-black mb-2 group-hover:text-[#dc2626] transition uppercase tracking-tight text-lg">
                         {item.title}
                       </h3>
                       <p className="text-sm text-slate-500 mb-4 font-medium">{item.description}</p>
@@ -226,44 +226,44 @@ export default function ResourceHub() {
           className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 mt-16 relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
-            <Zap className="w-64 h-64 text-slate-900" />
+            <Zap className="w-64 h-64 text-black" />
           </div>
           
           <div className="relative z-10">
-            <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tight">Quick Start for New Researchers</h2>
+            <h2 className="text-3xl font-black text-black mb-8 uppercase tracking-tight">Quick Start for New Researchers</h2>
             <ol className="space-y-6">
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-[#dc2626] text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">1</span>
                 <div>
-                  <span className="text-slate-900 font-bold block mb-1">Learn Basics</span>
+                  <span className="text-black font-bold block mb-1">Learn Basics</span>
                   <span className="text-slate-500 font-medium">Start with our <Link to={createPageUrl('LearnMore')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Research Database</Link> to understand available peptides</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">2</span>
                 <div>
-                  <span className="text-slate-900 font-bold block mb-1">Calculate Protocol</span>
+                  <span className="text-black font-bold block mb-1">Calculate Protocol</span>
                   <span className="text-slate-500 font-medium">Use the <Link to={createPageUrl('PeptideCalculator')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Peptide Calculator</Link> to plan your research</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">3</span>
                 <div>
-                  <span className="text-slate-900 font-bold block mb-1">Compare Options</span>
+                  <span className="text-black font-bold block mb-1">Compare Options</span>
                   <span className="text-slate-500 font-medium">Compare efficacy using our <Link to={createPageUrl('PeptideComparison')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Comparison Tool</Link></span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-slate-200">4</span>
                 <div>
-                  <span className="text-slate-900 font-bold block mb-1">Verify Quality</span>
+                  <span className="text-black font-bold block mb-1">Verify Quality</span>
                   <span className="text-slate-500 font-medium">Review <Link to={createPageUrl('COAReports')} className="text-[#dc2626] hover:text-red-700 underline font-bold">COA Reports</Link> to ensure batch purity</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <span className="w-8 h-8 bg-[#dc2626] text-white rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-red-200">5</span>
                 <div>
-                  <span className="text-slate-900 font-bold block mb-1">Execute Research</span>
+                  <span className="text-black font-bold block mb-1">Execute Research</span>
                   <span className="text-slate-500 font-medium">Follow our <Link to={createPageUrl('BlogGuide')} className="text-[#dc2626] hover:text-red-700 underline font-bold">Reconstitution Guides</Link> for precise results</span>
                 </div>
               </li>

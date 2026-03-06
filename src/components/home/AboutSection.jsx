@@ -56,7 +56,7 @@ export default function AboutSection() {
             </div>
 
             <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter leading-[0.9]">
-              <span className="text-slate-900">THE HELIX</span>
+              <span className="text-black">THE HELIX</span>
               <br />
               <span className="text-[#dc2626]">STANDARD</span>
             </h2>
@@ -79,11 +79,11 @@ export default function AboutSection() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full bg-[#dc2626] flex items-center justify-center text-white text-[10px]">✓</div>
-                    <span className="text-xs font-black text-slate-900 uppercase">cGMP Sourced</span>
+                    <span className="text-xs font-black text-black uppercase">cGMP Sourced</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full bg-[#dc2626] flex items-center justify-center text-white text-[10px]">✓</div>
-                    <span className="text-xs font-black text-slate-900 uppercase">USA Verified</span>
+                    <span className="text-xs font-black text-black uppercase">USA Verified</span>
                   </div>
                 </div>
               </div>

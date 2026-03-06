@@ -127,7 +127,7 @@ export default function COAReports() {
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 tracking-tighter uppercase leading-none">Community <span className="text-[#dc2626]">COA Reports</span></h1>
+          <h1 className="text-5xl md:text-7xl font-black text-black mb-4 tracking-tighter uppercase leading-none">Community <span className="text-[#dc2626]">COA Reports</span></h1>
           <p className="text-slate-500 text-lg font-medium">Browse Certificates of Analysis uploaded by our community</p>
         </div>
 
@@ -140,7 +140,7 @@ export default function COAReports() {
               placeholder="Search by peptide name or strength..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 bg-slate-50 border-slate-100 text-slate-900 placeholder:text-slate-400 rounded-2xl h-12 font-medium"
+              className="pl-12 bg-slate-50 border-slate-100 text-black placeholder:text-slate-400 rounded-2xl h-12 font-medium"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function COAReports() {
                 <Button
                   onClick={toggleSelectAll}
                   variant="outline"
-                  className="border-slate-200 text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
+                  className="border-slate-200 text-black rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
                 >
                   {selectedIds.size === filteredCOAs.length ? 'Deselect All' : 'Select All'}
                 </Button>
@@ -169,7 +169,7 @@ export default function COAReports() {
               <Button
                 onClick={toggleSelectAll}
                 variant="outline"
-                className="border-slate-200 text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
+                className="border-slate-200 text-black rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
               >
                 Select All
               </Button>
@@ -270,19 +270,19 @@ export default function COAReports() {
                 <div className="space-y-4">
                   <div>
                     <p className="text-[10px] font-black text-[#dc2626] uppercase tracking-[0.2em] mb-1">Research Compound</p>
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase leading-none">{coa.peptide_name}</h3>
+                    <h3 className="text-2xl font-black text-black tracking-tighter uppercase leading-none">{coa.peptide_name}</h3>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/50 rounded-xl p-3 border border-slate-100">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Concentration</p>
-                      <p className="text-sm font-bold text-slate-900">{coa.peptide_strength}</p>
+                      <p className="text-sm font-bold text-black">{coa.peptide_strength}</p>
                     </div>
 
                     {coa.batch_number && (
                       <div className="bg-white/50 rounded-xl p-3 border border-slate-100">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Batch ID</p>
-                        <p className="text-sm font-bold text-slate-900">{coa.batch_number}</p>
+                        <p className="text-sm font-bold text-black">{coa.batch_number}</p>
                       </div>
                     )}
                   </div>
@@ -290,12 +290,12 @@ export default function COAReports() {
                   <div className="flex justify-between items-center py-3 border-t border-slate-100">
                     <div className="flex flex-col">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Uploaded On</p>
-                      <p className="text-sm font-bold text-slate-900">{new Date(coa.created_date).toLocaleDateString()}</p>
+                      <p className="text-sm font-bold text-black">{new Date(coa.created_date).toLocaleDateString()}</p>
                     </div>
                     {coa.uploaded_by && (
                       <div className="flex flex-col text-right">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Researcher</p>
-                        <p className="text-sm font-bold text-slate-900">{coa.uploaded_by.split('@')[0]}</p>
+                        <p className="text-sm font-bold text-black">{coa.uploaded_by.split('@')[0]}</p>
                       </div>
                     )}
                   </div>
@@ -306,7 +306,7 @@ export default function COAReports() {
                       href={coa.coa_image_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-900 hover:border-[#dc2626] hover:text-[#dc2626] transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-sm"
+                      className="flex-1 flex items-center justify-center gap-2 bg-white border border-slate-200 text-black hover:border-[#dc2626] hover:text-[#dc2626] transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-sm"
                     >
                       Full Analysis
                       <ExternalLink className="w-4 h-4" />

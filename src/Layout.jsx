@@ -103,7 +103,7 @@ const HeaderSearch = () => {
                   setSearchQuery(e.target.value);
                   setShowResults(true);
                 }}
-                className="w-full pl-10 pr-10 py-2 bg-white backdrop-blur-md border border-slate-200 rounded-full text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626]/50"
+                className="w-full pl-10 pr-10 py-2 bg-white backdrop-blur-md border border-slate-200 rounded-full text-black text-sm placeholder:text-slate-400 focus:outline-none focus:border-[#dc2626]/50"
                 autoFocus
               />
               {searchQuery && (
@@ -157,7 +157,7 @@ const HeaderSearch = () => {
                               setIsExpanded(false);
                             }}
                           >
-                            <div className="font-bold text-slate-900 text-sm group-hover:text-[#dc2626] transition-colors">{page.name}</div>
+                            <div className="font-bold text-black text-sm group-hover:text-[#dc2626] transition-colors">{page.name}</div>
                             <div className="text-[11px] text-slate-500 group-hover:text-slate-400 transition-colors">{page.description}</div>
                           </a>
                         ))}
@@ -191,7 +191,7 @@ const HeaderSearch = () => {
                             }}
                           >
                             <div className="flex-1">
-                              <div className="font-bold text-slate-900 text-sm group-hover:text-[#dc2626] transition-colors">{product.name}</div>
+                              <div className="font-bold text-black text-sm group-hover:text-[#dc2626] transition-colors">{product.name}</div>
                               {product.description && (
                                 <div className="text-[11px] text-slate-500 group-hover:text-slate-400 line-clamp-1">{product.description}</div>
                               )}
@@ -418,7 +418,7 @@ const HeaderSearch = () => {
           .group.bg-[#dc2626]:hover .group-hover\:text-slate-400,
           .group.bg-[#dc2626]:hover .group-hover\:text-slate-500,
           .group.bg-[#dc2626]:hover .group-hover\:text-slate-600,
-          .group.bg-[#dc2626]:hover .group-hover\:text-slate-900,
+          .group.bg-[#dc2626]:hover .group-hover\:text-black,
           .group.bg-[#dc2626]:hover .group-hover\:text-[#dc2626],
           .group.bg-[#dc2626]:hover h3,
           .group.bg-[#dc2626]:hover p {
@@ -683,19 +683,19 @@ const HeaderSearch = () => {
                           <span className="bg-white text-[#8B2635] text-[11px] font-black px-2 py-0.5 rounded-full">{cartCount} item{cartCount !== 1 ? 's' : ''}</span>
                         </Link>
                       )}
-                      <Link to={createPageUrl('Home')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('Home')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Home
                       </Link>
-                      <Link to={createPageUrl('Products')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('Products')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Shop Products
                       </Link>
-                      <Link to={createPageUrl('OurStory')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('OurStory')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Our Story
                       </Link>
 
                       <div className="border-t border-slate-100 my-3 mx-4" />
 
-                      <Link to={createPageUrl('GroupBuy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('GroupBuy')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Group Buy
                       </Link>
                       
@@ -703,38 +703,38 @@ const HeaderSearch = () => {
                       
                       <button
                         onClick={() => setShowUploadModal(true)}
-                        className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full"
+                        className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full"
                       >
                         Upload Your COA
                       </button>
-                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         COA Reports
                       </Link>
                       
                       <div className="border-t border-slate-100 my-3 mx-4" />
                       
-                      <Link to={createPageUrl('PeppyBot')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('PeppyBot')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         PeppyBot
                       </Link>
-                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('PeptideCalculator')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Peptide Calculator
                       </Link>
-                      <Link to={createPageUrl('PeptideAcademy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('PeptideAcademy')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Peptide Academy
                       </Link>
-                      <Link to={createPageUrl('LearnMore')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('LearnMore')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Research & Education
                       </Link>
 
-                      <Link to={createPageUrl('BlogGuide')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('BlogGuide')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Research Guides
                       </Link>
 
-                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                      <Link to={createPageUrl('PeptideComparison')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Compare Peptides
                       </Link>
 
-                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full block">
+                      <Link to={createPageUrl('COAReports')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200 w-full block">
                         Certificates of Analysis
                       </Link>
                       
@@ -742,10 +742,10 @@ const HeaderSearch = () => {
                       
                       {isAuthenticated && (
                         <>
-                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                             Account Profile
                           </Link>
-                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                          <Link to={createPageUrl('Account')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                             Order History
                           </Link>
                         </>
@@ -768,31 +768,31 @@ const HeaderSearch = () => {
 
                           {!viewAsUser && (
                             <>
-                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                              <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                                 Manual Orders
                               </Link>
-                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                              <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                                 Customer Management
                               </Link>
-                              <Link to={createPageUrl('AdminSupport')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                              <Link to={createPageUrl('AdminSupport')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Customer Support
                               </Link>
 
                               <div className="border-t border-slate-100 my-2 pt-2" />
 
-                              <Link to={createPageUrl('SEOMonitoring')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                              <Link to={createPageUrl('SEOMonitoring')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 SEO Monitoring
                               </Link>
-                              <Link to={createPageUrl('BacklinkStrategy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                              <Link to={createPageUrl('BacklinkStrategy')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Backlink Strategy
                               </Link>
-                              <Link to={createPageUrl('EmailAutomationStrategy')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                              <Link to={createPageUrl('EmailAutomationStrategy')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Email Automation
                               </Link>
 
                               <div className="border-t border-slate-100 my-2 pt-2" />
 
-                              <Link to={createPageUrl('LaunchChecklist')} className="text-left text-sm font-black text-slate-900 uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
+                              <Link to={createPageUrl('LaunchChecklist')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-[#dc2626] px-4 py-3 transition-all rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100">
                                 Launch Checklist
                               </Link>
                               <Link to={createPageUrl('CompetitivePositioning')} className="text-left text-base font-semibold text-amber-50 hover:text-red-400 px-4 py-3 transition-all rounded-lg hover:bg-stone-800/70 border border-transparent hover:border-[#dc2626]/30">

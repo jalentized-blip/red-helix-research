@@ -74,7 +74,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Catalog Reference</p>
-                  <p className="text-xs font-bold text-slate-900 uppercase mt-1">RH-ENT-{product.id?.slice(0,4) || '7482'}</p>
+                  <p className="text-xs font-bold text-black uppercase mt-1">RH-ENT-{product.id?.slice(0,4) || '7482'}</p>
                 </div>
               </div>
 
@@ -116,7 +116,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
           <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col bg-white overflow-y-auto scrollbar-hide">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h2 className="text-3xl font-black text-slate-900 tracking-tighter leading-none mb-2 uppercase">
+                <h2 className="text-3xl font-black text-black tracking-tighter leading-none mb-2 uppercase">
                   {product.name}
                 </h2>
                 <div className="flex items-center gap-2">
@@ -163,13 +163,13 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#dc2626]' : 'text-slate-900'}`}>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#dc2626]' : 'text-black'}`}>
                                 {spec.productName} - {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">10-Vial Research Kit</div>
                             </div>
                             <div className="text-right">
-                              <div className="text-2xl font-black text-slate-900 tracking-tighter">
+                              <div className="text-2xl font-black text-black tracking-tighter">
                                 ${spec.price}
                               </div>
                             </div>
@@ -204,13 +204,13 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#dc2626]' : 'text-slate-900'}`}>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#dc2626]' : 'text-black'}`}>
                                 {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
                             </div>
                             <div className="text-right">
-                              <div className="text-2xl font-black text-slate-900 tracking-tighter">
+                              <div className="text-2xl font-black text-black tracking-tighter">
                                 ${spec.price}
                               </div>
                             </div>
@@ -286,7 +286,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Quality Assurance</p>
-                  <p className="text-xs font-bold text-slate-900">Lab tested for 99%+ purity</p>
+                  <p className="text-xs font-bold text-black">Lab tested for 99%+ purity</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
@@ -295,7 +295,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">Rapid Logistics</p>
-                  <p className="text-xs font-bold text-slate-900">Ships within 24-48 hours</p>
+                  <p className="text-xs font-bold text-black">Ships within 24-48 hours</p>
                 </div>
               </div>
             </div>
@@ -373,7 +373,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                       e.stopPropagation();
                       handlePrevCOA();
                     }}
-                    className="fixed left-8 top-1/2 -translate-y-1/2 p-4 bg-white/90 hover:bg-white text-slate-900 rounded-full shadow-xl transition-all hover:scale-110"
+                    className="fixed left-8 top-1/2 -translate-y-1/2 p-4 bg-white/90 hover:bg-white text-black rounded-full shadow-xl transition-all hover:scale-110"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
@@ -382,7 +382,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                       e.stopPropagation();
                       handleNextCOA();
                     }}
-                    className="fixed right-8 top-1/2 -translate-y-1/2 p-4 bg-white/90 hover:bg-white text-slate-900 rounded-full shadow-xl transition-all hover:scale-110"
+                    className="fixed right-8 top-1/2 -translate-y-1/2 p-4 bg-white/90 hover:bg-white text-black rounded-full shadow-xl transition-all hover:scale-110"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </button>
@@ -395,14 +395,14 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   e.stopPropagation();
                   setShowCOA(false);
                 }}
-                className="fixed top-8 right-8 p-3 bg-white/90 hover:bg-white text-slate-900 rounded-full shadow-xl transition-all hover:scale-110"
+                className="fixed top-8 right-8 p-3 bg-white/90 hover:bg-white text-black rounded-full shadow-xl transition-all hover:scale-110"
               >
                 <X className="w-6 h-6" />
               </button>
 
               {/* COA Counter */}
               {productCOAs.length > 1 && (
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-white/90 text-slate-900 rounded-full shadow-xl font-black text-xs uppercase tracking-widest">
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-white/90 text-black rounded-full shadow-xl font-black text-xs uppercase tracking-widest">
                   Batch Analysis {currentCoaIndex + 1} / {productCOAs.length}
                 </div>
               )}

@@ -116,7 +116,7 @@ export default function Certificates() {
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">Laboratory Verification Protocol</span>
           </motion.div>
           
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter leading-[0.9]">
+          <h2 className="text-5xl md:text-7xl font-black text-black mb-6 tracking-tighter leading-[0.9]">
             CERTIFICATES OF <br />
             <span className="text-[#dc2626]">ANALYSIS (COA)</span>
           </h2>
@@ -165,7 +165,7 @@ export default function Certificates() {
                 <div className="p-8 flex-grow">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-black text-slate-900 tracking-tight group-hover:text-[#dc2626] transition-colors">
+                      <h3 className="text-xl font-black text-black tracking-tight group-hover:text-[#dc2626] transition-colors">
                         {cert.peptide}
                       </h3>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
@@ -178,7 +178,7 @@ export default function Certificates() {
                   <div className="flex items-end justify-between mt-auto pt-6 border-t border-slate-100">
                     <div>
                       <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Purity Rating</span>
-                      <span className="text-3xl font-black text-slate-900 group-hover:text-green-600 transition-colors">
+                      <span className="text-3xl font-black text-black group-hover:text-green-600 transition-colors">
                         {cert.purity}
                       </span>
                     </div>
@@ -200,7 +200,7 @@ export default function Certificates() {
           {combinedCertificates.length > 3 && (
             <button
               onClick={() => setShowAll(!showAll)}
-              className="group relative px-10 py-5 bg-white border-2 border-slate-100 hover:border-[#dc2626] text-slate-900 font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm"
+              className="group relative px-10 py-5 bg-white border-2 border-slate-100 hover:border-[#dc2626] text-black font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm"
             >
               <span className="relative z-10 flex items-center gap-3">
                 {showAll ? 'Collapse Archive' : 'Access Full Test Archive'}
@@ -239,18 +239,18 @@ export default function Certificates() {
                     <CheckCircle2 className="w-3 h-3 text-green-600" />
                     <span className="text-[10px] font-black text-green-600 uppercase tracking-widest">Certified Pass</span>
                   </div>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">{selectedCert.peptide}</h3>
+                  <h3 className="text-3xl font-black text-black tracking-tighter mb-2">{selectedCert.peptide}</h3>
                   <p className="text-slate-400 text-sm font-bold uppercase tracking-widest">Laboratory Report</p>
                 </div>
 
                 <div className="space-y-6 flex-grow">
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Batch Identifier</p>
-                    <p className="text-slate-900 font-bold">{selectedCert.batch}</p>
+                    <p className="text-black font-bold">{selectedCert.batch}</p>
                   </div>
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Analytical Laboratory</p>
-                    <p className="text-slate-900 font-bold">{selectedCert.lab}</p>
+                    <p className="text-black font-bold">{selectedCert.lab}</p>
                   </div>
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Purity Level</p>

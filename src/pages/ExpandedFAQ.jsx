@@ -255,7 +255,7 @@ export default function ExpandedFAQ() {
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tight">Frequently Asked Questions</h1>
+          <h1 className="text-5xl md:text-6xl font-black text-black mb-4 uppercase tracking-tight">Frequently Asked Questions</h1>
           <p className="text-xl text-slate-500 font-medium">Find answers to common questions about our peptides and services</p>
         </motion.div>
 
@@ -271,7 +271,7 @@ export default function ExpandedFAQ() {
             placeholder="Search FAQs..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-12 bg-slate-50 border-slate-200 text-slate-900 h-14 rounded-2xl text-lg shadow-sm focus:ring-[#dc2626]/20"
+            className="pl-12 bg-slate-50 border-slate-200 text-black h-14 rounded-2xl text-lg shadow-sm focus:ring-[#dc2626]/20"
           />
           {searchQuery && (
             <p className="text-xs text-slate-400 mt-2 font-medium">
@@ -302,7 +302,7 @@ export default function ExpandedFAQ() {
               >
                 <div className="flex items-center gap-3 mb-6">
                   <span className="text-3xl">{category.icon}</span>
-                  <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{category.category}</h2>
+                  <h2 className="text-2xl font-black text-black uppercase tracking-tight">{category.category}</h2>
                 </div>
 
                 <div className="space-y-4">
@@ -315,7 +315,7 @@ export default function ExpandedFAQ() {
                         onClick={() => toggleItem(item.id)}
                         className="w-full text-left p-6 flex justify-between items-start gap-4"
                       >
-                        <span className="font-bold text-lg text-slate-900">{item.question}</span>
+                        <span className="font-bold text-lg text-black">{item.question}</span>
                         <ChevronDown 
                           className={`w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0 mt-1 ${
                             expandedItems[item.id] ? 'rotate-180 text-[#dc2626]' : ''
@@ -352,7 +352,7 @@ export default function ExpandedFAQ() {
           className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 mt-16 text-center relative overflow-hidden"
         >
           <div className="relative z-10">
-            <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight">Still need help?</h3>
+            <h3 className="text-3xl font-black text-black mb-3 uppercase tracking-tight">Still need help?</h3>
             <p className="text-slate-500 mb-8 font-medium">Our support team is here to answer any questions</p>
             <Link to={createPageUrl('Contact')}>
               <Button className="bg-[#dc2626] hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">

@@ -122,7 +122,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
       <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">
         {module.level} Protocol
       </div>
-      <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
+      <h3 className="text-2xl md:text-3xl font-black text-black mb-4 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
         {module.title}
       </h3>
       <ul className="space-y-3 mb-6">
@@ -141,7 +141,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
       <div className="flex items-center justify-between pt-6 border-t border-slate-100">
         <div className="flex flex-col gap-1">
           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progress</span>
-          <span className="text-sm font-black text-slate-900">
+          <span className="text-sm font-black text-black">
             {userProgress}% Complete
           </span>
         </div>
@@ -155,7 +155,7 @@ const ModuleCard = React.memo(({ module, userProgress, onClick }) => {
 
 const QuestionSection = React.memo(({ section, onQuestionClick }) => (
   <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-shadow">
-    <h3 className="text-sm font-black text-slate-900 mb-6 flex items-center gap-3 uppercase tracking-widest">
+    <h3 className="text-sm font-black text-black mb-6 flex items-center gap-3 uppercase tracking-widest">
       <div className="w-8 h-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
         <FlaskConical className="w-4 h-4 text-white" />
       </div>
@@ -244,7 +244,7 @@ export default function PeptideAcademy() {
               <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">Protocol Verified AI Learning</span>
             </div>
             
-            <h1 className="text-5xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-[0.9]">
+            <h1 className="text-5xl md:text-8xl font-black text-black mb-8 uppercase tracking-tighter leading-[0.9]">
               Research <span className="text-[#dc2626]">Academy</span>
             </h1>
             
@@ -265,7 +265,7 @@ export default function PeptideAcademy() {
               <Button 
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto border-slate-200 text-slate-900 px-10 py-8 rounded-full font-black uppercase tracking-widest text-sm hover:bg-slate-50"
+                className="w-full sm:w-auto border-slate-200 text-black px-10 py-8 rounded-full font-black uppercase tracking-widest text-sm hover:bg-slate-50"
                 onClick={() => setActiveView('visualizer')}
               >
                 <Dna className="w-5 h-5 mr-3 text-[#dc2626]" />
@@ -279,7 +279,7 @@ export default function PeptideAcademy() {
         {showQuickStart && activeView === 'overview' && (
           <div className="bg-slate-50 border border-slate-200 rounded-[32px] md:rounded-[40px] p-8 md:p-16 mb-20 md:mb-24 relative overflow-hidden shadow-sm">
             <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
-              <Zap className="w-64 h-64 text-slate-900" />
+              <Zap className="w-64 h-64 text-black" />
             </div>
             <button
               onClick={() => setShowQuickStart(false)}
@@ -293,7 +293,7 @@ export default function PeptideAcademy() {
                 <Zap className="w-10 h-10 text-[#dc2626]" />
               </div>
               <div className="flex-1">
-                <h3 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+                <h3 className="text-3xl md:text-4xl font-black text-black mb-4 uppercase tracking-tight">
                   Learning <span className="text-[#dc2626]">Quick-Start</span>
                 </h3>
                 <p className="text-lg md:text-xl text-slate-500 mb-10 font-medium leading-relaxed max-w-2xl">
@@ -306,7 +306,7 @@ export default function PeptideAcademy() {
                     className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#dc2626]/50 hover:shadow-xl transition-all group"
                   >
                     <BookOpen className="w-6 h-6 text-green-500 mb-4 group-hover:scale-110 transition-transform" />
-                    <div className="font-black text-slate-900 mb-1 uppercase tracking-tight">New to Peptides?</div>
+                    <div className="font-black text-black mb-1 uppercase tracking-tight">New to Peptides?</div>
                     <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">Start Fundamentals</div>
                   </button>
                   <button
@@ -314,7 +314,7 @@ export default function PeptideAcademy() {
                     className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#dc2626]/50 hover:shadow-xl transition-all group"
                   >
                     <Brain className="w-6 h-6 text-blue-500 mb-4 group-hover:scale-110 transition-transform" />
-                    <div className="font-black text-slate-900 mb-1 uppercase tracking-tight">Have Questions?</div>
+                    <div className="font-black text-black mb-1 uppercase tracking-tight">Have Questions?</div>
                     <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">Ask AI Assistant</div>
                   </button>
                   <button
@@ -322,7 +322,7 @@ export default function PeptideAcademy() {
                     className="text-left p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#dc2626]/50 hover:shadow-xl transition-all group"
                   >
                     <Dna className="w-6 h-6 text-[#dc2626] mb-4 group-hover:scale-110 transition-transform" />
-                    <div className="font-black text-slate-900 mb-1 uppercase tracking-tight">Visual Learner?</div>
+                    <div className="font-black text-black mb-1 uppercase tracking-tight">Visual Learner?</div>
                     <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">See 3D Mechanisms</div>
                   </button>
                 </div>
@@ -341,7 +341,7 @@ export default function PeptideAcademy() {
                   <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
                     <GraduationCap className="w-6 h-6 text-[#dc2626]" />
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
+                  <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">
                     Learning <span className="text-slate-400">Paths</span>
                   </h2>
                 </div>
@@ -363,7 +363,7 @@ export default function PeptideAcademy() {
                   <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
                     <Sparkles className="w-6 h-6 text-[#dc2626]" />
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
+                  <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">
                     Research <span className="text-slate-400">Tools</span>
                   </h2>
                 </div>
@@ -373,10 +373,10 @@ export default function PeptideAcademy() {
                     className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-[#dc2626]/50 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
-                      <Brain className="w-48 h-48 text-slate-900" />
+                      <Brain className="w-48 h-48 text-black" />
                     </div>
                     <Brain className="w-16 h-16 text-blue-600 mb-8 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+                    <h3 className="text-3xl font-black text-black mb-4 uppercase tracking-tight">
                       AI Research Assistant
                     </h3>
                     <p className="text-lg text-slate-500 mb-8 font-medium leading-relaxed max-w-md">
@@ -394,10 +394,10 @@ export default function PeptideAcademy() {
                     className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-[#dc2626]/50 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
-                      <Dna className="w-48 h-48 text-slate-900" />
+                      <Dna className="w-48 h-48 text-black" />
                     </div>
                     <Dna className="w-16 h-16 text-[#dc2626] mb-8 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+                    <h3 className="text-3xl font-black text-black mb-4 uppercase tracking-tight">
                       Mechanism Visualizer
                     </h3>
                     <p className="text-lg text-slate-500 mb-8 font-medium leading-relaxed max-w-md">
@@ -415,10 +415,10 @@ export default function PeptideAcademy() {
                     className="text-left bg-white border border-slate-200 rounded-[32px] md:rounded-[40px] p-10 md:p-12 hover:border-[#dc2626]/50 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
-                      <GraduationCap className="w-48 h-48 text-slate-900" />
+                      <GraduationCap className="w-48 h-48 text-black" />
                     </div>
                     <GraduationCap className="w-16 h-16 text-green-600 mb-8 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+                    <h3 className="text-3xl font-black text-black mb-4 uppercase tracking-tight">
                       Competency Quiz
                     </h3>
                     <p className="text-lg text-slate-500 mb-8 font-medium leading-relaxed max-w-md">
@@ -439,7 +439,7 @@ export default function PeptideAcademy() {
                   <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center">
                     <Target className="w-6 h-6 text-[#dc2626]" />
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">
+                  <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">
                     Clinical <span className="text-slate-400">FAQ</span>
                   </h2>
                 </div>
@@ -462,14 +462,14 @@ export default function PeptideAcademy() {
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveView('overview')}
-                  className="text-slate-600 hover:text-slate-900 font-bold uppercase tracking-wider text-xs"
+                  className="text-slate-600 hover:text-black font-bold uppercase tracking-wider text-xs"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Modules
                 </Button>
                 <div className="flex items-center gap-4">
                   <div className={`w-3 h-3 rounded-full ${selectedModuleData.color}`} />
-                  <span className="text-sm font-black text-slate-900 uppercase tracking-widest">
+                  <span className="text-sm font-black text-black uppercase tracking-widest">
                     {selectedModuleData.level} Module
                   </span>
                 </div>
@@ -484,7 +484,7 @@ export default function PeptideAcademy() {
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveView('overview')}
-                  className="text-slate-600 hover:text-slate-900 font-bold uppercase tracking-wider text-xs"
+                  className="text-slate-600 hover:text-black font-bold uppercase tracking-wider text-xs"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Exit Assistant
@@ -504,7 +504,7 @@ export default function PeptideAcademy() {
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveView('overview')}
-                  className="text-slate-600 hover:text-slate-900 font-bold uppercase tracking-wider text-xs"
+                  className="text-slate-600 hover:text-black font-bold uppercase tracking-wider text-xs"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Exit Visualizer
@@ -524,7 +524,7 @@ export default function PeptideAcademy() {
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveView('overview')}
-                  className="text-slate-600 hover:text-slate-900 font-bold uppercase tracking-wider text-xs"
+                  className="text-slate-600 hover:text-black font-bold uppercase tracking-wider text-xs"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Exit Quiz

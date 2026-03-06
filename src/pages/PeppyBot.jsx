@@ -302,7 +302,7 @@ ${conversationHistory}
               <span className="text-2xl">🧬</span>
             </div>
             <div>
-              <h1 className="text-2xl font-black text-slate-900">PeppyBot Research Assistant</h1>
+              <h1 className="text-2xl font-black text-black">PeppyBot Research Assistant</h1>
               <p className="text-slate-500 text-sm font-medium">AI-Powered Peptide Education</p>
             </div>
           </div>
@@ -328,7 +328,7 @@ ${conversationHistory}
                     className={`prose text-sm max-w-none ${
                       msg.role === 'user' 
                         ? 'prose-invert prose-p:text-white prose-headings:text-white prose-strong:text-white' 
-                        : 'prose-slate prose-p:text-slate-600 prose-headings:text-slate-900 prose-strong:text-slate-900 prose-a:text-[#dc2626]'
+                        : 'prose-slate prose-p:text-slate-600 prose-headings:text-black prose-strong:text-black prose-a:text-[#dc2626]'
                     }`}
                   >
                     {msg.content}
@@ -355,7 +355,7 @@ ${conversationHistory}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Ask about peptides, protocols, or research..."
-                className="min-h-[50px] max-h-[150px] pr-12 bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-[#dc2626] focus:ring-[#dc2626]/20 rounded-xl resize-none py-3"
+                className="min-h-[50px] max-h-[150px] pr-12 bg-slate-50 border-slate-200 text-black placeholder:text-slate-400 focus:border-[#dc2626] focus:ring-[#dc2626]/20 rounded-xl resize-none py-3"
               />
               <Button
                 onClick={handleSend}

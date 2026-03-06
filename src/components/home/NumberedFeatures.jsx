@@ -50,7 +50,7 @@ export default function NumberedFeatures() {
 
               {/* Content - High Contrast on White */}
               <div className="pt-2">
-                <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
+                <h3 className="text-xl font-black text-black mb-3 group-hover:text-[#dc2626] transition-colors uppercase tracking-tight">
                   {feature.title}
                 </h3>
                 <p className="text-slate-500 leading-relaxed font-medium">

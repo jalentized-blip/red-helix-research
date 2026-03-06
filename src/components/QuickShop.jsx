@@ -92,7 +92,7 @@ export default function QuickShop() {
             >
               {/* Header */}
               <div className="sticky top-0 bg-white border-b border-slate-100 p-6 flex items-center justify-between z-10">
-                <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Quick Shop</h2>
+                <h2 className="text-2xl font-black text-black uppercase tracking-tighter">Quick Shop</h2>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="p-2 hover:bg-slate-50 rounded-full transition-colors"
@@ -115,7 +115,7 @@ export default function QuickShop() {
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="text-slate-900 font-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
+                            <div className="text-black font-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">
                               {category.name}
                             </div>
                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">
@@ -152,7 +152,7 @@ export default function QuickShop() {
                             />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors truncate">
+                            <div className="font-black text-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors truncate">
                               {product.name}
                             </div>
                             <div className="flex items-center justify-between mt-2">

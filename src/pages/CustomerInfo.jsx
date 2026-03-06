@@ -139,7 +139,7 @@ export default function CustomerInfo() {
             <ArrowLeft className="w-4 h-4" />
             Back to {isFromAccount ? 'Account' : 'Cart'}
           </Link>
-          <h1 className="text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+          <h1 className="text-5xl font-black text-black uppercase tracking-tighter leading-none">
             {isFromAccount ? 'Update' : 'Billing &'} <span className="text-[#dc2626]">{isFromAccount ? 'Profile' : 'Shipping'}</span>
           </h1>
           <p className="text-slate-500 mt-4 font-medium">
@@ -158,7 +158,7 @@ export default function CustomerInfo() {
               <div className="w-8 h-8 bg-[#fef2f2] rounded-lg flex items-center justify-center">
                 <span className="text-[#dc2626] font-black text-xs">01</span>
               </div>
-              <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Contact Information</h2>
+              <h2 className="text-xl font-black text-black uppercase tracking-tight">Contact Information</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -168,7 +168,7 @@ export default function CustomerInfo() {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                  className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                   placeholder="John"
                 />
                 {errors.firstName && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.firstName}</p>}
@@ -180,7 +180,7 @@ export default function CustomerInfo() {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                  className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                   placeholder="Doe"
                 />
                 {errors.lastName && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.lastName}</p>}
@@ -192,7 +192,7 @@ export default function CustomerInfo() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                  className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                   placeholder="john@example.com"
                 />
                 {errors.email && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.email}</p>}
@@ -204,7 +204,7 @@ export default function CustomerInfo() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                  className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                   placeholder="+1 (555) 123-4567"
                 />
                 {errors.phone && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.phone}</p>}
@@ -218,7 +218,7 @@ export default function CustomerInfo() {
               <div className="w-8 h-8 bg-[#fef2f2] rounded-lg flex items-center justify-center">
                 <span className="text-[#dc2626] font-black text-xs">02</span>
               </div>
-              <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Billing Address</h2>
+              <h2 className="text-xl font-black text-black uppercase tracking-tight">Billing Address</h2>
             </div>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -228,7 +228,7 @@ export default function CustomerInfo() {
                   name="billingAddress"
                   value={formData.billingAddress}
                   onChange={handleChange}
-                  className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                  className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                   placeholder="123 Research Blvd"
                 />
                 {errors.billingAddress && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingAddress}</p>}
@@ -241,7 +241,7 @@ export default function CustomerInfo() {
                     name="billingCity"
                     value={formData.billingCity}
                     onChange={handleChange}
-                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                    className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                     placeholder="New York"
                   />
                   {errors.billingCity && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingCity}</p>}
@@ -253,7 +253,7 @@ export default function CustomerInfo() {
                     name="billingState"
                     value={formData.billingState}
                     onChange={handleChange}
-                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                    className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                     placeholder="NY"
                   />
                   {errors.billingState && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingState}</p>}
@@ -265,7 +265,7 @@ export default function CustomerInfo() {
                     name="billingZip"
                     value={formData.billingZip}
                     onChange={handleChange}
-                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                    className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                     placeholder="10001"
                   />
                   {errors.billingZip && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingZip}</p>}
@@ -280,7 +280,7 @@ export default function CustomerInfo() {
               <div className="w-8 h-8 bg-[#dc2626] rounded-lg flex items-center justify-center">
                 <span className="text-white font-black text-xs">03</span>
               </div>
-              <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Shipping Address</h2>
+              <h2 className="text-xl font-black text-black uppercase tracking-tight">Shipping Address</h2>
             </div>
             
             <label className="flex items-center gap-3 p-6 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer group hover:border-[#dc2626]/20 transition-all">
@@ -307,7 +307,7 @@ export default function CustomerInfo() {
                     name="shippingAddress"
                     value={formData.shippingAddress}
                     onChange={handleChange}
-                    className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                    className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                     placeholder="456 Shipping Lane"
                   />
                   {errors.shippingAddress && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingAddress}</p>}
@@ -320,7 +320,7 @@ export default function CustomerInfo() {
                       name="shippingCity"
                       value={formData.shippingCity}
                       onChange={handleChange}
-                      className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                      className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                       placeholder="Los Angeles"
                     />
                     {errors.shippingCity && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingCity}</p>}
@@ -332,7 +332,7 @@ export default function CustomerInfo() {
                       name="shippingState"
                       value={formData.shippingState}
                       onChange={handleChange}
-                      className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                      className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                       placeholder="CA"
                     />
                     {errors.shippingState && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingState}</p>}
@@ -344,7 +344,7 @@ export default function CustomerInfo() {
                       name="shippingZip"
                       value={formData.shippingZip}
                       onChange={handleChange}
-                      className="bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
+                      className="bg-slate-50 border-slate-200 text-black placeholder:text-slate-300 rounded-xl h-12 font-bold focus:border-[#dc2626] focus:ring-[#dc2626]/20"
                       placeholder="90001"
                     />
                     {errors.shippingZip && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingZip}</p>}

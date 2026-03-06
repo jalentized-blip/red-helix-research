@@ -53,7 +53,7 @@ export default function Contact() {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Support Protocol</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6 uppercase">
+          <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6 uppercase">
             Researcher <br />
             <span className="text-[#dc2626]">Assistance</span>
           </h2>
@@ -79,7 +79,7 @@ export default function Contact() {
                 <div className={`inline-flex items-center justify-center w-20 h-20 rounded-[24px] ${method.color} mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-sm`}>
                   <method.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">{method.label}</h3>
+                <h3 className="text-2xl font-black text-black mb-2 uppercase tracking-tight">{method.label}</h3>
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{method.value}</p>
               </Card>
             </motion.div>

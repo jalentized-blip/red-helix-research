@@ -48,7 +48,7 @@ export default function WhyTrustUs() {
               <ShieldCheck className="w-3 h-3 text-[#dc2626]" />
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc2626]">Quality Assurance Protocol</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.9]">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-black leading-[0.9]">
               FOUNDATION OF <br />
               <span className="text-[#dc2626]">SCIENTIFIC TRUST</span>
             </h2>
@@ -95,7 +95,7 @@ export default function WhyTrustUs() {
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-[#dc2626] transition-colors">
                     {point.subtitle}
                   </span>
-                  <h3 className="text-2xl font-black text-slate-900 mt-1 tracking-tight">
+                  <h3 className="text-2xl font-black text-black mt-1 tracking-tight">
                     {point.title}
                   </h3>
                 </div>
@@ -125,22 +125,22 @@ export default function WhyTrustUs() {
               <FlaskConical className="w-6 h-6 text-slate-400" />
             </div>
             <div>
-              <p className="text-slate-900 text-sm font-bold uppercase tracking-wider">RUO Compliance</p>
+              <p className="text-black text-sm font-bold uppercase tracking-wider">RUO Compliance</p>
               <p className="text-slate-500 text-xs font-medium">Research Use Only. Not for Human Consumption.</p>
             </div>
           </div>
           <div className="h-[1px] md:h-8 w-full md:w-[1px] bg-slate-200" />
           <div className="flex gap-12">
             <div className="text-center">
-              <p className="text-slate-900 text-2xl font-black">99.8%</p>
+              <p className="text-black text-2xl font-black">99.8%</p>
               <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Avg Purity</p>
             </div>
             <div className="text-center">
-              <p className="text-slate-900 text-2xl font-black">4,500+</p>
+              <p className="text-black text-2xl font-black">4,500+</p>
               <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Verified Batches</p>
             </div>
             <div className="text-center">
-              <p className="text-slate-900 text-2xl font-black">24h</p>
+              <p className="text-black text-2xl font-black">24h</p>
               <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Lab Response</p>
             </div>
           </div>

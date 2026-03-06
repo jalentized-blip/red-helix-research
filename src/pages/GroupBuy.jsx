@@ -28,7 +28,7 @@ export default function GroupBuy() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white border border-slate-200 rounded-[32px] p-8 md:p-12 shadow-sm"
         >
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-black text-black mb-4">
             <span className="text-[#dc2626]">
               Group Buy Testing
             </span>

@@ -838,7 +838,7 @@ export default function PeptideComparison() {
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-4 tracking-tighter uppercase leading-none">
+          <h1 className="text-5xl md:text-7xl font-black text-black mb-4 tracking-tighter uppercase leading-none">
             Research <span className="text-[#dc2626]">Finder</span>
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
@@ -853,11 +853,11 @@ export default function PeptideComparison() {
           className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 mb-12 shadow-sm relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Microscope className="w-32 h-32 text-slate-900" />
+            <Microscope className="w-32 h-32 text-black" />
           </div>
 
           <div className="relative z-10">
-            <h2 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tight flex items-center gap-3">
+            <h2 className="text-3xl font-black text-black mb-2 uppercase tracking-tight flex items-center gap-3">
               <Activity className="w-8 h-8 text-[#dc2626]" />
               1. Research Parameters
             </h2>
@@ -935,7 +935,7 @@ export default function PeptideComparison() {
                       <CheckCircle2 className="w-12 h-12 text-green-500" />
                     </div>
                     <div>
-                      <h3 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter mb-2">Protocol <span className="text-green-600">Perfect Match</span></h3>
+                      <h3 className="text-3xl md:text-4xl font-black text-black uppercase tracking-tighter mb-2">Protocol <span className="text-green-600">Perfect Match</span></h3>
                       <p className="text-slate-500 font-medium text-lg">We've identified a clinical match that satisfies 100% of your research requirements.</p>
                     </div>
                   </div>
@@ -954,7 +954,7 @@ export default function PeptideComparison() {
                       <span className="px-4 py-1.5 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Primary Recommendation</span>
                       <span className="px-4 py-1.5 bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-full">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].class}</span>
                     </div>
-                    <h3 className="text-4xl md:text-6xl font-black text-slate-900 mb-3 uppercase tracking-tighter">
+                    <h3 className="text-4xl md:text-6xl font-black text-black mb-3 uppercase tracking-tighter">
                       {recommendations.ranked[0][0]}
                     </h3>
                     <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl">
@@ -972,25 +972,25 @@ export default function PeptideComparison() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 py-10 border-y border-slate-100">
                   <div>
                     <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Molecular Profile</p>
-                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].aminoAcids} AA</p>
+                    <p className="text-black font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].aminoAcids} AA</p>
                   </div>
                   <div>
                     <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Mass Spectrometry</p>
-                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].molecularWeight}</p>
+                    <p className="text-black font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].molecularWeight}</p>
                   </div>
                   <div>
                     <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Usage Type</p>
-                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_USAGE_TYPE[recommendations.ranked[0][0]].type.replace('_', ' ')}</p>
+                    <p className="text-black font-black text-lg">{PEPTIDE_USAGE_TYPE[recommendations.ranked[0][0]].type.replace('_', ' ')}</p>
                   </div>
                   <div>
                     <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Stability</p>
-                    <p className="text-slate-900 font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].stability}</p>
+                    <p className="text-black font-black text-lg">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].stability}</p>
                   </div>
                 </div>
 
                 <div className="space-y-8">
                   <div>
-                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
+                    <h4 className="text-sm font-black text-black uppercase tracking-widest mb-6 flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
                       Protocol Rationale
                     </h4>
@@ -999,7 +999,7 @@ export default function PeptideComparison() {
                         <div key={benefit} className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex items-start gap-4">
                           <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="font-black text-slate-900 text-xs uppercase tracking-tight mb-1">{benefit}</p>
+                            <p className="font-black text-black text-xs uppercase tracking-tight mb-1">{benefit}</p>
                             <p className="text-slate-500 text-xs leading-relaxed font-medium">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].benefits[benefit].studies}</p>
                           </div>
                         </div>
@@ -1027,7 +1027,7 @@ export default function PeptideComparison() {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 md:p-12"
               >
-                <h3 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tighter">Additional <span className="text-slate-400">Research Options</span></h3>
+                <h3 className="text-3xl font-black text-black mb-8 uppercase tracking-tighter">Additional <span className="text-slate-400">Research Options</span></h3>
                 <div className="space-y-4">
                   {recommendations.ranked.slice(1).filter(([_, data]) => data.matchPercentage > 0).map(([peptideName, data]) => {
                     const topPeptide = recommendations.ranked[0][0];
@@ -1046,13 +1046,13 @@ export default function PeptideComparison() {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-6">
                             <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-lg ${
-                              contraindication ? 'bg-red-100 text-[#dc2626]' : 'bg-slate-100 text-slate-900'
+                              contraindication ? 'bg-red-100 text-[#dc2626]' : 'bg-slate-100 text-black'
                             }`}>
                               {Math.round(data.matchPercentage)}%
                             </div>
                             <div>
                               <div className="flex items-center gap-3 mb-1">
-                                <h4 className="text-xl font-black text-slate-900 uppercase tracking-tight">{peptideName}</h4>
+                                <h4 className="text-xl font-black text-black uppercase tracking-tight">{peptideName}</h4>
                                 {contraindication && (
                                   <span className="px-3 py-1 bg-[#dc2626] text-white text-[8px] font-black uppercase tracking-widest rounded-full">Contraindicated</span>
                                 )}
@@ -1182,7 +1182,7 @@ export default function PeptideComparison() {
           >
             <div className="flex items-center gap-3 mb-8">
               <Microscope className="w-8 h-8 text-[#dc2626]" />
-              <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Clinical <span className="text-slate-400">Reference Library</span></h2>
+              <h2 className="text-3xl font-black text-black uppercase tracking-tighter">Clinical <span className="text-slate-400">Reference Library</span></h2>
             </div>
             <p className="text-slate-500 font-medium mb-12 text-lg max-w-3xl leading-relaxed">
               Every research material in our catalog is backed by peer-reviewed studies and undergoes rigorous purity verification.
@@ -1192,7 +1192,7 @@ export default function PeptideComparison() {
               {Object.entries(PEPTIDE_RESEARCH_DATA).map(([name, data]) => (
                 <div key={name} className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-all group">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">{name}</h3>
+                    <h3 className="text-2xl font-black text-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">{name}</h3>
                     <span className="px-3 py-1 bg-slate-100 text-slate-400 text-[8px] font-black uppercase tracking-widest rounded-full">{data.class}</span>
                   </div>
                   <p className="text-slate-400 text-xs font-black uppercase tracking-widest mb-4">{data.fullName}</p>

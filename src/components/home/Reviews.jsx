@@ -54,7 +54,7 @@ export default function Reviews() {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Community Verification</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6 uppercase">
+          <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6 uppercase">
             Researcher <br />
             <span className="text-[#dc2626]">Feedback</span>
           </h2>
@@ -98,13 +98,13 @@ export default function Reviews() {
                     className="text-center py-12"
                   >
                     <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                    <h3 className="text-2xl font-black text-slate-900 mb-2">Thank You!</h3>
+                    <h3 className="text-2xl font-black text-black mb-2">Thank You!</h3>
                     <p className="text-slate-500">Your review is pending approval and will appear soon.</p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="text-center mb-8">
-                      <h3 className="text-3xl font-black text-slate-900 mb-2">Share Your Experience</h3>
+                      <h3 className="text-3xl font-black text-black mb-2">Share Your Experience</h3>
                       <p className="text-slate-500">Help others by sharing your research journey</p>
                     </div>
 
@@ -203,7 +203,7 @@ export default function Reviews() {
                   </blockquote>
 
                   <div className="mt-auto pt-6 border-t border-slate-100">
-                    <p className="font-black text-slate-900 uppercase tracking-tight text-lg">{review.author_name}</p>
+                    <p className="font-black text-black uppercase tracking-tight text-lg">{review.author_name}</p>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       Verified Customer • {new Date(review.created_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </p>

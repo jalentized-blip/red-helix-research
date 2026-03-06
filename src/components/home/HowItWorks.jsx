@@ -46,7 +46,7 @@ export default function HowItWorks() {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
             <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">Efficiency Protocol</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+          <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             ACQUISITION <br />
             <span className="text-[#dc2626]">WORKFLOW</span>
           </h2>
@@ -75,7 +75,7 @@ export default function HowItWorks() {
                   {step.number}
                 </div>
 
-                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{step.title}</h3>
+                <h3 className="text-2xl font-black text-black mb-4 tracking-tight">{step.title}</h3>
                 <p className="text-slate-500 font-medium leading-relaxed">{step.description}</p>
               </div>
               
@@ -99,7 +99,7 @@ export default function HowItWorks() {
               <div className="w-8 h-8 rounded-full bg-[#dc2626]/5 flex items-center justify-center">
                 <item.icon className="w-4 h-4 text-[#dc2626]" />
               </div>
-              <span className="text-xs font-black text-slate-900 uppercase tracking-widest">{item.label}</span>
+              <span className="text-xs font-black text-black uppercase tracking-widest">{item.label}</span>
             </div>
           ))}
         </motion.div>

@@ -91,7 +91,7 @@ export default function Contact() {
                 <Sparkles className="w-4 h-4 text-[#dc2626]" />
                 <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">Researcher Support</span>
               </div>
-              <h1 className="text-6xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
+              <h1 className="text-6xl md:text-8xl font-black text-black mb-8 uppercase tracking-tighter leading-none">
                 Get In <span className="text-[#dc2626]">Touch</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-lg mb-12">
@@ -106,7 +106,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Email Support</div>
-                    <div className="text-lg font-black text-slate-900">support@redhelixresearch.com</div>
+                    <div className="text-lg font-black text-black">support@redhelixresearch.com</div>
                   </div>
                 </div>
 
@@ -116,7 +116,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Discord Community</div>
-                    <div className="text-lg font-black text-slate-900 group-hover:text-[#dc2626] transition-colors">
+                    <div className="text-lg font-black text-black group-hover:text-[#dc2626] transition-colors">
                       Join Official Server
                     </div>
                   </div>
@@ -132,7 +132,7 @@ export default function Contact() {
             transition={{ delay: 0.2 }}
             className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-slate-200/50"
           >
-            <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase tracking-tight">
+            <h2 className="text-3xl font-black text-black mb-8 uppercase tracking-tight">
               Send <span className="text-[#dc2626]">Message</span>
             </h2>
             
@@ -147,7 +147,7 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="Full Name"
                     required
-                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
+                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
                   />
                 </div>
                 <div className="space-y-2">
@@ -159,7 +159,7 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="name@institution.com"
                     required
-                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
+                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
                   />
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+1 (555) 000-0000"
-                  className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
+                  className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
                 />
               </div>
 
@@ -185,7 +185,7 @@ export default function Contact() {
                   placeholder="Please describe your research inquiry or support request..."
                   required
                   rows={6}
-                  className="bg-slate-50 border-slate-100 rounded-[24px] px-6 py-5 text-slate-900 placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold resize-none"
+                  className="bg-slate-50 border-slate-100 rounded-[24px] px-6 py-5 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold resize-none"
                 />
               </div>
 

@@ -110,7 +110,7 @@ export default function Cart() {
             <ArrowLeft className="w-4 h-4" />
             Continue Shopping
           </Link>
-          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tight">Shopping Cart</h1>
+          <h1 className="text-4xl font-black text-black uppercase tracking-tight">Shopping Cart</h1>
         </div>
 
         {cartItems.length === 0 ? (
@@ -131,7 +131,7 @@ export default function Cart() {
                 <div key={item.id} className="bg-white border border-slate-100 rounded-2xl md:rounded-[32px] p-4 md:p-8 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-black text-slate-900">{item.productName}</h3>
+                      <h3 className="text-xl font-black text-black">{item.productName}</h3>
                       <p className="text-slate-400 text-sm mt-1 font-bold uppercase tracking-wider">{item.specification}</p>
                     </div>
                     <button
@@ -157,7 +157,7 @@ export default function Cart() {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[40px] p-5 md:p-8 sticky top-24 lg:top-32 shadow-sm">
-                <h2 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tight">Summary</h2>
+                <h2 className="text-xl font-black text-black mb-6 uppercase tracking-tight">Summary</h2>
 
                 {/* Promo Code Section */}
                 <div className="mb-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
@@ -199,7 +199,7 @@ export default function Cart() {
                           onFocus={() => setPromoFocused(true)}
                           onBlur={() => setPromoFocused(false)}
                           placeholder="CODE"
-                          className="min-w-0 flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-300 font-bold focus:outline-none focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626]/20 transition-all"
+                          className="min-w-0 flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-black placeholder-slate-300 font-bold focus:outline-none focus:border-[#dc2626] focus:ring-1 focus:ring-[#dc2626]/20 transition-all"
                         />
                         {(promoCode || promoFocused) && (
                           <motion.div
@@ -242,7 +242,7 @@ export default function Cart() {
                     </div>
                   )}
                   <div className="pt-4 border-t border-slate-200">
-                    <div className="flex justify-between text-slate-900">
+                    <div className="flex justify-between text-black">
                       <span className="text-lg font-black uppercase tracking-tight">Total</span>
                       <span className="text-2xl font-black text-[#dc2626]">${finalTotal.toFixed(2)}</span>
                     </div>

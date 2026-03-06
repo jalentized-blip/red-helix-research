@@ -39,7 +39,7 @@ export default function Footer() {
 
           {/* Quick Links / Protocols */}
           <div className="lg:col-span-2 space-y-6">
-            <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">Scientific Resources</h4>
+            <h4 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Scientific Resources</h4>
             <nav aria-label="Footer scientific resources">
               <ul className="space-y-4">
                 <li><Link to={createPageUrl('COAReports')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Lab Archives (COA)</Link></li>
@@ -63,7 +63,7 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-full bg-[#dc2626] flex items-center justify-center shadow-lg shadow-[#dc2626]/20">
                   <AlertTriangle className="w-4 h-4 text-white" />
                 </div>
-                <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">Regulatory Compliance Protocol</h4>
+                <h4 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Regulatory Compliance Protocol</h4>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -75,7 +75,7 @@ export default function Footer() {
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-2">Age Requirement</p>
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest mb-2">Age Requirement</p>
                     <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
                       Strict 21+ policy enforced. Identity verification required for all acquisitions. No exceptions.
                     </p>
@@ -83,7 +83,7 @@ export default function Footer() {
                 </div>
                 <div className="space-y-6">
                   <div>
-                    <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-2">Handling Protocol</p>
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest mb-2">Handling Protocol</p>
                     <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
                       Must be handled by qualified professionals in an appropriate laboratory setting. PPE required.
                     </p>

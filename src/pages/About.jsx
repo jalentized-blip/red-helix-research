@@ -20,7 +20,7 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
     className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-100 hover:border-[#dc2626]/30 transition-all group relative overflow-hidden"
   >
     <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-110 transition-transform">
-      <Icon className="w-48 h-48 text-slate-900" />
+      <Icon className="w-48 h-48 text-black" />
     </div>
     
     <div className="flex flex-col md:flex-row items-start gap-8 relative z-10">
@@ -28,7 +28,7 @@ const StorySection = ({ icon: Icon, title, description, highlight, highlightSeco
         <Icon className="w-8 h-8 text-white" />
       </div>
       <div>
-        <h3 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter leading-none group-hover:text-[#dc2626] transition-colors">
+        <h3 className="text-3xl font-black text-black mb-4 uppercase tracking-tighter leading-none group-hover:text-[#dc2626] transition-colors">
           {title}
         </h3>
         <p className="text-lg text-slate-500 leading-relaxed mb-6 font-medium">
@@ -84,7 +84,7 @@ export default function About() {
             </Button>
           </Link>
           
-          <h1 className="text-6xl md:text-8xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
+          <h1 className="text-6xl md:text-8xl font-black text-black mb-8 uppercase tracking-tighter leading-none">
             Our <span className="text-[#dc2626]">Mission</span>
           </h1>
           
@@ -121,7 +121,7 @@ export default function About() {
               <stat.icon className="w-6 h-6 text-[#dc2626]" />
             </div>
             <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</div>
-            <h4 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">{stat.title}</h4>
+            <h4 className="text-2xl font-black text-black mb-2 uppercase tracking-tight">{stat.title}</h4>
             <p className="text-sm text-slate-500 font-medium">{stat.desc}</p>
           </motion.div>
         ))}
@@ -158,7 +158,7 @@ export default function About() {
       <div className="max-w-5xl mx-auto px-4 relative z-10">
         <div className="bg-white border border-slate-200 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden shadow-xl shadow-slate-200/50">
           <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
-            <ShieldCheck className="w-64 h-64 text-slate-900" />
+            <ShieldCheck className="w-64 h-64 text-black" />
           </div>
           
           <motion.div
@@ -167,7 +167,7 @@ export default function About() {
             viewport={{ once: true }}
             className="relative z-10"
           >
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 uppercase tracking-tighter leading-none">
+            <h2 className="text-4xl md:text-6xl font-black text-black mb-8 uppercase tracking-tighter leading-none">
               The Red Helix <span className="text-[#dc2626]">Standard</span>
             </h2>
             <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
@@ -186,7 +186,7 @@ export default function About() {
                   <div className="w-6 h-6 rounded-full bg-[#dc2626] flex items-center justify-center flex-shrink-0">
                     <ShieldCheck className="w-4 h-4 text-white" />
                   </div>
-                  <span className="text-sm font-bold text-slate-900 uppercase tracking-wide">{item}</span>
+                  <span className="text-sm font-bold text-black uppercase tracking-wide">{item}</span>
                 </div>
               ))}
             </div>

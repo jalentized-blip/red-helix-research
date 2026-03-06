@@ -57,7 +57,7 @@ export function RelatedPeptides({ currentPeptide, maxItems = 3 }) {
 
   return (
     <div className="mt-12 md:mt-20">
-      <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter mb-6 md:mb-8">
+      <h2 className="text-3xl md:text-4xl font-black text-black uppercase tracking-tighter mb-6 md:mb-8">
         Related <span className="text-[#dc2626]">Research Compounds</span>
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -72,10 +72,10 @@ export function RelatedPeptides({ currentPeptide, maxItems = 3 }) {
                   </div>
                   <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{data.category}</span>
                 </div>
-                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-1 group-hover:text-[#dc2626] transition-colors">{name}</h3>
+                <h3 className="text-xl font-black text-black uppercase tracking-tight mb-1 group-hover:text-[#dc2626] transition-colors">{name}</h3>
                 <p className="text-slate-500 text-xs font-medium mb-3">{data.shortDesc}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-black text-slate-900">From ${data.priceFrom}</span>
+                  <span className="text-sm font-black text-black">From ${data.priceFrom}</span>
                   <ArrowRight className="w-4 h-4 text-[#dc2626] group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -90,14 +90,14 @@ export function RelatedPeptides({ currentPeptide, maxItems = 3 }) {
 export function ResourceLinks({ maxItems = 4 }) {
   return (
     <div className="mt-8 md:mt-12">
-      <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter mb-4">
+      <h3 className="text-lg font-black text-black uppercase tracking-tighter mb-4">
         Research <span className="text-[#dc2626]">Resources</span>
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {RESOURCE_LINKS.slice(0, maxItems).map((link) => (
           <Link key={link.page} to={createPageUrl(link.page)}>
             <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 hover:border-[#dc2626]/20 hover:bg-white transition-all group">
-              <p className="text-xs font-black text-slate-900 uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">{link.name}</p>
+              <p className="text-xs font-black text-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">{link.name}</p>
               <p className="text-[10px] text-slate-400 font-medium mt-1">{link.desc}</p>
             </div>
           </Link>
@@ -115,7 +115,7 @@ export function InternalLinkFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-3">
           {/* Product Links */}
           <div>
-            <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">Products</p>
+            <p className="text-[10px] font-black text-black uppercase tracking-widest mb-3">Products</p>
             {Object.entries(PEPTIDE_LINKS).map(([name, data]) => (
               <Link key={name} to={createPageUrl(data.page)} className="block text-xs text-slate-500 hover:text-[#dc2626] font-medium py-1 transition-colors">
                 Buy {name} Peptide
@@ -130,7 +130,7 @@ export function InternalLinkFooter() {
           </div>
           {/* Research Links */}
           <div>
-            <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">Research</p>
+            <p className="text-[10px] font-black text-black uppercase tracking-widest mb-3">Research</p>
             <Link to={createPageUrl('BlogGuide')} className="block text-xs text-slate-500 hover:text-[#dc2626] font-medium py-1 transition-colors">
               Peptide Research Guides
             </Link>
@@ -149,7 +149,7 @@ export function InternalLinkFooter() {
           </div>
           {/* Tools & Resources */}
           <div>
-            <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">Tools</p>
+            <p className="text-[10px] font-black text-black uppercase tracking-widest mb-3">Tools</p>
             <Link to={createPageUrl('PeptideCalculator')} className="block text-xs text-slate-500 hover:text-[#dc2626] font-medium py-1 transition-colors">
               Peptide Calculator
             </Link>
@@ -165,7 +165,7 @@ export function InternalLinkFooter() {
           </div>
           {/* Company */}
           <div>
-            <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest mb-3">Company</p>
+            <p className="text-[10px] font-black text-black uppercase tracking-widest mb-3">Company</p>
             <Link to={createPageUrl('About')} className="block text-xs text-slate-500 hover:text-[#dc2626] font-medium py-1 transition-colors">
               About Us
             </Link>

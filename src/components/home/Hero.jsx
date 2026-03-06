@@ -59,9 +59,9 @@ const Hero = React.memo(() => {
 
           {/* Main Title - High Contrast on Light BG */}
           <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9] lg:leading-[0.85] flex flex-col">
-            <span className="text-slate-900">PRECISION</span>
+            <span className="text-black">PRECISION</span>
             <span className="text-[#dc2626]">RESEARCH</span>
-            <span className="text-slate-900">PEPTIDES</span>
+            <span className="text-black">PEPTIDES</span>
           </h1>
 
           <p className="text-base md:text-xl text-slate-600 mb-8 md:mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
@@ -77,7 +77,7 @@ const Hero = React.memo(() => {
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/50 rounded-2xl border border-slate-100 lg:bg-transparent lg:border-0 lg:p-0">
                 <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#dc2626] mb-1" />
-                <span className="text-xs md:text-sm font-black text-slate-900">{stat.label}</span>
+                <span className="text-xs md:text-sm font-black text-black">{stat.label}</span>
                 <span className="text-[11px] md:text-xs text-slate-500 uppercase tracking-tighter font-black">{stat.sub}</span>
               </div>
             ))}

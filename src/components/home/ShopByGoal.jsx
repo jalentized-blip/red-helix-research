@@ -90,7 +90,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-100 rounded-full mb-6">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Research Categorization</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-6">
+          <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             SHOP BY <br />
             <span className="text-[#dc2626]">OBJECTIVE</span>
           </h2>
@@ -119,7 +119,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                       <goal.icon className={`w-7 h-7 ${goal.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-slate-900 group-hover:text-[#dc2626] transition-colors tracking-tight">
+                      <h3 className="text-2xl font-black text-black group-hover:text-[#dc2626] transition-colors tracking-tight">
                         {goal.title}
                       </h3>
                       <p className="text-sm text-slate-500 mt-2 font-medium leading-relaxed">
@@ -149,7 +149,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                           onMouseEnter={() => setHoveredPeptide(productName)}
                           onMouseLeave={() => setHoveredPeptide(null)}
                         >
-                          <div className="px-4 py-2 bg-white rounded-xl text-[10px] font-black text-slate-900 border border-slate-100 group-hover:border-[#dc2626]/20 hover:bg-[#dc2626] hover:text-white transition-all cursor-default flex items-center gap-2 uppercase tracking-widest">
+                          <div className="px-4 py-2 bg-white rounded-xl text-[10px] font-black text-black border border-slate-100 group-hover:border-[#dc2626]/20 hover:bg-[#dc2626] hover:text-white transition-all cursor-default flex items-center gap-2 uppercase tracking-widest">
                             <Info className="w-3 h-3 text-[#dc2626]/40 group-hover:text-white" />
                             {productName}
                           </div>

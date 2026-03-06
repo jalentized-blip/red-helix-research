@@ -1953,7 +1953,7 @@ export default function BlogGuide() {
           keywords={post.keywords}
         />
         <div className="max-w-4xl mx-auto px-4">
-          <Button variant="outline" onClick={() => setSelectedPost(null)} className="mb-8 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50">
+          <Button variant="outline" onClick={() => setSelectedPost(null)} className="mb-8 border-slate-200 text-slate-600 hover:text-black hover:bg-slate-50">
             ← Back to Blog
           </Button>
           <motion.article
@@ -1962,19 +1962,19 @@ export default function BlogGuide() {
             className="prose prose-slate max-w-none"
           >
             <div className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">{post.title}</h1>
+              <h1 className="text-4xl md:text-5xl font-black text-black mb-4">{post.title}</h1>
               <div className="flex items-center gap-4 text-slate-500 text-sm font-medium">
                 <span>{post.date}</span>
                 <span>•</span>
                 <span>{post.readTime}</span>
               </div>
             </div>
-            <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 prose-headings:text-slate-900 prose-p:text-slate-600 prose-strong:text-slate-900 prose-a:text-[#dc2626] prose-code:text-[#dc2626] prose-pre:bg-slate-900 prose-table:border-slate-200 shadow-sm">
+            <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 md:p-12 prose-headings:text-black prose-p:text-slate-600 prose-strong:text-black prose-a:text-[#dc2626] prose-code:text-[#dc2626] prose-pre:bg-slate-900 prose-table:border-slate-200 shadow-sm">
               {post.content.split('\n').map((line, idx) => {
-                if (line.startsWith('# ')) return <h1 key={idx} className="text-3xl font-black mt-8 mb-6 text-slate-900 uppercase tracking-tight">{line.substring(2)}</h1>;
-                if (line.startsWith('## ')) return <h2 key={idx} className="text-2xl font-bold mt-8 mb-4 text-slate-900 flex items-center gap-2">{line.substring(3)}</h2>;
+                if (line.startsWith('# ')) return <h1 key={idx} className="text-3xl font-black mt-8 mb-6 text-black uppercase tracking-tight">{line.substring(2)}</h1>;
+                if (line.startsWith('## ')) return <h2 key={idx} className="text-2xl font-bold mt-8 mb-4 text-black flex items-center gap-2">{line.substring(3)}</h2>;
                 if (line.startsWith('### ')) return <h3 key={idx} className="text-xl font-bold mt-6 mb-3 text-slate-800">{line.substring(4)}</h3>;
-                if (line.startsWith('**') && line.endsWith('**')) return <p key={idx} className="font-bold text-slate-900">{line.substring(2, line.length - 2)}</p>;
+                if (line.startsWith('**') && line.endsWith('**')) return <p key={idx} className="font-bold text-black">{line.substring(2, line.length - 2)}</p>;
                 if (line.startsWith('- ')) return <li key={idx} className="ml-4 text-slate-600 marker:text-[#dc2626]">{line.substring(2)}</li>;
                 if (line.trim() === '') return <br key={idx} />;
                 return <p key={idx} className="mb-4 text-slate-600 leading-relaxed">{line}</p>;
@@ -1996,14 +1996,14 @@ export default function BlogGuide() {
       />
       <div className="max-w-6xl mx-auto px-4">
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="mb-8 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50">
+          <Button variant="outline" className="mb-8 border-slate-200 text-slate-600 hover:text-black hover:bg-slate-50">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-4 uppercase tracking-tight">Research Guides & Education</h1>
+          <h1 className="text-5xl md:text-6xl font-black text-black mb-4 uppercase tracking-tight">Research Guides & Education</h1>
           <p className="text-xl text-slate-500 font-medium">Comprehensive, evidence-based guides for peptide researchers</p>
         </motion.div>
 
@@ -2022,7 +2022,7 @@ export default function BlogGuide() {
                   <post.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-black text-slate-900 mb-2 leading-tight group-hover:text-[#dc2626] transition-colors">{post.title}</h2>
+                  <h2 className="text-xl font-black text-black mb-2 leading-tight group-hover:text-[#dc2626] transition-colors">{post.title}</h2>
                   <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
                     <span>{post.date}</span>
                     <span>•</span>

@@ -101,7 +101,7 @@ export default function OrderTracking() {
             <ArrowLeft className="w-4 h-4" />
             Back to Account
           </Link>
-          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tight">Order Tracking</h1>
+          <h1 className="text-4xl font-black text-black uppercase tracking-tight">Order Tracking</h1>
           <p className="text-slate-500 mt-2 font-medium">Track your orders in real-time</p>
         </div>
 
@@ -181,7 +181,7 @@ export default function OrderTracking() {
                         })}
                       </p>
                     </div>
-                    <p className="text-2xl font-black text-slate-900">${order.total_amount?.toFixed(2)}</p>
+                    <p className="text-2xl font-black text-black">${order.total_amount?.toFixed(2)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className={`px-4 py-2 rounded-full border flex items-center gap-2 ${getStatusColor(order.status)}`}>
@@ -200,7 +200,7 @@ export default function OrderTracking() {
                         <span className="text-slate-700 font-medium">
                           {item.productName || item.product_name || 'Product'} <span className="text-slate-400 text-xs ml-1">{item.specification}</span>
                         </span>
-                        <span className="text-slate-900 font-bold">
+                        <span className="text-black font-bold">
                           {item.quantity}x ${item.price?.toFixed(2)}
                         </span>
                       </div>
@@ -221,7 +221,7 @@ export default function OrderTracking() {
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex-1">
-                        <p className="text-lg text-slate-900 font-mono font-bold tracking-tight">{order.tracking_number}</p>
+                        <p className="text-lg text-black font-mono font-bold tracking-tight">{order.tracking_number}</p>
                         <p className="text-sm text-slate-500 mt-1 font-medium">
                           Carrier: <span className="text-purple-700 font-bold">{order.carrier}</span>
                         </p>
