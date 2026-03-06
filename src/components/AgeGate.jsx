@@ -191,7 +191,7 @@ export default function AgeGate({ onVerified }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-slate-950/98 backdrop-blur-xl flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] bg-slate-950/98 backdrop-blur-xl flex flex-col items-center justify-center p-4 overflow-y-auto">
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-slate-800 z-[10000]">
         <motion.div
@@ -214,15 +214,13 @@ export default function AgeGate({ onVerified }) {
           {stage === 1 && <Stage2DOB formData={formData} setFormData={setFormData} onDeny={handleDeny} onAdvance={advanceStage} computedAge={computedAge} />}
           {stage === 2 && <Stage3Researcher formData={formData} setFormData={setFormData} onAdvance={advanceStage} />}
           {stage === 3 && <Stage4Compliance formData={formData} setFormData={setFormData} onDeny={handleDeny} onAdvance={advanceStage} />}
+
+          {/* Footer — inside the animated card wrapper so it always sits below */}
+          <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold text-center mt-4 pb-4">
+            PACT Act Compliant · FDA Research Product Disclosure · Audit Trail Active · Stage {stage + 1} of {STAGES.length}
+          </p>
         </motion.div>
       </AnimatePresence>
-
-      {/* Footer */}
-      <div className="w-full max-w-lg mx-auto mt-4 pb-8 text-center">
-        <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
-          PACT Act Compliant · FDA Research Product Disclosure · Audit Trail Active · Stage {stage + 1} of {STAGES.length}
-        </p>
-      </div>
     </div>
   );
 }
