@@ -218,8 +218,8 @@ export default function AgeGate({ onVerified }) {
       </AnimatePresence>
 
       {/* Footer */}
-      <div className="fixed bottom-4 left-0 right-0 text-center">
-        <p className="text-[10px] text-slate-600 uppercase tracking-widest font-bold">
+      <div className="w-full max-w-lg mx-auto mt-4 pb-8 text-center">
+        <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
           PACT Act Compliant · FDA Research Product Disclosure · Audit Trail Active · Stage {stage + 1} of {STAGES.length}
         </p>
       </div>
