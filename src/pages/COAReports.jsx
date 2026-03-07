@@ -17,6 +17,14 @@ export default function COAReports() {
   const [user, setUser] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [copiedId, setCopiedId] = useState(null);
+
+  const copyShareLink = (id) => {
+    const url = `${window.location.origin}${window.location.pathname}?coa=${id}`;
+    navigator.clipboard.writeText(url);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
