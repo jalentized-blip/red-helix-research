@@ -186,8 +186,8 @@ Deno.serve(async (req) => {
       riskFlags.push('PRIOR_CHARGEBACK_HISTORY');
     }
 
-    // Same device, different emails (fraud ring signal)
-    if (sameDeviceOtherEmails >= 2) {
+    // Same device, different emails — requires 3+ to reduce family/shared device false positives
+    if (sameDeviceOtherEmails >= 3) {
       riskFlags.push('MULTI_ACCOUNT_SAME_DEVICE');
     }
 
