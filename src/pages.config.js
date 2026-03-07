@@ -110,6 +110,7 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import SecurityDashboard from './pages/SecurityDashboard';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
+import AdminSentEmails from './pages/AdminSentEmails';
 import __Layout from './Layout.jsx';
 
 
@@ -177,6 +178,7 @@ export const PAGES = {
     "SecurityDashboard": SecurityDashboard,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
+    "AdminSentEmails": AdminSentEmails,
 }
 
 export const pagesConfig = {
