@@ -21,7 +21,7 @@ import SecurityMonitor from '@/components/security/SecurityMonitor';
 import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
 import ResearchDisclaimerGate from '@/components/ResearchDisclaimerGate';
-import OrderIssueBanner from '@/components/OrderIssueBanner';
+
 
 const HeaderSearch = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -503,7 +503,7 @@ const HeaderSearch = () => {
         `}</style>
         <MolecularBackground />
         <FloatingMolecularFormulas />
-        <OrderIssueBanner adminViewAsUser={viewAsUser} />
+
 
         {/* Mobile Header Toggle (when collapsed on home page) */}
         {isHomePage && mobileHeaderCollapsed && (
