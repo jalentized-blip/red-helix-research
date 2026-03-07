@@ -151,6 +151,19 @@ Deno.serve(async (req) => {
       from_name: 'Red Helix Research'
     });
 
+    // Log to OrderCommunication entity
+    await base44.asServiceRole.entities.OrderCommunication.create({
+      order_id: 'outage-notice',
+      order_number: 'OUTAGE',
+      customer_email: to,
+      customer_name: customerName,
+      subject: 'Important Update Regarding Your Order — Red Helix Research',
+      body: htmlBody,
+      template_used: 'outage_apology',
+      sent_by: 'admin',
+      sent_at: new Date().toISOString(),
+    });
+
     return Response.json({ success: true, result });
 
   } catch (error) {
