@@ -165,16 +165,7 @@ Deno.serve(async (req) => {
       riskFlags.push('BILLING_SHIPPING_MISMATCH');
     }
 
-    // New account + very high value (>$400) — raised threshold to avoid flagging normal first orders
-    const accountAgeDays = (Date.now() - new Date(user.created_date).getTime()) / (1000 * 60 * 60 * 24);
-    if (accountAgeDays < 7 && orderAmount > 400) {
-      riskFlags.push('NEW_ACCOUNT_HIGH_VALUE');
-    }
-
-    // First time buyer + very high value (>$500) — gifts/bulk orders are normal
-    if (completedPriorOrders.length === 0 && orderAmount > 500) {
-      riskFlags.push('FIRST_ORDER_HIGH_VALUE');
-    }
+    // Order amount thresholds removed — products are inherently expensive, these flags create false positives.
 
     // Velocity — multiple orders same email in 24h
     if (recentOrders.length >= 3) {
