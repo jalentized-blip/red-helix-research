@@ -18,6 +18,7 @@ export default function COAReports() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
+  const [highlightedId, setHighlightedId] = useState(null);
 
   const copyShareLink = (id) => {
     const url = `${window.location.origin}${window.location.pathname}?coa=${id}`;
@@ -25,6 +26,19 @@ export default function COAReports() {
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
+
+  // Auto-scroll to and highlight COA from URL param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const coaId = params.get('coa');
+    if (coaId) {
+      setHighlightedId(coaId);
+      setTimeout(() => {
+        const el = document.getElementById(`coa-${coaId}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
+    }
+  }, [coas]);
 
   useEffect(() => {
     const fetchUser = async () => {
