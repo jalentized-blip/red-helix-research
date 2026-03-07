@@ -1581,7 +1581,10 @@ export default function AdminOrderManagement() {
               customer_name: o.customer_name || '',
               customer_email: o.customer_email || o.created_by || '',
               customer_phone: o.customer_phone || '',
-              items: o.items || [],
+              items: (o.items || []).map(item => ({
+                ...item,
+                productName: resolveProductName(item, products, productMap) || item.productName || item.product_name || 'Unknown',
+              })),
               total_amount: o.total_amount,
               subtotal: o.subtotal,
               discount_amount: o.discount_amount,
