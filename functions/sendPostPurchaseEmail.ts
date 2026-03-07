@@ -5,7 +5,7 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
     
-    const { email, orderNumber, orderItems, firstName = 'Researcher', trackingNumber = null } = body;
+    const { email, orderNumber, orderItems, firstName = 'Researcher', trackingNumber = null, totalAmount, shippingAddress, paymentMethod, customerPhone } = body;
 
     if (!email || !orderNumber || !orderItems) {
       return Response.json({ error: 'Missing required fields' }, { status: 400 });
