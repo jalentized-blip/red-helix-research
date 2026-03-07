@@ -68,6 +68,28 @@ Research-Grade Peptides Since 2020`;
       </tr>`;
     }).join('');
 
+    // ── SMS notification to admin ──
+    const itemsSummary = orderItems.slice(0, 3).map(item => {
+      const name = item.productName || item.name || 'Item';
+      const spec = item.specification || item.spec || '';
+      return `${name}${spec ? ' (' + spec + ')' : ''} x${item.quantity}`;
+    }).join(', ');
+    const smsBody = `🛍️ New RHR Order!\n#${orderNumber} — ${firstName} — $${totalAmount || '?'}\n${itemsSummary}\nAdmin: redhelixresearch.com/AdminOrderManagement`;
+
+    const twilioSid = Deno.env.get('TWILIO_ACCOUNT_SID');
+    const twilioAuth = Deno.env.get('TWILIO_AUTH_TOKEN');
+    const twilioFrom = Deno.env.get('TWILIO_PHONE_NUMBER');
+    const twilioTo = '+14056936072';
+
+    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${twilioSid}/Messages.json`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + btoa(`${twilioSid}:${twilioAuth}`),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({ To: twilioTo, From: twilioFrom, Body: smsBody })
+    });
+
     await base44.integrations.Core.SendEmail({
       to: 'jake@redhelixresearch.com',
       subject: `🛍️ New Order #${orderNumber} — ${firstName} — $${totalAmount || '?'}`,
