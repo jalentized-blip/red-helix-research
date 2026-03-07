@@ -465,6 +465,14 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
               />
             </div>
 
+            {/* Fraud & Chargeback Evidence */}
+            <div>
+              <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3 flex items-center gap-2">
+                <span>Fraud Protection & Chargeback Evidence</span>
+              </h4>
+              <FraudEvidencePanel orderNumber={order.order_number} />
+            </div>
+
             {/* Customer Communications */}
             <OrderCommsPanel order={{ ...order, customer_email: form.customer_email, customer_name: form.customer_name }} adminEmail={adminEmail} />
           </div>
