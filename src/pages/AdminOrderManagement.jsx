@@ -1573,6 +1573,43 @@ export default function AdminOrderManagement() {
           <Button onClick={() => setShowTaxReport(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-6 py-4 sm:py-5 rounded-full shadow-lg flex-1 sm:flex-none">
             <Receipt className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Tax Report</span><span className="sm:hidden">Tax</span>
           </Button>
+          <Button onClick={() => {
+            const log = orders.map(o => ({
+              order_number: o.order_number,
+              created_date: o.created_date,
+              status: o.status,
+              customer_name: o.customer_name || '',
+              customer_email: o.customer_email || o.created_by || '',
+              customer_phone: o.customer_phone || '',
+              items: o.items || [],
+              total_amount: o.total_amount,
+              subtotal: o.subtotal,
+              discount_amount: o.discount_amount,
+              shipping_cost: o.shipping_cost,
+              payment_method: o.payment_method || '',
+              payment_status: o.payment_status || '',
+              transaction_id: o.transaction_id || '',
+              crypto_currency: o.crypto_currency || '',
+              carrier: o.carrier || '',
+              tracking_number: o.tracking_number || '',
+              estimated_delivery: o.estimated_delivery || '',
+              delivered_date: o.delivered_date || '',
+              shipping_address: o.shipping_address || {},
+              admin_notes: o.admin_notes || '',
+              total_product_cost: o.total_product_cost ?? null,
+              id: o.id,
+            }));
+            const blob = new Blob([JSON.stringify(log, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `order-log-${format(new Date(), 'yyyy-MM-dd')}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            toast.success(`Downloaded log of ${log.length} orders`);
+          }} className="bg-green-700 hover:bg-green-800 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg flex-1 sm:flex-none">
+            <Download className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Order Log</span><span className="sm:hidden">Log</span>
+          </Button>
         </div>
         </div>
 
