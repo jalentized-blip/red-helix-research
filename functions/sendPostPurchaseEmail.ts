@@ -48,6 +48,35 @@ Research-Grade Peptides Since 2020`;
       from_name: 'Red Helix Research'
     });
 
+    // Admin notification email
+    const itemsHtml = orderItems.map(item => `<tr><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;">${item.name}</td><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;text-align:center;">${item.quantity}</td><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;text-align:right;">$${item.price ? (item.price * item.quantity).toFixed(2) : '—'}</td></tr>`).join('');
+    const addr = shippingAddress || {};
+    const addrStr = [addr.address || addr.shippingAddress, addr.city || addr.shippingCity, addr.state || addr.shippingState, addr.zip || addr.shippingZip].filter(Boolean).join(', ');
+
+    await base44.integrations.Core.SendEmail({
+      to: 'jake@redhelixresearch.com',
+      subject: `🛍️ New Order #${orderNumber} — ${firstName} — $${totalAmount || '?'}`,
+      from_name: 'Red Helix Research Orders',
+      body: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:30px;background:#fff;">
+        <h2 style="color:#dc2626;margin-bottom:4px;">New Order Placed</h2>
+        <p style="color:#64748b;font-size:13px;margin-top:0;">Order <strong>#${orderNumber}</strong></p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+          <tr><td style="padding:8px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;width:40%;">Customer</td><td style="padding:8px 0;font-weight:700;">${firstName}</td></tr>
+          <tr><td style="padding:8px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Email</td><td style="padding:8px 0;">${email}</td></tr>
+          ${customerPhone ? `<tr><td style="padding:8px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Phone</td><td style="padding:8px 0;">${customerPhone}</td></tr>` : ''}
+          ${addrStr ? `<tr><td style="padding:8px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Ship To</td><td style="padding:8px 0;">${addrStr}</td></tr>` : ''}
+          ${paymentMethod ? `<tr><td style="padding:8px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Payment</td><td style="padding:8px 0;">${paymentMethod}</td></tr>` : ''}
+          ${totalAmount ? `<tr><td style="padding:8px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Total</td><td style="padding:8px 0;font-size:18px;font-weight:900;color:#dc2626;">$${totalAmount}</td></tr>` : ''}
+        </table>
+        <h4 style="margin-bottom:8px;color:#0f172a;">Items Ordered</h4>
+        <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;">
+          <tr style="background:#e2e8f0;"><th style="padding:8px 12px;text-align:left;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Product</th><th style="padding:8px 12px;text-align:center;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Qty</th><th style="padding:8px 12px;text-align:right;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Total</th></tr>
+          ${itemsHtml}
+        </table>
+        <p style="margin-top:24px;font-size:12px;color:#94a3b8;">View in Admin: <a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;">Order Management →</a></p>
+      </div>`
+    });
+
     return Response.json({ 
       success: true, 
       message: 'Post-purchase email sent',
