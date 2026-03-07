@@ -83,16 +83,22 @@ export async function runFraudCheck({ base44, orderNumber, orderAmount, paymentM
     pagesVisited,
   };
 
-  const result = await base44.functions.invoke('fraudCheck', payload);
-  const data = result?.data || result;
+  try {
+    const result = await base44.functions.invoke('fraudCheck', payload);
+    const data = result?.data || result;
 
-  return {
-    allowed: data?.allowed !== false, // fail open
-    blocked: data?.blocked || false,
-    blockReason: data?.block_reason || null,
-    riskLevel: data?.risk_level || 'low',
-    riskScore: data?.risk_score || 0,
-    riskFlags: data?.risk_flags || [],
-    requiresReview: data?.requires_review || false,
-  };
+    return {
+      allowed: data?.allowed !== false, // fail open
+      blocked: data?.blocked === true,  // must be explicitly true to block
+      blockReason: data?.block_reason || null,
+      riskLevel: data?.risk_level || 'low',
+      riskScore: data?.risk_score || 0,
+      riskFlags: data?.risk_flags || [],
+      requiresReview: data?.requires_review || false,
+    };
+  } catch (e) {
+    // ANY error = fail open. Never block a real customer due to a system issue.
+    console.warn('Fraud check failed, allowing order through:', e?.message);
+    return { allowed: true, blocked: false, blockReason: null, riskLevel: 'low', riskScore: 0, riskFlags: [], requiresReview: false };
+  }
 }
