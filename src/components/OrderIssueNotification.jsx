@@ -10,8 +10,10 @@ const STORAGE_KEY = 'order_issue_form_submitted_linda';
 const TARGET_EMAIL = 'lindaograce86@hotmail.com';
 
 export default function OrderIssueNotification({ user }) {
-  const isTargetUser = user?.email === TARGET_EMAIL || user?.role === 'admin';
-  const alreadySubmitted = localStorage.getItem(STORAGE_KEY) === 'true';
+  const isAdmin = user?.role === 'admin';
+  const isTargetUser = user?.email === TARGET_EMAIL || isAdmin;
+  // Admins always see the form regardless of localStorage (for testing)
+  const alreadySubmitted = isAdmin ? false : localStorage.getItem(STORAGE_KEY) === 'true';
 
   const [dismissed, setDismissed] = useState(alreadySubmitted);
   const [showForm, setShowForm] = useState(false);
