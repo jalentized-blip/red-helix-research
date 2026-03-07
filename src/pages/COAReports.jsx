@@ -44,6 +44,19 @@ export default function COAReports() {
     queryFn: () => base44.entities.UserCOA.list('-created_date'),
   });
 
+  // Auto-scroll to and highlight COA from URL param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const coaId = params.get('coa');
+    if (coaId && coas.length > 0) {
+      setHighlightedId(coaId);
+      setTimeout(() => {
+        const el = document.getElementById(`coa-${coaId}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
+    }
+  }, [coas]);
+
   const isAdmin = user?.role === 'admin';
 
   // Show all COAs to admins, only approved to regular users
