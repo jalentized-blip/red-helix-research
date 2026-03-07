@@ -40,6 +40,7 @@ import { trackPurchase } from '@/utils/hubspotAnalytics';
 import { base44 } from '@/api/base44Client';
 import { recordAffiliateOrder } from '@/components/utils/affiliateStore';
 import TurnstileWidget from '@/components/TurnstileWidget';
+import { runFraudCheck } from '@/components/checkout/FraudCheckGate';
 
 // Payment wallet addresses
 const PAYMENT_ADDRESSES = {
