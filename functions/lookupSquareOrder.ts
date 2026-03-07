@@ -81,13 +81,19 @@ Deno.serve(async (req) => {
     const catalogData = await catalogRes.json();
     const catalogItems = catalogData.objects || [];
 
+    const items = (linda?.order?.line_items || []).map(li => ({
+      name: li.name,
+      quantity: li.quantity,
+      unit_price_usd: (li.base_price_money?.amount || 0) / 100,
+      line_total_usd: (li.total_money?.amount || 0) / 100,
+    }));
+
     return Response.json({
-      line_items: linda?.order?.line_items || [],
-      order_note: linda?.payment?.note || null,
-      total: linda?.payment?.amount_money,
-      shipping_address: linda?.payment?.shipping_address || null,
+      customer: 'Grace Lindao (lindaograce86@gmail.com)',
+      order_total_usd: (linda?.payment?.amount_money?.amount || 0) / 100,
       created_at: linda?.payment?.created_at,
-      catalog_items: catalogItems.map(i => ({ id: i.id, type: i.type, name: i.item_data?.name || i.item_variation_data?.name, sku: i.item_variation_data?.sku })),
+      shipping_address: linda?.payment?.shipping_address || null,
+      items,
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
