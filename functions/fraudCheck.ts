@@ -146,12 +146,6 @@ Deno.serve(async (req) => {
       riskFlags.push('IP_COUNTRY_MISMATCH');
     }
 
-    // High-risk billing state
-    const billingState = (billingAddress?.state || '').toUpperCase();
-    if (HIGH_RISK_STATES.includes(billingState)) {
-      riskFlags.push('HIGH_RISK_STATE');
-    }
-
     // PO Box shipping
     const shippingAddr = shippingAddress?.address || '';
     if (PO_BOX_PATTERNS.test(shippingAddr)) {
