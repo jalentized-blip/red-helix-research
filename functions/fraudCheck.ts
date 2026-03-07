@@ -195,8 +195,7 @@ Deno.serve(async (req) => {
       MULTI_ACCOUNT_SAME_DEVICE: 30,
       PRIOR_CHARGEBACK_HISTORY: 45,
       HIGH_VELOCITY: 20,
-      NEW_ACCOUNT_HIGH_VALUE: 15,
-      FIRST_ORDER_HIGH_VALUE: 8,
+
       FREIGHT_FORWARDER: 20,
       PO_BOX_SHIPPING: 8,        // lowered — many rural customers use PO boxes
       BILLING_SHIPPING_MISMATCH: 5, // lowered — gift orders are common
