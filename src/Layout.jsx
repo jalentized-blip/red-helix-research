@@ -219,6 +219,20 @@ const HeaderSearch = () => {
   );
 };
 
+      // Track session page visits for fraud detection behavioral signals
+      const _sessionStart = (() => {
+        if (typeof window !== 'undefined') {
+          if (!localStorage.getItem('rhr_session_start')) {
+            localStorage.setItem('rhr_session_start', String(Date.now()));
+            localStorage.setItem('rhr_pages_visited', '1');
+          } else {
+            const v = parseInt(localStorage.getItem('rhr_pages_visited') || '1', 10);
+            localStorage.setItem('rhr_pages_visited', String(v + 1));
+          }
+        }
+        return null;
+      })();
+
       export default function Layout({ children }) {
         const [scrolled, setScrolled] = useState(false);
         const [cartCount, setCartCount] = useState(0);
