@@ -7,11 +7,14 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 
 const STORAGE_KEY = 'order_issue_form_submitted_linda';
+const SESSION_DISMISS_KEY = 'order_issue_modal_dismissed';
 const TARGET_EMAIL = 'lindaograce86@hotmail.com';
 
 export default function OrderIssueBanner({ adminViewAsUser = false }) {
   const [show, setShow] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(
+    () => sessionStorage.getItem(SESSION_DISMISS_KEY) === 'true'
+  );
 
   useEffect(() => {
     const check = async () => {
