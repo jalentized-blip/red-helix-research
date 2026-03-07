@@ -12,15 +12,18 @@ export default function OrderIssueBanner() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const alreadySubmitted = localStorage.getItem(STORAGE_KEY) === 'true';
-    if (alreadySubmitted) return;
-
     const check = async () => {
       try {
         const isAuth = await base44.auth.isAuthenticated();
         if (!isAuth) return;
         const user = await base44.auth.me();
-        if (user?.email === TARGET_EMAIL || user?.role === 'admin') {
+
+        if (user?.email === TARGET_EMAIL) {
+          // For the target user, hide once they've submitted the form
+          const alreadySubmitted = localStorage.getItem(STORAGE_KEY) === 'true';
+          if (!alreadySubmitted) setShow(true);
+        } else if (user?.role === 'admin') {
+          // Admins always see it (for testing/preview purposes)
           setShow(true);
         }
       } catch {}
