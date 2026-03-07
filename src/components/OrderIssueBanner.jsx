@@ -83,7 +83,7 @@ export default function OrderIssueBanner({ adminViewAsUser = false }) {
             </Link>
 
             <button
-              onClick={() => setDismissed(true)}
+              onClick={() => { sessionStorage.setItem(SESSION_DISMISS_KEY, 'true'); setDismissed(true); }}
               className="w-full mt-3 text-xs text-slate-400 hover:text-slate-600 font-semibold transition-colors py-2"
             >
               Remind me later
