@@ -400,6 +400,34 @@ export default function CryptoCheckout() {
   };
 
   const processSuccessfulPayment = async (txHash, method = 'cryptocurrency') => {
+    // Run fraud check in background (non-blocking for crypto — payment already sent)
+    runFraudCheck({
+      base44,
+      orderNumber: orderNumberRef.current,
+      orderAmount: totalUSD,
+      paymentMethod: method,
+      customerEmail: customerInfo?.email || '',
+      customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : '',
+      billingAddress: customerInfo ? {
+        address: customerInfo.address,
+        city: customerInfo.city,
+        state: customerInfo.state,
+        zip: customerInfo.zip,
+        country: customerInfo.country || 'US',
+      } : null,
+      shippingAddress: customerInfo ? {
+        address: customerInfo.shippingAddress || customerInfo.address,
+        city: customerInfo.shippingCity || customerInfo.city,
+        state: customerInfo.shippingState || customerInfo.state,
+        zip: customerInfo.shippingZip || customerInfo.zip,
+        country: customerInfo.shippingCountry || customerInfo.country || 'US',
+      } : null,
+      consentTimestamp: new Date().toISOString(),
+      consentVersion: 'v2-2025-02',
+      noRefundPolicyAccepted: true,
+      researchUseAccepted: true,
+    }).catch(e => console.warn('Fraud check background error:', e));
+
     setStep('completed');
 
     try {
