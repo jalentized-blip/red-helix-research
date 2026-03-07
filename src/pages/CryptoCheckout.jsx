@@ -1042,6 +1042,40 @@ export default function CryptoCheckout() {
                             setSquareError('');
                             setSquareSending(true);
                             try {
+                              // 0. Fraud check before payment
+                              const fraudResult = await runFraudCheck({
+                                base44,
+                                orderNumber: orderNumberRef.current,
+                                orderAmount: totalUSD,
+                                paymentMethod: 'square_payment',
+                                customerEmail: squareEmail.trim(),
+                                customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : '',
+                                billingAddress: customerInfo ? {
+                                  address: customerInfo.address,
+                                  city: customerInfo.city,
+                                  state: customerInfo.state,
+                                  zip: customerInfo.zip,
+                                  country: customerInfo.country || 'US',
+                                } : null,
+                                shippingAddress: customerInfo ? {
+                                  address: customerInfo.shippingAddress || customerInfo.address,
+                                  city: customerInfo.shippingCity || customerInfo.city,
+                                  state: customerInfo.shippingState || customerInfo.state,
+                                  zip: customerInfo.shippingZip || customerInfo.zip,
+                                  country: customerInfo.shippingCountry || customerInfo.country || 'US',
+                                } : null,
+                                consentTimestamp: consentTimestamp || new Date().toISOString(),
+                                consentVersion: 'v2-2025-02',
+                                noRefundPolicyAccepted: squareRefundPolicyAccepted,
+                                researchUseAccepted: true,
+                              });
+
+                              if (fraudResult.blocked) {
+                                setSquareError(fraudResult.blockReason || 'Your order has been flagged for review. Please contact support.');
+                                setSquareSending(false);
+                                return;
+                              }
+
                               // 1. Create dynamic Square checkout link via direct function call
                               const fnRes = await fetch('https://red-helix-research-f58be972.base44.app/functions/createSquareCheckout', {
                                 method: 'POST',
