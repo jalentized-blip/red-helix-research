@@ -69,8 +69,11 @@ Deno.serve(async (req) => {
       }
     }
 
+    // Find the one matching lindaograce
+    const linda = fullOrders.find(e => e.payment.buyer_email_address === 'lindaograce86@gmail.com');
+
     return Response.json({
-      payments_with_orders: fullOrders,
+      linda_order: linda || null,
       all_payments_count: payments.length,
     });
   } catch (error) {
