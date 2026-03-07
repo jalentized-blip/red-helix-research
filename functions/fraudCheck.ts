@@ -19,7 +19,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
  * Also logs a complete evidence record per order for dispute submission.
  */
 
-const HIGH_RISK_STATES = ['NY', 'CA', 'FL', 'TX', 'NJ'];
+// NOTE: High-risk state flag removed — NY/CA/FL/TX/NJ have too many legitimate customers.
 const DISPOSABLE_EMAIL_DOMAINS = [
   'mailinator.com', 'tempmail.com', 'guerrillamail.com', 'throwaway.email',
   'yopmail.com', 'sharklasers.com', 'guerrillamailblock.com', 'grr.la',
