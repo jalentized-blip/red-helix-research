@@ -222,9 +222,12 @@ export default function COAReports() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
+                id={`coa-${coa.id}`}
                 className={`bg-slate-50 border rounded-[32px] p-8 transition-all hover:shadow-xl hover:shadow-[#dc2626]/5 ${
                   selectedIds.has(coa.id)
                     ? 'border-[#dc2626] bg-red-50/30'
+                    : highlightedId === coa.id
+                    ? 'border-[#dc2626] ring-4 ring-[#dc2626]/20 shadow-xl shadow-[#dc2626]/10'
                     : 'border-slate-100 hover:border-[#dc2626]/30'
                 }`}
               >
