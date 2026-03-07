@@ -16,6 +16,7 @@ import RecentActivity from '@/components/account/RecentActivity';
 import QuickCategories from '@/components/account/QuickCategories';
 import OrderTrackingDetails from '@/components/account/OrderTrackingDetails';
 import { resendOrderConfirmationEmail } from '@/components/utils/resendOrderEmail';
+import OrderIssueNotification from '@/components/OrderIssueNotification';
 
 // ─── REFERRAL LINK SECTION ───
 function ReferralSection({ user }) {

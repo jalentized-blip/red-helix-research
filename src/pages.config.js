@@ -54,6 +54,7 @@ import AdminCustomerManagement from './pages/AdminCustomerManagement';
 import AdminInventoryManager from './pages/AdminInventoryManager';
 import AdminManualOrders from './pages/AdminManualOrders';
 import AdminOrderManagement from './pages/AdminOrderManagement';
+import AdminSentEmails from './pages/AdminSentEmails';
 import AdminSupport from './pages/AdminSupport';
 import AdminTrackingDashboard from './pages/AdminTrackingDashboard';
 import BacklinkStrategy from './pages/BacklinkStrategy';
@@ -110,7 +111,6 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import SecurityDashboard from './pages/SecurityDashboard';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import AdminSentEmails from './pages/AdminSentEmails';
 import __Layout from './Layout.jsx';
 
 
@@ -122,6 +122,7 @@ export const PAGES = {
     "AdminInventoryManager": AdminInventoryManager,
     "AdminManualOrders": AdminManualOrders,
     "AdminOrderManagement": AdminOrderManagement,
+    "AdminSentEmails": AdminSentEmails,
     "AdminSupport": AdminSupport,
     "AdminTrackingDashboard": AdminTrackingDashboard,
     "BacklinkStrategy": BacklinkStrategy,
@@ -178,7 +179,6 @@ export const PAGES = {
     "SecurityDashboard": SecurityDashboard,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "AdminSentEmails": AdminSentEmails,
 }
 
 export const pagesConfig = {
