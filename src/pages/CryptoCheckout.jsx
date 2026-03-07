@@ -492,6 +492,36 @@ export default function CryptoCheckout() {
 
       await base44.entities.Order.create(orderPayload);
 
+      // ─── Admin new order notification ───
+      try {
+        const itemsHtml = cartItems.map(i => `<tr><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;">${i.productName} — ${i.specification || ''}</td><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;text-align:center;">×${i.quantity}</td><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;text-align:right;">$${(i.price * i.quantity).toFixed(2)}</td></tr>`).join('');
+        const addr = orderPayload.shipping_address || {};
+        await base44.integrations.Core.SendEmail({
+          to: 'jake@redhelixresearch.com',
+          from_name: 'Red Helix Research Orders',
+          subject: `🛍️ New Order #${orderNumber} — ${customerName} — $${totalUSD.toFixed(2)}`,
+          body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;">
+            <h2 style="color:#dc2626;margin:0 0 4px 0;">New Order Placed</h2>
+            <p style="color:#64748b;font-size:13px;margin:0 0 20px 0;">Order <strong>#${orderNumber}</strong> — ${method === 'cryptocurrency' ? selectedCrypto : 'Square'}</p>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+              <tr><td style="padding:6px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;width:35%;">Customer</td><td style="padding:6px 0;font-weight:700;">${customerName}</td></tr>
+              <tr><td style="padding:6px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">Email</td><td style="padding:6px 0;">${orderPayload.customer_email}</td></tr>
+              ${orderPayload.customer_phone ? `<tr><td style="padding:6px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">Phone</td><td style="padding:6px 0;">${orderPayload.customer_phone}</td></tr>` : ''}
+              <tr><td style="padding:6px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">Ship To</td><td style="padding:6px 0;">${[addr.address, addr.city, addr.state, addr.zip].filter(Boolean).join(', ')}</td></tr>
+              <tr><td style="padding:6px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">Payment</td><td style="padding:6px 0;">${method === 'cryptocurrency' ? selectedCrypto : 'Square Card'}</td></tr>
+              <tr><td style="padding:6px 0;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">Total</td><td style="padding:6px 0;font-size:20px;font-weight:900;color:#dc2626;">$${totalUSD.toFixed(2)}</td></tr>
+            </table>
+            <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;">
+              <tr style="background:#e2e8f0;"><th style="padding:8px 12px;text-align:left;font-size:11px;color:#64748b;text-transform:uppercase;">Product</th><th style="padding:8px 12px;text-align:center;font-size:11px;color:#64748b;">Qty</th><th style="padding:8px 12px;text-align:right;font-size:11px;color:#64748b;">Total</th></tr>
+              ${itemsHtml}
+            </table>
+            <p style="margin-top:24px;font-size:12px;color:#94a3b8;">View in Admin: <a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">Order Management →</a></p>
+          </div>`
+        });
+      } catch (notifyErr) {
+        console.warn('Admin notification error (non-blocking):', notifyErr);
+      }
+
       // ─── PAYMENT CONFIRMED: Credit affiliate rewards ───
       if (affiliateInfo) {
         try {
