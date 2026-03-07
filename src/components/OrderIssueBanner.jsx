@@ -8,7 +8,7 @@ import { base44 } from '@/api/base44Client';
 const STORAGE_KEY = 'order_issue_form_submitted_linda';
 const TARGET_EMAIL = 'lindaograce86@hotmail.com';
 
-export default function OrderIssueBanner() {
+export default function OrderIssueBanner({ adminViewAsUser = false }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -19,17 +19,15 @@ export default function OrderIssueBanner() {
         const user = await base44.auth.me();
 
         if (user?.email === TARGET_EMAIL) {
-          // For the target user, hide once they've submitted the form
           const alreadySubmitted = localStorage.getItem(STORAGE_KEY) === 'true';
           if (!alreadySubmitted) setShow(true);
-        } else if (user?.role === 'admin') {
-          // Admins always see it (for testing/preview purposes)
+        } else if (user?.role === 'admin' && !adminViewAsUser) {
           setShow(true);
         }
       } catch {}
     };
     check();
-  }, []);
+  }, [adminViewAsUser]);
 
   if (!show) return null;
 
