@@ -503,6 +503,7 @@ const HeaderSearch = () => {
         `}</style>
         <MolecularBackground />
         <FloatingMolecularFormulas />
+        <OrderIssueBanner />
 
         {/* Mobile Header Toggle (when collapsed on home page) */}
         {isHomePage && mobileHeaderCollapsed && (
