@@ -771,6 +771,9 @@ const HeaderSearch = () => {
                               <Link to={createPageUrl('AdminManualOrders')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                                 Manual Orders
                               </Link>
+                              <Link to={createPageUrl('AdminSentEmails')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                                Sent Emails
+                              </Link>
                               <Link to={createPageUrl('AdminCustomerManagement')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#dc2626] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                                 Customer Management
                               </Link>
