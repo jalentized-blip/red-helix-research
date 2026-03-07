@@ -76,7 +76,7 @@ export default function OrderIssueBanner({ adminViewAsUser = false }) {
 
             <Link
               to={createPageUrl('Account')}
-              onClick={() => setDismissed(true)}
+              onClick={() => { sessionStorage.setItem(SESSION_DISMISS_KEY, 'true'); setDismissed(true); }}
               className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-black uppercase tracking-widest text-sm px-6 py-4 rounded-2xl transition-colors shadow-lg shadow-amber-200"
             >
               Go to My Account & Fill Out Form <ArrowRight className="w-4 h-4" />
