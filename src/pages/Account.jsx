@@ -824,6 +824,7 @@ export default function Account() {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
+            <OrderIssueNotification user={user} />
             <motion.div
               key={activeTab}
               initial={{ opacity: 0, y: 20 }}
