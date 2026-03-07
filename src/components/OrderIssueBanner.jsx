@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertTriangle, X, ArrowRight } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
+import { Button } from '@/components/ui/button';
 
 const STORAGE_KEY = 'order_issue_form_submitted_linda';
 const TARGET_EMAIL = 'lindaograce86@hotmail.com';
 
 export default function OrderIssueBanner({ adminViewAsUser = false }) {
   const [show, setShow] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     const check = async () => {
@@ -29,42 +31,63 @@ export default function OrderIssueBanner({ adminViewAsUser = false }) {
     check();
   }, [adminViewAsUser]);
 
-  if (!show) return null;
+  if (!show || dismissed) return null;
 
   return (
     <AnimatePresence>
-      {show && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+        style={{ backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-[72px] left-0 right-0 z-[67] bg-amber-500 text-white px-4 py-3 shadow-lg"
+          initial={{ opacity: 0, scale: 0.92, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: 20 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden"
         >
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <AlertTriangle className="w-5 h-5 flex-shrink-0" />
-              <p className="text-sm font-bold truncate">
-                <span className="font-black uppercase tracking-tight">Action Required:</span>{' '}
-                Our order system was temporarily down when you placed your order. Please submit your order details.
-              </p>
+          {/* Header */}
+          <div className="bg-amber-500 px-6 py-5 flex items-center gap-4">
+            <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <AlertTriangle className="w-6 h-6 text-white" />
             </div>
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <Link
-                to={createPageUrl('Account')}
-                className="flex items-center gap-1.5 bg-white text-amber-600 hover:bg-amber-50 text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl transition-colors shadow-sm"
-              >
-                Fill Out Form <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-              <button
-                onClick={() => setShow(false)}
-                className="text-white/80 hover:text-white transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+            <div>
+              <h2 className="text-white font-black text-base uppercase tracking-tight leading-tight">
+                Action Required
+              </h2>
+              <p className="text-amber-100 text-xs font-semibold mt-0.5">Order System Issue — Please Read</p>
             </div>
           </div>
+
+          {/* Body */}
+          <div className="px-6 py-6">
+            <p className="text-slate-700 text-sm font-medium leading-relaxed mb-6">
+              Our order management system was <strong>temporarily down</strong> when you placed your most recent order. 
+              Your order details may not have been fully captured.
+              <br /><br />
+              Please visit your <strong>Account page</strong> and fill out the short order form so we can ensure your order is processed correctly.
+            </p>
+
+            <Link
+              to={createPageUrl('Account')}
+              onClick={() => setDismissed(true)}
+              className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-black uppercase tracking-widest text-sm px-6 py-4 rounded-2xl transition-colors shadow-lg shadow-amber-200"
+            >
+              Go to My Account & Fill Out Form <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <button
+              onClick={() => setDismissed(true)}
+              className="w-full mt-3 text-xs text-slate-400 hover:text-slate-600 font-semibold transition-colors py-2"
+            >
+              Remind me later
+            </button>
+          </div>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   );
 }
