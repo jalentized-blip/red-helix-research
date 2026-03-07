@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, ExternalLink, Search, Trash2, Edit2, Upload, Check, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Search, Trash2, Edit2, Upload, Check, X, Link2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
