@@ -295,11 +295,16 @@ Deno.serve(async (req) => {
     }
 
     // ─── 11. Block CRITICAL risk orders ───
-    const blocked = riskLevel === 'critical' && (
-      riskFlags.includes('DISPOSABLE_EMAIL') ||
-      riskFlags.includes('MULTI_ACCOUNT_SAME_DEVICE') ||
-      riskFlags.includes('PRIOR_CHARGEBACK_HISTORY')
-    );
+    // CONSERVATIVE: only block when there are 2+ hard signals together.
+    // Never block on a single soft signal alone to protect legitimate customers.
+    const hardSignals = riskFlags.filter(f => [
+      'DISPOSABLE_EMAIL',
+      'MULTI_ACCOUNT_SAME_DEVICE',
+      'PRIOR_CHARGEBACK_HISTORY',
+    ].includes(f));
+
+    // Must be critical AND have at least 2 hard signals to block
+    const blocked = riskLevel === 'critical' && hardSignals.length >= 2;
 
     return Response.json({
       allowed: !blocked,
