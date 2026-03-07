@@ -24,6 +24,7 @@ import { toast } from 'sonner';
 import PredictionDashboard from '@/components/admin/PredictionDashboard';
 import OrderCommsPanel from '@/components/admin/OrderCommsPanel';
 import PirateShipLabelCreator from '@/components/admin/PirateShipLabelCreator';
+import FraudEvidencePanel from '@/components/admin/FraudEvidencePanel';
 
 const CARRIERS = [
   { id: 'USPS', label: 'USPS', trackUrl: (t) => `https://tools.usps.com/go/TrackConfirmAction?tLabels=${t}` },
