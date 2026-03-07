@@ -71,14 +71,23 @@ Deno.serve(async (req) => {
 
     const linda = fullOrders.find(e => e.payment.buyer_email_address === 'lindaograce86@gmail.com');
 
+    // Also fetch Square catalog to resolve item names
+    const catalogRes = await fetch('https://connect.squareup.com/v2/catalog/list?types=ITEM,ITEM_VARIATION', {
+      headers: {
+        'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
+        'Square-Version': '2024-01-18',
+      },
+    });
+    const catalogData = await catalogRes.json();
+    const catalogItems = catalogData.objects || [];
+
     return Response.json({
       line_items: linda?.order?.line_items || [],
       order_note: linda?.payment?.note || null,
       total: linda?.payment?.amount_money,
       shipping_address: linda?.payment?.shipping_address || null,
-      billing_address: linda?.payment?.billing_address || null,
       created_at: linda?.payment?.created_at,
-      order_id: linda?.payment?.order_id,
+      catalog_items: catalogItems.map(i => ({ id: i.id, type: i.type, name: i.item_data?.name || i.item_variation_data?.name, sku: i.item_variation_data?.sku })),
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
