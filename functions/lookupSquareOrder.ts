@@ -42,6 +42,7 @@ Deno.serve(async (req) => {
     );
 
     // Also search payments if no order match
+    // Fetch all payments
     const paymentResponse = await fetch('https://connect.squareup.com/v2/payments?limit=200', {
       headers: {
         'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
@@ -51,17 +52,25 @@ Deno.serve(async (req) => {
     const paymentData = await paymentResponse.json();
     const payments = paymentData.payments || [];
 
-    // Find payments with note or reference matching RH-QD4987
-    const matchedPayments = payments.filter(p =>
-      p.note?.includes(referenceId) ||
-      p.reference_id === referenceId ||
-      p.order_id === referenceId
-    );
+    // For each payment, fetch the full order to get customer/line item details
+    const fullOrders = [];
+    for (const p of payments) {
+      if (p.order_id) {
+        const orderRes = await fetch(`https://connect.squareup.com/v2/orders/${p.order_id}`, {
+          headers: {
+            'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
+            'Square-Version': '2024-01-18',
+          },
+        });
+        const orderJson = await orderRes.json();
+        if (orderJson.order) {
+          fullOrders.push({ payment: p, order: orderJson.order });
+        }
+      }
+    }
 
     return Response.json({
-      orders: matched,
-      all_orders_count: orders.length,
-      matched_payments: matchedPayments,
+      payments_with_orders: fullOrders,
       all_payments_count: payments.length,
     });
   } catch (error) {
