@@ -69,12 +69,16 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Find the one matching lindaograce
     const linda = fullOrders.find(e => e.payment.buyer_email_address === 'lindaograce86@gmail.com');
 
     return Response.json({
-      linda_order: linda || null,
-      all_payments_count: payments.length,
+      line_items: linda?.order?.line_items || [],
+      order_note: linda?.payment?.note || null,
+      total: linda?.payment?.amount_money,
+      shipping_address: linda?.payment?.shipping_address || null,
+      billing_address: linda?.payment?.billing_address || null,
+      created_at: linda?.payment?.created_at,
+      order_id: linda?.payment?.order_id,
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
