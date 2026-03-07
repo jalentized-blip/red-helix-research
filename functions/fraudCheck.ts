@@ -198,19 +198,18 @@ Deno.serve(async (req) => {
 
     // ─── 7. Calculate risk score ───
     const RISK_WEIGHTS = {
-      DISPOSABLE_EMAIL: 30,
-      VPN_OR_PROXY_IP: 25,
-      IP_COUNTRY_MISMATCH: 20,
-      MULTI_ACCOUNT_SAME_DEVICE: 35,
-      PRIOR_CHARGEBACK_HISTORY: 40,
-      HIGH_VELOCITY: 25,
-      NEW_ACCOUNT_HIGH_VALUE: 20,
-      FIRST_ORDER_HIGH_VALUE: 10,
+      DISPOSABLE_EMAIL: 35,
+      VPN_OR_PROXY_IP: 20,       // lowered — many legit users use VPNs
+      IP_COUNTRY_MISMATCH: 15,   // lowered — VPN users, travelers
+      MULTI_ACCOUNT_SAME_DEVICE: 30,
+      PRIOR_CHARGEBACK_HISTORY: 45,
+      HIGH_VELOCITY: 20,
+      NEW_ACCOUNT_HIGH_VALUE: 15,
+      FIRST_ORDER_HIGH_VALUE: 8,
       FREIGHT_FORWARDER: 20,
-      PO_BOX_SHIPPING: 10,
-      HIGH_RISK_STATE: 5,
-      BILLING_SHIPPING_MISMATCH: 8,
-      NO_REFUND_POLICY_NOT_ACKNOWLEDGED: 15,
+      PO_BOX_SHIPPING: 8,        // lowered — many rural customers use PO boxes
+      BILLING_SHIPPING_MISMATCH: 5, // lowered — gift orders are common
+      NO_REFUND_POLICY_NOT_ACKNOWLEDGED: 10,
     };
 
     const rawScore = riskFlags.reduce((sum, flag) => sum + (RISK_WEIGHTS[flag] || 5), 0);
