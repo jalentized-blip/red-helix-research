@@ -332,6 +332,19 @@ export default function COAReports() {
                       </a>
                     )}
                   </div>
+
+                  {/* Share Link */}
+                  <button
+                    onClick={() => copyShareLink(coa.id)}
+                    className={`w-full flex items-center justify-center gap-2 border transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-3 ${
+                      copiedId === coa.id
+                        ? 'bg-green-50 border-green-300 text-green-600'
+                        : 'bg-white border-slate-200 text-slate-500 hover:border-[#dc2626] hover:text-[#dc2626]'
+                    }`}
+                  >
+                    {copiedId === coa.id ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
+                    {copiedId === coa.id ? 'Link Copied!' : 'Copy Share Link'}
+                  </button>
                 </div>
               </motion.div>
             ))}
