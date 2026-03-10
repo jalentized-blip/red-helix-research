@@ -132,20 +132,56 @@ export default function GroupBuyCard({ groupBuy, onJoin, onLeave, onPayEscrow, i
       )}
 
       {/* CTA */}
-      <div className="mt-auto">
+      <div className="mt-auto space-y-2">
         {groupBuy.status === 'completed' && groupBuy.coa_url ? (
           <a href={groupBuy.coa_url} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="w-full">
               <ExternalLink className="w-3.5 h-3.5 mr-2" /> View Results / COA
             </Button>
           </a>
+        ) : hasJoined ? (
+          <>
+            {needsEscrow && (
+              <Button
+                onClick={() => onPayEscrow(groupBuy)}
+                size="sm"
+                className="w-full bg-[#8B2635] hover:bg-[#6B1827]"
+              >
+                <Shield className="w-3.5 h-3.5 mr-2" /> Pay ${groupBuy.cost_per_participant} into Escrow
+              </Button>
+            )}
+            <div className="flex items-center justify-between px-1">
+              <span className="flex items-center gap-1.5 text-xs text-green-600 font-bold">
+                <CheckCircle2 className="w-3.5 h-3.5" /> You've joined
+              </span>
+              <button
+                onClick={handleLeave}
+                disabled={leaving}
+                className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-red-500 transition-colors"
+              >
+                {leaving ? <Loader2 className="w-3 h-3 animate-spin" /> : <LogOut className="w-3 h-3" />}
+                Leave
+              </button>
+            </div>
+          </>
         ) : canJoin ? (
-          <Button onClick={() => onJoin(groupBuy)} size="sm" className="w-full bg-[#8B2635] hover:bg-[#6B1827]">
-            <Users className="w-3.5 h-3.5 mr-2" /> Join This Group Buy
-          </Button>
+          isLoggedIn ? (
+            <Button onClick={() => onJoin(groupBuy)} size="sm" className="w-full bg-[#8B2635] hover:bg-[#6B1827]">
+              <Users className="w-3.5 h-3.5 mr-2" /> Join This Group Buy
+            </Button>
+          ) : (
+            <Button
+              onClick={() => window.location.href = createPageUrl('Login') + '?next=' + encodeURIComponent(window.location.pathname)}
+              size="sm"
+              variant="outline"
+              className="w-full border-[#8B2635] text-[#8B2635] hover:bg-[#8B2635] hover:text-white"
+            >
+              <Users className="w-3.5 h-3.5 mr-2" /> Sign In to Join
+            </Button>
+          )
         ) : (
           <Button disabled size="sm" variant="outline" className="w-full text-slate-400">
-            {groupBuy.status === 'completed' ? <><CheckCircle2 className="w-3.5 h-3.5 mr-2" />Completed</> : isPast ? <><Clock className="w-3.5 h-3.5 mr-2" />Closed</>  : 'Not Accepting'}
+            {groupBuy.status === 'completed' ? <><CheckCircle2 className="w-3.5 h-3.5 mr-2" />Completed</> : isPast ? <><Clock className="w-3.5 h-3.5 mr-2" />Closed</> : 'Not Accepting'}
           </Button>
         )}
       </div>
