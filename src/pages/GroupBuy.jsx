@@ -187,12 +187,23 @@ export default function GroupBuy() {
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((g, i) => (
-              <div key={g.id}>
-                <GroupBuyCard groupBuy={g} onJoin={setJoining} index={i} />
-                {isAdmin && <AdminEscrowPanel groupBuy={g} />}
-              </div>
-            ))}
+            {filtered.map((g, i) => {
+              const myParticipation = myParticipations.find(p => p.group_buy_id === g.id);
+              return (
+                <div key={g.id}>
+                  <GroupBuyCard
+                    groupBuy={g}
+                    index={i}
+                    currentUser={currentUser}
+                    myParticipation={myParticipation}
+                    onJoin={setJoining}
+                    onLeave={handleLeave}
+                    onPayEscrow={setEscrowTarget}
+                  />
+                  {isAdmin && <AdminEscrowPanel groupBuy={g} />}
+                </div>
+              );
+            })}
           </div>
         )}
 
