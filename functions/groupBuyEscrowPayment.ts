@@ -12,42 +12,22 @@ Deno.serve(async (req) => {
       'Content-Type': 'application/json',
     };
 
-    // --- ACTION: charge ---
-    if (action === 'charge') {
-      if (!nonce || !amount_cents || !group_buy_id || !participant_email) {
+    // --- ACTION: record_pending (payment link sent, awaiting completion) ---
+    if (action === 'record_pending') {
+      const { square_payment_link_id, checkout_url } = await req.json().catch(() => ({}));
+      if (!amount_cents || !group_buy_id || !participant_email) {
         return Response.json({ error: 'Missing required fields' }, { status: 400 });
       }
 
-      const idempotencyKey = crypto.randomUUID();
-
-      const payRes = await fetch('https://connect.squareup.com/v2/payments', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          idempotency_key: idempotencyKey,
-          source_id: nonce,
-          amount_money: { amount: amount_cents, currency: 'USD' },
-          note: `Group Buy Escrow - ${group_buy_id}`,
-          autocomplete: true,
-        }),
-      });
-
-      const payData = await payRes.json();
-
-      if (!payRes.ok || payData.errors) {
-        return Response.json({ error: payData.errors?.[0]?.detail || 'Payment failed' }, { status: 400 });
-      }
-
-      const paymentId = payData.payment.id;
-
-      // Record escrow contribution (service role since user may not be authed)
+      // Record escrow contribution as held (Square payment link = committed)
       const escrow = await base44.asServiceRole.entities.GroupBuyEscrow.create({
         group_buy_id,
         participant_name,
         participant_email,
         amount_cents,
-        square_payment_id: paymentId,
+        square_payment_id: square_payment_link_id || null,
         status: 'held',
+        notes: checkout_url ? `Payment link: ${checkout_url}` : 'Payment link sent',
       });
 
       // Update group buy escrow balance
@@ -57,7 +37,7 @@ Deno.serve(async (req) => {
         escrow_balance_cents: newBalance,
       });
 
-      return Response.json({ success: true, escrow_id: escrow.id, payment_id: paymentId });
+      return Response.json({ success: true, escrow_id: escrow.id });
     }
 
     // --- ACTION: refund (admin only) ---
