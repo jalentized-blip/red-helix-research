@@ -359,7 +359,7 @@ export default function GroupBuyDetail() {
                 </div>
 
                 {/* Members sidebar */}
-                <div className="w-44 bg-[#2b2d31] hidden lg:flex flex-col flex-shrink-0">
+                <div className="w-44 bg-slate-50 hidden lg:flex flex-col flex-shrink-0 border-l border-slate-200">
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-wider px-4 py-3 border-b border-black/20">Members</p>
                   <MembersList groupBuyId={groupBuyId} currentUser={currentUser} />
                 </div>
