@@ -61,6 +61,7 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
 
     if (!fnRes.ok || !fnData?.checkoutUrl) {
       setError(fnData?.error || 'Failed to create payment link. Please try again.');
+      setTurnstileToken(null);
       setLoading(false);
       return;
     }
