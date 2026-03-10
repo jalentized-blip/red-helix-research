@@ -379,6 +379,7 @@ const HeaderSearch = () => {
           :root {
             --red-dirt-red: #8B2635;
             --red-dirt-dark: #6B1827;
+            --dc2626: #8B2635;
             --red-dirt-gold: #C4955B;
             --red-dirt-slate: #0f172a; /* Slate 900 */
           }
