@@ -173,10 +173,10 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
       </div>
 
       {/* Input area — Discord style */}
-      <div className="px-4 pb-4 pt-2 flex-shrink-0 bg-[#1e1f22]">
+      <div className="px-4 pb-4 pt-2 flex-shrink-0 bg-white border-t border-slate-100">
         {currentUser ? (
-          <div className="flex items-center gap-2 bg-[#383a40] rounded-xl px-3 py-2">
-            <button className="text-slate-400 hover:text-slate-200 transition-colors flex-shrink-0">
+          <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-2">
+            <button className="text-slate-400 hover:text-slate-600 transition-colors flex-shrink-0">
               <PlusCircle className="w-5 h-5" />
             </button>
             <input
@@ -185,13 +185,13 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
               onChange={e => setMessage(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
               placeholder={`Message #general`}
-              className="flex-1 bg-transparent text-slate-200 text-sm placeholder:text-slate-500 focus:outline-none"
+              className="flex-1 bg-transparent text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none"
             />
             <div className="flex items-center gap-1 flex-shrink-0">
-              <button className="text-slate-400 hover:text-slate-200 transition-colors">
+              <button className="text-slate-400 hover:text-slate-600 transition-colors">
                 <AtSign className="w-4 h-4" />
               </button>
-              <button className="text-slate-400 hover:text-slate-200 transition-colors">
+              <button className="text-slate-400 hover:text-slate-600 transition-colors">
                 <SmilePlus className="w-4 h-4" />
               </button>
               <button
