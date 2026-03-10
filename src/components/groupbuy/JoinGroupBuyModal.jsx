@@ -8,11 +8,22 @@ import EscrowPaymentModal from './EscrowPaymentModal';
 
 const PLATFORMS = ['Discord', 'Telegram', 'Reddit', 'Facebook', 'Other'];
 
-export default function JoinGroupBuyModal({ groupBuy, isOpen, onClose, onSuccess }) {
+export default function JoinGroupBuyModal({ groupBuy, isOpen, onClose, onSuccess, currentUser }) {
   const [form, setForm] = useState({ name: '', email: '', social_handle: '', social_platform: 'Discord', notes: '' });
   const [loading, setLoading] = useState(false);
   const [joined, setJoined] = useState(false);
   const [showEscrow, setShowEscrow] = useState(false);
+
+  // Auto-fill from logged-in user whenever modal opens
+  React.useEffect(() => {
+    if (isOpen && currentUser) {
+      setForm(f => ({
+        ...f,
+        name: f.name || currentUser.full_name || '',
+        email: f.email || currentUser.email || '',
+      }));
+    }
+  }, [isOpen, currentUser]);
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const canSubmit = form.name && form.email;
