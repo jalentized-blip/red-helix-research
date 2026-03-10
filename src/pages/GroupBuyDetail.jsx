@@ -457,7 +457,7 @@ function MembersList({ groupBuyId, currentUser }) {
                   {name[0].toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <p className={`text-xs font-bold truncate ${isMe ? 'text-[#c0677a]' : 'text-slate-300'}`}>{isMe ? name + ' (you)' : name}</p>
+                  <p className={`text-xs font-bold truncate ${isMe ? 'text-[#8B2635]' : 'text-slate-700'}`}>{isMe ? name + ' (you)' : name}</p>
                   {p.payment_status === 'paid' && (
                     <p className="text-[9px] text-green-400">✓ paid</p>
                   )}
