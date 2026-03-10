@@ -122,9 +122,9 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
           <div key={group.dateLabel}>
             {/* Date divider */}
             <div className="flex items-center gap-3 px-4 py-2">
-              <div className="flex-1 h-px bg-[#3a3c42]" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex-shrink-0">{group.dateLabel}</span>
-              <div className="flex-1 h-px bg-[#3a3c42]" />
+              <div className="flex-1 h-px bg-slate-200" />
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex-shrink-0">{group.dateLabel}</span>
+              <div className="flex-1 h-px bg-slate-200" />
             </div>
 
             {compactMessages(group.messages).map(msg => {
