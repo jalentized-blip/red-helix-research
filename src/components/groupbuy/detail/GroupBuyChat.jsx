@@ -94,7 +94,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
   const dateGroups = groupMessagesByDate(messages);
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1f22] rounded-none overflow-hidden" style={{ height: '100%', minHeight: 0 }}>
+    <div className="flex flex-col h-full bg-white rounded-none overflow-hidden" style={{ height: '100%', minHeight: 0 }}>
 
       {/* Channel header — Discord style */}
       <div className="flex items-center gap-2 px-4 py-3 bg-[#1e1f22] border-b border-[#3a3c42] flex-shrink-0 shadow-sm">
