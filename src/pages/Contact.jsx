@@ -213,7 +213,7 @@ export default function Contact() {
               <Button
                 type="submit"
                 disabled={loading || !turnstileToken}
-                className="w-full bg-[#dc2626] hover:bg-red-700 text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                className="w-full bg-[#dc2626] hover:bg-[#6B1827] text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
               >
                 {loading ? (
                   <>

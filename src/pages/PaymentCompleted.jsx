@@ -119,7 +119,7 @@ export default function PaymentCompleted() {
           </div>
 
           <Link to={createPageUrl('Home')}>
-            <Button className="w-full bg-[#dc2626] hover:bg-red-700 text-white font-black uppercase tracking-widest py-8 rounded-xl shadow-lg shadow-[#dc2626]/20 text-lg transition-all hover:-translate-y-1">
+            <Button className="w-full bg-[#dc2626] hover:bg-[#6B1827] text-white font-black uppercase tracking-widest py-8 rounded-xl shadow-lg shadow-[#dc2626]/20 text-lg transition-all hover:-translate-y-1">
               Return to Homepage
             </Button>
           </Link>
