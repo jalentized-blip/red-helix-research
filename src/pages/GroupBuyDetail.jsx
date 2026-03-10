@@ -452,7 +452,7 @@ function MembersList({ groupBuyId, currentUser }) {
             const name = p.name || p.email.split('@')[0];
             const color = emailToColor(p.email);
             return (
-              <div key={p.id} className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/5 transition-colors">
+              <div key={p.id} className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-slate-100 transition-colors">
                 <div className={`w-7 h-7 rounded-full ${color} flex items-center justify-center text-white text-[11px] font-black flex-shrink-0`}>
                   {name[0].toUpperCase()}
                 </div>
