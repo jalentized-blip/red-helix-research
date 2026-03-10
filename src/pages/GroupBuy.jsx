@@ -115,7 +115,7 @@ export default function GroupBuy() {
             <div className="flex gap-1 flex-wrap">
               {STATUSES.map(s => (
                 <button key={s} onClick={() => setFilterStatus(s)}
-                  className={`text-[11px] font-bold px-3 py-1.5 rounded-full border capitalize transition-all ${filterStatus === s ? 'bg-[#8B2635] text-white border-[#8B2635]' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}>
+                  className={`text-[10px] font-bold px-2.5 py-1 rounded-full border capitalize transition-all ${filterStatus === s ? 'bg-[#8B2635] text-white border-[#8B2635]' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}>
                   {s}
                 </button>
               ))}
