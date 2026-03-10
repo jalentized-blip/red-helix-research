@@ -228,6 +228,17 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
               </div>
             </div>
 
+            {/* Cloudflare Turnstile */}
+            <div className="flex justify-center mb-3">
+              <TurnstileWidget
+                action="escrow_payment"
+                theme="light"
+                onSuccess={(token) => setTurnstileToken(token)}
+                onError={() => setTurnstileToken(null)}
+                onExpired={() => setTurnstileToken(null)}
+              />
+            </div>
+
             {error && (
               <div className="flex items-center gap-2 text-xs text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2 mb-3">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" /> {error}
