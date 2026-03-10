@@ -26,7 +26,7 @@ export default function OrderIssueNotification({ user }) {
     details: ''
   });
 
-  if (!isTargetUser || dismissed) return null;
+  return null;
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
