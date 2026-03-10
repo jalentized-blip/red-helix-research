@@ -303,35 +303,35 @@ export default function GroupBuyDetail() {
                 {/* Sidebar — channels list */}
                 <div className="w-48 bg-slate-100 flex-shrink-0 flex flex-col hidden md:flex border-r border-slate-200">
                   {/* Server name */}
-                  <div className="px-4 py-3 border-b border-black/30 flex items-center justify-between">
-                    <span className="font-black text-white text-sm truncate">{groupTitle.length > 18 ? groupTitle.slice(0, 18) + '…' : groupTitle}</span>
+                  <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <span className="font-black text-black text-sm truncate">{groupTitle.length > 18 ? groupTitle.slice(0, 18) + '…' : groupTitle}</span>
                   </div>
                   {/* Channel list */}
                   <div className="px-2 py-3 flex-1 overflow-y-auto">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-wider px-2 mb-1">Text Channels</p>
-                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md bg-[#3a3c42] text-white">
-                      <Hash className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-2 mb-1">Text Channels</p>
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md bg-[#8B2635]/10 text-[#8B2635] border border-[#8B2635]/20">
+                      <Hash className="w-4 h-4 flex-shrink-0" />
                       <span className="text-sm font-bold">general</span>
                     </div>
-                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-[#3a3c42]/50 hover:text-slate-300 cursor-pointer transition-colors mt-0.5"
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-slate-200 hover:text-slate-800 cursor-pointer transition-colors mt-0.5"
                       onClick={() => setActiveTab('announcements')}>
                       <Megaphone className="w-4 h-4 flex-shrink-0" />
                       <span className="text-sm">announcements</span>
                     </div>
-                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-[#3a3c42]/50 hover:text-slate-300 cursor-pointer transition-colors mt-0.5"
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-slate-200 hover:text-slate-800 cursor-pointer transition-colors mt-0.5"
                       onClick={() => setActiveTab('polls')}>
                       <BarChart2 className="w-4 h-4 flex-shrink-0" />
                       <span className="text-sm">polls</span>
                     </div>
-                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-[#3a3c42]/50 hover:text-slate-300 cursor-pointer transition-colors mt-0.5"
+                    <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-slate-200 hover:text-slate-800 cursor-pointer transition-colors mt-0.5"
                       onClick={() => setActiveTab('vials')}>
                       <FlaskConical className="w-4 h-4 flex-shrink-0" />
                       <span className="text-sm">vials</span>
                     </div>
                     {isOrganizer && (
                       <>
-                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-wider px-2 mb-1 mt-4">Admin</p>
-                        <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-[#3a3c42]/50 hover:text-slate-300 cursor-pointer transition-colors"
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-2 mb-1 mt-4">Admin</p>
+                        <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md text-slate-500 hover:bg-slate-200 hover:text-slate-800 cursor-pointer transition-colors"
                           onClick={() => setActiveTab('manage')}>
                           <Settings className="w-4 h-4 flex-shrink-0" />
                           <span className="text-sm">manage</span>
@@ -341,7 +341,7 @@ export default function GroupBuyDetail() {
                   </div>
                   {/* User identity bar at bottom */}
                   {currentUser && (
-                    <div className="px-2 py-2 bg-[#232428] border-t border-black/20 flex items-center gap-2">
+                    <div className="px-2 py-2 bg-slate-200 border-t border-slate-300 flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-[#8B2635] flex items-center justify-center text-white text-xs font-black flex-shrink-0">
                         {(currentUser.full_name || currentUser.email)[0].toUpperCase()}
                       </div>
