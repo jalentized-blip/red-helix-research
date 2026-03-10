@@ -116,7 +116,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
             <div className="w-14 h-14 rounded-full bg-[#8B2635]/20 border border-[#8B2635]/30 flex items-center justify-center mb-4">
               <Hash className="w-7 h-7 text-[#8B2635]" />
             </div>
-            <p className="font-black text-white text-base mb-1">Welcome to #general!</p>
+            <p className="font-black text-slate-800 text-base mb-1">Welcome to #general!</p>
             <p className="text-slate-400 text-sm">This is the start of the group buy discussion. Say hi! 👋</p>
           </div>
         )}
