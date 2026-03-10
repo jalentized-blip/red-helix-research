@@ -21,8 +21,8 @@ function groupMessagesByDate(messages) {
     const localDateKey = d.toLocaleDateString();
     const dateLabel = getDateLabel(d);
     const groupKey = localDateKey;
-    if (dateLabel !== currentDate) {
-      currentDate = dateLabel;
+    if (groupKey !== currentDate) {
+      currentDate = groupKey;
       currentGroup = { dateLabel, messages: [] };
       groups.push(currentGroup);
     }
