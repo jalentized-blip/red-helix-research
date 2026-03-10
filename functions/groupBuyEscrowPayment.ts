@@ -3,7 +3,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const { action, group_buy_id, amount_cents, nonce, participant_name, participant_email, escrow_id } = await req.json();
+    const body = await req.json();
+    const { action, group_buy_id, amount_cents, nonce, participant_name, participant_email, escrow_id, square_payment_link_id, checkout_url } = body;
 
     const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
     const headers = {
