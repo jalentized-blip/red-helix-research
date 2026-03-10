@@ -101,9 +101,9 @@ export default function GroupBuyCard({ groupBuy, onJoin, index }) {
       )}
 
       {/* Test tags */}
-      <div className="flex flex-wrap gap-1.5 mb-4 flex-1">
+      <div className="flex flex-wrap gap-1.5 mb-4 flex-1 content-start">
         {(groupBuy.test_types || []).map(t => (
-          <span key={t} className="text-[10px] font-bold uppercase tracking-wider bg-[#8B2635]/8 border border-[#8B2635]/20 text-[#8B2635] px-2 py-0.5 rounded-full">
+          <span key={t} className="inline-flex text-[10px] font-bold uppercase tracking-wider bg-[#8B2635]/8 border border-[#8B2635]/20 text-[#8B2635] px-2 py-0.5 rounded-full w-fit">
             {TEST_LABELS[t] || t}
           </span>
         ))}
