@@ -138,7 +138,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
                   key={msg.id}
                   onMouseEnter={() => setHoveredId(msg.id)}
                   onMouseLeave={() => setHoveredId(null)}
-                  className={`group relative flex gap-3 px-4 py-0.5 hover:bg-white/[0.03] transition-colors ${msg.isCompact ? 'mt-0' : 'mt-3'}`}
+                  className={`group relative flex gap-3 px-4 py-0.5 hover:bg-slate-50 transition-colors ${msg.isCompact ? 'mt-0' : 'mt-3'}`}
                 >
                   {/* Avatar or spacer */}
                   <div className="w-10 flex-shrink-0">
