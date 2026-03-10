@@ -38,17 +38,36 @@ Testing is performed by independent accredited laboratories to ensure accuracy a
 We do not ship internationally at this time.`
     },
     {
-      title: 'Returns, Refunds & Exchanges',
-      content: `Due to the sensitive nature of research compounds and the potential for degradation once shipped, ALL SALES ARE FINAL. We do not offer refunds or accept returns under any circumstances.
+      title: 'Returns, Refunds & Exchanges — ALL SALES FINAL',
+      content: `ALL SALES ARE FINAL. NO RETURNS. NO REFUNDS. NO EXCHANGES.
 
-We understand that shipping damage can occur. If your order arrives damaged, we offer a one-time exchange for the same product at no additional cost. To qualify for a damage exchange:
-• You must contact us within 48 hours of delivery
-• You must provide clear photos of the damaged product and packaging
-• The original shipping label and packaging must be retained
+Due to the inherently sensitive nature of lyophilized research peptides and biologics, Red Helix Research maintains a strict no-return, no-refund, no-exchange policy on all orders without exception. This policy exists for the following reasons:
 
-To report a damaged shipment, email jake@redhelixresearch.com with your order number, photos of the damage, and a description of the issue. Exchanges are typically processed within 1-2 business days.
+PRODUCT INTEGRITY & DEGRADATION RISK
+Research-grade peptides are highly sensitive biological compounds. Once a shipment leaves our facility, we cannot verify or guarantee that products have been stored at correct temperatures (−20°C frozen or 2–8°C refrigerated), protected from light and moisture, handled with proper sterile technique, or maintained in unopened, unaltered condition. Even brief exposure to improper conditions can degrade peptide purity and render them unsuitable for research. Because we cannot confirm the storage history of any returned product, we are unable to restock, resell, or vouch for the integrity of any returned item.
 
-By placing an order, you acknowledge and agree to this no-refund, no-return policy.`
+NO RETURNS ACCEPTED
+We do not accept physical returns of any products under any circumstances — including but not limited to: unwanted orders, incorrect size or specification ordered, change of mind, or product not meeting personal expectations. Do not ship products back to us; they will not be accepted and no refund will be issued.
+
+NO REFUNDS
+Payments for all orders are final at the time of purchase. We do not issue full or partial refunds for any reason, including but not limited to: dissatisfaction with a product, delayed shipment, or incorrect order placed by the customer.
+
+NO EXCHANGES
+We do not offer product exchanges for any reason, including incorrect specifications ordered, preference for a different peptide, or dissatisfaction with concentration or format.
+
+DAMAGED OR MISSING SHIPMENTS
+The only exception to our policy applies strictly to orders that arrive physically damaged in transit or are confirmed lost by the carrier. In such cases:
+• You must contact us at jake@redhelixresearch.com within 48 hours of the delivery date (or expected delivery date for lost packages)
+• You must provide clear photographic evidence of the damaged product and packaging
+• You must retain all original packaging and shipping materials
+• A carrier claim will be filed on your behalf
+
+If a carrier damage or loss claim is approved, we may, at our sole discretion, issue a store credit or replacement for the same item and quantity originally ordered. This is not a guarantee and is subject to carrier claim outcomes.
+
+CHARGEBACKS & DISPUTES
+By completing a purchase, you explicitly agree to this no-refund, no-return policy and acknowledge that initiating a chargeback for a legitimately placed order constitutes fraudulent activity. We retain detailed records of all transactions including order confirmations, IP addresses, device fingerprints, delivery confirmations, and consent timestamps for dispute resolution purposes.
+
+By placing an order with Red Helix Research, you confirm that you have read, understood, and agreed to this policy in its entirety.`
     },
     {
       title: 'Payment Disputes & Chargebacks',
