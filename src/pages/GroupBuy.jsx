@@ -62,7 +62,20 @@ export default function GroupBuy() {
   const openCount = groupBuys.filter(g => g.status === 'open').length;
   const completedCount = groupBuys.filter(g => g.status === 'completed').length;
 
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['groupBuys'] });
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['groupBuys'] });
+    queryClient.invalidateQueries({ queryKey: ['myParticipations'] });
+  };
+
+  const handleLeave = async (groupBuy) => {
+    const participation = myParticipations.find(p => p.group_buy_id === groupBuy.id);
+    if (!participation) return;
+    await base44.entities.GroupBuyParticipant.delete(participation.id);
+    await base44.entities.GroupBuyTest.update(groupBuy.id, {
+      current_participants: Math.max(0, (groupBuy.current_participants || 1) - 1),
+    });
+    refresh();
+  };
 
   return (
     <div className="min-h-screen bg-white pt-24 pb-20">
