@@ -156,7 +156,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
                   <div className="flex-1 min-w-0">
                     {!msg.isCompact && (
                       <div className="flex items-baseline gap-2 mb-0.5">
-                        <span className={`font-black text-sm ${isMe ? 'text-[#c0677a]' : 'text-white'}`}>{nameDisplay}</span>
+                        <span className={`font-black text-sm ${isMe ? 'text-[#8B2635]' : 'text-black'}`}>{nameDisplay}</span>
                         {msg.created_date && (
                           <span className="text-[10px] text-slate-500">{format(new Date(msg.created_date), 'h:mm a')}</span>
                         )}
