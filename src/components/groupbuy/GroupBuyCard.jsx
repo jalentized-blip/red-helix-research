@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Users, FlaskConical, ExternalLink, Lock, Globe, CheckCircle2, Clock, Beaker } from 'lucide-react';
+import { Users, FlaskConical, ExternalLink, Lock, Globe, CheckCircle2, Clock, Beaker, Shield, LogOut, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import EscrowStatusBar from './EscrowStatusBar';
