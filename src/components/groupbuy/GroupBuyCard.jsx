@@ -22,14 +22,24 @@ const TEST_LABELS = {
   vacuum: 'Vacuum',
 };
 
-export default function GroupBuyCard({ groupBuy, onJoin, index }) {
+export default function GroupBuyCard({ groupBuy, onJoin, onLeave, onPayEscrow, index, currentUser, myParticipation }) {
+  const [leaving, setLeaving] = useState(false);
   const status = STATUS_CONFIG[groupBuy.status] || STATUS_CONFIG.open;
   const cutoff = groupBuy.cutoff_date ? new Date(groupBuy.cutoff_date) : null;
   const isPast = cutoff && cutoff < new Date();
   const canJoin = groupBuy.status === 'open' && !isPast;
+  const isLoggedIn = !!currentUser;
+  const hasJoined = !!myParticipation;
+  const needsEscrow = hasJoined && myParticipation?.payment_status === 'pending' && groupBuy.cost_per_participant;
   const participantPct = groupBuy.max_participants
     ? Math.min(100, ((groupBuy.current_participants || 0) / groupBuy.max_participants) * 100)
     : null;
+
+  const handleLeave = async () => {
+    setLeaving(true);
+    await onLeave(groupBuy);
+    setLeaving(false);
+  };
 
   return (
     <motion.div
