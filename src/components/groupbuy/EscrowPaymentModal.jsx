@@ -253,7 +253,7 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
               <Button variant="outline" onClick={handleClose} className="flex-1" size="sm">Cancel</Button>
               <Button
                 onClick={handleSendLink}
-                disabled={!name.trim() || !email.trim() || loading}
+                disabled={!name.trim() || !email.trim() || !turnstileToken || loading}
                 className="flex-1 bg-[#8B2635] hover:bg-[#6B1827]"
                 size="sm"
               >
