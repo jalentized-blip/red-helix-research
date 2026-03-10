@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
 
     // --- ACTION: record_pending (payment link sent, awaiting completion) ---
     if (action === 'record_pending') {
-      const { square_payment_link_id, checkout_url } = await req.json().catch(() => ({}));
+      // square_payment_link_id and checkout_url already destructured from body above
       if (!amount_cents || !group_buy_id || !participant_email) {
         return Response.json({ error: 'Missing required fields' }, { status: 400 });
       }
