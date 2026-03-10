@@ -42,9 +42,13 @@ export default function JoinGroupBuyModal({ groupBuy, isOpen, onClose, onSuccess
     setJoined(true);
   };
 
+  const resetForm = () => {
+    setForm({ name: currentUser?.full_name || '', email: currentUser?.email || '', social_handle: '', social_platform: 'Discord', notes: '' });
+  };
+
   const handleSkipEscrow = () => {
     setJoined(false);
-    setForm({ name: '', email: '', social_handle: '', social_platform: 'Discord', notes: '' });
+    resetForm();
     onSuccess();
     onClose();
   };
@@ -52,7 +56,7 @@ export default function JoinGroupBuyModal({ groupBuy, isOpen, onClose, onSuccess
   const handleEscrowSuccess = () => {
     setJoined(false);
     setShowEscrow(false);
-    setForm({ name: '', email: '', social_handle: '', social_platform: 'Discord', notes: '' });
+    resetForm();
     onSuccess();
     onClose();
   };
