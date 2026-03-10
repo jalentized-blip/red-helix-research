@@ -45,6 +45,7 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
         customerName: name.trim(),
         orderNumber: `ESCROW-${groupBuy?.id?.slice(-8)?.toUpperCase()}-${Date.now().toString(36).toUpperCase()}`,
         shippingCost: 0,
+        turnstileToken,
         // Flag this as an escrow payment so the webhook/backend can handle it differently
         metadata: {
           type: 'group_buy_escrow',
