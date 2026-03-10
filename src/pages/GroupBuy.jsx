@@ -214,7 +214,23 @@ export default function GroupBuy() {
       </div>
 
       <CreateGroupBuyModal isOpen={showCreate} onClose={() => setShowCreate(false)} onSuccess={refresh} />
-      <JoinGroupBuyModal groupBuy={joining} isOpen={!!joining} onClose={() => setJoining(null)} onSuccess={refresh} />
+      <JoinGroupBuyModal
+        groupBuy={joining}
+        isOpen={!!joining}
+        onClose={() => setJoining(null)}
+        onSuccess={refresh}
+        currentUser={currentUser}
+      />
+      {escrowTarget && (
+        <EscrowPaymentModal
+          groupBuy={escrowTarget}
+          isOpen={!!escrowTarget}
+          onClose={() => setEscrowTarget(null)}
+          onSuccess={() => { setEscrowTarget(null); refresh(); }}
+          prefillName={currentUser?.full_name || ''}
+          prefillEmail={currentUser?.email || ''}
+        />
+      )}
     </div>
   );
 }
