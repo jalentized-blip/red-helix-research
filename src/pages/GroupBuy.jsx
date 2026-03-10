@@ -23,19 +23,31 @@ export default function GroupBuy() {
   const queryClient = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
   const [joining, setJoining] = useState(null);
+  const [escrowTarget, setEscrowTarget] = useState(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
   const [filterPeptide, setFilterPeptide] = useState('All');
   const [filterTest, setFilterTest] = useState('All');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    base44.auth.me().then(u => setIsAdmin(u?.role === 'admin')).catch(() => {});
+    base44.auth.me().then(u => {
+      setCurrentUser(u);
+      setIsAdmin(u?.role === 'admin');
+    }).catch(() => {});
   }, []);
 
   const { data: groupBuys = [], isLoading } = useQuery({
     queryKey: ['groupBuys'],
     queryFn: () => base44.entities.GroupBuyTest.list('-created_date'),
+  });
+
+  // Fetch current user's participations
+  const { data: myParticipations = [] } = useQuery({
+    queryKey: ['myParticipations', currentUser?.email],
+    queryFn: () => base44.entities.GroupBuyParticipant.filter({ email: currentUser.email }),
+    enabled: !!currentUser?.email,
   });
 
   const filtered = groupBuys.filter(g => {
