@@ -33,7 +33,7 @@ export default function HowItWorks() {
   return (
     <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/4 h-full bg-[#dc2626]/5 -skew-x-12 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-1/4 h-full bg-[#8B2635]/5 -skew-x-12 translate-x-1/2" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -43,7 +43,7 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-6">
             <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">Efficiency Protocol</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
@@ -71,7 +71,7 @@ export default function HowItWorks() {
                   <step.icon className="w-8 h-8 text-[#dc2626]" />
                 </div>
                 
-                <div className="absolute top-6 left-6 w-8 h-8 rounded-full bg-[#dc2626] text-white text-xs font-black flex items-center justify-center shadow-lg">
+                <div className="absolute top-6 left-6 w-8 h-8 rounded-full bg-[#8B2635] text-white text-xs font-black flex items-center justify-center shadow-lg">
                   {step.number}
                 </div>
 
@@ -96,7 +96,7 @@ export default function HowItWorks() {
           >
           {guarantees.map((item) => (
             <div key={item.label} className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#dc2626]/5 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-[#8B2635]/5 flex items-center justify-center">
                 <item.icon className="w-4 h-4 text-[#dc2626]" />
               </div>
               <span className="text-xs font-black text-black uppercase tracking-widest">{item.label}</span>

@@ -38,7 +38,7 @@ export default function FAQ() {
   return (
     <section className="py-24 px-4 bg-white relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-1/2 left-0 w-64 h-64 bg-[#dc2626]/5 rounded-full blur-3xl -translate-x-1/2" />
+      <div className="absolute top-1/2 left-0 w-64 h-64 bg-[#8B2635]/5 rounded-full blur-3xl -translate-x-1/2" />
       
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
@@ -48,7 +48,7 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Intelligence</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">

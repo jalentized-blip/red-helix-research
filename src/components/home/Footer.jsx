@@ -42,12 +42,12 @@ export default function Footer() {
             <h4 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Scientific Resources</h4>
             <nav aria-label="Footer scientific resources">
               <ul className="space-y-4">
-                <li><Link to={createPageUrl('COAReports')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Lab Archives (COA)</Link></li>
-                <li><Link to={createPageUrl('PeptideCalculator')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Peptide Calculator</Link></li>
-                <li><Link to={createPageUrl('PeptideAcademy')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Research Academy</Link></li>
-                <li><Link to={createPageUrl('PeptideComparison')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Peptide Comparison</Link></li>
-                <li><Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Reconstitution Guide</Link></li>
-                <li><Link to={createPageUrl('BlogGuide')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />Research Guides</Link></li>
+                <li><Link to={createPageUrl('COAReports')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#8B2635] opacity-0 group-hover:opacity-100 transition-opacity" />Lab Archives (COA)</Link></li>
+                <li><Link to={createPageUrl('PeptideCalculator')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#8B2635] opacity-0 group-hover:opacity-100 transition-opacity" />Peptide Calculator</Link></li>
+                <li><Link to={createPageUrl('PeptideAcademy')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#8B2635] opacity-0 group-hover:opacity-100 transition-opacity" />Research Academy</Link></li>
+                <li><Link to={createPageUrl('PeptideComparison')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#8B2635] opacity-0 group-hover:opacity-100 transition-opacity" />Peptide Comparison</Link></li>
+                <li><Link to={createPageUrl('PeptideReconstitutionGuide')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#8B2635] opacity-0 group-hover:opacity-100 transition-opacity" />Reconstitution Guide</Link></li>
+                <li><Link to={createPageUrl('BlogGuide')} className="text-sm text-slate-500 hover:text-[#dc2626] transition-colors font-bold flex items-center gap-2 group"><div className="w-1 h-1 rounded-full bg-[#8B2635] opacity-0 group-hover:opacity-100 transition-opacity" />Research Guides</Link></li>
               </ul>
             </nav>
           </div>
@@ -60,7 +60,7 @@ export default function Footer() {
               </div>
               
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-8 h-8 rounded-full bg-[#dc2626] flex items-center justify-center shadow-lg shadow-[#dc2626]/20">
+                <div className="w-8 h-8 rounded-full bg-[#8B2635] flex items-center justify-center shadow-lg shadow-[#dc2626]/20">
                   <AlertTriangle className="w-4 h-4 text-white" />
                 </div>
                 <h4 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Regulatory Compliance Protocol</h4>
@@ -89,7 +89,7 @@ export default function Footer() {
                     </p>
                   </div>
                   <div className="pt-2">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] text-white rounded-full shadow-lg shadow-[#dc2626]/20">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] text-white rounded-full shadow-lg shadow-[#dc2626]/20">
                       <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                       <span className="text-[9px] font-black uppercase tracking-widest">High-Risk Verified Vendor</span>
                     </div>

@@ -50,7 +50,7 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="order-1 lg:order-2"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-8">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span className="text-[10px] font-black text-white uppercase tracking-widest">Established Research Protocol</span>
             </div>
@@ -78,11 +78,11 @@ export default function AboutSection() {
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Core Commitments:</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#dc2626] flex items-center justify-center text-white text-[10px]">✓</div>
+                    <div className="w-6 h-6 rounded-full bg-[#8B2635] flex items-center justify-center text-white text-[10px]">✓</div>
                     <span className="text-xs font-black text-black uppercase">cGMP Sourced</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#dc2626] flex items-center justify-center text-white text-[10px]">✓</div>
+                    <div className="w-6 h-6 rounded-full bg-[#8B2635] flex items-center justify-center text-white text-[10px]">✓</div>
                     <span className="text-xs font-black text-black uppercase">USA Verified</span>
                   </div>
                 </div>
@@ -90,7 +90,7 @@ export default function AboutSection() {
             </div>
 
             <Button 
-              className="mt-12 bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black px-10 py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 text-lg uppercase tracking-widest"
+              className="mt-12 bg-[#8B2635] hover:bg-[#b91c1c] text-white font-black px-10 py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 text-lg uppercase tracking-widest"
             >
               Learn More <ArrowRight className="w-5 h-5 ml-2" />
             </Button>

@@ -242,7 +242,7 @@ export default function ProtocolEngine() {
           <div className="lg:col-span-4 flex flex-col gap-6">
             <div className="bg-white/80 backdrop-blur-sm border border-neutral-200 rounded-2xl p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-6 border-b border-neutral-100 pb-4">
-                <div className="w-3 h-3 bg-[#dc2626] rounded-full animate-pulse" />
+                <div className="w-3 h-3 bg-[#8B2635] rounded-full animate-pulse" />
                 <h3 className="font-mono text-sm text-neutral-500 tracking-widest">PROTOCOL_ENGINE_V2.1</h3>
               </div>
               
@@ -254,11 +254,11 @@ export default function ProtocolEngine() {
                     onClick={() => handleProtocolSelect(key)}
                     className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex items-center gap-4 group ${
                       activeProtocol?.id === key 
-                        ? 'bg-[#dc2626] border-red-500 text-white shadow-lg shadow-red-900/20' 
+                        ? 'bg-[#8B2635] border-red-500 text-white shadow-lg shadow-red-900/20' 
                         : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:bg-white hover:border-red-200 hover:shadow-md'
                     }`}
                   >
-                    <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20 text-white' : 'bg-neutral-200 text-neutral-600 group-hover:bg-[#dc2626] group-hover:text-white'}`}>
+                    <div className={`p-2 rounded-lg ${activeProtocol?.id === key ? 'bg-white/20 text-white' : 'bg-neutral-200 text-neutral-600 group-hover:bg-[#8B2635] group-hover:text-white'}`}>
                       <protocol.icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
@@ -340,7 +340,7 @@ export default function ProtocolEngine() {
                     </div>
                     <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
                       <motion.div 
-                        className="h-full bg-[#dc2626]"
+                        className="h-full bg-[#8B2635]"
                         style={{ width: `${scanProgress}%` }}
                       />
                     </div>
@@ -367,9 +367,9 @@ export default function ProtocolEngine() {
                   >
                     {/* Primary Compound Visualization */}
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-[#dc2626]/5 blur-3xl rounded-full group-hover:bg-[#dc2626]/10 transition-all" />
+                      <div className="absolute inset-0 bg-[#8B2635]/5 blur-3xl rounded-full group-hover:bg-[#8B2635]/10 transition-all" />
                       <div className="relative bg-white border border-neutral-200 p-6 rounded-2xl h-full flex flex-col items-center justify-center text-center shadow-lg shadow-neutral-100">
-                        <div className="w-20 h-20 bg-[#dc2626] rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-[#dc2626]/20">
+                        <div className="w-20 h-20 bg-[#8B2635] rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-[#dc2626]/20">
                           <FlaskConical className="w-10 h-10 text-white" />
                         </div>
                         <h3 className="text-xl font-bold mb-2 text-neutral-900">{activeProtocol.primary}</h3>
@@ -398,7 +398,7 @@ export default function ProtocolEngine() {
                           className="bg-white border border-neutral-200 p-4 rounded-xl flex items-center justify-between group hover:border-red-200 hover:shadow-md hover:shadow-red-50 transition-all"
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-[#dc2626] shrink-0" />
+                            <div className="w-2 h-2 rounded-full bg-[#8B2635] shrink-0" />
                             <div>
                               <div className="font-bold text-neutral-900">{compound.name}</div>
                               <div className="text-xs text-neutral-500 font-mono group-hover:text-[#dc2626] transition-colors">
@@ -435,7 +435,7 @@ export default function ProtocolEngine() {
             {/* Decorative Corner UI */}
             <div className="absolute top-0 right-0 p-4 opacity-50">
                <div className="flex gap-1">
-                 <div className="w-1 h-1 bg-[#dc2626] rounded-full" />
+                 <div className="w-1 h-1 bg-[#8B2635] rounded-full" />
                  <div className="w-1 h-1 bg-neutral-300 rounded-full" />
                  <div className="w-1 h-1 bg-neutral-300 rounded-full" />
                </div>

@@ -110,7 +110,7 @@ export default function Certificates() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-8 shadow-sm"
           >
             <ShieldCheck className="w-4 h-4 text-[#dc2626]" />
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">Laboratory Verification Protocol</span>
@@ -155,7 +155,7 @@ export default function Certificates() {
                     </div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                    <div className="w-12 h-12 rounded-full bg-[#dc2626] flex items-center justify-center shadow-xl">
+                    <div className="w-12 h-12 rounded-full bg-[#8B2635] flex items-center justify-center shadow-xl">
                       <FileSearch className="w-6 h-6 text-white" />
                     </div>
                   </div>

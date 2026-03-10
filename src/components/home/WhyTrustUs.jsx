@@ -44,7 +44,7 @@ export default function WhyTrustUs() {
             viewport={{ once: true }}
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-6">
               <ShieldCheck className="w-3 h-3 text-[#dc2626]" />
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc2626]">Quality Assurance Protocol</span>
             </div>
@@ -65,7 +65,7 @@ export default function WhyTrustUs() {
             </p>
             <Button 
               onClick={() => scrollTo('products')}
-              className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black px-10 py-8 text-sm uppercase tracking-[0.2em] rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.2)] transition-all"
+              className="bg-[#8B2635] hover:bg-[#b91c1c] text-white font-black px-10 py-8 text-sm uppercase tracking-[0.2em] rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.2)] transition-all"
             >
               Enter Research Catalog
             </Button>

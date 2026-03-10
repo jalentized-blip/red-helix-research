@@ -84,7 +84,7 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
           viewport={{ once: true }}
           className="text-center mb-10 md:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626]/5 border border-[#dc2626]/10 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-6">
             <TrendingUp className="w-4 h-4 text-[#dc2626]" />
             <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">High Demand Reagents</span>
           </div>

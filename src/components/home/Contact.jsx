@@ -40,7 +40,7 @@ export default function Contact() {
   return (
     <section className="py-24 px-4 bg-white relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#dc2626]/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#8B2635]/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -50,7 +50,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Support Protocol</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6 uppercase">
@@ -95,7 +95,7 @@ export default function Contact() {
           className="text-center"
         >
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1">
+            <Button className="bg-[#8B2635] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest px-12 py-8 rounded-2xl text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1">
               OPEN FORMAL INQUIRY
               <ArrowRight className="w-6 h-6 ml-3" />
             </Button>

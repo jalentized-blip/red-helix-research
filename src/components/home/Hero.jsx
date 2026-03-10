@@ -19,7 +19,7 @@ const Hero = React.memo(() => {
 
       {/* Floating Molecular Shapes - Brighter & More Professional */}
       <motion.div 
-        className="absolute top-1/4 right-1/4 w-32 md:w-64 h-32 md:h-64 bg-[#dc2626]/5 rounded-full blur-[60px] md:blur-[100px]"
+        className="absolute top-1/4 right-1/4 w-32 md:w-64 h-32 md:h-64 bg-[#8B2635]/5 rounded-full blur-[60px] md:blur-[100px]"
         animate={{ 
           scale: [1, 1.1, 1],
           opacity: [0.3, 0.4, 0.3],
@@ -87,7 +87,7 @@ const Hero = React.memo(() => {
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
             <Button 
               onClick={() => scrollTo('products')}
-              className="group bg-[#dc2626] hover:bg-[#b91c1c] text-white px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
+              className="group bg-[#8B2635] hover:bg-[#b91c1c] text-white px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
             >
               <ShoppingBag className="w-5 md:w-6 h-5 md:h-6 mr-3 group-hover:rotate-12 transition-transform" />
               EXPLORE CATALOG
@@ -154,7 +154,7 @@ const Hero = React.memo(() => {
             </div>
 
             {/* Background Glow - Subtler */}
-            <div className="absolute -inset-4 bg-[#dc2626]/5 blur-2xl rounded-[40px] -z-10" />
+            <div className="absolute -inset-4 bg-[#8B2635]/5 blur-2xl rounded-[40px] -z-10" />
           </div>
         </motion.div>
       </div>

@@ -41,7 +41,7 @@ export default function Reviews() {
   return (
     <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-1/2 right-0 w-64 h-64 bg-[#dc2626]/5 rounded-full blur-3xl translate-x-1/2" />
+      <div className="absolute top-1/2 right-0 w-64 h-64 bg-[#8B2635]/5 rounded-full blur-3xl translate-x-1/2" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -51,7 +51,7 @@ export default function Reviews() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc2626] border border-[#dc2626] rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Community Verification</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6 uppercase">
@@ -73,7 +73,7 @@ export default function Reviews() {
           {!showForm && (
             <Button 
               onClick={() => setShowForm(true)}
-              className="bg-[#dc2626] hover:bg-[#6B1827] text-white px-10 py-8 rounded-2xl font-black uppercase tracking-widest text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1"
+              className="bg-[#8B2635] hover:bg-[#6B1827] text-white px-10 py-8 rounded-2xl font-black uppercase tracking-widest text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1"
             >
               <Send className="w-6 h-6 mr-3" />
               SHARE YOUR EXPERIENCE
@@ -165,7 +165,7 @@ export default function Reviews() {
                       <Button
                         type="submit"
                         disabled={submitMutation.isPending}
-                        className="bg-[#dc2626] hover:bg-[#6B1827] rounded-2xl"
+                        className="bg-[#8B2635] hover:bg-[#6B1827] rounded-2xl"
                       >
                         {submitMutation.isPending ? 'Submitting...' : 'Submit Review'}
                       </Button>
@@ -193,7 +193,7 @@ export default function Reviews() {
                   
                   {review.badge && (
                     <div className="flex items-center gap-2 mb-6">
-                      <div className="w-2 h-2 rounded-full bg-[#dc2626]" />
+                      <div className="w-2 h-2 rounded-full bg-[#8B2635]" />
                       <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">{review.badge}</span>
                     </div>
                   )}

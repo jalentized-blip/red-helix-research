@@ -149,7 +149,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                           onMouseEnter={() => setHoveredPeptide(productName)}
                           onMouseLeave={() => setHoveredPeptide(null)}
                         >
-                          <div className="px-4 py-2 bg-white rounded-xl text-[10px] font-black text-black border border-slate-100 group-hover:border-[#dc2626]/20 hover:bg-[#dc2626] hover:text-white transition-all cursor-default flex items-center gap-2 uppercase tracking-widest">
+                          <div className="px-4 py-2 bg-white rounded-xl text-[10px] font-black text-black border border-slate-100 group-hover:border-[#dc2626]/20 hover:bg-[#8B2635] hover:text-white transition-all cursor-default flex items-center gap-2 uppercase tracking-widest">
                             <Info className="w-3 h-3 text-[#dc2626]/40 group-hover:text-white" />
                             {productName}
                           </div>
