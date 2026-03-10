@@ -97,7 +97,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
     <div className="flex flex-col h-full bg-white rounded-none overflow-hidden" style={{ height: '100%', minHeight: 0 }}>
 
       {/* Channel header — Discord style */}
-      <div className="flex items-center gap-2 px-4 py-3 bg-[#1e1f22] border-b border-[#3a3c42] flex-shrink-0 shadow-sm">
+      <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-slate-200 flex-shrink-0 shadow-sm">
         <Hash className="w-5 h-5 text-slate-400 flex-shrink-0" />
         <span className="font-black text-white text-sm truncate">general</span>
         <div className="h-4 w-px bg-[#3a3c42] mx-1" />
