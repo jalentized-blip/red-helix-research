@@ -204,8 +204,8 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
             </div>
           </div>
         ) : (
-          <div className="bg-[#383a40] rounded-xl px-4 py-3 text-center">
-            <span className="text-slate-400 text-sm">You must be signed in to chat.</span>
+          <div className="bg-slate-100 rounded-xl px-4 py-3 text-center">
+            <span className="text-slate-500 text-sm">You must be signed in to chat.</span>
           </div>
         )}
       </div>
