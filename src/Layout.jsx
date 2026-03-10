@@ -384,17 +384,17 @@ const HeaderSearch = () => {
           }
 
           /* Override ALL red and crimson colors with Red Dirt red */
-          [class*="bg-red"], [class*="bg-crimson"],
-          .hover\\:bg-[#dc2626]:hover, .hover\\:bg-red-700:hover, .hover\\:bg-red-800:hover {
+          [class*="bg-red-"], [class*="bg-crimson"],
+          .hover\\:bg-red-700:hover, .hover\\:bg-red-800:hover, .hover\\:bg-[#dc2626]:hover {
             background-color: var(--red-dirt-red) !important;
           }
 
-          [class*="text-red"], [class*="text-crimson"],
+          [class*="text-red-"], [class*="text-crimson"],
           .hover\\:text-red-400:hover, .hover\\:text-red-500:hover, .hover\\:text-[#dc2626]:hover, .hover\\:text-red-700:hover {
             color: var(--red-dirt-red) !important;
           }
 
-          [class*="border-red"], [class*="border-crimson"],
+          [class*="border-red-"], [class*="border-crimson"],
           .focus\\:border-red-700\\/50:focus, .focus\\:border-[#dc2626]:focus {
             border-color: var(--red-dirt-red) !important;
           }
