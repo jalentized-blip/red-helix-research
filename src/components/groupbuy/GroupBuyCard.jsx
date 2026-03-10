@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Users, FlaskConical, ExternalLink, Lock, Globe, CheckCircle2, Clock, Beaker } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
+import EscrowStatusBar from './EscrowStatusBar';
 
 const STATUS_CONFIG = {
   open: { label: 'Open', color: 'bg-green-100 text-green-700 border-green-200' },
