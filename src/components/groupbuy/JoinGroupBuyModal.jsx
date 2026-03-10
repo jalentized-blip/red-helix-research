@@ -15,7 +15,7 @@ export default function JoinGroupBuyModal({ groupBuy, isOpen, onClose, onSuccess
   const [showEscrow, setShowEscrow] = useState(false);
 
   // Auto-fill from logged-in user whenever modal opens
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen && currentUser) {
       setForm(f => ({
         ...f,
