@@ -162,7 +162,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
                         )}
                       </div>
                     )}
-                    <p className="text-slate-200 text-sm leading-relaxed break-words">{msg.message}</p>
+                    <p className="text-slate-700 text-sm leading-relaxed break-words">{msg.message}</p>
                   </div>
                 </div>
               );
