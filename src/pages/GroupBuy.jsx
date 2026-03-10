@@ -13,6 +13,7 @@ import CreateGroupBuyModal from '@/components/groupbuy/CreateGroupBuyModal';
 import JoinGroupBuyModal from '@/components/groupbuy/JoinGroupBuyModal';
 import GroupBuyCard from '@/components/groupbuy/GroupBuyCard';
 import AdminEscrowPanel from '@/components/groupbuy/AdminEscrowPanel';
+import EscrowPaymentModal from '@/components/groupbuy/EscrowPaymentModal';
 
 const PEPTIDES = ['All', 'BPC-157', 'TB-500', 'Semaglutide', 'Tirzepatide', 'Retatrutide', 'Ipamorelin', 'CJC-1295', 'GHK-Cu', 'Other'];
 const STATUSES = ['All', 'open', 'funded', 'testing', 'completed', 'cancelled'];
