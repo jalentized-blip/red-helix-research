@@ -17,7 +17,10 @@ function groupMessagesByDate(messages) {
   let currentGroup = null;
   messages.forEach(msg => {
     const d = new Date(msg.created_date);
+    // Use local date string as the grouping key so days split at midnight local time
+    const localDateKey = d.toLocaleDateString();
     const dateLabel = getDateLabel(d);
+    const groupKey = localDateKey;
     if (dateLabel !== currentDate) {
       currentDate = dateLabel;
       currentGroup = { dateLabel, messages: [] };
