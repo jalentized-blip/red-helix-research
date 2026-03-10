@@ -101,6 +101,9 @@ export default function GroupBuyCard({ groupBuy, onJoin, index }) {
         </div>
       )}
 
+      {/* Escrow status */}
+      <EscrowStatusBar groupBuy={groupBuy} />
+
       {/* Test tags */}
       <div className="flex flex-wrap gap-1.5 mb-4 flex-1 content-start">
         {(groupBuy.test_types || []).map(t => (
