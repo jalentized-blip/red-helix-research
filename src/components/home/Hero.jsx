@@ -53,14 +53,14 @@ const Hero = React.memo(() => {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full mb-6 md:mb-8 shadow-sm"
           >
-            <ShieldCheck className="w-3 md:w-4 h-3 md:h-4 text-[#dc2626]" />
+            <ShieldCheck className="w-3 md:w-4 h-3 md:h-4 text-[#8B2635]" />
             <span className="text-[10px] md:text-xs font-bold tracking-widest text-slate-600 uppercase">ISO 9001:2015 Certified Sourcing</span>
           </motion.div>
 
           {/* Main Title - High Contrast on Light BG */}
           <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9] lg:leading-[0.85] flex flex-col">
             <span className="text-black">PRECISION</span>
-            <span className="text-[#dc2626]">RESEARCH</span>
+            <span className="text-[#8B2635]">RESEARCH</span>
             <span className="text-black">PEPTIDES</span>
           </h1>
 
@@ -76,7 +76,7 @@ const Hero = React.memo(() => {
               { icon: FileText, label: "Verified COAs", sub: "Third-Party Lab" }
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/50 rounded-2xl border border-slate-100 lg:bg-transparent lg:border-0 lg:p-0">
-                <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#dc2626] mb-1" />
+                <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#8B2635] mb-1" />
                 <span className="text-xs md:text-sm font-black text-black">{stat.label}</span>
                 <span className="text-[11px] md:text-xs text-slate-500 uppercase tracking-tighter font-black">{stat.sub}</span>
               </div>
@@ -87,7 +87,7 @@ const Hero = React.memo(() => {
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
             <Button 
               onClick={() => scrollTo('products')}
-              className="group bg-[#8B2635] hover:bg-[#b91c1c] text-white px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
+              className="group bg-[#8B2635] hover:bg-[#6B1827] text-white px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
             >
               <ShoppingBag className="w-5 md:w-6 h-5 md:h-6 mr-3 group-hover:rotate-12 transition-transform" />
               EXPLORE CATALOG
@@ -95,7 +95,7 @@ const Hero = React.memo(() => {
             <Button 
               variant="outline"
               onClick={() => scrollTo('certificates')}
-              className="bg-white border-2 border-[#dc2626] text-[#dc2626] hover:bg-red-50 px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm"
+              className="bg-white border-2 border-[#8B2635] text-[#8B2635] hover:bg-red-50 px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm"
             >
               VIEW LAB REPORTS
             </Button>
@@ -149,7 +149,7 @@ const Hero = React.memo(() => {
                 className="absolute bottom-12 right-12 p-4 bg-white/90 backdrop-blur-md border border-slate-100 rounded-2xl shadow-lg"
               >
                 <div className="text-[10px] text-slate-400 font-bold mb-1 uppercase tracking-tighter">Purity Analysis</div>
-                <div className="text-xs font-black text-[#dc2626]">HPLC: 99.82%</div>
+                <div className="text-xs font-black text-[#8B2635]">HPLC: 99.82%</div>
               </motion.div>
             </div>
 

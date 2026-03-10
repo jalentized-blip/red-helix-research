@@ -295,7 +295,7 @@ export default function ProtocolEngine() {
             {/* Header Details */}
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-2xl font-black tracking-tight mb-2 text-[#dc2626]">ADVANCED PROTOCOL SIMULATION</h2>
+                <h2 className="text-2xl font-black tracking-tight mb-2 text-[#8B2635]">ADVANCED PROTOCOL SIMULATION</h2>
                 <p className="text-neutral-500 font-mono text-sm">Visualize synergy and mechanism of action.</p>
               </div>
               <div className="flex gap-2">
@@ -334,7 +334,7 @@ export default function ProtocolEngine() {
                     exit={{ opacity: 0 }}
                     className="w-full max-w-md"
                   >
-                    <div className="flex justify-between font-mono text-xs text-[#dc2626] mb-2">
+                    <div className="flex justify-between font-mono text-xs text-[#8B2635] mb-2">
                       <span>ANALYZING_COMPOUNDS...</span>
                       <span>{scanProgress}%</span>
                     </div>
@@ -379,7 +379,7 @@ export default function ProtocolEngine() {
                           {Object.entries(activeProtocol.stats).map(([label, value]) => (
                             <div key={label} className="flex justify-between text-xs font-mono">
                               <span className="text-neutral-500">{label}</span>
-                              <span className="text-[#dc2626] font-bold">{value}</span>
+                              <span className="text-[#8B2635] font-bold">{value}</span>
                             </div>
                           ))}
                         </div>
@@ -401,7 +401,7 @@ export default function ProtocolEngine() {
                             <div className="w-2 h-2 rounded-full bg-[#8B2635] shrink-0" />
                             <div>
                               <div className="font-bold text-neutral-900">{compound.name}</div>
-                              <div className="text-xs text-neutral-500 font-mono group-hover:text-[#dc2626] transition-colors">
+                              <div className="text-xs text-neutral-500 font-mono group-hover:text-[#8B2635] transition-colors">
                                 {compound.effect}
                               </div>
                             </div>

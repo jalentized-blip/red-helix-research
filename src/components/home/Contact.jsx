@@ -50,12 +50,12 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#8B2635] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Support Protocol</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6 uppercase">
             Researcher <br />
-            <span className="text-[#dc2626]">Assistance</span>
+            <span className="text-[#8B2635]">Assistance</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Direct communication channels for laboratory procurement inquiries and technical research support.
@@ -73,7 +73,7 @@ export default function Contact() {
               viewport={{ once: true }}
             >
               <Card 
-                className="bg-white border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 p-10 text-center cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl group"
+                className="bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 p-10 text-center cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl group"
                 onClick={() => method.link && window.open(method.link, '_blank')}
               >
                 <div className={`inline-flex items-center justify-center w-20 h-20 rounded-[24px] ${method.color} mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-sm`}>

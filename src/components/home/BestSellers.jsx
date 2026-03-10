@@ -65,7 +65,7 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
       {/* Scientific Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute top-20 left-10 text-[#dc2626]/5 text-8xl"
+          className="absolute top-20 left-10 text-[#8B2635]/5 text-8xl"
           animate={{ y: [0, 40, 0], rotate: [0, 360] }}
           transition={{ duration: 20, repeat: Infinity }}
         >
@@ -85,13 +85,13 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
           className="text-center mb-10 md:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-6">
-            <TrendingUp className="w-4 h-4 text-[#dc2626]" />
-            <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">High Demand Reagents</span>
+            <TrendingUp className="w-4 h-4 text-[#8B2635]" />
+            <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">High Demand Reagents</span>
           </div>
           
           <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             BEST-SELLING <br />
-            <span className="text-[#dc2626]">RESEARCH UNITS</span>
+            <span className="text-[#8B2635]">RESEARCH UNITS</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Our most frequently acquired research compounds, systematically verified for peak analytical performance.

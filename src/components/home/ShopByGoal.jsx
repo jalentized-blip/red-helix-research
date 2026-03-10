@@ -28,7 +28,7 @@ const goals = [
     icon: Scale,
     products: ["RT", "TRZ", "SM"],
     gradient: "from-[#dc2626]/5 to-[#dc2626]/10",
-    iconColor: "text-[#dc2626]"
+    iconColor: "text-[#8B2635]"
   },
   {
     id: "recovery_healing",
@@ -37,7 +37,7 @@ const goals = [
     icon: Heart,
     products: ["BPC 157", "TB500", "BPC 157 + TB500"],
     gradient: "from-[#dc2626]/5 to-[#dc2626]/10",
-    iconColor: "text-[#dc2626]"
+    iconColor: "text-[#8B2635]"
   },
   {
     id: "cognitive_focus",
@@ -67,7 +67,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute top-10 right-1/4 text-[#dc2626]/5 text-8xl"
+          className="absolute top-10 right-1/4 text-[#8B2635]/5 text-8xl"
           animate={{ y: [20, -20, 20], rotate: [360, 0, 360] }}
           transition={{ duration: 15, repeat: Infinity }}
         >
@@ -92,7 +92,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             SHOP BY <br />
-            <span className="text-[#dc2626]">OBJECTIVE</span>
+            <span className="text-[#8B2635]">OBJECTIVE</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Systematic classification of research compounds based on primary experimental targets and metabolic pathways.
@@ -119,7 +119,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                       <goal.icon className={`w-7 h-7 ${goal.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-black group-hover:text-[#dc2626] transition-colors tracking-tight">
+                      <h3 className="text-2xl font-black text-black group-hover:text-[#8B2635] transition-colors tracking-tight">
                         {goal.title}
                       </h3>
                       <p className="text-sm text-slate-500 mt-2 font-medium leading-relaxed">
@@ -150,7 +150,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
                           onMouseLeave={() => setHoveredPeptide(null)}
                         >
                           <div className="px-4 py-2 bg-white rounded-xl text-[10px] font-black text-black border border-slate-100 group-hover:border-[#dc2626]/20 hover:bg-[#8B2635] hover:text-white transition-all cursor-default flex items-center gap-2 uppercase tracking-widest">
-                            <Info className="w-3 h-3 text-[#dc2626]/40 group-hover:text-white" />
+                            <Info className="w-3 h-3 text-[#8B2635]/40 group-hover:text-white" />
                             {productName}
                           </div>
                           <AnimatePresence>

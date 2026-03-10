@@ -38,7 +38,7 @@ export default function AboutSection() {
               transition={{ delay: 0.5 }}
               className="absolute -bottom-10 -right-10 bg-white border border-slate-100 p-8 rounded-[32px] shadow-2xl max-w-[240px]"
             >
-              <div className="text-4xl font-black text-[#dc2626] mb-1">2,000+</div>
+              <div className="text-4xl font-black text-[#8B2635] mb-1">2,000+</div>
               <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-tight">Researchers Rely on Our Purity Standards</div>
             </motion.div>
           </motion.div>
@@ -50,7 +50,7 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="order-1 lg:order-2"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#8B2635] rounded-full mb-8">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span className="text-[10px] font-black text-white uppercase tracking-widest">Established Research Protocol</span>
             </div>
@@ -58,7 +58,7 @@ export default function AboutSection() {
             <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter leading-[0.9]">
               <span className="text-black">THE HELIX</span>
               <br />
-              <span className="text-[#dc2626]">STANDARD</span>
+              <span className="text-[#8B2635]">STANDARD</span>
             </h2>
 
             <div className="space-y-6 text-slate-600 leading-relaxed font-medium text-lg">
@@ -70,7 +70,7 @@ export default function AboutSection() {
               </p>
               <p>
                 Every compound is synthesized in state-of-the-art facilities and verified 
-                through comprehensive <span className="text-[#dc2626] font-bold underline decoration-[#dc2626]/30 underline-offset-4">third-party HPLC and Mass Spec analysis</span>. 
+                through comprehensive <span className="text-[#8B2635] font-bold underline decoration-[#dc2626]/30 underline-offset-4">third-party HPLC and Mass Spec analysis</span>. 
                 Our lab archives are publicly accessible, providing the verification 
                 required for rigorous experimentation.
               </p>
@@ -90,7 +90,7 @@ export default function AboutSection() {
             </div>
 
             <Button 
-              className="mt-12 bg-[#8B2635] hover:bg-[#b91c1c] text-white font-black px-10 py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 text-lg uppercase tracking-widest"
+              className="mt-12 bg-[#8B2635] hover:bg-[#6B1827] text-white font-black px-10 py-8 rounded-2xl shadow-lg shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 text-lg uppercase tracking-widest"
             >
               Learn More <ArrowRight className="w-5 h-5 ml-2" />
             </Button>

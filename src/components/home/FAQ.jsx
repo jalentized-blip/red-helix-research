@@ -48,12 +48,12 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#dc2626] rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635] border border-[#8B2635] rounded-full mb-6">
             <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Intelligence</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             KNOWLEDGE <br />
-            <span className="text-[#dc2626]">BASE</span>
+            <span className="text-[#8B2635]">BASE</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
             Essential information regarding acquisition protocols, logistics, and research safety standards.
@@ -71,9 +71,9 @@ export default function FAQ() {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-slate-50 border border-slate-100 rounded-[32px] px-8 data-[state=open]:border-[#dc2626]/30 data-[state=open]:bg-white transition-all duration-300 shadow-sm"
+                className="bg-slate-50 border border-slate-100 rounded-[32px] px-8 data-[state=open]:border-[#8B2635]/30 data-[state=open]:bg-white transition-all duration-300 shadow-sm"
               >
-                <AccordionTrigger className="text-left text-black hover:text-[#dc2626] py-6 hover:no-underline font-black text-lg tracking-tight">
+                <AccordionTrigger className="text-left text-black hover:text-[#8B2635] py-6 hover:no-underline font-black text-lg tracking-tight">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-500 font-medium pb-8 leading-relaxed">

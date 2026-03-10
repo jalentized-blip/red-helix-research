@@ -110,15 +110,15 @@ export default function Certificates() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#8B2635]/10 rounded-full mb-8 shadow-sm"
           >
-            <ShieldCheck className="w-4 h-4 text-[#dc2626]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc2626]">Laboratory Verification Protocol</span>
+            <ShieldCheck className="w-4 h-4 text-[#8B2635]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B2635]">Laboratory Verification Protocol</span>
           </motion.div>
           
           <h2 className="text-5xl md:text-7xl font-black text-black mb-6 tracking-tighter leading-[0.9]">
             CERTIFICATES OF <br />
-            <span className="text-[#dc2626]">ANALYSIS (COA)</span>
+            <span className="text-[#8B2635]">ANALYSIS (COA)</span>
           </h2>
           
           <p className="text-slate-500 text-lg max-w-2xl font-medium leading-relaxed">
@@ -137,7 +137,7 @@ export default function Certificates() {
               transition={{ delay: idx * 0.1, duration: 0.8 }}
             >
               <Card 
-                className="bg-white border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 cursor-pointer group relative overflow-hidden rounded-[40px] flex flex-col h-full shadow-sm hover:shadow-xl"
+                className="bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 cursor-pointer group relative overflow-hidden rounded-[40px] flex flex-col h-full shadow-sm hover:shadow-xl"
                 onClick={() => setSelectedCert(cert)}
               >
                 {/* Certificate Preview Image */}
@@ -165,14 +165,14 @@ export default function Certificates() {
                 <div className="p-8 flex-grow">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-black text-black tracking-tight group-hover:text-[#dc2626] transition-colors">
+                      <h3 className="text-xl font-black text-black tracking-tight group-hover:text-[#8B2635] transition-colors">
                         {cert.peptide}
                       </h3>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
                         Batch ID: {cert.batch}
                       </p>
                     </div>
-                    <Zap className="w-5 h-5 text-[#dc2626]/10" />
+                    <Zap className="w-5 h-5 text-[#8B2635]/10" />
                   </div>
 
                   <div className="flex items-end justify-between mt-auto pt-6 border-t border-slate-100">
@@ -200,7 +200,7 @@ export default function Certificates() {
           {combinedCertificates.length > 3 && (
             <button
               onClick={() => setShowAll(!showAll)}
-              className="group relative px-10 py-5 bg-white border-2 border-slate-100 hover:border-[#dc2626] text-black font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm"
+              className="group relative px-10 py-5 bg-white border-2 border-slate-100 hover:border-[#8B2635] text-black font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm"
             >
               <span className="relative z-10 flex items-center gap-3">
                 {showAll ? 'Collapse Archive' : 'Access Full Test Archive'}

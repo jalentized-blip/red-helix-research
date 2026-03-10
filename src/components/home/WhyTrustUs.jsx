@@ -45,12 +45,12 @@ export default function WhyTrustUs() {
             className="max-w-2xl"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-6">
-              <ShieldCheck className="w-3 h-3 text-[#dc2626]" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc2626]">Quality Assurance Protocol</span>
+              <ShieldCheck className="w-3 h-3 text-[#8B2635]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#8B2635]">Quality Assurance Protocol</span>
             </div>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-black leading-[0.9]">
               FOUNDATION OF <br />
-              <span className="text-[#dc2626]">SCIENTIFIC TRUST</span>
+              <span className="text-[#8B2635]">SCIENTIFIC TRUST</span>
             </h2>
           </motion.div>
 
@@ -65,7 +65,7 @@ export default function WhyTrustUs() {
             </p>
             <Button 
               onClick={() => scrollTo('products')}
-              className="bg-[#8B2635] hover:bg-[#b91c1c] text-white font-black px-10 py-8 text-sm uppercase tracking-[0.2em] rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.2)] transition-all"
+              className="bg-[#8B2635] hover:bg-[#6B1827] text-white font-black px-10 py-8 text-sm uppercase tracking-[0.2em] rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.2)] transition-all"
             >
               Enter Research Catalog
             </Button>
@@ -88,11 +88,11 @@ export default function WhyTrustUs() {
                 </div>
                 
                 <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 flex items-center justify-center mb-8 group-hover:border-[#dc2626]/30 transition-colors shadow-sm">
-                  <point.icon className="w-7 h-7 text-[#dc2626]" />
+                  <point.icon className="w-7 h-7 text-[#8B2635]" />
                 </div>
 
                 <div className="mb-6">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-[#dc2626] transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-[#8B2635] transition-colors">
                     {point.subtitle}
                   </span>
                   <h3 className="text-2xl font-black text-black mt-1 tracking-tight">
