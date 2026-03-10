@@ -197,7 +197,7 @@ export default function GroupBuyChat({ groupBuyId, groupBuyTitle, currentUser })
               <button
                 onClick={handleSend}
                 disabled={sending || !message.trim()}
-                className={`ml-1 w-7 h-7 rounded-md flex items-center justify-center transition-all ${message.trim() ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white' : 'bg-[#4e5058] text-slate-500 cursor-not-allowed'}`}
+                className={`ml-1 w-7 h-7 rounded-md flex items-center justify-center transition-all ${message.trim() ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white' : 'bg-slate-300 text-slate-400 cursor-not-allowed'}`}
               >
                 <Send className="w-3.5 h-3.5" />
               </button>
