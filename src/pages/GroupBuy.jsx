@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ import { generateBreadcrumbSchema } from '@/components/utils/advancedSchemaHelpe
 import CreateGroupBuyModal from '@/components/groupbuy/CreateGroupBuyModal';
 import JoinGroupBuyModal from '@/components/groupbuy/JoinGroupBuyModal';
 import GroupBuyCard from '@/components/groupbuy/GroupBuyCard';
+import AdminEscrowPanel from '@/components/groupbuy/AdminEscrowPanel';
 
 const PEPTIDES = ['All', 'BPC-157', 'TB-500', 'Semaglutide', 'Tirzepatide', 'Retatrutide', 'Ipamorelin', 'CJC-1295', 'GHK-Cu', 'Other'];
 const STATUSES = ['All', 'open', 'funded', 'testing', 'completed', 'cancelled'];
