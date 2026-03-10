@@ -96,7 +96,7 @@ export default function ExpandedFAQ() {
         {
           id: 'shipping-lost',
           question: 'What if my package is lost or damaged?',
-          answer: 'Contact us immediately with photos of damage or delivery proof. We\'ll file a claim or resend your order. We guarantee safe delivery of all products.'
+          answer: 'Contact us at jake@redhelixresearch.com within 48 hours of the delivery date (or expected delivery date for lost packages) with clear photos of any damage and your order number. We will file a carrier claim on your behalf. If the claim is approved, we may issue a replacement for the same item at our discretion. Please note: all sales are final and this process does not guarantee a refund or exchange — it applies only to carrier-confirmed damage or loss.'
         },
         {
           id: 'shipping-customs',
