@@ -12,6 +12,7 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState(null);
 
   const amountDollars = groupBuy?.cost_per_participant || 0;
   const amountCents = Math.round(amountDollars * 100);
