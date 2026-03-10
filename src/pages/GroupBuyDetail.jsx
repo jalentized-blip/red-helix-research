@@ -299,9 +299,9 @@ export default function GroupBuyDetail() {
               className="flex-1 flex flex-col overflow-hidden"
               style={{ height: 'calc(100vh - 140px)' }}>
               {/* Discord-style outer wrapper */}
-              <div className="flex-1 flex overflow-hidden bg-[#1e1f22]">
+              <div className="flex-1 flex overflow-hidden bg-white">
                 {/* Sidebar — channels list */}
-                <div className="w-48 bg-[#2b2d31] flex-shrink-0 flex flex-col hidden md:flex">
+                <div className="w-48 bg-slate-100 flex-shrink-0 flex flex-col hidden md:flex border-r border-slate-200">
                   {/* Server name */}
                   <div className="px-4 py-3 border-b border-black/30 flex items-center justify-between">
                     <span className="font-black text-white text-sm truncate">{groupTitle.length > 18 ? groupTitle.slice(0, 18) + '…' : groupTitle}</span>

@@ -73,6 +73,7 @@ import EmailAutomationStrategy from './pages/EmailAutomationStrategy';
 import ExpandedFAQ from './pages/ExpandedFAQ';
 import GrayMarketInsights from './pages/GrayMarketInsights';
 import GroupBuy from './pages/GroupBuy';
+import GroupBuyDetail from './pages/GroupBuyDetail';
 import Home from './pages/Home';
 import InternalLinkingStrategy from './pages/InternalLinkingStrategy';
 import LaunchChecklist from './pages/LaunchChecklist';
@@ -111,7 +112,6 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import SecurityDashboard from './pages/SecurityDashboard';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
-import GroupBuyDetail from './pages/GroupBuyDetail';
 import __Layout from './Layout.jsx';
 
 
@@ -142,6 +142,7 @@ export const PAGES = {
     "ExpandedFAQ": ExpandedFAQ,
     "GrayMarketInsights": GrayMarketInsights,
     "GroupBuy": GroupBuy,
+    "GroupBuyDetail": GroupBuyDetail,
     "Home": Home,
     "InternalLinkingStrategy": InternalLinkingStrategy,
     "LaunchChecklist": LaunchChecklist,
@@ -180,7 +181,6 @@ export const PAGES = {
     "SecurityDashboard": SecurityDashboard,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
-    "GroupBuyDetail": GroupBuyDetail,
 }
 
 export const pagesConfig = {
