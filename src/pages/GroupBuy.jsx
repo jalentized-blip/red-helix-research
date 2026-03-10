@@ -26,6 +26,11 @@ export default function GroupBuy() {
   const [filterStatus, setFilterStatus] = useState('All');
   const [filterPeptide, setFilterPeptide] = useState('All');
   const [filterTest, setFilterTest] = useState('All');
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(u => setIsAdmin(u?.role === 'admin')).catch(() => {});
+  }, []);
 
   const { data: groupBuys = [], isLoading } = useQuery({
     queryKey: ['groupBuys'],
