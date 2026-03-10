@@ -163,7 +163,7 @@ export default function ExpandedFAQ() {
         {
           id: 'payment-refund',
           question: 'What\'s your refund policy?',
-          answer: 'Refunds are available within 7 days if the product is unopened and in original condition. Opened/used products cannot be refunded due to safety/sterility concerns. See Policies for details.'
+          answer: 'ALL SALES ARE FINAL. We do not offer refunds, returns, or exchanges under any circumstances. Research peptides are sensitive biological compounds — once shipped, we cannot verify storage conditions or product integrity if returned, so we are unable to accept any items back. The only exception is for orders confirmed lost or physically damaged in transit by the carrier, in which case you must contact us within 48 hours of delivery with photographic evidence. See our full Policies page for complete details.'
         }
       ]
     },
