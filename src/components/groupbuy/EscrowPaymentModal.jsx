@@ -3,7 +3,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { base44 } from '@/api/base44Client';
-import { Loader2, CheckCircle2, Shield, Lock, AlertCircle, Info, Mail, Send, CreditCard } from 'lucide-react';
+import { Loader2, CheckCircle2, Shield, Lock, AlertCircle, Info, Send, CreditCard } from 'lucide-react';
+import TurnstileWidget from '@/components/TurnstileWidget';
 
 export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSuccess, prefillEmail, prefillName }) {
   const [name, setName] = useState(prefillName || '');
