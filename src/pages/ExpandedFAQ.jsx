@@ -29,7 +29,7 @@ export default function ExpandedFAQ() {
         {
           id: 'product-strength',
           question: 'What do the strength numbers mean (mg, IU)?',
-          answer: 'Strength indicates the concentration or dosage per vial. For example, BPC-157 5mg means 5 milligrams of active peptide. Higher strength = more potent per unit, requiring smaller injection volumes.'
+          answer: 'Strength indicates the total amount of active peptide per vial. For example, BPC-157 5mg means 5 milligrams of lyophilized peptide. Higher strength vials provide higher concentration solutions when reconstituted with the same solvent volume, useful for research protocols requiring specific molar concentrations.'
         },
         {
           id: 'order-processing',
@@ -49,38 +49,28 @@ export default function ExpandedFAQ() {
       ]
     },
     {
-      category: 'Reconstitution & Use',
+      category: 'Reconstitution & Storage',
       icon: '💧',
       questions: [
         {
           id: 'reconstitute-basics',
-          question: 'How do I reconstitute my peptides?',
-          answer: 'Mix the powder with bacteriostatic water (included) in a sterile vial. Use our Peptide Calculator tool for exact measurements. Always use sterile technique to prevent contamination.'
+          question: 'How do I reconstitute peptides for laboratory research?',
+          answer: 'For laboratory research use, mix the lyophilized powder with bacteriostatic water in a sterile vial. Use our Peptide Calculator tool for precise concentration calculations. Always follow proper sterile laboratory technique to prevent contamination. All reconstitution is for in-vitro research purposes only.'
         },
         {
           id: 'reconstitute-water',
-          question: 'What type of water should I use?',
-          answer: 'Always use Bacteriostatic Water for Injection (BWFI). This contains benzyl alcohol to prevent bacterial growth. Distilled water or tap water can introduce contamination.'
+          question: 'What solvent is recommended for peptide reconstitution?',
+          answer: 'Bacteriostatic water (0.9% benzyl alcohol) is the standard solvent for lyophilized peptide reconstitution in laboratory settings. It inhibits microbial growth and maintains sample integrity. Always use sterile laboratory-grade solvents.'
         },
         {
           id: 'reconstitute-storage',
-          question: 'How long can reconstituted peptides be stored?',
-          answer: 'Properly reconstituted peptides stored in the fridge (2-8°C) remain viable for 2-4 weeks. Once opened for use, use within 3-5 days. Never freeze after reconstitution.'
-        },
-        {
-          id: 'reconstitute-accuracy',
-          question: 'How do I measure accurate doses?',
-          answer: 'Use our Peptide Calculator to determine exact mL per dose. Use insulin syringes (0.5mL or 1mL) for precision. Mark syringe markings based on your specific concentration.'
-        },
-        {
-          id: 'reconstitute-injection',
-          question: 'What\'s the best injection site and technique?',
-          answer: 'Most peptides are injected subcutaneously (under skin) in stomach, thigh, or arm areas. Use sterile injection technique. See our Reconstitution Guide for detailed instructions. Consult medical literature for specific protocols.'
+          question: 'How should reconstituted peptides be stored in the lab?',
+          answer: 'Reconstituted peptides should be stored at 2-8°C in a laboratory refrigerator, protected from light, for up to 30 days. For extended storage, aliquot and freeze at -20°C prior to reconstitution. Always follow proper laboratory storage protocols.'
         },
         {
           id: 'reconstitute-sterility',
-          question: 'How do I maintain sterile technique?',
-          answer: 'Always: disinfect vials with alcohol swabs, use sterile syringes, maintain clean environment, avoid touching injection sites, dispose of needles safely. Our guides include detailed sterile technique instructions.'
+          question: 'What sterile technique is required for peptide handling?',
+          answer: 'Standard laboratory sterile technique applies: disinfect vials with 70% isopropyl alcohol, use sterile syringes and needles, work in a clean laboratory environment, and follow all institutional biosafety protocols. Proper PPE (gloves, lab coat) is required.'
         }
       ]
     },
@@ -210,7 +200,7 @@ export default function ExpandedFAQ() {
         {
           id: 'support-technical',
           question: 'Can you help with technical reconstitution questions?',
-          answer: 'Yes. Our team can answer questions about calculations, storage, sterile technique, and general protocols. We cannot provide medical advice.'
+          answer: 'Yes. Our team can answer questions about reconstitution calculations, laboratory storage, sterile handling technique, and general research protocols. We provide information for research and educational purposes only and do not provide medical or clinical advice.'
         },
         {
           id: 'support-research',
