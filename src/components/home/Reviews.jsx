@@ -73,7 +73,7 @@ export default function Reviews() {
           {!showForm && (
             <Button 
               onClick={() => setShowForm(true)}
-              className="bg-[#dc2626] hover:bg-red-700 text-white px-10 py-8 rounded-2xl font-black uppercase tracking-widest text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1"
+              className="bg-[#dc2626] hover:bg-[#6B1827] text-white px-10 py-8 rounded-2xl font-black uppercase tracking-widest text-lg shadow-lg hover:shadow-[#dc2626]/20 transition-all hover:-translate-y-1"
             >
               <Send className="w-6 h-6 mr-3" />
               SHARE YOUR EXPERIENCE
@@ -165,7 +165,7 @@ export default function Reviews() {
                       <Button
                         type="submit"
                         disabled={submitMutation.isPending}
-                        className="bg-[#dc2626] hover:bg-red-700 rounded-2xl"
+                        className="bg-[#dc2626] hover:bg-[#6B1827] rounded-2xl"
                       >
                         {submitMutation.isPending ? 'Submitting...' : 'Submit Review'}
                       </Button>

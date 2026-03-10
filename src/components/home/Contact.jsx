@@ -17,7 +17,7 @@ const contactMethods = [
     icon: Mail,
     label: "Email",
     value: "Email us",
-    color: "bg-red-700/20 text-[#dc2626] hover:bg-red-700/30",
+    color: "bg-[#8B2635]/20 text-[#8B2635] hover:bg-[#8B2635]/30",
     link: "mailto:jake@redhelixresearch.com"
   },
   {
