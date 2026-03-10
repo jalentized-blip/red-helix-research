@@ -133,6 +133,16 @@ export default function GroupBuyCard({ groupBuy, onJoin, onLeave, onPayEscrow, i
         </div>
       )}
 
+      {/* View Details link */}
+      <Link
+        to={createPageUrl('GroupBuyDetail') + '?id=' + groupBuy.id}
+        className="flex items-center justify-center gap-1.5 text-[11px] font-bold text-[#8B2635] hover:text-[#6B1827] mb-3 group"
+        onClick={e => e.stopPropagation()}
+      >
+        <span>View Full Details & Chat</span>
+        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+      </Link>
+
       {/* CTA */}
       <div className="mt-auto space-y-2">
         {groupBuy.status === 'completed' && groupBuy.coa_url ? (
