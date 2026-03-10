@@ -97,7 +97,7 @@ export default function OrderTracking() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Account')} className="inline-flex items-center gap-2 text-slate-500 hover:text-[#dc2626] mb-6 transition-colors">
+          <Link to={createPageUrl('Account')} className="inline-flex items-center gap-2 text-slate-500 hover:text-[#8B2635] mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Back to Account
           </Link>
@@ -148,7 +148,7 @@ export default function OrderTracking() {
             <Package className="w-12 h-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-500 mb-6 font-medium">No orders yet</p>
             <Link to={createPageUrl('Home')}>
-              <Button className="bg-[#dc2626] hover:bg-red-700 text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
+              <Button className="bg-[#8B2635] hover:bg-[#6B1827] text-white rounded-full px-8 py-6 font-bold uppercase tracking-wider shadow-lg shadow-red-200">
                 Start Shopping
               </Button>
             </Link>
@@ -297,7 +297,7 @@ export default function OrderTracking() {
                         setResendingOrderId(null);
                       }
                     }}
-                    className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-tighter text-[#dc2626] hover:text-red-500 underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-tighter text-[#8B2635] hover:text-red-500 underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {resendingOrderId === order.id ? (
                       <Loader2 className="w-3 h-3 animate-spin" />

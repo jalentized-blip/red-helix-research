@@ -69,7 +69,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
             
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-[#dc2626] border border-red-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[#8B2635] border border-red-500 flex items-center justify-center">
                   <Microscope className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -101,11 +101,11 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
 
               <div className="mt-8 space-y-4">
                 <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="w-2 h-2 rounded-full bg-[#dc2626] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-[#8B2635] animate-pulse" />
                   <p className="text-xs font-bold text-slate-600">HPLC & Mass Spec Verified Batch</p>
                 </div>
                 <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="w-2 h-2 rounded-full bg-[#dc2626] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-[#8B2635] animate-pulse" />
                   <p className="text-xs font-bold text-slate-600">Sterile Vacuum-Sealed Packaging</p>
                 </div>
               </div>
@@ -120,7 +120,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   {product.name}
                 </h2>
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-[#dc2626] text-white border-[#dc2626] text-[10px] font-black tracking-widest px-2 py-0">RESEARCH ONLY</Badge>
+                  <Badge className="bg-[#8B2635] text-white border-[#8B2635] text-[10px] font-black tracking-widest px-2 py-0">RESEARCH ONLY</Badge>
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ISO 9001:2015</span>
                 </div>
               </div>
@@ -155,7 +155,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                           disabled={isOutOfStock}
                           className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
                             selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName
-                              ? 'border-[#dc2626] bg-[#dc2626]/5 shadow-sm'
+                              ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
                               : isOutOfStock
                               ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
                               : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
@@ -163,7 +163,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#dc2626]' : 'text-black'}`}>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#8B2635]' : 'text-black'}`}>
                                 {spec.productName} - {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">10-Vial Research Kit</div>
@@ -196,7 +196,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                           disabled={isOutOfStock}
                           className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
                             selectedSpec?.name === spec.name
-                              ? 'border-[#dc2626] bg-[#dc2626]/5 shadow-sm'
+                              ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
                               : isOutOfStock
                               ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
                               : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
@@ -204,7 +204,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#dc2626]' : 'text-black'}`}>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
                                 {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
@@ -228,7 +228,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
               {!isAuthenticated ? (
                 <Button
                   onClick={handleAddToCart}
-                  className="w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]"
+                  className="w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 bg-[#8B2635] hover:bg-[#6B1827] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]"
                 >
                   <span className="flex items-center gap-3">
                     <LogIn className="w-5 h-5" />
@@ -244,7 +244,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                       ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                       : addedToCart
                       ? 'bg-green-600 text-white'
-                      : 'bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
+                      : 'bg-[#8B2635] hover:bg-[#6B1827] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]'
                   }`}
                 >
                   <span className="flex items-center gap-3">
@@ -281,7 +281,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
             {/* Additional Info - Bright Medical Style */}
             <div className="mt-8 grid grid-cols-1 gap-3">
               <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-8 h-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[#8B2635] flex items-center justify-center">
                   <ShieldCheck className="w-4 h-4 text-white" />
                 </div>
                 <div>
@@ -290,7 +290,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-8 h-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[#8B2635] flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
                 <div>
@@ -301,8 +301,8 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
             </div>
 
             {/* Compliance Disclaimer - Non-bypassable */}
-            <div className="mt-8 p-6 bg-[#dc2626] rounded-[32px] border-2 border-[#ef4444] relative overflow-hidden shadow-lg flex-shrink-0">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#b91c1c]/20 rounded-full -mr-12 -mt-12 pointer-events-none" />
+            <div className="mt-8 p-6 bg-[#8B2635] rounded-[32px] border-2 border-[#ef4444] relative overflow-hidden shadow-lg flex-shrink-0">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#6B1827]/20 rounded-full -mr-12 -mt-12 pointer-events-none" />
               <div className="relative z-10 space-y-3">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />

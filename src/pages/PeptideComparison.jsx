@@ -839,7 +839,7 @@ export default function PeptideComparison() {
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
           <h1 className="text-5xl md:text-7xl font-black text-black mb-4 tracking-tighter uppercase leading-none">
-            Research <span className="text-[#dc2626]">Finder</span>
+            Research <span className="text-[#8B2635]">Finder</span>
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
             Discover the ideal peptide protocols for your clinical research through our data-driven selection matrix.
@@ -858,7 +858,7 @@ export default function PeptideComparison() {
 
           <div className="relative z-10">
             <h2 className="text-3xl font-black text-black mb-2 uppercase tracking-tight flex items-center gap-3">
-              <Activity className="w-8 h-8 text-[#dc2626]" />
+              <Activity className="w-8 h-8 text-[#8B2635]" />
               1. Research Parameters
             </h2>
             <p className="text-slate-500 font-medium mb-8">Select all clinical research areas relevant to your current study:</p>
@@ -872,8 +872,8 @@ export default function PeptideComparison() {
                   whileTap={{ scale: 0.98 }}
                   className={`p-5 rounded-2xl border-2 transition-all text-left font-black uppercase tracking-tight text-xs ${
                     selectedBenefits.includes(benefit)
-                      ? 'bg-[#dc2626] border-[#dc2626] text-white shadow-lg shadow-red-100'
-                      : 'bg-white border-slate-200 text-slate-600 hover:border-[#dc2626]/50 hover:bg-slate-50 shadow-sm'
+                      ? 'bg-[#8B2635] border-[#8B2635] text-white shadow-lg shadow-red-100'
+                      : 'bg-white border-slate-200 text-slate-600 hover:border-[#8B2635]/50 hover:bg-slate-50 shadow-sm'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -896,13 +896,13 @@ export default function PeptideComparison() {
                 disabled={selectedBenefits.length === 0}
                 className="w-full md:w-auto px-12 py-5 bg-black hover:bg-black text-white font-black uppercase tracking-widest rounded-full shadow-xl shadow-slate-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 transition-all"
               >
-                <Sparkles className="w-5 h-5 text-[#dc2626]" />
+                <Sparkles className="w-5 h-5 text-[#8B2635]" />
                 Analyze Research Data
               </motion.button>
               {selectedBenefits.length > 0 && (
                 <button
                   onClick={resetSelection}
-                  className="px-8 py-5 text-slate-400 hover:text-[#dc2626] font-black uppercase tracking-widest text-xs transition-colors"
+                  className="px-8 py-5 text-slate-400 hover:text-[#8B2635] font-black uppercase tracking-widest text-xs transition-colors"
                 >
                   Clear Selection
                 </button>
@@ -951,7 +951,7 @@ export default function PeptideComparison() {
                 <div className="flex flex-col md:flex-row items-start justify-between mb-10 gap-6">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="px-4 py-1.5 bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Primary Recommendation</span>
+                      <span className="px-4 py-1.5 bg-[#8B2635] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Primary Recommendation</span>
                       <span className="px-4 py-1.5 bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-full">{PEPTIDE_RESEARCH_DATA[recommendations.ranked[0][0]].class}</span>
                     </div>
                     <h3 className="text-4xl md:text-6xl font-black text-black mb-3 uppercase tracking-tighter">
@@ -962,7 +962,7 @@ export default function PeptideComparison() {
                     </p>
                   </div>
                   <div className="text-right bg-slate-50 p-8 rounded-[32px] border border-slate-100 min-w-[200px]">
-                    <div className="text-6xl font-black text-[#dc2626] tracking-tighter mb-1">
+                    <div className="text-6xl font-black text-[#8B2635] tracking-tighter mb-1">
                       {Math.round(recommendations.ranked[0][1].matchPercentage)}%
                     </div>
                     <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Clinical Match Score</p>
@@ -991,7 +991,7 @@ export default function PeptideComparison() {
                 <div className="space-y-8">
                   <div>
                     <h4 className="text-sm font-black text-black uppercase tracking-widest mb-6 flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#8B2635]" />
                       Protocol Rationale
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1009,7 +1009,7 @@ export default function PeptideComparison() {
 
                   <div className="bg-black rounded-[32px] p-8 md:p-10 text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-10">
-                      <Zap className="w-24 h-24 text-[#dc2626]" />
+                      <Zap className="w-24 h-24 text-[#8B2635]" />
                     </div>
                     <div className="relative z-10">
                       <h4 className="text-xs font-black uppercase tracking-widest text-red-500 mb-4">Clinical Research Protocol</h4>
@@ -1039,14 +1039,14 @@ export default function PeptideComparison() {
                         className={`rounded-[24px] p-6 cursor-pointer transition-all border ${
                           contraindication
                             ? 'bg-red-50 border-red-200'
-                            : 'bg-white border-slate-100 hover:border-[#dc2626]/30 hover:shadow-lg'
+                            : 'bg-white border-slate-100 hover:border-[#8B2635]/30 hover:shadow-lg'
                         }`}
                         onClick={() => setExpandedPeptide(expandedPeptide === peptideName ? null : peptideName)}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-6">
                             <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-lg ${
-                              contraindication ? 'bg-red-100 text-[#dc2626]' : 'bg-slate-100 text-black'
+                              contraindication ? 'bg-red-100 text-[#8B2635]' : 'bg-slate-100 text-black'
                             }`}>
                               {Math.round(data.matchPercentage)}%
                             </div>
@@ -1054,7 +1054,7 @@ export default function PeptideComparison() {
                               <div className="flex items-center gap-3 mb-1">
                                 <h4 className="text-xl font-black text-black uppercase tracking-tight">{peptideName}</h4>
                                 {contraindication && (
-                                  <span className="px-3 py-1 bg-[#dc2626] text-white text-[8px] font-black uppercase tracking-widest rounded-full">Contraindicated</span>
+                                  <span className="px-3 py-1 bg-[#8B2635] text-white text-[8px] font-black uppercase tracking-widest rounded-full">Contraindicated</span>
                                 )}
                               </div>
                               <p className="text-slate-500 font-medium text-sm">
@@ -1075,7 +1075,7 @@ export default function PeptideComparison() {
                             >
                               <div className="pt-8 mt-6 border-t border-slate-100">
                                 {contraindication ? (
-                                  <div className="bg-[#dc2626] text-white p-6 rounded-2xl flex items-start gap-4">
+                                  <div className="bg-[#8B2635] text-white p-6 rounded-2xl flex items-start gap-4">
                                     <AlertCircle className="w-6 h-6 flex-shrink-0 mt-1" />
                                     <div>
                                       <p className="font-black uppercase tracking-widest text-xs mb-2">Protocol Warning: {contraindication.severity} Severity</p>
@@ -1120,15 +1120,15 @@ export default function PeptideComparison() {
                 className="bg-black border border-slate-800 rounded-[40px] p-8 md:p-12 relative overflow-hidden shadow-2xl"
               >
                 <div className="absolute top-0 right-0 p-12 opacity-5">
-                  <Activity className="w-48 h-48 text-[#dc2626]" />
+                  <Activity className="w-48 h-48 text-[#8B2635]" />
                 </div>
                 <div className="relative z-10">
                   <div className="flex items-start gap-6 mb-10">
-                    <div className="w-16 h-16 bg-[#dc2626] rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-16 h-16 bg-[#8B2635] rounded-full flex items-center justify-center flex-shrink-0">
                       <ShieldCheck className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">Research <span className="text-[#dc2626]">Stacking Matrix</span></h3>
+                      <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">Research <span className="text-[#8B2635]">Stacking Matrix</span></h3>
                       <p className="text-slate-400 font-medium text-lg max-w-2xl">
                         Clinically-supported peptide combinations for expanded research scope and synergistic effects.
                       </p>
@@ -1148,9 +1148,9 @@ export default function PeptideComparison() {
                     return (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {safeOptions.map((stackOption) => (
-                          <div key={stackOption.peptide} className="bg-black/20 border border-white/5 rounded-[32px] p-8 hover:border-[#dc2626]/30 transition-all group">
+                          <div key={stackOption.peptide} className="bg-black/20 border border-white/5 rounded-[32px] p-8 hover:border-[#8B2635]/30 transition-all group">
                             <div className="flex items-center gap-4 mb-6">
-                              <div className="px-4 py-2 bg-[#dc2626] border border-red-500 rounded-xl">
+                              <div className="px-4 py-2 bg-[#8B2635] border border-red-500 rounded-xl">
                                 <span className="text-white font-black text-sm uppercase tracking-widest">{topPeptide} + {stackOption.peptide}</span>
                               </div>
                             </div>
@@ -1181,7 +1181,7 @@ export default function PeptideComparison() {
             className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 md:p-12 mt-12"
           >
             <div className="flex items-center gap-3 mb-8">
-              <Microscope className="w-8 h-8 text-[#dc2626]" />
+              <Microscope className="w-8 h-8 text-[#8B2635]" />
               <h2 className="text-3xl font-black text-black uppercase tracking-tighter">Clinical <span className="text-slate-400">Reference Library</span></h2>
             </div>
             <p className="text-slate-500 font-medium mb-12 text-lg max-w-3xl leading-relaxed">
@@ -1192,7 +1192,7 @@ export default function PeptideComparison() {
               {Object.entries(PEPTIDE_RESEARCH_DATA).map(([name, data]) => (
                 <div key={name} className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm hover:shadow-md transition-all group">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-black text-black uppercase tracking-tight group-hover:text-[#dc2626] transition-colors">{name}</h3>
+                    <h3 className="text-2xl font-black text-black uppercase tracking-tight group-hover:text-[#8B2635] transition-colors">{name}</h3>
                     <span className="px-3 py-1 bg-slate-100 text-slate-400 text-[8px] font-black uppercase tracking-widest rounded-full">{data.class}</span>
                   </div>
                   <p className="text-slate-400 text-xs font-black uppercase tracking-widest mb-4">{data.fullName}</p>

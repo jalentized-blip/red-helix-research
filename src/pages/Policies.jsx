@@ -151,14 +151,14 @@ This waiver survives any termination of purchase and represents a binding legal 
       <div className="max-w-4xl mx-auto px-4">
         {/* Navigation */}
         <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
+          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#8B2635] hover:border-[#8B2635] mb-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
             ← Back to Home
           </Button>
         </Link>
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-7xl font-black text-black mb-6 tracking-tighter uppercase leading-none">Policies & <span className="text-[#dc2626]">Terms</span></h1>
+          <h1 className="text-5xl md:text-7xl font-black text-black mb-6 tracking-tighter uppercase leading-none">Policies & <span className="text-[#8B2635]">Terms</span></h1>
           <p className="text-xl text-slate-500 font-medium">Important information about using Red Helix Research products</p>
         </motion.div>
 
@@ -189,15 +189,15 @@ This waiver survives any termination of purchase and represents a binding legal 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 bg-white border border-red-100 rounded-[40px] p-12 text-center shadow-xl shadow-[#dc2626]/5 relative overflow-hidden"
+          className="mt-12 bg-white border border-red-100 rounded-[40px] p-12 text-center shadow-xl shadow-[#8B2635]/5 relative overflow-hidden"
         >
-          <div className="absolute top-0 left-0 w-full h-1 bg-[#dc2626]" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-[#8B2635]" />
           <h3 className="text-3xl font-black text-black mb-4 tracking-tighter uppercase">Questions about our policies?</h3>
           <p className="text-slate-500 mb-8 font-medium max-w-xl mx-auto">
             Contact us through our support channels for clarification on any terms or policies.
           </p>
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-[#dc2626] hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs px-10 py-6">Contact Support</Button>
+            <Button className="bg-[#8B2635] hover:bg-[#6B1827] text-white rounded-2xl font-black uppercase tracking-widest text-xs px-10 py-6">Contact Support</Button>
           </Link>
         </motion.div>
       </div>

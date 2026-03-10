@@ -293,12 +293,12 @@ ${conversationHistory}
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-6">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-500 hover:text-[#dc2626] transition-colors mb-4">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-500 hover:text-[#8B2635] transition-colors mb-4">
             <ArrowLeft className="w-4 h-4" />
             Back to Shop
           </Link>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#dc2626] rounded-2xl flex items-center justify-center shadow-lg shadow-[#dc2626]/20">
+            <div className="w-12 h-12 bg-[#8B2635] rounded-2xl flex items-center justify-center shadow-lg shadow-[#8B2635]/20">
               <span className="text-2xl">🧬</span>
             </div>
             <div>
@@ -320,7 +320,7 @@ ${conversationHistory}
                 <div
                   className={`max-w-[85%] rounded-2xl p-4 ${
                     msg.role === 'user'
-                      ? 'bg-[#dc2626] text-white rounded-tr-none shadow-lg shadow-[#dc2626]/20'
+                      ? 'bg-[#8B2635] text-white rounded-tr-none shadow-lg shadow-[#8B2635]/20'
                       : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none shadow-sm'
                   }`}
                 >
@@ -328,7 +328,7 @@ ${conversationHistory}
                     className={`prose text-sm max-w-none ${
                       msg.role === 'user' 
                         ? 'prose-invert prose-p:text-white prose-headings:text-white prose-strong:text-white' 
-                        : 'prose-slate prose-p:text-slate-600 prose-headings:text-black prose-strong:text-black prose-a:text-[#dc2626]'
+                        : 'prose-slate prose-p:text-slate-600 prose-headings:text-black prose-strong:text-black prose-a:text-[#8B2635]'
                     }`}
                   >
                     {msg.content}
@@ -339,7 +339,7 @@ ${conversationHistory}
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 shadow-sm flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-[#dc2626]" />
+                  <Loader2 className="w-4 h-4 animate-spin text-[#8B2635]" />
                   <span className="text-sm text-slate-500 font-medium">Thinking...</span>
                 </div>
               </div>
@@ -355,12 +355,12 @@ ${conversationHistory}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Ask about peptides, protocols, or research..."
-                className="min-h-[50px] max-h-[150px] pr-12 bg-slate-50 border-slate-200 text-black placeholder:text-slate-400 focus:border-[#dc2626] focus:ring-[#dc2626]/20 rounded-xl resize-none py-3"
+                className="min-h-[50px] max-h-[150px] pr-12 bg-slate-50 border-slate-200 text-black placeholder:text-slate-400 focus:border-[#8B2635] focus:ring-[#8B2635]/20 rounded-xl resize-none py-3"
               />
               <Button
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
-                className="absolute right-2 bottom-2 w-8 h-8 p-0 rounded-lg bg-[#dc2626] hover:bg-red-700 text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute right-2 bottom-2 w-8 h-8 p-0 rounded-lg bg-[#8B2635] hover:bg-[#6B1827] text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </Button>

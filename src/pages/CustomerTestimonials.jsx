@@ -62,7 +62,7 @@ export default function CustomerTestimonials() {
               viewport={{ once: true }}
               className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center"
             >
-              <p className="text-3xl font-black text-[#dc2626] mb-2">{signal.metric}</p>
+              <p className="text-3xl font-black text-[#8B2635] mb-2">{signal.metric}</p>
               <p className="font-bold text-black mb-1">{signal.label}</p>
               <p className="text-xs text-slate-500">{signal.description}</p>
             </motion.div>
@@ -96,28 +96,28 @@ export default function CustomerTestimonials() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-bold text-black mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#8B2635]"></span>
                 Third-Party Testing
               </h3>
               <p className="text-slate-600 text-sm">Every batch undergoes rigorous HPLC purity verification, mass spectrometry analysis, and sterility testing. Full COA included.</p>
             </div>
             <div>
               <h3 className="font-bold text-black mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#8B2635]"></span>
                 Transparent Pricing
               </h3>
               <p className="text-slate-600 text-sm">No hidden fees. Competitive pricing for research-grade peptides. Volume discounts available for institutional research.</p>
             </div>
             <div>
               <h3 className="font-bold text-black mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#8B2635]"></span>
                 Educational Resources
               </h3>
               <p className="text-slate-600 text-sm">Complete reconstitution guides, peptide calculator, research guides, and expert support for your research needs.</p>
             </div>
             <div>
               <h3 className="font-bold text-black mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#dc2626]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#8B2635]"></span>
                 Researcher-Focused
               </h3>
               <p className="text-slate-600 text-sm">Founded by researchers, for researchers. We understand your needs and provide the quality you demand.</p>
@@ -130,14 +130,14 @@ export default function CustomerTestimonials() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-[#dc2626] rounded-2xl p-10 text-center relative overflow-hidden"
+          className="bg-[#8B2635] rounded-2xl p-10 text-center relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
           <div className="relative z-10">
             <h3 className="text-2xl font-black text-white mb-3 uppercase tracking-tight">Join 100+ Active Researchers</h3>
             <p className="text-white/80 font-medium mb-6">Start your research with verified, third-party tested peptides.</p>
             <Link to={createPageUrl('Home')}>
-              <Button className="bg-white text-[#dc2626] hover:bg-red-50 font-bold px-8 py-6 rounded-full shadow-lg">Browse Products</Button>
+              <Button className="bg-white text-[#8B2635] hover:bg-red-50 font-bold px-8 py-6 rounded-full shadow-lg">Browse Products</Button>
             </Link>
           </div>
         </motion.div>
