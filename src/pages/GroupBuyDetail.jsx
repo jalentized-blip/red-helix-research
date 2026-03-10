@@ -346,8 +346,8 @@ export default function GroupBuyDetail() {
                         {(currentUser.full_name || currentUser.email)[0].toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-xs font-black truncate">{currentUser.full_name || currentUser.email.split('@')[0]}</p>
-                        <p className="text-green-400 text-[10px]">● Online</p>
+                        <p className="text-black text-xs font-black truncate">{currentUser.full_name || currentUser.email.split('@')[0]}</p>
+                        <p className="text-green-600 text-[10px]">● Online</p>
                       </div>
                     </div>
                   )}
