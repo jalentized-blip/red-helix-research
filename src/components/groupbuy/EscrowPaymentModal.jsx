@@ -23,6 +23,10 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
       setError('Please enter your name and a valid email address.');
       return;
     }
+    if (!turnstileToken) {
+      setError('Please complete the security verification.');
+      return;
+    }
     setError('');
     setLoading(true);
 
