@@ -162,7 +162,10 @@ export default function GroupBuy() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((g, i) => (
-              <GroupBuyCard key={g.id} groupBuy={g} onJoin={setJoining} index={i} />
+              <div key={g.id}>
+                <GroupBuyCard groupBuy={g} onJoin={setJoining} index={i} />
+                {isAdmin && <AdminEscrowPanel groupBuy={g} />}
+              </div>
             ))}
           </div>
         )}
