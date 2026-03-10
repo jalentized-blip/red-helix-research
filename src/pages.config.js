@@ -111,6 +111,7 @@ import SecurityCompliance from './pages/SecurityCompliance';
 import SecurityDashboard from './pages/SecurityDashboard';
 import VoiceAssistant from './pages/VoiceAssistant';
 import VoiceAssistantNav from './pages/VoiceAssistantNav';
+import GroupBuyDetail from './pages/GroupBuyDetail';
 import __Layout from './Layout.jsx';
 
 
@@ -179,6 +180,7 @@ export const PAGES = {
     "SecurityDashboard": SecurityDashboard,
     "VoiceAssistant": VoiceAssistant,
     "VoiceAssistantNav": VoiceAssistantNav,
+    "GroupBuyDetail": GroupBuyDetail,
 }
 
 export const pagesConfig = {
