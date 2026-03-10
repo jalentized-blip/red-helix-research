@@ -88,11 +88,11 @@ export default function Contact() {
               className="mb-12"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-100 rounded-full mb-6">
-                <Sparkles className="w-4 h-4 text-[#dc2626]" />
-                <span className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest">Researcher Support</span>
+                <Sparkles className="w-4 h-4 text-[#8B2635]" />
+                <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">Researcher Support</span>
               </div>
               <h1 className="text-6xl md:text-8xl font-black text-black mb-8 uppercase tracking-tighter leading-none">
-                Get In <span className="text-[#dc2626]">Touch</span>
+                Get In <span className="text-[#8B2635]">Touch</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-lg mb-12">
                 Have technical questions about our research reagents or need assistance with your laboratory supply order? 
@@ -100,9 +100,9 @@ export default function Contact() {
               </p>
 
               <div className="space-y-6">
-                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-[#dc2626]/30 transition-all">
+                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-[#8B2635]/30 transition-all">
                   <div className="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Mail className="w-6 h-6 text-[#dc2626]" />
+                    <Mail className="w-6 h-6 text-[#8B2635]" />
                   </div>
                   <div>
                     <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Email Support</div>
@@ -110,13 +110,13 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-[#dc2626]/30 transition-all cursor-pointer" onClick={() => window.open('https://discord.gg/BwQHufvmQ8', '_blank')}>
+                <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100 group hover:border-[#8B2635]/30 transition-all cursor-pointer" onClick={() => window.open('https://discord.gg/BwQHufvmQ8', '_blank')}>
                   <div className="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <MessageCircle className="w-6 h-6 text-[#dc2626]" />
+                    <MessageCircle className="w-6 h-6 text-[#8B2635]" />
                   </div>
                   <div>
                     <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Discord Community</div>
-                    <div className="text-lg font-black text-black group-hover:text-[#dc2626] transition-colors">
+                    <div className="text-lg font-black text-black group-hover:text-[#8B2635] transition-colors">
                       Join Official Server
                     </div>
                   </div>
@@ -133,7 +133,7 @@ export default function Contact() {
             className="bg-white border border-slate-200 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-slate-200/50"
           >
             <h2 className="text-3xl font-black text-black mb-8 uppercase tracking-tight">
-              Send <span className="text-[#dc2626]">Message</span>
+              Send <span className="text-[#8B2635]">Message</span>
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -147,7 +147,7 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="Full Name"
                     required
-                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
+                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#8B2635]/30 transition-all font-bold"
                   />
                 </div>
                 <div className="space-y-2">
@@ -159,7 +159,7 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="name@institution.com"
                     required
-                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
+                    className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#8B2635]/30 transition-all font-bold"
                   />
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+1 (555) 000-0000"
-                  className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold"
+                  className="bg-slate-50 border-slate-100 rounded-2xl px-6 py-7 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#8B2635]/30 transition-all font-bold"
                 />
               </div>
 
@@ -185,7 +185,7 @@ export default function Contact() {
                   placeholder="Please describe your research inquiry or support request..."
                   required
                   rows={6}
-                  className="bg-slate-50 border-slate-100 rounded-[24px] px-6 py-5 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#dc2626]/30 transition-all font-bold resize-none"
+                  className="bg-slate-50 border-slate-100 rounded-[24px] px-6 py-5 text-black placeholder:text-slate-300 focus:bg-white focus:border-[#8B2635]/30 transition-all font-bold resize-none"
                 />
               </div>
 
@@ -213,7 +213,7 @@ export default function Contact() {
               <Button
                 type="submit"
                 disabled={loading || !turnstileToken}
-                className="w-full bg-[#dc2626] hover:bg-[#6B1827] text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-[#dc2626]/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                className="w-full bg-[#8B2635] hover:bg-[#6B1827] text-white font-black py-8 rounded-2xl text-lg uppercase tracking-widest shadow-xl shadow-[#8B2635]/20 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
               >
                 {loading ? (
                   <>

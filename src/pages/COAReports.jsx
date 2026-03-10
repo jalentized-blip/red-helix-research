@@ -145,11 +145,11 @@ export default function COAReports() {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-[#dc2626] transition-colors mb-4 font-black uppercase tracking-widest text-[10px]">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-slate-400 hover:text-[#8B2635] transition-colors mb-4 font-black uppercase tracking-widest text-[10px]">
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <h1 className="text-5xl md:text-7xl font-black text-black mb-4 tracking-tighter uppercase leading-none">Community <span className="text-[#dc2626]">COA Reports</span></h1>
+          <h1 className="text-5xl md:text-7xl font-black text-black mb-4 tracking-tighter uppercase leading-none">Community <span className="text-[#8B2635]">COA Reports</span></h1>
           <p className="text-slate-500 text-lg font-medium">Browse Certificates of Analysis uploaded by our community</p>
         </div>
 
@@ -179,7 +179,7 @@ export default function COAReports() {
                 <Button
                   onClick={handleDeleteSelected}
                   disabled={isDeleting}
-                  className="bg-[#dc2626] hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
+                  className="bg-[#8B2635] hover:bg-red-700 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete ({selectedIds.size})
@@ -199,7 +199,7 @@ export default function COAReports() {
             
             <Button
               onClick={() => setShowUploadModal(true)}
-              className="bg-black hover:bg-[#dc2626] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6 shadow-lg shadow-slate-900/10"
+              className="bg-black hover:bg-[#8B2635] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] px-6 shadow-lg shadow-slate-900/10"
             >
               <Upload className="w-4 h-4 mr-2" />
               Upload COA
@@ -223,12 +223,12 @@ export default function COAReports() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 id={`coa-${coa.id}`}
-                className={`bg-slate-50 border rounded-[32px] p-8 transition-all hover:shadow-xl hover:shadow-[#dc2626]/5 ${
+                className={`bg-slate-50 border rounded-[32px] p-8 transition-all hover:shadow-xl hover:shadow-[#8B2635]/5 ${
                   selectedIds.has(coa.id)
-                    ? 'border-[#dc2626] bg-red-50/30'
+                    ? 'border-[#8B2635] bg-red-50/30'
                     : highlightedId === coa.id
-                    ? 'border-[#dc2626] ring-4 ring-[#dc2626]/20 shadow-xl shadow-[#dc2626]/10'
-                    : 'border-slate-100 hover:border-[#dc2626]/30'
+                    ? 'border-[#8B2635] ring-4 ring-[#8B2635]/20 shadow-xl shadow-[#8B2635]/10'
+                    : 'border-slate-100 hover:border-[#8B2635]/30'
                 }`}
               >
                 {isAdmin && (
@@ -238,12 +238,12 @@ export default function COAReports() {
                       <Checkbox
                         checked={selectedIds.has(coa.id)}
                         onCheckedChange={() => toggleSelect(coa.id)}
-                        className="border-slate-300 data-[state=checked]:bg-[#dc2626] data-[state=checked]:border-[#dc2626]"
+                        className="border-slate-300 data-[state=checked]:bg-[#8B2635] data-[state=checked]:border-[#8B2635]"
                       />
                       <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Admin Controls</span>
                       <button
                         onClick={() => handleDelete(coa.id)}
-                        className="ml-auto p-2 text-slate-400 hover:text-[#dc2626] transition-colors"
+                        className="ml-auto p-2 text-slate-400 hover:text-[#8B2635] transition-colors"
                         title="Delete this COA"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -264,7 +264,7 @@ export default function COAReports() {
                           </button>
                           <button
                             onClick={() => handleReject(coa.id)}
-                            className="p-2 rounded-lg bg-[#dc2626] text-white hover:bg-red-700 transition-colors shadow-sm shadow-[#dc2626]/20"
+                            className="p-2 rounded-lg bg-[#8B2635] text-white hover:bg-red-700 transition-colors shadow-sm shadow-[#8B2635]/20"
                             title="Reject this COA"
                           >
                             <X className="w-4 h-4" />
@@ -294,7 +294,7 @@ export default function COAReports() {
                 {/* Details */}
                 <div className="space-y-4">
                   <div>
-                    <p className="text-[10px] font-black text-[#dc2626] uppercase tracking-[0.2em] mb-1">Research Compound</p>
+                    <p className="text-[10px] font-black text-[#8B2635] uppercase tracking-[0.2em] mb-1">Research Compound</p>
                     <h3 className="text-2xl font-black text-black tracking-tighter uppercase leading-none">{coa.peptide_name}</h3>
                   </div>
 
@@ -331,7 +331,7 @@ export default function COAReports() {
                       href={coa.coa_image_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 bg-white border border-slate-200 text-black hover:border-[#dc2626] hover:text-[#dc2626] transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-sm"
+                      className="flex-1 flex items-center justify-center gap-2 bg-white border border-slate-200 text-black hover:border-[#8B2635] hover:text-[#8B2635] transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-sm"
                     >
                       Full Analysis
                       <ExternalLink className="w-4 h-4" />
@@ -342,7 +342,7 @@ export default function COAReports() {
                         href={coa.coa_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 bg-[#dc2626] text-white hover:bg-red-700 transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-lg shadow-[#dc2626]/20"
+                        className="flex-1 flex items-center justify-center gap-2 bg-[#8B2635] text-white hover:bg-red-700 transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-4 shadow-lg shadow-[#8B2635]/20"
                       >
                         Verification
                         <ExternalLink className="w-4 h-4" />
@@ -356,7 +356,7 @@ export default function COAReports() {
                     className={`w-full flex items-center justify-center gap-2 border transition-all rounded-2xl font-black uppercase tracking-widest text-[10px] py-3 ${
                       copiedId === coa.id
                         ? 'bg-green-50 border-green-300 text-green-600'
-                        : 'bg-white border-slate-200 text-slate-500 hover:border-[#dc2626] hover:text-[#dc2626]'
+                        : 'bg-white border-slate-200 text-slate-500 hover:border-[#8B2635] hover:text-[#8B2635]'
                     }`}
                   >
                     {copiedId === coa.id ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
@@ -372,7 +372,7 @@ export default function COAReports() {
         <div className="mt-16 text-center">
           <Button
             onClick={() => setShowUploadModal(true)}
-            className="bg-[#dc2626] hover:bg-[#b91c1c] text-white gap-3 rounded-[32px] font-black uppercase tracking-widest text-xs px-12 py-8 shadow-xl shadow-[#dc2626]/20"
+            className="bg-[#8B2635] hover:bg-[#6B1827] text-white gap-3 rounded-[32px] font-black uppercase tracking-widest text-xs px-12 py-8 shadow-xl shadow-[#8B2635]/20"
           >
             <Upload className="w-5 h-5" />
             Submit New Report
