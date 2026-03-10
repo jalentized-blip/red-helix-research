@@ -153,6 +153,7 @@ export default function EscrowPaymentModal({ groupBuy, isOpen, onClose, onSucces
   const handleClose = () => {
     setSent(false);
     setError('');
+    setTurnstileToken(null);
     onClose();
   };
 
