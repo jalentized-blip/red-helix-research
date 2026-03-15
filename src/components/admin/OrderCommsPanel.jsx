@@ -27,6 +27,19 @@ const buildTemplates = (order) => {
 
   return [
     {
+      id: 'processing',
+      label: '🔄 Order Processing',
+      subject: `Order #${num} Confirmed — We're Processing Your Order`,
+      body: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:30px;">
+<h2 style="color:#8B2635;">Order Confirmed!</h2>
+<p>Hi ${name},</p>
+<p>Thank you for your order! We're pleased to confirm that we have received your order <strong>#${num}</strong> and it is currently being processed.</p>
+<p>You can expect to receive your tracking information within the next <strong>24–48 hours</strong> once your order has been dispatched.</p>
+<p>If you have any questions or concerns in the meantime, please don't hesitate to reach out to us — we're happy to help.</p>
+<p style="margin-top:24px;">Kind regards,<br/><strong>Red Helix Research</strong></p>
+</div>`,
+    },
+    {
       id: 'shipped',
       label: '📦 Order Shipped',
       subject: `Your Order #${num} Has Shipped!`,
