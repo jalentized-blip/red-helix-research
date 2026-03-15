@@ -188,6 +188,35 @@ export default function OrderCommsPanel({ order, adminEmail }) {
           className="bg-white border-slate-200 text-slate-900 text-xs font-mono resize-none"
         />
 
+        {/* Preview Toggle */}
+        {body && (
+          <div className="border border-slate-200 rounded-xl overflow-hidden">
+            <button
+              onClick={() => setPreviewOpen(o => !o)}
+              className="w-full flex items-center justify-between px-4 py-2.5 bg-slate-100 hover:bg-slate-200 transition-colors text-left"
+            >
+              <div className="flex items-center gap-2">
+                {previewOpen ? <EyeOff className="w-4 h-4 text-slate-500" /> : <Eye className="w-4 h-4 text-slate-500" />}
+                <span className="text-[10px] uppercase tracking-widest font-black text-slate-500">
+                  {previewOpen ? 'Hide Preview' : 'Preview Email'}
+                </span>
+              </div>
+              {previewOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+            </button>
+            {previewOpen && (
+              <div className="bg-white border-t border-slate-200">
+                <div className="px-4 py-2 bg-slate-50 border-b border-slate-100 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                  Subject: <span className="text-slate-700 normal-case font-semibold">{subject || '(no subject)'}</span>
+                </div>
+                <div
+                  className="p-4 max-h-96 overflow-y-auto"
+                  dangerouslySetInnerHTML={{ __html: body }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <p className="text-[10px] text-slate-400">
             To: <span className="font-bold text-slate-600">{order.customer_email || order.created_by || '—'}</span>
