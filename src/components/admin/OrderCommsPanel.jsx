@@ -103,6 +103,7 @@ export default function OrderCommsPanel({ order, adminEmail }) {
   const [body, setBody] = useState('');
   const [sending, setSending] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(true);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const { data: history = [] } = useQuery({
     queryKey: ['order-comms', order.id],
