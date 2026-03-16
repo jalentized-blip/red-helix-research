@@ -186,10 +186,17 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
       return;
     }
     const minPrice = Math.min(...validSpecs.map(s => s.price || 0));
+    const anyInStock = validSpecs.some(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === -1 || s.stock_quantity === undefined));
+    const totalQty = validSpecs.reduce((sum, s) => {
+      if (s.stock_quantity === -1 || s.stock_quantity === undefined) return sum;
+      return sum + (s.stock_quantity || 0);
+    }, 0);
     onSave({
       ...form,
       specifications: validSpecs,
       price_from: minPrice,
+      in_stock: anyInStock,
+      stock_quantity: totalQty,
       updated_date: new Date().toISOString(),
     });
   };
