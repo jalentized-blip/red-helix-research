@@ -664,7 +664,7 @@ export default function AdminInventoryManager() {
       }
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.resetQueries({ queryKey: ['products'] });
       toast.success(variables.id ? 'Product updated' : 'Product created', {
         description: `${variables.data.name} saved successfully`,
       });
