@@ -429,7 +429,7 @@ export default function CryptoCheckout() {
         shipping_cost: SHIPPING_COST,
         total_amount: totalUSD,
         payment_method: 'cryptocurrency',
-        payment_status: 'pending_verification',
+        payment_status: 'completed',
         transaction_id: txHash,
         crypto_currency: selectedCrypto,
         crypto_amount: cryptoAmount,
