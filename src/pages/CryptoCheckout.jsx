@@ -399,6 +399,82 @@ export default function CryptoCheckout() {
     }
   };
 
+  // Tracks whether a pending order has already been created for this TX
+  const pendingOrderCreated = useRef(false);
+
+  const createPendingOrder = async (txHash) => {
+    if (pendingOrderCreated.current) return; // don't double-create
+    pendingOrderCreated.current = true;
+    try {
+      let userEmail = null;
+      try { const user = await base44.auth.me(); userEmail = user?.email; } catch {}
+      const customerName = customerInfo?.firstName && customerInfo?.lastName
+        ? `${customerInfo.firstName} ${customerInfo.lastName}`
+        : customerInfo?.name || 'Guest Customer';
+      const affiliateInfo = await resolveAffiliateInfo();
+      const pendingPayload = {
+        order_number: orderNumberRef.current,
+        customer_email: userEmail || customerInfo?.email || 'guest@redhelixresearch.com',
+        customer_name: customerName,
+        customer_phone: customerInfo?.phone,
+        items: cartItems.map(item => ({
+          product_id: item.productId,
+          product_name: item.productName,
+          specification: item.specification,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        subtotal: subtotal,
+        discount_amount: discount,
+        shipping_cost: SHIPPING_COST,
+        total_amount: totalUSD,
+        payment_method: 'cryptocurrency',
+        payment_status: 'pending_verification',
+        transaction_id: txHash,
+        crypto_currency: selectedCrypto,
+        crypto_amount: cryptoAmount,
+        crypto_address: PAYMENT_ADDRESSES[selectedCrypto],
+        status: 'processing',
+        shipping_address: {
+          address: customerInfo?.shippingAddress || customerInfo?.address,
+          city: customerInfo?.shippingCity || customerInfo?.city,
+          state: customerInfo?.shippingState || customerInfo?.state,
+          zip: customerInfo?.shippingZip || customerInfo?.zip,
+          country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
+        },
+      };
+      if (affiliateInfo) {
+        pendingPayload.affiliate_code = affiliateInfo.code;
+        pendingPayload.affiliate_email = affiliateInfo.email;
+        pendingPayload.affiliate_name = affiliateInfo.name;
+        pendingPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
+      }
+      const referralCode = localStorage.getItem('rdr_referral_code');
+      if (referralCode) pendingPayload.referral_code = referralCode;
+      await base44.entities.Order.create(pendingPayload);
+      // Admin notification for pending crypto order
+      try {
+        await base44.integrations.Core.SendEmail({
+          to: 'jake@redhelixresearch.com',
+          from_name: 'Red Helix Research Orders',
+          subject: `⏳ Crypto Order #${orderNumberRef.current} — ${customerName} — $${totalUSD.toFixed(2)} [Pending Verification]`,
+          body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;">
+            <h2 style="color:#f59e0b;margin:0 0 4px 0;">Crypto Order — Pending Verification</h2>
+            <p style="color:#64748b;font-size:13px;margin:0 0 20px 0;">Order <strong>#${orderNumberRef.current}</strong> — ${selectedCrypto} — TX: ${txHash}</p>
+            <p><strong>Customer:</strong> ${customerName}</p>
+            <p><strong>Email:</strong> ${pendingPayload.customer_email}</p>
+            <p><strong>Total:</strong> $${totalUSD.toFixed(2)}</p>
+            <p><strong>Crypto:</strong> ${selectedCrypto} — ${cryptoAmount}</p>
+            <p><strong>TX Hash:</strong> <code>${txHash}</code></p>
+            <p style="margin-top:24px;font-size:12px;color:#94a3b8;">View in Admin: <a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">Order Management →</a></p>
+          </div>`
+        });
+      } catch {}
+    } catch (err) {
+      console.error('Failed to create pending order:', err);
+    }
+  };
+
   const processSuccessfulPayment = async (txHash, method = 'cryptocurrency') => {
     // Run fraud check in background (non-blocking for crypto — payment already sent)
     runFraudCheck({
