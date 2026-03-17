@@ -520,48 +520,40 @@ export default function CryptoCheckout() {
 
       // Update the existing pending order, or create if missing
       const referralCode = localStorage.getItem('rdr_referral_code');
-      try {
-        const existingOrders = await base44.entities.Order.filter({ order_number: orderNumber });
-        if (existingOrders?.length > 0) {
-          await base44.entities.Order.update(existingOrders[0].id, {
-            payment_status: 'completed',
-            status: 'processing',
-            transaction_id: txHash,
-          });
-        } else {
-          // Fallback: create fresh if pending was never saved
-          const orderPayload = {
-            order_number: orderNumber,
-            customer_email: userEmail || customerInfo?.email || 'guest@redhelixresearch.com',
-            customer_name: customerName,
-            customer_phone: customerInfo?.phone,
-            items: cartItems.map(item => ({
-              product_id: item.productId, product_name: item.productName,
-              specification: item.specification, quantity: item.quantity, price: item.price,
-            })),
-            subtotal, discount_amount: discount, shipping_cost: SHIPPING_COST, total_amount: totalUSD,
-            payment_method: method, payment_status: 'completed', transaction_id: txHash,
-            crypto_currency: method === 'cryptocurrency' ? selectedCrypto : null,
-            crypto_amount: method === 'cryptocurrency' ? cryptoAmount : null,
-            crypto_address: method === 'cryptocurrency' ? PAYMENT_ADDRESSES[selectedCrypto] : null,
-            status: 'processing',
-            shipping_address: {
-              address: customerInfo?.shippingAddress || customerInfo?.address,
-              city: customerInfo?.shippingCity || customerInfo?.city,
-              state: customerInfo?.shippingState || customerInfo?.state,
-              zip: customerInfo?.shippingZip || customerInfo?.zip,
-              country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
-            },
-            ...(affiliateInfo ? {
-              affiliate_code: affiliateInfo.code, affiliate_email: affiliateInfo.email,
-              affiliate_name: affiliateInfo.name, affiliate_commission: parseFloat((totalUSD * 0.10).toFixed(2)),
-            } : {}),
-            ...(referralCode ? { referral_code: referralCode } : {}),
-          };
-          await base44.entities.Order.create(orderPayload);
-        }
-      } catch (orderErr) {
-        console.error('Order save error:', orderErr);
+      // Always create a fresh order record (pendingOrderCreated ref guards against duplicates)
+      if (!pendingOrderCreated.current) {
+        pendingOrderCreated.current = true;
+        const newOrderPayload = {
+          order_number: orderNumber,
+          customer_email: userEmail || customerInfo?.email || 'guest@redhelixresearch.com',
+          customer_phone: customerInfo?.phone,
+          items: cartItems.map(item => ({
+            productName: item.productName,
+            specification: item.specification,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          total_amount: totalUSD,
+          payment_method: method,
+          payment_status: 'completed',
+          transaction_id: txHash,
+          crypto_currency: method === 'cryptocurrency' ? selectedCrypto : null,
+          crypto_amount: method === 'cryptocurrency' ? cryptoAmount : null,
+          status: 'processing',
+          shipping_address: {
+            address: customerInfo?.shippingAddress || customerInfo?.address,
+            city: customerInfo?.shippingCity || customerInfo?.city,
+            state: customerInfo?.shippingState || customerInfo?.state,
+            zip: customerInfo?.shippingZip || customerInfo?.zip,
+            country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
+          },
+          ...(affiliateInfo ? {
+            affiliate_code: affiliateInfo.code,
+            affiliate_commission: parseFloat((totalUSD * 0.10).toFixed(2)),
+          } : {}),
+          ...(referralCode ? { referral_code: referralCode } : {}),
+        };
+        await base44.entities.Order.create(newOrderPayload);
       }
 
       // Keep orderPayload reference for email notification below
