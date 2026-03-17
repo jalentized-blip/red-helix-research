@@ -582,10 +582,6 @@ export default function CryptoCheckout() {
         },
       };
 
-      if (referralCode) {
-        // handled above
-      }
-
       // ─── Admin new order notification ───
       try {
         const itemsHtml = cartItems.map(i => `<tr><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;">${i.productName} — ${i.specification || ''}</td><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;text-align:center;">×${i.quantity}</td><td style="padding:6px 12px;border-bottom:1px solid #f1f5f9;text-align:right;">$${(i.price * i.quantity).toFixed(2)}</td></tr>`).join('');
