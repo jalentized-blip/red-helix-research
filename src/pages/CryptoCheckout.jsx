@@ -593,9 +593,11 @@ export default function CryptoCheckout() {
     setStep('send_payment');
   };
 
-  const handleSubmitTx = () => {
+  const handleSubmitTx = async () => {
     if (!transactionId.trim()) return;
     setStep('confirm');
+    // Create order immediately on TX submission so it always shows in order management
+    await createPendingOrder(transactionId.trim());
   };
 
   // Current step number for indicator
