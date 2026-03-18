@@ -637,9 +637,8 @@ export default function Account() {
 
                   {/* Affiliate Quick Card */}
                   {isAffiliate && (
-                    <button
-                      onClick={() => setActiveTab('affiliate')}
-                      className="w-full bg-gradient-to-r from-slate-900 to-slate-800 rounded-[24px] p-6 shadow-lg text-left hover:shadow-xl transition-all group"
+                    <Link to={createPageUrl('AffiliateDashboard')}
+                      className="w-full bg-gradient-to-r from-slate-900 to-slate-800 rounded-[24px] p-6 shadow-lg text-left hover:shadow-xl transition-all group block"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <div className="w-10 h-10 bg-[#8B2635] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#8B2635]/30">
@@ -648,7 +647,7 @@ export default function Account() {
                         <h3 className="text-sm font-black text-white uppercase tracking-tight">Affiliate Dashboard</h3>
                       </div>
                       <p className="text-[10px] text-slate-400 font-medium">Track your points, commission, and share your affiliate link</p>
-                    </button>
+                    </Link>
                   )}
 
                   {/* Quick Referral & Rewards Cards on Dashboard */}
