@@ -118,6 +118,7 @@ import __Layout from './Layout.jsx';
 
 export const PAGES = {
     "About": About,
+    "AffiliateDashboard": AffiliateDashboard,
     "Account": Account,
     "AdminAffiliateManager": AdminAffiliateManager,
     "AdminCustomerManagement": AdminCustomerManagement,
