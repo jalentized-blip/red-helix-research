@@ -55,15 +55,14 @@ export const getCartTotal = () => {
   return getCart().reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
 
-// Static promo codes - always available
+// Static promo codes - always available (non-affiliate discounts only)
 const STATIC_PROMO_CODES = {
   'SAVE10': { discount: 0.10, label: '10% off' },
   'SAVE20': { discount: 0.20, label: '20% off' },
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
   'INDO88': { discount: 0.10, label: '10% off' },
-  'MELLISA10': { discount: 0.10, label: '10% off (Affiliate)', isAffiliate: true, affiliateId: 'aff_melissa_thomas' },
-  'PEPMOMMA': { discount: 0.10, label: '10% off (Affiliate)', isAffiliate: true, affiliateId: 'aff_jessica_vice' },
+  // Affiliate codes are loaded dynamically from the database — do NOT hardcode them here
 };
 
 import { loadActiveAffiliateCodes, getAffiliateById } from '@/components/utils/affiliateStore';
