@@ -950,7 +950,7 @@ export default function AdminAffiliateManager() {
     if (selectedTxIds.size === 0) return;
     setIsProcessingPayout(true);
     try {
-      const selectedTxs = filteredTransactions.filter(t => selectedTxIds.has(t.id));
+      const selectedTxs = transactions.filter(t => selectedTxIds.has(t.id));
       // Group by affiliate
       const byAffiliate = {};
       selectedTxs.forEach(tx => {
