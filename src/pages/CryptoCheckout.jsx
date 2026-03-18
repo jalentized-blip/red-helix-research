@@ -1199,6 +1199,157 @@ export default function CryptoCheckout() {
                 </motion.div>
               )}
 
+              {/* ───── ZELLE PAYMENT ───── */}
+              {step === 'zelle_payment' && (
+                <motion.div key="zelle" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
+                  <button onClick={() => { setStep('select_method'); setZelleDisclaimerAccepted(false); }} className="flex items-center gap-1 text-sm text-slate-400 hover:text-purple-600 font-bold mb-6 transition-colors">
+                    <ArrowLeft className="w-4 h-4" /> Back
+                  </button>
+
+                  <div className="max-w-md mx-auto text-center">
+                    <div className="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <span className="text-3xl font-black text-purple-600">Z</span>
+                    </div>
+                    <h2 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">Pay with Zelle</h2>
+                    <p className="text-slate-500 font-medium mb-6 text-sm">
+                      Scan the QR code below in your bank's app to send payment to <strong>Red Helix Research LLC</strong>.
+                    </p>
+
+                    {/* QR Code */}
+                    <div className="flex flex-col items-center mb-6">
+                      <div className="p-4 bg-white border-2 border-purple-100 rounded-2xl shadow-sm inline-block">
+                        <img
+                          src="https://media.base44.com/files/public/6972f2b59e2787f045b7ae0d/a207c8bb6_QRcodeforZelle.pdf"
+                          alt="Zelle QR Code"
+                          className="w-48 h-48 object-contain"
+                          onError={(e) => {
+                            // Fallback: show text instructions if image fails
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                        <div style={{display:'none'}} className="w-48 h-48 items-center justify-center bg-purple-50 rounded-xl flex-col gap-2">
+                          <span className="text-4xl font-black text-purple-600">Z</span>
+                          <p className="text-xs text-purple-700 font-bold text-center px-2">Send to:<br/>jake@redhelixresearch.com</p>
+                        </div>
+                      </div>
+                      <p className="text-xs text-slate-400 font-medium mt-3">Or send directly to: <strong className="text-slate-700">jake@redhelixresearch.com</strong></p>
+                    </div>
+
+                    {/* Amount */}
+                    <div className="p-4 bg-purple-50 border border-purple-200 rounded-xl mb-6">
+                      <p className="text-[10px] font-black text-purple-500 uppercase tracking-widest mb-1">Send Exactly</p>
+                      <p className="text-3xl font-black text-purple-700">${totalUSD.toFixed(2)}</p>
+                      <p className="text-xs text-purple-500 mt-1 font-medium">Order #{orderNumberRef.current}</p>
+                    </div>
+
+                    {/* Reminder rules */}
+                    <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl mb-6 text-left space-y-2">
+                      <p className="text-xs font-black text-amber-700 uppercase tracking-widest">⚠️ Remember:</p>
+                      <p className="text-xs text-amber-700"><strong>Contact name:</strong> HVX-Scott, Scott, or HVX only</p>
+                      <p className="text-xs text-amber-700"><strong>Memo field:</strong> HVX only — nothing else</p>
+                    </div>
+
+                    {!zelleOrderCreated ? (
+                      <Button
+                        onClick={async () => {
+                          setZelleOrderCreated(true);
+                          // Create order record
+                          try {
+                            let userEmail = null;
+                            try { const u = await base44.auth.me(); userEmail = u?.email; } catch {}
+                            const customerName = customerInfo?.firstName && customerInfo?.lastName
+                              ? `${customerInfo.firstName} ${customerInfo.lastName}`
+                              : customerInfo?.name || 'Guest Customer';
+                            const affiliateInfo = await resolveAffiliateInfo();
+                            const orderPayload = {
+                              order_number: orderNumberRef.current,
+                              customer_email: userEmail || customerInfo?.email || 'guest@redhelixresearch.com',
+                              customer_name: customerName,
+                              customer_phone: customerInfo?.phone,
+                              items: cartItems.map(item => ({
+                                productId: item.productId,
+                                productName: item.productName,
+                                specification: item.specification,
+                                quantity: item.quantity,
+                                price: item.price,
+                              })),
+                              subtotal: subtotal,
+                              discount_amount: discount,
+                              shipping_cost: SHIPPING_COST,
+                              total_amount: totalUSD,
+                              promo_code: promoCode || null,
+                              payment_method: 'zelle',
+                              payment_status: 'pending',
+                              status: 'awaiting_payment',
+                              shipping_address: {
+                                address: customerInfo?.shippingAddress || customerInfo?.address,
+                                city: customerInfo?.shippingCity || customerInfo?.city,
+                                state: customerInfo?.shippingState || customerInfo?.state,
+                                zip: customerInfo?.shippingZip || customerInfo?.zip,
+                                country: customerInfo?.shippingCountry || customerInfo?.country || 'USA',
+                              },
+                            };
+                            if (affiliateInfo) {
+                              orderPayload.affiliate_code = affiliateInfo.code;
+                              orderPayload.affiliate_email = affiliateInfo.email;
+                              orderPayload.affiliate_name = affiliateInfo.name;
+                              orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
+                            }
+                            const referralCode = localStorage.getItem('rdr_referral_code');
+                            if (referralCode) orderPayload.referral_code = referralCode;
+                            await base44.entities.Order.create(orderPayload);
+                            await decrementStock(cartItems);
+                            clearCart();
+                            // Admin notification
+                            try {
+                              await base44.integrations.Core.SendEmail({
+                                to: 'jake@redhelixresearch.com',
+                                from_name: 'Red Helix Research Orders',
+                                subject: `💜 New Zelle Order #${orderNumberRef.current} — ${customerName} — $${totalUSD.toFixed(2)} [Awaiting Payment]`,
+                                body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;">
+                                  <h2 style="color:#7c3aed;margin:0 0 4px 0;">New Zelle Order — Awaiting Payment</h2>
+                                  <p><strong>Customer:</strong> ${customerName}</p>
+                                  <p><strong>Email:</strong> ${orderPayload.customer_email}</p>
+                                  <p><strong>Total:</strong> $${totalUSD.toFixed(2)}</p>
+                                  <p><strong>Order #:</strong> ${orderNumberRef.current}</p>
+                                  <p style="margin-top:24px;font-size:12px;color:#94a3b8;">View in Admin: <a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#7c3aed;font-weight:700;">Order Management →</a></p>
+                                </div>`
+                              });
+                            } catch {}
+                            setZelleConfirmed(true);
+                          } catch (err) {
+                            console.error('Zelle order creation error:', err);
+                            setZelleOrderCreated(false);
+                          }
+                        }}
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-black uppercase tracking-widest text-xs py-6 shadow-lg"
+                      >
+                        I've Sent the Payment
+                      </Button>
+                    ) : zelleConfirmed ? (
+                      <div className="space-y-4">
+                        <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mx-auto">
+                          <CheckCircle2 className="w-8 h-8 text-green-500" />
+                        </div>
+                        <h3 className="text-xl font-black text-slate-900 uppercase">Order Received!</h3>
+                        <p className="text-sm text-slate-500 font-medium">Your order has been created. Once we confirm your Zelle payment, we'll process your order right away.</p>
+                        <Link to={createPageUrl('Home')}>
+                          <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-black uppercase tracking-widest text-xs py-5">
+                            Back to Shop
+                          </Button>
+                        </Link>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center gap-2 py-4">
+                        <Loader2 className="w-5 h-5 animate-spin text-purple-500" />
+                        <span className="text-sm font-bold text-slate-500">Creating your order...</span>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+
               {/* ───── SQUARE PAYMENT LINK ───── */}
               {step === 'square_payment' && (
                 <motion.div key="square" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8">
