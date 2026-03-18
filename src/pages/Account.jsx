@@ -497,17 +497,12 @@ export default function Account() {
                 </button>
 
                 {isAffiliate && (
-                  <button
-                    onClick={() => setActiveTab('affiliate')}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
-                      activeTab === 'affiliate'
-                        ? 'bg-[#8B2635] text-white shadow-md shadow-[#8B2635]/20'
-                        : 'text-slate-500 hover:text-[#8B2635] hover:bg-white'
-                    }`}
+                  <Link to={createPageUrl('AffiliateDashboard')}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all text-slate-500 hover:text-[#8B2635] hover:bg-white"
                   >
                     <Award className="w-4 h-4" />
                     <span className="text-xs font-black uppercase tracking-widest">Affiliate</span>
-                  </button>
+                  </Link>
                 )}
 
                 <button
