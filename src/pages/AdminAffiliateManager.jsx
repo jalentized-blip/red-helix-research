@@ -806,13 +806,25 @@ export default function AdminAffiliateManager() {
     if (user) loadData();
   }, [user, loadData]);
 
-  // Real-time subscriptions (only works with Base44 entities, no-op for localStorage)
+  // Real-time subscriptions — refresh data when entities change
   useEffect(() => {
     if (!user) return;
     const unsubs = [];
-    unsubs.push(subscribeAffiliates(base44, (data) => setAffiliates(data || [])));
-    unsubs.push(subscribeTransactions(base44, (data) => setTransactions(data || [])));
-    return () => unsubs.forEach(u => { try { u(); } catch {} });
+    // Use a small debounce to avoid race conditions with immediate saves
+    let affTimer, txTimer;
+    unsubs.push(subscribeAffiliates(base44, (data) => {
+      clearTimeout(affTimer);
+      affTimer = setTimeout(() => setAffiliates(data || []), 300);
+    }));
+    unsubs.push(subscribeTransactions(base44, (data) => {
+      clearTimeout(txTimer);
+      txTimer = setTimeout(() => setTransactions(data || []), 300);
+    }));
+    return () => {
+      clearTimeout(affTimer);
+      clearTimeout(txTimer);
+      unsubs.forEach(u => { try { u(); } catch {} });
+    };
   }, [user]);
 
   // Save affiliate
