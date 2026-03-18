@@ -690,10 +690,6 @@ export default function Account() {
                 </div>
               )}
 
-              {activeTab === 'affiliate' && (
-                <AffiliateDashboard user={user} />
-              )}
-
               {activeTab === 'referrals' && (
                 <ReferralSection user={user} />
               )}
