@@ -299,10 +299,30 @@ const HeaderSearch = () => {
         useEffect(() => {
           const params = new URLSearchParams(window.location.search);
           const affiliateCode = params.get('affiliate') || params.get('aff');
-          if (affiliateCode && !getPromoCode()) {
+          if (affiliateCode) {
             // Pre-load affiliate codes then auto-apply
-            loadAffiliateCodes(base44).then(() => {
-              addPromoCodeAsync(affiliateCode, base44);
+            loadAffiliateCodes(base44).then(async (codes) => {
+              if (!getPromoCode()) {
+                addPromoCodeAsync(affiliateCode, base44);
+              }
+              // Log the click for analytics
+              try {
+                const upperCode = affiliateCode.toUpperCase();
+                const affiliates = await base44.entities.Affiliate.list();
+                const aff = affiliates.find(a => a.code?.toUpperCase() === upperCode);
+                if (aff) {
+                  const destinationPage = window.location.pathname.replace('/', '') || 'Home';
+                  await base44.entities.AffiliateClickLog.create({
+                    affiliate_code: upperCode,
+                    affiliate_id: aff.id,
+                    destination_page: destinationPage,
+                    referrer: document.referrer || '',
+                    user_agent: navigator.userAgent?.slice(0, 200) || '',
+                  });
+                }
+              } catch (e) {
+                // Click logging is non-critical, ignore errors
+              }
             });
             // Clean up URL without reloading (remove affiliate param)
             const url = new URL(window.location);
