@@ -827,9 +827,9 @@ export default function CryptoCheckout() {
                               <p className="font-bold mb-1">Contact Name:</p>
                               <p className="mb-2">When saving or sending to this Zelle contact, use <strong>only</strong> one of the following names:</p>
                               <ul className="space-y-1 text-green-700 font-bold pl-2">
-                                <li>✓ HVX-Scott</li>
-                                <li>✓ Scott</li>
-                                <li>✓ HVX</li>
+                                <li>✓ RHR-Jake</li>
+                                <li>✓ Jake</li>
+                                <li>✓ RHR</li>
                               </ul>
                               <p className="text-red-600 mt-2">✗ Do <strong>not</strong> save this contact with any descriptions, product names, notes, or any other wording.</p>
                             </div>
@@ -837,7 +837,7 @@ export default function CryptoCheckout() {
                             <div>
                               <p className="font-bold mb-1">Payment Memo / Comments:</p>
                               <p className="mb-2">In the memo or comment field of your Zelle payment, you may <strong>only</strong> write:</p>
-                              <p className="text-green-700 font-bold pl-2">✓ HVX</p>
+                              <p className="text-green-700 font-bold pl-2">✓ RHR</p>
                               <p className="text-red-600 mt-2">✗ Do <strong>not</strong> include product names, abbreviations, "thank you" notes, or any additional text.</p>
                             </div>
 
