@@ -744,6 +744,23 @@ export default function CryptoCheckout() {
                     <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-[#dc2626] transition-colors" />
                   </button>
 
+                  {/* Zelle payment option */}
+                  <button
+                    onClick={() => setShowZelleDisclaimer(true)}
+                    className="w-full group p-6 bg-white border-2 border-slate-200 rounded-2xl text-left hover:border-purple-500 hover:shadow-lg transition-all flex items-center gap-5"
+                  >
+                    <div className="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <span className="text-2xl font-black text-purple-600">Z</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-purple-600 transition-colors">
+                        Pay with Zelle
+                      </h3>
+                      <p className="text-sm text-slate-500 font-medium">Scan QR code in your bank's app — instant & free</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-purple-500 transition-colors" />
+                  </button>
+
                   {/* Card payment option */}
                   <button
                     onClick={() => setShowSquareDisclaimer(true)}
