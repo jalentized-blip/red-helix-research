@@ -230,15 +230,15 @@ export default function AffiliateDashboard() {
               {/* Quick link */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                 <h2 className="text-base font-black text-slate-900 mb-3 flex items-center gap-2">
-                  <Gift className="w-4 h-4 text-[#8B2635]" /> Your Default Referral Link
+                  <Gift className="w-4 h-4 text-[#8B2635]" /> Your Referral Link
                 </h2>
                 <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3">
-                  <span className="text-sm text-slate-600 flex-1 truncate">{defaultLink}</span>
-                  <button onClick={() => copy(defaultLink, 'default')} className="flex-shrink-0 p-1.5 hover:bg-slate-200 rounded-lg">
+                  <span className="text-sm text-slate-600 flex-1 truncate">{shopLink}</span>
+                  <button onClick={() => copy(shopLink, 'default')} className="flex-shrink-0 p-1.5 hover:bg-slate-200 rounded-lg">
                     {copied === 'default' ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4 text-slate-400" />}
                   </button>
                 </div>
-                <p className="text-xs text-slate-400 mt-2">Customers who visit via this link get {affiliate?.discount_percent}% off at checkout automatically.</p>
+                <p className="text-xs text-slate-400 mt-2">Customers who click this link get <strong>{affiliate?.discount_percent}% off automatically applied</strong> at checkout — no code entry needed.</p>
               </div>
 
               {/* How you earn */}
