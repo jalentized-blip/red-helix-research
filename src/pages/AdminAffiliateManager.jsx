@@ -1581,8 +1581,86 @@ ${payoutNotes ? `<p><strong>Notes:</strong> ${payoutNotes}</p>` : ''}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-3"
+              className="space-y-4"
             >
+              {/* Payout success message */}
+              {payoutSuccess && (
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <p className="text-sm font-bold text-green-700">{payoutSuccess}</p>
+                </div>
+              )}
+
+              {/* Summary cards */}
+              {(() => {
+                const unpaid = filteredTransactions.filter(t => t.status !== 'cancelled' && !payments.some(p => (p.order_numbers || []).includes(t.order_number)));
+                const totalUnpaid = unpaid.reduce((s, t) => s + (t.commission_amount || 0), 0);
+                const totalPaid = payments.reduce((s, p) => s + (p.amount || 0), 0);
+                return (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-yellow-50 border border-yellow-100 rounded-xl p-4">
+                      <p className="text-[8px] font-black text-yellow-600 uppercase tracking-widest mb-1">Unpaid Commission</p>
+                      <p className="text-2xl font-black text-yellow-700">${totalUnpaid.toFixed(2)}</p>
+                      <p className="text-xs text-yellow-500 font-bold mt-0.5">{unpaid.length} orders pending</p>
+                    </div>
+                    <div className="bg-green-50 border border-green-100 rounded-xl p-4">
+                      <p className="text-[8px] font-black text-green-600 uppercase tracking-widest mb-1">Total Paid Out</p>
+                      <p className="text-2xl font-black text-green-700">${totalPaid.toFixed(2)}</p>
+                      <p className="text-xs text-green-500 font-bold mt-0.5">{payments.length} payment{payments.length !== 1 ? 's' : ''}</p>
+                    </div>
+                    <div className="bg-white border border-slate-100 rounded-xl p-4">
+                      <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Selected</p>
+                      <p className="text-2xl font-black text-slate-900">{selectedTxIds.size}</p>
+                      <p className="text-xs text-slate-400 font-bold mt-0.5">
+                        ${filteredTransactions.filter(t => selectedTxIds.has(t.id)).reduce((s, t) => s + (t.commission_amount || 0), 0).toFixed(2)} commission
+                      </p>
+                    </div>
+                    <div className="bg-white border border-slate-100 rounded-xl p-4">
+                      <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Transactions</p>
+                      <p className="text-2xl font-black text-slate-900">{filteredTransactions.length}</p>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Bulk Payout Panel */}
+              {selectedTxIds.size > 0 && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                  className="bg-[#dc2626] rounded-2xl p-5 flex flex-col md:flex-row md:items-center gap-4">
+                  <div className="flex-1">
+                    <p className="text-white font-black text-sm uppercase tracking-wider">
+                      {selectedTxIds.size} transaction{selectedTxIds.size !== 1 ? 's' : ''} selected —
+                      ${filteredTransactions.filter(t => selectedTxIds.has(t.id)).reduce((s, t) => s + (t.commission_amount || 0), 0).toFixed(2)} total
+                    </p>
+                    <input
+                      type="text"
+                      value={payoutNotes}
+                      onChange={e => setPayoutNotes(e.target.value)}
+                      placeholder="Payment notes (e.g. PayPal txn ID, Venmo, etc.)..."
+                      className="mt-2 w-full bg-white/20 border border-white/30 rounded-xl px-4 py-2 text-sm font-bold text-white placeholder:text-white/60 focus:outline-none focus:border-white"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleBulkPayout}
+                      disabled={isProcessingPayout}
+                      className="bg-white text-[#dc2626] hover:bg-white/90 font-black uppercase tracking-widest text-xs rounded-xl px-5"
+                    >
+                      {isProcessingPayout ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <CheckCircle2 className="w-4 h-4 mr-2" />}
+                      {isProcessingPayout ? 'Processing...' : 'Mark as Paid & Notify'}
+                    </Button>
+                    <Button
+                      onClick={() => setSelectedTxIds(new Set())}
+                      variant="outline"
+                      className="border-white/40 text-white hover:bg-white/10 rounded-xl text-xs font-black"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Transaction list */}
               {filteredTransactions.length === 0 ? (
                 <div className="bg-white border border-slate-200 rounded-[32px] p-16 text-center">
                   <CreditCard className="w-16 h-16 text-slate-200 mx-auto mb-4" />
@@ -1590,13 +1668,66 @@ ${payoutNotes ? `<p><strong>Notes:</strong> ${payoutNotes}</p>` : ''}
                   <p className="text-sm text-slate-400 font-medium">Transactions will appear when customers use affiliate codes at checkout</p>
                 </div>
               ) : (
-                filteredTransactions.map(tx => (
-                  <TransactionRow
-                    key={tx.id}
-                    tx={tx}
-                    onUpdateStatus={handleUpdateTxStatus}
-                  />
-                ))
+                <>
+                  {/* Select all unpaid */}
+                  {(() => {
+                    const unpaid = filteredTransactions.filter(t => t.status !== 'cancelled' && !payments.some(p => (p.order_numbers || []).includes(t.order_number)));
+                    if (unpaid.length === 0) return null;
+                    return (
+                      <button onClick={() => toggleSelectAll(unpaid)}
+                        className="text-xs font-black text-[#dc2626] hover:underline uppercase tracking-widest">
+                        {selectedTxIds.size === unpaid.length ? 'Deselect All' : `Select All ${unpaid.length} Unpaid`}
+                      </button>
+                    );
+                  })()}
+                  {filteredTransactions.map(tx => {
+                    const isPaid = payments.some(p => (p.order_numbers || []).includes(tx.order_number));
+                    return (
+                      <TransactionRow
+                        key={tx.id}
+                        tx={tx}
+                        selected={selectedTxIds.has(tx.id)}
+                        onSelect={toggleTxSelect}
+                        isPaid={isPaid}
+                      />
+                    );
+                  })}
+                </>
+              )}
+
+              {/* Payment History */}
+              {payments.length > 0 && (
+                <div className="bg-white border border-slate-200 rounded-[24px] overflow-hidden mt-6">
+                  <div className="px-6 py-4 border-b border-slate-100">
+                    <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-600" /> Payout History
+                    </h3>
+                  </div>
+                  <div className="divide-y divide-slate-50">
+                    {payments.map(p => (
+                      <div key={p.id} className="px-6 py-4 flex flex-col md:flex-row md:items-center gap-3">
+                        <div className="flex-1">
+                          <p className="text-sm font-black text-slate-900">{p.affiliate_name}</p>
+                          <p className="text-xs text-slate-400 font-medium">
+                            {p.affiliate_email} &middot; {(p.order_numbers || []).length} orders
+                            {p.order_numbers?.length > 0 && ` (${p.order_numbers.join(', ')})`}
+                          </p>
+                          {p.notes && <p className="text-xs text-slate-500 italic mt-0.5">{p.notes}</p>}
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <p className="text-[8px] font-black text-green-600 uppercase tracking-widest">Paid</p>
+                            <p className="text-sm font-black text-green-700">${(p.amount || 0).toFixed(2)}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Date</p>
+                            <p className="text-xs font-bold text-slate-500">{p.created_date ? new Date(p.created_date).toLocaleDateString() : '—'}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </motion.div>
           )}
