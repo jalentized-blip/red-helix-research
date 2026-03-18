@@ -48,6 +48,7 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import About from './pages/About';
+import AffiliateDashboard from './pages/AffiliateDashboard';
 import Account from './pages/Account';
 import AdminAffiliateManager from './pages/AdminAffiliateManager';
 import AdminCustomerManagement from './pages/AdminCustomerManagement';
