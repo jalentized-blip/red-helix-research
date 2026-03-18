@@ -67,12 +67,7 @@ export default function AffiliateDashboard() {
     setTimeout(() => setCopied(''), 2000);
   };
 
-  const buildLink = (page) => {
-    const url = createPageUrl(page);
-    return `${SITE_BASE}${url}?affiliate=${affiliate?.code}`;
-  };
-
-  const defaultLink = affiliate ? buildLink('Home') : '';
+  const shopLink = affiliate ? `${SITE_BASE}${createPageUrl('Products')}?affiliate=${affiliate?.code}` : '';
 
   // Stats
   const unpaidCommission = useMemo(() =>
