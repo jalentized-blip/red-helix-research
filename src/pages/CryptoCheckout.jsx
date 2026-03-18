@@ -1237,8 +1237,8 @@ export default function CryptoCheckout() {
                     {/* Reminder rules */}
                     <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl mb-6 text-left space-y-2">
                       <p className="text-xs font-black text-amber-700 uppercase tracking-widest">⚠️ Remember:</p>
-                      <p className="text-xs text-amber-700"><strong>Contact name:</strong> HVX-Scott, Scott, or HVX only</p>
-                      <p className="text-xs text-amber-700"><strong>Memo field:</strong> HVX only — nothing else</p>
+                      <p className="text-xs text-amber-700"><strong>Contact name:</strong> RHR-Jake, Jake, or RHR only</p>
+                      <p className="text-xs text-amber-700"><strong>Memo field:</strong> RHR only — nothing else</p>
                     </div>
 
                     {!zelleOrderCreated ? (
