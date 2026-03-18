@@ -1218,20 +1218,11 @@ export default function CryptoCheckout() {
                     {/* QR Code */}
                     <div className="flex flex-col items-center mb-6">
                       <div className="p-4 bg-white border-2 border-purple-100 rounded-2xl shadow-sm inline-block">
-                        <img
-                          src="https://media.base44.com/files/public/6972f2b59e2787f045b7ae0d/a207c8bb6_QRcodeforZelle.pdf"
-                          alt="Zelle QR Code"
-                          className="w-48 h-48 object-contain"
-                          onError={(e) => {
-                            // Fallback: show text instructions if image fails
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
+                        <iframe
+                          src="https://media.base44.com/files/public/6972f2b59e2787f045b7ae0d/a207c8bb6_QRcodeforZelle.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+                          className="w-56 h-64 rounded-xl border-0"
+                          title="Zelle QR Code"
                         />
-                        <div style={{display:'none'}} className="w-48 h-48 items-center justify-center bg-purple-50 rounded-xl flex-col gap-2">
-                          <span className="text-4xl font-black text-purple-600">Z</span>
-                          <p className="text-xs text-purple-700 font-bold text-center px-2">Send to:<br/>jake@redhelixresearch.com</p>
-                        </div>
                       </div>
                       <p className="text-xs text-slate-400 font-medium mt-3">Or send directly to: <strong className="text-slate-700">jake@redhelixresearch.com</strong></p>
                     </div>
