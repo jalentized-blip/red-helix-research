@@ -749,6 +749,11 @@ export default function AdminAffiliateManager() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [isBackfilling, setIsBackfilling] = useState(false);
   const [backfillResult, setBackfillResult] = useState(null);
+  const [selectedTxIds, setSelectedTxIds] = useState(new Set());
+  const [payments, setPayments] = useState([]);
+  const [payoutNotes, setPayoutNotes] = useState('');
+  const [isProcessingPayout, setIsProcessingPayout] = useState(false);
+  const [payoutSuccess, setPayoutSuccess] = useState(null);
   
   // Sorting State
   const [sortField, setSortField] = useState('total_revenue');
