@@ -791,16 +791,19 @@ export default function AdminAffiliateManager() {
   // Load data (uses affiliateStore which auto-falls back to localStorage)
   const loadData = useCallback(async () => {
     try {
-      const [affData, txData] = await Promise.all([
+      const [affData, txData, paymentData] = await Promise.all([
         listAffiliates(base44),
         listTransactions(base44),
+        base44.entities.AffiliatePayment.list('-created_date'),
       ]);
       setAffiliates(affData || []);
       setTransactions(txData || []);
+      setPayments(paymentData || []);
     } catch (error) {
       console.error('Failed to load affiliate data:', error);
       setAffiliates([]);
       setTransactions([]);
+      setPayments([]);
     }
   }, []);
 
