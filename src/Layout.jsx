@@ -296,39 +296,50 @@ const HeaderSearch = () => {
         }, []);
 
         // Auto-apply affiliate code from URL (?affiliate=CODE)
+        // Also re-apply on every page load if a pending affiliate code is stored
         useEffect(() => {
           const params = new URLSearchParams(window.location.search);
           const affiliateCode = params.get('affiliate') || params.get('aff');
+
           if (affiliateCode) {
-            // Pre-load affiliate codes then auto-apply
-            loadAffiliateCodes(base44).then(async (codes) => {
-              if (!getPromoCode()) {
-                addPromoCodeAsync(affiliateCode, base44);
-              }
-              // Log the click for analytics
-              try {
-                const upperCode = affiliateCode.toUpperCase();
-                const affiliates = await base44.entities.Affiliate.list();
-                const aff = affiliates.find(a => a.code?.toUpperCase() === upperCode);
-                if (aff) {
-                  const destinationPage = window.location.pathname.replace('/', '') || 'Home';
-                  await base44.entities.AffiliateClickLog.create({
-                    affiliate_code: upperCode,
-                    affiliate_id: aff.id,
-                    destination_page: destinationPage,
-                    referrer: document.referrer || '',
-                    user_agent: navigator.userAgent?.slice(0, 200) || '',
-                  });
-                }
-              } catch (e) {
-                // Click logging is non-critical, ignore errors
-              }
-            });
-            // Clean up URL without reloading (remove affiliate param)
+            const upperCode = affiliateCode.toUpperCase();
+            // Store the raw code immediately so it survives navigation before async resolves
+            localStorage.setItem('rdr_pending_affiliate', upperCode);
+            // Clean up URL without reloading
             const url = new URL(window.location);
             url.searchParams.delete('affiliate');
             url.searchParams.delete('aff');
             window.history.replaceState({}, '', url.toString());
+          }
+
+          // Apply any pending affiliate code (from URL or previous visit)
+          const pendingCode = localStorage.getItem('rdr_pending_affiliate');
+          if (pendingCode) {
+            addPromoCodeAsync(pendingCode, base44).then(async (applied) => {
+              if (applied) {
+                localStorage.removeItem('rdr_pending_affiliate');
+                // Log the click for analytics (only on initial link visit when code came from URL)
+                if (affiliateCode) {
+                  try {
+                    const affiliates = await base44.entities.Affiliate.list();
+                    const aff = affiliates.find(a => a.code?.toUpperCase() === pendingCode);
+                    if (aff) {
+                      const destinationPage = window.location.pathname.replace(/^\//, '') || 'Home';
+                      await base44.entities.AffiliateClickLog.create({
+                        affiliate_code: pendingCode,
+                        affiliate_id: aff.id,
+                        destination_page: destinationPage,
+                        referrer: document.referrer || '',
+                        user_agent: navigator.userAgent?.slice(0, 200) || '',
+                      });
+                    }
+                  } catch (e) {
+                    // Click logging is non-critical
+                  }
+                }
+              }
+              // If not applied yet (DB not loaded), leave pending and retry next navigation
+            });
           }
         }, []);
 
