@@ -415,8 +415,8 @@ export default function CryptoCheckout() {
         customer_name: customerName,
         customer_phone: customerInfo?.phone,
         items: cartItems.map(item => ({
-          product_id: item.productId,
-          product_name: item.productName,
+          productId: item.productId,
+          productName: item.productName,
           specification: item.specification,
           quantity: item.quantity,
           price: item.price,
@@ -425,6 +425,7 @@ export default function CryptoCheckout() {
         discount_amount: discount,
         shipping_cost: SHIPPING_COST,
         total_amount: totalUSD,
+        promo_code: promoCode || null,
         payment_method: 'cryptocurrency',
         payment_status: 'completed',
         transaction_id: txHash,
