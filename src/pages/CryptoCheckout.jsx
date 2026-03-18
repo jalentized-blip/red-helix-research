@@ -197,6 +197,12 @@ export default function CryptoCheckout() {
   const [timeLeft, setTimeLeft] = useState(900);
   const [showNewTooltip, setShowNewTooltip] = useState(false);
 
+  // Zelle payment
+  const [zelleDisclaimerAccepted, setZelleDisclaimerAccepted] = useState(false);
+  const [showZelleDisclaimer, setShowZelleDisclaimer] = useState(false);
+  const [zelleConfirmed, setZelleConfirmed] = useState(false);
+  const [zelleOrderCreated, setZelleOrderCreated] = useState(false);
+
   // Square payment link
   const [squareEmail, setSquareEmail] = useState('');
   const [squareSending, setSquareSending] = useState(false);
