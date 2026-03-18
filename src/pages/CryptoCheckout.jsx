@@ -793,6 +793,90 @@ export default function CryptoCheckout() {
                     <p className="text-xs text-slate-500 font-medium">All payments are encrypted and securely processed.</p>
                   </div>
 
+                  {/* Zelle disclaimer modal */}
+                  <AnimatePresence>
+                    {showZelleDisclaimer && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                      >
+                        <motion.div
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.9, opacity: 0 }}
+                          className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden max-h-[90vh] flex flex-col"
+                        >
+                          <div className="bg-gradient-to-br from-amber-50 to-yellow-50 p-6 border-b border-amber-100 flex-shrink-0">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                                <AlertCircle className="w-6 h-6 text-amber-600" />
+                              </div>
+                              <div>
+                                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">⚠️ Zelle Payment Disclaimer</h3>
+                                <p className="text-xs text-amber-600 font-bold uppercase tracking-wider">Please Read Before Continuing</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-6 space-y-4 overflow-y-auto text-sm text-slate-700">
+                            <p>Zelle monitors all payment activity. Certain words, descriptions, or contact names can flag accounts for review, resulting in account restrictions or permanent suspension for <strong>both sender and recipient</strong>.</p>
+                            <p className="font-bold">To protect your account and ours, please follow these guidelines exactly:</p>
+
+                            <div>
+                              <p className="font-bold mb-1">Contact Name:</p>
+                              <p className="mb-2">When saving or sending to this Zelle contact, use <strong>only</strong> one of the following names:</p>
+                              <ul className="space-y-1 text-green-700 font-bold pl-2">
+                                <li>✓ HVX-Scott</li>
+                                <li>✓ Scott</li>
+                                <li>✓ HVX</li>
+                              </ul>
+                              <p className="text-red-600 mt-2">✗ Do <strong>not</strong> save this contact with any descriptions, product names, notes, or any other wording.</p>
+                            </div>
+
+                            <div>
+                              <p className="font-bold mb-1">Payment Memo / Comments:</p>
+                              <p className="mb-2">In the memo or comment field of your Zelle payment, you may <strong>only</strong> write:</p>
+                              <p className="text-green-700 font-bold pl-2">✓ HVX</p>
+                              <p className="text-red-600 mt-2">✗ Do <strong>not</strong> include product names, abbreviations, "thank you" notes, or any additional text.</p>
+                            </div>
+
+                            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl">
+                              <p className="font-bold text-amber-800">⚠️ Why this matters: If an account is flagged, it can be frozen, restricted, or permanently shut down. This affects your ability to send payments and our ability to receive them.</p>
+                            </div>
+
+                            <label className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:border-purple-400 transition-colors">
+                              <input
+                                type="checkbox"
+                                checked={zelleDisclaimerAccepted}
+                                onChange={(e) => setZelleDisclaimerAccepted(e.target.checked)}
+                                className="mt-0.5 w-4 h-4 rounded border-slate-300 focus:ring-purple-500 flex-shrink-0"
+                              />
+                              <span className="text-xs text-slate-700 font-semibold leading-relaxed">
+                                I have read and agree to follow the <strong>Zelle payment guidelines</strong> above.
+                              </span>
+                            </label>
+                          </div>
+                          <div className="p-6 pt-0 flex gap-3 flex-shrink-0">
+                            <button
+                              onClick={() => { setShowZelleDisclaimer(false); setZelleDisclaimerAccepted(false); }}
+                              className="flex-1 py-3 px-4 rounded-xl border-2 border-slate-200 text-sm font-bold text-slate-500 uppercase tracking-wider hover:border-slate-300 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={() => { setShowZelleDisclaimer(false); setStep('zelle_payment'); }}
+                              disabled={!zelleDisclaimerAccepted}
+                              className="flex-1 py-3 px-4 rounded-xl bg-purple-600 text-white text-sm font-black uppercase tracking-wider hover:bg-purple-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                              I Agree & Continue
+                            </button>
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                   {/* Card payment disclaimer + consent modal */}
                   <AnimatePresence>
                     {showSquareDisclaimer && (
