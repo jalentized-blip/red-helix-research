@@ -17,17 +17,6 @@ import {
 
 const SITE_BASE = window.location.origin;
 
-const PRODUCT_PAGES = [
-  { label: 'Home Page', page: 'Home', path: '' },
-  { label: 'All Products', page: 'Products', path: '' },
-  { label: 'BPC-157', page: 'ProductBPC157', path: '' },
-  { label: 'Semaglutide', page: 'ProductSemaglutide', path: '' },
-  { label: 'TB-500', page: 'ProductTB500', path: '' },
-  { label: 'Tirzepatide', page: 'ProductTirzepatide', path: '' },
-  { label: 'Learn More', page: 'LearnMore', path: '' },
-  { label: 'Peptide Calculator', page: 'PeptideCalculator', path: '' },
-];
-
 const TABS = [
   { id: 'overview', label: 'Overview', icon: LayoutGrid },
   { id: 'links', label: 'My Links', icon: Link2 },
