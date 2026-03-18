@@ -955,6 +955,79 @@ export default function AdminAffiliateManager() {
     }
   };
 
+  // Handle bulk payout
+  const handleBulkPayout = async () => {
+    if (selectedTxIds.size === 0) return;
+    setIsProcessingPayout(true);
+    try {
+      const selectedTxs = filteredTransactions.filter(t => selectedTxIds.has(t.id));
+      // Group by affiliate
+      const byAffiliate = {};
+      selectedTxs.forEach(tx => {
+        const key = tx.affiliate_code;
+        if (!byAffiliate[key]) byAffiliate[key] = { txs: [], affiliate_email: tx.affiliate_email, affiliate_name: tx.affiliate_name, affiliate_code: tx.affiliate_code };
+        byAffiliate[key].txs.push(tx);
+      });
+
+      for (const aff of Object.values(byAffiliate)) {
+        const amount = aff.txs.reduce((s, t) => s + (t.commission_amount || 0), 0);
+        const affRecord = affiliates.find(a => a.code === aff.affiliate_code);
+        await base44.entities.AffiliatePayment.create({
+          affiliate_id: affRecord?.id || '',
+          affiliate_email: aff.affiliate_email,
+          affiliate_name: aff.affiliate_name,
+          affiliate_code: aff.affiliate_code,
+          order_ids: aff.txs.map(t => t.id),
+          order_numbers: aff.txs.map(t => t.order_number).filter(Boolean),
+          amount,
+          status: 'paid',
+          paid_by: user?.email || 'admin',
+          notes: payoutNotes,
+        });
+        // Send notification email
+        await base44.integrations.Core.SendEmail({
+          to: aff.affiliate_email,
+          subject: `Commission Payment of $${amount.toFixed(2)} — Red Helix Research`,
+          body: `<p>Hi ${aff.affiliate_name},</p>
+<p>Great news! We've processed a commission payment of <strong>$${amount.toFixed(2)}</strong> for your affiliate referrals.</p>
+<p><strong>Orders covered:</strong> ${aff.txs.map(t => t.order_number).filter(Boolean).join(', ')}</p>
+${payoutNotes ? `<p><strong>Notes:</strong> ${payoutNotes}</p>` : ''}
+<p>Thank you for being a valued affiliate partner.</p>
+<p>— Red Helix Research Team</p>`,
+        });
+      }
+
+      setPayoutSuccess(`Payout processed for ${Object.keys(byAffiliate).length} affiliate(s) — notification emails sent.`);
+      setSelectedTxIds(new Set());
+      setPayoutNotes('');
+      setTimeout(() => setPayoutSuccess(null), 6000);
+      await loadData();
+    } catch (error) {
+      console.error('Payout error:', error);
+      alert(`Payout failed: ${error?.message || 'Unknown error'}`);
+    } finally {
+      setIsProcessingPayout(false);
+    }
+  };
+
+  // Toggle transaction selection
+  const toggleTxSelect = (id) => {
+    setSelectedTxIds(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  // Select all unpaid transactions
+  const toggleSelectAll = (unpaidTxs) => {
+    if (selectedTxIds.size === unpaidTxs.length) {
+      setSelectedTxIds(new Set());
+    } else {
+      setSelectedTxIds(new Set(unpaidTxs.map(t => t.id)));
+    }
+  };
+
   // Calculate conversion rate for each affiliate
   const affiliatesWithMetrics = useMemo(() => {
     return affiliates.map(aff => {
