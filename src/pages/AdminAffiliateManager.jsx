@@ -917,16 +917,6 @@ export default function AdminAffiliateManager() {
     }
   };
 
-  // Update transaction status
-  const handleUpdateTxStatus = async (txId, status) => {
-    try {
-      await updateTransaction(base44, txId, { status });
-      await loadData();
-    } catch (error) {
-      console.error('Status update error:', error);
-    }
-  };
-
   // Points adjustment
   const handlePointsAdjust = async (affiliate, amount, reason) => {
     try {
