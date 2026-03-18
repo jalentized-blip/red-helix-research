@@ -397,9 +397,15 @@ function AffiliateRow({ affiliate, onEdit, onDelete, onToggle, expanded, onExpan
 }
 
 // ─── TRANSACTION ROW ───
-function TransactionRow({ tx, onUpdateStatus }) {
+function TransactionRow({ tx, selected, onSelect, isPaid }) {
   return (
-    <div className="bg-white border border-slate-100 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-3">
+    <div className={`bg-white border rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-3 transition-all ${
+      selected ? 'border-[#dc2626] bg-red-50/30' : 'border-slate-100'
+    } ${isPaid ? 'opacity-60' : ''}`}>
+      {!isPaid && (
+        <input type="checkbox" checked={selected} onChange={() => onSelect(tx.id)}
+          className="w-4 h-4 accent-[#dc2626] cursor-pointer flex-shrink-0" />
+      )}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xs font-black text-slate-900 uppercase tracking-tight">{tx.affiliate_name}</span>
@@ -423,20 +429,11 @@ function TransactionRow({ tx, onUpdateStatus }) {
           <p className="text-[8px] font-black text-green-600 uppercase tracking-widest">Commission</p>
           <p className="text-xs font-black text-green-600">${(tx.commission_amount || 0).toFixed(2)}</p>
         </div>
-
-        <select
-          value={tx.status || 'pending'}
-          onChange={(e) => onUpdateStatus(tx.id, e.target.value)}
-          className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border cursor-pointer ${
-            tx.status === 'paid' ? 'bg-green-50 text-green-600 border-green-200' :
-            tx.status === 'pending' ? 'bg-yellow-50 text-yellow-600 border-yellow-200' :
-            'bg-slate-50 text-slate-500 border-slate-200'
-          }`}
-        >
-          <option value="pending">Pending</option>
-          <option value="paid">Paid</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
+        <div className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border ${
+          isPaid ? 'bg-green-50 text-green-600 border-green-200' : 'bg-yellow-50 text-yellow-600 border-yellow-200'
+        }`}>
+          {isPaid ? 'Paid' : 'Pending'}
+        </div>
       </div>
 
       <p className="text-[8px] text-slate-400 font-bold">
