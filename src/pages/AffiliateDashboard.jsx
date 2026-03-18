@@ -34,7 +34,6 @@ export default function AffiliateDashboard() {
   const [notFound, setNotFound] = useState(false);
   const [copied, setCopied] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
-  const [selectedPage, setSelectedPage] = useState('Home');
 
   useEffect(() => {
     const init = async () => {
