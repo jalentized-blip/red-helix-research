@@ -298,55 +298,37 @@ export default function AffiliateDashboard() {
                     {copied === 'code' ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5 text-slate-400" />}
                   </button>
                 </div>
-                <p className="text-xs text-slate-400 mt-2">Customers enter this code at checkout — no link needed.</p>
+                <p className="text-xs text-slate-400 mt-2">Customers can enter this code manually at checkout — or use your link below for automatic application.</p>
               </div>
 
-              {/* Custom Landing Page URL Generator */}
+              {/* Single Shop Link */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                 <h2 className="text-base font-black text-slate-900 mb-1 flex items-center gap-2">
-                  <Link2 className="w-4 h-4 text-[#8B2635]" /> Custom Landing Page Links
+                  <Link2 className="w-4 h-4 text-[#8B2635]" /> Your Affiliate Link
                 </h2>
-                <p className="text-xs text-slate-500 mb-5">Generate a referral link pointing directly to any product page or section of the site.</p>
+                <p className="text-xs text-slate-500 mb-5">
+                  Share this link — when anyone clicks it, your <strong>{affiliate?.discount_percent}% discount is automatically applied</strong> to their cart. They can browse anywhere on the site and the discount stays active.
+                </p>
 
-                <div className="grid sm:grid-cols-2 gap-3 mb-5">
-                  {PRODUCT_PAGES.map(pg => {
-                    const link = buildLink(pg.page);
-                    const key = `pg_${pg.page}`;
-                    return (
-                      <div key={pg.page}
-                        className={`border rounded-xl p-4 cursor-pointer transition-all ${
-                          selectedPage === pg.page
-                            ? 'border-[#8B2635] bg-red-50'
-                            : 'border-slate-200 bg-slate-50 hover:border-slate-300'
-                        }`}
-                        onClick={() => setSelectedPage(pg.page)}>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-black text-slate-800">{pg.label}</span>
-                          {selectedPage === pg.page && <Check className="w-4 h-4 text-[#8B2635]" />}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-slate-400 flex-1 truncate font-mono">{link}</span>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); copy(link, key); }}
-                            className="flex-shrink-0 p-1 hover:bg-white rounded-md">
-                            {copied === key ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Preview of selected */}
-                <div className="bg-slate-900 rounded-xl p-4">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Selected Link Preview</p>
+                <div className="bg-slate-900 rounded-xl p-4 mb-4">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Your Link</p>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm text-green-400 font-mono flex-1 break-all">{buildLink(selectedPage)}</span>
-                    <button onClick={() => copy(buildLink(selectedPage), 'selected')}
+                    <span className="text-sm text-green-400 font-mono flex-1 break-all">{shopLink}</span>
+                    <button onClick={() => copy(shopLink, 'main')}
                       className="flex-shrink-0 px-3 py-1.5 bg-[#8B2635] hover:bg-[#6B1827] text-white text-xs font-black rounded-lg flex items-center gap-1.5">
-                      {copied === 'selected' ? <><Check className="w-3 h-3" /> Copied!</> : <><Copy className="w-3 h-3" /> Copy</>}
+                      {copied === 'main' ? <><Check className="w-3 h-3" /> Copied!</> : <><Copy className="w-3 h-3" /> Copy</>}
                     </button>
                   </div>
+                </div>
+
+                <div className="bg-green-50 border border-green-100 rounded-xl p-4">
+                  <p className="text-xs font-black text-green-700 mb-1">✓ How it works</p>
+                  <ul className="text-xs text-green-600 space-y-1 list-disc list-inside">
+                    <li>Customer clicks your link → lands on the Shop page</li>
+                    <li>{affiliate?.discount_percent}% discount is automatically applied to their cart</li>
+                    <li>Discount stays active as they browse the entire site</li>
+                    <li>You earn 10% commission on every order they place</li>
+                  </ul>
                 </div>
               </div>
 
@@ -354,12 +336,12 @@ export default function AffiliateDashboard() {
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                 <h2 className="text-base font-black text-slate-900 mb-4">Share Your Link</h2>
                 <div className="flex flex-wrap gap-2">
-                  <a href={`https://twitter.com/intent/tweet?text=Check+out+Red+Helix+Research+peptides!+Use+my+code+${affiliate?.code}+for+${affiliate?.discount_percent}%25+off:+${encodeURIComponent(buildLink(selectedPage))}`}
+                  <a href={`https://twitter.com/intent/tweet?text=Check+out+Red+Helix+Research+peptides!+Use+my+code+${affiliate?.code}+for+${affiliate?.discount_percent}%25+off:+${encodeURIComponent(shopLink)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-700 transition-colors">
                     Share on X <ExternalLink className="w-3 h-3" />
                   </a>
-                  <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(buildLink(selectedPage))}`}
+                  <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shopLink)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-xs font-bold text-blue-700 transition-colors">
                     Share on Facebook <ExternalLink className="w-3 h-3" />
