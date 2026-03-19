@@ -1336,6 +1336,8 @@ export default function CryptoCheckout() {
                                   <p><strong>Email:</strong> ${orderPayload.customer_email}</p>
                                   <p><strong>Total:</strong> $${totalUSD.toFixed(2)}</p>
                                   <p><strong>Order #:</strong> ${orderNumberRef.current}</p>
+                                  <p><strong>Zelle Account Name:</strong> ${zelleAccountName}</p>
+                                  ${zelleConfirmationNumber ? `<p><strong>Confirmation #:</strong> ${zelleConfirmationNumber}</p>` : ''}
                                   <p style="margin-top:24px;font-size:12px;color:#94a3b8;">View in Admin: <a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#7c3aed;font-weight:700;">Order Management →</a></p>
                                 </div>`
                               });
