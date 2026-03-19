@@ -1218,10 +1218,10 @@ export default function CryptoCheckout() {
                     {/* QR Code */}
                     <div className="flex flex-col items-center mb-6">
                       <div className="p-4 bg-white border-2 border-purple-100 rounded-2xl shadow-sm inline-block">
-                        <iframe
-                          src="https://media.base44.com/files/public/6972f2b59e2787f045b7ae0d/a207c8bb6_QRcodeforZelle.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
-                          className="w-56 h-64 rounded-xl border-0"
-                          title="Zelle QR Code"
+                        <img
+                          src="https://media.base44.com/images/public/6972f2b59e2787f045b7ae0d/c3e680bfd_image.png"
+                          alt="Zelle QR Code"
+                          className="w-[200px] h-[200px] object-contain rounded-xl"
                         />
                       </div>
                       <p className="text-xs text-slate-400 font-medium mt-3">Or send directly to: <strong className="text-slate-700">jake@redhelixresearch.com</strong></p>
