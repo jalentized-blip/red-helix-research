@@ -283,12 +283,38 @@ export default function COAReports() {
                 )}
                 
                 {/* Thumbnail */}
-                <div className="mb-6 bg-white rounded-2xl h-56 overflow-hidden border border-slate-100 shadow-inner group">
-                  <img
-                    src={coa.coa_image_url}
-                    alt={`${coa.peptide_name} COA`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="mb-6 bg-white rounded-2xl h-56 overflow-hidden border border-slate-100 shadow-inner group relative">
+                  {coa.coa_image_url?.toLowerCase().includes('.pdf') ? (
+                    <a
+                      href={coa.coa_image_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full h-full flex flex-col items-center justify-center gap-3 text-slate-400 hover:text-[#8B2635] transition-colors"
+                    >
+                      <ExternalLink className="w-10 h-10" />
+                      <span className="text-xs font-black uppercase tracking-widest">View PDF Document</span>
+                    </a>
+                  ) : (
+                    <img
+                      src={coa.coa_image_url}
+                      alt={`${coa.peptide_name} COA`}
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  )}
+                  <a
+                    href={coa.coa_image_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'none' }}
+                    className="absolute inset-0 flex-col items-center justify-center gap-3 text-slate-400 hover:text-[#8B2635] transition-colors"
+                  >
+                    <ExternalLink className="w-10 h-10" />
+                    <span className="text-xs font-black uppercase tracking-widest">View Document</span>
+                  </a>
                 </div>
 
                 {/* Details */}
