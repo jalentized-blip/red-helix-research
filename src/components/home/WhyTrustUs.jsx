@@ -140,8 +140,8 @@ export default function WhyTrustUs() {
               <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Verified Batches</p>
             </div>
             <div className="text-center">
-              <p className="text-black text-2xl font-black">24h</p>
-              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Lab Response</p>
+              <p className="text-black text-2xl font-black">24-48h</p>
+              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Fulfillment</p>
             </div>
           </div>
         </motion.div>

@@ -7,7 +7,7 @@ export default function TrustBar() {
     { icon: FlaskConical, label: "Lab Tested Batches" },
     { icon: Package, label: "United States Shipping Only" },
     { icon: ShieldCheck, label: "Secure Crypto Payments" },
-    { icon: Headphones, label: "24h Support" },
+    { icon: Headphones, label: "24-48h Fulfillment" },
   ];
 
   const payments = ["BTC", "USDT", "USDC"];

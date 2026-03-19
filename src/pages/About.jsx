@@ -106,7 +106,7 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-4 mb-32 grid md:grid-cols-3 gap-8 relative z-10">
         {[
           { icon: ShieldCheck, label: 'Quality', title: '100% Verified', desc: 'Every batch undergoes third-party analysis.' },
-          { icon: Zap, label: 'Speed', title: 'Rapid Fulfillment', desc: 'Same-day processing for all research orders.' },
+          { icon: Zap, label: 'Speed', title: 'Rapid Fulfillment', desc: '24-48 hour processing for all research orders.' },
           { icon: Heart, label: 'Trust', title: 'Direct Transparency', desc: 'Public access to all COA documentation.' }
         ].map((stat, idx) => (
           <motion.div
@@ -178,7 +178,7 @@ export default function About() {
             <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-12">
               {[
                 'Public COA Database',
-                'Same-Day Laboratory Shipping',
+                '24-48h Laboratory Shipping',
                 'Secure Research Supply',
                 '24/7 Technical Support'
               ].map((item, idx) => (
