@@ -1243,8 +1243,37 @@ export default function CryptoCheckout() {
                       <p className="text-xs text-amber-700"><strong>Memo field:</strong> RHR only — nothing else</p>
                     </div>
 
+                    {/* Zelle fields */}
+                    <div className="text-left space-y-4 mb-6">
+                      <div>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                          NAME ON YOUR ZELLE ACCOUNT <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={zelleAccountName}
+                          onChange={(e) => setZelleAccountName(e.target.value)}
+                          placeholder="e.g. John Doe"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-purple-500 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                          ZELLE CONFIRMATION NUMBER <span className="text-slate-400 font-medium normal-case">(optional)</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={zelleConfirmationNumber}
+                          onChange={(e) => setZelleConfirmationNumber(e.target.value)}
+                          placeholder="Enter confirmation # from your banking app (if available)"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-purple-500 transition-all"
+                        />
+                      </div>
+                    </div>
+
                     {!zelleOrderCreated ? (
                       <Button
+                        disabled={!zelleAccountName.trim()}
                         onClick={async () => {
                           setZelleOrderCreated(true);
                           // Create order record
