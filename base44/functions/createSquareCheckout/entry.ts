@@ -139,6 +139,13 @@ Deno.serve(async (req) => {
         },
         pre_populated_data: {
           buyer_email: customerEmail,
+          buyer_address: shippingAddress ? {
+            address_line_1: shippingAddress.address,
+            locality: shippingAddress.city,
+            administrative_district_level_1: shippingAddress.state,
+            postal_code: shippingAddress.zip,
+            country: 'US',
+          } : undefined,
         },
       }),
     });
