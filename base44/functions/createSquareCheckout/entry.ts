@@ -118,18 +118,10 @@ Deno.serve(async (req) => {
           location_id: locationId,
           reference_id: orderNumber,
           line_items: lineItems,
-          ...(customerName ? {
-            fulfillments: [{
-              type: 'SHIPMENT',
-              state: 'PROPOSED',
-              shipment_details: {
-                recipient: {
-                  display_name: customerName,
-                  email_address: customerEmail,
-                },
-              },
-            }],
-          } : {}),
+          metadata: {
+            order_number: orderNumber,
+            customer_name: customerName || '',
+          },
         },
         checkout_options: {
           allow_tipping: false,
