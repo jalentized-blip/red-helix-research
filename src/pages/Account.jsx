@@ -388,8 +388,8 @@ export default function Account() {
   }, [user]);
 
   const { data: orders = [] } = useQuery({
-    queryKey: ['orders'],
-    queryFn: () => base44.entities.Order.filter({ created_by: user?.email }),
+    queryKey: ['orders', user?.email],
+    queryFn: () => base44.entities.Order.filter({ customer_email: user?.email }),
     enabled: !!user
   });
 
