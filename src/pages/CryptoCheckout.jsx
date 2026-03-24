@@ -341,7 +341,9 @@ export default function CryptoCheckout() {
   const subtotal = getCartTotal();
   const discount = promoCode ? getDiscountAmount(promoCode, subtotal) : 0;
   const subtotalAfterDiscount = subtotal - discount;
-  const processingFee = step === 'square_payment' ? subtotalAfterDiscount * SQUARE_PROCESSING_FEE_PERCENT : 0;
+  // Always compute the processing fee — it will be applied to the Square payment link total
+  const squareProcessingFee = Math.round(subtotalAfterDiscount * SQUARE_PROCESSING_FEE_PERCENT * 100) / 100;
+  const processingFee = step === 'square_payment' ? squareProcessingFee : 0;
   const totalUSD = subtotalAfterDiscount + SHIPPING_COST + processingFee;
 
   const verifyTransaction = async (txHash) => {
@@ -1526,7 +1528,7 @@ export default function CryptoCheckout() {
                                   promoCode: promoCode || undefined,
                                   discountAmount: discount > 0 ? discount : undefined,
                                   shippingCost: SHIPPING_COST,
-                                  processingFeeAmount: processingFee > 0 ? processingFee : undefined,
+                                  processingFeeAmount: squareProcessingFee,
                                   // Cloudflare Turnstile verification token
                                   turnstileToken,
                                   // Chargeback evidence — consent + device info
@@ -1576,7 +1578,7 @@ export default function CryptoCheckout() {
                                   subtotal: subtotal,
                                   discount_amount: discount,
                                   shipping_cost: SHIPPING_COST,
-                                  total_amount: totalUSD,
+                                  total_amount: subtotalAfterDiscount + SHIPPING_COST + squareProcessingFee,
                                   promo_code: promoCode || null,
                                   payment_method: 'square_payment',
                                   payment_status: 'pending',
