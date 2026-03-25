@@ -6,9 +6,9 @@ const SITE_NAME = 'Red Helix Research';
 const DEFAULT_IMAGE = 'https://i.ibb.co/M5CYvjkG/websitelogo.png';
 
 export default function SEO({
-  title = 'Cheap Research Peptides USA — GLP-1, BPC-157, TB-500 | Red Helix Research',
-  description = 'Buy affordable research-grade peptides with lab-verified COA. Best prices on GLP-1 peptides — Semaglutide, Tirzepatide, BPC-157, TB-500. USA-based, HPLC-tested. For research use only.',
-  keywords = 'cheap research peptides, affordable research peptides, buy research peptides USA, GLP-1 research peptide, semaglutide research peptide, tirzepatide research peptide, cheap GLP-1 peptide, best price peptides USA, discount research peptides, low cost peptides, peptide supplier USA, BPC-157, TB-500, COA verified peptides, HPLC tested peptides, research grade peptides, peptide vendor, research chemicals, weight loss research peptide, GLP-1 agonist research',
+  title = 'Research Peptides for Weight Loss, Biohacking & Athletic Performance | Red Helix Research',
+  description = 'USA-based supplier of research peptides for weight loss, biohacking & athletic performance. Semaglutide, Tirzepatide, BPC-157, TB-500, CJC-1295 — HPLC-verified, COA certified. For research use only.',
+  keywords = 'research peptides weight loss, biohacking peptides, peptides for athletic performance, health optimization peptides, GLP-1 research peptide, semaglutide research, tirzepatide research, BPC-157 recovery, TB-500 performance, CJC-1295 ipamorelin research, longevity peptides, anti-aging research peptides, buy research peptides USA, COA verified peptides, HPLC tested peptides, affordable research peptides, peptide supplier USA, research chemicals, fat loss peptide research, muscle recovery research peptide',
   canonical,
   schema,
   image = DEFAULT_IMAGE,

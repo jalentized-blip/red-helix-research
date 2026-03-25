@@ -20,7 +20,7 @@ export const generateOrganizationSchema = () => ({
     height: 512
   },
   image: LOGO_URL,
-  description: 'USA-based supplier of affordable research-grade GLP-1 peptides — Semaglutide, Tirzepatide, BPC-157, TB-500 — with HPLC-verified purity and third-party Certificates of Analysis. Best prices on research peptides.',
+  description: 'USA-based supplier of research-grade peptides for weight loss, biohacking, health optimization and athletic performance. Semaglutide, Tirzepatide, BPC-157, TB-500, CJC-1295, Ipamorelin — HPLC-verified, COA certified.',
   email: CONTACT_EMAIL,
   contactPoint: [
     {
@@ -42,18 +42,22 @@ export const generateOrganizationSchema = () => ({
   },
   foundingDate: '2024',
   knowsAbout: [
+    'Research Peptides for Weight Loss',
+    'Biohacking Peptides',
+    'Athletic Performance Peptides',
+    'Health Optimization Peptides',
     'GLP-1 Research Peptides',
-    'Cheap Research Peptides',
     'Semaglutide Research',
     'Tirzepatide Research',
     'Retatrutide Research',
-    'BPC-157',
-    'TB-500',
-    'Affordable Peptide Supplier USA',
+    'BPC-157 Tissue Repair Research',
+    'TB-500 Athletic Recovery Research',
+    'CJC-1295 Ipamorelin Growth Hormone Research',
+    'Longevity and Anti-Aging Peptides',
+    'Cognitive Enhancement Peptides',
     'Certificate of Analysis',
     'HPLC Verification',
-    'Peptide Reconstitution',
-    'Weight Loss Research Peptides'
+    'Peptide Reconstitution'
   ]
 });
 
@@ -330,7 +334,7 @@ export const generateLocalBusinessSchema = () => ({
   '@id': `${SITE_URL}/#store`,
   name: SITE_NAME,
   image: LOGO_URL,
-  description: 'USA-based supplier of lab-tested research peptides with third-party verified certificates of analysis.',
+  description: 'USA-based research peptide supplier for weight loss, biohacking, health optimization & athletic performance. HPLC-verified, COA certified. Semaglutide, Tirzepatide, BPC-157, TB-500, CJC-1295, Ipamorelin.',
   url: SITE_URL,
   address: {
     '@type': 'PostalAddress',
