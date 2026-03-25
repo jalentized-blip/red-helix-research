@@ -389,7 +389,23 @@ export default function Account() {
 
   const { data: orders = [] } = useQuery({
     queryKey: ['orders', user?.email],
-    queryFn: () => base44.entities.Order.filter({ customer_email: user?.email }),
+    queryFn: async () => {
+      // Fetch by customer_email AND by created_by, then deduplicate by order id
+      const [byEmail, byCreatedBy] = await Promise.all([
+        base44.entities.Order.filter({ customer_email: user?.email }),
+        base44.entities.Order.filter({ created_by: user?.email }),
+      ]);
+      const seen = new Set();
+      const merged = [];
+      for (const order of [...byEmail, ...byCreatedBy]) {
+        if (!seen.has(order.id)) {
+          seen.add(order.id);
+          merged.push(order);
+        }
+      }
+      // Sort newest first
+      return merged.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+    },
     enabled: !!user
   });
 
