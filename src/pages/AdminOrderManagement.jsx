@@ -253,6 +253,112 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
     }
   };
 
+  const handleSendConfirmationEmail = async () => {
+    if (!form.customer_email) {
+      toast.error('No customer email on this order');
+      return;
+    }
+    try {
+      const itemsHtml = order.items?.map(item =>
+        `<tr>
+          <td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${resolveProductName(item, products, productMap) || item.productName || item.product_name || 'Product'}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">${item.specification || '—'}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">×${item.quantity}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;font-weight:700;color:#0f172a;text-align:right;">$${(item.price * item.quantity).toFixed(2)}</td>
+        </tr>`
+      ).join('') || '';
+
+      const addr = order.shipping_address || {};
+      const shippingLine = [addr.address, addr.city, addr.state, addr.zip].filter(Boolean).join(', ');
+
+      await base44.integrations.Core.SendEmail({
+        from_name: 'Red Helix Research',
+        to: form.customer_email,
+        subject: `Order Confirmed — #${order.order_number} | Red Helix Research`,
+        body: `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#f8fafc;font-family:'Segoe UI',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 20px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
+
+<tr>
+<td style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:36px 40px;text-align:center;">
+  <div style="width:52px;height:52px;background:#dc2626;border-radius:14px;display:inline-block;line-height:52px;margin-bottom:14px;">
+    <span style="color:#fff;font-size:20px;font-weight:900;letter-spacing:-1px;">RH</span>
+  </div>
+  <h1 style="color:#ffffff;font-size:26px;font-weight:900;margin:0 0 6px 0;letter-spacing:-0.5px;">Order Confirmed!</h1>
+  <p style="color:#94a3b8;font-size:13px;font-weight:600;margin:0;letter-spacing:1px;text-transform:uppercase;">Red Helix Research · Order #${order.order_number}</p>
+</td>
+</tr>
+
+<tr>
+<td style="padding:32px 40px 0 40px;">
+  <p style="color:#334155;font-size:15px;font-weight:600;margin:0 0 8px 0;">Hi ${form.customer_name || 'there'},</p>
+  <p style="color:#64748b;font-size:14px;line-height:1.7;margin:0 0 24px 0;">
+    Thank you for your order! We've received it and it's being prepared. You'll receive another email once your order ships with a tracking number.
+  </p>
+</td>
+</tr>
+
+<tr>
+<td style="padding:0 40px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+    <tr style="background:#f8fafc;">
+      <th style="padding:10px 12px;text-align:left;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Item</th>
+      <th style="padding:10px 8px;text-align:center;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Spec</th>
+      <th style="padding:10px 8px;text-align:center;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Qty</th>
+      <th style="padding:10px 12px;text-align:right;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Price</th>
+    </tr>
+    ${itemsHtml}
+    ${order.discount_amount > 0 ? `<tr><td colspan="3" style="padding:8px 12px;font-size:13px;color:#16a34a;font-weight:700;">Discount Applied</td><td style="padding:8px 12px;font-size:13px;color:#16a34a;font-weight:700;text-align:right;">-$${order.discount_amount.toFixed(2)}</td></tr>` : ''}
+    <tr><td colspan="3" style="padding:8px 12px;font-size:13px;color:#64748b;font-weight:600;">Shipping</td><td style="padding:8px 12px;font-size:13px;color:#64748b;font-weight:600;text-align:right;">$${(order.shipping_cost || 15).toFixed(2)}</td></tr>
+    <tr style="background:#f8fafc;">
+      <td colspan="3" style="padding:12px;font-size:14px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:0.5px;">Total</td>
+      <td style="padding:12px;font-size:20px;font-weight:900;color:#dc2626;text-align:right;">$${order.total_amount?.toFixed(2)}</td>
+    </tr>
+  </table>
+</td>
+</tr>
+
+${shippingLine ? `
+<tr>
+<td style="padding:24px 40px 0 40px;">
+  <div style="background:#f8fafc;border-radius:12px;padding:16px 20px;border:1px solid #e2e8f0;">
+    <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Shipping To</p>
+    <p style="margin:0;font-size:14px;color:#334155;font-weight:600;">${form.customer_name || ''}</p>
+    <p style="margin:2px 0 0;font-size:13px;color:#64748b;">${shippingLine}</p>
+  </div>
+</td>
+</tr>` : ''}
+
+<tr>
+<td style="padding:24px 40px;">
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:12px;padding:16px 20px;">
+    <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:1px;">Research Use Only</p>
+    <p style="margin:0;font-size:12px;color:#7f1d1d;line-height:1.6;">These products are for laboratory research use only. Not for human consumption. All sales are final — no refunds or returns. For any issues, please contact <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;font-weight:700;">jake@redhelixresearch.com</a> before contacting your bank.</p>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td style="background:#f8fafc;padding:20px 40px;text-align:center;border-top:1px solid #e2e8f0;">
+  <p style="color:#94a3b8;font-size:11px;margin:0;">Red Helix Research | <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;text-decoration:none;">jake@redhelixresearch.com</a></p>
+</td>
+</tr>
+
+</table>
+</td></tr></table>
+</body>
+</html>`,
+      });
+      toast.success('Confirmation email sent', { description: `Sent to ${form.customer_email}` });
+    } catch (err) {
+      toast.error('Failed to send email', { description: err.message });
+    }
+  };
+
   const handleCopyTracking = () => {
     navigator.clipboard.writeText(form.tracking_number);
     toast.success('Tracking number copied');
@@ -367,10 +473,13 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
                            <ExternalLink className="w-4 h-4" />
                          </Button>
                          <Button variant="outline" size="sm" onClick={handleSendTrackingEmail} className="border-blue-200 text-blue-600 hover:bg-blue-50 h-11 flex-1 sm:flex-none">
-                           <Mail className="w-4 h-4 mr-1" /> Email
+                           <Mail className="w-4 h-4 mr-1" /> Shipped
                          </Button>
                        </>
                      )}
+                     <Button variant="outline" size="sm" onClick={handleSendConfirmationEmail} className="border-green-200 text-green-600 hover:bg-green-50 h-11 flex-1 sm:flex-none">
+                       <Mail className="w-4 h-4 mr-1" /> Confirm
+                     </Button>
                      <Button size="sm" onClick={() => setShowPirateShip(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white h-11 font-bold flex-1 sm:flex-none">
                        <Package className="w-4 h-4 mr-1" /> Label
                      </Button>
