@@ -38,9 +38,9 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Square not configured' }, { status: 500 });
     }
 
-    // Build Square line items — use generic names only
+    // Build Square line items — use order number instead of product names
     const lineItems = items.map((item, idx) => ({
-      name: `Research Item ${idx + 1}${item.specification ? ` (${item.specification})` : ''}`,
+      name: `Order ${orderNumber} — Item ${idx + 1}`,
       quantity: String(item.quantity || 1),
       base_price_money: {
         amount: Math.round(item.price * 100), // cents
