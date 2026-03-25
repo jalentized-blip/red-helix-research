@@ -1524,54 +1524,50 @@ export default function CryptoCheckout() {
                                 return;
                               }
 
-                              // 1. Create dynamic Square checkout link via direct function call
-                              const fnRes = await fetch('https://red-helix-research-f58be972.base44.app/functions/createSquareCheckout', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                  items: cartItems.map(item => ({
-                                    productName: item.productName,
-                                    specification: item.specification,
-                                    price: item.price,
-                                    quantity: item.quantity,
-                                  })),
-                                  customerEmail: squareEmail.trim(),
-                                  customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : undefined,
-                                  orderNumber: orderNumberRef.current,
-                                  promoCode: promoCode || undefined,
-                                  discountAmount: discount > 0 ? discount : undefined,
-                                  shippingCost: SHIPPING_COST,
-                                  processingFeeAmount: squareProcessingFee,
-                                  // Cloudflare Turnstile verification token
-                                  turnstileToken,
-                                  // Chargeback evidence — consent + device info
-                                  consentTimestamp: consentTimestamp || new Date().toISOString(),
-                                  consentVersion: 'v2-2025-02',
-                                  userAgent: navigator.userAgent,
-                                  screenResolution: `${window.screen.width}x${window.screen.height}`,
-                                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                                  language: navigator.language,
-                                  shippingAddress: customerInfo ? {
-                                    address: customerInfo.shippingAddress || customerInfo.address,
-                                    city: customerInfo.shippingCity || customerInfo.city,
-                                    state: customerInfo.shippingState || customerInfo.state,
-                                    zip: customerInfo.shippingZip || customerInfo.zip,
-                                    country: customerInfo.shippingCountry || customerInfo.country || 'USA',
-                                  } : undefined,
-                                  billingAddress: customerInfo ? {
-                                    address: customerInfo.address,
-                                    city: customerInfo.city,
-                                    state: customerInfo.state,
-                                    zip: customerInfo.zip,
-                                    country: customerInfo.country || 'USA',
-                                  } : undefined,
-                                }),
-                              });
-                              const fnData = await fnRes.json();
-                              if (!fnRes.ok || !fnData?.checkoutUrl) {
-                                throw new Error(fnData?.error || 'Failed to create checkout link');
-                              }
-                              const checkoutUrl = fnData.checkoutUrl;
+                              // 1. Create dynamic Square checkout link via SDK (handles auth automatically)
+                              const fnResponse = await base44.functions.invoke('createSquareCheckout', {
+                                   items: cartItems.map(item => ({
+                                     productName: item.productName,
+                                     specification: item.specification,
+                                     price: item.price,
+                                     quantity: item.quantity,
+                                   })),
+                                   customerEmail: squareEmail.trim(),
+                                   customerName: customerInfo?.firstName ? `${customerInfo.firstName} ${customerInfo.lastName || ''}`.trim() : undefined,
+                                   orderNumber: orderNumberRef.current,
+                                   promoCode: promoCode || undefined,
+                                   discountAmount: discount > 0 ? discount : undefined,
+                                   shippingCost: SHIPPING_COST,
+                                   processingFeeAmount: squareProcessingFee,
+                                   // Cloudflare Turnstile verification token
+                                   turnstileToken,
+                                   // Chargeback evidence — consent + device info
+                                   consentTimestamp: consentTimestamp || new Date().toISOString(),
+                                   consentVersion: 'v2-2025-02',
+                                   userAgent: navigator.userAgent,
+                                   screenResolution: `${window.screen.width}x${window.screen.height}`,
+                                   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                                   language: navigator.language,
+                                   shippingAddress: customerInfo ? {
+                                     address: customerInfo.shippingAddress || customerInfo.address,
+                                     city: customerInfo.shippingCity || customerInfo.city,
+                                     state: customerInfo.shippingState || customerInfo.state,
+                                     zip: customerInfo.shippingZip || customerInfo.zip,
+                                     country: customerInfo.shippingCountry || customerInfo.country || 'USA',
+                                   } : undefined,
+                                   billingAddress: customerInfo ? {
+                                     address: customerInfo.address,
+                                     city: customerInfo.city,
+                                     state: customerInfo.state,
+                                     zip: customerInfo.zip,
+                                     country: customerInfo.country || 'USA',
+                                   } : undefined,
+                               });
+                               const fnData = fnResponse.data;
+                               if (!fnData?.checkoutUrl) {
+                                 throw new Error(fnData?.error || 'Failed to create checkout link');
+                               }
+                               const checkoutUrl = fnData.checkoutUrl;
 
                               // 2. Create order record with Square payment link evidence
                               try {
