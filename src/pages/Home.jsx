@@ -132,9 +132,9 @@ export default function Home({ adminViewAsUser = false }) {
   return (
     <div className="min-h-screen bg-white text-slate-900 relative">
       <SEO
-        title="Buy Research Peptides USA — HPLC Verified, COA Certified | Red Helix Research"
-        description="Premium research-grade peptides with third-party COA verification. BPC-157, TB-500, Semaglutide, Tirzepatide — 99%+ HPLC purity. USA-based peptide supplier. For research use only."
-        keywords="buy research peptides USA, research peptides, peptide supplier USA, BPC-157, TB-500, semaglutide research, tirzepatide research, COA verified peptides, HPLC tested peptides, research grade peptides, peptide vendor, research chemicals, lab-tested peptides, high purity peptides"
+        title="Cheap Research Peptides USA — GLP-1, Semaglutide, BPC-157 | Red Helix Research"
+        description="Best prices on research-grade GLP-1 peptides — Semaglutide, Tirzepatide, BPC-157, TB-500. HPLC-verified, COA certified. Affordable USA peptide supplier. For research use only."
+        keywords="cheap research peptides, affordable research peptides, buy research peptides USA, GLP-1 research peptide, cheap GLP-1 peptide, semaglutide research peptide, tirzepatide research peptide, best price peptides USA, discount research peptides, low cost peptides, weight loss research peptide, BPC-157 cheap, TB-500 research, peptide supplier USA, COA verified peptides, HPLC tested peptides, research grade peptides, peptide vendor, research chemicals, GLP-1 agonist research, ozempic research peptide, wegovy research"
         canonical="https://redhelixresearch.com/"
         schema={schemas}
       />

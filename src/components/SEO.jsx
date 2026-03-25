@@ -6,9 +6,9 @@ const SITE_NAME = 'Red Helix Research';
 const DEFAULT_IMAGE = 'https://i.ibb.co/M5CYvjkG/websitelogo.png';
 
 export default function SEO({
-  title = 'Red Helix Research | Premium Research Peptides USA — Lab-Tested & COA Verified',
-  description = 'Buy premium research-grade peptides from Red Helix Research. HPLC-verified BPC-157, TB-500, Semaglutide, Tirzepatide with third-party COA. USA-based supplier. For research use only.',
-  keywords = 'research peptides USA, buy research peptides, peptide supplier USA, BPC-157, TB-500, semaglutide research, tirzepatide research, COA verified peptides, lab-tested peptides, high purity peptides, research grade peptides, peptide vendor, research chemicals',
+  title = 'Cheap Research Peptides USA — GLP-1, BPC-157, TB-500 | Red Helix Research',
+  description = 'Buy affordable research-grade peptides with lab-verified COA. Best prices on GLP-1 peptides — Semaglutide, Tirzepatide, BPC-157, TB-500. USA-based, HPLC-tested. For research use only.',
+  keywords = 'cheap research peptides, affordable research peptides, buy research peptides USA, GLP-1 research peptide, semaglutide research peptide, tirzepatide research peptide, cheap GLP-1 peptide, best price peptides USA, discount research peptides, low cost peptides, peptide supplier USA, BPC-157, TB-500, COA verified peptides, HPLC tested peptides, research grade peptides, peptide vendor, research chemicals, weight loss research peptide, GLP-1 agonist research',
   canonical,
   schema,
   image = DEFAULT_IMAGE,
