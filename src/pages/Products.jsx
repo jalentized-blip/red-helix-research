@@ -134,9 +134,9 @@ export default function Products() {
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
-        title="Buy Research Peptides Online — 29+ HPLC-Verified Compounds | USA Supplier"
-        description="Buy research peptides from $29.99. BPC-157, TB-500, semaglutide, tirzepatide, CJC-1295, ipamorelin & 23+ more. HPLC-verified >98% purity with third-party COA. USA-based."
-        keywords="buy research peptides, buy peptides online, research peptide catalog, BPC-157 for sale, TB-500 for sale, semaglutide peptide buy, tirzepatide for sale, buy CJC-1295, ipamorelin for sale, peptide supplier USA, COA verified peptides, lab-tested peptides, research chemicals, peptide shop, where to buy peptides, best peptide vendor, research peptide store, high purity peptides"
+        title="Cheap Research Peptides — GLP-1, Semaglutide, Tirzepatide, BPC-157 | Best Price USA"
+        description="Best prices on research peptides. Cheap GLP-1 peptides — Semaglutide, Tirzepatide from $89.99. BPC-157, TB-500 & 25+ more. HPLC-verified, COA certified. USA-based supplier."
+        keywords="cheap research peptides, affordable GLP-1 peptide, cheap semaglutide research, cheap tirzepatide research, discount research peptides USA, best price peptides, buy GLP-1 research peptide, low cost research peptides, where to buy cheap peptides, peptide supplier USA, BPC-157 for sale cheap, TB-500 affordable, COA verified peptides, HPLC tested peptides, research chemicals USA, best peptide vendor, cheap ozempic research, cheap mounjaro research, retatrutide research peptide"
         canonical="https://redhelixresearch.com/Products"
         schema={[
           generateCollectionPageSchema(

@@ -20,7 +20,7 @@ export const generateOrganizationSchema = () => ({
     height: 512
   },
   image: LOGO_URL,
-  description: 'USA-based supplier of premium research-grade peptides with HPLC-verified purity and third-party Certificates of Analysis.',
+  description: 'USA-based supplier of affordable research-grade GLP-1 peptides — Semaglutide, Tirzepatide, BPC-157, TB-500 — with HPLC-verified purity and third-party Certificates of Analysis. Best prices on research peptides.',
   email: CONTACT_EMAIL,
   contactPoint: [
     {
@@ -42,14 +42,18 @@ export const generateOrganizationSchema = () => ({
   },
   foundingDate: '2024',
   knowsAbout: [
-    'Research Peptides',
+    'GLP-1 Research Peptides',
+    'Cheap Research Peptides',
+    'Semaglutide Research',
+    'Tirzepatide Research',
+    'Retatrutide Research',
     'BPC-157',
     'TB-500',
-    'Semaglutide',
-    'Tirzepatide',
+    'Affordable Peptide Supplier USA',
     'Certificate of Analysis',
     'HPLC Verification',
-    'Peptide Research'
+    'Peptide Reconstitution',
+    'Weight Loss Research Peptides'
   ]
 });
 
