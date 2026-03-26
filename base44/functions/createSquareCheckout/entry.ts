@@ -72,15 +72,16 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Add discount as a negative line item
+    // Build discounts array for Square (Square does not allow negative line item amounts)
+    const discounts = [];
     if (discountAmount && discountAmount > 0) {
-      lineItems.push({
+      discounts.push({
         name: `Discount${promoCode ? ` (${promoCode})` : ''}`,
-        quantity: '1',
-        base_price_money: {
-          amount: -Math.round(discountAmount * 100),
+        amount_money: {
+          amount: Math.round(discountAmount * 100),
           currency: 'USD',
         },
+        scope: 'ORDER',
       });
     }
 
@@ -118,6 +119,7 @@ Deno.serve(async (req) => {
           location_id: locationId,
           reference_id: orderNumber,
           line_items: lineItems,
+          ...(discounts.length > 0 ? { discounts } : {}),
           metadata: {
             order_number: orderNumber,
             customer_name: customerName || '',
