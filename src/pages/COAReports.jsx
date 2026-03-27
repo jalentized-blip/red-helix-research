@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { motion } from 'framer-motion';
 import UploadCOAModal from '@/components/COA/UploadCOAModal';
+import EditCOAModal from '@/components/COA/EditCOAModal';
 import SEO from '@/components/SEO';
 
 export default function COAReports() {
@@ -17,6 +18,7 @@ export default function COAReports() {
   const [user, setUser] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [editingCOA, setEditingCOA] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
   const [highlightedId, setHighlightedId] = useState(null);
 
@@ -242,8 +244,15 @@ export default function COAReports() {
                       />
                       <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Admin Controls</span>
                       <button
-                        onClick={() => handleDelete(coa.id)}
+                        onClick={() => setEditingCOA(coa)}
                         className="ml-auto p-2 text-slate-400 hover:text-[#8B2635] transition-colors"
+                        title="Edit this COA"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(coa.id)}
+                        className="p-2 text-slate-400 hover:text-[#8B2635] transition-colors"
                         title="Delete this COA"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -411,6 +420,16 @@ export default function COAReports() {
         onClose={() => setShowUploadModal(false)}
         onSuccess={() => {
           setShowUploadModal(false);
+          refetch();
+        }}
+      />
+
+      <EditCOAModal
+        isOpen={!!editingCOA}
+        coa={editingCOA}
+        onClose={() => setEditingCOA(null)}
+        onSuccess={() => {
+          setEditingCOA(null);
           refetch();
         }}
       />
