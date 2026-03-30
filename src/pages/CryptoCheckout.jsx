@@ -341,8 +341,8 @@ export default function CryptoCheckout() {
   const subtotal = getCartTotal();
   const discount = promoCode ? getDiscountAmount(promoCode, subtotal) : 0;
   const subtotalAfterDiscount = subtotal - discount;
-  // Always compute the processing fee — it will be applied to the Square payment link total
-  const squareProcessingFee = Math.round(subtotalAfterDiscount * SQUARE_PROCESSING_FEE_PERCENT * 100) / 100;
+  // Always compute the processing fee — applied to subtotal+shipping for Square card payments
+  const squareProcessingFee = Math.round((subtotalAfterDiscount + SHIPPING_COST) * SQUARE_PROCESSING_FEE_PERCENT * 100) / 100;
   const processingFee = step === 'square_payment' ? squareProcessingFee : 0;
   const totalUSD = subtotalAfterDiscount + SHIPPING_COST + processingFee;
 

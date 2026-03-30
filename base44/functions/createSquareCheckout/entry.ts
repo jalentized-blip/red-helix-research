@@ -48,17 +48,16 @@ Deno.serve(async (req) => {
       },
     }));
 
-    // Add shipping as a line item
-    if (shippingCost && shippingCost > 0) {
-      lineItems.push({
-        name: 'Shipping',
-        quantity: '1',
-        base_price_money: {
-          amount: Math.round(shippingCost * 100),
-          currency: 'USD',
-        },
-      });
-    }
+    // Always add $15 flat rate shipping
+    const finalShippingCost = (shippingCost && shippingCost > 0) ? shippingCost : 15;
+    lineItems.push({
+      name: 'Shipping (Flat Rate)',
+      quantity: '1',
+      base_price_money: {
+        amount: Math.round(finalShippingCost * 100),
+        currency: 'USD',
+      },
+    });
 
     // Add processing fee as a line item
     if (processingFeeAmount && processingFeeAmount > 0) {
