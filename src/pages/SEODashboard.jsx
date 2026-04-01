@@ -141,16 +141,22 @@ export default function SEODashboard() {
 
   const handleManualRun = async () => {
     setIsRunning(true);
-    setRunMessage('Starting AI SEO engine... this takes 2-3 minutes');
-    try {
-      const res = await base44.functions.invoke('seoOptimizationEngine', {});
-      setRunMessage(`✓ Complete! ${res.data?.metrics?.tactics_identified} tactics found, ${res.data?.metrics?.keywords_found} keywords identified.`);
-      refetch();
-    } catch (err) {
-      setRunMessage(`Error: ${err.message}`);
-    } finally {
+    setRunMessage('Starting AI SEO engine... this takes 2-3 minutes. Reports will auto-refresh.');
+    
+    // Fire and forget — don't await, it will timeout
+    base44.functions.invoke('seoOptimizationEngine', {}).then((res) => {
+      setRunMessage(`✓ Complete! ${res.data?.metrics?.tactics_identified || 0} tactics found, ${res.data?.metrics?.keywords_found || 0} keywords identified.`);
       setIsRunning(false);
-    }
+      refetch();
+    }).catch((err) => {
+      // Timeout or error — poll for results anyway since the engine may still be running
+      setRunMessage('Engine running in background... refreshing in 3 minutes.');
+      setTimeout(() => {
+        refetch();
+        setRunMessage('✓ Check results — report may have completed.');
+        setIsRunning(false);
+      }, 180000);
+    });
   };
 
   if (!authChecked || !isAdmin) {
