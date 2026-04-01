@@ -130,7 +130,10 @@ export default function SEODashboard() {
 
   const { data: reports = [], isLoading, refetch } = useQuery({
     queryKey: ['seo-reports'],
-    queryFn: () => base44.entities.SEOReport.list('-created_date', 30),
+    queryFn: async () => {
+      const res = await base44.functions.invoke('getSEOReports', {});
+      return res.data?.reports || [];
+    },
     enabled: isAdmin && authChecked,
   });
 
