@@ -1,0 +1,64 @@
+{
+  "name": "SEOReport",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "description": "Date of this SEO report (YYYY-MM-DD)"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Full ISO timestamp of when report was generated"
+    },
+    "run_type": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "manual"
+      ],
+      "default": "scheduled",
+      "description": "Whether this was an automated or manual run"
+    },
+    "trend_research": {
+      "type": "object",
+      "description": "AI-researched trending SEO tactics and keywords"
+    },
+    "content_strategy": {
+      "type": "object",
+      "description": "Content recommendations, FAQs, and meta tag improvements"
+    },
+    "technical_audit": {
+      "type": "object",
+      "description": "Technical SEO findings and keyword clusters"
+    },
+    "action_plan": {
+      "type": "object",
+      "description": "Prioritized action items for today"
+    },
+    "schema_markup": {
+      "type": "object",
+      "description": "New schema markup blocks ready to implement"
+    },
+    "competitor_intel": {
+      "type": "object",
+      "description": "Competitor gap analysis and exploitation opportunities"
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Summary metrics for this run"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed",
+        "in_progress"
+      ],
+      "default": "in_progress",
+      "description": "Run status"
+    }
+  },
+  "required": [
+    "date"
+  ]
+}

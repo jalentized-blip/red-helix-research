@@ -107,6 +107,7 @@ import ProductTirzepatide from './pages/ProductTirzepatide';
 import ProductionChecklist from './pages/ProductionChecklist';
 import Products from './pages/Products';
 import ResourceHub from './pages/ResourceHub';
+import SEODashboard from './pages/SEODashboard';
 import SEOGuide from './pages/SEOGuide';
 import SEOMonitoring from './pages/SEOMonitoring';
 import SecurityCompliance from './pages/SecurityCompliance';
@@ -177,6 +178,7 @@ export const PAGES = {
     "ProductionChecklist": ProductionChecklist,
     "Products": Products,
     "ResourceHub": ResourceHub,
+    "SEODashboard": SEODashboard,
     "SEOGuide": SEOGuide,
     "SEOMonitoring": SEOMonitoring,
     "SecurityCompliance": SecurityCompliance,
