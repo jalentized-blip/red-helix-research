@@ -9,14 +9,14 @@ Deno.serve(async (req) => {
 
     // Allow both scheduled (no user) and manual admin invocations
     let isScheduled = false;
+    let user = null;
     try {
-      const user = await base44.auth.me();
-      if (user && user.role !== 'admin') {
-        return Response.json({ error: 'Admin access required' }, { status: 403 });
-      }
-    } catch {
-      // Called from automation scheduler — treat as trusted
+      user = await base44.auth.me();
+    } catch (_e) {
       isScheduled = true;
+    }
+    if (!isScheduled && user && user.role !== 'admin') {
+      return Response.json({ error: 'Admin access required' }, { status: 403 });
     }
 
     const today = new Date().toISOString().split('T')[0];
