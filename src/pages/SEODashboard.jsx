@@ -112,17 +112,26 @@ export default function SEODashboard() {
   const [runMessage, setRunMessage] = useState('');
   const [expandedReport, setExpandedReport] = useState(null);
 
+  const [authChecked, setAuthChecked] = useState(false);
+
   useEffect(() => {
     base44.auth.me().then(u => {
-      if (u?.role === 'admin') setIsAdmin(true);
-      else window.location.href = '/';
-    }).catch(() => window.location.href = '/');
+      if (u?.role === 'admin') {
+        setIsAdmin(true);
+      } else {
+        window.location.href = '/';
+      }
+    }).catch(() => {
+      window.location.href = '/';
+    }).finally(() => {
+      setAuthChecked(true);
+    });
   }, []);
 
   const { data: reports = [], isLoading, refetch } = useQuery({
     queryKey: ['seo-reports'],
     queryFn: () => base44.entities.SEOReport.list('-created_date', 30),
-    enabled: isAdmin,
+    enabled: isAdmin && authChecked,
   });
 
   const latest = reports[0] || null;
@@ -141,7 +150,13 @@ export default function SEODashboard() {
     }
   };
 
-  if (!isAdmin) return null;
+  if (!authChecked || !isAdmin) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#8B2635]" />
+      </div>
+    );
+  }
 
   const metrics = latest?.metrics || {};
   const actionPlan = latest?.action_plan || {};
