@@ -13,7 +13,18 @@ Deno.serve(async (req) => {
     const today = new Date().toISOString().split('T')[0];
     const timestamp = new Date().toISOString();
 
-    const BRAND = 'Red Helix Research: research peptide store selling BPC-157, TB-500, Semaglutide, Tirzepatide. Science-forward, transparent brand for researchers and biohackers. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum.';
+    const BRAND = `
+BUSINESS: Red Helix Research — research peptide ecommerce store (research/lab use only).
+PRODUCTS: BPC-157, TB-500, Semaglutide, Tirzepatide, and other research peptides.
+CORE DIFFERENTIATOR: Affordability — research-grade peptides priced significantly below competitors without compromising purity. Frame this as "democratizing access to research tools for independent researchers and smaller labs."
+COMPETITORS: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum.
+GOALS (ranked): 1) Drive organic traffic that converts to peptide purchases. 2) Establish authority as a trusted educational resource. 3) Rank for high-intent commercial AND informational/educational keywords. 4) Build long-term topical authority.
+TONE: Authoritative but accessible. Write like a knowledgeable researcher explaining to a peer, not a marketing department. Scientifically accurate. Value-conscious without being cheap.
+COMPLIANCE: NEVER make health claims or imply human consumption/therapeutic use. NEVER fabricate research citations. All content must state peptides are sold for research and laboratory use only. No black-hat SEO.
+KEYWORD FOCUS: High-intent commercial (buy BPC-157 online, affordable research peptides, discount research peptides), educational (what is BPC-157, BPC-157 research studies, how semaglutide works), and affordability/comparison (cheapest research peptides, peptide price comparison, best value research peptide supplier).
+E-E-A-T: Cite published research studies, use precise scientific terminology, include research-use-only disclaimers, reference lab testing and COA certificates.
+CONTENT STRATEGY: Hub-and-spoke topical authority. Every page links to at least 3 relevant existing pages. Internal linking builds topic clusters around major peptides.
+`.trim();
 
     async function callGemini(prompt, schema) {
       const res = await fetch(
@@ -48,7 +59,7 @@ Deno.serve(async (req) => {
 
     // 1. Trend Research
     const trendResearch = await callGemini(
-      `List SEO tactics, trending keywords, quick wins, and competitor gaps for a peptide research store today (${today}).`,
+      `You are an expert SEO strategist for Red Helix Research (${today}). Identify the highest-impact SEO tactics for a research peptide store emphasizing affordability and educational authority. Include: high-intent commercial keywords (buy BPC-157, cheap research peptides, affordable semaglutide), educational keywords (what is BPC-157, how tirzepatide works), and comparison/affordability keywords (cheapest research peptides, peptide price comparison). Find competitor content gaps that Red Helix can exploit with science-forward, compliant content. Quick wins should be actionable today.`,
       {
         type: 'object',
         properties: {
@@ -63,7 +74,7 @@ Deno.serve(async (req) => {
 
     // 2. Content Strategy
     const contentStrategy = await callGemini(
-      `Generate FAQ content, People Also Ask answers, meta description optimizations, and internal linking recommendations for a peptide research store.`,
+      `You are a content strategist for Red Helix Research, a research peptide store. Generate: (1) FAQ content that addresses pre-purchase researcher questions with E-E-A-T signals and research-use disclaimers — weave in affordability naturally as "accessible research tools"; (2) People Also Ask targeted answers optimized for featured snippets; (3) Meta title and description optimizations under 60/155 chars respectively that include primary keyword + affordability angle; (4) Internal linking map building hub-and-spoke topic clusters — each content piece should link to 3+ relevant pages. Frame all content as written by a knowledgeable researcher. Never make health claims or imply human use.`,
       {
         type: 'object',
         properties: {
@@ -78,7 +89,7 @@ Deno.serve(async (req) => {
 
     // 3. Technical Audit
     const technicalAudit = await callGemini(
-      `Provide technical SEO fixes, keyword clusters, backlink opportunities, and E-E-A-T improvements for a peptide research e-commerce store.`,
+      `You are a technical SEO auditor for Red Helix Research. Audit and provide: (1) Technical SEO fixes — broken links, missing canonicals, duplicate metas, thin content pages, Core Web Vitals issues, sitemap freshness, robots.txt config, index bloat (admin/checkout pages that shouldn't be indexed); (2) Keyword clusters mapped to existing or planned pages — cluster by topic (BPC-157, TB-500, GLP-1/weight loss, recovery, cognitive), include primary + secondary keywords, volume estimates, difficulty, and opportunity score weighted for affordability angle; (3) Backlink opportunities — niche science/research directories, biotech blogs, researcher forums (Reddit r/Peptides, Longecity), broken link building targets, guest post placements; (4) E-E-A-T improvements — how to signal expertise, authoritativeness, and trustworthiness for a peptide research site (COA certificates, lab testing badges, researcher testimonials, published study citations).`,
       {
         type: 'object',
         properties: {
@@ -93,7 +104,7 @@ Deno.serve(async (req) => {
 
     // 4. Competitor Intel
     const competitorIntel = await callGemini(
-      `Analyze these peptide store competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Find content gaps, weaknesses, and exploitation opportunities for Red Helix Research.`,
+      `You are a competitive SEO analyst for Red Helix Research. Analyze these top peptide store competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. For each competitor: identify their top-ranking keywords, content gaps they leave unaddressed (especially affordability, educational depth, and compliance transparency), and weaknesses Red Helix can exploit. Then identify the top exploitation opportunities — specific keywords, content angles, and urgency levels. Focus especially on where competitors lack: (a) affordable/accessible framing, (b) in-depth educational content, (c) compliance transparency, (d) E-E-A-T signals. Provide specific recommended content types (pillar articles, comparison pages, buying guides) that would outperform competitor content.`,
       {
         type: 'object',
         properties: {
@@ -106,7 +117,7 @@ Deno.serve(async (req) => {
 
     // 5. Action Plan
     const actionPlan = await callGemini(
-      `Based on an SEO analysis for Red Helix Research on ${today}, create a prioritized 8-item action plan with tasks, categories, expected impact, and implementation steps.`,
+      `You are the SEO execution lead for Red Helix Research on ${today}. Based on the full SEO strategy — affordability differentiation, educational authority, E-E-A-T, technical health, competitor gaps, and topical authority — create a prioritized 8-item action plan. Each item must have: a clear task (specific and actionable), category (content/technical/links/on-page/competitor), expected impact level (high/medium/low), time estimate, whether it can be auto-implemented or needs manual execution, and 3-5 concrete implementation steps. Rank by ROI. Prioritize tasks that: (1) target high-intent commercial keywords with affordability angle, (2) build topical authority clusters, (3) fix technical issues harming crawlability/indexing, (4) generate E-E-A-T trust signals. Provide a one-paragraph strategic summary and identify the single top opportunity for today.`,
       {
         type: 'object',
         properties: {
