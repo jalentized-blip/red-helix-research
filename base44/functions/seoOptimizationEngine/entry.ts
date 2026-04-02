@@ -9,33 +9,33 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Admin access required' }, { status: 403 });
     }
 
-    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
     const today = new Date().toISOString().split('T')[0];
     const timestamp = new Date().toISOString();
 
-    const BRAND_CONTEXT = 'You are an expert SEO strategist for Red Helix Research, a research peptide e-commerce platform selling BPC-157, TB-500, Semaglutide, Tirzepatide, and other peptides for research purposes only. The brand is science-forward, transparent, and community-driven. Target audience: researchers, biohackers, and health optimization enthusiasts. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. All content must be research-context compliant.';
+    const BRAND = 'Red Helix Research: research peptide store selling BPC-157, TB-500, Semaglutide, Tirzepatide. Science-forward, transparent brand for researchers and biohackers. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum.';
 
-    async function callGPT(prompt) {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: BRAND_CONTEXT },
-            { role: 'user', content: prompt }
-          ],
-          response_format: { type: 'json_object' },
-          temperature: 0.7,
-          max_tokens: 3000,
-        }),
-      });
-      if (!res.ok) throw new Error(`OpenAI ${res.status}: ${await res.text()}`);
+    async function callGemini(prompt, schema) {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `Context: ${BRAND}\n\n${prompt}` }] }],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 4096,
+              responseMimeType: 'application/json',
+              responseSchema: schema,
+            }
+          }),
+        }
+      );
+      if (!res.ok) throw new Error(`Gemini ${res.status}: ${await res.text()}`);
       const data = await res.json();
-      return JSON.parse(data.choices[0].message.content);
+      const text = data.candidates[0].content.parts[0].text.trim();
+      return JSON.parse(text);
     }
 
     // Create in-progress record
@@ -46,21 +46,77 @@ Deno.serve(async (req) => {
       status: 'in_progress',
     });
 
-    // Run all 5 analyses
-    const [trendResearch, contentStrategy, technicalAudit, competitorIntel, schemaMarkup] = await Promise.all([
-      callGPT(`Research SEO trends for Red Helix Research today (${today}). Return JSON: { "tactics": [{"tactic_name":"","why_it_works":"","expected_impact":"high|medium|low","implementation_time":"","specific_to_peptides":true}], "trending_keywords": [], "quick_wins": [], "competitor_gaps": [] }. Provide 8 tactics, 15 trending keywords, 5 quick wins, 5 competitor gaps focused on peptide research keywords, E-E-A-T, and featured snippets.`),
+    // 1. Trend Research
+    const trendResearch = await callGemini(
+      `List SEO tactics, trending keywords, quick wins, and competitor gaps for a peptide research store today (${today}).`,
+      {
+        type: 'object',
+        properties: {
+          tactics: { type: 'array', items: { type: 'object', properties: { tactic_name: { type: 'string' }, why_it_works: { type: 'string' }, expected_impact: { type: 'string' }, implementation_time: { type: 'string' } }, required: ['tactic_name', 'why_it_works', 'expected_impact', 'implementation_time'] } },
+          trending_keywords: { type: 'array', items: { type: 'string' } },
+          quick_wins: { type: 'array', items: { type: 'string' } },
+          competitor_gaps: { type: 'array', items: { type: 'string' } },
+        },
+        required: ['tactics', 'trending_keywords', 'quick_wins', 'competitor_gaps']
+      }
+    );
 
-      callGPT(`Generate content SEO strategy for Red Helix Research (${today}). Return JSON: { "faq_content": [{"question":"","answer":"","target_keywords":[],"target_page":"","search_volume_estimate":""}], "people_also_ask": [{"question":"","ideal_answer":"","target_url":""}], "optimized_meta_descriptions": [{"page":"","current_issue":"","optimized_title":"","optimized_description":"","target_keyword":""}], "internal_linking": [{"source_page":"","target_page":"","anchor_text":"","context":""}] }. Include 6 FAQs, 5 PAA items, meta for 6 pages, 8 internal links.`),
+    // 2. Content Strategy
+    const contentStrategy = await callGemini(
+      `Generate FAQ content, People Also Ask answers, meta description optimizations, and internal linking recommendations for a peptide research store.`,
+      {
+        type: 'object',
+        properties: {
+          faq_content: { type: 'array', items: { type: 'object', properties: { question: { type: 'string' }, answer: { type: 'string' }, target_keywords: { type: 'array', items: { type: 'string' } }, target_page: { type: 'string' }, search_volume_estimate: { type: 'string' } }, required: ['question', 'answer', 'target_page'] } },
+          people_also_ask: { type: 'array', items: { type: 'object', properties: { question: { type: 'string' }, ideal_answer: { type: 'string' }, target_url: { type: 'string' } }, required: ['question', 'ideal_answer'] } },
+          optimized_meta_descriptions: { type: 'array', items: { type: 'object', properties: { page: { type: 'string' }, optimized_title: { type: 'string' }, optimized_description: { type: 'string' }, target_keyword: { type: 'string' } }, required: ['page', 'optimized_title', 'optimized_description'] } },
+          internal_linking: { type: 'array', items: { type: 'object', properties: { source_page: { type: 'string' }, target_page: { type: 'string' }, anchor_text: { type: 'string' }, context: { type: 'string' } }, required: ['source_page', 'target_page', 'anchor_text'] } },
+        },
+        required: ['faq_content', 'people_also_ask', 'optimized_meta_descriptions', 'internal_linking']
+      }
+    );
 
-      callGPT(`Perform technical SEO audit for Red Helix Research (${today}). Return JSON: { "technical_fixes": [{"issue":"","fix":"","priority":"high|medium|low","implementation_code":null}], "keyword_clusters": [{"cluster_name":"","primary_keyword":"","secondary_keywords":[],"monthly_volume_estimate":"","difficulty":"low|medium|high","opportunity_score":"","recommended_page":""}], "backlink_opportunities": [{"source_type":"","strategy":"","expected_da":""}], "eeat_improvements": [{"signal":"","how_to_add":"","impact":"high|medium|low"}] }. Include 5 fixes, 6 keyword clusters, 5 backlink opportunities, 6 E-E-A-T improvements.`),
+    // 3. Technical Audit
+    const technicalAudit = await callGemini(
+      `Provide technical SEO fixes, keyword clusters, backlink opportunities, and E-E-A-T improvements for a peptide research e-commerce store.`,
+      {
+        type: 'object',
+        properties: {
+          technical_fixes: { type: 'array', items: { type: 'object', properties: { issue: { type: 'string' }, fix: { type: 'string' }, priority: { type: 'string' } }, required: ['issue', 'fix', 'priority'] } },
+          keyword_clusters: { type: 'array', items: { type: 'object', properties: { cluster_name: { type: 'string' }, primary_keyword: { type: 'string' }, secondary_keywords: { type: 'array', items: { type: 'string' } }, monthly_volume_estimate: { type: 'string' }, difficulty: { type: 'string' }, opportunity_score: { type: 'string' }, recommended_page: { type: 'string' } }, required: ['cluster_name', 'primary_keyword', 'difficulty'] } },
+          backlink_opportunities: { type: 'array', items: { type: 'object', properties: { source_type: { type: 'string' }, strategy: { type: 'string' }, expected_da: { type: 'string' } }, required: ['source_type', 'strategy'] } },
+          eeat_improvements: { type: 'array', items: { type: 'object', properties: { signal: { type: 'string' }, how_to_add: { type: 'string' }, impact: { type: 'string' } }, required: ['signal', 'how_to_add', 'impact'] } },
+        },
+        required: ['technical_fixes', 'keyword_clusters', 'backlink_opportunities', 'eeat_improvements']
+      }
+    );
 
-      callGPT(`Analyze competitors for Red Helix Research (${today}): Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Return JSON: { "competitors": [{"name":"","top_keywords":[],"content_gaps":[],"weaknesses":[]}], "exploitation_opportunities": [{"opportunity":"","keyword":"","content_angle":"","urgency":"high|medium"}] }. Analyze all 4 competitors, find 5+ exploitation opportunities.`),
+    // 4. Competitor Intel
+    const competitorIntel = await callGemini(
+      `Analyze these peptide store competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Find content gaps, weaknesses, and exploitation opportunities for Red Helix Research.`,
+      {
+        type: 'object',
+        properties: {
+          competitors: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, top_keywords: { type: 'array', items: { type: 'string' } }, content_gaps: { type: 'array', items: { type: 'string' } }, weaknesses: { type: 'array', items: { type: 'string' } } }, required: ['name', 'top_keywords', 'content_gaps', 'weaknesses'] } },
+          exploitation_opportunities: { type: 'array', items: { type: 'object', properties: { opportunity: { type: 'string' }, keyword: { type: 'string' }, content_angle: { type: 'string' }, urgency: { type: 'string' } }, required: ['opportunity', 'keyword', 'urgency'] } },
+        },
+        required: ['competitors', 'exploitation_opportunities']
+      }
+    );
 
-      callGPT(`Generate JSON-LD schema markup for Red Helix Research (${today}). Return JSON: { "schemas": [{"name":"","type":"","target_page":"","json_ld":"","expected_rich_result":""}] }. Create 5 schemas: Product (BPC-157), FAQPage, HowTo (peptide reconstitution), Organization, BreadcrumbList (Products page).`),
-    ]);
-
-    // Generate action plan based on findings
-    const actionPlan = await callGPT(`Based on today's SEO analysis (${today}) for Red Helix Research, create a prioritized action plan. Return JSON: { "summary": "", "top_opportunity": "", "action_items": [{"rank":1,"task":"","category":"content|technical|links|schema|keywords","expected_impact":"high|medium|low","time_to_implement":"","auto_implement":false,"steps":[]}] }. Create 10 prioritized action items. Mark auto-implementable ones as auto_implement: true.`);
+    // 5. Action Plan
+    const actionPlan = await callGemini(
+      `Based on an SEO analysis for Red Helix Research on ${today}, create a prioritized 8-item action plan with tasks, categories, expected impact, and implementation steps.`,
+      {
+        type: 'object',
+        properties: {
+          summary: { type: 'string' },
+          top_opportunity: { type: 'string' },
+          action_items: { type: 'array', items: { type: 'object', properties: { rank: { type: 'integer' }, task: { type: 'string' }, category: { type: 'string' }, expected_impact: { type: 'string' }, time_to_implement: { type: 'string' }, auto_implement: { type: 'boolean' }, steps: { type: 'array', items: { type: 'string' } } }, required: ['rank', 'task', 'category', 'expected_impact', 'auto_implement', 'steps'] } },
+        },
+        required: ['summary', 'top_opportunity', 'action_items']
+      }
+    );
 
     const metrics = {
       tactics_identified: (trendResearch.tactics || []).length,
@@ -75,7 +131,7 @@ Deno.serve(async (req) => {
       content_strategy: contentStrategy,
       technical_audit: technicalAudit,
       competitor_intel: competitorIntel,
-      schema_markup: schemaMarkup,
+      schema_markup: {},
       action_plan: actionPlan,
       metrics,
       status: 'completed',
@@ -86,4 +142,4 @@ Deno.serve(async (req) => {
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
-}); 
+});
