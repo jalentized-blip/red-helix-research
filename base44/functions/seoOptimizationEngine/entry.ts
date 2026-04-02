@@ -13,18 +13,7 @@ Deno.serve(async (req) => {
     const today = new Date().toISOString().split('T')[0];
     const timestamp = new Date().toISOString();
 
-    const BRAND = `
-BUSINESS: Red Helix Research — research peptide ecommerce store (research/lab use only).
-PRODUCTS: BPC-157, TB-500, Semaglutide, Tirzepatide, and other research peptides.
-CORE DIFFERENTIATOR: Affordability — research-grade peptides priced significantly below competitors without compromising purity. Frame this as "democratizing access to research tools for independent researchers and smaller labs."
-COMPETITORS: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum.
-GOALS (ranked): 1) Drive organic traffic that converts to peptide purchases. 2) Establish authority as a trusted educational resource. 3) Rank for high-intent commercial AND informational/educational keywords. 4) Build long-term topical authority.
-TONE: Authoritative but accessible. Write like a knowledgeable researcher explaining to a peer, not a marketing department. Scientifically accurate. Value-conscious without being cheap.
-COMPLIANCE: NEVER make health claims or imply human consumption/therapeutic use. NEVER fabricate research citations. All content must state peptides are sold for research and laboratory use only. No black-hat SEO.
-KEYWORD FOCUS: High-intent commercial (buy BPC-157 online, affordable research peptides, discount research peptides), educational (what is BPC-157, BPC-157 research studies, how semaglutide works), and affordability/comparison (cheapest research peptides, peptide price comparison, best value research peptide supplier).
-E-E-A-T: Cite published research studies, use precise scientific terminology, include research-use-only disclaimers, reference lab testing and COA certificates.
-CONTENT STRATEGY: Hub-and-spoke topical authority. Every page links to at least 3 relevant existing pages. Internal linking builds topic clusters around major peptides.
-`.trim();
+    const BRAND = `Red Helix Research: research peptide store (BPC-157, TB-500, Semaglutide, Tirzepatide). Core differentiator: affordability — research-grade quality below competitor prices, framed as democratizing access for independent researchers. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Tone: authoritative researcher, not marketer. Compliance: research/lab use only, no health claims, no human use implications. SEO goals: commercial keywords (buy/affordable/cheap research peptides), educational keywords (what is X, how X works), E-E-A-T signals, hub-and-spoke topical authority.`.trim();
 
     async function callGemini(prompt, schema) {
       const res = await fetch(
@@ -36,7 +25,7 @@ CONTENT STRATEGY: Hub-and-spoke topical authority. Every page links to at least 
             contents: [{ parts: [{ text: `Context: ${BRAND}\n\n${prompt}` }] }],
             generationConfig: {
               temperature: 0.7,
-              maxOutputTokens: 4096,
+              maxOutputTokens: 8192,
               responseMimeType: 'application/json',
               responseSchema: schema,
             }
