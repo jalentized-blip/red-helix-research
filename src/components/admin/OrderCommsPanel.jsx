@@ -141,6 +141,60 @@ ${shippingLine ? `<div style="background:#f8fafc;border:1px solid #e2e8f0;border
 </div>`,
     },
     {
+      id: 'kit_info',
+      label: '📦 Kit Order Info',
+      subject: `Important Info About Your Order #${num} — Kit Shipment Details`,
+      body: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:30px;background:#ffffff;">
+<div style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:28px 32px;border-radius:12px 12px 0 0;text-align:center;margin:-30px -30px 24px -30px;">
+  <div style="width:48px;height:48px;background:#8B2635;border-radius:12px;display:inline-block;line-height:48px;margin-bottom:12px;">
+    <span style="color:#fff;font-size:18px;font-weight:900;">RH</span>
+  </div>
+  <h1 style="color:#ffffff;font-size:22px;font-weight:900;margin:0 0 4px 0;">Your Kit Order Is On Its Way!</h1>
+  <p style="color:#94a3b8;font-size:12px;margin:0;letter-spacing:1px;text-transform:uppercase;">Order #${num}</p>
+</div>
+<p>Hi ${name},</p>
+<p>Thank you for your order! We wanted to share a few important details since your order includes one of our research kits.</p>
+
+<div style="background:#fef9f0;border:1px solid #fde68a;border-radius:10px;padding:16px 20px;margin:20px 0;">
+  <p style="margin:0 0 8px;font-size:11px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:1px;">📦 Two Tracking Numbers</p>
+  <p style="margin:0 0 8px;font-size:14px;color:#78350f;line-height:1.7;">Your order may arrive in <strong>two separate shipments</strong> with two different tracking numbers:</p>
+  <ul style="margin:0;padding-left:20px;color:#78350f;font-size:14px;line-height:2;">
+    <li><strong>Single vial orders</strong> ship directly from us at Red Helix Research.</li>
+    <li><strong>Kit orders</strong> ship from our dedicated fulfillment center.</li>
+  </ul>
+  <p style="margin:10px 0 0;font-size:13px;color:#92400e;">Both packages are on their way — they may arrive on different days, so don't be alarmed!</p>
+</div>
+
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:16px 20px;margin:20px 0;">
+  <p style="margin:0 0 8px;font-size:11px;font-weight:800;color:#166534;text-transform:uppercase;letter-spacing:1px;">🧪 About Your Kit — Unlabeled Vials</p>
+  <p style="margin:0 0 8px;font-size:14px;color:#15803d;line-height:1.7;">Your kit vials will arrive <strong>unlabeled</strong>. This is intentional — our kits are our <strong>wholesale option</strong>, which is how we're able to pass significant savings on to you. By fulfilling kits directly from our fulfillment center without individual labeling, we eliminate additional handling costs and pass those savings directly to you.</p>
+  <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#166534;">How to identify your products:</p>
+  <ul style="margin:0;padding-left:20px;color:#15803d;font-size:14px;line-height:2;">
+    <li>Each vial has a <strong>colored cap</strong> and/or a <strong>batch number</strong> on the stopper or packaging.</li>
+    <li>Visit our COA Reports page at <a href="https://redhelixresearch.com/COAReports" style="color:#16a34a;font-weight:700;">redhelixresearch.com/COAReports</a>.</li>
+    <li>Match the <strong>cap color</strong> or <strong>batch number</strong> on your vial to the corresponding Certificate of Analysis on our website.</li>
+    <li>Each COA includes the peptide name, concentration, purity results, and batch ID — giving you full traceability and confidence in every vial.</li>
+  </ul>
+</div>
+
+<div style="background:#f0f4ff;border:1px solid #a5b4fc;border-radius:10px;padding:16px 20px;margin:20px 0;">
+  <p style="margin:0 0 8px;font-size:11px;font-weight:800;color:#3730a3;text-transform:uppercase;letter-spacing:1px;">🚚 Fulfillment & Delivery Timeline</p>
+  <ul style="margin:0;padding-left:20px;color:#4338ca;font-size:14px;line-height:2;">
+    <li>Kit fulfillment can take <strong>up to 36 hours</strong> for processing after order confirmation.</li>
+    <li>You may receive a tracking number <strong>before tracking updates appear online</strong> — this is normal and simply means the carrier hasn't scanned the first update yet.</li>
+    <li>We recommend <strong>USPS Informed Delivery</strong> at <a href="https://informeddelivery.usps.com" style="color:#4338ca;font-weight:700;">informeddelivery.usps.com</a> for real-time visibility if tracking updates are delayed.</li>
+    <li>We always aim to have your products delivered <strong>within one week</strong> of your order date.</li>
+  </ul>
+</div>
+
+<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 16px;margin-bottom:20px;">
+  <p style="margin:0 0 4px;font-size:10px;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:1px;">Research Use Only</p>
+  <p style="margin:0;font-size:12px;color:#7f1d1d;line-height:1.6;">These products are for laboratory research use only — not for human consumption. For any issues, please contact <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;">jake@redhelixresearch.com</a> before contacting your payment provider.</p>
+</div>
+<p style="color:#64748b;font-size:13px;">Thank you for choosing Red Helix Research!</p>
+</div>`,
+    },
+    {
       id: 'custom',
       label: '✏️ Custom Message',
       subject: `Regarding Your Order #${num}`,
