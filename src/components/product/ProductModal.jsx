@@ -17,6 +17,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
   const [showCOA, setShowCOA] = useState(false);
   const [currentCoaIndex, setCurrentCoaIndex] = useState(0);
   const [cartPopupItem, setCartPopupItem] = useState(null);
+  const [kitDisclaimerChecked, setKitDisclaimerChecked] = useState(false);
 
   const { data: coas = [] } = useQuery({
     queryKey: ['coas'],
@@ -223,8 +224,26 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
               )}
             </div>
 
+            {/* Kit Disclaimer Checkbox — only for kit products */}
+            {product.isKitsProduct && (
+              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={kitDisclaimerChecked}
+                    onChange={(e) => setKitDisclaimerChecked(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-amber-600 flex-shrink-0 cursor-pointer"
+                  />
+                  <span className="text-xs text-amber-900 font-semibold leading-relaxed">
+                    <span className="font-black uppercase text-amber-700 block mb-1">📦 Kit Shipment Notice — Please Read</span>
+                    I understand that kit orders <strong>ship separately</strong> from single-vial orders and may arrive at a <strong>different time</strong> via a separate tracking number. Kit vials arrive <strong>unlabeled</strong> — I can identify my products by matching the <strong>batch number on the kit's box</strong> or the <strong>colored vial caps</strong> to the corresponding Certificate of Analysis at <a href="https://redhelixresearch.com/COAReports" target="_blank" rel="noopener noreferrer" className="underline text-amber-700">redhelixresearch.com/COAReports</a>. Kit fulfillment may take up to 36 hours before shipping.
+                  </span>
+                </label>
+              </div>
+            )}
+
             {/* Action Area */}
-            <div className="mt-10 space-y-4">
+            <div className="mt-6 space-y-4">
               {!isAuthenticated ? (
                 <Button
                   onClick={handleAddToCart}
@@ -238,9 +257,9 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
               ) : (
                 <Button
                   onClick={handleAddToCart}
-                  disabled={!selectedSpec || addedToCart}
+                  disabled={!selectedSpec || addedToCart || (product.isKitsProduct && !kitDisclaimerChecked)}
                   className={`w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
-                    !selectedSpec
+                    !selectedSpec || (product.isKitsProduct && !kitDisclaimerChecked)
                       ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                       : addedToCart
                       ? 'bg-green-600 text-white'
