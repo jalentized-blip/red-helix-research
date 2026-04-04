@@ -743,6 +743,9 @@ const HeaderSearch = () => {
 
                       <div className="border-t border-slate-100 my-3 mx-4" />
 
+                      <Link to={createPageUrl('KitInfo')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#8B2635] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
+                        Kit Order Guide
+                      </Link>
                       <Link to={createPageUrl('GroupBuy')} className="text-left text-sm font-black text-black uppercase tracking-widest hover:text-white hover:bg-[#8B2635] px-4 py-3.5 transition-all rounded-lg border border-transparent hover:border-red-700 shadow-sm hover:shadow-red-200">
                         Group Buy
                       </Link>
