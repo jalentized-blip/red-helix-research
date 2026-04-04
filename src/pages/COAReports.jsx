@@ -347,18 +347,7 @@ export default function COAReports() {
                     )}
                   </div>
 
-                  <div className="flex justify-between items-center py-3 border-t border-slate-100">
-                    <div className="flex flex-col">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Uploaded On</p>
-                      <p className="text-sm font-bold text-black">{new Date(coa.created_date).toLocaleDateString()}</p>
-                    </div>
-                    {coa.uploaded_by && (
-                      <div className="flex flex-col text-right">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Researcher</p>
-                        <p className="text-sm font-bold text-black">{coa.uploaded_by.split('@')[0]}</p>
-                      </div>
-                    )}
-                  </div>
+
 
                   {/* Links */}
                   <div className="flex gap-3 pt-2">
