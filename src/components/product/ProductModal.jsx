@@ -236,7 +236,8 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   />
                   <span className="text-xs text-amber-900 font-semibold leading-relaxed">
                     <span className="font-black uppercase text-amber-700 block mb-1">📦 Kit Shipment Notice — Please Read</span>
-                    I understand that kit orders <strong>ship separately</strong> from single-vial orders and may arrive at a <strong>different time</strong> via a separate tracking number. Kit vials arrive <strong>unlabeled</strong> — I can identify my products by matching the <strong>batch number on the kit's box</strong> or the <strong>colored vial caps</strong> to the corresponding Certificate of Analysis at <a href="https://redhelixresearch.com/COAReports" target="_blank" rel="noopener noreferrer" className="underline text-amber-700">redhelixresearch.com/COAReports</a>. Kit fulfillment may take up to 36 hours before shipping.
+                    I understand that kit orders <strong>ship separately</strong> from single-vial orders and may arrive at a <strong>different time</strong> via a separate tracking number. Kit vials arrive <strong>unlabeled</strong> — I can identify my products by matching the <strong>batch number on the kit's box</strong> or the <strong>colored vial caps</strong> to the corresponding Certificate of Analysis at <a href="https://redhelixresearch.com/COAReports" target="_blank" rel="noopener noreferrer" className="underline text-amber-700">redhelixresearch.com/COAReports</a>. Kit fulfillment may take up to 36 hours before shipping.{' '}
+                    <Link to={createPageUrl('KitInfo')} target="_blank" className="underline font-black text-amber-800">Read the full kit guide →</Link>
                   </span>
                 </label>
               </div>
