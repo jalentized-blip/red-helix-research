@@ -170,9 +170,9 @@ ${shippingLine ? `<div style="background:#f8fafc;border:1px solid #e2e8f0;border
   <p style="margin:0 0 8px;font-size:14px;color:#15803d;line-height:1.7;">Your kit vials will arrive <strong>unlabeled</strong>. This is intentional — our kits are our <strong>wholesale option</strong>, which is how we're able to pass significant savings on to you. By fulfilling kits directly from our fulfillment center without individual labeling, we eliminate additional handling costs and pass those savings directly to you.</p>
   <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#166534;">How to identify your products:</p>
   <ul style="margin:0;padding-left:20px;color:#15803d;font-size:14px;line-height:2;">
-    <li>Each vial has a <strong>colored cap</strong> and/or a <strong>batch number</strong> on the stopper or packaging.</li>
-    <li>Visit our COA Reports page at <a href="https://redhelixresearch.com/COAReports" style="color:#16a34a;font-weight:700;">redhelixresearch.com/COAReports</a>.</li>
-    <li>Match the <strong>cap color</strong> or <strong>batch number</strong> on your vial to the corresponding Certificate of Analysis on our website.</li>
+    <li>The <strong>label on your kit's box</strong> will display a <strong>batch number</strong> — this corresponds directly to the matching COA on our website.</li>
+    <li>Alternatively, you can match the <strong>colored cap</strong> on each vial to its corresponding Certificate of Analysis.</li>
+    <li>Visit our COA Reports page at <a href="https://redhelixresearch.com/COAReports" style="color:#16a34a;font-weight:700;">redhelixresearch.com/COAReports</a> to find your batch.</li>
     <li>Each COA includes the peptide name, concentration, purity results, and batch ID — giving you full traceability and confidence in every vial.</li>
   </ul>
 </div>
