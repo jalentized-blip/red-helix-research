@@ -1,0 +1,184 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "string",
+      "description": "Unique order number"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": "string"
+          },
+          "specification": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Ordered items"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "shipped",
+        "delivered",
+        "awaiting_payment",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Order status"
+    },
+    "total_amount": {
+      "type": "number",
+      "description": "Total order amount in USD"
+    },
+    "subtotal": {
+      "type": "number",
+      "description": "Order subtotal before discounts and shipping"
+    },
+    "discount_amount": {
+      "type": "number",
+      "description": "Discount amount applied"
+    },
+    "shipping_cost": {
+      "type": "number",
+      "description": "Shipping cost"
+    },
+    "total_product_cost": {
+      "type": "number",
+      "description": "Admin-entered total cost of products for this order (overrides auto-calculated COGS)"
+    },
+    "shipping_address": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      },
+      "description": "Shipping address"
+    },
+    "tracking_number": {
+      "type": "string",
+      "description": "Carrier tracking number (single vials / main shipment)"
+    },
+    "kit_tracking_number": {
+      "type": "string",
+      "description": "Separate tracking number for the kit fulfillment shipment (10-vial orders)"
+    },
+    "carrier": {
+      "type": "string",
+      "enum": [
+        "USPS",
+        "UPS",
+        "FedEx",
+        "DHL",
+        ""
+      ],
+      "default": "",
+      "description": "Shipping carrier"
+    },
+    "estimated_delivery": {
+      "type": "string",
+      "format": "date",
+      "description": "Estimated delivery date"
+    },
+    "delivered_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Actual delivery date"
+    },
+    "customer_email": {
+      "type": "string",
+      "description": "Customer email address"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer full name"
+    },
+    "customer_phone": {
+      "type": "string",
+      "description": "Customer phone number"
+    },
+    "payment_method": {
+      "type": "string",
+      "description": "Payment method used (cryptocurrency, square_payment, etc.)"
+    },
+    "payment_status": {
+      "type": "string",
+      "description": "Payment status (completed, pending, abandoned)"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Transaction ID or hash"
+    },
+    "crypto_currency": {
+      "type": "string",
+      "description": "Crypto currency used (BTC, ETH, USDT, USDC)"
+    },
+    "crypto_amount": {
+      "type": "string",
+      "description": "Amount in crypto"
+    },
+    "crypto_address": {
+      "type": "string",
+      "description": "Wallet address used"
+    },
+    "admin_notes": {
+      "type": "string",
+      "description": "Internal admin notes"
+    },
+    "referral_code": {
+      "type": "string",
+      "description": "Referral code used"
+    },
+    "promo_code": {
+      "type": "string",
+      "description": "Promo code applied"
+    },
+    "affiliate_code": {
+      "type": "string",
+      "description": "Affiliate code used by the customer"
+    },
+    "affiliate_email": {
+      "type": "string",
+      "description": "Email of the affiliate who referred this order"
+    },
+    "affiliate_name": {
+      "type": "string",
+      "description": "Name of the affiliate who referred this order"
+    },
+    "affiliate_commission": {
+      "type": "number",
+      "description": "Commission amount owed to the affiliate (10% of order total)"
+    }
+  },
+  "required": [
+    "order_number",
+    "items",
+    "total_amount"
+  ]
+}

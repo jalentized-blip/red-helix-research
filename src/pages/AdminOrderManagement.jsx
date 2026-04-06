@@ -25,6 +25,7 @@ import PredictionDashboard from '@/components/admin/PredictionDashboard';
 import OrderCommsPanel from '@/components/admin/OrderCommsPanel';
 import PirateShipLabelCreator from '@/components/admin/PirateShipLabelCreator';
 import FraudEvidencePanel from '@/components/admin/FraudEvidencePanel';
+import TaxReportModal from '@/components/admin/TaxReportModal';
 
 const CARRIERS = [
   { id: 'USPS', label: 'USPS', trackUrl: (t) => `https://tools.usps.com/go/TrackConfirmAction?tLabels=${t}` },
@@ -173,9 +174,17 @@ function ShippingLabel({ order, carrier }) {
 function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, productMap = {}, products = [], adminEmail }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showPirateShip, setShowPirateShip] = useState(false);
+  // Detect if this order has a kit (10-vial) item
+  const hasKitItem = order.items?.some(item =>
+    item.specification?.toLowerCase().includes('10') ||
+    item.specification?.toLowerCase().includes('kit') ||
+    item.specification?.toLowerCase().includes('vial') && parseInt(item.quantity) >= 10
+  );
+
   const [form, setForm] = useState({
     status: order.status || 'pending',
     tracking_number: order.tracking_number || '',
+    kit_tracking_number: order.kit_tracking_number || '',
     carrier: order.carrier || 'USPS',
     customer_name: order.customer_name || '',
     customer_email: order.customer_email || order.created_by || '',
@@ -198,6 +207,7 @@ function OrderDetailEditor({ order, onSave, onClose, onDelete, isSaving, product
     const updates = {
       status: form.status,
       tracking_number: form.tracking_number,
+      kit_tracking_number: form.kit_tracking_number,
       carrier: form.carrier,
       customer_name: form.customer_name,
       customer_email: form.customer_email,
@@ -372,6 +382,48 @@ ${shippingLine ? `
 </html>`,
       });
       toast.success('Confirmation email sent', { description: `Sent to ${form.customer_email}` });
+    } catch (err) {
+      toast.error('Failed to send email', { description: err.message });
+    }
+  };
+
+  const handleSendDualTrackingEmail = async () => {
+    if (!form.customer_email) {
+      toast.error('No customer email on this order');
+      return;
+    }
+    if (!form.tracking_number && !form.kit_tracking_number) {
+      toast.error('Add at least one tracking number first');
+      return;
+    }
+    try {
+      const carrierInfo = CARRIERS.find(c => c.id === form.carrier);
+      const mainTrackUrl = carrierInfo && form.tracking_number ? carrierInfo.trackUrl(form.tracking_number) : '';
+      const kitTrackUrl = carrierInfo && form.kit_tracking_number ? carrierInfo.trackUrl(form.kit_tracking_number) : '';
+
+      const mainTrackingBlock = form.tracking_number ? `
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 20px;margin-bottom:12px;">
+          <p style="margin:0 0 6px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:800;">📦 Package 1 — Single Vials (from Red Helix Research)</p>
+          <p style="margin:0;font-size:20px;font-weight:900;font-family:monospace;color:#0f172a;">${form.tracking_number}</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#64748b;">Carrier: ${form.carrier}</p>
+          ${mainTrackUrl ? `<a href="${mainTrackUrl}" style="display:inline-block;margin-top:10px;padding:8px 18px;background:#0f172a;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:12px;">Track Package 1 →</a>` : ''}
+        </div>` : '';
+
+      const kitTrackingBlock = form.kit_tracking_number ? `
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 20px;margin-bottom:12px;">
+          <p style="margin:0 0 6px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:800;">🧪 Package 2 — Kit Shipment (from Kit Fulfillment Center)</p>
+          <p style="margin:0;font-size:20px;font-weight:900;font-family:monospace;color:#0f172a;">${form.kit_tracking_number}</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#64748b;">Carrier: ${form.carrier}</p>
+          ${kitTrackUrl ? `<a href="${kitTrackUrl}" style="display:inline-block;margin-top:10px;padding:8px 18px;background:#8B2635;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:12px;">Track Kit Package →</a>` : ''}
+        </div>` : '';
+
+      await base44.integrations.Core.SendEmail({
+        from_name: 'Red Helix Research',
+        to: form.customer_email,
+        subject: `Your Order ${order.order_number} — Tracking Updates for Both Shipments`,
+        body: `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f8fafc;font-family:'Segoe UI',Arial,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 20px;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.06);"><tr><td style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:36px 40px;text-align:center;"><div style="width:52px;height:52px;background:#8B2635;border-radius:14px;display:inline-block;line-height:52px;margin-bottom:14px;"><span style="color:#fff;font-size:20px;font-weight:900;">RH</span></div><h1 style="color:#ffffff;font-size:24px;font-weight:900;margin:0 0 6px 0;">Your Order Is Shipping in Two Packages!</h1><p style="color:#94a3b8;font-size:13px;font-weight:600;margin:0;letter-spacing:1px;text-transform:uppercase;">Order #${order.order_number}</p></td></tr><tr><td style="padding:32px 40px 0 40px;"><p style="color:#334155;font-size:15px;font-weight:600;margin:0 0 8px 0;">Hi ${form.customer_name || 'there'},</p><p style="color:#64748b;font-size:14px;line-height:1.7;margin:0 0 20px 0;">Because your order includes a <strong>10-vial kit</strong>, it ships from two separate locations. You have <strong>two tracking numbers</strong> below — don't worry if they arrive on different days!</p><div style="background:#fef9f0;border:1px solid #fde68a;border-radius:12px;padding:14px 18px;margin-bottom:24px;"><p style="margin:0;font-size:13px;color:#92400e;font-weight:600;">⚠️ This is normal — both packages are confirmed on their way. Kit processing can take up to 36 hours, so tracking updates may appear at different times.</p></div></td></tr><tr><td style="padding:0 40px 24px 40px;">${mainTrackingBlock}${kitTrackingBlock}<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:16px 20px;margin-top:8px;"><p style="margin:0 0 6px 0;font-size:11px;font-weight:800;color:#166534;text-transform:uppercase;letter-spacing:1px;">🧪 About Your Kit — Unlabeled Vials</p><p style="margin:0;font-size:13px;color:#15803d;line-height:1.7;">Your kit vials arrive <strong>unlabeled</strong> to keep costs low. Use the <strong>batch number on the kit box</strong> or the <strong>colored vial cap</strong> to identify each peptide. Match them at <a href="https://redhelixresearch.com/COAReports" style="color:#16a34a;font-weight:700;">redhelixresearch.com/COAReports</a>.</p></div></td></tr><tr><td style="background:#f8fafc;padding:20px 40px;text-align:center;border-top:1px solid #e2e8f0;"><p style="color:#94a3b8;font-size:11px;margin:0;">Red Helix Research | <a href="mailto:jake@redhelixresearch.com" style="color:#8B2635;text-decoration:none;">jake@redhelixresearch.com</a></p></td></tr></table></td></tr></table></body></html>`,
+      });
+      toast.success('Dual tracking email sent', { description: `Sent to ${form.customer_email}` });
     } catch (err) {
       toast.error('Failed to send email', { description: err.message });
     }
@@ -739,550 +791,7 @@ ${shippingLine ? `
       );
       }
 
-// ─── Tax Report Modal ───
-function TaxReportModal({ orders, isOpen, onClose, productCostMap = {}, products = [], onUpdateProductCost }) {
-  const [dateRange, setDateRange] = useState('all');
-  const [customStart, setCustomStart] = useState('');
-  const [customEnd, setCustomEnd] = useState('');
-  const [editingCosts, setEditingCosts] = useState({});
-  const [savingCosts, setSavingCosts] = useState({});
-  const [activeTab, setActiveTab] = useState('overview');
 
-  const handleCostChange = (productId, value) => {
-    setEditingCosts(prev => ({ ...prev, [productId]: value }));
-  };
-
-  const handleSaveCost = async (product) => {
-    const newCost = parseFloat(editingCosts[product.id]);
-    if (isNaN(newCost)) return;
-    setSavingCosts(prev => ({ ...prev, [product.id]: true }));
-    await onUpdateProductCost(product.id, newCost);
-    setSavingCosts(prev => ({ ...prev, [product.id]: false }));
-    setEditingCosts(prev => { const n = { ...prev }; delete n[product.id]; return n; });
-  };
-
-  const filteredOrders = useMemo(() => {
-    const now = new Date();
-    return orders.filter(o => {
-      if (o.is_deleted || o.status === 'cancelled') return false;
-      const d = new Date(o.created_date);
-      if (dateRange === 'ytd') return d.getFullYear() === now.getFullYear();
-      if (dateRange === 'last_year') return d.getFullYear() === now.getFullYear() - 1;
-      if (dateRange === 'q1') return d.getFullYear() === now.getFullYear() && d.getMonth() < 3;
-      if (dateRange === 'q2') return d.getFullYear() === now.getFullYear() && d.getMonth() >= 3 && d.getMonth() < 6;
-      if (dateRange === 'q3') return d.getFullYear() === now.getFullYear() && d.getMonth() >= 6 && d.getMonth() < 9;
-      if (dateRange === 'q4') return d.getFullYear() === now.getFullYear() && d.getMonth() >= 9;
-      if (dateRange === 'custom' && customStart && customEnd) {
-        return d >= new Date(customStart) && d <= new Date(customEnd + 'T23:59:59');
-      }
-      return true;
-    });
-  }, [orders, dateRange, customStart, customEnd]);
-
-  const TAX_RATE = 0.08;
-
-  const calcCOGS = (order) => {
-    // If admin manually entered a total product cost, use that
-    if (order.total_product_cost != null && order.total_product_cost !== '') {
-      return Number(order.total_product_cost);
-    }
-    if (!order.items?.length) return 0;
-    return order.items.reduce((sum, item) => {
-      const name = (item.productName || item.product_name || '').toLowerCase();
-      const product = products.find(p => p.name?.toLowerCase() === name);
-      if (!product) return sum;
-
-      const specIdx = product.specifications?.findIndex(s => s.name === item.specification);
-      const specKey = specIdx != null && specIdx >= 0 ? `${product.id}__${specIdx}` : null;
-
-      // Use live editing cost if available (spec-level first, then product-level)
-      let cost = 0;
-      if (specKey && editingCosts[specKey] !== undefined) {
-        cost = parseFloat(editingCosts[specKey]) || 0;
-      } else if (specIdx != null && specIdx >= 0 && product.specifications[specIdx]?.cost_price != null) {
-        cost = product.specifications[specIdx].cost_price;
-      } else if (editingCosts[product.id] !== undefined) {
-        cost = parseFloat(editingCosts[product.id]) || 0;
-      } else {
-        cost = productCostMap[name] || 0;
-      }
-
-      return sum + cost * (item.quantity || 1);
-    }, 0);
-  };
-
-  const stats = useMemo(() => {
-    const totalRevenue = filteredOrders.reduce((s, o) => s + (o.total_amount || 0), 0);
-    const totalShipping = filteredOrders.reduce((s, o) => s + (o.shipping_cost || 15), 0);
-    const totalDiscounts = filteredOrders.reduce((s, o) => s + (o.discount_amount || 0), 0);
-    const totalSubtotal = filteredOrders.reduce((s, o) => s + (o.subtotal || o.total_amount || 0), 0);
-    const totalTax = filteredOrders.reduce((s, o) => {
-      // Use subtotal if available, otherwise back-calculate by subtracting shipping from total
-      const shipping = o.shipping_cost || 0;
-      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
-      const disc = o.discount_amount || 0;
-      return s + Math.max(0, sub - disc) * TAX_RATE;
-    }, 0);
-    const totalCOGS = filteredOrders.reduce((s, o) => s + calcCOGS(o), 0);
-    // Profit = product subtotal (excl. shipping) minus discount minus COGS
-    const totalProfit = filteredOrders.reduce((s, o) => {
-      const shipping = o.shipping_cost || 0;
-      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
-      const disc = o.discount_amount || 0;
-      return s + Math.max(0, sub - disc) - calcCOGS(o);
-    }, 0);
-    const orderCount = filteredOrders.length;
-    const avgOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0;
-
-    const byMonth = {};
-    filteredOrders.forEach(o => {
-      const key = format(new Date(o.created_date), 'yyyy-MM');
-      if (!byMonth[key]) byMonth[key] = { revenue: 0, orders: 0, shipping: 0, discounts: 0, tax: 0, cogs: 0, profit: 0 };
-      byMonth[key].revenue += o.total_amount || 0;
-      byMonth[key].orders += 1;
-      byMonth[key].shipping += o.shipping_cost || 15;
-      byMonth[key].discounts += o.discount_amount || 0;
-      const shipping = o.shipping_cost || 0;
-      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
-      const disc = o.discount_amount || 0;
-      byMonth[key].tax += Math.max(0, sub - disc) * TAX_RATE;
-      const cogs = calcCOGS(o);
-      byMonth[key].cogs += cogs;
-      const profitSub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - (o.shipping_cost || 0));
-      byMonth[key].profit += Math.max(0, profitSub - disc) - cogs;
-    });
-
-    const byPaymentMethod = {};
-    filteredOrders.forEach(o => {
-      const method = o.payment_method || 'unknown';
-      if (!byPaymentMethod[method]) byPaymentMethod[method] = { revenue: 0, count: 0 };
-      byPaymentMethod[method].revenue += o.total_amount || 0;
-      byPaymentMethod[method].count += 1;
-    });
-
-    return { totalRevenue, totalShipping, totalDiscounts, totalSubtotal, totalTax, totalCOGS, totalProfit, orderCount, avgOrderValue, byMonth, byPaymentMethod };
-  }, [filteredOrders]);
-
-  const exportCSV = () => {
-    const headers = ['Order Number', 'Date', 'Customer Name', 'Customer Email', 'Items', 'Subtotal', 'Discount', 'Shipping', 'Est. Tax (8%)', 'Total', 'COGS', 'Profit', 'Payment Method', 'Payment Status', 'Crypto Currency', 'Transaction ID', 'Status', 'Carrier', 'Tracking Number', 'Shipping Address', 'City', 'State', 'ZIP'];
-    const rows = filteredOrders.map(o => {
-      const addr = o.shipping_address || {};
-      const items = o.items?.map(i => `${i.productName || i.product_name} (${i.specification} x${i.quantity})`).join('; ') || '';
-      const shipping = o.shipping_cost || 0;
-      const sub = o.subtotal != null ? o.subtotal : Math.max(0, (o.total_amount || 0) - shipping);
-      const disc = o.discount_amount || 0;
-      const tax = Math.max(0, sub - disc) * 0.08;
-      const cogs = calcCOGS(o);
-      const profit = Math.max(0, sub - disc) - cogs;
-      return [
-        o.order_number, format(new Date(o.created_date), 'yyyy-MM-dd HH:mm'),
-        `"${o.customer_name || ''}"`, o.customer_email || o.created_by || '',
-        `"${items}"`,
-        (o.subtotal || 0).toFixed(2), disc.toFixed(2),
-        (o.shipping_cost || 15).toFixed(2), tax.toFixed(2), (o.total_amount || 0).toFixed(2),
-        cogs.toFixed(2), profit.toFixed(2),
-        o.payment_method || '', o.payment_status || '', o.crypto_currency || '',
-        o.transaction_id || '', o.status || '',
-        o.carrier || '', o.tracking_number || '',
-        `"${addr.address || addr.shippingAddress || ''}"`,
-        addr.city || addr.shippingCity || '', addr.state || addr.shippingState || '',
-        addr.zip || addr.shippingZip || '',
-      ].join(',');
-    });
-    const csv = [headers.join(','), ...rows].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `orders-tax-report-${dateRange}-${format(new Date(), 'yyyy-MM-dd')}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success('CSV exported');
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white border-slate-200 text-slate-900 max-w-3xl max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-slate-900 font-black text-xl flex items-center gap-2">
-            <Receipt className="w-5 h-5 text-[#dc2626]" />
-            Tax & Revenue Report
-          </DialogTitle>
-          <DialogDescription className="text-slate-500">
-            Financial overview for tax filing and business analysis.
-          </DialogDescription>
-        </DialogHeader>
-
-        {/* Date Range Selector */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {[
-            { id: 'all', label: 'All Time' },
-            { id: 'ytd', label: 'This Year' },
-            { id: 'last_year', label: 'Last Year' },
-            { id: 'q1', label: 'Q1' },
-            { id: 'q2', label: 'Q2' },
-            { id: 'q3', label: 'Q3' },
-            { id: 'q4', label: 'Q4' },
-            { id: 'custom', label: 'Custom' },
-          ].map(r => (
-            <button
-              key={r.id}
-              onClick={() => setDateRange(r.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all ${
-                dateRange === r.id ? 'bg-[#dc2626] border-[#dc2626] text-white' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
-              }`}
-            >
-              {r.label}
-            </button>
-          ))}
-        </div>
-
-        {dateRange === 'custom' && (
-          <div className="flex gap-3 mb-4">
-            <Input type="date" value={customStart} onChange={(e) => setCustomStart(e.target.value)} className="bg-slate-50 border-slate-200 text-slate-900 h-9" />
-            <span className="text-slate-400 self-center text-sm">to</span>
-            <Input type="date" value={customEnd} onChange={(e) => setCustomEnd(e.target.value)} className="bg-slate-50 border-slate-200 text-slate-900 h-9" />
-          </div>
-        )}
-
-        {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-slate-200">
-          {[
-            { id: 'overview', label: '📊 Overview' },
-            { id: 'irs', label: '🏛️ IRS Estimate' },
-            { id: 'monthly', label: '📅 Monthly' },
-            { id: 'schedulec', label: '📋 Schedule C' },
-            { id: 'costs', label: '💰 Cost Editor' },
-          ].map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all -mb-px ${
-                activeTab === tab.id
-                  ? 'border-[#dc2626] text-[#dc2626]'
-                  : 'border-transparent text-slate-400 hover:text-slate-600'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* IRS Tab */}
-        {activeTab === 'irs' && (
-          <div className="space-y-4 mb-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-sm text-blue-800">
-              <p className="font-black mb-1">⚠️ Estimate Only — Consult a CPA</p>
-              <p className="text-xs text-blue-600">These figures are estimates based on your net profit. Actual taxes depend on your business structure, deductions, and state.</p>
-            </div>
-
-            {/* Key figures */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Gross Revenue</p>
-                <p className="text-2xl font-black text-slate-900">${stats.totalRevenue.toFixed(2)}</p>
-              </div>
-              <div className="bg-orange-50 rounded-2xl border border-orange-200 p-4">
-                <p className="text-[10px] text-orange-600 font-black uppercase tracking-widest">Total COGS (Deductible)</p>
-                <p className="text-2xl font-black text-orange-700">-${stats.totalCOGS.toFixed(2)}</p>
-              </div>
-              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Shipping Costs (Deductible)</p>
-                <p className="text-2xl font-black text-slate-700">-${stats.totalShipping.toFixed(2)}</p>
-              </div>
-              <div className={`rounded-2xl border p-4 ${stats.totalProfit >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                <p className={`text-[10px] font-black uppercase tracking-widest ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>Net Profit (Taxable Income)</p>
-                <p className={`text-2xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</p>
-              </div>
-            </div>
-
-            {/* Tax brackets */}
-            {stats.totalProfit > 0 && (
-              <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-                <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
-                  <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">Federal Income Tax Estimates (2026 Self-Employed)</p>
-                </div>
-                {[
-                  { label: 'Self-Employment Tax (15.3%)', rate: 0.153, note: 'Social Security + Medicare on net profit' },
-                  { label: 'Federal Income Tax — 10% Bracket', rate: 0.10, note: 'If profit < $11,925 (single filer)' },
-                  { label: 'Federal Income Tax — 12% Bracket', rate: 0.12, note: 'If profit $11,925–$48,475' },
-                  { label: 'Federal Income Tax — 22% Bracket', rate: 0.22, note: 'If profit $48,475–$103,350' },
-                ].map((bracket) => (
-                  <div key={bracket.label} className="flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0">
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">{bracket.label}</p>
-                      <p className="text-[11px] text-slate-400">{bracket.note}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-black text-red-600">${(stats.totalProfit * bracket.rate).toFixed(2)}</p>
-                      <p className="text-[10px] text-slate-400">{(bracket.rate * 100).toFixed(1)}% of ${stats.totalProfit.toFixed(0)}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {stats.totalProfit <= 0 && (
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                <p className="text-green-700 font-black text-lg">No Taxable Income</p>
-                <p className="text-green-600 text-sm mt-1">Your COGS exceeds or equals your revenue for this period.</p>
-              </div>
-            )}
-
-            {/* Sales tax reminder */}
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-              <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest mb-2">Sales Tax Collected (Owed to State)</p>
-              <p className="text-2xl font-black text-amber-700">${stats.totalTax.toFixed(2)}</p>
-              <p className="text-xs text-amber-600 mt-1">This is money collected from customers that must be remitted to your state. It is NOT income.</p>
-            </div>
-          </div>
-        )}
-
-        {/* Overview Tab */}
-        {activeTab === 'overview' && (<>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Total Revenue</p>
-            <p className="text-2xl font-black text-slate-900">${stats.totalRevenue.toFixed(2)}</p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Orders</p>
-            <p className="text-2xl font-black text-slate-900">{stats.orderCount}</p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Avg Order Value</p>
-            <p className="text-2xl font-black text-slate-900">${stats.avgOrderValue.toFixed(2)}</p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Gross Sales</p>
-            <p className="text-2xl font-black text-slate-900">${stats.totalSubtotal.toFixed(2)}</p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Shipping Collected</p>
-            <p className="text-2xl font-black text-slate-900">${stats.totalShipping.toFixed(2)}</p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Discounts Given</p>
-            <p className="text-2xl font-black text-red-500">-${stats.totalDiscounts.toFixed(2)}</p>
-          </div>
-          <div className="bg-amber-50 rounded-2xl border border-amber-200 p-4">
-            <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest">Est. Sales Tax (8%)</p>
-            <p className="text-2xl font-black text-amber-700">${stats.totalTax.toFixed(2)}</p>
-          </div>
-          <div className="bg-orange-50 rounded-2xl border border-orange-200 p-4">
-            <p className="text-[10px] text-orange-600 font-black uppercase tracking-widest">Total COGS</p>
-            <p className="text-2xl font-black text-orange-700">${stats.totalCOGS.toFixed(2)}</p>
-          </div>
-          <div className={`rounded-2xl border p-4 ${stats.totalProfit >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-            <p className={`text-[10px] font-black uppercase tracking-widest ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>Net Profit</p>
-            <p className={`text-2xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</p>
-          </div>
-        </div>
-        </>)}
-
-        {/* Monthly Breakdown */}
-        {activeTab === 'monthly' && (
-        <div className="mb-6">
-          <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Monthly Breakdown</h4>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-            <div className="grid grid-cols-8 gap-2 px-4 py-2 bg-slate-100 border-b border-slate-200">
-              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Month</span>
-              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Orders</span>
-              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Revenue</span>
-              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Shipping</span>
-              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest text-right">Discounts</span>
-              <span className="text-[10px] text-amber-600 font-black uppercase tracking-widest text-right">Tax (8%)</span>
-              <span className="text-[10px] text-orange-600 font-black uppercase tracking-widest text-right">COGS</span>
-              <span className="text-[10px] text-green-600 font-black uppercase tracking-widest text-right">Profit</span>
-            </div>
-            {Object.entries(stats.byMonth).sort(([a], [b]) => a.localeCompare(b)).map(([month, data]) => (
-              <div key={month} className="grid grid-cols-8 gap-2 px-4 py-2.5 border-b border-slate-100 last:border-0">
-                <span className="text-sm text-slate-900 font-bold">{format(new Date(month + '-01'), 'MMM yyyy')}</span>
-                <span className="text-sm text-slate-900 text-right">{data.orders}</span>
-                <span className="text-sm text-slate-900 font-bold text-right">${data.revenue.toFixed(2)}</span>
-                <span className="text-sm text-slate-500 text-right">${data.shipping.toFixed(2)}</span>
-                <span className="text-sm text-red-500 text-right">-${data.discounts.toFixed(2)}</span>
-                <span className="text-sm text-amber-600 font-bold text-right">${data.tax.toFixed(2)}</span>
-                <span className="text-sm text-orange-600 text-right">${data.cogs.toFixed(2)}</span>
-                <span className={`text-sm font-bold text-right ${data.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>${data.profit.toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        )}
-
-        {/* Schedule C Helper */}
-        {activeTab === 'schedulec' && (
-          <div className="space-y-4 mb-6">
-            <div className="bg-green-50 border border-green-200 rounded-2xl p-4 text-sm text-green-800">
-              <p className="font-black mb-1">📋 Schedule C — Profit or Loss from Business</p>
-              <p className="text-xs text-green-700">Use these figures to fill out IRS Schedule C. Consult a CPA to confirm deductions for your situation.</p>
-            </div>
-
-            {/* Part I: Income */}
-            <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-              <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Part I — Income</p>
-              </div>
-              {[
-                { line: '1', label: 'Gross receipts or sales', value: stats.totalRevenue, note: 'Your total_amount sum' },
-                { line: '2', label: 'Returns and allowances', value: stats.totalDiscounts, note: 'Promo codes / discounts given' },
-                { line: '3', label: 'Subtract Line 2 from Line 1', value: stats.totalRevenue - stats.totalDiscounts },
-                { line: '7', label: 'Gross income', value: stats.totalRevenue - stats.totalDiscounts, bold: true },
-              ].map(row => (
-                <div key={row.line} className={`flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0 ${row.bold ? 'bg-green-50' : ''}`}>
-                  <div>
-                    <span className="text-[10px] text-slate-400 font-black mr-2">Line {row.line}</span>
-                    <span className={`text-sm ${row.bold ? 'font-black text-green-800' : 'text-slate-700'}`}>{row.label}</span>
-                    {row.note && <p className="text-[10px] text-slate-400 mt-0.5">{row.note}</p>}
-                  </div>
-                  <span className={`font-black ${row.bold ? 'text-green-700 text-lg' : 'text-slate-900'}`}>${row.value.toFixed(2)}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Part II: Expenses */}
-            <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-              <div className="px-4 py-3 bg-slate-100 border-b border-slate-200">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Part II — Expenses (Deductible)</p>
-              </div>
-              {[
-                { line: '17', label: 'Cost of goods sold (COGS)', value: stats.totalCOGS, note: 'Product purchase costs' },
-                { line: '22', label: 'Supplies / packaging', value: 0, note: 'Enter manually if applicable' },
-                { line: '24', label: 'Shipping & postage', value: stats.totalShipping, note: 'Outbound shipping paid' },
-                { line: '28', label: 'Total expenses', value: stats.totalCOGS + stats.totalShipping, bold: true },
-              ].map(row => (
-                <div key={row.line} className={`flex items-center justify-between px-4 py-3 border-b border-slate-100 last:border-0 ${row.bold ? 'bg-orange-50' : ''}`}>
-                  <div>
-                    <span className="text-[10px] text-slate-400 font-black mr-2">Line {row.line}</span>
-                    <span className={`text-sm ${row.bold ? 'font-black text-orange-800' : 'text-slate-700'}`}>{row.label}</span>
-                    {row.note && <p className="text-[10px] text-slate-400 mt-0.5">{row.note}</p>}
-                  </div>
-                  <span className={`font-black ${row.bold ? 'text-orange-700 text-lg' : 'text-slate-900'}`}>${row.value.toFixed(2)}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Net Profit Line 31 */}
-            <div className={`rounded-2xl border-2 p-5 flex justify-between items-center ${stats.totalProfit >= 0 ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
-              <div>
-                <span className="text-[10px] text-slate-400 font-black mr-2">Line 31</span>
-                <span className="text-base font-black text-slate-900">Net profit (or loss)</span>
-                <p className="text-xs text-slate-500 mt-0.5">Enter on Schedule 1 (Form 1040), line 3</p>
-              </div>
-              <span className={`text-3xl font-black ${stats.totalProfit >= 0 ? 'text-green-700' : 'text-red-700'}`}>${stats.totalProfit.toFixed(2)}</span>
-            </div>
-
-            {/* Quarterly reminders */}
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-              <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest mb-2">⏰ Quarterly Estimated Tax Due Dates</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {[
-                  { q: 'Q1', date: 'Apr 15' }, { q: 'Q2', date: 'Jun 15' },
-                  { q: 'Q3', date: 'Sep 15' }, { q: 'Q4', date: 'Jan 15' },
-                ].map(d => (
-                  <div key={d.q} className="bg-white rounded-xl border border-amber-200 p-3 text-center">
-                    <p className="text-xs font-black text-amber-700">{d.q}</p>
-                    <p className="text-sm font-bold text-slate-900">{d.date}</p>
-                    <p className="text-[10px] text-slate-400">~${(stats.totalTax / 4).toFixed(0)}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Product Cost Editor */}
-        {activeTab === 'costs' && products.length > 0 && (
-          <div className="mb-6">
-            <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">Product Cost Prices (per unit)</h4>
-            <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-              {products.map((product, pi) => (
-                <div key={product.id} className={pi < products.length - 1 ? 'border-b border-slate-200' : ''}>
-                  {/* Product-level default cost */}
-                  <div className="flex items-center gap-4 px-4 py-3 bg-slate-100">
-                    <span className="text-sm text-slate-900 font-black flex-1">{product.name}</span>
-                    <span className="text-[10px] text-slate-400 font-bold">Default cost $</span>
-                    <Input
-                      type="number" step="0.01" min="0" placeholder="0.00"
-                      value={editingCosts[product.id] !== undefined ? editingCosts[product.id] : (product.cost_price ?? '')}
-                      onChange={(e) => handleCostChange(product.id, e.target.value)}
-                      className="bg-white border-slate-200 text-slate-900 h-8 w-24 text-sm"
-                    />
-                    <Button size="sm"
-                      disabled={editingCosts[product.id] === undefined || savingCosts[product.id]}
-                      onClick={() => handleSaveCost(product)}
-                      className="h-8 px-3 text-xs bg-[#dc2626] hover:bg-[#b91c1c] text-white disabled:opacity-40"
-                    >
-                      {savingCosts[product.id] ? 'Saving...' : 'Save'}
-                    </Button>
-                  </div>
-                  {/* Per-spec cost */}
-                  {product.specifications?.map((spec, si) => {
-                    const key = `${product.id}__${si}`;
-                    return (
-                      <div key={si} className="flex items-center gap-4 px-6 py-2.5 border-t border-slate-100">
-                        <span className="text-xs text-slate-600 font-semibold flex-1">{spec.name}</span>
-                        <span className="text-[10px] text-slate-400 font-bold">Cost per unit $</span>
-                        <Input
-                          type="number" step="0.01" min="0" placeholder="0.00"
-                          value={editingCosts[key] !== undefined ? editingCosts[key] : (spec.cost_price ?? '')}
-                          onChange={(e) => handleCostChange(key, e.target.value)}
-                          className="bg-white border-slate-200 text-slate-900 h-8 w-24 text-sm"
-                        />
-                        <Button size="sm"
-                          disabled={editingCosts[key] === undefined || savingCosts[key]}
-                          onClick={async () => {
-                            const newCost = parseFloat(editingCosts[key]);
-                            if (isNaN(newCost)) return;
-                            setSavingCosts(prev => ({ ...prev, [key]: true }));
-                            const updatedSpecs = product.specifications.map((s, idx) =>
-                              idx === si ? { ...s, cost_price: newCost } : s
-                            );
-                            await onUpdateProductCost(product.id, product.cost_price, updatedSpecs);
-                            setSavingCosts(prev => ({ ...prev, [key]: false }));
-                            setEditingCosts(prev => { const n = { ...prev }; delete n[key]; return n; });
-                          }}
-                          className="h-8 px-3 text-xs bg-slate-700 hover:bg-slate-800 text-white disabled:opacity-40"
-                        >
-                          {savingCosts[key] ? 'Saving...' : 'Save'}
-                        </Button>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Payment Method Breakdown */}
-        {activeTab === 'overview' && (
-        <div className="mb-6">
-          <h4 className="text-slate-400 text-[10px] uppercase tracking-widest font-black mb-3">By Payment Method</h4>
-          <div className="grid grid-cols-2 gap-3">
-            {Object.entries(stats.byPaymentMethod).map(([method, data]) => (
-              <div key={method} className="bg-slate-50 rounded-xl border border-slate-200 p-3">
-                <p className="text-xs text-slate-500 font-bold capitalize">{method.replace(/_/g, ' ')}</p>
-                <p className="text-lg font-black text-slate-900">${data.revenue.toFixed(2)}</p>
-                <p className="text-[10px] text-slate-400">{data.count} orders</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        )}
-
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose} className="border-slate-200 text-slate-500">Close</Button>
-          <Button onClick={exportCSV} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold shadow-lg shadow-[#dc2626]/20">
-            <Download className="w-4 h-4 mr-2" />
-            Export CSV for Tax Filing
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
 
 // ─── Quick Status Updater (Bulk) ───
 function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
