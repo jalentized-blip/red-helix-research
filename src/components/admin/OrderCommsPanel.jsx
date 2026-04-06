@@ -24,6 +24,22 @@ const buildTemplates = (order) => {
   const trackBtn = trackUrl
     ? `<a href="${trackUrl}" style="display:inline-block;margin-top:12px;padding:10px 20px;background:#dc2626;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:13px;">Track Your Package →</a>`
     : '';
+  const kitTrackUrl = order.kit_tracking_number && order.carrier && CARRIERS[order.carrier]
+    ? CARRIERS[order.carrier](order.kit_tracking_number) : null;
+  const mainTrackingBlock = order.tracking_number ? `
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 20px;margin-bottom:12px;">
+      <p style="margin:0 0 6px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:800;">📦 Package 1 — Single Vials (from Red Helix Research)</p>
+      <p style="margin:0;font-size:20px;font-weight:900;font-family:monospace;color:#0f172a;">${order.tracking_number}</p>
+      <p style="margin:6px 0 0;font-size:12px;color:#64748b;">Carrier: ${order.carrier || 'USPS'}</p>
+      ${trackUrl ? `<a href="${trackUrl}" style="display:inline-block;margin-top:10px;padding:8px 18px;background:#0f172a;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:12px;">Track Package 1 →</a>` : ''}
+    </div>` : '';
+  const kitTrackingBlock = order.kit_tracking_number ? `
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 20px;margin-bottom:12px;">
+      <p style="margin:0 0 6px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:800;">🧪 Package 2 — Kit Shipment (from Kit Fulfillment Center)</p>
+      <p style="margin:0;font-size:20px;font-weight:900;font-family:monospace;color:#0f172a;">${order.kit_tracking_number}</p>
+      <p style="margin:6px 0 0;font-size:12px;color:#64748b;">Carrier: ${order.carrier || 'USPS'}</p>
+      ${kitTrackUrl ? `<a href="${kitTrackUrl}" style="display:inline-block;margin-top:10px;padding:8px 18px;background:#8B2635;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:12px;">Track Kit Package →</a>` : ''}
+    </div>` : '';
 
   const itemsHtml = (order.items || []).map(item =>
     `<tr>
@@ -192,6 +208,36 @@ ${shippingLine ? `<div style="background:#f8fafc;border:1px solid #e2e8f0;border
   <p style="margin:0;font-size:12px;color:#7f1d1d;line-height:1.6;">These products are for laboratory research use only — not for human consumption. For any issues, please contact <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;">jake@redhelixresearch.com</a> before contacting your payment provider.</p>
 </div>
 <p style="color:#64748b;font-size:13px;">Thank you for choosing Red Helix Research!</p>
+</div>`,
+    },
+    {
+      id: 'dual_tracking',
+      label: '🚚 Both Tracking Numbers (Kit)',
+      subject: `Your Order ${num} — Tracking Updates for Both Shipments`,
+      body: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:30px;background:#ffffff;">
+<div style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:28px 32px;border-radius:12px 12px 0 0;text-align:center;margin:-30px -30px 24px -30px;">
+  <div style="width:48px;height:48px;background:#8B2635;border-radius:12px;display:inline-block;line-height:48px;margin-bottom:12px;">
+    <span style="color:#fff;font-size:18px;font-weight:900;">RH</span>
+  </div>
+  <h1 style="color:#ffffff;font-size:22px;font-weight:900;margin:0 0 4px 0;">Your Order Is Shipping in Two Packages!</h1>
+  <p style="color:#94a3b8;font-size:12px;margin:0;letter-spacing:1px;text-transform:uppercase;">Order #${num}</p>
+</div>
+<p>Hi ${name},</p>
+<p>Because your order includes a <strong>10-vial kit</strong>, it ships from two separate locations. You have <strong>two tracking numbers</strong> below — don't worry if they arrive on different days!</p>
+<div style="background:#fef9f0;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:20px;">
+  <p style="margin:0;font-size:13px;color:#92400e;font-weight:600;">⚠️ This is normal — both packages are confirmed on their way. Kit processing can take up to 36 hours, so tracking updates may appear at different times.</p>
+</div>
+${mainTrackingBlock}
+${kitTrackingBlock}
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:16px 20px;margin:20px 0;">
+  <p style="margin:0 0 8px;font-size:11px;font-weight:800;color:#166534;text-transform:uppercase;letter-spacing:1px;">🧪 About Your Kit — Unlabeled Vials</p>
+  <p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">Your kit vials arrive <strong>unlabeled</strong> to keep costs low. Use the <strong>batch number on the kit box</strong> or the <strong>colored vial cap</strong> to identify each peptide. Match them at <a href="https://redhelixresearch.com/COAReports" style="color:#16a34a;font-weight:700;">redhelixresearch.com/COAReports</a>.</p>
+</div>
+<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 16px;">
+  <p style="margin:0 0 4px;font-size:10px;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:1px;">Research Use Only</p>
+  <p style="margin:0;font-size:12px;color:#7f1d1d;line-height:1.6;">These products are for laboratory research use only — not for human consumption. For any issues, please contact <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;">jake@redhelixresearch.com</a> before contacting your payment provider.</p>
+</div>
+<p style="color:#64748b;font-size:13px;margin-top:20px;">Thank you for choosing Red Helix Research!</p>
 </div>`,
     },
     {

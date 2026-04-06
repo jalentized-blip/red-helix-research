@@ -581,9 +581,6 @@ ${shippingLine ? `
                       <ExternalLink className="w-4 h-4" />
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" onClick={handleSendDualTrackingEmail} className="border-amber-300 text-amber-700 hover:bg-amber-50 h-11 flex-1 sm:flex-none">
-                    <Mail className="w-4 h-4 mr-1" /> Both Tracking
-                  </Button>
                 </div>
               </div>
             </div>
