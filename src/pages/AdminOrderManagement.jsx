@@ -522,7 +522,7 @@ ${shippingLine ? `
 
             {/* Tracking Number */}
             <div>
-              <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1.5">Tracking Number</label>
+              <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1.5">Tracking Number (Single Vials)</label>
               <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   value={form.tracking_number}
@@ -556,6 +556,34 @@ ${shippingLine ? `
                      <Button size="sm" onClick={() => setShowPirateShip(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white h-11 font-bold flex-1 sm:flex-none">
                        <Package className="w-4 h-4 mr-1" /> Label
                      </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Kit Tracking Number */}
+            <div>
+              <label className="text-slate-400 text-[10px] uppercase tracking-widest font-black block mb-1.5">
+                Kit Tracking Number (10-Vial Fulfillment)
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Input
+                  value={form.kit_tracking_number}
+                  onChange={(e) => updateField('kit_tracking_number', e.target.value)}
+                  placeholder="Enter kit tracking number..."
+                  className="bg-amber-50 border-amber-200 text-slate-900 font-mono flex-1 h-11"
+                />
+                <div className="flex gap-2 flex-wrap sm:flex-nowrap">
+                  {form.kit_tracking_number && (
+                    <Button variant="outline" size="sm" onClick={() => {
+                      const c = CARRIERS.find(cr => cr.id === form.carrier);
+                      if (c) window.open(c.trackUrl(form.kit_tracking_number), '_blank');
+                    }} className="border-slate-200 text-slate-500 h-11 px-3 flex-1 sm:flex-none">
+                      <ExternalLink className="w-4 h-4" />
+                    </Button>
+                  )}
+                  <Button variant="outline" size="sm" onClick={handleSendDualTrackingEmail} className="border-amber-300 text-amber-700 hover:bg-amber-50 h-11 flex-1 sm:flex-none">
+                    <Mail className="w-4 h-4 mr-1" /> Both Tracking
+                  </Button>
                 </div>
               </div>
             </div>
