@@ -300,7 +300,7 @@ export default function OrderCommsPanel({ order, adminEmail }) {
 
     setSending(true);
     try {
-      await base44.integrations.Core.SendEmail({ to: email, subject, body });
+      await base44.functions.invoke('sendOrderEmail', { to: email, subject, body });
 
       await base44.entities.OrderCommunication.create({
         order_id: order.id,
