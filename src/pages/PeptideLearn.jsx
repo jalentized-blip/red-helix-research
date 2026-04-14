@@ -2107,7 +2107,7 @@ export default function PeptideLearn() {
                     Research Compound
                   </span>
                   <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-full">
-                    High Purity >99%
+                    {"High Purity >99%"}
                   </span>
                 </div>
               </div>

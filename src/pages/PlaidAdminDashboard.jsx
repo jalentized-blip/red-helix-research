@@ -50,19 +50,6 @@ export default function PlaidAdminDashboard() {
     verifyAdminMFA();
   }, [user, requireMFA, navigate]);
 
-  // Show loading state until MFA is verified
-  if (!user || !mfaVerified) {
-    return (
-      <div className="min-h-screen bg-stone-950 text-white flex items-center justify-center">
-        <div className="text-center">
-          <Fingerprint className="w-16 h-16 text-green-500 mx-auto mb-4 animate-pulse" />
-          <h2 className="text-xl font-bold mb-2">Phishing-Resistant Authentication Required</h2>
-          <p className="text-stone-400">Verifying administrator access to financial data...</p>
-        </div>
-      </div>
-    );
-  }
-
   // Fetch payment methods
   const { data: paymentMethods, refetch: refetchPaymentMethods } = useQuery({
     queryKey: ['plaid-payment-methods'],
@@ -104,6 +91,19 @@ export default function PlaidAdminDashboard() {
     queryFn: () => base44.entities.PlaidComplianceReport.list('-created_date', 20),
     initialData: []
   });
+
+  // Show loading state until MFA is verified
+  if (!user || !mfaVerified) {
+    return (
+      <div className="min-h-screen bg-stone-950 text-white flex items-center justify-center">
+        <div className="text-center">
+          <Fingerprint className="w-16 h-16 text-green-500 mx-auto mb-4 animate-pulse" />
+          <h2 className="text-xl font-bold mb-2">Phishing-Resistant Authentication Required</h2>
+          <p className="text-stone-400">Verifying administrator access to financial data...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleRevokeToken = async (itemId, userEmail) => {
     if (!confirm('Revoke Plaid access token? User will need to reconnect their bank.')) return;

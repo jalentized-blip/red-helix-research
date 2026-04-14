@@ -143,7 +143,7 @@ export default function ProductBPC157() {
                   Purity Verified
                 </h3>
                 <p className="text-slate-600 text-xs md:text-sm leading-relaxed font-medium">
-                  Every batch of BPC-157 undergoes rigorous HPLC and MS testing to ensure >98% purity and correct sequence identity.
+                  Every batch of BPC-157 undergoes rigorous HPLC and MS testing to ensure {">"}98% purity and correct sequence identity.
                 </p>
               </div>
               <div className="bg-slate-50 border border-slate-200 rounded-[24px] md:rounded-[32px] p-6 md:p-8">

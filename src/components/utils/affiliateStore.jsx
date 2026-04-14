@@ -173,7 +173,7 @@ export async function createTransaction(base44, data) {
   // The Order.create() call in checkout already stores affiliate_code/commission.
   return {
     ...data,
-    id: generateId(),
+    id: `tx_${Date.now()}_${Math.random().toString(36).slice(2)}`,
     created_date: new Date().toISOString(),
   };
 }
