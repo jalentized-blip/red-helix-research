@@ -681,7 +681,7 @@ ${shippingLine ? `
             </div>
 
             {/* Customer Communications */}
-            <OrderCommsPanel order={{ ...order, customer_email: form.customer_email, customer_name: form.customer_name }} adminEmail={adminEmail} />
+            <OrderCommsPanel order={{ ...order, customer_email: form.customer_email, customer_name: form.customer_name, tracking_number: form.tracking_number, kit_tracking_number: form.kit_tracking_number, carrier: form.carrier }} adminEmail={adminEmail} />
           </div>
 
           {/* Column 2: Shipping Label Preview */}
