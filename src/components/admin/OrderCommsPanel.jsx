@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -255,7 +255,10 @@ ${kitTrackingBlock}
 
 export default function OrderCommsPanel({ order, adminEmail }) {
   const queryClient = useQueryClient();
-  const templates = buildTemplates(order);
+  const templates = useMemo(() => buildTemplates(order), [
+    order.tracking_number, order.kit_tracking_number, order.carrier,
+    order.customer_name, order.order_number, order.customer_email,
+  ]);
 
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [subject, setSubject] = useState('');
@@ -263,6 +266,17 @@ export default function OrderCommsPanel({ order, adminEmail }) {
   const [sending, setSending] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(true);
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  // When tracking numbers change and a template is already selected, refresh the body
+  useEffect(() => {
+    if (selectedTemplate) {
+      const tpl = templates.find(t => t.id === selectedTemplate);
+      if (tpl) {
+        setSubject(tpl.subject);
+        setBody(tpl.body);
+      }
+    }
+  }, [templates]);
 
   const { data: history = [] } = useQuery({
     queryKey: ['order-comms', order.id],
