@@ -22,6 +22,9 @@ import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
 import ResearchDisclaimerGate from '@/components/ResearchDisclaimerGate';
 import WelcomeDiscountPopup from '@/components/WelcomeDiscountPopup';
+import SocialProofPopup from '@/components/marketing/SocialProofPopup';
+import ExitIntentOffer from '@/components/marketing/ExitIntentOffer';
+import FlashSaleBanner from '@/components/marketing/FlashSaleBanner';
 
 
 const HeaderSearch = () => {
@@ -974,6 +977,9 @@ const HeaderSearch = () => {
       <WelcomeDiscountPopup />
       <AbandonedCartTracker />
       <SecurityMonitor />
+      <SocialProofPopup />
+      <ExitIntentOffer />
+      <FlashSaleBanner />
       </div>
       </SecurityGateway>
       </MFAProvider>
