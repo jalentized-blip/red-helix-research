@@ -1,0 +1,56 @@
+{
+  "name": "BannerMessage",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Short label tag (e.g. Today Only, Hot Right Now)"
+    },
+    "headline": {
+      "type": "string",
+      "description": "Main banner message text"
+    },
+    "cta": {
+      "type": "string",
+      "description": "Call-to-action button text (e.g. Shop Now)"
+    },
+    "link": {
+      "type": "string",
+      "description": "Page name to link to (e.g. Products, Account, KitInfo)"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this message is shown in rotation"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order (lower = shown first)"
+    }
+  },
+  "required": [
+    "label",
+    "headline",
+    "cta",
+    "link"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, X, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import { base44 } from '@/api/base44Client';
 
-// Rotating flash deal messages — fully automated, no manual input
-const FLASH_DEALS = [
+const DEFAULT_DEALS = [
   { label: "Today Only", headline: "Free shipping on any order over $100", cta: "Shop Now", link: "Products" },
   { label: "Limited Time", headline: "10-vial kit: best value per mg in the market", cta: "See Kits", link: "KitInfo" },
   { label: "Hot Right Now", headline: "BPC-157 — our #1 seller is back in stock", cta: "Order Now", link: "Products" },
@@ -17,11 +17,20 @@ const SHOW_DURATION = 8000;
 const STORAGE_KEY = 'rhr_flash_banner_dismissed';
 
 export default function FlashSaleBanner() {
-  const [dealIndex, setDealIndex] = useState(() => Math.floor(Math.random() * FLASH_DEALS.length));
+  const [deals, setDeals] = useState(DEFAULT_DEALS);
+  const [dealIndex, setDealIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
+
+  // Load DB messages (active only), fall back to defaults
+  useEffect(() => {
+    base44.entities.BannerMessage.list('sort_order', 50).then(rows => {
+      const active = rows.filter(r => r.is_active);
+      if (active.length > 0) setDeals(active);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const wasDismissed = sessionStorage.getItem(STORAGE_KEY);
@@ -29,14 +38,14 @@ export default function FlashSaleBanner() {
 
     const showTimer = setTimeout(() => setVisible(true), 6000);
     const rotateTimer = setInterval(() => {
-      setDealIndex(i => (i + 1) % FLASH_DEALS.length);
+      setDealIndex(i => (i + 1) % deals.length);
     }, SHOW_DURATION + 2000);
 
     return () => {
       clearTimeout(showTimer);
       clearInterval(rotateTimer);
     };
-  }, []);
+  }, [deals.length]);
 
   // Mirror the header's scroll hide/show behavior
   useEffect(() => {
@@ -57,7 +66,7 @@ export default function FlashSaleBanner() {
 
   if (dismissed) return null;
 
-  const deal = FLASH_DEALS[dealIndex];
+  const deal = deals[dealIndex] || deals[0];
 
   // Header is ~72px tall; banner translates with header so it stays flush beneath it
   const headerHeight = 72;
