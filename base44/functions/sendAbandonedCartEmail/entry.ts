@@ -189,16 +189,6 @@ Deno.serve(async (req) => {
       from_name: 'Red Helix Research'
     });
 
-    // Track email sent
-    base44.analytics.track({
-      eventName: 'abandoned_cart_email_sent',
-      properties: {
-        email: email,
-        cart_value: resolvedCartValue,
-        item_count: itemCount
-      }
-    });
-
     return Response.json({
       success: true,
       message: 'Abandoned cart email sent',

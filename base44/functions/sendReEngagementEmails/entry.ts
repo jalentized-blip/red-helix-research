@@ -2,7 +2,9 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 import nodemailer from 'npm:nodemailer@6.9.9';
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: Deno.env.get('GMAIL_USER'),
     pass: Deno.env.get('GMAIL_APP_PASSWORD'),

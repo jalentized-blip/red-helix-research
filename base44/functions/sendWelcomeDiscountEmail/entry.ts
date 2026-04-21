@@ -1,13 +1,4 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-import nodemailer from 'npm:nodemailer@6.9.9';
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: Deno.env.get('GMAIL_USER'),
-    pass: Deno.env.get('GMAIL_APP_PASSWORD'),
-  },
-});
 
 Deno.serve(async (req) => {
   try {
@@ -93,14 +84,13 @@ Deno.serve(async (req) => {
     </tr>
   </table>
 </body>
-</html>
-    `.trim();
+</html>`.trim();
 
-    await transporter.sendMail({
-      from: `"Red Helix Research" <${Deno.env.get('GMAIL_USER')}>`,
+    await base44.integrations.Core.SendEmail({
       to: email,
       subject: `🎁 Your 10% Welcome Discount Code: ${code}`,
-      html,
+      body: html,
+      from_name: 'Red Helix Research',
     });
 
     return Response.json({ success: true });
