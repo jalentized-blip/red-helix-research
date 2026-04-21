@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Filter, Search, X, Package, ShieldCheck, Beaker, Lock, LogIn } from 'lucide-react';
+import { ArrowLeft, Filter, Search, X, Package, ShieldCheck, Beaker } from 'lucide-react';
 import ProductModal from '@/components/product/ProductModal';
 import ProductCard from '@/components/home/ProductCard';
 import SEO from '@/components/SEO';
@@ -182,43 +182,8 @@ export default function Products() {
           </div>
         </div>
 
-        {/* Auth Gate — grey out entire catalog if not logged in */}
-        {!isAuthenticated && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-16"
-          >
-            <div className="relative rounded-[32px] border-2 border-slate-200 bg-gradient-to-b from-slate-50 to-white p-12 md:p-16 text-center shadow-xl shadow-slate-200/50">
-              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Lock className="w-10 h-10 text-slate-400" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black text-black uppercase tracking-tight mb-4">
-                Account <span className="text-[#8B2635]">Required</span>
-              </h2>
-              <p className="text-slate-500 font-medium max-w-lg mx-auto mb-8 leading-relaxed">
-                Sign in or create a free account to browse our full research catalog, view pricing, and place orders.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link to={createPageUrl('Login')}>
-                  <Button className="bg-[#8B2635] hover:bg-[#6B1827] text-white font-black py-6 px-10 rounded-2xl text-sm uppercase tracking-widest shadow-lg shadow-[#8B2635]/20 transition-all hover:scale-[1.02] active:scale-95">
-                    <LogIn className="w-5 h-5 mr-3" />
-                    Sign In
-                  </Button>
-                </Link>
-                <Link to={createPageUrl('Login')}>
-                  <Button variant="outline" className="border-2 border-slate-200 text-slate-600 font-black py-6 px-10 rounded-2xl text-sm uppercase tracking-widest hover:border-slate-300 hover:bg-slate-50 transition-all">
-                    Create Account
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Catalog content — greyed out when not authenticated */}
-        <div className={`${!isAuthenticated && !isLoading ? 'pointer-events-none select-none' : ''}`}>
-          <div className={`${!isAuthenticated && !isLoading ? 'opacity-20 grayscale blur-[2px]' : ''} transition-all duration-500`}>
+        <div>
+          <div>
             {/* Search and Filters Section */}
             <div className="grid lg:grid-cols-12 gap-8 mb-16">
               <div className="lg:col-span-8 space-y-6">
