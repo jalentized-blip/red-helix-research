@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Tag, Copy, Check, Gift } from 'lucide-react';
+import { X, Tag, Copy, Check, Gift, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 // Generate a browser fingerprint from stable signals
@@ -15,7 +15,6 @@ const getBrowserFingerprint = () => {
     navigator.platform || '',
   ].join('|');
 
-  // Simple hash
   let hash = 0;
   for (let i = 0; i < signals.length; i++) {
     const char = signals.charCodeAt(i);
@@ -39,6 +38,9 @@ const WELCOME_CODE_KEY = 'rhr_welcome_code';
 
 export default function WelcomeDiscountPopup() {
   const [show, setShow] = useState(false);
+  const [step, setStep] = useState('email'); // 'email' | 'code'
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [code, setCode] = useState('');
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,91 +48,60 @@ export default function WelcomeDiscountPopup() {
 
   const close = useCallback(() => setShow(false), []);
 
-  // Close on Escape key
   useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') close();
-    };
+    const handleKey = (e) => { if (e.key === 'Escape') close(); };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [close]);
 
   useEffect(() => {
-    // Don't show if already shown this session
     const shown = sessionStorage.getItem(POPUP_SHOWN_KEY);
     if (shown) return;
 
-    // Only show after a short delay (not on bounce)
     const timer = setTimeout(async () => {
       // Check if user already has a valid welcome code stored
       const existingCode = localStorage.getItem(WELCOME_CODE_KEY);
       if (existingCode) {
-        // Verify it's not expired/used before silently re-registering
         try {
           const records = await base44.entities.WelcomeDiscount.filter({ code: existingCode });
           if (records.length > 0) {
             const record = records[0];
             const expired = record.expires_at && new Date(record.expires_at) < new Date();
             if (record.used || expired) {
-              // Old code used/expired — clear it and show popup again
               localStorage.removeItem(WELCOME_CODE_KEY);
             } else {
-              // Valid code exists, no need to show popup
+              // Valid code — show code step directly (already claimed email)
+              setCode(existingCode);
+              setStep('code');
+              setShow(true);
               sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
               return;
             }
           }
         } catch {
-          // If check fails, silently skip popup
           sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
           return;
         }
       }
 
-      // Check fingerprint — has this device already claimed a code?
+      // Check fingerprint — has this device already claimed?
       const fp = getBrowserFingerprint();
       try {
         const existing = await base44.entities.WelcomeDiscount.filter({ fingerprint: fp });
         if (existing.length > 0) {
           const valid = existing.find(r => !r.used && new Date(r.expires_at) > new Date());
           if (valid) {
-            // Re-show with their existing code
             localStorage.setItem(WELCOME_CODE_KEY, valid.code);
             setCode(valid.code);
+            setStep('code');
             setShow(true);
+            sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
             return;
           }
-          // All previous codes used or expired — flag as already claimed
           setAlreadyClaimed(true);
         }
       } catch {
-        // DB unavailable — still show popup so we don't block UX
-      }
-
-      // Generate and save new code
-      const newCode = generateCode();
-      setCode(newCode);
-      setLoading(true);
-
-      try {
-        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-        await base44.entities.WelcomeDiscount.create({
-          code: newCode,
-          fingerprint: fp,
-          expires_at: expiresAt,
-          used: false,
-        });
-        localStorage.setItem(WELCOME_CODE_KEY, newCode);
-
-        // Register it as a valid promo code dynamically in cart system
-        // We do this by storing in localStorage as a dynamic promo
-        const dynPromos = JSON.parse(localStorage.getItem('rhr_dynamic_promos') || '{}');
-        dynPromos[newCode] = { discount: 0.10, label: '10% off single vials', singleVialsOnly: true, isWelcome: true };
-        localStorage.setItem('rhr_dynamic_promos', JSON.stringify(dynPromos));
-      } catch {
-        // If DB save fails, still show the popup but code won't be DB-validated
-      } finally {
-        setLoading(false);
+        // DB unavailable — still show
       }
 
       setShow(true);
@@ -139,6 +110,68 @@ export default function WelcomeDiscountPopup() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    const trimmed = email.trim().toLowerCase();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setEmailError('Please enter a valid email address.');
+      return;
+    }
+    setEmailError('');
+    setLoading(true);
+
+    const fp = getBrowserFingerprint();
+    const newCode = generateCode();
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+    try {
+      // Save discount record with email
+      await base44.entities.WelcomeDiscount.create({
+        code: newCode,
+        fingerprint: fp,
+        email: trimmed,
+        expires_at: expiresAt,
+        used: false,
+      });
+
+      // Add to mailing list (avoid duplicate emails)
+      try {
+        const existing = await base44.entities.MailingList.filter({ email: trimmed });
+        if (existing.length === 0) {
+          await base44.entities.MailingList.create({
+            email: trimmed,
+            source: 'welcome_discount',
+            discount_code: newCode,
+            subscribed: true,
+            tags: ['welcome_discount'],
+          });
+        }
+      } catch { /* non-critical */ }
+
+      // Send welcome email with code
+      try {
+        await base44.functions.invoke('sendWelcomeDiscountEmail', {
+          email: trimmed,
+          code: newCode,
+          expires_at: expiresAt,
+        });
+      } catch { /* non-critical — still show code */ }
+
+      // Register in local cart system
+      localStorage.setItem(WELCOME_CODE_KEY, newCode);
+      const dynPromos = JSON.parse(localStorage.getItem('rhr_dynamic_promos') || '{}');
+      dynPromos[newCode] = { discount: 0.10, label: '10% off single vials', singleVialsOnly: true, isWelcome: true };
+      localStorage.setItem('rhr_dynamic_promos', JSON.stringify(dynPromos));
+
+      setCode(newCode);
+      setStep('code');
+    } catch {
+      setEmailError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -192,7 +225,7 @@ export default function WelcomeDiscountPopup() {
               {alreadyClaimed ? (
                 <div className="text-center">
                   <p className="text-slate-600 font-medium text-sm mb-4">
-                    It looks like this device has already claimed a welcome discount. Check your saved codes or contact us if you need help.
+                    It looks like this device has already claimed a welcome discount. Check your email or contact us for help.
                   </p>
                   <button
                     onClick={close}
@@ -201,25 +234,66 @@ export default function WelcomeDiscountPopup() {
                     Got It
                   </button>
                 </div>
-              ) : (
+              ) : step === 'email' ? (
                 <>
-                  <p className="text-slate-700 font-semibold text-center mb-2">
+                  <p className="text-slate-700 font-semibold text-center mb-1">
                     Get <span className="text-[#8B2635] font-black text-xl">10% OFF</span> your first order
                   </p>
                   <p className="text-slate-500 text-xs text-center mb-6 leading-relaxed">
-                    Use the code below at checkout. Valid on <strong>single vials only</strong> — does not apply to 10-vial kits. One-time use, expires in 30 days.
+                    Enter your email to unlock your code — we'll also send it to you so you never lose it. Valid on <strong>single vials only</strong>.
+                  </p>
+
+                  <form onSubmit={handleEmailSubmit} className="space-y-3">
+                    <div className="relative">
+                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <input
+                        type="email"
+                        placeholder="your@email.com"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); setEmailError(''); }}
+                        className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#8B2635] transition-colors"
+                        disabled={loading}
+                        autoFocus
+                      />
+                    </div>
+                    {emailError && (
+                      <p className="text-[#8B2635] text-xs font-medium">{emailError}</p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full flex items-center justify-center gap-2 bg-[#8B2635] text-white font-black uppercase tracking-widest text-sm py-3.5 rounded-xl hover:bg-[#6B1827] transition-colors shadow-lg shadow-[#8B2635]/20 disabled:opacity-60"
+                    >
+                      {loading ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</>
+                      ) : (
+                        <>Unlock My 10% Code <ArrowRight className="w-4 h-4" /></>
+                      )}
+                    </button>
+                  </form>
+
+                  <p className="text-[10px] text-slate-400 text-center mt-4 leading-relaxed">
+                    By submitting you agree to receive occasional research updates & promotions. Unsubscribe anytime. Single vials only — excludes kits.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-slate-700 font-semibold text-center mb-1">
+                    Here's your <span className="text-[#8B2635] font-black">10% OFF</span> code!
+                  </p>
+                  <p className="text-slate-500 text-xs text-center mb-6 leading-relaxed">
+                    We've also emailed it to you. Use at checkout — valid on <strong>single vials only</strong>.
                   </p>
 
                   {/* Code display */}
                   <div className="flex items-center gap-3 p-4 bg-slate-50 border-2 border-dashed border-[#8B2635]/30 rounded-2xl mb-6">
                     <Tag className="w-5 h-5 text-[#8B2635] flex-shrink-0" />
                     <span className="flex-1 text-xl font-black text-slate-900 tracking-widest">
-                      {loading ? '...' : code}
+                      {code}
                     </span>
                     <button
                       onClick={handleCopy}
-                      disabled={loading}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#8B2635] text-white text-xs font-black uppercase tracking-wider rounded-xl hover:bg-[#6B1827] transition-colors disabled:opacity-50"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#8B2635] text-white text-xs font-black uppercase tracking-wider rounded-xl hover:bg-[#6B1827] transition-colors"
                     >
                       {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                       {copied ? 'Copied!' : 'Copy'}
@@ -233,9 +307,8 @@ export default function WelcomeDiscountPopup() {
                     Shop Now & Save 10%
                   </button>
 
-                  {/* Disclaimer */}
                   <p className="text-[10px] text-slate-400 text-center mt-4 leading-relaxed">
-                    Discount applies to single vial products only. Not valid on 10-vial kits, bundles, or combined with other offers. One code per customer. Non-transferable. Expires 30 days from issuance.
+                    Discount applies to single vial products only. Not valid on kits, bundles, or combined with other offers. One-time use. Expires in 30 days.
                   </p>
                 </>
               )}

@@ -1,0 +1,46 @@
+{
+  "name": "MailingList",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Subscriber email address"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "welcome_discount",
+        "checkout",
+        "manual",
+        "other"
+      ],
+      "default": "welcome_discount",
+      "description": "How they joined the mailing list"
+    },
+    "discount_code": {
+      "type": "string",
+      "description": "Welcome discount code issued to this subscriber"
+    },
+    "subscribed": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether they are currently subscribed"
+    },
+    "unsubscribed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When they unsubscribed, if applicable"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Tags for segmentation (e.g. welcome_discount, repeat_buyer)"
+    }
+  },
+  "required": [
+    "email"
+  ]
+}
