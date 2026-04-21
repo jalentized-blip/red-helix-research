@@ -145,7 +145,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
         <div className="p-5 md:p-10 flex flex-col h-full">
           {/* Product Image Container */}
-          <div className={`relative mb-5 md:mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-xl md:rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#8B2635]/20 transition-colors ${!isAuthenticated ? 'blur-md' : ''}`}>
+          <div className="relative mb-5 md:mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-xl md:rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#8B2635]/20 transition-colors">
             {displayImage ? (
               <img 
                 src={displayImage} 
@@ -180,16 +180,16 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               </div>
             </div>
 
-            <h3 className={`text-xl md:text-3xl font-black text-black mb-4 tracking-tighter group-hover:text-[#8B2635] transition-colors leading-none ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <h3 className="text-xl md:text-3xl font-black text-black mb-4 tracking-tighter group-hover:text-[#8B2635] transition-colors leading-none">
               {product.name}
             </h3>
             
-            <p className={`text-sm text-slate-500 mb-4 line-clamp-2 leading-relaxed font-medium ${!isAuthenticated ? 'blur-sm' : ''}`}>
+            <p className="text-sm text-slate-500 mb-4 line-clamp-2 leading-relaxed font-medium">
               {product.description}
             </p>
 
             {isKitsProduct && (
-              <div className={`mb-4 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+              <div className="mb-4">
                 <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest block mb-2">
                   {product.specifications?.length || 0} Kit Options Available
                 </span>
@@ -197,7 +197,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             )}
           </div>
 
-          <div className={`flex items-end justify-between mb-4 md:mb-8 ${!isAuthenticated ? 'blur-sm' : ''}`}>
+          <div className="flex items-end justify-between mb-4 md:mb-8">
             <div className="flex flex-col">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Acquisition Cost</span>
               <div className="flex items-baseline gap-1">
@@ -215,7 +215,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
           <Button 
             onClick={handleSelectStrength}
-            className={`w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 ${!isAuthenticated ? 'blur-sm' : ''}`}
+            className="w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20"
           >
             <span className="flex items-center gap-3">
               Initialize Order

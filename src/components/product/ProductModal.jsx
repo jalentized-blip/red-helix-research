@@ -33,11 +33,6 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
   );
 
   const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      onClose();
-      base44.auth.redirectToLogin(createPageUrl('Home'));
-      return;
-    }
     if (selectedSpec) {
       const cartProduct = product.isKitsProduct 
         ? { ...product, id: selectedSpec.productId, name: selectedSpec.productName }
@@ -246,18 +241,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
 
             {/* Action Area */}
             <div className="mt-6 space-y-4">
-              {!isAuthenticated ? (
-                <Button
-                  onClick={handleAddToCart}
-                  className="w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 bg-[#8B2635] hover:bg-[#6B1827] text-white shadow-[0_10px_30px_rgba(220,38,38,0.2)] hover:translate-y-[-2px]"
-                >
-                  <span className="flex items-center gap-3">
-                    <LogIn className="w-5 h-5" />
-                    Sign In to Order
-                  </span>
-                </Button>
-              ) : (
-                <Button
+              <Button
                   onClick={handleAddToCart}
                   disabled={!selectedSpec || addedToCart || (product.isKitsProduct && !kitDisclaimerChecked)}
                   className={`w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
@@ -282,7 +266,6 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                     )}
                   </span>
                 </Button>
-              )}
 
               {productCOAs.length > 0 && (
                 <button
