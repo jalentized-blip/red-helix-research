@@ -277,25 +277,16 @@ export default function Cart() {
                   )}
 
                   <Button
-                    onClick={() => {
-                      if (!agreedToTerms) {
-                        setShowAgreementError(true);
-                        return;
-                      }
-                      if (!isAuthenticated) {
-                        base44.auth.redirectToLogin(createPageUrl('Cart'));
-                        return;
-                      }
-                      navigate(createPageUrl('CustomerInfo'));
-                    }}
-                    className={`w-full font-black py-5 md:py-8 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                  onClick={() => {
+                    if (!agreedToTerms) {
+                      setShowAgreementError(true);
+                      return;
+                    }
+                    navigate(createPageUrl('CustomerInfo'));
+                  }}
+                  className={`w-full font-black py-5 md:py-8 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                   >
-                    Checkout <ArrowRight className="w-5 h-5 ml-2" />
-                    {!isAuthenticated && !isCheckingAuth && (
-                      <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-3 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl font-bold uppercase tracking-widest">
-                        Please sign in to checkout
-                      </span>
-                    )}
+                  Checkout <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
 
                   <Button

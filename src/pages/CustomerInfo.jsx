@@ -10,19 +10,7 @@ import { base44 } from '@/api/base44Client';
 export default function CustomerInfo() {
   const navigate = useNavigate();
   
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const authenticated = await base44.auth.isAuthenticated();
-        if (!authenticated) {
-          base44.auth.redirectToLogin(createPageUrl('Cart'));
-        }
-      } catch (error) {
-        base44.auth.redirectToLogin(createPageUrl('Cart'));
-      }
-    };
-    checkAuth();
-  }, []);
+
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('customerInfo');
     return saved ? JSON.parse(saved) : {
