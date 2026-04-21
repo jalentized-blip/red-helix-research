@@ -3,10 +3,18 @@ import { Shield, AlertTriangle, CheckCircle, Activity, Lock, Eye } from 'lucide-
 import { Card } from '@/components/ui/card';
 import { useZeroTrust } from './ZeroTrustProvider';
 import { motion, AnimatePresence } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
 
 export default function SecurityMonitor() {
   const { trustScore, sessionValid, lastVerified, anomalies } = useZeroTrust();
   const [isVisible, setIsVisible] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(user => {
+      setIsAdmin(user?.role === 'admin');
+    }).catch(() => setIsAdmin(false));
+  }, []);
 
   useEffect(() => {
     // Auto-show if trust score drops below 70
@@ -24,6 +32,8 @@ export default function SecurityMonitor() {
 
   const trustLevel = getTrustLevel(trustScore);
   const recentAnomalies = anomalies.slice(-3);
+
+  if (!isAdmin) return null;
 
   return (
     <>
