@@ -34,6 +34,7 @@ const generateCode = () => {
 };
 
 const POPUP_SHOWN_KEY = 'rhr_welcome_popup_shown';
+const NEVER_SHOW_KEY = 'rhr_welcome_never_show';
 const WELCOME_CODE_KEY = 'rhr_welcome_code';
 
 export default function WelcomeDiscountPopup() {
@@ -45,8 +46,14 @@ export default function WelcomeDiscountPopup() {
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alreadyClaimed, setAlreadyClaimed] = useState(false);
+  const [neverShow, setNeverShow] = useState(false);
 
-  const close = useCallback(() => setShow(false), []);
+  const close = useCallback(() => {
+    if (neverShow) {
+      localStorage.setItem(NEVER_SHOW_KEY, '1');
+    }
+    setShow(false);
+  }, [neverShow]);
 
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') close(); };
@@ -55,6 +62,9 @@ export default function WelcomeDiscountPopup() {
   }, [close]);
 
   useEffect(() => {
+    // If user dismissed permanently, never show again
+    if (localStorage.getItem(NEVER_SHOW_KEY)) return;
+
     const shown = sessionStorage.getItem(POPUP_SHOWN_KEY);
     if (shown) return;
 
@@ -275,6 +285,18 @@ export default function WelcomeDiscountPopup() {
                   <p className="text-[10px] text-slate-400 text-center mt-4 leading-relaxed">
                     By submitting you agree to receive occasional research updates & promotions. Unsubscribe anytime. Single vials only — excludes kits.
                   </p>
+
+                  <label className="flex items-center gap-2 mt-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={neverShow}
+                      onChange={(e) => setNeverShow(e.target.checked)}
+                      className="w-4 h-4 accent-[#8B2635] cursor-pointer"
+                    />
+                    <span className="text-[11px] text-slate-400 group-hover:text-slate-600 transition-colors">
+                      Don't show this again
+                    </span>
+                  </label>
                 </>
               ) : (
                 <>
@@ -310,6 +332,18 @@ export default function WelcomeDiscountPopup() {
                   <p className="text-[10px] text-slate-400 text-center mt-4 leading-relaxed">
                     Discount applies to single vial products only. Not valid on kits, bundles, or combined with other offers. One-time use. Expires in 30 days.
                   </p>
+
+                  <label className="flex items-center justify-center gap-2 mt-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={neverShow}
+                      onChange={(e) => setNeverShow(e.target.checked)}
+                      className="w-4 h-4 accent-[#8B2635] cursor-pointer"
+                    />
+                    <span className="text-[11px] text-slate-400 group-hover:text-slate-600 transition-colors">
+                      Don't show this again
+                    </span>
+                  </label>
                 </>
               )}
             </div>
