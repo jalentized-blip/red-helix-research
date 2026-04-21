@@ -29,7 +29,6 @@ const categoryLabels = {
 };
 
 const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) => {
-  const [isHovered, setIsHovered] = React.useState(false);
   const [isUpdating, setIsUpdating] = React.useState(false);
   const [localHidden, setLocalHidden] = React.useState(product.hidden);
   const isKitsProduct = product.isKitsProduct === true;
@@ -71,19 +70,6 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
   return (
     <>
-      {isHovered && (
-        <motion.div
-          initial={{ backdropFilter: "blur(0px)", opacity: 0 }}
-          animate={{ 
-            backdropFilter: "blur(15px)", 
-            opacity: 1 
-          }}
-          exit={{ backdropFilter: "blur(0px)", opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed inset-0 z-40 pointer-events-none bg-white/40 backdrop-blur-[2px]"
-        />
-      )}
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -94,8 +80,6 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
           y: -10,
           zIndex: 50
         }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
         onClick={handleSelectStrength}
         className="relative z-50 h-full cursor-pointer"
       >
