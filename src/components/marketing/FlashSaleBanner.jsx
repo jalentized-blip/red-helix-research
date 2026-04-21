@@ -68,24 +68,19 @@ export default function FlashSaleBanner() {
 
   const deal = deals[dealIndex] || deals[0];
 
-  // Header is ~72px tall; banner translates with header so it stays flush beneath it
-  const headerHeight = 72;
-
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -40 }}
+          transition={{ duration: 0.3 }}
           style={{
-            transform: headerVisible
-              ? `translateY(${headerHeight}px)`
-              : `translateY(-100%)`,
-            transition: 'transform 300ms ease',
+            top: headerVisible ? '72px' : '-100px',
+            transition: 'top 300ms ease',
           }}
-          className="fixed top-0 left-0 right-0 z-[65] bg-gradient-to-r from-[#8B2635] via-[#7a2030] to-[#6B1827] shadow-lg"
+          className="fixed left-0 right-0 z-[65] bg-gradient-to-r from-[#8B2635] via-[#7a2030] to-[#6B1827] shadow-lg"
         >
           <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0">
