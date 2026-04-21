@@ -71,16 +71,16 @@ export default function FlashSaleBanner() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -40 }}
-          transition={{ duration: 0.3 }}
+        <div
           style={{
-            top: headerVisible ? '72px' : '-100px',
+            position: 'fixed',
+            top: headerVisible ? '72px' : '-60px',
+            left: 0,
+            right: 0,
+            zIndex: 65,
             transition: 'top 300ms ease',
           }}
-          className="fixed left-0 right-0 z-[65] bg-gradient-to-r from-[#8B2635] via-[#7a2030] to-[#6B1827] shadow-lg"
+          className="bg-gradient-to-r from-[#8B2635] via-[#7a2030] to-[#6B1827] shadow-lg"
         >
           <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -116,7 +116,7 @@ export default function FlashSaleBanner() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
