@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, X, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -20,14 +20,14 @@ export default function FlashSaleBanner() {
   const [dealIndex, setDealIndex] = useState(() => Math.floor(Math.random() * FLASH_DEALS.length));
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const wasDismissed = sessionStorage.getItem(STORAGE_KEY);
     if (wasDismissed) return;
 
-    // Show after 6s, rotate every 10s
     const showTimer = setTimeout(() => setVisible(true), 6000);
-
     const rotateTimer = setInterval(() => {
       setDealIndex(i => (i + 1) % FLASH_DEALS.length);
     }, SHOW_DURATION + 2000);
@@ -36,6 +36,17 @@ export default function FlashSaleBanner() {
       clearTimeout(showTimer);
       clearInterval(rotateTimer);
     };
+  }, []);
+
+  // Mirror the header's scroll hide/show behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setHeaderVisible(currentY < 50 || currentY < lastScrollY.current);
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const dismiss = () => {
@@ -48,15 +59,24 @@ export default function FlashSaleBanner() {
 
   const deal = FLASH_DEALS[dealIndex];
 
+  // Header is ~72px tall; banner translates with header so it stays flush beneath it
+  const headerHeight = 72;
+
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ y: -60, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -60, opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-          className="fixed top-[72px] left-0 right-0 z-[65] bg-gradient-to-r from-[#8B2635] via-[#7a2030] to-[#6B1827] shadow-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          style={{
+            transform: headerVisible
+              ? `translateY(${headerHeight}px)`
+              : `translateY(-100%)`,
+            transition: 'transform 300ms ease',
+          }}
+          className="fixed top-0 left-0 right-0 z-[65] bg-gradient-to-r from-[#8B2635] via-[#7a2030] to-[#6B1827] shadow-lg"
         >
           <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0">
