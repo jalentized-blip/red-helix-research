@@ -103,6 +103,15 @@ export const getAllPromoCodes = async (base44) => {
   return { ...STATIC_PROMO_CODES, ...affiliateCodes };
 };
 
+// Load dynamic promo codes (welcome discount codes stored in localStorage)
+const getDynamicPromoCodes = () => {
+  try {
+    return JSON.parse(localStorage.getItem('rhr_dynamic_promos') || '{}');
+  } catch {
+    return {};
+  }
+};
+
 // Synchronous validation against static codes only (for immediate UI)
 export const validatePromoCode = (code) => {
   const upper = code.toUpperCase();
@@ -110,6 +119,9 @@ export const validatePromoCode = (code) => {
   if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
   // Check cached affiliate codes
   if (affiliateCodesCache && affiliateCodesCache[upper]) return affiliateCodesCache[upper];
+  // Check dynamic promo codes (welcome discount codes)
+  const dynamic = getDynamicPromoCodes();
+  if (dynamic[upper]) return dynamic[upper];
   return null;
 };
 
@@ -121,12 +133,37 @@ export const validatePromoCodeAsync = async (code, base44) => {
   // Load and check affiliate codes from DB
   const affiliateCodes = await loadAffiliateCodes(base44);
   if (affiliateCodes[upper]) return affiliateCodes[upper];
+  // Check dynamic welcome codes against DB to verify not used/expired
+  const dynamic = getDynamicPromoCodes();
+  if (dynamic[upper]) {
+    if (base44) {
+      try {
+        const records = await base44.entities.WelcomeDiscount.filter({ code: upper });
+        if (records.length > 0) {
+          const record = records[0];
+          const expired = record.expires_at && new Date(record.expires_at) < new Date();
+          if (record.used || expired) return null; // Code used or expired
+        }
+      } catch { /* DB check failed, allow it */ }
+    }
+    return dynamic[upper];
+  }
   return null;
 };
 
 export const getDiscountAmount = (code, total) => {
   const promo = validatePromoCode(code);
-  return promo ? total * promo.discount : 0;
+  if (!promo) return 0;
+  if (promo.singleVialsOnly) {
+    // Only discount items that are single vials (not 10-vial kits)
+    const cart = getCart();
+    const singleVialTotal = cart.reduce((sum, item) => {
+      const isKit = item.specification?.toLowerCase().includes('10 vial') || item.productId === 'kits-product';
+      return isKit ? sum : sum + item.price * item.quantity;
+    }, 0);
+    return singleVialTotal * promo.discount;
+  }
+  return total * promo.discount;
 };
 
 export const addPromoCode = (code) => {

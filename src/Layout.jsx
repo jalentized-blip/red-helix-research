@@ -21,6 +21,7 @@ import SecurityMonitor from '@/components/security/SecurityMonitor';
 import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
 import ResearchDisclaimerGate from '@/components/ResearchDisclaimerGate';
+import WelcomeDiscountPopup from '@/components/WelcomeDiscountPopup';
 
 
 const HeaderSearch = () => {
@@ -970,6 +971,7 @@ const HeaderSearch = () => {
       window.location.href = createPageUrl('COAReports');
       }}
       />
+      <WelcomeDiscountPopup />
       <AbandonedCartTracker />
       <SecurityMonitor />
       </div>

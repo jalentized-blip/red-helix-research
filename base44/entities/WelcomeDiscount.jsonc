@@ -1,0 +1,40 @@
+{
+  "name": "WelcomeDiscount",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Unique welcome discount code"
+    },
+    "fingerprint": {
+      "type": "string",
+      "description": "Browser fingerprint hash to detect reuse across email changes"
+    },
+    "ip_hash": {
+      "type": "string",
+      "description": "Hashed IP address for abuse detection"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address if provided"
+    },
+    "used": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this code has been used"
+    },
+    "used_on_order": {
+      "type": "string",
+      "description": "Order number this code was used on"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Code expiration date (30 days from creation)"
+    }
+  },
+  "required": [
+    "code",
+    "fingerprint"
+  ]
+}
