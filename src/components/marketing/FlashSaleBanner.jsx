@@ -74,7 +74,7 @@ export default function FlashSaleBanner() {
         <div
           style={{
             position: 'fixed',
-            top: headerVisible ? '72px' : '-60px',
+            top: headerVisible ? '88px' : '-60px',
             left: 0,
             right: 0,
             zIndex: 65,
