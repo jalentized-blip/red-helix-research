@@ -15,27 +15,14 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Missing to, subject, or body' }, { status: 400 });
     }
 
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Red Helix Research <onboarding@resend.dev>',
-        to,
-        subject,
-        html: body,
-      }),
+    const result = await base44.integrations.Core.SendEmail({
+      to,
+      subject,
+      body,
+      from_name: 'Red Helix Research',
     });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      return Response.json({ error: data.message || 'Resend error' }, { status: 500 });
-    }
-
-    return Response.json({ success: true, id: data.id });
+    return Response.json({ success: true, result });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
