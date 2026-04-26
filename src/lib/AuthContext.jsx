@@ -52,10 +52,8 @@ export const AuthProvider = ({ children }) => {
         if (appError.status === 403 && appError.data?.extra_data?.reason) {
           const reason = appError.data.extra_data.reason;
           if (reason === 'auth_required') {
-            setAuthError({
-              type: 'auth_required',
-              message: 'Authentication required'
-            });
+            // App is public — allow guests to browse and purchase without logging in
+            // Only set error for user_not_registered which requires action
           } else if (reason === 'user_not_registered') {
             setAuthError({
               type: 'user_not_registered',
@@ -67,12 +65,8 @@ export const AuthProvider = ({ children }) => {
               message: appError.message
             });
           }
-        } else {
-          setAuthError({
-            type: 'unknown',
-            message: appError.message || 'Failed to load app'
-          });
         }
+        // Allow app to load for all other errors (treat as guest)
         setIsLoadingPublicSettings(false);
         setIsLoadingAuth(false);
       }
