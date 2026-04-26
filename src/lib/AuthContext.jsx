@@ -29,8 +29,8 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'X-App-Id': appParams.appId
         },
-        token: appParams.token, // Include token if available
-        interceptResponses: true
+        token: appParams.token,
+        interceptResponses: false  // Don't auto-redirect on auth errors — app is public
       });
       
       try {
