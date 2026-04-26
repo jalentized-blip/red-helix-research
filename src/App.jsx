@@ -35,9 +35,8 @@ const AuthenticatedApp = () => {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
-      navigateToLogin();
-      return null;
+      // Don't auto-redirect — app is public, guests can browse and purchase
+      // Only protected routes will enforce login as needed
     }
   }
 
