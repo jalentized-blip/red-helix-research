@@ -253,17 +253,6 @@ export default function CryptoCheckout() {
   // Init
   useEffect(() => {
     const init = async () => {
-      try {
-        const authenticated = await base44.auth.isAuthenticated();
-        if (!authenticated) {
-          base44.auth.redirectToLogin(createPageUrl('Cart'));
-          return;
-        }
-      } catch {
-        base44.auth.redirectToLogin(createPageUrl('Cart'));
-        return;
-      }
-
       const cart = getCart();
       const customer = JSON.parse(localStorage.getItem('customerInfo') || 'null');
       const promo = getPromoCode();
