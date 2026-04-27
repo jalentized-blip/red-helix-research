@@ -22,6 +22,7 @@ export default function FlashSaleBanner() {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   // Load DB messages (active only), fall back to defaults
@@ -58,6 +59,18 @@ export default function FlashSaleBanner() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Hide when header menu (hamburger/sheet) is open
+  useEffect(() => {
+    const handleMenuOpen = () => setMenuOpen(true);
+    const handleMenuClose = () => setMenuOpen(false);
+    window.addEventListener('headerMenuOpen', handleMenuOpen);
+    window.addEventListener('headerMenuClose', handleMenuClose);
+    return () => {
+      window.removeEventListener('headerMenuOpen', handleMenuOpen);
+      window.removeEventListener('headerMenuClose', handleMenuClose);
+    };
+  }, []);
+
   const dismiss = () => {
     setDismissed(true);
     setVisible(false);
@@ -74,7 +87,7 @@ export default function FlashSaleBanner() {
         <div
           style={{
             position: 'fixed',
-            top: headerVisible ? '88px' : '-60px',
+            top: (headerVisible && !menuOpen) ? '88px' : '-60px',
             left: 0,
             right: 0,
             zIndex: 65,

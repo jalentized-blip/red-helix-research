@@ -700,8 +700,10 @@ const HeaderSearch = () => {
               <Sheet onOpenChange={(open) => {
                 if (open) {
                   setHeaderVisible(false);
+                  window.dispatchEvent(new Event('headerMenuOpen'));
                 } else {
                   setHeaderVisible(true);
+                  window.dispatchEvent(new Event('headerMenuClose'));
                 }
               }}>
                 <SheetTrigger asChild>
