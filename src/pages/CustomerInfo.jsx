@@ -101,6 +101,28 @@ export default function CustomerInfo() {
       alert('Information updated successfully!');
       navigate(createPageUrl('Account'));
     } else {
+      // Save a pre-checkout snapshot immediately — so we have name/email/address
+      // even if they abandon at the payment step
+      try {
+        const cart = JSON.parse(localStorage.getItem('rdr_cart') || '[]');
+        const promo = localStorage.getItem('rdr_promo');
+        const preSnapshot = {
+          stage: 'customer_info_submitted',
+          timestamp: new Date().toISOString(),
+          customerName: `${customerData.firstName} ${customerData.lastName}`.trim(),
+          customerEmail: customerData.email,
+          customerPhone: customerData.phone,
+          shippingAddress: {
+            address: customerData.shippingAddress,
+            city: customerData.shippingCity,
+            state: customerData.shippingState,
+            zip: customerData.shippingZip,
+          },
+          items: cart,
+          promoCode: promo || null,
+        };
+        localStorage.setItem('rhr_pre_checkout_snapshot', JSON.stringify(preSnapshot));
+      } catch (_) {}
       // Ensure we redirect to the correct checkout page
       navigate(createPageUrl('CryptoCheckout'));
     }

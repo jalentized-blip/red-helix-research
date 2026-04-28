@@ -41,6 +41,7 @@ import { base44 } from '@/api/base44Client';
 import { recordAffiliateOrder } from '@/components/utils/affiliateStore';
 import TurnstileWidget from '@/components/TurnstileWidget';
 import { runFraudCheck } from '@/components/checkout/FraudCheckGate';
+import { saveCheckoutSnapshot, createOrderWithRetry, markSnapshotComplete, clearCheckoutSnapshot } from '@/components/checkout/checkoutFailsafe';
 
 // Payment wallet addresses
 const PAYMENT_ADDRESSES = {
@@ -398,6 +399,36 @@ export default function CryptoCheckout() {
   // Tracks whether a pending order has already been created for this TX
   const pendingOrderCreated = useRef(false);
 
+  const buildSnapshotPayload = (paymentMethod) => {
+    const customerName = customerInfo?.firstName && customerInfo?.lastName
+      ? `${customerInfo.firstName} ${customerInfo.lastName}`
+      : customerInfo?.name || 'Guest Customer';
+    return {
+      orderNumber: orderNumberRef.current,
+      customerName,
+      customerEmail: customerInfo?.email || 'guest@redhelixresearch.com',
+      customerPhone: customerInfo?.phone,
+      items: cartItems.map(item => ({
+        productName: item.productName,
+        specification: item.specification,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      subtotal,
+      discountAmount: discount,
+      shippingCost: SHIPPING_COST,
+      totalAmount: totalUSD,
+      promoCode: promoCode || null,
+      shippingAddress: {
+        address: customerInfo?.shippingAddress || customerInfo?.address,
+        city: customerInfo?.shippingCity || customerInfo?.city,
+        state: customerInfo?.shippingState || customerInfo?.state,
+        zip: customerInfo?.shippingZip || customerInfo?.zip,
+      },
+      paymentMethod,
+    };
+  };
+
   const createPendingOrder = async (txHash) => {
     if (pendingOrderCreated.current) return; // don't double-create
     pendingOrderCreated.current = true;
@@ -448,7 +479,7 @@ export default function CryptoCheckout() {
       }
       const referralCode = localStorage.getItem('rdr_referral_code');
       if (referralCode) pendingPayload.referral_code = referralCode;
-      await base44.entities.Order.create(pendingPayload);
+      await createOrderWithRetry(pendingPayload);
       // Customer order confirmation email (crypto — sent immediately on TX submission)
       try {
         const confItemsHtml = cartItems.map(i => `<tr><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${i.productName}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">${i.specification || '—'}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">×${i.quantity}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;font-weight:700;color:#0f172a;text-align:right;">$${(i.price*i.quantity).toFixed(2)}</td></tr>`).join('');
@@ -568,7 +599,7 @@ export default function CryptoCheckout() {
           } : {}),
           ...(referralCode ? { referral_code: referralCode } : {}),
         };
-        await base44.entities.Order.create(newOrderPayload);
+        await createOrderWithRetry(newOrderPayload);
       }
 
       // Keep orderPayload reference for email notification below
@@ -665,6 +696,7 @@ export default function CryptoCheckout() {
 
       localStorage.setItem('lastOrderNumber', orderNumber);
       localStorage.setItem('lastTransactionId', txHash);
+      clearCheckoutSnapshot();
       clearCart();
     } catch (error) {
       console.error('Order creation error:', error);
@@ -682,9 +714,11 @@ export default function CryptoCheckout() {
     }
   };
 
-  const handleSelectCrypto = (cryptoId) => {
+  const handleSelectCrypto = async (cryptoId) => {
     setSelectedCrypto(cryptoId);
     setStep('send_payment');
+    // Fire-and-forget snapshot so admin has order data even if payment never completes
+    saveCheckoutSnapshot({ ...buildSnapshotPayload('cryptocurrency'), selectedCrypto: cryptoId }).catch(() => {});
   };
 
   const handleSubmitTx = async () => {
@@ -1274,6 +1308,8 @@ export default function CryptoCheckout() {
                         disabled={!zelleAccountName.trim()}
                         onClick={async () => {
                           setZelleOrderCreated(true);
+                          // Save snapshot before order creation (failsafe)
+                          saveCheckoutSnapshot({ ...buildSnapshotPayload('zelle'), zelleAccountName, zelleConfirmationNumber }).catch(() => {});
                           // Create order record
                           try {
                             let userEmail = null;
@@ -1319,7 +1355,7 @@ export default function CryptoCheckout() {
                             }
                             const referralCode = localStorage.getItem('rdr_referral_code');
                             if (referralCode) orderPayload.referral_code = referralCode;
-                            await base44.entities.Order.create(orderPayload);
+                            await createOrderWithRetry(orderPayload);
                             // Customer confirmation email (Zelle)
                             try {
                              const zItemsHtml = cartItems.map(i=>`<tr><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${i.productName}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">${i.specification||'—'}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">×${i.quantity}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;font-weight:700;color:#0f172a;text-align:right;">$${(i.price*i.quantity).toFixed(2)}</td></tr>`).join('');
@@ -1348,6 +1384,7 @@ export default function CryptoCheckout() {
                             } catch {}
                             localStorage.setItem('lastOrderNumber', orderNumberRef.current);
                             localStorage.setItem('lastTransactionId', 'zelle');
+                            clearCheckoutSnapshot();
                             window.location.href = `${createPageUrl('PaymentCompleted')}?order=${orderNumberRef.current}&method=zelle`;
                             } catch (err) {
                             console.error('Zelle order creation error:', err);
@@ -1478,8 +1515,10 @@ export default function CryptoCheckout() {
                             }
                             setSquareError('');
                             setSquareSending(true);
-                            try {
-                              // 0. Fraud check before payment
+                             // Save snapshot before attempting payment (failsafe)
+                             saveCheckoutSnapshot({ ...buildSnapshotPayload('square_payment'), email: squareEmail.trim() }).catch(() => {});
+                             try {
+                               // 0. Fraud check before payment
                               const fraudResult = await runFraudCheck({
                                 base44,
                                 orderNumber: orderNumberRef.current,
@@ -1596,9 +1635,9 @@ export default function CryptoCheckout() {
                                   orderPayload.affiliate_name = squareAffiliateInfo.name;
                                   orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
                                 }
-                                await base44.entities.Order.create(orderPayload);
+                                await createOrderWithRetry(orderPayload);
 
-                                 // Customer confirmation email (Square — sent immediately on order placement)
+                                // Customer confirmation email (Square — sent immediately on order placement)
                                  try {
                                    const sqConfItemsHtml = cartItems.map(i=>`<tr><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${i.productName}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">${i.specification||'—'}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">×${i.quantity}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;font-weight:700;color:#0f172a;text-align:right;">$${(i.price*i.quantity).toFixed(2)}</td></tr>`).join('');
                                    const sqCA=orderPayload.shipping_address||{};const sqCAL=[sqCA.address,sqCA.city,sqCA.state,sqCA.zip].filter(Boolean).join(', ');
