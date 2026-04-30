@@ -1793,6 +1793,8 @@ export default function CryptoCheckout() {
                               setSquareCheckoutUrl(checkoutUrl);
                               setSquareSent(true);
                               setTurnstileToken(null); // Reset — tokens are single-use
+                              // Auto-open checkout in new tab so customers don't miss it even if email fails
+                              window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
                             } catch (err) {
                               console.error('Square checkout error:', err);
                               const errMsg = err?.response?.data?.error || err?.data?.error || err?.message || 'Failed to create checkout. Please try again.';
