@@ -210,6 +210,7 @@ export default function CryptoCheckout() {
   const [squareEmail, setSquareEmail] = useState('');
   const [squareSending, setSquareSending] = useState(false);
   const [squareSent, setSquareSent] = useState(false);
+  const [squareCheckoutUrl, setSquareCheckoutUrl] = useState('');
   const [squareError, setSquareError] = useState('');
   const [showSquareDisclaimer, setShowSquareDisclaimer] = useState(false);
   const [squareDisclaimerAccepted, setSquareDisclaimerAccepted] = useState(false);
@@ -1789,6 +1790,7 @@ export default function CryptoCheckout() {
                                 body: emailBody,
                               });
 
+                              setSquareCheckoutUrl(checkoutUrl);
                               setSquareSent(true);
                               setTurnstileToken(null); // Reset — tokens are single-use
                             } catch (err) {
@@ -1835,11 +1837,19 @@ export default function CryptoCheckout() {
                         </p>
                         <p className="text-lg font-black text-slate-900 mb-6">{squareEmail}</p>
 
+                        {squareCheckoutUrl && (
+                          <div className="mb-6">
+                            <a href={squareCheckoutUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-sm py-5 rounded-xl shadow-lg transition-all">
+                              <ExternalLink className="w-5 h-5" />
+                              Complete Payment Now
+                            </a>
+                            <p className="text-[10px] text-slate-400 text-center mt-2 font-medium">Opens Square secure checkout in a new tab</p>
+                          </div>
+                        )}
                         <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl mb-6 text-left">
                           <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest mb-2">What's Next?</h4>
                           <ol className="text-sm text-blue-700 font-medium space-y-1.5 list-decimal list-inside">
-                            <li>Check your email inbox (and spam folder)</li>
-                            <li>Click the <strong>"Complete Payment"</strong> button in the email</li>
+                            <li>Click <strong>"Complete Payment Now"</strong> above, or check your email</li>
                             <li>Enter your card details on the secure Square checkout page</li>
                             <li>You'll receive an order confirmation once payment is complete</li>
                           </ol>
