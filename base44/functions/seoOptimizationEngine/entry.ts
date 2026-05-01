@@ -19,6 +19,15 @@ Deno.serve(async (req) => {
 
     const BRAND = `Red Helix Research: research peptide store (BPC-157, TB-500, Semaglutide, Tirzepatide). Core differentiator: affordability — research-grade quality below competitor prices, framed as democratizing access for independent researchers. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Tone: authoritative researcher, not marketer. Compliance: research/lab use only, no health claims, no human use implications. SEO goals: commercial keywords (buy/affordable/cheap research peptides), educational keywords (what is X, how X works), E-E-A-T signals, hub-and-spoke topical authority.`;
 
+    const SYSTEM_INSTRUCTION = `You are an elite SEO intelligence system running on ${today}. Your job is to produce FRESH, CURRENT, HIGH-VALUE SEO intelligence — not generic advice.
+
+CRITICAL DIRECTIVES:
+1. RESEARCH WHAT IS ACTUALLY GAINING TRAFFIC RIGHT NOW in the peptide/research chemical/biotech/GLP-1/weight loss niche. Think about what topics, keywords, and content formats are surging in search volume in 2025-2026 (Reddit discussions, TikTok spillover to Google, medical weight loss news cycles, research community forums, YouTube search trends). Cite specific examples.
+2. APPLY THE NEWEST SEO PRACTICES: include AI Overviews/SGE optimization (zero-click content strategy), Reddit/forum content signals, programmatic SEO opportunities, semantic clustering, entity-based SEO, topical authority mapping, and E-E-A-T signals for YMYL-adjacent content. Do NOT give advice that was already standard practice in 2022.
+3. COMPETITIVE INTELLIGENCE: Reason about what Limitless Life Nootropics, Peptide Sciences, Core Peptides, and Amino Asylum are likely ranking for vs. where they are weak. Look for content gaps driven by compliance fear — competitors avoid health-claim-adjacent content that Red Helix can frame compliantly as research education.
+4. BE SPECIFIC: Name actual keywords with estimated volume ranges, name actual content formats (e.g. "comparison table ranking BPC-157 by price per mg"), name actual pages to create or optimize. No vague advice.
+5. AFFORDABILITY ANGLE: Red Helix's core differentiator is price. Every recommendation should consider how to capture "cheap/affordable/best price" intent alongside the research/educational angle.`;
+
     async function callGemini(prompt, schema) {
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -26,9 +35,10 @@ Deno.serve(async (req) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: `Context: ${BRAND}\n\n${prompt}` }] }],
+            system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+            contents: [{ parts: [{ text: `Brand Context: ${BRAND}\n\nTask: ${prompt}` }] }],
             generationConfig: {
-              temperature: 0.7,
+              temperature: 0.8,
               maxOutputTokens: 8192,
               responseMimeType: 'application/json',
               responseSchema: schema,
@@ -56,7 +66,7 @@ Deno.serve(async (req) => {
 
     // 1. Trend Research
     const trendResearch = await callGemini(
-      `You are an expert SEO strategist for Red Helix Research (${today}). Identify the highest-impact SEO tactics for a research peptide store emphasizing affordability and educational authority. Include: high-intent commercial keywords (buy BPC-157, cheap research peptides, affordable semaglutide), educational keywords (what is BPC-157, how tirzepatide works), and comparison/affordability keywords (cheapest research peptides, peptide price comparison). Find competitor content gaps that Red Helix can exploit with science-forward, compliant content. Quick wins should be actionable today.`,
+      `Research and identify what is CURRENTLY gaining search traffic in the peptide research, GLP-1/weight loss, biotech, and research chemical space as of ${today}. Specifically: What topics are trending RIGHT NOW (news cycles, social media spillover, Reddit/forum discussions going mainstream, new research publications driving curiosity)? What new keyword patterns are emerging (e.g. new peptide combos, protocol terms, research use terms)? What content formats are winning in Google SERPs for this niche in 2025-2026 (AI Overviews, Reddit results, YouTube carousels, comparison tables)? Identify the highest-ROI tactics Red Helix should deploy immediately, with emphasis on affordability keywords and educational gaps competitors are leaving open.`,
       {
         type: 'object',
         properties: {
@@ -71,7 +81,7 @@ Deno.serve(async (req) => {
 
     // 2. Content Strategy
     const contentStrategy = await callGemini(
-      `You are a content strategist for Red Helix Research, a research peptide store. Generate: (1) FAQ content that addresses pre-purchase researcher questions with E-E-A-T signals and research-use disclaimers — weave in affordability naturally; (2) People Also Ask targeted answers optimized for featured snippets; (3) Meta title and description optimizations under 60/155 chars respectively that include primary keyword + affordability angle; (4) Internal linking map building hub-and-spoke topic clusters. Frame all content as written by a knowledgeable researcher. Never make health claims or imply human use.`,
+      `Create a current-moment content strategy for Red Helix Research based on what is working in SEO RIGHT NOW (${today}). Focus on: (1) FAQ and PAA content optimized for Google's AI Overviews/SGE — what answer formats are getting picked up in AI snippets for peptide/research chemical queries? (2) People Also Ask questions that are CURRENTLY appearing in SERPs for peptide and GLP-1 searches — write concise answers optimized for featured snippet capture; (3) Meta titles/descriptions under 60/155 chars using current best practices for CTR in 2025 SERPs (include power words, numbers, affordability hooks); (4) Internal linking strategy using semantic clustering and entity relationships, not just keyword matching. All content must use research-use framing, no health claims, strong E-E-A-T signals.`,
       {
         type: 'object',
         properties: {
@@ -86,7 +96,7 @@ Deno.serve(async (req) => {
 
     // 3. Technical Audit
     const technicalAudit = await callGemini(
-      `You are a technical SEO auditor for Red Helix Research. Audit and provide: (1) Technical SEO fixes — missing canonicals, duplicate metas, thin content pages, Core Web Vitals issues, sitemap freshness, index bloat; (2) Keyword clusters mapped to existing or planned pages — cluster by topic (BPC-157, TB-500, GLP-1/weight loss, recovery, cognitive), include primary + secondary keywords, volume estimates, difficulty, and opportunity score; (3) Backlink opportunities — niche science/research directories, biotech blogs, researcher forums; (4) E-E-A-T improvements — how to signal expertise and trustworthiness for a peptide research site.`,
+      `Provide a technical SEO audit and keyword strategy using the LATEST 2025-2026 best practices for Red Helix Research. (1) Technical fixes based on current Google ranking factors — Core Web Vitals thresholds that matter NOW, structured data types Google is actively rewarding (Product, FAQPage, HowTo, Article with author entity), indexing issues specific to React SPAs, canonical and hreflang considerations; (2) Keyword clusters using semantic/entity-based grouping (not just keyword matching) — identify the highest-opportunity clusters in the peptide/GLP-1/research space with volume estimates and a competition reality check for 2025; (3) Backlink opportunities that are WORKING NOW in this niche — which types of sites (Reddit, PubMed-linking blogs, researcher communities, nootropics forums, bodybuilding/fitness research sites) are passing authority; (4) E-E-A-T signals specifically for YMYL-adjacent research content — what Google wants to see for a site in this space in 2025.`,
       {
         type: 'object',
         properties: {
@@ -101,7 +111,7 @@ Deno.serve(async (req) => {
 
     // 4. Competitor Intel
     const competitorIntel = await callGemini(
-      `You are a competitive SEO analyst for Red Helix Research. Analyze these top peptide store competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. For each competitor: identify their top-ranking keywords, content gaps they leave unaddressed (especially affordability, educational depth, and compliance transparency), and weaknesses Red Helix can exploit. Then identify the top exploitation opportunities with specific keywords and urgency levels.`,
+      `Perform a current competitive SEO intelligence report (as of ${today}) on Red Helix Research's main competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Reason about: What keywords and content angles are these competitors likely winning on RIGHT NOW — and where are they failing to capture demand? Focus especially on: content they avoid due to compliance fear (that Red Helix can capture with research-framed content), affordability/price comparison keywords they're ignoring, new trending topics (GLP-1 combinations, newer peptides gaining research interest like BPC-157 + TB-500 stacks, Semax, Epithalon) where the competitive field is thin. Identify the 5 highest-urgency exploitation opportunities Red Helix can act on immediately with specific keyword targets.`,
       {
         type: 'object',
         properties: {
@@ -114,7 +124,7 @@ Deno.serve(async (req) => {
 
     // 5. Action Plan
     const actionPlan = await callGemini(
-      `You are the SEO execution lead for Red Helix Research on ${today}. Based on the full SEO strategy — affordability differentiation, educational authority, E-E-A-T, technical health, competitor gaps, and topical authority — create a prioritized 8-item action plan. Each item must have: a clear task (specific and actionable), category (content/technical/links/on-page/competitor), expected impact level (high/medium/low), time estimate, whether it can be auto-implemented or needs manual execution, and 3-5 concrete implementation steps. Rank by ROI. Provide a one-paragraph strategic summary and identify the single top opportunity for today.`,
+      `You are the SEO execution lead for Red Helix Research on ${today}. Synthesize all the current trends, latest SEO practices, competitor gaps, and technical opportunities into a prioritized 8-item action plan that reflects what is working in SEO RIGHT NOW — not generic evergreen advice. Each item must be: specific (name the keyword, name the page, name the schema type), ranked by expected ROI in the current Google environment (2025-2026 with AI Overviews, Reddit surface, entity-based ranking), and include whether it targets a currently trending topic. Include: category (content/technical/links/on-page/competitor), impact (high/medium/low), time estimate, auto-implement flag, and 3-5 concrete steps. Lead with a strategic summary that calls out the single most urgent opportunity based on what is gaining traction RIGHT NOW in this niche.`,
       {
         type: 'object',
         properties: {
