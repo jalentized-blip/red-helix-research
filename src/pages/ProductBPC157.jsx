@@ -336,10 +336,10 @@ export default function ProductBPC157() {
             </div>
             <div className="bg-white border border-slate-200 rounded-[24px] p-6 text-center">
               <Calculator className="w-8 h-8 text-[#dc2626] mx-auto mb-3" />
-              <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Dosage Calculator</h3>
-              <p className="text-xs text-slate-500 font-medium">Use our free peptide calculator to determine exact BPC-157 reconstitution volumes and concentrations.</p>
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Reconstitution Calculator</h3>
+              <p className="text-xs text-slate-500 font-medium">Use our free research tool to determine BPC-157 reconstitution volumes, concentrations, and laboratory aliquot sizes for in-vitro use.</p>
               <Link to={createPageUrl('PeptideCalculator')} className="text-[10px] font-black text-[#dc2626] uppercase tracking-widest mt-3 inline-block hover:underline">
-                Calculate Dosage →
+                Lab Calculator →
               </Link>
             </div>
             <div className="bg-white border border-slate-200 rounded-[24px] p-6 text-center">

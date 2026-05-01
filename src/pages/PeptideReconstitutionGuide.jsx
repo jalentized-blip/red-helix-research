@@ -10,9 +10,9 @@ export default function PeptideReconstitutionGuide() {
   return (
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
-        title="Peptide Reconstitution Guide — Step-by-Step Instructions"
-        description="Complete guide to reconstituting research peptides. Learn proper techniques for mixing lyophilized peptides with bacteriostatic water. For research use only."
-        keywords="peptide reconstitution, how to reconstitute peptides, peptide mixing guide, bacteriostatic water, lyophilized peptide, peptide preparation, research peptide guide"
+        title="Peptide Reconstitution Guide — Laboratory Research Use Only"
+        description="Complete in-vitro laboratory guide to reconstituting research peptides. Covers sterile technique, bacteriostatic water ratios, and storage for laboratory researchers. For in-vitro research use only — not for human use."
+        keywords="peptide reconstitution guide, laboratory peptide reconstitution, how to reconstitute research peptides, bacteriostatic water reconstitution, lyophilized peptide lab guide, in-vitro peptide preparation, research peptide handling"
         canonical="https://redhelixresearch.com/PeptideReconstitutionGuide"
         schema={[
           generateBreadcrumbSchema([
@@ -48,9 +48,10 @@ export default function PeptideReconstitutionGuide() {
 
       {/* Disclaimer */}
       <div className="max-w-4xl mx-auto px-4 mb-12">
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
-          <p className="text-amber-900 text-sm font-medium">
-            <span className="font-bold">⚠️ Disclaimer:</span> This guide is strictly for research purposes only. All peptides are sold for research use only and are not intended for human consumption. Always follow local laws and regulations.
+        <div className="bg-[#8B2635] rounded-2xl p-6">
+          <p className="text-white text-sm font-medium leading-relaxed">
+            <span className="font-black uppercase tracking-widest block mb-2">⚠ MANDATORY RESEARCH DISCLAIMER</span>
+            This guide is exclusively for licensed laboratory researchers performing <strong>in-vitro research only</strong>. These procedures describe laboratory reconstitution techniques for handling research-grade peptide compounds. <strong>This is NOT a guide for human self-administration.</strong> Red Helix Research products are sold strictly for scientific research and are <strong>NOT approved by the FDA for human or animal use</strong>. Not intended to diagnose, treat, cure, or prevent any disease. Users must comply with all applicable federal, state, and local laws regarding research chemicals.
           </p>
         </div>
       </div>
@@ -132,17 +133,18 @@ export default function PeptideReconstitutionGuide() {
         <div className="bg-white border border-slate-200 rounded-[24px] p-8 shadow-sm hover:shadow-md transition-shadow">
           <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-3">
             <span className="bg-[#dc2626] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
-            Drawing Your Dose
+            Withdrawing Your Research Aliquot
           </h2>
           <div className="text-slate-600 space-y-3 font-medium leading-relaxed">
-            <p>After reconstitution is complete:</p>
+            <p>After reconstitution is complete, withdraw your laboratory aliquot:</p>
             <ol className="list-decimal list-inside space-y-2 text-slate-500 pl-4">
               <li>Clean the rubber septum again with an alcohol prep pad</li>
               <li>Let it dry completely</li>
-              <li>Using a new sterile syringe, carefully withdraw the calculated amount</li>
+              <li>Using a new sterile syringe, carefully withdraw the calculated aliquot volume</li>
               <li>Use the syringe markings and visual guide for accuracy</li>
-              <li>Double-check your drawn amount</li>
+              <li>Double-check your drawn aliquot volume</li>
             </ol>
+            <p className="text-[11px] font-black text-[#8B2635] uppercase tracking-wider pt-2">⚠ These are laboratory aliquot volumes for in-vitro research only — not human dosing instructions.</p>
           </div>
         </div>
 
@@ -192,7 +194,7 @@ export default function PeptideReconstitutionGuide() {
             </li>
             <li className="flex gap-3 items-start">
               <span className="text-white font-bold">✓</span>
-              <span><span className="font-bold text-white">Follow calculations</span> - Use the peptide calculator to ensure accurate dosing</span>
+              <span><span className="font-bold text-white">Follow calculations</span> - Use the peptide calculator to ensure accurate laboratory aliquot measurements (not human dosing)</span>
             </li>
           </ul>
         </div>

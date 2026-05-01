@@ -64,9 +64,12 @@ const Hero = React.memo(() => {
             <span className="text-black">PEPTIDES</span>
           </h1>
 
-          <p className="text-base md:text-xl text-slate-600 mb-8 md:mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-            Red Helix Research provides high-purity, third-party verified peptides for advanced scientific study and laboratory experimentation.
+          <p className="text-base md:text-xl text-slate-600 mb-4 md:mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+            Red Helix Research provides high-purity, third-party verified peptides exclusively for advanced in-vitro scientific study and laboratory research.
           </p>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#8B2635]/20 rounded-full mb-6 md:mb-8">
+            <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">⚠ For In-Vitro Research Use Only — Not For Human Consumption — Not FDA Approved</span>
+          </div>
 
           {/* Stats/Features - Clean Medical Icons */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-10 md:mb-12">

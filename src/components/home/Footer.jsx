@@ -69,9 +69,9 @@ export default function Footer() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-6">
                   <div>
-                    <p className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest mb-2">Research Use Only</p>
+                    <p className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest mb-2">⚠ Research Use Only — Not For Human Use</p>
                     <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                      All products are strictly for laboratory research. Not for human or veterinary use. Any misuse will result in account termination.
+                      All products are exclusively for in-vitro laboratory research. Not for human consumption. Not for veterinary use. Not evaluated or approved by the FDA. Not intended to diagnose, treat, cure, or prevent any disease. Misuse is strictly prohibited and will result in immediate account termination.
                     </p>
                   </div>
                   <div>
@@ -85,7 +85,7 @@ export default function Footer() {
                   <div>
                     <p className="text-[10px] font-black text-black uppercase tracking-widest mb-2">Handling Protocol</p>
                     <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                      Must be handled by qualified professionals in an appropriate laboratory setting. PPE required.
+                      Must be handled exclusively by qualified researchers in an approved laboratory setting with proper PPE. Buyer is solely responsible for compliance with all applicable federal, state, and local laws.
                     </p>
                   </div>
                   <div className="pt-2">
@@ -98,6 +98,13 @@ export default function Footer() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Compliance Strip */}
+        <div className="mb-8 p-4 bg-slate-900 rounded-2xl text-center">
+          <p className="text-[10px] text-slate-300 font-bold leading-relaxed">
+            <span className="text-[#8B2635] font-black uppercase tracking-widest">⚠ FOR IN-VITRO LABORATORY RESEARCH USE ONLY</span> — All products sold by Red Helix Research are strictly for scientific research in controlled laboratory environments. NOT for human consumption. NOT for veterinary use. NOT evaluated or approved by the FDA, DEA, or any regulatory authority for human or animal use. NOT intended to diagnose, treat, cure, or prevent any disease or medical condition. Researchers are solely responsible for compliance with all federal, state, and local laws applicable to research chemicals in their jurisdiction. By accessing this website you confirm you are a licensed researcher and agree to use all products exclusively for lawful in-vitro research.
+          </p>
         </div>
 
         {/* Bottom Bar */}

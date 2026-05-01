@@ -109,10 +109,13 @@ export default function LearnMore() {
           </DialogHeader>
           <div className="space-y-4">
             <DialogDescription className="text-slate-500 text-base leading-relaxed font-medium">
-              The information on this page is for <span className="font-black text-black uppercase text-xs">educational and research purposes only</span>. It is <span className="font-black text-black uppercase text-xs">not medical advice</span> and should not be taken as a substitute for professional medical consultation.
+              The information on this page is strictly for <span className="font-black text-black uppercase text-xs">in-vitro scientific research and educational reference only</span>. It is <span className="font-black text-black uppercase text-xs">NOT medical advice</span>, does not constitute therapeutic guidance, and must not be interpreted as instructions for human or animal use.
             </DialogDescription>
-            <p className="text-slate-400 text-xs font-bold">
-              Always consult with a qualified healthcare provider before using any research chemicals or peptides.
+            <p className="text-slate-500 text-xs font-bold leading-relaxed">
+              All products referenced are sold exclusively for laboratory research. None of the compounds described are approved by the FDA for human or veterinary use. None are intended to diagnose, treat, cure, or prevent any disease or medical condition.
+            </p>
+            <p className="text-[#8B2635] text-[10px] font-black uppercase tracking-widest">
+              ⚠ By continuing, you confirm you are a licensed researcher accessing this data for in-vitro research purposes only.
             </p>
           </div>
           <div className="flex gap-3 mt-8">

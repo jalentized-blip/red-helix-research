@@ -310,12 +310,15 @@ export default function Products() {
         </div>
 
         {/* Legal Disclaimer */}
-        <div className="mt-20 p-8 bg-slate-50 rounded-[32px] border border-slate-200 text-center">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Legal Notice</p>
-          <p className="text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed font-medium">
-            All products listed are strictly for LABORATORY AND SCIENTIFIC RESEARCH PURPOSES ONLY. Not for human consumption,
-            veterinary use, or any form of clinical application. Research subjects must be handled by qualified professionals
-            in controlled environments. Red Helix Research enforces strict compliance with all regulatory standards.
+        <div className="mt-20 p-8 bg-slate-50 rounded-[32px] border border-[#8B2635]/20 text-center">
+          <p className="text-[10px] font-black text-[#8B2635] uppercase tracking-[0.2em] mb-4">⚠ Mandatory Legal Disclaimer</p>
+          <p className="text-xs text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium">
+            All products listed are exclusively for <strong>IN-VITRO LABORATORY AND SCIENTIFIC RESEARCH PURPOSES ONLY</strong>. 
+            Not for human consumption. Not for veterinary use. Not for any clinical, therapeutic, or diagnostic application. 
+            Not evaluated or approved by the FDA or any regulatory authority for human or animal use. 
+            Not intended to diagnose, treat, cure, or prevent any disease or condition.
+            These compounds must only be handled by qualified researchers in approved laboratory settings in full compliance with applicable federal, state, and local laws and regulations. 
+            Purchase and possession may be regulated in your jurisdiction — it is the buyer's sole responsibility to verify legality before ordering.
           </p>
         </div>
       </div>
