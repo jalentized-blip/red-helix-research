@@ -51,11 +51,16 @@ export default function Products() {
   }, [refetch]);
 
   // Extract all 10 vial kit options from all products (excluding BPC-157)
+  const isKitSpec = (name) => {
+    const n = name?.toLowerCase() || '';
+    return n.includes('10 vial') || n.includes('× 10') || n.includes('x 10');
+  };
+
   const allKitOptions = [];
   products.forEach(product => {
     const isBPC157 = product.name?.toLowerCase().includes('bpc');
     const kitSpecs = product.specifications?.filter(spec => 
-      spec.name?.toLowerCase().includes('10 vial') && !spec.hidden && !isBPC157
+      isKitSpec(spec.name) && !spec.hidden && spec.in_stock && !isBPC157
     ) || [];
     kitSpecs.forEach(spec => {
       allKitOptions.push({
@@ -85,7 +90,7 @@ export default function Products() {
   const productsWithSingleVials = products.map(product => ({
     ...product,
     specifications: product.specifications?.filter(spec => 
-      !spec.name?.toLowerCase().includes('10 vial')
+      !isKitSpec(spec.name)
     ) || []
   })).filter(product => {
     // Remove products that only had kit specs
