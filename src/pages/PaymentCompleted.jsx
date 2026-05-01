@@ -20,6 +20,24 @@ export default function PaymentCompleted() {
     
     setTransactionId(finalTxId);
     setOrderNumber(finalOrder);
+
+    // Meta Pixel: Purchase event
+    if (typeof window !== 'undefined' && window.fbq) {
+      try {
+        const cart = JSON.parse(localStorage.getItem('rdr_cart') || '[]');
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const contentIds = cart.map(i => i.productId);
+        window.fbq('track', 'Purchase', {
+          value: total || 0,
+          currency: 'USD',
+          content_ids: contentIds,
+          content_type: 'product',
+          order_id: finalOrder || undefined,
+        });
+      } catch (_e) {
+        window.fbq('track', 'Purchase', { value: 0, currency: 'USD' });
+      }
+    }
   }, []);
 
   return (

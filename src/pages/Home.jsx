@@ -77,6 +77,14 @@ export default function Home({ adminViewAsUser = false }) {
       };
       checkAuth();
 
+      // Meta Pixel: ViewContent on home page load
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'ViewContent', {
+          content_name: 'Home Page',
+          content_type: 'product_group',
+        });
+      }
+
       const handleOpenProduct = (event) => {
         const product = event.detail;
         if (product) {

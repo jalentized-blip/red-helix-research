@@ -31,6 +31,18 @@ export const addToCart = (product, specification) => {
 
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   window.dispatchEvent(new Event('cartUpdated'));
+
+  // Meta Pixel: AddToCart event
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'AddToCart', {
+      content_name: product.name,
+      content_ids: [product.id],
+      content_type: 'product',
+      value: specification.price,
+      currency: 'USD',
+    });
+  }
+
   return cart;
 };
 

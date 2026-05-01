@@ -282,6 +282,15 @@ export default function Cart() {
                       setShowAgreementError(true);
                       return;
                     }
+                    // Meta Pixel: InitiateCheckout event
+                    if (typeof window !== 'undefined' && window.fbq) {
+                      window.fbq('track', 'InitiateCheckout', {
+                        value: finalTotal,
+                        currency: 'USD',
+                        num_items: cartItems.length,
+                        content_ids: cartItems.map(i => i.productId),
+                      });
+                    }
                     navigate(createPageUrl('CustomerInfo'));
                   }}
                   className={`w-full font-black py-5 md:py-8 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
