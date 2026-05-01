@@ -22,7 +22,6 @@ import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
 import ResearchDisclaimerGate from '@/components/ResearchDisclaimerGate';
 import WelcomeDiscountPopup from '@/components/WelcomeDiscountPopup';
-import FlashSaleBanner from '@/components/marketing/FlashSaleBanner';
 
 
 const HeaderSearch = () => {
