@@ -982,7 +982,6 @@ const HeaderSearch = () => {
       <SecurityMonitor />
       
 
-      <FlashSaleBanner />
       </div>
       </SecurityGateway>
       </MFAProvider>
