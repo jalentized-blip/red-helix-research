@@ -1,316 +1,492 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, TrendingUp, BarChart3, Target, AlertCircle, CheckCircle } from 'lucide-react';
-import SEO from '@/components/SEO';
+import {
+  ArrowLeft, Zap, RefreshCw, CheckCircle2, AlertCircle, Clock,
+  TrendingUp, FileText, Link2, Target, Search, ChevronDown, ChevronUp,
+  Play, Power, BarChart3, Lightbulb, Globe, Shield
+} from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 
-export default function SEOMonitoring() {
-  const [activeTab, setActiveTab] = useState('overview');
+const STATUS_COLORS = {
+  completed: 'bg-green-100 text-green-700 border-green-200',
+  failed: 'bg-red-100 text-red-700 border-red-200',
+  in_progress: 'bg-blue-100 text-blue-700 border-blue-200',
+};
 
-  const rankingMetrics = [
-    { keyword: 'buy research peptides USA', position: 'Tracking', volume: '450/mo', difficulty: 'High', target: '#5-10' },
-    { keyword: 'BPC-157 peptide', position: 'Tracking', volume: '380/mo', difficulty: 'Medium', target: '#3-8' },
-    { keyword: 'TB-500 research', position: 'Tracking', volume: '290/mo', difficulty: 'Medium', target: '#3-8' },
-    { keyword: 'peptide supplier USA', position: 'Tracking', volume: '520/mo', difficulty: 'Very High', target: '#10-20' },
-    { keyword: 'semaglutide research', position: 'Tracking', volume: '1200/mo', difficulty: 'Very High', target: '#15-25' },
-    { keyword: 'lab tested peptides', position: 'Tracking', volume: '340/mo', difficulty: 'High', target: '#5-15' },
-  ];
+const CATEGORY_ICONS = {
+  content: FileText,
+  technical: Shield,
+  links: Link2,
+  'on-page': Search,
+  competitor: Target,
+};
 
-  const toolsAndMetrics = [
-    {
-      category: 'Rank Tracking',
-      tools: [
-        { name: 'SEMrush', metric: 'Keyword rankings (60+ keywords)', update: 'Daily' },
-        { name: 'Ahrefs', metric: 'Organic traffic estimates', update: 'Weekly' },
-        { name: 'Google Search Console', metric: 'Impressions & clicks', update: 'Real-time' }
-      ]
-    },
-    {
-      category: 'Authority Metrics',
-      tools: [
-        { name: 'Moz DA Tracker', metric: 'Domain Authority', update: 'Monthly' },
-        { name: 'SEMrush Authority Score', metric: 'Overall domain strength', update: 'Weekly' },
-        { name: 'Ahrefs Domain Rating', metric: 'Backlink authority', update: 'Weekly' }
-      ]
-    },
-    {
-      category: 'Backlink Analysis',
-      tools: [
-        { name: 'Google Search Console', metric: 'Backlink sources', update: 'Weekly' },
-        { name: 'Ahrefs', metric: 'New backlinks (60+ links)', update: 'Daily' },
-        { name: 'SEMrush', metric: 'Backlink growth tracking', update: 'Weekly' }
-      ]
-    },
-    {
-      category: 'Traffic & Behavior',
-      tools: [
-        { name: 'Google Analytics 4', metric: 'Organic traffic (target: 500+ sessions/day)', update: 'Real-time' },
-        { name: 'Google Search Console', metric: 'Click-through rates (CTR)', update: 'Real-time' },
-        { name: 'Hotjar', metric: 'User behavior & heatmaps', update: 'Real-time' }
-      ]
-    }
-  ];
+const IMPACT_COLORS = {
+  high: 'text-green-600 bg-green-50 border-green-200',
+  medium: 'text-yellow-600 bg-yellow-50 border-yellow-200',
+  low: 'text-slate-500 bg-slate-50 border-slate-200',
+};
 
-  const monthlyGoals = [
-    {
-      month: 'February 2026',
-      goals: [
-        { goal: 'Publish 5-6 guest posts', target: '5-8 backlinks', status: 'In Progress' },
-        { goal: 'Secure 10 resource page placements', target: '10+ backlinks', status: 'In Progress' },
-        { goal: 'Establish 3 lab partnerships', target: '3 partnership mentions', status: 'Planned' },
-        { goal: 'Reach 50+ organic sessions/day', target: 'Baseline growth', status: 'Tracking' },
-        { goal: 'Rank for 5 target keywords top-20', target: 'Page 2 ranking', status: 'In Progress' }
-      ]
-    },
-    {
-      month: 'March 2026',
-      goals: [
-        { goal: 'Publish 4-5 more guest posts', target: '4-6 backlinks', status: 'Planned' },
-        { goal: 'Reach 100+ organic sessions/day', target: 'Traffic milestone', status: 'Target' },
-        { goal: 'Get 3+ keywords on page 1 (positions 10-20)', target: 'SERP breakthrough', status: 'Target' },
-        { goal: 'Broken link building campaign', target: '5-10 backlinks', status: 'Planned' },
-        { goal: 'Domain Authority 15+', target: 'Authority growth', status: 'Target' }
-      ]
-    },
-    {
-      month: 'April 2026',
-      goals: [
-        { goal: 'Reach 200+ organic sessions/day', target: 'Traffic 4x increase', status: 'Target' },
-        { goal: 'Top-5 rankings for 2+ keywords', target: 'Featured snippets', status: 'Target' },
-        { goal: 'Domain Authority 20+', target: 'Competitive authority', status: 'Target' },
-        { goal: 'Publish additional research guides', target: 'Long-form content', status: 'Target' },
-        { goal: 'Secure journalist mentions (3+)', target: 'Media authority', status: 'Target' }
-      ]
-    }
-  ];
+function CollapsibleSection({ title, icon: Icon, count, children, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="border border-slate-200 rounded-2xl overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-6 py-4 bg-slate-50 hover:bg-slate-100 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <Icon className="w-5 h-5 text-[#8B2635]" />
+          <span className="font-black text-slate-900 uppercase tracking-wide text-sm">{title}</span>
+          {count !== undefined && (
+            <span className="text-xs bg-[#8B2635] text-white rounded-full px-2 py-0.5 font-bold">{count}</span>
+          )}
+        </div>
+        {open ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="p-6">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
-  const redFlags = [
-    { issue: 'Ranking drop >3 positions', action: 'Review page content, check for technical issues', frequency: 'Weekly' },
-    { issue: 'Organic traffic decline >20%', action: 'Audit recent changes, check backlinks', frequency: 'Daily' },
-    { issue: 'High bounce rate (>70%)', action: 'Improve page UX, optimize content', frequency: 'Monthly' },
-    { issue: 'Low CTR (<3%)', action: 'Improve meta description, test title tags', frequency: 'Monthly' },
-    { issue: 'Backlink loss', action: 'Check for removed pages, monitor competitor activity', frequency: 'Weekly' }
-  ];
+function ReportCard({ report, isLatest }) {
+  const ap = report.action_plan || {};
+  const tr = report.trend_research || {};
+  const cs = report.content_strategy || {};
+  const ta = report.technical_audit || {};
+  const ci = report.competitor_intel || {};
+  const m = report.metrics || {};
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20">
-      <SEO
-        title="SEO Monitoring & Analytics Dashboard | Red Helix Research"
-        description="Comprehensive SEO monitoring strategy with keyword tracking, backlink analysis, and organic traffic goals."
-        keywords="SEO monitoring, keyword tracking, SEO analytics, organic traffic goals"
-      />
-
-      <div className="max-w-6xl mx-auto px-4">
-        <Link to={createPageUrl('Home')}>
-          <Button variant="outline" className="border-slate-200 text-slate-500 hover:text-[#dc2626] hover:border-[#dc2626] mb-8 rounded-full font-bold uppercase tracking-wider text-xs">
-            ← Back to Home
-          </Button>
-        </Link>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">SEO Monitoring Dashboard</h1>
-          <p className="text-xl text-slate-600">Real-time tracking of keywords, traffic, and authority metrics</p>
-        </motion.div>
-
-        {/* Tabs */}
-        <div className="flex gap-4 mb-12 border-b border-slate-200 pb-4">
-          {['overview', 'keywords', 'tools', 'goals'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 font-semibold transition-all capitalize ${
-                activeTab === tab
-                  ? 'text-slate-900 border-b-2 border-[#dc2626] -mb-4'
-                  : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        {/* Overview */}
-        {activeTab === 'overview' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-slate-500 font-semibold">Organic Sessions</h3>
-                  <TrendingUp className="w-5 h-5 text-[#dc2626]" />
-                </div>
-                <p className="text-3xl font-black text-slate-900">~50/day</p>
-                <p className="text-xs text-slate-500 mt-2">Target: 500+/day by April</p>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-slate-500 font-semibold">Domain Authority</h3>
-                  <BarChart3 className="w-5 h-5 text-[#dc2626]" />
-                </div>
-                <p className="text-3xl font-black text-slate-900">~5-8</p>
-                <p className="text-xs text-slate-500 mt-2">Target: 20+ by April</p>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-slate-500 font-semibold">Backlinks</h3>
-                  <Target className="w-5 h-5 text-[#dc2626]" />
-                </div>
-                <p className="text-3xl font-black text-slate-900">~30-40</p>
-                <p className="text-xs text-slate-500 mt-2">Target: 100+ by April</p>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm text-slate-500 font-semibold">Top Ranking</h3>
-                  <CheckCircle className="w-5 h-5 text-[#dc2626]" />
-                </div>
-                <p className="text-3xl font-black text-slate-900">Page 2</p>
-                <p className="text-xs text-slate-500 mt-2">Target: Page 1 by March</p>
-              </div>
+    <div className={`space-y-4 ${isLatest ? '' : 'opacity-80'}`}>
+      {/* Summary */}
+      {ap.summary && (
+        <div className="bg-gradient-to-br from-slate-900 to-[#3a0f18] rounded-2xl p-6 text-white">
+          <div className="flex items-center gap-2 mb-3">
+            <Lightbulb className="w-5 h-5 text-yellow-400" />
+            <span className="font-black uppercase tracking-wide text-sm text-yellow-400">Strategic Summary</span>
+          </div>
+          <p className="text-slate-200 leading-relaxed">{ap.summary}</p>
+          {ap.top_opportunity && (
+            <div className="mt-4 bg-white/10 rounded-xl p-4 border border-white/20">
+              <p className="text-xs font-black uppercase tracking-widest text-yellow-300 mb-1">🎯 Top Opportunity Today</p>
+              <p className="text-white font-semibold">{ap.top_opportunity}</p>
             </div>
+          )}
+        </div>
+      )}
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
-              <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">Next Actions (Week of Jan 29)</h2>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-600"><strong>Submit sitemap.xml</strong> to Google Search Console</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-600"><strong>Set up GA4 and GSC</strong> conversion tracking</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-600"><strong>Begin HARO responses</strong> (3-5 this week)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-600"><strong>Outreach to 10 guest post targets</strong></span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#dc2626] flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-600"><strong>Implement internal linking</strong> across all pages</span>
-                </li>
+      {/* Metrics row */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { label: 'Tactics Found', value: m.tactics_identified || (tr.tactics || []).length, icon: Zap },
+          { label: 'Keywords', value: m.keywords_found || (tr.trending_keywords || []).length, icon: Search },
+          { label: 'Auto-Implementable', value: m.auto_implementable || 0, icon: CheckCircle2 },
+          { label: 'Traffic Gain Est.', value: m.estimated_traffic_gain || '+15-30%', icon: TrendingUp },
+        ].map(({ label, value, icon: Icon }) => (
+          <div key={label} className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Icon className="w-4 h-4 text-[#8B2635]" />
+              <span className="text-xs text-slate-500 font-semibold">{label}</span>
+            </div>
+            <p className="text-2xl font-black text-slate-900">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Action Plan */}
+      {(ap.action_items || []).length > 0 && (
+        <CollapsibleSection title="Action Plan" icon={Target} count={(ap.action_items || []).length} defaultOpen={isLatest}>
+          <div className="space-y-3">
+            {(ap.action_items || []).map((item, i) => {
+              const CatIcon = CATEGORY_ICONS[item.category?.toLowerCase()] || FileText;
+              return (
+                <div key={i} className="border border-slate-200 rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <div className="flex items-center gap-2 flex-1">
+                      <span className="w-6 h-6 rounded-full bg-[#8B2635] text-white text-xs font-black flex items-center justify-center flex-shrink-0">{item.rank}</span>
+                      <p className="font-bold text-slate-900">{item.task}</p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${IMPACT_COLORS[item.expected_impact?.toLowerCase()] || IMPACT_COLORS.low}`}>
+                        {item.expected_impact}
+                      </span>
+                      {item.auto_implement && (
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200">Auto</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mb-3 text-xs text-slate-500">
+                    <span className="flex items-center gap-1"><CatIcon className="w-3 h-3" />{item.category}</span>
+                    {item.time_to_implement && <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{item.time_to_implement}</span>}
+                  </div>
+                  {(item.steps || []).length > 0 && (
+                    <ol className="space-y-1">
+                      {item.steps.map((step, si) => (
+                        <li key={si} className="text-sm text-slate-600 flex items-start gap-2">
+                          <span className="text-[#8B2635] font-bold flex-shrink-0">{si + 1}.</span>
+                          {step}
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </CollapsibleSection>
+      )}
+
+      {/* Trending Keywords & Quick Wins */}
+      {((tr.trending_keywords || []).length > 0 || (tr.quick_wins || []).length > 0) && (
+        <CollapsibleSection title="Trend Research" icon={TrendingUp} count={(tr.tactics || []).length}>
+          <div className="grid md:grid-cols-2 gap-6">
+            {(tr.trending_keywords || []).length > 0 && (
+              <div>
+                <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Trending Keywords</p>
+                <div className="flex flex-wrap gap-2">
+                  {tr.trending_keywords.map((kw, i) => (
+                    <span key={i} className="text-xs bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200 font-medium">{kw}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {(tr.quick_wins || []).length > 0 && (
+              <div>
+                <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Quick Wins</p>
+                <ul className="space-y-2">
+                  {tr.quick_wins.map((win, i) => (
+                    <li key={i} className="text-sm text-slate-700 flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      {win}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          {(tr.competitor_gaps || []).length > 0 && (
+            <div className="mt-4">
+              <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Competitor Gaps</p>
+              <ul className="space-y-2">
+                {tr.competitor_gaps.map((gap, i) => (
+                  <li key={i} className="text-sm text-slate-700 flex items-start gap-2">
+                    <Target className="w-4 h-4 text-[#8B2635] flex-shrink-0 mt-0.5" />
+                    {gap}
+                  </li>
+                ))}
               </ul>
             </div>
-          </motion.div>
-        )}
+          )}
+        </CollapsibleSection>
+      )}
 
-        {/* Keywords */}
-        {activeTab === 'keywords' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8 overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200">
-                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Keyword</th>
-                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Position</th>
-                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Monthly Vol.</th>
-                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Difficulty</th>
-                    <th className="text-left py-3 px-4 text-slate-900 font-bold">Target</th>
-                  </tr>
-                </thead>
-                <tbody className="text-slate-600">
-                  {rankingMetrics.map((metric, idx) => (
-                    <tr key={idx} className="border-b border-slate-100 hover:bg-slate-100 transition">
-                      <td className="py-3 px-4 text-slate-900">{metric.keyword}</td>
-                      <td className="py-3 px-4">{metric.position}</td>
-                      <td className="py-3 px-4">{metric.volume}</td>
-                      <td className="py-3 px-4">
-                        <span className={`text-xs font-bold ${
-                          metric.difficulty === 'Very High' ? 'text-red-500' :
-                          metric.difficulty === 'High' ? 'text-orange-500' :
-                          'text-yellow-500'
-                        }`}>
-                          {metric.difficulty}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-[#dc2626] font-semibold">{metric.target}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Tools */}
-        {activeTab === 'tools' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            {toolsAndMetrics.map((section, idx) => (
-              <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
-                <h3 className="text-xl font-black uppercase tracking-tight text-slate-900 mb-6">{section.category}</h3>
-                <div className="space-y-4">
-                  {section.tools.map((tool, i) => (
-                    <div key={i} className="flex justify-between items-center pb-4 border-b border-slate-100 last:border-0 last:pb-0">
-                      <div>
-                        <p className="font-semibold text-slate-900">{tool.name}</p>
-                        <p className="text-sm text-slate-500">{tool.metric}</p>
-                      </div>
-                      <span className="text-xs bg-red-50 text-[#dc2626] px-3 py-1 rounded-full font-semibold">{tool.update}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-amber-700 mb-2">Premium Tools Recommended</p>
-                <p className="text-sm text-amber-600">
-                  SEMrush ($120-240/mo) and Ahrefs ($99-399/mo) are essential for serious SEO monitoring. Free alternatives: Google Search Console + GA4 provide baseline data.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Goals */}
-        {activeTab === 'goals' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            {monthlyGoals.map((month, idx) => (
-              <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
-                <h3 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">{month.month}</h3>
-                <div className="space-y-4">
-                  {month.goals.map((item, i) => (
-                    <div key={i} className="flex items-start gap-4 pb-4 border-b border-slate-100 last:border-0">
-                      <div className="flex-1">
-                        <p className="font-semibold text-slate-900">{item.goal}</p>
-                        <p className="text-sm text-slate-500">{item.target}</p>
-                      </div>
-                      <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                        item.status === 'In Progress' ? 'bg-blue-50 text-blue-600' :
-                        item.status === 'Planned' ? 'bg-slate-100 text-slate-600' :
-                        'bg-red-50 text-[#dc2626]'
-                      }`}>
-                        {item.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
-              <h3 className="text-xl font-black uppercase tracking-tight text-slate-900 mb-4">Red Flags & Quick Fixes</h3>
-              <div className="space-y-4">
-                {redFlags.map((flag, idx) => (
-                  <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <p className="font-semibold text-slate-900">{flag.issue}</p>
-                      <span className="text-xs text-slate-500">Check: {flag.frequency}</span>
-                    </div>
-                    <p className="text-sm text-slate-600">→ {flag.action}</p>
+      {/* Content Strategy */}
+      {(cs.faq_content || cs.optimized_meta_descriptions || []).length > 0 && (
+        <CollapsibleSection title="Content Strategy" icon={FileText} count={(cs.faq_content || []).length + (cs.optimized_meta_descriptions || []).length}>
+          {(cs.optimized_meta_descriptions || []).length > 0 && (
+            <div className="mb-6">
+              <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Optimized Meta Tags</p>
+              <div className="space-y-3">
+                {cs.optimized_meta_descriptions.map((m, i) => (
+                  <div key={i} className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <p className="text-xs text-[#8B2635] font-bold mb-1">{m.page} — {m.target_keyword}</p>
+                    <p className="font-bold text-slate-900 text-sm mb-1">{m.optimized_title}</p>
+                    <p className="text-slate-600 text-sm">{m.optimized_description}</p>
                   </div>
                 ))}
               </div>
             </div>
+          )}
+          {(cs.faq_content || []).length > 0 && (
+            <div>
+              <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">FAQ Content ({(cs.faq_content || []).length} items)</p>
+              <div className="space-y-3">
+                {(cs.faq_content || []).slice(0, 5).map((faq, i) => (
+                  <div key={i} className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                    <p className="font-bold text-slate-900 text-sm mb-1 flex items-start gap-2">
+                      <span className="text-[#8B2635]">Q:</span>{faq.question}
+                    </p>
+                    <p className="text-slate-600 text-sm">{faq.answer}</p>
+                    {faq.target_page && <p className="text-xs text-slate-400 mt-1">→ {faq.target_page}</p>}
+                  </div>
+                ))}
+                {(cs.faq_content || []).length > 5 && (
+                  <p className="text-xs text-slate-400 text-center">+{(cs.faq_content || []).length - 5} more FAQ items</p>
+                )}
+              </div>
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Technical Audit */}
+      {(ta.technical_fixes || ta.keyword_clusters || []).length > 0 && (
+        <CollapsibleSection title="Technical Audit" icon={Shield} count={(ta.technical_fixes || []).length}>
+          {(ta.technical_fixes || []).length > 0 && (
+            <div className="mb-6">
+              <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Technical Fixes</p>
+              <div className="space-y-3">
+                {(ta.technical_fixes || []).map((fix, i) => (
+                  <div key={i} className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    <AlertCircle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${fix.priority === 'high' ? 'text-red-500' : fix.priority === 'medium' ? 'text-yellow-500' : 'text-slate-400'}`} />
+                    <div>
+                      <p className="font-bold text-slate-900 text-sm">{fix.issue}</p>
+                      <p className="text-slate-600 text-sm">{fix.fix}</p>
+                    </div>
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full border flex-shrink-0 ${IMPACT_COLORS[fix.priority?.toLowerCase()] || IMPACT_COLORS.low}`}>{fix.priority}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {(ta.keyword_clusters || []).length > 0 && (
+            <div>
+              <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Keyword Clusters</p>
+              <div className="space-y-3">
+                {(ta.keyword_clusters || []).map((cluster, i) => (
+                  <div key={i} className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="font-bold text-slate-900 text-sm">{cluster.cluster_name}</p>
+                      <span className="text-xs text-[#8B2635] font-bold">{cluster.opportunity_score}</span>
+                    </div>
+                    <p className="text-sm text-[#8B2635] font-semibold mb-1">{cluster.primary_keyword}</p>
+                    <div className="flex flex-wrap gap-1">
+                      {(cluster.secondary_keywords || []).map((kw, ki) => (
+                        <span key={ki} className="text-xs bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{kw}</span>
+                      ))}
+                    </div>
+                    <div className="flex gap-4 mt-2 text-xs text-slate-500">
+                      <span>Vol: {cluster.monthly_volume_estimate}</span>
+                      <span>Difficulty: {cluster.difficulty}</span>
+                      {cluster.recommended_page && <span>→ {cluster.recommended_page}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Competitor Intel */}
+      {(ci.competitors || []).length > 0 && (
+        <CollapsibleSection title="Competitor Intelligence" icon={Globe} count={(ci.exploitation_opportunities || []).length}>
+          {(ci.exploitation_opportunities || []).length > 0 && (
+            <div className="mb-6">
+              <p className="font-black text-xs uppercase tracking-widest text-slate-500 mb-3">Exploitation Opportunities</p>
+              <div className="space-y-3">
+                {ci.exploitation_opportunities.map((opp, i) => (
+                  <div key={i} className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="font-bold text-slate-900 text-sm">{opp.opportunity}</p>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${opp.urgency === 'High' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-yellow-50 text-yellow-600 border-yellow-200'}`}>{opp.urgency}</span>
+                    </div>
+                    <p className="text-xs text-[#8B2635] font-semibold">{opp.keyword}</p>
+                    {opp.content_angle && <p className="text-sm text-slate-600 mt-1">{opp.content_angle}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="grid md:grid-cols-2 gap-4">
+            {ci.competitors.map((comp, i) => (
+              <div key={i} className="border border-slate-200 rounded-xl p-4">
+                <p className="font-black text-slate-900 mb-2">{comp.name}</p>
+                {(comp.weaknesses || []).length > 0 && (
+                  <div>
+                    <p className="text-xs text-slate-400 font-bold mb-1">Weaknesses:</p>
+                    <ul className="space-y-1">
+                      {comp.weaknesses.slice(0, 3).map((w, wi) => (
+                        <li key={wi} className="text-xs text-slate-600 flex items-start gap-1">
+                          <span className="text-green-500">✓</span> {w}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </CollapsibleSection>
+      )}
+    </div>
+  );
+}
+
+export default function SEOMonitoring() {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [running, setRunning] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [error, setError] = useState(null);
+  const [automationActive] = useState(false); // read-only display from automation list
+
+  useEffect(() => {
+    loadReports();
+  }, []);
+
+  const loadReports = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await base44.functions.invoke('getSEOReports', {});
+      const data = res.data;
+      const list = data.reports || [];
+      setReports(list);
+      if (list.length > 0) setSelectedReport(list[0]);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runNow = async () => {
+    setRunning(true);
+    setError(null);
+    try {
+      await base44.functions.invoke('seoOptimizationEngine', {});
+      await loadReports();
+    } catch (e) {
+      setError(e.message || 'Run failed');
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white pt-24 pb-20">
+      <div className="max-w-6xl mx-auto px-4">
+        <Link to={createPageUrl('Home')}>
+          <Button variant="outline" className="mb-6 text-xs font-bold uppercase tracking-wider rounded-full">
+            <ArrowLeft className="w-4 h-4 mr-1" /> Back
+          </Button>
+        </Link>
+
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <p className="text-xs font-black uppercase tracking-widest text-[#8B2635] mb-2">Powered by Gemini 2.5 Flash</p>
+            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-slate-900">SEO Command Center</h1>
+            <p className="text-slate-500 mt-2">AI-generated daily SEO reports — trends, content, technical audits, competitor intel</p>
           </motion.div>
+
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold ${automationActive ? 'bg-green-50 border-green-200 text-green-700' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
+              <Power className="w-3 h-3" />
+              Daily Auto: {automationActive ? 'ON' : 'OFF'}
+            </div>
+            <Button onClick={loadReports} variant="outline" size="sm" disabled={loading} className="rounded-full text-xs font-bold uppercase tracking-wider">
+              <RefreshCw className={`w-4 h-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+            <Button onClick={runNow} disabled={running || loading} size="sm" className="rounded-full text-xs font-bold uppercase tracking-wider">
+              {running ? <RefreshCw className="w-4 h-4 mr-1 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
+              {running ? 'Generating...' : 'Run Now'}
+            </Button>
+          </div>
+        </div>
+
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 text-red-700">
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <p className="text-sm font-semibold">{error}</p>
+          </div>
+        )}
+
+        {running && (
+          <div className="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
+            <RefreshCw className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-3" />
+            <p className="font-black text-blue-700 text-lg">Gemini 2.5 Flash is analyzing your SEO...</p>
+            <p className="text-blue-500 text-sm mt-1">This takes 30–60 seconds. Researching trends, competitors, content gaps...</p>
+          </div>
+        )}
+
+        {loading && !running && (
+          <div className="text-center py-20">
+            <RefreshCw className="w-8 h-8 text-slate-400 animate-spin mx-auto mb-3" />
+            <p className="text-slate-500">Loading SEO reports...</p>
+          </div>
+        )}
+
+        {!loading && reports.length === 0 && !running && (
+          <div className="text-center py-20 border-2 border-dashed border-slate-200 rounded-2xl">
+            <BarChart3 className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-xl font-black text-slate-900 mb-2">No Reports Yet</h2>
+            <p className="text-slate-500 mb-6">Run the SEO engine to generate your first AI-powered SEO report.</p>
+            <Button onClick={runNow} disabled={running}>
+              <Play className="w-4 h-4 mr-2" /> Generate First Report
+            </Button>
+          </div>
+        )}
+
+        {!loading && reports.length > 0 && (
+          <div className="flex gap-6">
+            {/* Sidebar: report list */}
+            <div className="w-48 flex-shrink-0">
+              <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Reports ({reports.length})</p>
+              <div className="space-y-2">
+                {reports.map((r) => (
+                  <button
+                    key={r.id}
+                    onClick={() => setSelectedReport(r)}
+                    className={`w-full text-left px-3 py-2.5 rounded-xl border transition-all text-xs ${
+                      selectedReport?.id === r.id
+                        ? 'bg-[#8B2635] text-white border-[#8B2635]'
+                        : 'bg-white border-slate-200 text-slate-700 hover:border-[#8B2635]/40'
+                    }`}
+                  >
+                    <p className="font-black">{r.date}</p>
+                    <p className={`text-[10px] mt-0.5 capitalize ${selectedReport?.id === r.id ? 'text-red-200' : 'text-slate-400'}`}>
+                      {r.run_type} · {r.status}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Main content */}
+            <div className="flex-1 min-w-0">
+              {selectedReport && (
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <h2 className="text-2xl font-black text-slate-900">{selectedReport.date}</h2>
+                    <span className={`text-xs font-bold px-3 py-1 rounded-full border capitalize ${STATUS_COLORS[selectedReport.status] || ''}`}>
+                      {selectedReport.status}
+                    </span>
+                    <span className="text-xs text-slate-400 capitalize">{selectedReport.run_type} run</span>
+                  </div>
+
+                  {selectedReport.status === 'failed' && (
+                    <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4 flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                      <p className="text-sm text-red-700 font-semibold">This report failed to generate. Try running a new one.</p>
+                    </div>
+                  )}
+
+                  {selectedReport.status === 'completed' && (
+                    <ReportCard report={selectedReport} isLatest={selectedReport.id === reports[0]?.id} />
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </div>

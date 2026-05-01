@@ -1,19 +1,23 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.23';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     let user = null;
-    try { user = await base44.auth.me(); } catch (_e) { /* scheduled */ }
+    try { user = await base44.auth.me(); } catch (_e) { /* scheduled run - no user */ }
     if (user && user.role !== 'admin') {
       return Response.json({ error: 'Admin access required' }, { status: 403 });
     }
 
     const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
+    if (!GEMINI_API_KEY) {
+      return Response.json({ error: 'GEMINI_API_KEY not set' }, { status: 500 });
+    }
+
     const today = new Date().toISOString().split('T')[0];
     const timestamp = new Date().toISOString();
 
-    const BRAND = `Red Helix Research: research peptide store (BPC-157, TB-500, Semaglutide, Tirzepatide). Core differentiator: affordability — research-grade quality below competitor prices, framed as democratizing access for independent researchers. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Tone: authoritative researcher, not marketer. Compliance: research/lab use only, no health claims, no human use implications. SEO goals: commercial keywords (buy/affordable/cheap research peptides), educational keywords (what is X, how X works), E-E-A-T signals, hub-and-spoke topical authority.`.trim();
+    const BRAND = `Red Helix Research: research peptide store (BPC-157, TB-500, Semaglutide, Tirzepatide). Core differentiator: affordability — research-grade quality below competitor prices, framed as democratizing access for independent researchers. Competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. Tone: authoritative researcher, not marketer. Compliance: research/lab use only, no health claims, no human use implications. SEO goals: commercial keywords (buy/affordable/cheap research peptides), educational keywords (what is X, how X works), E-E-A-T signals, hub-and-spoke topical authority.`;
 
     async function callGemini(prompt, schema) {
       const res = await fetch(
@@ -32,9 +36,13 @@ Deno.serve(async (req) => {
           }),
         }
       );
-      if (!res.ok) throw new Error(`Gemini ${res.status}: ${await res.text()}`);
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Gemini API error ${res.status}: ${errText}`);
+      }
       const data = await res.json();
-      const text = data.candidates[0].content.parts[0].text.trim();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+      if (!text) throw new Error('Empty response from Gemini');
       return JSON.parse(text);
     }
 
@@ -63,7 +71,7 @@ Deno.serve(async (req) => {
 
     // 2. Content Strategy
     const contentStrategy = await callGemini(
-      `You are a content strategist for Red Helix Research, a research peptide store. Generate: (1) FAQ content that addresses pre-purchase researcher questions with E-E-A-T signals and research-use disclaimers — weave in affordability naturally as "accessible research tools"; (2) People Also Ask targeted answers optimized for featured snippets; (3) Meta title and description optimizations under 60/155 chars respectively that include primary keyword + affordability angle; (4) Internal linking map building hub-and-spoke topic clusters — each content piece should link to 3+ relevant pages. Frame all content as written by a knowledgeable researcher. Never make health claims or imply human use.`,
+      `You are a content strategist for Red Helix Research, a research peptide store. Generate: (1) FAQ content that addresses pre-purchase researcher questions with E-E-A-T signals and research-use disclaimers — weave in affordability naturally; (2) People Also Ask targeted answers optimized for featured snippets; (3) Meta title and description optimizations under 60/155 chars respectively that include primary keyword + affordability angle; (4) Internal linking map building hub-and-spoke topic clusters. Frame all content as written by a knowledgeable researcher. Never make health claims or imply human use.`,
       {
         type: 'object',
         properties: {
@@ -78,7 +86,7 @@ Deno.serve(async (req) => {
 
     // 3. Technical Audit
     const technicalAudit = await callGemini(
-      `You are a technical SEO auditor for Red Helix Research. Audit and provide: (1) Technical SEO fixes — broken links, missing canonicals, duplicate metas, thin content pages, Core Web Vitals issues, sitemap freshness, robots.txt config, index bloat (admin/checkout pages that shouldn't be indexed); (2) Keyword clusters mapped to existing or planned pages — cluster by topic (BPC-157, TB-500, GLP-1/weight loss, recovery, cognitive), include primary + secondary keywords, volume estimates, difficulty, and opportunity score weighted for affordability angle; (3) Backlink opportunities — niche science/research directories, biotech blogs, researcher forums (Reddit r/Peptides, Longecity), broken link building targets, guest post placements; (4) E-E-A-T improvements — how to signal expertise, authoritativeness, and trustworthiness for a peptide research site (COA certificates, lab testing badges, researcher testimonials, published study citations).`,
+      `You are a technical SEO auditor for Red Helix Research. Audit and provide: (1) Technical SEO fixes — missing canonicals, duplicate metas, thin content pages, Core Web Vitals issues, sitemap freshness, index bloat; (2) Keyword clusters mapped to existing or planned pages — cluster by topic (BPC-157, TB-500, GLP-1/weight loss, recovery, cognitive), include primary + secondary keywords, volume estimates, difficulty, and opportunity score; (3) Backlink opportunities — niche science/research directories, biotech blogs, researcher forums; (4) E-E-A-T improvements — how to signal expertise and trustworthiness for a peptide research site.`,
       {
         type: 'object',
         properties: {
@@ -93,7 +101,7 @@ Deno.serve(async (req) => {
 
     // 4. Competitor Intel
     const competitorIntel = await callGemini(
-      `You are a competitive SEO analyst for Red Helix Research. Analyze these top peptide store competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. For each competitor: identify their top-ranking keywords, content gaps they leave unaddressed (especially affordability, educational depth, and compliance transparency), and weaknesses Red Helix can exploit. Then identify the top exploitation opportunities — specific keywords, content angles, and urgency levels. Focus especially on where competitors lack: (a) affordable/accessible framing, (b) in-depth educational content, (c) compliance transparency, (d) E-E-A-T signals. Provide specific recommended content types (pillar articles, comparison pages, buying guides) that would outperform competitor content.`,
+      `You are a competitive SEO analyst for Red Helix Research. Analyze these top peptide store competitors: Limitless Life Nootropics, Peptide Sciences, Core Peptides, Amino Asylum. For each competitor: identify their top-ranking keywords, content gaps they leave unaddressed (especially affordability, educational depth, and compliance transparency), and weaknesses Red Helix can exploit. Then identify the top exploitation opportunities with specific keywords and urgency levels.`,
       {
         type: 'object',
         properties: {
@@ -106,7 +114,7 @@ Deno.serve(async (req) => {
 
     // 5. Action Plan
     const actionPlan = await callGemini(
-      `You are the SEO execution lead for Red Helix Research on ${today}. Based on the full SEO strategy — affordability differentiation, educational authority, E-E-A-T, technical health, competitor gaps, and topical authority — create a prioritized 8-item action plan. Each item must have: a clear task (specific and actionable), category (content/technical/links/on-page/competitor), expected impact level (high/medium/low), time estimate, whether it can be auto-implemented or needs manual execution, and 3-5 concrete implementation steps. Rank by ROI. Prioritize tasks that: (1) target high-intent commercial keywords with affordability angle, (2) build topical authority clusters, (3) fix technical issues harming crawlability/indexing, (4) generate E-E-A-T trust signals. Provide a one-paragraph strategic summary and identify the single top opportunity for today.`,
+      `You are the SEO execution lead for Red Helix Research on ${today}. Based on the full SEO strategy — affordability differentiation, educational authority, E-E-A-T, technical health, competitor gaps, and topical authority — create a prioritized 8-item action plan. Each item must have: a clear task (specific and actionable), category (content/technical/links/on-page/competitor), expected impact level (high/medium/low), time estimate, whether it can be auto-implemented or needs manual execution, and 3-5 concrete implementation steps. Rank by ROI. Provide a one-paragraph strategic summary and identify the single top opportunity for today.`,
       {
         type: 'object',
         properties: {
