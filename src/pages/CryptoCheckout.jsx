@@ -1733,8 +1733,10 @@ export default function CryptoCheckout() {
                               setSquareCheckoutUrl(checkoutUrl);
                               setSquareSent(true);
                               setTurnstileToken(null); // Reset — tokens are single-use
-                              // Always open checkout in new tab (PAY NOW = immediate, Send Link = backup)
-                              window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+                              // Only auto-open tab for PAY NOW, not Send Payment Link
+                              if (payNow) {
+                                window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+                              }
                             } catch (err) {
                               console.error('Square checkout error:', err);
                               const errMsg = err?.response?.data?.error || err?.data?.error || err?.message || 'Failed to create checkout. Please try again.';
