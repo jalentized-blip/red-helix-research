@@ -44,7 +44,7 @@ export default function AgeGate({ onVerified }) {
 
         <div className="p-8 space-y-6">
           <p className="text-sm text-slate-600 leading-relaxed text-center">
-            This site sells <strong>research-grade peptides for laboratory use only</strong>. By entering, you confirm that you are <strong>21 years of age or older</strong> and agree to our Terms of Use and Research Use Agreement.
+            This site provides <strong>research-grade peptides for in-vitro laboratory use only</strong>. All products are <strong>NOT for human consumption, NOT for veterinary use</strong>, and are <strong>NOT approved by the FDA</strong> for human or animal use. By entering, you confirm you are <strong>21 years of age or older</strong>, a licensed researcher, and agree to use all products exclusively for lawful in-vitro research.
           </p>
 
           <div className="flex gap-3">
@@ -64,7 +64,7 @@ export default function AgeGate({ onVerified }) {
           </div>
 
           <p className="text-[10px] text-slate-400 text-center leading-relaxed">
-            For research use only. Not for human consumption.
+            For in-vitro laboratory research use only. Not for human consumption. Not FDA approved for human use.
           </p>
         </div>
       </motion.div>

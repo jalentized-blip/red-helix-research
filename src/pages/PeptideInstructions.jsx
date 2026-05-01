@@ -52,8 +52,8 @@ export default function PeptideInstructions() {
     },
     {
       icon: CheckCircle,
-      title: `Draw ${drawAmountML.toFixed(3)} mL (${drawUnits} units)`,
-      description: `Using your ${syringeSize}mL syringe, draw to the ${drawUnits} unit mark for your ${dose} mg dose.`
+      title: `Withdraw ${drawAmountML.toFixed(3)} mL (${drawUnits} units)`,
+      description: `Using your ${syringeSize}mL syringe, withdraw to the ${drawUnits} unit mark for your ${dose} mg in-vitro research aliquot.`
     },
     {
       icon: Thermometer,
@@ -65,26 +65,30 @@ export default function PeptideInstructions() {
   return (
     <div className="min-h-screen bg-white pt-24 pb-12 px-4">
       <SEO
-        title="Peptide Reconstitution Instructions - Step by Step Guide"
-        description="Mobile-friendly peptide reconstitution instructions generated from your calculator inputs."
+        title="Peptide Reconstitution Lab Instructions — For In-Vitro Research Use Only"
+        description="Mobile-friendly laboratory reconstitution instructions for licensed researchers. Generated from your peptide calculator inputs. For in-vitro research use only — not for human use."
+        noindex={true}
       />
 
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#8B2635]/20 rounded-full mb-4">
+            <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">⚠ In-Vitro Lab Research Use Only — Not For Human Use</span>
+          </div>
           <h1 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tight">
-            Your Reconstitution Guide
+            Your Lab Reconstitution Guide
           </h1>
-          <p className="text-slate-500 font-medium">Follow these steps for proper reconstitution</p>
+          <p className="text-slate-500 font-medium">Follow these steps for proper in-vitro reconstitution</p>
         </div>
 
         {/* Summary Card */}
         <div className="bg-gradient-to-br from-[#dc2626] to-red-700 rounded-[32px] p-8 mb-8 shadow-xl shadow-red-200/50 text-white relative overflow-hidden">
           <div className="relative z-10">
-            <h2 className="text-xl font-bold text-white/90 mb-6 border-b border-white/20 pb-4">Your Calculations</h2>
+            <h2 className="text-xl font-bold text-white/90 mb-6 border-b border-white/20 pb-4">Laboratory Calculations</h2>
             <div className="grid grid-cols-2 gap-6 text-sm">
               <div>
-                <p className="text-red-100/80 mb-1">Dose</p>
+                <p className="text-red-100/80 mb-1">Research Aliquot Size</p>
                 <p className="text-2xl font-bold text-white">{dose} mg</p>
               </div>
               <div>
@@ -151,7 +155,7 @@ export default function PeptideInstructions() {
             </li>
             <li className="flex gap-2">
               <span className="text-amber-500">•</span>
-              <span>This vial will give you approximately {dosesInVial} doses</span>
+              <span>This vial yields approximately {dosesInVial} research aliquots at this concentration</span>
             </li>
             <li className="flex gap-2">
               <span className="text-amber-500">•</span>
@@ -163,7 +167,7 @@ export default function PeptideInstructions() {
             </li>
             <li className="flex gap-2">
               <span className="text-amber-500">•</span>
-              <span>For research purposes only - not for human consumption</span>
+              <span><strong>For in-vitro laboratory research use only — NOT for human consumption or veterinary use — NOT FDA approved for human use</strong></span>
             </li>
           </ul>
         </div>
@@ -176,10 +180,12 @@ export default function PeptideInstructions() {
         </Link>
 
         {/* Disclaimer */}
-        <p className="text-center text-slate-400 text-xs mt-8 font-medium">
-          This calculator is for research purposes only. All peptides are sold for research use only 
-          and are not intended for human consumption.
-        </p>
+        <div className="mt-8 p-4 bg-slate-50 border border-[#8B2635]/20 rounded-2xl text-center">
+          <p className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest mb-2">⚠ Mandatory Disclaimer</p>
+          <p className="text-slate-500 text-xs leading-relaxed font-medium">
+            All values on this page are laboratory aliquot measurements for <strong>in-vitro research use only</strong>. Not for human consumption. Not for veterinary use. Not evaluated or approved by the FDA for human or animal use. Not intended to diagnose, treat, cure, or prevent any disease. Users are solely responsible for compliance with all applicable laws.
+          </p>
+        </div>
       </div>
     </div>
   );
