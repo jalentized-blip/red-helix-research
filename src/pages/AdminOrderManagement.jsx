@@ -1120,6 +1120,10 @@ export default function AdminOrderManagement() {
     try {
       await updateOrderMutation.mutateAsync({ orderId, updates });
       setEditingOrder(null);
+      // If cancelling while a non-all filter is active, switch to 'all' so the order stays visible
+      if (updates.status === 'cancelled' && filterStatus !== 'all' && filterStatus !== 'cancelled') {
+        setFilterStatus('all');
+      }
     } catch (err) {
       // Error toast already handled by mutation onError
     }
@@ -1150,6 +1154,8 @@ export default function AdminOrderManagement() {
       await Promise.all(orderIds.map(id => base44.entities.Order.update(id, updates)));
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       setSelectedOrders(new Set());
+      // If bulk-cancelling, switch filter to 'all' so cancelled orders remain visible
+      if (updates.status === 'cancelled') setFilterStatus('all');
       toast.success(`${orderIds.length} orders updated to ${updates.status}`);
     } catch (err) {
       toast.error('Bulk update failed', { description: err.message });
