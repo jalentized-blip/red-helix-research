@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, loadAffiliateCodes, validateCartStock } from '@/components/utils/cart';
+import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, loadAffiliateCodes, validateCartStock } from '@/components/utils/cart';
 import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -59,6 +59,11 @@ export default function Cart() {
 
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
+    setCartItems(getCart());
+  };
+
+  const handleUpdateQuantity = (itemId, newQty) => {
+    updateCartQuantity(itemId, newQty);
     setCartItems(getCart());
   };
 
@@ -142,8 +147,16 @@ export default function Cart() {
                     </button>
                   </div>
                   <div className="flex justify-between items-center">
-                    <div className="text-slate-500 font-bold">
-                      <span className="text-sm">Quantity: {item.quantity}</span>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                        className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 font-black hover:border-[#8B2635] hover:text-[#8B2635] transition-colors text-lg"
+                      >−</button>
+                      <span className="w-6 text-center font-black text-black text-lg">{item.quantity}</span>
+                      <button
+                        onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                        className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 font-black hover:border-[#8B2635] hover:text-[#8B2635] transition-colors text-lg"
+                      >+</button>
                     </div>
                     <div className="text-right">
                       <p className="text-2xl font-black text-[#8B2635]">${(item.price * item.quantity).toFixed(2)}</p>

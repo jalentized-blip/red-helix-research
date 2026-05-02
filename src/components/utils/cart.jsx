@@ -46,6 +46,20 @@ export const addToCart = (product, specification) => {
   return cart;
 };
 
+export const updateCartQuantity = (itemId, newQuantity) => {
+  const cart = getCart();
+  if (newQuantity <= 0) {
+    return removeFromCart(itemId);
+  }
+  const item = cart.find(c => c.id === itemId);
+  if (item) {
+    item.quantity = newQuantity;
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    window.dispatchEvent(new Event('cartUpdated'));
+  }
+  return cart;
+};
+
 export const removeFromCart = (itemId) => {
   const cart = getCart();
   const filtered = cart.filter(item => item.id !== itemId);

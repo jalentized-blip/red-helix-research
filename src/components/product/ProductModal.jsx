@@ -14,6 +14,7 @@ import AddedToCartPopup from '@/components/AddedToCartPopup';
 
 export default function ProductModal({ product, isOpen, onClose, isAuthenticated = false }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [showCOA, setShowCOA] = useState(false);
   const [currentCoaIndex, setCurrentCoaIndex] = useState(0);
@@ -37,7 +38,9 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
       const cartProduct = product.isKitsProduct 
         ? { ...product, id: selectedSpec.productId, name: selectedSpec.productName }
         : product;
-      addToCart(cartProduct, selectedSpec);
+      for (let i = 0; i < quantity; i++) {
+        addToCart(cartProduct, selectedSpec);
+      }
       setAddedToCart(true);
       setCartPopupItem({
         productName: cartProduct.name,
@@ -241,6 +244,23 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
 
             {/* Action Area */}
             <div className="mt-6 space-y-4">
+              {/* Quantity Selector */}
+              {selectedSpec && (
+                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Quantity</span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                      className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 font-black hover:border-[#8B2635] hover:text-[#8B2635] transition-colors text-lg"
+                    >−</button>
+                    <span className="w-8 text-center font-black text-black text-lg">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity(q => q + 1)}
+                      className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 font-black hover:border-[#8B2635] hover:text-[#8B2635] transition-colors text-lg"
+                    >+</button>
+                  </div>
+                </div>
+              )}
               <Button
                   onClick={handleAddToCart}
                   disabled={!selectedSpec || addedToCart || (product.isKitsProduct && !kitDisclaimerChecked)}
@@ -261,7 +281,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                     ) : (
                       <>
                         <ShoppingCart className="w-5 h-5" />
-                        {selectedSpec ? `Initialize Order: $${selectedSpec.price}` : 'Select Configuration'}
+                        {selectedSpec ? `Initialize Order: $${(selectedSpec.price * quantity).toFixed(2)}` : 'Select Configuration'}
                       </>
                     )}
                   </span>
