@@ -68,11 +68,24 @@ export const clearCheckoutSnapshot = () => {
 
 /**
  * Create an order with automatic retry on failure.
+ * Checks for duplicate orders (same order_number) before creating.
  * Falls back to sending an emergency admin email with full order details
  * if all retries are exhausted.
  */
 export const createOrderWithRetry = async (orderPayload) => {
   let lastError = null;
+
+  // Deduplication check: if an order with this number already exists, don't create another
+  try {
+    const existing = await base44.entities.Order.filter({ order_number: orderPayload.order_number });
+    if (existing && existing.length > 0) {
+      console.log(`[FAILSAFE] Order ${orderPayload.order_number} already exists — skipping duplicate create.`);
+      markSnapshotComplete(orderPayload.order_number);
+      return existing[0];
+    }
+  } catch (checkErr) {
+    console.warn('[FAILSAFE] Duplicate check failed (proceeding with create):', checkErr);
+  }
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {

@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 const SQUARE_WEBHOOK_SIGNATURE_KEY = Deno.env.get('SQUARE_WEBHOOK_SIGNATURE_KEY');
 
@@ -44,45 +44,78 @@ Deno.serve(async (req) => {
 
     const base44 = createClientFromRequest(req);
 
-    // Handle payment.updated — check if payment status is COMPLETED
+    // ─── Helper: find a Square order by all possible ID fields ───
+    const findSquareOrder = async (ids = []) => {
+      const validIds = ids.filter(Boolean);
+      if (validIds.length === 0) return null;
+
+      // Fetch both awaiting_payment AND processing orders (avoid reprocessing already-done orders)
+      const [awaitingOrders, processingOrders] = await Promise.all([
+        base44.asServiceRole.entities.Order.filter({ status: 'awaiting_payment' }),
+        base44.asServiceRole.entities.Order.filter({ status: 'processing', payment_method: 'square_payment' }),
+      ]);
+
+      const allCandidates = [...awaitingOrders];
+
+      // Check if already processed (idempotency guard)
+      const alreadyProcessed = processingOrders.find(o =>
+        validIds.includes(o.transaction_id) || validIds.includes(o.admin_notes)
+      );
+      if (alreadyProcessed) {
+        console.log(`Order ${alreadyProcessed.order_number} already processed — skipping duplicate webhook.`);
+        return { order: alreadyProcessed, alreadyDone: true };
+      }
+
+      // Match by transaction_id (stores paymentLinkId at checkout creation time)
+      const matched = allCandidates.find(o => validIds.includes(o.transaction_id));
+      if (matched) return { order: matched, alreadyDone: false };
+
+      console.warn('No matching awaiting_payment order found for IDs:', validIds);
+      return null;
+    };
+
+    const markOrderComplete = async (order, transactionId) => {
+      await base44.asServiceRole.entities.Order.update(order.id, {
+        status: 'processing',
+        payment_status: 'completed',
+        transaction_id: transactionId || order.transaction_id,
+      });
+      console.log(`Order ${order.order_number} marked as processing (tx: ${transactionId})`);
+
+      // Send admin notification for Square payment completion
+      try {
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: 'jake@redhelixresearch.com',
+          from_name: 'Red Helix Research Orders',
+          subject: `✅ Card Payment Confirmed — Order #${order.order_number} — $${Number(order.total_amount).toFixed(2)}`,
+          body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;">
+            <h2 style="color:#16a34a;margin:0 0 8px 0;">✅ Card Payment Confirmed</h2>
+            <p style="color:#64748b;">Square has confirmed payment for order <strong>#${order.order_number}</strong>.</p>
+            <p><strong>Customer:</strong> ${order.customer_name}</p>
+            <p><strong>Email:</strong> ${order.customer_email}</p>
+            <p><strong>Total:</strong> $${Number(order.total_amount).toFixed(2)}</p>
+            <p><strong>TX ID:</strong> <code>${transactionId || order.transaction_id}</code></p>
+            <p style="margin-top:20px;"><a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">View in Admin →</a></p>
+          </div>`,
+        });
+      } catch (e) {
+        console.warn('Admin notification failed (non-blocking):', e.message);
+      }
+    };
+
+    // Handle payment.updated / payment.completed
     if (event.type === 'payment.updated' || event.type === 'payment.completed') {
       const payment = event.data?.object?.payment;
-      const paymentStatus = payment?.status; // "COMPLETED", "FAILED", etc.
+      const paymentStatus = payment?.status;
       const squareOrderId = payment?.order_id;
+      const paymentId = payment?.id;
 
-      console.log('Payment event:', event.type, '| status:', paymentStatus, '| squareOrderId:', squareOrderId);
+      console.log('Payment event:', event.type, '| status:', paymentStatus, '| squareOrderId:', squareOrderId, '| paymentId:', paymentId);
 
-      if (paymentStatus === 'COMPLETED' && squareOrderId) {
-        // Fetch all awaiting_payment orders (payment_method may not always be set)
-        const allOrders = await base44.asServiceRole.entities.Order.filter({
-          status: 'awaiting_payment',
-        });
-
-        console.log(`Found ${allOrders.length} awaiting_payment Square orders`);
-
-        const matchedOrder = allOrders.find(o => o.transaction_id === squareOrderId);
-
-        if (matchedOrder) {
-          await base44.asServiceRole.entities.Order.update(matchedOrder.id, {
-            status: 'processing',
-            payment_status: 'completed',
-            transaction_id: payment?.id || squareOrderId,
-          });
-          console.log(`Order ${matchedOrder.order_number} updated to processing via payment.updated`);
-        } else {
-          // Fallback: try matching by any awaiting_payment Square order (most recent)
-          // This handles cases where the Square order_id wasn't stored at checkout
-          if (allOrders.length > 0) {
-            const mostRecent = allOrders.sort((a, b) => new Date(b.created_date) - new Date(a.created_date))[0];
-            await base44.asServiceRole.entities.Order.update(mostRecent.id, {
-              status: 'processing',
-              payment_status: 'completed',
-              transaction_id: squareOrderId,
-            });
-            console.log(`Fallback: Order ${mostRecent.order_number} updated to processing`);
-          } else {
-            console.warn('No matching order found for Square order ID:', squareOrderId);
-          }
+      if (paymentStatus === 'COMPLETED') {
+        const result = await findSquareOrder([squareOrderId, paymentId]);
+        if (result && !result.alreadyDone) {
+          await markOrderComplete(result.order, paymentId || squareOrderId);
         }
       }
     }
@@ -94,21 +127,22 @@ Deno.serve(async (req) => {
 
       console.log('Payment link completed. linkId:', paymentLinkId, 'orderId:', squareOrderId);
 
-      if (paymentLinkId || squareOrderId) {
-      const allOrders = await base44.asServiceRole.entities.Order.filter({
-        status: 'awaiting_payment',
-      });
+      const result = await findSquareOrder([paymentLinkId, squareOrderId]);
+      if (result && !result.alreadyDone) {
+        await markOrderComplete(result.order, paymentLinkId || squareOrderId);
+      }
+    }
 
-        const matchedOrder = allOrders.find(o =>
-          o.transaction_id === paymentLinkId || o.transaction_id === squareOrderId
-        );
+    // Handle order.updated — catches Square order state changes
+    if (event.type === 'order.updated') {
+      const squareOrderId = event.data?.object?.order_updated?.order_id;
+      const state = event.data?.object?.order_updated?.state;
+      console.log('Order updated. squareOrderId:', squareOrderId, '| state:', state);
 
-        if (matchedOrder) {
-          await base44.asServiceRole.entities.Order.update(matchedOrder.id, {
-            status: 'processing',
-            payment_status: 'completed',
-          });
-          console.log(`Order ${matchedOrder.order_number} updated to processing via payment_link event`);
+      if (squareOrderId && state === 'COMPLETED') {
+        const result = await findSquareOrder([squareOrderId]);
+        if (result && !result.alreadyDone) {
+          await markOrderComplete(result.order, squareOrderId);
         }
       }
     }
@@ -117,21 +151,12 @@ Deno.serve(async (req) => {
     if (event.type === 'order.fulfillment.updated') {
       const squareOrderId = event.data?.object?.order_id;
       const fulfillmentState = event.data?.object?.fulfillment?.state;
-
       console.log('Fulfillment updated. squareOrderId:', squareOrderId, '| state:', fulfillmentState);
 
-      if (squareOrderId) {
-        const allOrders = await base44.asServiceRole.entities.Order.filter({
-          status: 'awaiting_payment',
-        });
-
-        const matchedOrder = allOrders.find(o => o.transaction_id === squareOrderId);
-        if (matchedOrder) {
-          await base44.asServiceRole.entities.Order.update(matchedOrder.id, {
-            status: 'processing',
-            payment_status: 'completed',
-          });
-          console.log(`Order ${matchedOrder.order_number} updated to processing via fulfillment event`);
+      if (squareOrderId && (fulfillmentState === 'COMPLETED' || fulfillmentState === 'PREPARED')) {
+        const result = await findSquareOrder([squareOrderId]);
+        if (result && !result.alreadyDone) {
+          await markOrderComplete(result.order, squareOrderId);
         }
       }
     }

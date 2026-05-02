@@ -482,6 +482,10 @@ export default function CryptoCheckout() {
       const referralCode = localStorage.getItem('rdr_referral_code');
       if (referralCode) pendingPayload.referral_code = referralCode;
       await createOrderWithRetry(pendingPayload);
+
+      // Reserve stock immediately on TX submission
+      try { await decrementStock(cartItems); } catch (e) { console.warn('Stock decrement failed:', e); }
+
       // Customer order confirmation email (crypto — sent immediately on TX submission)
       try {
         const confItemsHtml = cartItems.map(i => `<tr><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;font-weight:600;">${i.productName}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">${i.specification || '—'}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#64748b;text-align:center;">×${i.quantity}</td><td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;font-weight:700;color:#0f172a;text-align:right;">$${(i.price*i.quantity).toFixed(2)}</td></tr>`).join('');
@@ -555,12 +559,14 @@ export default function CryptoCheckout() {
 
       const affiliateInfo = await resolveAffiliateInfo();
 
-      // Reserve stock immediately
-      await decrementStock(cartItems);
+      // Stock already decremented in createPendingOrder (crypto) — skip if already done
+      if (!pendingOrderCreated.current) {
+        await decrementStock(cartItems);
+      }
 
-      // Update the existing pending order, or create if missing
       const referralCode = localStorage.getItem('rdr_referral_code');
-      // Always create a fresh order record (pendingOrderCreated ref guards against duplicates)
+
+      // Only create a new order record if createPendingOrder hasn't already done so
       if (!pendingOrderCreated.current) {
         pendingOrderCreated.current = true;
         const newOrderPayload = {
@@ -724,10 +730,16 @@ export default function CryptoCheckout() {
   };
 
   const handleSubmitTx = async () => {
-    if (!transactionId.trim()) return;
+    const txId = transactionId.trim();
+    if (!txId) return;
+    if (pendingOrderCreated.current) return; // prevent double-submit
     setStep('confirm');
-    // Create order and mark as processing immediately on TX submission
-    await processSuccessfulPayment(transactionId.trim());
+    // Save snapshot before any async work
+    saveCheckoutSnapshot({ ...buildSnapshotPayload('cryptocurrency'), transactionId: txId }).catch(() => {});
+    // Create pending order immediately on TX submission (idempotent via ref guard)
+    await createPendingOrder(txId);
+    // Then finalize (affiliate, referral, analytics, cart clear)
+    await processSuccessfulPayment(txId);
   };
 
   // Current step number for indicator
@@ -1309,9 +1321,10 @@ export default function CryptoCheckout() {
                       <Button
                         disabled={!zelleAccountName.trim()}
                         onClick={async () => {
-                          setZelleOrderCreated(true);
-                          // Save snapshot before order creation (failsafe)
-                          saveCheckoutSnapshot({ ...buildSnapshotPayload('zelle'), zelleAccountName, zelleConfirmationNumber }).catch(() => {});
+                        if (zelleOrderCreated) return; // prevent double-submit
+                        setZelleOrderCreated(true);
+                        // Save snapshot before order creation (failsafe)
+                        saveCheckoutSnapshot({ ...buildSnapshotPayload('zelle'), zelleAccountName, zelleConfirmationNumber }).catch(() => {});
                           // Create order record
                           try {
                             let userEmail = null;
@@ -1446,16 +1459,17 @@ export default function CryptoCheckout() {
                     cartItems={cartItems}
                     onResend={() => { setSquareSent(false); setSquareError(''); }}
                     onSendLink={async (payNow) => {
-                            if (!squareEmail?.trim() || !squareEmail.includes('@')) {
-                              setSquareError('Please enter a valid email address.');
-                              return;
-                            }
-                            if (!turnstileToken) {
-                              setSquareError('Please complete the security verification.');
-                              return;
-                            }
-                            setSquareError('');
-                            setSquareSending(true);
+                           if (squareSending || squareSent) return; // prevent double-submit
+                           if (!squareEmail?.trim() || !squareEmail.includes('@')) {
+                             setSquareError('Please enter a valid email address.');
+                             return;
+                           }
+                           if (!turnstileToken) {
+                             setSquareError('Please complete the security verification.');
+                             return;
+                           }
+                           setSquareError('');
+                           setSquareSending(true);
                              // Save snapshot before attempting payment (failsafe)
                              saveCheckoutSnapshot({ ...buildSnapshotPayload('square_payment'), email: squareEmail.trim() }).catch(() => {});
                              try {
