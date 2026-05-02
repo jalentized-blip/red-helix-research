@@ -18,7 +18,15 @@ const faqs = [
   },
   {
     question: "How fast will my order arrive?",
-    answer: "orders typically arrive within 3-5 business days."
+    answer: "Standard single-vial orders typically arrive within 3-5 business days. Kit orders (10-vial wholesale bundles) are our bulk wholesale option where we pass the savings directly to you — because of this, kit fulfillment may take up to 36 hours before shipping, with delivery typically 3-7 business days. Kit orders ship separately from any single-vial items and will arrive under a separate tracking number."
+  },
+  {
+    question: "What are kit orders and why do they take longer?",
+    answer: "Kit orders are our 10-vial wholesale bundles — we pass bulk pricing savings directly onto you. Because kits are fulfilled separately through our wholesale channel, they take a bit longer: up to 36 hours to process before shipping. Kit vials arrive unlabeled (standard for wholesale). You can identify your peptides by matching the batch number on the kit's box or the colored vial caps to the corresponding Certificate of Analysis posted at redhelixresearch.com/COAReports."
+  },
+  {
+    question: "My lyophilized powder puck is broken/crumbled — is it damaged?",
+    answer: "No — this is completely normal and does not affect the product in any way. Lyophilized (freeze-dried) peptide pucks are fragile by nature and frequently break or crumble during transit due to vibration and handling. The peptide is still 100% intact and fully usable. The active compound is distributed evenly throughout the powder regardless of physical form — whether it's one solid puck or a fine powder, you have the same amount of peptide. Simply proceed with your normal reconstitution protocol."
   },
   {
     question: "Is my order discreet?",

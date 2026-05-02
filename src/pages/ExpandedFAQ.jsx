@@ -34,7 +34,12 @@ export default function ExpandedFAQ() {
         {
           id: 'order-processing',
           question: 'How long does order processing take?',
-          answer: 'Orders are prepared within 1-2 business days. Shipping takes 2-5 business days depending on location. You\'ll receive tracking information via email once shipped.'
+          answer: 'Standard single-vial orders are prepared within 1-2 business days and ship within 2-5 business days. Kit orders (10-vial wholesale bundles) may take up to 36 hours before they ship, as kits are fulfilled through our wholesale channel — this is how we pass bulk savings directly to you. You\'ll receive tracking information via email once shipped, and kit orders will have a separate tracking number from any single-vial items.'
+        },
+        {
+          id: 'kit-orders',
+          question: 'What are kit orders and why are the vials unlabeled?',
+          answer: 'Kit orders are our 10-vial wholesale bundles — we source in bulk and pass those savings directly onto researchers. Because they are wholesale items, kit vials arrive unlabeled (this is standard practice for wholesale peptide supply). To identify your vials: match the batch number printed on the kit\'s outer box, or match the colored vial caps, to the corresponding Certificate of Analysis at redhelixresearch.com/COAReports. Kit orders also ship separately from single-vial orders and may arrive at a different time under a separate tracking number. Kit fulfillment may take up to 36 hours before shipping.'
         },
         {
           id: 'order-shipping',
@@ -56,6 +61,11 @@ export default function ExpandedFAQ() {
           id: 'reconstitute-basics',
           question: 'How do I reconstitute peptides for laboratory research?',
           answer: 'For laboratory research use, mix the lyophilized powder with bacteriostatic water in a sterile vial. Use our Peptide Calculator tool for precise concentration calculations. Always follow proper sterile laboratory technique to prevent contamination. All reconstitution is for in-vitro research purposes only.'
+        },
+        {
+          id: 'broken-puck',
+          question: 'My lyophilized powder puck is broken or crumbled — is it ruined?',
+          answer: 'Absolutely not. This is one of the most common concerns we hear and we want to reassure you completely: a broken or crumbled lyophilized puck is 100% normal and does not affect the product\'s integrity, potency, or usability in any way.\n\nLyophilized (freeze-dried) peptides form fragile crystalline or amorphous cakes during manufacturing. These pucks are inherently brittle and will frequently break, crack, or turn to fine powder during transit due to vibration, temperature changes, and normal carrier handling. This is expected and is not a defect.\n\nThe active peptide compound is distributed uniformly throughout the entire powder mass — whether you receive a solid puck, chunks, or fine dust, you have the exact same amount of peptide. Simply proceed with your normal reconstitution protocol as usual. The dissolved solution will be identical in concentration and purity.'
         },
         {
           id: 'reconstitute-water',
@@ -86,7 +96,12 @@ export default function ExpandedFAQ() {
         {
           id: 'shipping-lost',
           question: 'What if my package is lost or damaged?',
-          answer: 'Contact us at jake@redhelixresearch.com within 48 hours of the delivery date (or expected delivery date for lost packages) with clear photos of any damage and your order number. We will file a carrier claim on your behalf. If the claim is approved, we may issue a replacement for the same item at our discretion. Please note: all sales are final and this process does not guarantee a refund or exchange — it applies only to carrier-confirmed damage or loss.'
+          answer: 'Contact us at jake@redhelixresearch.com within 48 hours of the delivery date (or expected delivery date for lost packages) with clear photos of any damage and your order number. We will file a carrier claim on your behalf. If the claim is approved, we may issue a replacement for the same item at our discretion. Please note: all sales are final and this process does not guarantee a refund or exchange — it applies only to carrier-confirmed damage or loss.\n\nIMPORTANT: A broken lyophilized powder puck is NOT considered damage — this is completely normal transit behavior and the product is still fully intact and usable. See our FAQ on broken pucks above.'
+        },
+        {
+          id: 'kit-shipping-separate',
+          question: 'Why did my kit order ship separately from my other items?',
+          answer: 'Kit orders are our 10-vial wholesale bundles and are fulfilled through a separate wholesale channel from standard single-vial orders. This is why they ship separately with their own tracking number and may arrive at a different time. This separation allows us to offer significantly lower per-vial pricing on kit orders by passing wholesale savings directly to you. If you ordered both single vials and a kit in the same order, expect two separate deliveries.'
         },
         {
           id: 'shipping-customs',

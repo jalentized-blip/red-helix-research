@@ -33,7 +33,15 @@ Testing is performed by independent accredited laboratories to ensure accuracy a
     },
     {
       title: 'Shipping & Delivery',
-      content: `We ship within the United States only. All orders include tracking and are carefully packaged to ensure product integrity during transit. Delivery times typically range from 2-7 business days depending on your location.
+      content: `We ship within the United States only. All orders include tracking and are carefully packaged to ensure product integrity during transit.
+
+STANDARD SINGLE-VIAL ORDERS: Typically delivered within 2-5 business days from shipment.
+
+KIT ORDERS — WHOLESALE PRICING OPTION: Kit orders (10-vial bundles) are our wholesale option where we pass bulk savings directly to the customer. Because kits are fulfilled through our wholesale supply channel, please allow up to 36 hours for kit orders to process before shipping. Delivery typically takes 3-7 business days after shipment. Kit orders ship separately from single-vial orders and will carry a separate tracking number — if you ordered both, expect two separate deliveries.
+
+KIT VIALS ARE UNLABELED (WHOLESALE STANDARD): Kit vials arrive without individual labels — this is standard practice for wholesale peptide supply. To identify your vials, match the batch number on the kit's outer box or the colored vial caps to the Certificate of Analysis posted at redhelixresearch.com/COAReports.
+
+LYOPHILIZED POWDER PUCKS: It is completely normal for lyophilized (freeze-dried) peptide pucks to crack, break, or crumble during transit. This is not damage — the peptide compound is uniformly distributed throughout the powder and remains 100% intact, potent, and usable. A broken puck does not qualify as a damaged shipment.
 
 We do not ship internationally at this time.`
     },
@@ -61,6 +69,10 @@ The only exception to our policy applies strictly to orders that arrive physical
 • You must provide clear photographic evidence of the damaged product and packaging
 • You must retain all original packaging and shipping materials
 • A carrier claim will be filed on your behalf
+
+IMPORTANT — BROKEN LYOPHILIZED PUCKS ARE NOT DAMAGE: A lyophilized (freeze-dried) powder puck that is cracked, broken, or crumbled during transit does NOT qualify as a damaged shipment and is not eligible for a claim. This is normal, expected behavior for freeze-dried biologics in transit. The peptide remains 100% intact, potent, and usable in powder form regardless of whether the puck is whole or fragmented. Do not file a damage claim for a broken puck.
+
+KIT ORDERS: Kit orders are wholesale bundles and arrive unlabeled (standard for wholesale supply). Unlabeled vials are not a defect — use the batch number on the kit box or the colored vial caps to match your products to the COA at redhelixresearch.com/COAReports.
 
 If a carrier damage or loss claim is approved, we may, at our sole discretion, issue a store credit or replacement for the same item and quantity originally ordered. This is not a guarantee and is subject to carrier claim outcomes.
 
