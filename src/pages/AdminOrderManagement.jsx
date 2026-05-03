@@ -449,26 +449,26 @@ ${shippingLine ? `
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-[32px] overflow-hidden shadow-xl shadow-slate-200/50">
+    <div className="bg-white border border-slate-200 rounded-2xl md:rounded-[32px] overflow-hidden shadow-xl shadow-slate-200/50 w-full">
       {/* Header */}
-      <div className="bg-slate-50 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Package className="w-5 h-5 text-[#dc2626]" />
-          <h3 className="text-lg font-black text-slate-900 tracking-tight">
+      <div className="bg-slate-50 border-b border-slate-200 px-4 md:px-6 py-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-2 min-w-0">
+          <Package className="w-5 h-5 text-[#dc2626] flex-shrink-0" />
+          <h3 className="text-base md:text-lg font-black text-slate-900 tracking-tight truncate">
             Order #{order.order_number}
           </h3>
-          <span className={`${STATUS_CONFIG[order.status]?.color} px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest border`}>
+          <span className={`${STATUS_CONFIG[order.status]?.color} px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex-shrink-0`}>
             {order.status}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setShowDeleteConfirm(true)} className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button variant="outline" size="sm" onClick={() => setShowDeleteConfirm(true)} className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700 flex-1 md:flex-none">
             <Trash2 className="w-4 h-4 mr-1" /> Delete
           </Button>
-          <Button variant="outline" size="sm" onClick={onClose} className="border-slate-200 text-slate-500 hover:text-slate-900">
+          <Button variant="outline" size="sm" onClick={onClose} className="border-slate-200 text-slate-500 hover:text-slate-900 flex-1 md:flex-none">
             <X className="w-4 h-4 mr-1" /> Close
           </Button>
-          <Button size="sm" onClick={handleSave} disabled={isSaving} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold shadow-lg shadow-[#dc2626]/20">
+          <Button size="sm" onClick={handleSave} disabled={isSaving} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold shadow-lg shadow-[#dc2626]/20 flex-1 md:flex-none">
             <Save className="w-4 h-4 mr-1" /> {isSaving ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
