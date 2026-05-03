@@ -1,8 +1,5 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
-
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
     const body = await req.json();
 
     const { email, firstName = 'Researcher' } = body;
@@ -317,26 +314,26 @@ Deno.serve(async (req) => {
 </body>
 </html>`;
 
-    const result = await base44.integrations.Core.SendEmail({
-      to: email,
-      subject: '🔬 Welcome to Red Helix Research — Here\'s Why We\'re Different',
-      body: emailBody,
-      from_name: 'Red Helix Research'
+    const resendRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Red Helix Research <no-reply@redhelixresearch.com>',
+        to: [email],
+        subject: '🔬 Welcome to Red Helix Research — Here\'s Why We\'re Different',
+        html: emailBody,
+      }),
     });
 
-    base44.analytics.track({
-      eventName: 'welcome_email_sent',
-      properties: {
-        email: email,
-        first_name: firstName
-      }
-    });
+    if (!resendRes.ok) {
+      const err = await resendRes.text();
+      return Response.json({ error: err }, { status: 500 });
+    }
 
-    return Response.json({
-      success: true,
-      message: 'Welcome email sent',
-      result
-    });
+    return Response.json({ success: true, message: 'Welcome email sent' });
 
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
