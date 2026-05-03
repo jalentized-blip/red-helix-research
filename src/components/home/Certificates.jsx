@@ -98,7 +98,7 @@ export default function Certificates() {
   const displayedCerts = showAll ? combinedCertificates : combinedCertificates.slice(0, 3);
 
   return (
-    <section id="certificates" className="py-32 px-4 bg-white relative overflow-hidden">
+    <section id="certificates" className="py-16 md:py-32 px-4 bg-white relative overflow-hidden">
       {/* Scientific Background */}
       <div className="absolute inset-0 bg-slate-50 opacity-40" />
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItMnptMCAwdi0yIDJ6bTAtMnYyLTJ6bS0yIDJ2LTIgMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
@@ -148,10 +148,10 @@ export default function Certificates() {
                     alt={`${cert.peptide} COA`}
                     className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute top-8 left-8 z-20">
-                    <div className="px-3 py-1 bg-white/90 backdrop-blur-md border border-slate-100 rounded-full flex items-center gap-2 shadow-sm">
-                      <CheckCircle2 className="w-3 h-3 text-green-600" />
-                      <span className="text-[10px] font-black text-green-600 uppercase tracking-tighter">Verified Purity</span>
+                  <div className="absolute top-3 left-3 md:top-6 md:left-6 z-20 max-w-[calc(100%-1.5rem)]">
+                    <div className="px-2 md:px-3 py-1 bg-white/90 backdrop-blur-md border border-slate-100 rounded-full flex items-center gap-1.5 shadow-sm">
+                      <CheckCircle2 className="w-3 h-3 text-green-600 flex-shrink-0" />
+                      <span className="text-[9px] md:text-[10px] font-black text-green-600 uppercase tracking-tighter whitespace-nowrap">Verified Purity</span>
                     </div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
