@@ -217,11 +217,12 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
           <Button 
             onClick={handleSelectStrength}
-            className="w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 active:scale-95 touch-manipulation"
+            className="w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-tight md:tracking-widest text-[11px] md:text-sm rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 active:scale-95 touch-manipulation px-2 md:px-6"
           >
-            <span className="flex items-center gap-3">
-              Select &amp; Order
-              <Microscope className="w-5 h-5 transition-transform group-hover/btn:scale-110" />
+            <span className="flex items-center gap-1.5 md:gap-3">
+              <span className="md:hidden">SELECT &amp; ORDER</span>
+              <span className="hidden md:inline">Select &amp; Order</span>
+              <Microscope className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0 transition-transform group-hover/btn:scale-110" />
             </span>
           </Button>
           
