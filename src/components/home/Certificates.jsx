@@ -141,17 +141,17 @@ export default function Certificates() {
                 onClick={() => setSelectedCert(cert)}
               >
                 {/* Certificate Preview Image */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-slate-50 p-4 border-b border-slate-100">
+                <div className="relative aspect-[3/4] overflow-hidden bg-slate-50 border-b border-slate-100">
                   <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent z-10 opacity-60" />
                   <img 
                     src={cert.imageUrl} 
                     alt={`${cert.peptide} COA`}
-                    className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute top-3 left-3 md:top-6 md:left-6 z-20 max-w-[calc(100%-1.5rem)]">
-                    <div className="px-2 md:px-3 py-1 bg-white/90 backdrop-blur-md border border-slate-100 rounded-full flex items-center gap-1.5 shadow-sm">
+                  <div className="absolute top-3 left-3 z-20">
+                    <div className="px-2 py-1 bg-white/90 backdrop-blur-md border border-slate-100 rounded-full flex items-center gap-1.5 shadow-sm">
                       <CheckCircle2 className="w-3 h-3 text-green-600 flex-shrink-0" />
-                      <span className="text-[9px] md:text-[10px] font-black text-green-600 uppercase tracking-tighter whitespace-nowrap">Verified Purity</span>
+                      <span className="text-[9px] font-black text-green-600 uppercase tracking-tighter whitespace-nowrap">Verified Purity</span>
                     </div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
