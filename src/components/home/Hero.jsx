@@ -9,7 +9,7 @@ const Hero = React.memo(() => {
   }, []);
 
   return (
-    <section className="relative min-h-[100vh] flex items-center overflow-hidden pt-12 md:pt-24">
+    <section className="relative min-h-[100svh] flex items-center overflow-hidden pt-16 md:pt-24">
       {/* Dynamic Background - Modern Medical Clean White/Slate */}
       <div className="absolute inset-0 bg-slate-50" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(239,68,68,0.05),transparent_70%)]" />
@@ -39,7 +39,7 @@ const Hero = React.memo(() => {
         transition={{ duration: 18, repeat: Infinity, ease: "linear", delay: 2 }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-12 py-20 md:py-32 flex flex-col lg:flex-row items-center gap-12 md:gap-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-12 py-14 md:py-32 flex flex-col lg:flex-row items-center gap-8 md:gap-16">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -58,13 +58,13 @@ const Hero = React.memo(() => {
           </motion.div>
 
           {/* Main Title */}
-          <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9] lg:leading-[0.85] flex flex-col">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-5 md:mb-8 leading-[0.88] flex flex-col">
             <span className="text-black">QUALITY</span>
             <span className="text-[#8B2635]">RESEARCH</span>
             <span className="text-black">PEPTIDES</span>
           </h1>
 
-          <p className="text-base md:text-xl text-slate-600 mb-4 md:mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+          <p className="text-[15px] md:text-xl text-slate-600 mb-4 md:mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
             Red Helix Research offers high-purity, independently tested research peptides — shipped fast and backed by certificates of analysis on every batch.
           </p>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#8B2635]/20 rounded-full mb-6 md:mb-8">
@@ -72,35 +72,35 @@ const Hero = React.memo(() => {
           </div>
 
           {/* Stats/Features */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-10 md:mb-12">
+          <div className="grid grid-cols-3 gap-2 md:gap-6 mb-8 md:mb-12">
             {[
               { icon: Microscope, label: "99%+ Purity", sub: "HPLC Verified" },
               { icon: Zap, label: "Fast Shipping", sub: "Ships in 24–48 hrs" },
               { icon: FileText, label: "Lab Reports Included", sub: "Third-Party Tested" }
             ].map((stat, i) => (
-              <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/50 rounded-2xl border border-slate-100 lg:bg-transparent lg:border-0 lg:p-0">
-                <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#8B2635] mb-1" />
-                <span className="text-xs md:text-sm font-black text-black">{stat.label}</span>
-                <span className="text-[11px] md:text-xs text-slate-500 uppercase tracking-tighter font-black">{stat.sub}</span>
+              <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/60 rounded-2xl border border-slate-100 shadow-sm">
+                <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#8B2635] mb-0.5" />
+                <span className="text-[11px] md:text-sm font-black text-black text-center lg:text-left leading-tight">{stat.label}</span>
+                <span className="text-[9px] md:text-xs text-slate-500 uppercase tracking-tighter font-black hidden sm:block">{stat.sub}</span>
               </div>
             ))}
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
+          <div className="flex flex-row gap-3 md:gap-4 justify-center lg:justify-start">
             <Button 
               onClick={() => scrollTo('products')}
-              className="group bg-[#8B2635] hover:bg-[#6B1827] text-white px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
+              className="group flex-1 sm:flex-none bg-[#8B2635] hover:bg-[#6B1827] text-white px-6 md:px-10 py-5 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 active:scale-95"
             >
-              <ShoppingBag className="w-5 md:w-6 h-5 md:h-6 mr-3 group-hover:rotate-12 transition-transform" />
-              Shop Peptides
+              <ShoppingBag className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+              Shop Now
             </Button>
             <Button 
               variant="outline"
               onClick={() => scrollTo('certificates')}
-              className="bg-white border-2 border-[#8B2635] text-[#8B2635] hover:bg-red-50 px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm"
+              className="flex-1 sm:flex-none bg-white border-2 border-[#8B2635] text-[#8B2635] hover:bg-red-50 px-5 md:px-10 py-5 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm active:scale-95"
             >
-              View Lab Reports
+              Lab Reports
             </Button>
           </div>
         </motion.div>

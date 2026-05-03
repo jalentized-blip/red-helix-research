@@ -100,7 +100,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         className="relative z-50 h-full cursor-pointer"
       >
       
-      <Card className={`group relative bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-2xl md:rounded-[40px] flex flex-col ${
+      <Card className={`group relative bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-3xl md:rounded-[40px] flex flex-col ${
         isAdmin && localHidden ? 'opacity-60 grayscale' : ''
       }`}>
         {/* Animated Glow Overlay - Subtle Medical Pulse */}
@@ -130,22 +130,24 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         )}
         
         {/* Top Badges */}
-        <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
+        <div className="absolute top-3 left-3 md:top-6 md:left-6 z-10 flex flex-col gap-1.5">
           {badge && (
-            <Badge className={`${badge.color} border text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm`}>
-              <badge.icon className="w-3.5 h-3.5" />
-              {badge.label}
+            <Badge className={`${badge.color} border text-[9px] md:text-[10px] font-black uppercase tracking-tighter px-2 md:px-4 py-1 md:py-1.5 rounded-full flex items-center gap-1.5 shadow-sm`}>
+              <badge.icon className="w-3 h-3 md:w-3.5 md:h-3.5" />
+              <span className="hidden sm:inline">{badge.label}</span>
+              <span className="sm:hidden">{badge.label.split(' ')[0]}</span>
             </Badge>
           )}
-          <Badge className="bg-[#8B2635] border-red-600 text-white text-[10px] font-black uppercase tracking-tighter px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            RESEARCH ONLY
+          <Badge className="bg-[#8B2635] border-red-600 text-white text-[9px] md:text-[10px] font-black uppercase tracking-tighter px-2 md:px-4 py-1 md:py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+            <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5" />
+            <span className="hidden sm:inline">RESEARCH ONLY</span>
+            <span className="sm:hidden">RUO</span>
           </Badge>
         </div>
 
-        <div className="p-5 md:p-10 flex flex-col h-full">
+        <div className="p-4 md:p-10 flex flex-col h-full">
           {/* Product Image Container */}
-          <div className="relative mb-5 md:mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-xl md:rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#8B2635]/20 transition-colors">
+          <div className="relative mb-4 md:mb-10 aspect-square flex items-center justify-center bg-slate-50 rounded-2xl md:rounded-[32px] overflow-hidden border border-slate-100 group-hover:border-[#8B2635]/20 transition-colors">
             {displayImage ? (
               <img 
                 src={displayImage} 
@@ -180,7 +182,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               </div>
             </div>
 
-            <h3 className="text-xl md:text-3xl font-black text-black mb-4 tracking-tighter group-hover:text-[#8B2635] transition-colors leading-none">
+            <h3 className="text-lg md:text-3xl font-black text-black mb-3 tracking-tighter group-hover:text-[#8B2635] transition-colors leading-none">
               {product.name}
             </h3>
             
@@ -197,11 +199,11 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             )}
           </div>
 
-          <div className="flex items-end justify-between mb-4 md:mb-8">
+          <div className="flex items-end justify-between mb-3 md:mb-8">
             <div className="flex flex-col">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Starting at</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl md:text-4xl font-black text-black tracking-tighter group-hover:text-[#8B2635] transition-colors">
+                <span className="text-xl md:text-4xl font-black text-black tracking-tighter group-hover:text-[#8B2635] transition-colors">
                   ${lowestVisiblePrice}
                 </span>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest transition-colors">USD</span>
@@ -215,7 +217,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
           <Button 
             onClick={handleSelectStrength}
-            className="w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20"
+            className="w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20 active:scale-95 touch-manipulation"
           >
             <span className="flex items-center gap-3">
               Select &amp; Order
@@ -223,12 +225,8 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             </span>
           </Button>
           
-          <div className="mt-4 md:mt-8 flex items-center justify-center gap-2">
-            <div className="w-1 h-1 rounded-full bg-[#8B2635] transition-colors" />
-            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">For Research Use Only</span>
-          </div>
-          <div className="mt-2 text-center">
-            <span className="text-[9px] font-black text-[#8B2635] uppercase tracking-wider">NOT FOR HUMAN USE</span>
+          <div className="mt-3 md:mt-8 flex items-center justify-center gap-2">
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em] transition-colors">Research Use Only · Not For Human Use</span>
           </div>
         </div>
       </Card>

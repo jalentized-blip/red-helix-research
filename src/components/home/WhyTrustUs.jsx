@@ -31,13 +31,13 @@ export default function WhyTrustUs() {
   };
 
   return (
-    <section className="py-32 px-4 bg-white relative overflow-hidden">
+    <section className="py-16 md:py-32 px-4 bg-white relative overflow-hidden">
       {/* Background Decorative Elements - Subtle Medical Cleanliness */}
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(239,68,68,0.03),transparent_70%)]" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header Section */}
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-8 mb-20">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-6 mb-10 md:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -48,7 +48,7 @@ export default function WhyTrustUs() {
               <ShieldCheck className="w-3 h-3 text-[#8B2635]" />
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#8B2635]">Quality Assurance Protocol</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-black leading-[0.9]">
+            <h2 className="text-4xl md:text-7xl font-black tracking-tighter text-black leading-[0.9]">
               FOUNDATION OF <br />
               <span className="text-[#8B2635]">SCIENTIFIC TRUST</span>
             </h2>
@@ -118,7 +118,7 @@ export default function WhyTrustUs() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-20 p-8 bg-slate-50 border border-slate-100 rounded-[32px] flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm"
+          className="mt-8 md:mt-20 p-6 md:p-8 bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[32px] flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 shadow-sm"
         >
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-white border border-slate-100 flex items-center justify-center shadow-sm">
@@ -130,7 +130,7 @@ export default function WhyTrustUs() {
             </div>
           </div>
           <div className="h-[1px] md:h-8 w-full md:w-[1px] bg-slate-200" />
-          <div className="flex gap-12">
+          <div className="flex gap-8 md:gap-12">
             <div className="text-center">
               <p className="text-black text-2xl font-black">99.8%</p>
               <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">Avg Purity</p>

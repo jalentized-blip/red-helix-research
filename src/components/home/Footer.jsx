@@ -6,12 +6,12 @@ import { createPageUrl } from '@/utils';
 
 export default function Footer() {
   return (
-    <footer role="contentinfo" aria-label="Site footer" className="bg-white border-t border-slate-100 pt-12 md:pt-24 pb-12 px-4 relative overflow-hidden">
+    <footer role="contentinfo" aria-label="Site footer" className="bg-white border-t border-slate-100 pt-10 md:pt-24 pb-10 px-4 relative overflow-hidden">
       {/* Background Subtle Elements - Modern Medical Gradient */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#dc2626]/20 to-transparent" />
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-12 lg:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16 mb-8 lg:mb-20">
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-8">
             <div className="flex items-center gap-4">
@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Compliance Column - Bright Clinical Box */}
           <div className="lg:col-span-6">
-            <div className="bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[40px] p-6 md:p-10 relative overflow-hidden shadow-sm">
+          <div className="bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[40px] p-5 md:p-10 relative overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
                 <ShieldCheck className="w-32 h-32 text-[#8B2635]" />
               </div>
@@ -108,8 +108,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-8">
+        <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
               © 2026 Red Helix Research
             </p>

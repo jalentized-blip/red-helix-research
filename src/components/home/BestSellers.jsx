@@ -61,7 +61,7 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
   }, [products, effectiveIsAdmin]);
 
   return (
-    <section id="bestsellers" className="py-12 md:py-24 px-4 relative overflow-hidden bg-white">
+    <section id="bestsellers" className="py-12 md:py-24 px-3 md:px-4 relative overflow-hidden bg-white">
       {/* Scientific Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -82,14 +82,14 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-10 md:mb-20"
+          className="text-center mb-8 md:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#dc2626]/10 rounded-full mb-6">
             <TrendingUp className="w-4 h-4 text-[#8B2635]" />
             <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">High Demand Reagents</span>
           </div>
           
-          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-black tracking-tighter leading-none mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-black tracking-tighter leading-none mb-4 md:mb-6">
             BEST-SELLING <br />
             <span className="text-[#8B2635]">RESEARCH UNITS</span>
           </h2>
@@ -99,7 +99,7 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
         </motion.div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
           {featuredProducts.map((product, index) => (
             <ProductCard 
               key={product.id} 

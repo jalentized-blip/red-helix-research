@@ -180,7 +180,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
     }, [products, activeCategory, searchQuery, isAdmin, sortBy, showAll]);
 
   return (
-    <section id="products" className="py-12 md:py-24 px-4 relative overflow-hidden bg-slate-50">
+    <section id="products" className="py-12 md:py-24 px-3 md:px-4 relative overflow-hidden bg-slate-50">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
           className="absolute bottom-20 left-20 text-[#8B2635]/5 text-8xl"
@@ -229,7 +229,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         </motion.div>
 
         {/* Filter Controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-8 mb-8 md:mb-12">
           {/* Category Tabs */}
           <div className="w-full md:w-auto overflow-x-auto pb-2 scrollbar-hide">
             <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
@@ -249,7 +249,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
 
           {/* Sort Dropdown */}
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full md:w-64 h-14 bg-white border-slate-200 text-black font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-[#dc2626]/20 group">
+            <SelectTrigger className="w-full md:w-64 h-12 md:h-14 bg-white border-slate-200 text-black font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-sm focus:ring-[#dc2626]/20 group">
               <div className="flex items-center gap-3">
                 <span className="text-slate-400 group-hover:text-[#8B2635] transition-colors">Sort:</span>
                 <SelectValue placeholder="Featured Priority" />
@@ -266,7 +266,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
           {displayedProducts.map((product, index) => (
             <ProductCard 
               key={product.id} 

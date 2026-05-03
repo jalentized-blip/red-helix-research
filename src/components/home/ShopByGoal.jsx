@@ -63,7 +63,7 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
   const [hoveredPeptide, setHoveredPeptide] = useState(null);
 
   return (
-    <section id="goals" className="py-24 px-4 bg-white relative overflow-hidden">
+    <section id="goals" className="py-14 md:py-24 px-4 bg-white relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -85,12 +85,12 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-100 rounded-full mb-6">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Research Categorization</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
+          <h2 className="text-4xl md:text-7xl font-black text-black tracking-tighter leading-none mb-6">
             SHOP BY <br />
             <span className="text-[#8B2635]">OBJECTIVE</span>
           </h2>
@@ -109,17 +109,17 @@ export default function ShopByGoal({ products = [], onSelectStrength, isAuthenti
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="group relative bg-slate-50 border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 overflow-hidden cursor-pointer rounded-[40px] shadow-sm hover:shadow-xl">
+              <Card className="group relative bg-slate-50 border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 overflow-hidden cursor-pointer rounded-3xl md:rounded-[40px] shadow-sm hover:shadow-xl">
                 {/* Background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${goal.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
-                <div className="relative p-10">
-                  <div className="flex items-start gap-6 mb-8">
+                <div className="relative p-5 md:p-10">
+                  <div className="flex items-start gap-4 md:gap-6 mb-5 md:mb-8">
                     <div className={`w-14 h-14 rounded-2xl bg-white border border-slate-100 flex items-center justify-center group-hover:border-[#dc2626]/30 transition-colors shadow-sm`}>
                       <goal.icon className={`w-7 h-7 ${goal.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-black group-hover:text-[#8B2635] transition-colors tracking-tight">
+                      <h3 className="text-xl md:text-2xl font-black text-black group-hover:text-[#8B2635] transition-colors tracking-tight">
                         {goal.title}
                       </h3>
                       <p className="text-sm text-slate-500 mt-2 font-medium leading-relaxed">

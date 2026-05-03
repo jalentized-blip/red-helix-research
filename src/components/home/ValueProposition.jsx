@@ -4,7 +4,7 @@ import { ShieldCheck, AlertTriangle } from "lucide-react";
 
 export default function ValueProposition() {
   return (
-    <section className="py-24 px-4 bg-[#8B2635] relative overflow-hidden">
+    <section className="py-14 md:py-24 px-4 bg-[#8B2635] relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.1),transparent_70%)]" />
       
@@ -13,14 +13,14 @@ export default function ValueProposition() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded-full mb-6">
             <ShieldCheck className="w-3 h-3 text-white" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Integrity & Standards</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tighter text-white leading-none">
+          <h2 className="text-4xl md:text-6xl font-black mb-6 md:mb-8 tracking-tighter text-white leading-none">
             COMMITTED TO <br />
             <span className="text-white/80">TRANSPARENCY</span>
           </h2>
@@ -29,7 +29,7 @@ export default function ValueProposition() {
             At Red Helix Research, we provide research-grade peptides for laboratory and scientific research purposes only. All products are intended for in vitro research and are not approved for human or veterinary use.
           </p>
 
-          <div className="mt-12 p-8 bg-white/5 border border-white/10 rounded-[40px] max-w-3xl mx-auto shadow-sm relative overflow-hidden group">
+          <div className="mt-8 md:mt-12 p-5 md:p-8 bg-white/5 border border-white/10 rounded-2xl md:rounded-[40px] max-w-3xl mx-auto shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-8 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity">
               <AlertTriangle className="w-24 h-24 text-white" />
             </div>
@@ -61,7 +61,7 @@ export default function ValueProposition() {
                   alt="Standardized Research Unit"
                   className="w-48 h-auto drop-shadow-2xl transform group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="hidden md:flex flex-col gap-4">
+                <div className="flex flex-col gap-2 md:gap-4">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100 shadow-sm">
                       <ShieldCheck className="w-4 h-4 text-green-600" />
