@@ -119,16 +119,6 @@ const Hero = React.memo(() => {
               
               {/* Animated Scientific Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                  className="w-3/4 h-3/4 border border-slate-200 rounded-full border-dashed"
-                />
-                <motion.div 
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                  className="absolute w-1/2 h-1/2 border border-slate-200 rounded-full border-dashed"
-                />
                 <img 
                   src="https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png" 
                   alt="Premium Research Vial"
