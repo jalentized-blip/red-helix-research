@@ -69,29 +69,11 @@ export default function WelcomeDiscountPopup() {
     if (shown) return;
 
     const timer = setTimeout(async () => {
-      // Check if user already has a valid welcome code stored
+      // If user already has a valid welcome code, don't show again
       const existingCode = localStorage.getItem(WELCOME_CODE_KEY);
       if (existingCode) {
-        try {
-          const records = await base44.entities.WelcomeDiscount.filter({ code: existingCode });
-          if (records.length > 0) {
-            const record = records[0];
-            const expired = record.expires_at && new Date(record.expires_at) < new Date();
-            if (record.used || expired) {
-              localStorage.removeItem(WELCOME_CODE_KEY);
-            } else {
-              // Valid code — show code step directly (already claimed email)
-              setCode(existingCode);
-              setStep('code');
-              setShow(true);
-              sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
-              return;
-            }
-          }
-        } catch {
-          sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
-          return;
-        }
+        sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
+        return;
       }
 
       // Check fingerprint — has this device already claimed?
@@ -99,16 +81,9 @@ export default function WelcomeDiscountPopup() {
       try {
         const existing = await base44.entities.WelcomeDiscount.filter({ fingerprint: fp });
         if (existing.length > 0) {
-          const valid = existing.find(r => !r.used && new Date(r.expires_at) > new Date());
-          if (valid) {
-            localStorage.setItem(WELCOME_CODE_KEY, valid.code);
-            setCode(valid.code);
-            setStep('code');
-            setShow(true);
-            sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
-            return;
-          }
-          setAlreadyClaimed(true);
+          // Already claimed on this device — don't show again
+          sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
+          return;
         }
       } catch {
         // DB unavailable — still show
