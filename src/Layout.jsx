@@ -22,6 +22,7 @@ import { MFAProvider } from '@/components/security/MFAProvider';
 import SecurityGateway from '@/components/security/SecurityGateway';
 import ResearchDisclaimerGate from '@/components/ResearchDisclaimerGate';
 import WelcomeDiscountPopup from '@/components/WelcomeDiscountPopup';
+import SlowConnectionBanner from '@/components/SlowConnectionBanner';
 
 
 const HeaderSearch = () => {
@@ -534,6 +535,7 @@ const HeaderSearch = () => {
             background: var(--red-dirt-dark);
           }
         `}</style>
+        <SlowConnectionBanner />
         <MolecularBackground />
         <FloatingMolecularFormulas />
 

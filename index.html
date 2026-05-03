@@ -50,9 +50,118 @@
     <!-- Preconnect to critical origins for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://i.imgur.com" crossorigin />
+    <link rel="preconnect" href="https://i.ibb.co" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://api.coingecko.com" />
     <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
+
+    <!-- Critical inline CSS: renders a skeleton instantly before JS loads -->
+    <style>
+      #root-loading {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #fff;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      #root-loading-header {
+        height: 72px;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+      #root-loading-logo {
+        width: 140px;
+        height: 48px;
+        background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+      }
+      #root-loading-hero {
+        height: 480px;
+        background: linear-gradient(135deg, #8B2635 0%, #6B1827 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 40px 24px;
+      }
+      #root-loading-hero-title {
+        width: min(560px, 90%);
+        height: 56px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 8px;
+        animation: shimmer 1.5s infinite;
+        background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.1) 75%);
+        background-size: 200% 100%;
+      }
+      #root-loading-hero-sub {
+        width: min(380px, 75%);
+        height: 28px;
+        border-radius: 6px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.08) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+      #root-loading-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 40px 24px;
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .root-loading-card {
+        height: 300px;
+        background: linear-gradient(90deg, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+      }
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+      /* Slow connection banner */
+      #slow-connection-banner {
+        display: none;
+        background: #fef3c7;
+        border-bottom: 1px solid #f59e0b;
+        padding: 8px 16px;
+        text-align: center;
+        font-size: 13px;
+        color: #92400e;
+        font-weight: 600;
+      }
+    </style>
+    <script>
+      // Detect slow connections and show banner
+      (function() {
+        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        var isSlow = false;
+        if (conn) {
+          isSlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g' || conn.saveData === true;
+        }
+        if (isSlow) {
+          document.addEventListener('DOMContentLoaded', function() {
+            var b = document.getElementById('slow-connection-banner');
+            if (b) b.style.display = 'block';
+          });
+          // Store in sessionStorage so React can read it
+          sessionStorage.setItem('rhr_slow_connection', '1');
+        }
+      })();
+    </script>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -248,7 +357,28 @@
     src="https://www.facebook.com/tr?id=2405386543297083&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
-    <div id="root"></div>
+    <div id="slow-connection-banner">
+      ⚠️ Slow connection detected — loading a lighter experience for you. Some images may be delayed.
+    </div>
+    <div id="root">
+      <!-- Instant skeleton shown before React loads -->
+      <div id="root-loading">
+        <div id="root-loading-header">
+          <div id="root-loading-logo"></div>
+        </div>
+        <div id="root-loading-hero">
+          <div id="root-loading-hero-title"></div>
+          <div id="root-loading-hero-sub"></div>
+          <div id="root-loading-hero-sub" style="width:min(240px,60%);margin-top:8px;"></div>
+        </div>
+        <div id="root-loading-grid">
+          <div class="root-loading-card"></div>
+          <div class="root-loading-card" style="animation-delay:0.1s"></div>
+          <div class="root-loading-card" style="animation-delay:0.2s"></div>
+          <div class="root-loading-card" style="animation-delay:0.3s"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Noscript Fallback: Provides crawlable content when JS is disabled/slow -->
     <noscript>
