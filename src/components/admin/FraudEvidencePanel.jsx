@@ -81,26 +81,30 @@ export default function FraudEvidencePanel({ orderNumber }) {
   return (
     <div className="space-y-2">
       {/* Summary bar */}
-      <div className={`rounded-xl border-2 p-4 flex items-center justify-between gap-3 cursor-pointer ${riskColorClass}`} onClick={() => setExpanded(!expanded)}>
-        <div className="flex items-center gap-3">
-          <RiskIcon className="w-5 h-5 flex-shrink-0" />
-          <div>
-            <p className="text-sm font-black uppercase tracking-tight">
-              Risk Score: {evidence.risk_score}/100 — {evidence.risk_level?.toUpperCase()}
-            </p>
-            <p className="text-[10px] font-bold opacity-70">
-              {evidence.risk_flags?.length || 0} signal{evidence.risk_flags?.length !== 1 ? 's' : ''} detected
-              {evidence.ip_address ? ` · IP: ${evidence.ip_address} (${evidence.ip_city}, ${evidence.ip_country})` : ''}
-              {evidence.ip_is_vpn ? ' · ⚠️ VPN' : ''}
-            </p>
+      <div className={`rounded-xl border-2 p-4 cursor-pointer ${riskColorClass}`} onClick={() => setExpanded(!expanded)}>
+        <div className="flex items-start justify-between gap-2 min-w-0">
+          <div className="flex items-start gap-2 min-w-0 flex-1">
+            <RiskIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <p className="text-sm font-black uppercase tracking-tight">
+                Risk Score: {evidence.risk_score}/100 — {evidence.risk_level?.toUpperCase()}
+              </p>
+              <p className="text-[10px] font-bold opacity-70 break-words">
+                {evidence.risk_flags?.length || 0} signal{evidence.risk_flags?.length !== 1 ? 's' : ''} detected
+                {evidence.ip_address ? ` · IP: ${evidence.ip_address}` : ''}
+                {evidence.ip_city ? ` (${evidence.ip_city}, ${evidence.ip_country})` : ''}
+                {evidence.ip_is_vpn ? ' · ⚠️ VPN' : ''}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); downloadEvidence(); }}
-            className="border-current/30 text-current text-[10px] h-7 px-2 gap-1">
-            <Download className="w-3 h-3" /> Evidence
-          </Button>
-          {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); downloadEvidence(); }}
+              className="border-current/30 text-current text-[10px] h-7 px-2 gap-1">
+              <Download className="w-3 h-3" />
+              <span className="hidden sm:inline">Evidence</span>
+            </Button>
+            {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </div>
         </div>
       </div>
 
