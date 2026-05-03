@@ -819,7 +819,8 @@ ${shippingLine ? `
 
 
 // ─── Quick Status Updater (Bulk) ───
-function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
+function BulkActions({ selectedOrders, orders, onBulkUpdate, onBulkDelete }) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   if (selectedOrders.size === 0) return null;
 
   const handleBulkStatus = (status) => {
@@ -831,7 +832,7 @@ function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white rounded-full px-6 py-3 shadow-2xl flex items-center gap-4 z-50"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white rounded-full px-6 py-3 shadow-2xl flex items-center gap-4 z-50 flex-wrap justify-center max-w-[95vw]"
     >
       <span className="text-sm font-bold">{selectedOrders.size} selected</span>
       <div className="w-px h-5 bg-slate-700" />
@@ -840,6 +841,18 @@ function BulkActions({ selectedOrders, orders, onBulkUpdate }) {
       <button onClick={() => handleBulkStatus('shipped')} className="text-xs font-bold hover:text-purple-400 transition-colors">Shipped</button>
       <button onClick={() => handleBulkStatus('delivered')} className="text-xs font-bold hover:text-green-400 transition-colors">Delivered</button>
       <button onClick={() => handleBulkStatus('cancelled')} className="text-xs font-bold hover:text-red-400 transition-colors">Cancel</button>
+      <div className="w-px h-5 bg-slate-700" />
+      {!confirmDelete ? (
+        <button onClick={() => setConfirmDelete(true)} className="text-xs font-bold text-red-400 hover:text-red-300 transition-colors flex items-center gap-1">
+          <Trash2 className="w-3 h-3" /> Delete
+        </button>
+      ) : (
+        <>
+          <span className="text-xs text-red-300 font-bold">Delete {selectedOrders.size} orders?</span>
+          <button onClick={() => { onBulkDelete(Array.from(selectedOrders)); setConfirmDelete(false); }} className="text-xs font-black text-white bg-red-600 hover:bg-red-500 px-3 py-1 rounded-full transition-colors">Yes, Delete</button>
+          <button onClick={() => setConfirmDelete(false)} className="text-xs font-bold text-slate-400 hover:text-white transition-colors">Cancel</button>
+        </>
+      )}
     </motion.div>
   );
 }
@@ -1159,6 +1172,17 @@ export default function AdminOrderManagement() {
     }
   };
 
+  const handleBulkDelete = async (orderIds) => {
+    try {
+      await Promise.all(orderIds.map(id => base44.entities.Order.delete(id)));
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      setSelectedOrders(new Set());
+      toast.success(`${orderIds.length} order${orderIds.length > 1 ? 's' : ''} deleted`);
+    } catch (err) {
+      toast.error('Bulk delete failed', { description: err.message });
+    }
+  };
+
   const handleBulkUpdate = async (orderIds, updates) => {
     try {
       // If bulk-cancelling, restore stock for each order
@@ -1466,7 +1490,7 @@ export default function AdminOrderManagement() {
 
         {/* Bulk Actions Bar */}
         <AnimatePresence>
-          <BulkActions selectedOrders={selectedOrders} orders={orders} onBulkUpdate={handleBulkUpdate} />
+          <BulkActions selectedOrders={selectedOrders} orders={orders} onBulkUpdate={handleBulkUpdate} onBulkDelete={handleBulkDelete} />
         </AnimatePresence>
 
         {/* Prediction Dashboard */}
