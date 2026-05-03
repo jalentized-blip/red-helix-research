@@ -98,7 +98,7 @@ export default function Certificates() {
   const displayedCerts = showAll ? combinedCertificates : combinedCertificates.slice(0, 3);
 
   return (
-    <section id="certificates" className="py-16 md:py-32 px-4 bg-white relative overflow-hidden">
+    <section id="certificates" className="py-16 md:py-32 px-4 bg-white relative overflow-x-hidden">
       {/* Scientific Background */}
       <div className="absolute inset-0 bg-slate-50 opacity-40" />
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItMnptMCAwdi0yIDJ6bTAtMnYyLTJ6bS0yIDJ2LTIgMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
@@ -127,7 +127,7 @@ export default function Certificates() {
         </div>
 
         {/* Certificates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full min-w-0">
           {displayedCerts.map((cert, idx) => (
             <motion.div
               key={idx}
@@ -135,9 +135,10 @@ export default function Certificates() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.8 }}
+              className="min-w-0 w-full"
             >
               <Card 
-                className="bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 cursor-pointer group relative overflow-hidden rounded-[40px] flex flex-col h-full shadow-sm hover:shadow-xl"
+                className="bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 cursor-pointer group relative overflow-hidden rounded-3xl flex flex-col h-full shadow-sm hover:shadow-xl w-full min-w-0"
                 onClick={() => setSelectedCert(cert)}
               >
                 {/* Certificate Preview Image */}
