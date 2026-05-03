@@ -875,21 +875,20 @@ function PaymentBadge({ order }) {
 }
 
 // ─── Order Row ───
-function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {}, products = [] }) {
+function OrderRow({ order, isSelected, onSelect, onEdit, onDelete, productMap = {}, products = [] }) {
   const StatusIcon = STATUS_CONFIG[order.status]?.icon || Clock;
-  const addr = order.shipping_address || {};
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white border-2 rounded-2xl px-5 py-4 transition-all cursor-pointer group hover:shadow-lg hover:shadow-slate-200/50 ${
+      className={`bg-white border-2 rounded-2xl px-5 py-4 transition-all group hover:shadow-lg hover:shadow-slate-200/50 ${
         isSelected ? 'border-[#dc2626]/40 shadow-md' : 'border-slate-100 hover:border-[#dc2626]/20'
       }`}
-      onClick={() => onEdit(order)}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4" onClick={() => onEdit(order)} style={{cursor:'pointer'}}>
         {/* Checkbox */}
         <div onClick={(e) => { e.stopPropagation(); onSelect(order.id); }}>
           <div className={`w-5 h-5 rounded-lg border-2 transition-all flex items-center justify-center cursor-pointer ${
@@ -942,6 +941,26 @@ function OrderRow({ order, isSelected, onSelect, onEdit, productMap = {}, produc
 
         <Edit3 className="w-4 h-4 text-slate-300 group-hover:text-[#dc2626] transition-colors flex-shrink-0" />
       </div>
+
+      {/* Delete row */}
+      {!confirmDelete ? (
+        <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
+          <button
+            onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
+            className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest text-slate-300 hover:text-red-500 transition-colors px-2 py-1 rounded-lg hover:bg-red-50"
+          >
+            <Trash2 className="w-3.5 h-3.5" /> Delete
+          </button>
+        </div>
+      ) : (
+        <div className="mt-3 pt-3 border-t border-red-100 flex items-center justify-between gap-3 bg-red-50 rounded-xl px-3 py-2">
+          <p className="text-xs font-bold text-red-700">Permanently delete order #{order.order_number}?</p>
+          <div className="flex gap-2">
+            <button onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }} className="text-[11px] font-black text-slate-500 hover:text-slate-700 px-3 py-1 rounded-lg bg-white border border-slate-200">Cancel</button>
+            <button onClick={(e) => { e.stopPropagation(); onDelete(order.id); }} className="text-[11px] font-black text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg">Delete</button>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -1436,6 +1455,7 @@ export default function AdminOrderManagement() {
                     setEditingOrder(o);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
+                  onDelete={handleDeleteOrder}
                   productMap={productMap}
                   products={products}
                 />
