@@ -114,15 +114,25 @@ const Hero = React.memo(() => {
         >
           <div className="relative w-full aspect-square">
             {/* Main Glassmorphic Card - Brighter & Cleaner */}
-            <div className="absolute inset-0 bg-white/60 backdrop-blur-3xl rounded-[40px] border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden group">
+            <div className="absolute inset-0 bg-white/80 backdrop-blur-3xl rounded-[40px] border border-slate-200 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden group">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(239,68,68,0.05),transparent_50%)]" />
               
               {/* Animated Scientific Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                  className="w-3/4 h-3/4 border border-slate-200 rounded-full border-dashed"
+                />
+                <motion.div 
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                  className="absolute w-1/2 h-1/2 border border-slate-200 rounded-full border-dashed"
+                />
                 <img 
                   src="https://i.ibb.co/kVLqM7Ff/redhelixxx-1.png" 
                   alt="Premium Research Vial"
-                  className="relative z-10 w-48 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] transform group-hover:scale-110 transition-transform duration-700"
+                  className="absolute z-10 w-48 h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] transform group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
 
