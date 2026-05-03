@@ -46,7 +46,7 @@ const Hero = React.memo(() => {
           transition={{ duration: 1, ease: "easeOut" }}
           className="flex-1 text-center lg:text-left w-full"
         >
-          {/* Trust Badge - Brighter Clinical Look */}
+          {/* Trust Badge */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -54,29 +54,29 @@ const Hero = React.memo(() => {
             className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full mb-6 md:mb-8 shadow-sm"
           >
             <ShieldCheck className="w-3 md:w-4 h-3 md:h-4 text-[#8B2635]" />
-            <span className="text-[10px] md:text-xs font-bold tracking-widest text-slate-600 uppercase">ISO 9001:2015 Certified Sourcing</span>
+            <span className="text-[10px] md:text-xs font-bold tracking-widest text-slate-600 uppercase">3rd-Party Lab Tested &amp; Verified</span>
           </motion.div>
 
-          {/* Main Title - High Contrast on Light BG */}
+          {/* Main Title */}
           <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9] lg:leading-[0.85] flex flex-col">
-            <span className="text-black">PRECISION</span>
+            <span className="text-black">QUALITY</span>
             <span className="text-[#8B2635]">RESEARCH</span>
             <span className="text-black">PEPTIDES</span>
           </h1>
 
           <p className="text-base md:text-xl text-slate-600 mb-4 md:mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-            Red Helix Research provides high-purity, third-party verified peptides exclusively for advanced in-vitro scientific study and laboratory research.
+            Red Helix Research offers high-purity, independently tested research peptides — shipped fast and backed by certificates of analysis on every batch.
           </p>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B2635]/5 border border-[#8B2635]/20 rounded-full mb-6 md:mb-8">
-            <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">⚠ For In-Vitro Research Use Only — Not For Human Consumption — Not FDA Approved</span>
+            <span className="text-[10px] font-black text-[#8B2635] uppercase tracking-widest">⚠ For Research Use Only — Not For Human Consumption — Not FDA Approved</span>
           </div>
 
-          {/* Stats/Features - Clean Medical Icons */}
+          {/* Stats/Features */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-10 md:mb-12">
             {[
               { icon: Microscope, label: "99%+ Purity", sub: "HPLC Verified" },
-              { icon: Zap, label: "Fast Shipping", sub: "24-48h Dispatch" },
-              { icon: FileText, label: "Verified COAs", sub: "Third-Party Lab" }
+              { icon: Zap, label: "Fast Shipping", sub: "Ships in 24–48 hrs" },
+              { icon: FileText, label: "Lab Reports Included", sub: "Third-Party Tested" }
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-white/50 rounded-2xl border border-slate-100 lg:bg-transparent lg:border-0 lg:p-0">
                 <stat.icon className="w-4 md:w-5 h-4 md:h-5 text-[#8B2635] mb-1" />
@@ -86,21 +86,21 @@ const Hero = React.memo(() => {
             ))}
           </div>
 
-          {/* CTA Buttons - Professional High Contrast */}
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
             <Button 
               onClick={() => scrollTo('products')}
               className="group bg-[#8B2635] hover:bg-[#6B1827] text-white px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl shadow-[0_10px_30px_-5px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.4)] transition-all duration-300 transform hover:-translate-y-1"
             >
               <ShoppingBag className="w-5 md:w-6 h-5 md:h-6 mr-3 group-hover:rotate-12 transition-transform" />
-              EXPLORE CATALOG
+              Shop Peptides
             </Button>
             <Button 
               variant="outline"
               onClick={() => scrollTo('certificates')}
               className="bg-white border-2 border-[#8B2635] text-[#8B2635] hover:bg-red-50 px-8 md:px-10 py-4 md:py-6 text-base md:text-lg font-black rounded-xl md:rounded-2xl transition-all duration-300 shadow-sm"
             >
-              VIEW LAB REPORTS
+              View Lab Reports
             </Button>
           </div>
         </motion.div>

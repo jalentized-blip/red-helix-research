@@ -111,20 +111,41 @@ export default function Cart() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-[#8B2635] hover:text-[#6B1827] mb-6 font-bold">
+          <Link to={createPageUrl('Home')} className="inline-flex items-center gap-2 text-[#8B2635] hover:text-[#6B1827] mb-6 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
-            Continue Shopping
+            ← Continue Shopping
           </Link>
-          <h1 className="text-4xl font-black text-black uppercase tracking-tight">Shopping Cart</h1>
+          <h1 className="text-4xl font-black text-black uppercase tracking-tight mb-6">Your Cart</h1>
+
+          {/* Checkout Steps */}
+          {cartItems.length > 0 && (
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#8B2635] text-white text-xs font-black flex items-center justify-center">1</div>
+                <span className="text-xs font-bold text-[#8B2635]">Cart</span>
+              </div>
+              <div className="flex-1 h-px bg-slate-200 mx-1 max-w-[60px]" />
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-slate-200 text-slate-400 text-xs font-black flex items-center justify-center">2</div>
+                <span className="text-xs font-bold text-slate-400">Your Info</span>
+              </div>
+              <div className="flex-1 h-px bg-slate-200 mx-1 max-w-[60px]" />
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-slate-200 text-slate-400 text-xs font-black flex items-center justify-center">3</div>
+                <span className="text-xs font-bold text-slate-400">Payment</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {cartItems.length === 0 ? (
           <div className="text-center py-20 bg-slate-50 rounded-2xl md:rounded-[40px] border border-slate-100">
             <ShoppingBag className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <p className="text-slate-400 text-lg mb-6 font-semibold">Your research cart is empty</p>
+            <p className="text-slate-400 text-lg mb-2 font-semibold">Your cart is empty</p>
+            <p className="text-slate-400 text-sm mb-6">Add a product from the shop to get started.</p>
             <Link to={createPageUrl('Home')}>
               <Button className="bg-[#8B2635] hover:bg-[#6B1827] text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-[#8B2635]/20">
-                Browse Peptides
+                Browse Products
               </Button>
             </Link>
           </div>
@@ -277,8 +298,8 @@ export default function Cart() {
                           className="w-5 h-5 rounded border-slate-300 text-[#8B2635] focus:ring-[#8B2635] cursor-pointer"
                         />
                       </div>
-                      <span className="text-[10px] text-slate-500 font-bold leading-relaxed uppercase tracking-wider group-hover:text-slate-700 transition-colors">
-                        I confirm that these products are for <span className="text-[#8B2635]">RESEARCH AND LABORATORY USE ONLY</span>. Not for human consumption.
+                      <span className="text-sm text-slate-600 font-medium leading-relaxed group-hover:text-slate-800 transition-colors">
+                        I confirm these products are for <span className="text-[#8B2635] font-bold">research and laboratory use only</span> — not for human consumption.
                       </span>
                     </label>
                   </div>
@@ -306,9 +327,9 @@ export default function Cart() {
                     }
                     navigate(createPageUrl('CustomerInfo'));
                   }}
-                  className={`w-full font-black py-5 md:py-8 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-lg uppercase tracking-widest relative group ${agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                  className={`w-full font-black py-5 md:py-8 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-lg relative group ${agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                   >
-                  Checkout <ArrowRight className="w-5 h-5 ml-2" />
+                  Proceed to Checkout <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
 
                   <Button
@@ -316,19 +337,19 @@ export default function Cart() {
                     className="w-full text-slate-400 hover:text-[#8B2635] font-bold text-xs uppercase tracking-widest mt-2"
                     onClick={handleClearCart}
                   >
-                    Clear Research Cart
+                    Clear Cart
                   </Button>
 
                   {/* Info Box */}
                   <div className="mt-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-                    <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Same-day shipping
+                    <p className="flex items-center gap-3 text-sm font-semibold text-slate-600">
+                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px] flex-shrink-0">✓</span> Same-day shipping on most orders
                     </p>
-                    <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Lab tested purity
+                    <p className="flex items-center gap-3 text-sm font-semibold text-slate-600">
+                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px] flex-shrink-0">✓</span> 99%+ purity, lab tested
                     </p>
-                    <p className="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px]">✓</span> Secure Laboratory Supply
+                    <p className="flex items-center gap-3 text-sm font-semibold text-slate-600">
+                      <span className="w-5 h-5 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-[10px] flex-shrink-0">✓</span> Secure, encrypted checkout
                     </p>
                   </div>
                 </div>

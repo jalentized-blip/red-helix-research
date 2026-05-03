@@ -205,11 +205,11 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Complete Inventory</span>
           </div>
           <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-black tracking-tighter leading-none mb-6">
-            RESEARCH <br />
-            <span className="text-[#8B2635]">REPOSITORY</span>
+            ALL <br />
+            <span className="text-[#8B2635]">PRODUCTS</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto mb-10">
-            A comprehensive catalog of clinical-grade peptides, systematically archived and ready for analytical deployment.
+            Browse our full catalog of research-grade peptides. Click any product to see sizes, pricing, and add it to your cart.
           </p>
           
           {/* Search Bar */}
@@ -256,11 +256,11 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
               </div>
             </SelectTrigger>
             <SelectContent className="bg-white border-slate-200 rounded-2xl shadow-2xl p-2">
-              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Featured Priority</SelectItem>
-              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: Low to High</SelectItem>
-              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Value: High to Low</SelectItem>
-              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: A-Z</SelectItem>
-              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Nomenclature: Z-A</SelectItem>
+              <SelectItem value="featured" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Best Sellers First</SelectItem>
+              <SelectItem value="price-low" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Price: Low to High</SelectItem>
+              <SelectItem value="price-high" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Price: High to Low</SelectItem>
+              <SelectItem value="name-asc" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Name: A-Z</SelectItem>
+              <SelectItem value="name-desc" className="font-black uppercase tracking-widest text-[10px] text-black focus:bg-[#8B2635] focus:text-white rounded-xl py-3 cursor-pointer transition-colors">Name: Z-A</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -294,7 +294,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
               className="group relative px-6 md:px-12 py-5 bg-white border-2 border-slate-200 hover:border-[#8B2635] text-black font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#dc2626]/10"
             >
               <span className="relative z-10">
-                {showAll ? 'Collapse Catalog' : 'Expand Full Repository'}
+                {showAll ? 'Show Less' : 'View All Products'}
               </span>
             </button>
           )}

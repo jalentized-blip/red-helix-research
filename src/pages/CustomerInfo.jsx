@@ -145,15 +145,35 @@ export default function CustomerInfo() {
       <div className="max-w-2xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-12">
-          <Link to={isFromAccount ? createPageUrl('Account') : createPageUrl('Cart')} className="inline-flex items-center gap-2 text-[#dc2626] hover:text-[#b91c1c] mb-6 font-bold uppercase tracking-widest text-xs">
+          <Link to={isFromAccount ? createPageUrl('Account') : createPageUrl('Cart')} className="inline-flex items-center gap-2 text-[#dc2626] hover:text-[#b91c1c] mb-6 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
-            Back to {isFromAccount ? 'Account' : 'Cart'}
+            ← Back to {isFromAccount ? 'Account' : 'Cart'}
           </Link>
+
+          {/* Checkout Steps */}
+          {!isFromAccount && (
+            <div className="flex items-center gap-2 mb-8">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-green-500 text-white text-xs font-black flex items-center justify-center">✓</div>
+                <span className="text-xs font-bold text-green-600">Cart</span>
+              </div>
+              <div className="flex-1 h-px bg-slate-200 mx-1" />
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#dc2626] text-white text-xs font-black flex items-center justify-center">2</div>
+                <span className="text-xs font-bold text-[#dc2626]">Your Info</span>
+              </div>
+              <div className="flex-1 h-px bg-slate-200 mx-1" />
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-slate-200 text-slate-400 text-xs font-black flex items-center justify-center">3</div>
+                <span className="text-xs font-bold text-slate-400">Payment</span>
+              </div>
+            </div>
+          )}
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter leading-none">
-            {isFromAccount ? 'Update' : 'Billing &'} <span className="text-[#dc2626]">{isFromAccount ? 'Profile' : 'Shipping'}</span>
+            {isFromAccount ? 'Update' : 'Your'} <span className="text-[#dc2626]">{isFromAccount ? 'Profile' : 'Information'}</span>
           </h1>
           <p className="text-slate-500 mt-4 font-medium">
-            {isFromAccount ? 'Manage your default research fulfillment information.' : 'Complete your research fulfillment information before checkout.'}
+            {isFromAccount ? 'Update your saved contact and shipping details.' : 'Enter your contact and shipping details to complete your order.'}
           </p>
         </div>
 
@@ -375,8 +395,8 @@ export default function CustomerInfo() {
                     required
                     className="mt-1 w-5 h-5 rounded border-[#dc2626] text-[#dc2626] focus:ring-[#dc2626]/20"
                   />
-                  <label htmlFor="researchAck" className="text-xs font-bold text-slate-700 leading-relaxed">
-                    <span className="text-[#dc2626] font-black uppercase">REQUIRED CERTIFICATION:</span> I certify that I am 21+ years of age, a qualified researcher or institution, and will use these products SOLELY for in-vitro laboratory research purposes. I understand these products are NOT for human consumption, NOT approved by FDA, and NOT intended to diagnose, treat, cure, or prevent any disease. I accept full responsibility for proper handling and compliance with all applicable laws.
+                  <label htmlFor="researchAck" className="text-sm font-medium text-slate-700 leading-relaxed">
+                   <span className="text-[#dc2626] font-bold">Required: </span> I confirm I am 21+ years old and will use these products for laboratory research purposes only — not for human consumption. These products are not FDA approved.
                   </label>
                 </div>
               </div>
@@ -387,13 +407,13 @@ export default function CustomerInfo() {
           <div className="pt-6">
             <Button
               onClick={handleContinue}
-              className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black py-8 rounded-[24px] text-sm uppercase tracking-[0.2em] shadow-xl shadow-[#dc2626]/20 transition-all flex items-center justify-center gap-3"
+              className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black py-8 rounded-[24px] text-base shadow-xl shadow-[#dc2626]/20 transition-all flex items-center justify-center gap-3"
             >
-              {isFromAccount ? 'Save Changes' : 'Continue to Payment'}
+              {isFromAccount ? 'Save Changes' : 'Continue to Payment →'}
               <ArrowRight className="w-4 h-4" />
             </Button>
-            <p className="text-center text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mt-6">
-              SECURE 256-BIT ENCRYPTED RESEARCH {isFromAccount ? 'DATA MANAGEMENT' : 'CHECKOUT'}
+            <p className="text-center text-sm text-slate-400 font-medium mt-4">
+              🔒 Your information is encrypted and secure
             </p>
           </div>
         </motion.div>

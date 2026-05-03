@@ -20,12 +20,12 @@ const badgeConfig = {
 };
 
 const categoryLabels = {
-  weight_loss: "METABOLIC RESEARCH",
-  recovery_healing: "REGENERATIVE STUDY",
-  cognitive_focus: "NEUROLOGICAL ANALYSIS",
-  performance_longevity: "CELLULAR OPTIMIZATION",
-  sexual_health: "ENDOCRINE RESEARCH",
-  general_health: "SYSTEMIC ANALYSIS"
+  weight_loss: "Weight Loss",
+  recovery_healing: "Recovery & Healing",
+  cognitive_focus: "Cognitive & Focus",
+  performance_longevity: "Performance",
+  sexual_health: "Sexual Health",
+  general_health: "General Health"
 };
 
 const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthenticated = true, isAdmin = false, onVisibilityToggle }) => {
@@ -199,7 +199,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
 
           <div className="flex items-end justify-between mb-4 md:mb-8">
             <div className="flex flex-col">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Acquisition Cost</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Starting at</span>
               <div className="flex items-baseline gap-1">
                 <span className="text-2xl md:text-4xl font-black text-black tracking-tighter group-hover:text-[#8B2635] transition-colors">
                   ${lowestVisiblePrice}
@@ -208,8 +208,8 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               </div>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Thermal Stability</span>
-              <span className="text-[10px] font-black text-[#8B2635] uppercase block tracking-widest transition-colors">-20°C Verified</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Storage</span>
+              <span className="text-[10px] font-black text-[#8B2635] uppercase block tracking-widest transition-colors">-20°C Stable</span>
             </div>
           </div>
 
@@ -218,14 +218,14 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
             className="w-full h-12 md:h-16 bg-[#8B2635] hover:bg-[#6B1827] border-2 border-[#8B2635] hover:border-[#b91c1c] text-white font-black uppercase tracking-widest rounded-2xl transition-all duration-300 group/btn shadow-lg hover:shadow-xl hover:shadow-[#dc2626]/20"
           >
             <span className="flex items-center gap-3">
-              Initialize Order
+              Select &amp; Order
               <Microscope className="w-5 h-5 transition-transform group-hover/btn:scale-110" />
             </span>
           </Button>
           
           <div className="mt-4 md:mt-8 flex items-center justify-center gap-2">
             <div className="w-1 h-1 rounded-full bg-[#8B2635] transition-colors" />
-            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">Laboratory Research Materials</span>
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] transition-colors">For Research Use Only</span>
           </div>
           <div className="mt-2 text-center">
             <span className="text-[9px] font-black text-[#8B2635] uppercase tracking-wider">NOT FOR HUMAN USE</span>
