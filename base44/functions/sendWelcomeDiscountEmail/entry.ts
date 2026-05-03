@@ -1,8 +1,5 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
     const { email, code, expires_at } = await req.json();
 
     if (!email || !code) {
@@ -86,12 +83,24 @@ Deno.serve(async (req) => {
 </body>
 </html>`.trim();
 
-    await base44.integrations.Core.SendEmail({
-      to: email,
-      subject: `🎁 Your 10% Welcome Discount Code: ${code}`,
-      body: html,
-      from_name: 'Red Helix Research',
+    const resendRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Red Helix Research <no-reply@redhelixresearch.com>',
+        to: [email],
+        subject: `🎁 Your 10% Welcome Discount Code: ${code}`,
+        html,
+      }),
     });
+
+    if (!resendRes.ok) {
+      const err = await resendRes.text();
+      return Response.json({ error: err }, { status: 500 });
+    }
 
     return Response.json({ success: true });
   } catch (error) {
