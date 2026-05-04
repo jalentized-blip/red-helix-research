@@ -79,7 +79,12 @@ function SpecificationRow({ spec, index, onChange, onRemove, isOnly }) {
           type="number"
           min="-1"
           value={spec.stock_quantity}
-          onChange={(e) => onChange(index, { ...spec, stock_quantity: parseInt(e.target.value) || 0 })}
+          onChange={(e) => {
+            const qty = parseInt(e.target.value) || 0;
+            // Auto-sync in_stock: 0 = out of stock, >0 or -1 = in stock
+            const autoInStock = qty !== 0;
+            onChange(index, { ...spec, stock_quantity: qty, in_stock: autoInStock });
+          }}
           placeholder="-1 = unlimited"
           className="bg-white border-slate-200 text-slate-900 text-sm h-9 focus:border-[#dc2626]/30"
         />
@@ -87,7 +92,10 @@ function SpecificationRow({ spec, index, onChange, onRemove, isOnly }) {
       <div className="col-span-1 flex justify-center">
         <Switch
           checked={spec.in_stock}
-          onCheckedChange={(val) => onChange(index, { ...spec, in_stock: val })}
+          onCheckedChange={(val) => {
+            // When manually toggling in_stock to false, also zero out stock_quantity
+            onChange(index, { ...spec, in_stock: val, stock_quantity: val ? (spec.stock_quantity === 0 ? -1 : spec.stock_quantity) : 0 });
+          }}
           className="data-[state=checked]:bg-green-600"
         />
       </div>
