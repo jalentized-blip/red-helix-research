@@ -157,21 +157,23 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                             selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName
                               ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
                               : isOutOfStock
-                              ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
+                              ? 'border-slate-200 bg-slate-50 cursor-not-allowed'
                               : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
                           }`}
                         >
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#8B2635]' : 'text-black'}`}>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex-1 min-w-0">
+                              <div className={`font-black tracking-tight text-lg transition-colors ${isOutOfStock ? 'text-slate-400' : selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#8B2635]' : 'text-black'}`}>
                                 {spec.productName} - {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">10-Vial Research Kit</div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-2xl font-black text-black tracking-tighter">
-                                ${spec.price}
-                              </div>
+                            <div className="text-right flex-shrink-0">
+                              {isOutOfStock ? (
+                                <span className="inline-block px-2.5 py-1 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest">Out of Stock</span>
+                              ) : (
+                                <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
+                              )}
                             </div>
                           </div>
                         </button>
@@ -198,21 +200,23 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                             selectedSpec?.name === spec.name
                               ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
                               : isOutOfStock
-                              ? 'border-slate-50 bg-slate-50/50 opacity-40 cursor-not-allowed'
+                              ? 'border-slate-200 bg-slate-50 cursor-not-allowed'
                               : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
                           }`}
                         >
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex-1 min-w-0">
+                              <div className={`font-black tracking-tight text-lg transition-colors ${isOutOfStock ? 'text-slate-400' : selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
                                 {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-2xl font-black text-black tracking-tighter">
-                                ${spec.price}
-                              </div>
+                            <div className="text-right flex-shrink-0">
+                              {isOutOfStock ? (
+                                <span className="inline-block px-2.5 py-1 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest">Out of Stock</span>
+                              ) : (
+                                <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
+                              )}
                             </div>
                           </div>
                         </button>
