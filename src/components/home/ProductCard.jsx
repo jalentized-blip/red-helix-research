@@ -8,6 +8,7 @@ import { Flame, TrendingUp, Star, BarChart2, Award, Sparkles, Dumbbell, Lock, Mi
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
 import { Link } from 'react-router-dom';
+import { isSpecInStock } from '@/components/utils/cart';
 
 const badgeConfig = {
   bestseller: { icon: Flame, label: "#1 Best Seller", color: "bg-[#8B2635] text-white border-[#8B2635]" },
@@ -54,7 +55,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
   
   const { lowestVisiblePrice, displayImage } = useMemo(() => {
     const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-    const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock !== false);
+    const inStockSpecs = visibleSpecs.filter(spec => isSpecInStock(spec));
     const price = inStockSpecs.length > 0 
       ? Math.min(...inStockSpecs.map(spec => spec.price))
       : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);

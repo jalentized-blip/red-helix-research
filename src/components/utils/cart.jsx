@@ -1,5 +1,19 @@
 const CART_KEY = 'rdr_cart';
 
+/**
+ * SINGLE SOURCE OF TRUTH for spec stock status.
+ * A spec is in stock if and only if:
+ *   - spec.in_stock is not explicitly false, AND
+ *   - stock_quantity is not exactly 0 (unlimited = -1 or undefined = allowed)
+ * This is used everywhere to prevent drift between the two fields.
+ */
+export const isSpecInStock = (spec) => {
+  if (!spec) return false;
+  if (spec.in_stock === false) return false;
+  if (spec.stock_quantity === 0) return false;
+  return true;
+};
+
 export const getCart = () => {
   try {
     const cart = localStorage.getItem(CART_KEY);
@@ -10,8 +24,8 @@ export const getCart = () => {
 };
 
 export const addToCart = (product, specification) => {
-  // FAILSAFE: Block adding explicitly out-of-stock specs
-  if (specification?.in_stock === false) {
+  // FAILSAFE: Block adding any out-of-stock spec using the shared truth function
+  if (!isSpecInStock(specification)) {
     console.warn('[CART] Blocked attempt to add out-of-stock spec:', specification?.name);
     return getCart();
   }
@@ -369,8 +383,8 @@ export const validateCartStock = async (base44) => {
       return false;
     }
 
-    // The only authoritative stock check: in_stock flag
-    if (spec.in_stock === false) {
+    // Authoritative stock check using shared isSpecInStock function
+    if (!isSpecInStock(spec)) {
       removed.push(`${item.productName} (${item.specification})`);
       return false;
     }

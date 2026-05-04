@@ -14,6 +14,7 @@ import {
   generateBreadcrumbSchema,
   generateItemListSchema
 } from '@/components/utils/advancedSchemaHelpers';
+import { isSpecInStock } from '@/components/utils/cart';
 
 const CATEGORIES = [
   { id: 'all', label: 'All Products', icon: <Beaker className="w-6 h-6" /> },
@@ -60,7 +61,7 @@ export default function Products() {
   products.forEach(product => {
     const isBPC157 = product.name?.toLowerCase().includes('bpc');
     const kitSpecs = product.specifications?.filter(spec => 
-      isKitSpec(spec.name) && !spec.hidden && spec.in_stock && !isBPC157
+      isKitSpec(spec.name) && !spec.hidden && isSpecInStock(spec) && !isBPC157
     ) || [];
     kitSpecs.forEach(spec => {
       allKitOptions.push({
@@ -103,9 +104,9 @@ export default function Products() {
 
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
 
-    // Check if any visible specification is in stock
+    // Check if any visible specification is in stock (using shared truth function)
     const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
-    const inStock = visibleSpecs.some(spec => spec.in_stock !== false);
+    const inStock = visibleSpecs.some(spec => isSpecInStock(spec));
     const stockMatch = hideOutOfStock ? inStock : true;
 
     const searchMatch = searchQuery === '' ||
@@ -121,7 +122,7 @@ export default function Products() {
     const matchesSearch = searchQuery === '' || 
       'kits'.includes(searchQuery.toLowerCase()) ||
       kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const hasInStockKits = kitsProduct.specifications.some(spec => spec.in_stock !== false);
+    const hasInStockKits = kitsProduct.specifications.some(spec => isSpecInStock(spec));
     const stockMatch = hideOutOfStock ? hasInStockKits : true;
     
     if (matchesCategory && matchesSearch && stockMatch) {

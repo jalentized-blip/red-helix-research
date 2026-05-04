@@ -27,6 +27,7 @@ import {
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+import { isSpecInStock } from '@/components/utils/cart';
 
 const CATEGORIES = [
   { id: 'weight_loss', label: 'Weight Loss' },
@@ -194,7 +195,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
       return;
     }
     const minPrice = Math.min(...validSpecs.map(s => s.price || 0));
-    const anyInStock = validSpecs.some(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === -1 || s.stock_quantity === undefined));
+    const anyInStock = validSpecs.some(s => isSpecInStock(s));
     const totalQty = validSpecs.reduce((sum, s) => {
       if (s.stock_quantity === -1 || s.stock_quantity === undefined) return sum;
       return sum + (s.stock_quantity || 0);
@@ -499,7 +500,7 @@ function ProductEditor({ product, onSave, onCancel, onDelete, isSaving }) {
 
 function ProductRow({ product, onEdit, onQuickToggle, isUpdating }) {
   const visibleSpecs = product.specifications?.filter(s => !s.hidden) || [];
-  const inStockSpecs = visibleSpecs.filter(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === undefined || s.stock_quantity === -1));
+  const inStockSpecs = visibleSpecs.filter(s => isSpecInStock(s));
   const totalStock = product.specifications?.reduce((sum, s) => {
     if (s.stock_quantity === -1 || s.stock_quantity === undefined) return sum;
     return sum + (s.stock_quantity || 0);
@@ -767,11 +768,11 @@ export default function AdminInventoryManager() {
     if (categoryFilter !== 'all' && p.category !== categoryFilter) return false;
 
     if (stockFilter === 'in_stock') {
-      const hasStock = p.specifications?.some(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === -1 || s.stock_quantity === undefined));
+      const hasStock = p.specifications?.some(s => isSpecInStock(s));
       if (!hasStock) return false;
     }
     if (stockFilter === 'out_of_stock') {
-      const allOut = !p.specifications?.some(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === -1 || s.stock_quantity === undefined));
+      const allOut = !p.specifications?.some(s => isSpecInStock(s));
       if (!allOut) return false;
     }
     if (stockFilter === 'hidden') {
@@ -796,7 +797,7 @@ export default function AdminInventoryManager() {
   const hiddenProducts = products.filter(p => !p.is_deleted && (p.hidden || p.specifications?.every(s => s.hidden))).length;
   const outOfStockProducts = products.filter(p => {
     if (p.is_deleted) return false;
-    return !p.specifications?.some(s => s.in_stock && (s.stock_quantity > 0 || s.stock_quantity === -1 || s.stock_quantity === undefined));
+    return !p.specifications?.some(s => isSpecInStock(s));
   }).length;
   const deletedProducts = products.filter(p => p.is_deleted).length;
 

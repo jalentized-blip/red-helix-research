@@ -5,12 +5,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, ShoppingCart, CheckCircle, Info, ChevronLeft, ChevronRight, FlaskConical, ShieldCheck, Microscope, Zap, LogIn } from "lucide-react";
-import { addToCart } from '@/components/utils/cart';
+
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPageUrl } from '@/utils';
 import AddedToCartPopup from '@/components/AddedToCartPopup';
+import { addToCart, isSpecInStock } from '@/components/utils/cart';
 
 export default function ProductModal({ product, isOpen, onClose, isAuthenticated = false }) {
   const [selectedSpec, setSelectedSpec] = useState(null);
@@ -147,7 +148,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   </div>
                   <div className="grid gap-3">
                     {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
-                      const isOutOfStock = spec.in_stock === false;
+                      const isOutOfStock = !isSpecInStock(spec);
                       return (
                         <button
                           key={index}
@@ -190,7 +191,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   </div>
                   <div className="grid gap-3">
                     {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
-                      const isOutOfStock = spec.in_stock === false;
+                      const isOutOfStock = !isSpecInStock(spec);
                       return (
                         <button
                           key={index}
