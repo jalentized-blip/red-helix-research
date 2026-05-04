@@ -312,7 +312,7 @@ export const validateCartStock = async (base44) => {
 
       // Check if the specific variant/specification is still in stock
       const spec = product.specifications?.find(s => s.name === item.specification);
-      if (!spec || spec.in_stock === false || spec.stock_quantity === 0) {
+      if (!spec || spec.in_stock === false) {
         removed.push(`${item.productName} (${item.specification})`);
         return false;
       }
