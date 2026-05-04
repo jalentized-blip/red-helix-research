@@ -205,7 +205,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 transition-colors">Starting at</span>
               <div className="flex items-baseline gap-1">
                 <span className="text-xl md:text-4xl font-black text-black tracking-tighter group-hover:text-[#8B2635] transition-colors">
-                  ${lowestVisiblePrice}
+                  ${Number(lowestVisiblePrice).toFixed(2)}
                 </span>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest transition-colors">USD</span>
               </div>

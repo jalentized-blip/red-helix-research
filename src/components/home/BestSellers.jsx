@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ProductCard from './ProductCard';
 import { base44 } from '@/api/base44Client';
 import { useQueryClient } from '@tanstack/react-query';
+import { isSpecInStock } from '@/components/utils/cart';
 
 const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = true, isAdmin: isAdminProp = false }) => {
   const [effectiveIsAdmin, setEffectiveIsAdmin] = useState(isAdminProp);
@@ -38,7 +39,7 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
         
         // Stock logic: Check if any specification is in stock
         const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
-        const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+        const inStock = visibleSpecs.some(spec => isSpecInStock(spec));
         
         if (effectiveIsAdmin) {
           return isFeatured;
@@ -46,13 +47,14 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
         return isFeatured && isVisible && inStock;
       })
       .map(p => {
-        // Filter out 10-vial kit options from regular products (keep only single vials)
+        // Filter out 10-vial kit options from regular products
         if (!p.isKitsProduct && p.specifications) {
           return {
             ...p,
-            specifications: p.specifications.filter(spec => 
-              spec.name?.toLowerCase().includes('single vial')
-            )
+            specifications: p.specifications.filter(spec => {
+              const n = spec.name?.toLowerCase() || '';
+              return !n.includes('10 vial') && !n.includes('× 10') && !n.includes('x 10');
+            })
           };
         }
         return p;

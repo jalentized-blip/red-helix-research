@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { isSpecInStock } from '@/components/utils/cart';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -127,7 +128,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         
         // Stock logic: Check if any specification is in stock
         const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-        const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+        const inStock = visibleSpecs.some(spec => isSpecInStock(spec));
         
         const isVisible = isAdmin || !product.hidden;
         
@@ -145,9 +146,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         const matchesSearch = searchQuery === "" || 
           'kits'.includes(searchQuery.toLowerCase()) ||
           kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
-        const hasInStockKits = kitsProduct.specifications.some(spec => 
-          spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined)
-        );
+        const hasInStockKits = kitsProduct.specifications.some(spec => isSpecInStock(spec));
         
         if (matchesCategory && matchesSearch && (isAdmin || hasInStockKits)) {
           withKits = [kitsProduct, ...filtered];
