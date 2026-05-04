@@ -117,6 +117,9 @@ let affiliateCodesCache = null;
 let affiliateCacheTime = 0;
 const CACHE_DURATION = 15000; // 15 second cache for faster pickup of new codes
 
+// Cache for DB-validated welcome discount codes (so getDiscountAmount can use them synchronously)
+let welcomeDiscountCache = {};
+
 // Load affiliate codes (uses affiliateStore which falls back to localStorage)
 export const loadAffiliateCodes = async (base44) => {
   const now = Date.now();
@@ -164,7 +167,9 @@ export const validatePromoCode = (code) => {
   if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
   // Check cached affiliate codes
   if (affiliateCodesCache && affiliateCodesCache[upper]) return affiliateCodesCache[upper];
-  // Check dynamic promo codes (welcome discount codes)
+  // Check welcome discount cache (populated after async validation)
+  if (welcomeDiscountCache[upper]) return welcomeDiscountCache[upper];
+  // Check dynamic promo codes (welcome discount codes in localStorage)
   const dynamic = getDynamicPromoCodes();
   if (dynamic[upper]) return dynamic[upper];
   return null;
@@ -175,6 +180,8 @@ export const validatePromoCodeAsync = async (code, base44) => {
   const upper = code.toUpperCase();
   // Check static codes first
   if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
+  // Check welcome discount cache (populated after first async validation)
+  if (welcomeDiscountCache[upper]) return welcomeDiscountCache[upper];
   // Load and check affiliate codes from DB
   const affiliateCodes = await loadAffiliateCodes(base44);
   if (affiliateCodes[upper]) return affiliateCodes[upper];
@@ -191,6 +198,7 @@ export const validatePromoCodeAsync = async (code, base44) => {
         }
       } catch { /* DB check failed, allow it */ }
     }
+    welcomeDiscountCache[upper] = dynamic[upper];
     return dynamic[upper];
   }
   // Check WelcomeDiscount codes directly from DB (covers admin-issued codes not in localStorage)
@@ -201,7 +209,10 @@ export const validatePromoCodeAsync = async (code, base44) => {
         const record = records[0];
         const expired = record.expires_at && new Date(record.expires_at) < new Date();
         if (!record.used && !expired) {
-          return { discount: 0.10, label: '10% off welcome discount' };
+          const promoData = { discount: 0.10, label: '10% off welcome discount' };
+          // Cache it so synchronous getDiscountAmount works after validation
+          welcomeDiscountCache[upper] = promoData;
+          return promoData;
         }
       }
     } catch { /* DB check failed */ }

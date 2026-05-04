@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, loadAffiliateCodes, validateCartStock } from '@/components/utils/cart';
+import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, validatePromoCodeAsync, loadAffiliateCodes, validateCartStock } from '@/components/utils/cart';
 import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -37,6 +37,15 @@ export default function Cart() {
 
     // Pre-load affiliate codes from DB so they validate at checkout
     loadAffiliateCodes(base44);
+
+    // Re-hydrate welcome discount cache if a code is already stored
+    // This ensures getDiscountAmount works correctly after page refresh
+    const storedPromo = getPromoCode();
+    if (storedPromo) {
+      validatePromoCodeAsync(storedPromo, base44).then(() => {
+        setAppliedPromo(storedPromo); // trigger re-render with updated cache
+      });
+    }
 
     checkAuth();
     setCartItems(getCart());
@@ -76,10 +85,10 @@ export default function Cart() {
   };
 
   const handleApplyPromo = async () => {
-    // Try async validation first (checks DB affiliate codes)
-    const success = await addPromoCodeAsync(promoCode, base44);
-    if (success) {
-      const promoDetails = validatePromoCode(promoCode);
+    // Try async validation first (checks DB affiliate codes + WelcomeDiscount table)
+    const promoDetails = await validatePromoCodeAsync(promoCode, base44);
+    if (promoDetails) {
+      await addPromoCodeAsync(promoCode, base44);
       setAppliedPromo(promoCode.toUpperCase());
       setPromoCode('');
       setPromoError('');
@@ -87,7 +96,7 @@ export default function Cart() {
         setShowAffiliateMessage(true);
       }
     } else {
-      setPromoError('Invalid promo code');
+      setPromoError('Invalid or expired promo code');
     }
   };
 
