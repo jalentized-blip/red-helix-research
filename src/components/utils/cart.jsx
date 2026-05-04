@@ -178,7 +178,7 @@ export const validatePromoCodeAsync = async (code, base44) => {
   // Load and check affiliate codes from DB
   const affiliateCodes = await loadAffiliateCodes(base44);
   if (affiliateCodes[upper]) return affiliateCodes[upper];
-  // Check dynamic welcome codes against DB to verify not used/expired
+  // Check dynamic welcome codes in localStorage
   const dynamic = getDynamicPromoCodes();
   if (dynamic[upper]) {
     if (base44) {
@@ -187,11 +187,24 @@ export const validatePromoCodeAsync = async (code, base44) => {
         if (records.length > 0) {
           const record = records[0];
           const expired = record.expires_at && new Date(record.expires_at) < new Date();
-          if (record.used || expired) return null; // Code used or expired
+          if (record.used || expired) return null;
         }
       } catch { /* DB check failed, allow it */ }
     }
     return dynamic[upper];
+  }
+  // Check WelcomeDiscount codes directly from DB (covers admin-issued codes not in localStorage)
+  if (base44) {
+    try {
+      const records = await base44.entities.WelcomeDiscount.filter({ code: upper });
+      if (records.length > 0) {
+        const record = records[0];
+        const expired = record.expires_at && new Date(record.expires_at) < new Date();
+        if (!record.used && !expired) {
+          return { discount: 0.10, label: '10% off welcome discount' };
+        }
+      }
+    } catch { /* DB check failed */ }
   }
   return null;
 };
