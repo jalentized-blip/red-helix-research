@@ -1,4 +1,4 @@
-import nodemailer from 'npm:nodemailer@6.9.9';
+// Resend-powered email
 
 Deno.serve(async (req) => {
   try {
@@ -74,20 +74,24 @@ Deno.serve(async (req) => {
 </body>
 </html>`.trim();
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: Deno.env.get('GMAIL_USER'),
-        pass: Deno.env.get('GMAIL_APP_PASSWORD'),
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        from: 'Red Helix Research <rhrsupport@redhelixresearch.com>',
+        to: email,
+        subject: `🎁 Your 10% Welcome Discount Code: ${code}`,
+        html,
+      }),
     });
 
-    await transporter.sendMail({
-      from: `"Red Helix Research" <${Deno.env.get('GMAIL_USER')}>`,
-      to: email,
-      subject: `🎁 Your 10% Welcome Discount Code: ${code}`,
-      html,
-    });
+    if (!res.ok) {
+      const err = await res.text();
+      return Response.json({ error: err }, { status: 500 });
+    }
 
     return Response.json({ success: true });
   } catch (error) {
