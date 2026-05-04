@@ -1737,8 +1737,7 @@ export default function CryptoCheckout() {
 </body>
 </html>`;
 
-                              await base44.integrations.Core.SendEmail({
-                                from_name: 'Red Helix Research',
+                              await base44.functions.invoke('sendOrderEmail', {
                                 to: squareEmail.trim(),
                                 subject: `Your Payment Link — Order $${totalUSD.toFixed(2)}`,
                                 body: emailBody,
