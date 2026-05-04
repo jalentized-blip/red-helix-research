@@ -10,6 +10,11 @@ export const getCart = () => {
 };
 
 export const addToCart = (product, specification) => {
+  // FAILSAFE: Block adding explicitly out-of-stock specs
+  if (specification?.in_stock === false) {
+    console.warn('[CART] Blocked attempt to add out-of-stock spec:', specification?.name);
+    return getCart();
+  }
   const cart = getCart();
   const item = {
     id: `${product.id}-${specification.name}`,
@@ -294,40 +299,89 @@ export const removePromoCode = () => {
 };
 
 // Validate cart items against live product stock — removes out-of-stock items
+// Returns { removed: string[], warnings: string[] }
 export const validateCartStock = async (base44) => {
   const cart = getCart();
-  if (cart.length === 0) return [];
+  if (cart.length === 0) return { removed: [], warnings: [] };
 
-  try {
-    const products = await base44.entities.Product.list();
-    const removed = [];
-
-    const validCart = cart.filter(item => {
-      // Find the product by ID or name
-      const product = products.find(p => p.id === item.productId || p.name === item.productName);
-      if (!product) {
-        removed.push(item.productName || 'Unknown product');
-        return false;
+  // Retry up to 3 times in case of transient network errors
+  let products = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      products = await base44.entities.Product.list();
+      break;
+    } catch (err) {
+      if (attempt === 3) {
+        console.warn('[CART] Stock validation failed after 3 attempts — skipping removal to protect cart:', err);
+        // FAILSAFE: Do NOT remove items if we can't confirm stock status
+        return { removed: [], warnings: [] };
       }
+      await new Promise(r => setTimeout(r, 500 * attempt)); // back-off
+    }
+  }
 
-      // Check if the specific variant/specification is still in stock
-      const spec = product.specifications?.find(s => s.name === item.specification);
-      if (!spec || spec.in_stock === false) {
-        removed.push(`${item.productName} (${item.specification})`);
-        return false;
-      }
+  if (!products || !Array.isArray(products)) {
+    console.warn('[CART] Products list invalid — skipping removal');
+    return { removed: [], warnings: [] };
+  }
 
-      return true;
-    });
+  const removed = [];
+  const warnings = [];
 
-    if (removed.length > 0) {
-      localStorage.setItem(CART_KEY, JSON.stringify(validCart));
-      window.dispatchEvent(new Event('cartUpdated'));
+  const validCart = cart.filter(item => {
+    // Safety: skip malformed cart items
+    if (!item || !item.productId && !item.productName) {
+      warnings.push('Skipped malformed cart item');
+      return false;
     }
 
-    return removed;
-  } catch (err) {
-    console.warn('[CART] Failed to validate stock:', err);
-    return [];
+    // Find the product by ID first, then fall back to name
+    const product = products.find(p => p.id === item.productId) 
+      || products.find(p => p.name === item.productName);
+
+    if (!product) {
+      // FAILSAFE: If product not found in DB, keep it — could be a DB load issue
+      // Only remove if we're very sure (product was explicitly deleted/hidden)
+      console.warn(`[CART] Product not found in DB for item: ${item.productName} — keeping in cart`);
+      warnings.push(`${item.productName} could not be verified (kept in cart)`);
+      return true; // keep
+    }
+
+    // Whole product is hidden or deleted — remove
+    if (product.hidden || product.is_deleted) {
+      removed.push(`${item.productName} (${item.specification})`);
+      return false;
+    }
+
+    // Check if the specific specification exists and is in stock
+    const spec = product.specifications?.find(s => s.name === item.specification);
+
+    if (!spec) {
+      // FAILSAFE: Spec not found could be a data mismatch — keep item, warn
+      console.warn(`[CART] Spec "${item.specification}" not found for "${item.productName}" — keeping in cart`);
+      warnings.push(`${item.productName} (${item.specification}) spec could not be verified (kept)`);
+      return true; // keep
+    }
+
+    // Spec is explicitly hidden — remove
+    if (spec.hidden) {
+      removed.push(`${item.productName} (${item.specification})`);
+      return false;
+    }
+
+    // The only authoritative stock check: in_stock flag
+    if (spec.in_stock === false) {
+      removed.push(`${item.productName} (${item.specification})`);
+      return false;
+    }
+
+    return true;
+  });
+
+  if (removed.length > 0) {
+    localStorage.setItem(CART_KEY, JSON.stringify(validCart));
+    window.dispatchEvent(new Event('cartUpdated'));
   }
+
+  return { removed, warnings };
 };

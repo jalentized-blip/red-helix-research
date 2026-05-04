@@ -20,6 +20,8 @@ export default function Cart() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showAgreementError, setShowAgreementError] = useState(false);
+  const [removedItems, setRemovedItems] = useState([]);
+  const [isValidatingStock, setIsValidatingStock] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -41,12 +43,13 @@ export default function Cart() {
     setAppliedPromo(getPromoCode());
 
     // Validate cart stock — auto-remove out-of-stock items
-    validateCartStock(base44).then(removed => {
+    setIsValidatingStock(true);
+    validateCartStock(base44).then(({ removed }) => {
       if (removed.length > 0) {
         setCartItems(getCart());
-        alert('The following items were removed from your cart because they are no longer available:\n\n' + removed.join('\n'));
+        setRemovedItems(removed);
       }
-    });
+    }).finally(() => setIsValidatingStock(false));
     const handleCartUpdate = () => setCartItems(getCart());
     const handlePromoUpdate = () => setAppliedPromo(getPromoCode());
     window.addEventListener('cartUpdated', handleCartUpdate);
@@ -153,6 +156,24 @@ export default function Cart() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
+              {removedItems.length > 0 && (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-black text-amber-800 uppercase tracking-wide mb-1">⚠ Items Removed from Cart</p>
+                      <p className="text-xs text-amber-700 mb-2">The following items are no longer available and were removed:</p>
+                      <ul className="space-y-1">
+                        {removedItems.map((name, i) => (
+                          <li key={i} className="text-xs font-bold text-amber-800">• {name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <button onClick={() => setRemovedItems([])} className="text-amber-500 hover:text-amber-700 flex-shrink-0">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
               {cartItems.map((item) => (
                 <div key={item.id} className="bg-white border border-slate-100 rounded-2xl md:rounded-[32px] p-4 md:p-8 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-4">
@@ -311,25 +332,37 @@ export default function Cart() {
                   )}
 
                   <Button
-                  onClick={() => {
+                  onClick={async () => {
                     if (!agreedToTerms) {
                       setShowAgreementError(true);
                       return;
                     }
+                    // Re-validate stock right before checkout as final failsafe
+                    setIsValidatingStock(true);
+                    const { removed } = await validateCartStock(base44);
+                    setIsValidatingStock(false);
+                    if (removed.length > 0) {
+                      setCartItems(getCart());
+                      setRemovedItems(removed);
+                      return; // Stop checkout — let user review
+                    }
+                    const freshCart = getCart();
+                    if (freshCart.length === 0) return; // Cart emptied — don't proceed
                     // Meta Pixel: InitiateCheckout event
                     if (typeof window !== 'undefined' && window.fbq) {
                       window.fbq('track', 'InitiateCheckout', {
                         value: finalTotal,
                         currency: 'USD',
-                        num_items: cartItems.length,
-                        content_ids: cartItems.map(i => i.productId),
+                        num_items: freshCart.length,
+                        content_ids: freshCart.map(i => i.productId),
                       });
                     }
                     navigate(createPageUrl('CustomerInfo'));
                   }}
-                  className={`w-full font-black py-4 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-base relative group ${agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                  disabled={isValidatingStock}
+                  className={`w-full font-black py-4 rounded-2xl shadow-lg shadow-[#8B2635]/20 transition-all text-base relative group ${isValidatingStock ? 'bg-slate-200 text-slate-400 cursor-wait' : agreedToTerms ? 'bg-[#8B2635] hover:bg-[#6B1827] text-white hover:scale-[1.02] active:scale-95' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                   >
-                  Proceed to Checkout <ArrowRight className="w-4 h-4 ml-1" />
+                  {isValidatingStock ? 'Checking availability...' : <>Proceed to Checkout <ArrowRight className="w-4 h-4 ml-1" /></>}
                   </Button>
 
                   <Button
