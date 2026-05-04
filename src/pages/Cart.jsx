@@ -22,6 +22,7 @@ export default function Cart() {
   const [showAgreementError, setShowAgreementError] = useState(false);
   const [removedItems, setRemovedItems] = useState([]);
   const [isValidatingStock, setIsValidatingStock] = useState(false);
+  const [promoReady, setPromoReady] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -43,8 +44,10 @@ export default function Cart() {
     const storedPromo = getPromoCode();
     if (storedPromo) {
       validatePromoCodeAsync(storedPromo, base44).then(() => {
-        setAppliedPromo(storedPromo); // trigger re-render with updated cache
+        setPromoReady(true); // trigger re-render now that cache is populated
       });
+    } else {
+      setPromoReady(true);
     }
 
     checkAuth();
@@ -90,6 +93,7 @@ export default function Cart() {
     if (promoDetails) {
       await addPromoCodeAsync(promoCode, base44);
       setAppliedPromo(promoCode.toUpperCase());
+      setPromoReady(true);
       setPromoCode('');
       setPromoError('');
       if (promoDetails?.isAffiliate) {
@@ -108,9 +112,9 @@ export default function Cart() {
   };
 
   const SHIPPING_COST = 15.00;
-  const SQUARE_PROCESSING_FEE_PERCENT = 0.10; // 10% processing fee for card payments
   const subtotal = getCartTotal();
-  const discount = appliedPromo ? getDiscountAmount(appliedPromo, subtotal) : 0;
+  // promoReady ensures we only compute discount after the async cache is populated
+  const discount = (appliedPromo && promoReady) ? getDiscountAmount(appliedPromo, subtotal) : 0;
   const finalTotal = subtotal - discount + SHIPPING_COST;
 
   return (
