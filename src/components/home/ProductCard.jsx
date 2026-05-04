@@ -54,7 +54,7 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
   
   const { lowestVisiblePrice, displayImage } = useMemo(() => {
     const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-    const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+    const inStockSpecs = visibleSpecs.filter(spec => spec.in_stock !== false);
     const price = inStockSpecs.length > 0 
       ? Math.min(...inStockSpecs.map(spec => spec.price))
       : (visibleSpecs.length > 0 ? Math.min(...visibleSpecs.map(spec => spec.price)) : product.price_from);

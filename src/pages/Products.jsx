@@ -105,7 +105,7 @@ export default function Products() {
 
     // Check if any visible specification is in stock
     const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
-    const inStock = visibleSpecs.some(spec => spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined));
+    const inStock = visibleSpecs.some(spec => spec.in_stock !== false);
     const stockMatch = hideOutOfStock ? inStock : true;
 
     const searchMatch = searchQuery === '' ||
@@ -121,9 +121,7 @@ export default function Products() {
     const matchesSearch = searchQuery === '' || 
       'kits'.includes(searchQuery.toLowerCase()) ||
       kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const hasInStockKits = kitsProduct.specifications.some(spec => 
-      spec.in_stock && (spec.stock_quantity > 0 || spec.stock_quantity === undefined)
-    );
+    const hasInStockKits = kitsProduct.specifications.some(spec => spec.in_stock !== false);
     const stockMatch = hideOutOfStock ? hasInStockKits : true;
     
     if (matchesCategory && matchesSearch && stockMatch) {

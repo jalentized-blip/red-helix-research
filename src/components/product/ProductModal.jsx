@@ -147,7 +147,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   </div>
                   <div className="grid gap-3">
                     {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
-                      const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
+                      const isOutOfStock = spec.in_stock === false;
                       return (
                         <button
                           key={index}
@@ -188,7 +188,7 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                   </div>
                   <div className="grid gap-3">
                     {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
-                      const isOutOfStock = spec.in_stock === false || spec.stock_quantity === 0;
+                      const isOutOfStock = spec.in_stock === false;
                       return (
                         <button
                           key={index}
