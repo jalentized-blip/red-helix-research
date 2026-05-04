@@ -1,3 +1,5 @@
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+
 Deno.serve(async (req) => {
   try {
     const { to, subject, body } = await req.json();
@@ -6,24 +8,15 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Missing to, subject, or body' }, { status: 400 });
     }
 
-    const resendRes = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Red Helix Research <no-reply@redhelixresearch.com>',
-        to: [to],
-        subject,
-        html: body,
-      }),
-    });
+    // Use service role to bypass user auth restrictions on SendEmail
+    const base44 = createClientFromRequest(req);
 
-    if (!resendRes.ok) {
-      const err = await resendRes.text();
-      return Response.json({ error: err }, { status: 500 });
-    }
+    await base44.asServiceRole.integrations.Core.SendEmail({
+      from_name: 'Red Helix Research',
+      to,
+      subject,
+      body,
+    });
 
     return Response.json({ success: true });
   } catch (error) {
