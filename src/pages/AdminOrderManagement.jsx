@@ -36,6 +36,7 @@ const CARRIERS = [
 
 const STATUS_CONFIG = {
   awaiting_payment: { color: 'bg-orange-50 border-orange-200 text-orange-700', icon: CreditCard, label: 'Awaiting Payment' },
+  awaiting_confirmation: { color: 'bg-purple-50 border-purple-200 text-purple-700', icon: Clock, label: 'Awaiting Confirmation' },
   pending: { color: 'bg-amber-50 border-amber-200 text-amber-700', icon: Clock, label: 'Pending' },
   processing: { color: 'bg-blue-50 border-blue-200 text-blue-700', icon: Package, label: 'Processing' },
   shipped: { color: 'bg-purple-50 border-purple-200 text-purple-700', icon: Truck, label: 'Shipped' },
@@ -488,11 +489,12 @@ ${shippingLine ? `
                   </SelectTrigger>
                   <SelectContent className="bg-white border-slate-200">
                     <SelectItem value="awaiting_payment" className="text-orange-600">Awaiting Payment</SelectItem>
-                    <SelectItem value="pending" className="text-slate-900">Pending</SelectItem>
-                    <SelectItem value="processing" className="text-slate-900">Processing</SelectItem>
-                    <SelectItem value="shipped" className="text-slate-900">Shipped</SelectItem>
-                    <SelectItem value="delivered" className="text-slate-900">Delivered</SelectItem>
-                    <SelectItem value="cancelled" className="text-red-600">Cancelled</SelectItem>
+                    <SelectItem value="awaiting_confirmation" className="text-purple-600">Awaiting Confirmation</SelectItem>
+                     <SelectItem value="pending" className="text-slate-900">Pending</SelectItem>
+                     <SelectItem value="processing" className="text-slate-900">Processing</SelectItem>
+                     <SelectItem value="shipped" className="text-slate-900">Shipped</SelectItem>
+                     <SelectItem value="delivered" className="text-slate-900">Delivered</SelectItem>
+                     <SelectItem value="cancelled" className="text-red-600">Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -1238,7 +1240,7 @@ export default function AdminOrderManagement() {
   }, [orders, filterStatus, searchQuery, sortBy, hideCogsEntered]);
 
   const statusCounts = useMemo(() => {
-    const counts = { awaiting_payment: 0, pending: 0, processing: 0, shipped: 0, delivered: 0, cancelled: 0 };
+    const counts = { awaiting_payment: 0, awaiting_confirmation: 0, pending: 0, processing: 0, shipped: 0, delivered: 0, cancelled: 0 };
     orders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
     return counts;
   }, [orders]);
@@ -1434,6 +1436,7 @@ export default function AdminOrderManagement() {
             <SelectContent className="bg-white border-slate-200">
               <SelectItem value="all" className="text-slate-900">All Orders</SelectItem>
               <SelectItem value="awaiting_payment" className="text-orange-600">Awaiting Payment</SelectItem>
+              <SelectItem value="awaiting_confirmation" className="text-purple-600">Awaiting Confirmation</SelectItem>
               <SelectItem value="pending" className="text-slate-900">Pending</SelectItem>
               <SelectItem value="processing" className="text-slate-900">Processing</SelectItem>
               <SelectItem value="shipped" className="text-slate-900">Shipped</SelectItem>

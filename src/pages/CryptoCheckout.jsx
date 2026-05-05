@@ -1354,7 +1354,7 @@ export default function CryptoCheckout() {
                               promo_code: promoCode || null,
                               payment_method: 'zelle',
                               payment_status: 'pending',
-                              status: 'awaiting_payment',
+                              status: 'awaiting_confirmation',
                               admin_notes: `Zelle account name: ${zelleAccountName}${zelleConfirmationNumber ? ` | Confirmation #: ${zelleConfirmationNumber}` : ''}`,
                               shipping_address: {
                                 address: customerInfo?.shippingAddress || customerInfo?.address,

@@ -35,6 +35,7 @@
         "shipped",
         "delivered",
         "awaiting_payment",
+        "awaiting_confirmation",
         "cancelled"
       ],
       "default": "pending",
@@ -125,7 +126,7 @@
     },
     "payment_method": {
       "type": "string",
-      "description": "Payment method used (cryptocurrency, square_payment, etc.)"
+      "description": "Payment method used (cryptocurrency, square_payment, zelle, etc.)"
     },
     "payment_status": {
       "type": "string",
