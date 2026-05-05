@@ -48,10 +48,10 @@ Deno.serve(async (req) => {
     const findSquareOrder = async (ids = [], orderNumber = null) => {
       const validIds = ids.filter(Boolean);
 
-      // Fetch both awaiting_payment AND processing square orders
+      // Fetch awaiting_payment, pending, AND recently processing square orders
       const [awaitingOrders, processingOrders] = await Promise.all([
-        base44.asServiceRole.entities.Order.filter({ status: 'awaiting_payment' }),
-        base44.asServiceRole.entities.Order.filter({ status: 'processing', payment_method: 'square_payment' }),
+        base44.asServiceRole.entities.Order.filter({ payment_method: 'square_payment', payment_status: 'pending' }),
+        base44.asServiceRole.entities.Order.filter({ payment_method: 'square_payment', payment_status: 'completed' }),
       ]);
 
       // Check if already processed (idempotency guard)
@@ -129,12 +129,15 @@ Deno.serve(async (req) => {
         status: 'processing',
         payment_status: 'completed',
         transaction_id: transactionId || order.transaction_id,
+        stock_reserved: false,
+        reserved_until: null,
       });
 
-      // Decrement stock only if not already decremented (square orders may pre-decrement)
-      // We check payment_status — if it was 'pending' (not yet decremented), decrement now
-      if (order.payment_status !== 'completed' && order.items?.length > 0) {
+      // Decrement stock only if NOT already reserved/decremented at checkout
+      if (!order.stock_reserved && order.items?.length > 0) {
         await decrementStock(order.items);
+      } else {
+        console.log(`Order ${order.order_number} had stock_reserved=true — skipping decrement`);
       }
       console.log(`Order ${order.order_number} marked as processing (tx: ${transactionId})`);
 

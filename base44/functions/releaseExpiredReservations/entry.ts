@@ -29,9 +29,12 @@ Deno.serve(async (req) => {
         stock_reserved: true,
         payment_status: 'pending',
       });
-      // Filter to those whose reservation has expired — skip Zelle orders (they await manual confirmation)
+      // Filter to those whose reservation has expired
+      // IMPORTANT: Skip Zelle (manual confirmation) and Square (handled by syncSquarePayments)
       expiredOrders = reservedOrders.filter(order => {
         if (order.payment_method === 'zelle') return false; // never auto-cancel Zelle
+        if (order.payment_method === 'square_payment') return false; // syncSquarePayments handles these — never cancel here
+        if (order.status === 'awaiting_payment' || order.status === 'awaiting_confirmation') return false; // still waiting for payment
         if (!order.reserved_until) return true; // no expiry set — treat as expired
         return new Date(order.reserved_until) < now;
       });

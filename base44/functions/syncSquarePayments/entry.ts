@@ -18,7 +18,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
 const SQUARE_LOCATION_ID = Deno.env.get('SQUARE_LOCATION_ID');
-const STALE_ORDER_HOURS = 72; // Cancel awaiting_payment orders older than this
+const STALE_ORDER_HOURS = 168; // Cancel awaiting_payment orders older than 7 days (was 72h — increased to prevent false cancellations)
 
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
@@ -124,9 +124,9 @@ Deno.serve(async (req) => {
       }
     };
 
-    // ── Helper: search Square orders by reference_id (fallback) ──
-    const searchSquareByReference = async (orderNumber) => {
-      if (!orderNumber) return null;
+    // ── Helper: search Square orders by reference_id or amount (fallback) ──
+    const searchSquareByReference = async (orderNumber, amountCents = null) => {
+      if (!orderNumber && !amountCents) return null;
       try {
         const res = await fetch('https://connect.squareup.com/v2/orders/search', {
           method: 'POST',
@@ -142,20 +142,35 @@ Deno.serve(async (req) => {
                 state_filter: { states: ['COMPLETED'] },
                 date_time_filter: {
                   updated_at: {
-                    start_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // last 30 days
+                    start_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
                   },
                 },
               },
             },
-            limit: 100,
+            limit: 200,
           }),
         });
         const data = await res.json();
         const orders = data.orders || [];
-        return orders.find(sq =>
-          sq.reference_id === orderNumber ||
-          sq.id === orderNumber
-        ) || null;
+
+        // 1. Match by reference_id (our order number set at Square order creation)
+        const byRef = orders.find(sq => sq.reference_id === orderNumber || sq.id === orderNumber);
+        if (byRef) return byRef;
+
+        // 2. Amount-based fuzzy match — find COMPLETED Square order with exact same total
+        // Only use this if we have an amount and it's unique among recent orders
+        if (amountCents) {
+          const amountMatches = orders.filter(sq => {
+            const sqTotal = sq.total_money?.amount;
+            return sqTotal === amountCents;
+          });
+          if (amountMatches.length === 1) {
+            console.log(`Amount-matched Square order ${amountMatches[0].id} for order ${orderNumber} ($${(amountCents/100).toFixed(2)})`);
+            return amountMatches[0];
+          }
+        }
+
+        return null;
       } catch {
         return null;
       }
@@ -190,9 +205,10 @@ Deno.serve(async (req) => {
           squareOrder = await lookupSquareOrderById(order.transaction_id);
         }
 
-        // ── STEP 3: Fallback — search by reference_id (order number) ──
+        // ── STEP 3: Fallback — search by reference_id or amount ──
         if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          squareOrder = await searchSquareByReference(order.order_number);
+          const amountCents = order.total_amount ? Math.round(order.total_amount * 100) : null;
+          squareOrder = await searchSquareByReference(order.order_number, amountCents);
         }
 
         if (squareOrder && squareOrder.state === 'COMPLETED') {
