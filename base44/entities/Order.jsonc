@@ -178,6 +178,16 @@
     "affiliate_commission": {
       "type": "number",
       "description": "Commission amount owed to the affiliate (10% of order total)"
+    },
+    "stock_reserved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether stock has been decremented/reserved for this order"
+    },
+    "reserved_until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the stock reservation expires (15 minutes from order creation)"
     }
   },
   "required": [

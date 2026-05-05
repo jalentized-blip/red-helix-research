@@ -481,10 +481,12 @@ export default function CryptoCheckout() {
       }
       const referralCode = localStorage.getItem('rdr_referral_code');
       if (referralCode) pendingPayload.referral_code = referralCode;
+      pendingPayload.stock_reserved = true;
+      pendingPayload.reserved_until = new Date(Date.now() + 15 * 60 * 1000).toISOString();
       await createOrderWithRetry(pendingPayload);
 
-      // Reserve stock immediately on TX submission
-      try { await decrementStock(cartItems); } catch (e) { console.warn('Stock decrement failed:', e); }
+      // Reserve stock immediately on order creation
+      try { await decrementStock(cartItems); } catch (e) { console.warn('Stock reserve failed:', e); }
 
       // Customer order confirmation email (crypto — sent immediately on TX submission)
       try {
@@ -1370,6 +1372,8 @@ export default function CryptoCheckout() {
                             }
                             const referralCode = localStorage.getItem('rdr_referral_code');
                             if (referralCode) orderPayload.referral_code = referralCode;
+                            orderPayload.stock_reserved = true;
+                            orderPayload.reserved_until = new Date(Date.now() + 15 * 60 * 1000).toISOString();
                             await createOrderWithRetry(orderPayload);
                             // Customer confirmation email (Zelle)
                             try {
@@ -1377,7 +1381,7 @@ export default function CryptoCheckout() {
                              const zA=orderPayload.shipping_address||{};const zAL=[zA.address,zA.city,zA.state,zA.zip].filter(Boolean).join(', ');
                              await base44.integrations.Core.SendEmail({from_name:'Red Helix Research',to:orderPayload.customer_email,subject:`Order Received — #${orderNumberRef.current} | Red Helix Research`,body:`<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:30px;"><div style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:28px 32px;border-radius:12px 12px 0 0;text-align:center;margin:-30px -30px 24px -30px;"><div style="width:48px;height:48px;background:#7c3aed;border-radius:12px;display:inline-block;line-height:48px;margin-bottom:12px;"><span style="color:#fff;font-size:18px;font-weight:900;">RH</span></div><h1 style="color:#fff;font-size:22px;font-weight:900;margin:0 0 4px 0;">Order Received!</h1><p style="color:#94a3b8;font-size:12px;margin:0;letter-spacing:1px;text-transform:uppercase;">Order #${orderNumberRef.current}</p></div><p style="color:#334155;font-size:15px;font-weight:600;margin:0 0 8px 0;">Hi ${orderPayload.customer_name||'there'},</p><p style="color:#64748b;font-size:14px;line-height:1.7;margin:0 0 24px 0;">We've received your Zelle payment submission. Once we confirm your payment we'll process your order right away and send you a shipping notification.</p><table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin:0 0 20px 0;"><tr style="background:#f8fafc;"><th style="padding:8px 12px;text-align:left;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Item</th><th style="padding:8px 8px;text-align:center;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Spec</th><th style="padding:8px 8px;text-align:center;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Qty</th><th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Price</th></tr>${zItemsHtml}${discount>0?`<tr><td colspan="3" style="padding:8px 12px;font-size:13px;color:#16a34a;font-weight:700;">Discount</td><td style="padding:8px 12px;font-size:13px;color:#16a34a;font-weight:700;text-align:right;">-$${discount.toFixed(2)}</td></tr>`:''}<tr><td colspan="3" style="padding:8px 12px;font-size:13px;color:#64748b;">Shipping</td><td style="padding:8px 12px;font-size:13px;color:#64748b;text-align:right;">$${SHIPPING_COST.toFixed(2)}</td></tr><tr style="background:#f8fafc;"><td colspan="3" style="padding:12px;font-size:14px;font-weight:900;color:#0f172a;text-transform:uppercase;">Total</td><td style="padding:12px;font-size:18px;font-weight:900;color:#7c3aed;text-align:right;">$${totalUSD.toFixed(2)}</td></tr></table>${zAL?`<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:20px;"><p style="margin:0 0 4px;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Shipping To</p><p style="margin:0;font-size:14px;color:#334155;font-weight:600;">${orderPayload.customer_name}</p><p style="margin:2px 0 0;font-size:13px;color:#64748b;">${zAL}</p></div>`:''}<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 16px;margin-bottom:20px;"><p style="margin:0 0 4px;font-size:10px;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:1px;">Research Use Only</p><p style="margin:0;font-size:12px;color:#7f1d1d;line-height:1.6;">For laboratory research use only. All sales final. Contact <a href="mailto:jake@redhelixresearch.com" style="color:#dc2626;">jake@redhelixresearch.com</a> with any questions.</p></div><p style="color:#64748b;font-size:13px;text-align:center;">Thank you for choosing Red Helix Research!</p></div>`});
                             } catch {}
-                            await decrementStock(cartItems);
+                            // Stock already reserved on order creation above — no need to re-decrement
                             clearCart();
                             // Admin notification
                             try {
@@ -1591,7 +1595,12 @@ export default function CryptoCheckout() {
                                   orderPayload.affiliate_name = squareAffiliateInfo.name;
                                   orderPayload.affiliate_commission = parseFloat((totalUSD * 0.10).toFixed(2));
                                 }
+                                orderPayload.stock_reserved = true;
+                                orderPayload.reserved_until = new Date(Date.now() + 15 * 60 * 1000).toISOString();
                                 await createOrderWithRetry(orderPayload);
+
+                                // Reserve stock immediately on order creation (released if payment expires)
+                                try { await decrementStock(cartItems); } catch (stockErr) { console.warn('Stock reserve failed (non-blocking):', stockErr); }
 
                                 // Customer confirmation email (Square — sent immediately on order placement)
                                  try {

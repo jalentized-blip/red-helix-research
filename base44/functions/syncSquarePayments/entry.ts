@@ -202,6 +202,8 @@ Deno.serve(async (req) => {
               status: 'processing',
               payment_status: 'completed',
               square_order_id: squareOrder.id,
+              stock_reserved: false, // reservation fulfilled — no longer needs release
+              reserved_until: null,
             });
           } catch (dbErr) {
             console.error(`Failed to update order ${order.order_number}:`, dbErr.message);
@@ -209,9 +211,11 @@ Deno.serve(async (req) => {
             continue;
           }
 
-          // ── Decrement stock (idempotent — only if not already completed) ──
-          if (order.items?.length > 0) {
+          // ── Decrement stock only if not already reserved at checkout ──
+          if (order.items?.length > 0 && !order.stock_reserved) {
             await decrementStock(order.items);
+          } else {
+            console.log(`Order ${order.order_number} already had stock reserved at checkout — skipping decrement`);
           }
 
           // ── Customer confirmation email ──
