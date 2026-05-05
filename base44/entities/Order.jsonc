@@ -133,7 +133,11 @@
     },
     "transaction_id": {
       "type": "string",
-      "description": "Transaction ID or hash"
+      "description": "Square payment link ID (paymentLinkId) or crypto TX hash"
+    },
+    "square_order_id": {
+      "type": "string",
+      "description": "Square's internal order ID \u2014 used to match webhook payment.updated events"
     },
     "crypto_currency": {
       "type": "string",

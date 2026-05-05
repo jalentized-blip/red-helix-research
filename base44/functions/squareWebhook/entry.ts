@@ -45,33 +45,83 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
 
     // ─── Helper: find a Square order by all possible ID fields ───
-    const findSquareOrder = async (ids = []) => {
+    const findSquareOrder = async (ids = [], orderNumber = null) => {
       const validIds = ids.filter(Boolean);
-      if (validIds.length === 0) return null;
 
-      // Fetch both awaiting_payment AND processing orders (avoid reprocessing already-done orders)
+      // Fetch both awaiting_payment AND processing square orders
       const [awaitingOrders, processingOrders] = await Promise.all([
         base44.asServiceRole.entities.Order.filter({ status: 'awaiting_payment' }),
         base44.asServiceRole.entities.Order.filter({ status: 'processing', payment_method: 'square_payment' }),
       ]);
 
-      const allCandidates = [...awaitingOrders];
-
       // Check if already processed (idempotency guard)
       const alreadyProcessed = processingOrders.find(o =>
-        validIds.includes(o.transaction_id) || validIds.includes(o.admin_notes)
+        (validIds.length > 0 && (validIds.includes(o.transaction_id) || validIds.includes(o.square_order_id))) ||
+        (orderNumber && o.order_number === orderNumber)
       );
       if (alreadyProcessed) {
         console.log(`Order ${alreadyProcessed.order_number} already processed — skipping duplicate webhook.`);
         return { order: alreadyProcessed, alreadyDone: true };
       }
 
-      // Match by transaction_id (stores paymentLinkId at checkout creation time)
-      const matched = allCandidates.find(o => validIds.includes(o.transaction_id));
-      if (matched) return { order: matched, alreadyDone: false };
+      const allCandidates = awaitingOrders.filter(o => o.payment_method === 'square_payment');
 
-      console.warn('No matching awaiting_payment order found for IDs:', validIds);
+      // 1. Match by square_order_id (most reliable — set at link creation)
+      if (validIds.length > 0) {
+        const bySquareOrderId = allCandidates.find(o => validIds.includes(o.square_order_id));
+        if (bySquareOrderId) return { order: bySquareOrderId, alreadyDone: false };
+
+        // 2. Match by transaction_id (paymentLinkId stored at order creation)
+        const byTransactionId = allCandidates.find(o => validIds.includes(o.transaction_id));
+        if (byTransactionId) return { order: byTransactionId, alreadyDone: false };
+      }
+
+      // 3. Match by order_number (reference_id set in Square API — most reliable fallback)
+      if (orderNumber) {
+        const byOrderNumber = allCandidates.find(o => o.order_number === orderNumber);
+        if (byOrderNumber) return { order: byOrderNumber, alreadyDone: false };
+      }
+
+      // 4. Fallback: search ALL square awaiting_payment orders if no match (defensive)
+      if (validIds.length > 0) {
+        const allAwaiting = awaitingOrders;
+        const fallback = allAwaiting.find(o =>
+          validIds.includes(o.transaction_id) || validIds.includes(o.square_order_id)
+        );
+        if (fallback) return { order: fallback, alreadyDone: false };
+      }
+
+      console.warn('No matching awaiting_payment order found for IDs:', validIds, 'orderNumber:', orderNumber);
       return null;
+    };
+
+    const decrementStock = async (items) => {
+      if (!items?.length) return;
+      try {
+        const products = await base44.asServiceRole.entities.Product.list();
+        for (const item of items) {
+          const product = products.find(p =>
+            p.id === item.productId || p.id === item.product_id ||
+            p.name === (item.productName || item.product_name)
+          );
+          if (!product) continue;
+          const updatedSpecs = product.specifications?.map(spec => {
+            if (spec.name === item.specification) {
+              const newQty = Math.max(0, (spec.stock_quantity || 0) - (item.quantity || 1));
+              return { ...spec, stock_quantity: newQty, in_stock: newQty > 0 };
+            }
+            return spec;
+          }) || [];
+          const allOut = updatedSpecs.every(s => !s.in_stock);
+          await base44.asServiceRole.entities.Product.update(product.id, {
+            specifications: updatedSpecs,
+            in_stock: !allOut,
+          });
+        }
+        console.log('Stock decremented for', items.length, 'item(s)');
+      } catch (err) {
+        console.warn('Stock decrement failed (non-blocking):', err.message);
+      }
     };
 
     const markOrderComplete = async (order, transactionId) => {
@@ -80,6 +130,12 @@ Deno.serve(async (req) => {
         payment_status: 'completed',
         transaction_id: transactionId || order.transaction_id,
       });
+
+      // Decrement stock only if not already decremented (square orders may pre-decrement)
+      // We check payment_status — if it was 'pending' (not yet decremented), decrement now
+      if (order.payment_status !== 'completed' && order.items?.length > 0) {
+        await decrementStock(order.items);
+      }
       console.log(`Order ${order.order_number} marked as processing (tx: ${transactionId})`);
 
       // Send admin notification for Square payment completion
@@ -109,11 +165,13 @@ Deno.serve(async (req) => {
       const paymentStatus = payment?.status;
       const squareOrderId = payment?.order_id;
       const paymentId = payment?.id;
+      // reference_id is our order number, set on the Square Order at creation
+      const referenceId = payment?.reference_id || null;
 
-      console.log('Payment event:', event.type, '| status:', paymentStatus, '| squareOrderId:', squareOrderId, '| paymentId:', paymentId);
+      console.log('Payment event:', event.type, '| status:', paymentStatus, '| squareOrderId:', squareOrderId, '| paymentId:', paymentId, '| referenceId:', referenceId);
 
       if (paymentStatus === 'COMPLETED') {
-        const result = await findSquareOrder([squareOrderId, paymentId]);
+        const result = await findSquareOrder([squareOrderId, paymentId, referenceId], referenceId);
         if (result && !result.alreadyDone) {
           await markOrderComplete(result.order, paymentId || squareOrderId);
         }
@@ -124,10 +182,12 @@ Deno.serve(async (req) => {
     if (event.type === 'checkout.payment_link.completed') {
       const paymentLinkId = event.data?.object?.payment_link?.id;
       const squareOrderId = event.data?.object?.payment_link?.order_id;
+      // The reference_id on the Square order is our order number
+      const referenceId = event.data?.object?.payment_link?.payment_note || null;
 
-      console.log('Payment link completed. linkId:', paymentLinkId, 'orderId:', squareOrderId);
+      console.log('Payment link completed. linkId:', paymentLinkId, 'orderId:', squareOrderId, 'referenceId:', referenceId);
 
-      const result = await findSquareOrder([paymentLinkId, squareOrderId]);
+      const result = await findSquareOrder([paymentLinkId, squareOrderId], referenceId);
       if (result && !result.alreadyDone) {
         await markOrderComplete(result.order, paymentLinkId || squareOrderId);
       }
@@ -137,10 +197,12 @@ Deno.serve(async (req) => {
     if (event.type === 'order.updated') {
       const squareOrderId = event.data?.object?.order_updated?.order_id;
       const state = event.data?.object?.order_updated?.state;
-      console.log('Order updated. squareOrderId:', squareOrderId, '| state:', state);
+      // reference_id is our order number stored on the Square order
+      const referenceId = event.data?.object?.order_updated?.reference_id || null;
+      console.log('Order updated. squareOrderId:', squareOrderId, '| state:', state, '| referenceId:', referenceId);
 
       if (squareOrderId && state === 'COMPLETED') {
-        const result = await findSquareOrder([squareOrderId]);
+        const result = await findSquareOrder([squareOrderId], referenceId);
         if (result && !result.alreadyDone) {
           await markOrderComplete(result.order, squareOrderId);
         }
@@ -151,10 +213,11 @@ Deno.serve(async (req) => {
     if (event.type === 'order.fulfillment.updated') {
       const squareOrderId = event.data?.object?.order_id;
       const fulfillmentState = event.data?.object?.fulfillment?.state;
-      console.log('Fulfillment updated. squareOrderId:', squareOrderId, '| state:', fulfillmentState);
+      const referenceId = event.data?.object?.reference_id || null;
+      console.log('Fulfillment updated. squareOrderId:', squareOrderId, '| state:', fulfillmentState, '| referenceId:', referenceId);
 
       if (squareOrderId && (fulfillmentState === 'COMPLETED' || fulfillmentState === 'PREPARED')) {
-        const result = await findSquareOrder([squareOrderId]);
+        const result = await findSquareOrder([squareOrderId], referenceId);
         if (result && !result.alreadyDone) {
           await markOrderComplete(result.order, squareOrderId);
         }

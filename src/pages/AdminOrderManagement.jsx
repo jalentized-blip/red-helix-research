@@ -990,6 +990,7 @@ export default function AdminOrderManagement() {
   const [showTaxReport, setShowTaxReport] = useState(false);
   const [showPredictions, setShowPredictions] = useState(false);
   const [hideCogsEntered, setHideCogsEntered] = useState(false);
+  const [isSyncingSquare, setIsSyncingSquare] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -1275,6 +1276,33 @@ export default function AdminOrderManagement() {
           </p>
         </motion.div>
         <div className="flex flex-wrap gap-2 lg:gap-2 flex-shrink-0">
+          <Button
+            onClick={async () => {
+              setIsSyncingSquare(true);
+              try {
+                const res = await base44.functions.invoke('syncSquarePayments', {});
+                const data = res.data;
+                if (data.synced > 0) {
+                  toast.success(`Synced ${data.synced} Square payment${data.synced > 1 ? 's' : ''}`, {
+                    description: `${data.total_checked} orders checked`,
+                  });
+                  queryClient.invalidateQueries({ queryKey: ['orders'] });
+                } else {
+                  toast.info('No new payments found', { description: `${data.total_checked} awaiting orders checked` });
+                }
+              } catch (err) {
+                toast.error('Sync failed', { description: err.message });
+              } finally {
+                setIsSyncingSquare(false);
+              }
+            }}
+            disabled={isSyncingSquare}
+            className="bg-green-600 hover:bg-green-700 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg flex-1 sm:flex-none"
+          >
+            <RefreshCw className={`w-4 h-4 mr-1 sm:mr-2 ${isSyncingSquare ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">{isSyncingSquare ? 'Syncing...' : 'Sync Square'}</span>
+            <span className="sm:hidden">{isSyncingSquare ? '...' : 'Sync'}</span>
+          </Button>
           <Link to={createPageUrl('AdminTrackingDashboard')} className="w-full sm:w-auto">
             <Button className="bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg w-full sm:w-auto">
               <Truck className="w-4 h-4 mr-2" /> <span className="hidden sm:inline">Tracking Hub</span><span className="sm:hidden">Track</span>
