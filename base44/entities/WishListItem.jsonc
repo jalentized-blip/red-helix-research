@@ -1,0 +1,60 @@
+{
+  "name": "WishListItem",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "Display name chosen by the user (anonymous)"
+    },
+    "product_name": {
+      "type": "string",
+      "description": "Name of the product they want to see"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "weight_loss",
+        "recovery_healing",
+        "cognitive_focus",
+        "performance_longevity",
+        "sexual_health",
+        "general_health",
+        "other"
+      ],
+      "description": "Category of the requested product"
+    },
+    "description": {
+      "type": "string",
+      "description": "More details about the request"
+    },
+    "votes": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of upvotes"
+    },
+    "voter_fingerprints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Fingerprints of users who have voted (to prevent double-voting)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "under_review",
+        "coming_soon",
+        "available"
+      ],
+      "default": "requested",
+      "description": "Current status of the request"
+    }
+  },
+  "required": [
+    "username",
+    "product_name",
+    "category"
+  ]
+}

@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import KitInfo from './pages/KitInfo';
 import AdminBannerManager from './pages/AdminBannerManager';
+import WishList from './pages/WishList';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -64,6 +65,7 @@ const AuthenticatedApp = () => {
       ))}
       <Route path="/KitInfo" element={<LayoutWrapper currentPageName="KitInfo"><KitInfo /></LayoutWrapper>} />
       <Route path="/AdminBannerManager" element={<LayoutWrapper currentPageName="AdminBannerManager"><AdminBannerManager /></LayoutWrapper>} />
+      <Route path="/WishList" element={<LayoutWrapper currentPageName="WishList"><WishList /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
