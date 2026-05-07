@@ -596,7 +596,11 @@ const HeaderSearch = () => {
             <img 
               src="https://i.imgur.com/8MOtTE2.png" 
               alt="Red Helix Research" 
-              className="h-14 w-auto object-contain" 
+              className="h-14 w-auto object-contain"
+              width="180"
+              height="56"
+              fetchpriority="high"
+              decoding="sync"
             />
           </Link>
 
@@ -719,7 +723,11 @@ const HeaderSearch = () => {
                       <img 
                         src="https://i.imgur.com/8MOtTE2.png" 
                         alt="Red Helix Research" 
-                        className="h-12 w-auto object-contain" 
+                        className="h-12 w-auto object-contain"
+                        width="160"
+                        height="48"
+                        decoding="async"
+                        loading="lazy"
                       />
                     </div>
                       <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Research & Education</p>

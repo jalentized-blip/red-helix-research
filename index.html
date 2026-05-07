@@ -52,9 +52,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://i.imgur.com" crossorigin />
     <link rel="preconnect" href="https://i.ibb.co" crossorigin />
+    <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://api.coingecko.com" />
     <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://connect.facebook.net" />
+
+    <!-- LCP preload: logo is the largest above-fold element — load it at highest priority -->
+    <link rel="preload" as="image" href="https://i.imgur.com/8MOtTE2.png" fetchpriority="high" />
 
     <!-- Critical inline CSS: renders a skeleton instantly before JS loads -->
     <style>
@@ -132,6 +137,19 @@
         0% { background-position: 200% 0; }
         100% { background-position: -200% 0; }
       }
+      /* Eliminate 300ms tap delay on all interactive elements (mobile INP fix) */
+      a, button, [role="button"], input[type="submit"], input[type="button"] {
+        touch-action: manipulation;
+      }
+      /* Performance: paint containment on below-fold heavy sections */
+      .below-fold-section {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 600px;
+      }
+      /* Ensure layout-shift prevention: images reserve space before load */
+      img { max-width: 100%; height: auto; }
+      /* Compositor-only animation hint for framer motion blobs */
+      .motion-blob { will-change: transform, opacity; transform: translateZ(0); }
       /* Slow connection banner */
       #slow-connection-banner {
         display: none;

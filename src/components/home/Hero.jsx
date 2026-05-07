@@ -17,11 +17,10 @@ const Hero = React.memo(() => {
       {/* Animated Grid Pattern - Subtler for Light Mode */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItMnptMCAwdi0yIDJ6bTAtMnYyLTJ6bS0yIDJ2LTIgMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40" />
 
-      {/* Floating Molecular Shapes - Brighter & More Professional */}
+      {/* Floating Molecular Shapes — use transform/opacity only for compositor-only animations (no layout thrash) */}
       <motion.div 
-        className="absolute top-1/4 right-1/4 w-32 md:w-64 h-32 md:h-64 bg-[#8B2635]/5 rounded-full blur-[60px] md:blur-[100px]"
+        className="absolute top-1/4 right-1/4 w-32 md:w-64 h-32 md:h-64 bg-[#8B2635]/5 rounded-full blur-[60px] md:blur-[100px] motion-blob"
         animate={{ 
-          scale: [1, 1.1, 1],
           opacity: [0.3, 0.4, 0.3],
           x: [0, 30, 0],
           y: [0, -20, 0]
@@ -29,9 +28,8 @@ const Hero = React.memo(() => {
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
       />
       <motion.div 
-        className="absolute bottom-1/4 left-1/4 w-40 md:w-80 h-40 md:h-80 bg-blue-400/5 rounded-full blur-[80px] md:blur-[120px]"
+        className="absolute bottom-1/4 left-1/4 w-40 md:w-80 h-40 md:h-80 bg-blue-400/5 rounded-full blur-[80px] md:blur-[120px] motion-blob"
         animate={{ 
-          scale: [1.1, 1, 1.1],
           opacity: [0.2, 0.3, 0.2],
           x: [0, -30, 0],
           y: [0, 40, 0]

@@ -39,7 +39,7 @@ export default function Reviews() {
     submitMutation.mutate(formData);
   };
   return (
-    <section className="py-24 px-4 bg-slate-50 relative overflow-hidden">
+    <section className="py-24 px-4 bg-slate-50 relative overflow-hidden below-fold-section">
       {/* Background Accent */}
       <div className="absolute top-1/2 right-0 w-64 h-64 bg-[#8B2635]/5 rounded-full blur-3xl translate-x-1/2" />
       

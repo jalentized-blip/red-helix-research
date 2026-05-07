@@ -6,7 +6,7 @@ import { createPageUrl } from '@/utils';
 
 export default function Footer() {
   return (
-    <footer role="contentinfo" aria-label="Site footer" className="bg-white border-t border-slate-100 pt-10 md:pt-24 pb-10 px-4 relative overflow-hidden">
+    <footer role="contentinfo" aria-label="Site footer" className="bg-white border-t border-slate-100 pt-10 md:pt-24 pb-10 px-4 relative overflow-hidden below-fold-section">
       {/* Background Subtle Elements - Modern Medical Gradient */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#dc2626]/20 to-transparent" />
       
@@ -19,6 +19,10 @@ export default function Footer() {
                 src="https://i.imgur.com/8MOtTE2.png" 
                 alt="Red Helix Research" 
                 className="h-16 w-auto object-contain"
+                width="200"
+                height="64"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <p className="text-slate-500 text-sm leading-relaxed font-medium max-w-xs">

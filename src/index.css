@@ -84,5 +84,18 @@
 
   body {
     @apply bg-background text-foreground;
+    /* Prevent overscroll bounce from causing unexpected CLS on mobile */
+    overscroll-behavior-y: none;
+  }
+
+  /* Eliminate 300ms tap delay on mobile — improves INP on all interactive elements */
+  a, button, [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Reserve space for images without explicit dimensions — prevents CLS */
+  img:not([width]):not([height]) {
+    max-width: 100%;
+    height: auto;
   }
 }
