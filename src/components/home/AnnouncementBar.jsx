@@ -10,8 +10,8 @@ export default function AnnouncementBar() {
     >
       <p className="text-sm font-semibold uppercase tracking-wide">
         Connect with researchers across the globe in our{' '}
-        <a href="#" className="underline hover:no-underline font-bold">
-          Community!
+        <a href="https://discord.gg/BwQHufvmQ8" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline font-bold">
+          Discord Community!
         </a>
       </p>
     </motion.div>
