@@ -122,6 +122,8 @@ const WishCard = ({ item, fingerprint, onVote, isAdmin, onDelete }) => {
 const SubmitModal = ({ onClose, onSubmit, savedUsername, onUsernameChange }) => {
   const [form, setForm] = useState({ username: savedUsername || '', product_name: '', category: '', description: '' });
   const [step, setStep] = useState(savedUsername ? 2 : 1);
+  const [moderating, setModerating] = useState(false);
+  const [rejectionMsg, setRejectionMsg] = useState('');
 
   const handleNext = () => {
     if (step === 1 && form.username.trim().length >= 2) {
@@ -130,9 +132,39 @@ const SubmitModal = ({ onClose, onSubmit, savedUsername, onUsernameChange }) => 
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.product_name.trim() || !form.category) return;
+    setRejectionMsg('');
+    setModerating(true);
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are a content moderator for a legitimate scientific research peptide supplier (RedHelixResearch.com). Review this product request and determine if it is appropriate.
+
+Product Name: "${form.product_name}"
+Description: "${form.description || 'none'}"
+
+Approve if: it's a real peptide, research compound, amino acid, or legitimate research-related product request, even obscure ones.
+Reject if: it contains profanity, spam, personal attacks, illegal drug slang, nonsense text, sexual content, threats, or anything clearly unrelated to legitimate scientific research.
+
+Respond with JSON: { "approved": true/false, "reason": "short reason if rejected" }`,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            approved: { type: 'boolean' },
+            reason: { type: 'string' },
+          },
+        },
+      });
+      if (!result.approved) {
+        setRejectionMsg(result.reason || 'Your request was flagged as inappropriate. Please revise and try again.');
+        setModerating(false);
+        return;
+      }
+    } catch {
+      // If moderation fails, allow submission to proceed
+    }
+    setModerating(false);
     onSubmit({ ...form, username: form.username.trim() });
   };
 
@@ -253,12 +285,23 @@ const SubmitModal = ({ onClose, onSubmit, savedUsername, onUsernameChange }) => 
                     />
                   </div>
 
+                  {rejectionMsg && (
+                    <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-200 rounded-2xl text-sm text-red-700 font-semibold">
+                      <ShieldCheck className="w-4 h-4 mt-0.5 flex-shrink-0 text-red-500" />
+                      <span>{rejectionMsg}</span>
+                    </div>
+                  )}
+
                   <Button
                     type="submit"
-                    disabled={!form.product_name.trim() || !form.category}
+                    disabled={!form.product_name.trim() || !form.category || moderating}
                     className="w-full bg-[#8B2635] hover:bg-[#6B1827] text-white font-black uppercase tracking-widest rounded-2xl py-6"
                   >
-                    <Sparkles className="w-4 h-4 mr-2" /> Submit Request
+                    {moderating ? (
+                      <><span className="animate-spin mr-2 inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" /> Checking...</>
+                    ) : (
+                      <><Sparkles className="w-4 h-4 mr-2" /> Submit Request</>
+                    )}
                   </Button>
                 </form>
               </motion.div>
