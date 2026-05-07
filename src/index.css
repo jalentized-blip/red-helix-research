@@ -88,14 +88,31 @@
     overscroll-behavior-y: none;
   }
 
-  /* Eliminate 300ms tap delay on mobile — improves INP on all interactive elements */
-  a, button, [role="button"] {
+  /* PASS 10: Eliminate 300ms tap delay — improves INP on all interactive elements */
+  a, button, [role="button"], input, select, textarea, label {
     touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* PASS 10: Real focus-visible style instead of the suppressed tap highlight */
+  button:focus-visible, a:focus-visible, [role="button"]:focus-visible {
+    outline: 2px solid #8B2635;
+    outline-offset: 2px;
   }
 
   /* Reserve space for images without explicit dimensions — prevents CLS */
   img:not([width]):not([height]) {
     max-width: 100%;
     height: auto;
+  }
+
+  /* PASS 8: Honor prefers-reduced-motion — skip non-essential animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

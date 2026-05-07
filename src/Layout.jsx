@@ -279,14 +279,20 @@ const HeaderSearch = () => {
         }, []);
 
         useEffect(() => {
+          let ticking = false;
           const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-
-            // Hide/show header based on scroll direction
-            setHeaderVisible(window.scrollY < 50 || window.scrollY < lastScrollY);
-            setLastScrollY(window.scrollY);
+            if (!ticking) {
+              requestAnimationFrame(() => {
+                setScrolled(window.scrollY > 50);
+                setHeaderVisible(window.scrollY < 50 || window.scrollY < lastScrollY);
+                setLastScrollY(window.scrollY);
+                ticking = false;
+              });
+              ticking = true;
+            }
           };
-          window.addEventListener('scroll', handleScroll);
+          // PASS 5: passive: true removes scroll-blocking, improves INP/FPS
+          window.addEventListener('scroll', handleScroll, { passive: true });
           return () => window.removeEventListener('scroll', handleScroll);
         }, [lastScrollY]);
 
@@ -346,15 +352,21 @@ const HeaderSearch = () => {
         }, []);
 
         useEffect(() => {
+          let rafId;
           const handleMouseMove = (e) => {
-            // Show/hide header based on mouse position on non-home pages
             if (!isHomePage) {
-              setMouseNearTop(e.clientY < 100);
+              cancelAnimationFrame(rafId);
+              rafId = requestAnimationFrame(() => {
+                setMouseNearTop(e.clientY < 100);
+              });
             }
           };
-
-          window.addEventListener('mousemove', handleMouseMove);
-          return () => window.removeEventListener('mousemove', handleMouseMove);
+          // PASS 5: passive: true — mousemove never blocks the main thread
+          window.addEventListener('mousemove', handleMouseMove, { passive: true });
+          return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            cancelAnimationFrame(rafId);
+          };
         }, [isHomePage]);
 
           const telegramLink = 'https://t.me/+UYRVjzIFDy9iYzc9';

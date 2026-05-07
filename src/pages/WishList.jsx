@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useDeferredValue } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Sparkles, ChevronUp, Plus, Search, Star, Flame, Clock, ShieldCheck, X, Beaker, Brain, Zap, Heart, Leaf, Dna, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -317,6 +317,8 @@ export default function WishList() {
   const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  // PASS 5: defer search to keep typing/voting interactions snappy
+  const deferredSearch = useDeferredValue(searchQuery);
   const [sortBy, setSortBy] = useState('votes');
   const [filterCat, setFilterCat] = useState('all');
   const [fingerprint] = useState(() => getFingerprint());
@@ -368,9 +370,11 @@ export default function WishList() {
   const filtered = useMemo(() => {
     let list = [...items];
     if (filterCat !== 'all') list = list.filter(i => i.category === filterCat);
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter(i => i.product_name.toLowerCase().includes(q) || (i.description || '').toLowerCase().includes(q));
+    if (deferredSearch.trim()) {
+      const q = deferredSearch.toLowerCase();
+      list = list.filter(i =>
+        i.product_name.toLowerCase().includes(q) || (i.description || '').toLowerCase().includes(q)
+      );
     }
     if (sortBy === 'votes') list.sort((a, b) => (b.votes || 0) - (a.votes || 0));
     else if (sortBy === 'newest') list.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));

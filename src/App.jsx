@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -8,9 +8,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import KitInfo from './pages/KitInfo';
-import AdminBannerManager from './pages/AdminBannerManager';
-import WishList from './pages/WishList';
+
+// PASS 2: Lazy-load non-landing routes so they don't inflate the initial bundle
+const KitInfo = React.lazy(() => import('./pages/KitInfo'));
+const AdminBannerManager = React.lazy(() => import('./pages/AdminBannerManager'));
+const WishList = React.lazy(() => import('./pages/WishList'));
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -20,60 +22,61 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
   <Layout currentPageName={currentPageName}>{children}</Layout>
   : <>{children}</>;
 
-const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+// Minimal skeleton shown while lazy chunks load
+const PageSkeleton = () => (
+  <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="w-10 h-10 border-4 border-slate-100 border-t-[#8B2635] rounded-full animate-spin" />
+  </div>
+);
 
-  // Remove skeleton once React has mounted
+const AuthenticatedApp = () => {
+  const { isLoadingAuth, isLoadingPublicSettings, authError } = useAuth();
+
   React.useEffect(() => {
     const el = document.getElementById('root-loading');
     if (el) el.remove();
   }, []);
 
-  // Show a minimal inline loader — skeleton in index.html already covers the visual gap
   if (isLoadingPublicSettings || isLoadingAuth) {
-    return null; // skeleton in index.html is already visible
+    return null;
   }
 
-  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      // Don't auto-redirect — app is public, guests can browse and purchase
-      // Only protected routes will enforce login as needed
     }
   }
 
-  // Render the main app
   return (
-    <Routes>
-      <Route path="/" element={
-        <LayoutWrapper currentPageName={mainPageKey}>
-          <MainPage />
-        </LayoutWrapper>
-      } />
-      {Object.entries(Pages).map(([path, Page]) => (
-        <Route
-          key={path}
-          path={`/${path}`}
-          element={
-            <LayoutWrapper currentPageName={path}>
-              <Page />
-            </LayoutWrapper>
-          }
-        />
-      ))}
-      <Route path="/KitInfo" element={<LayoutWrapper currentPageName="KitInfo"><KitInfo /></LayoutWrapper>} />
-      <Route path="/AdminBannerManager" element={<LayoutWrapper currentPageName="AdminBannerManager"><AdminBannerManager /></LayoutWrapper>} />
-      <Route path="/WishList" element={<LayoutWrapper currentPageName="WishList"><WishList /></LayoutWrapper>} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <Suspense fallback={<PageSkeleton />}>
+      <Routes>
+        {/* Landing route — NOT lazy so LCP is not delayed */}
+        <Route path="/" element={
+          <LayoutWrapper currentPageName={mainPageKey}>
+            <MainPage />
+          </LayoutWrapper>
+        } />
+        {Object.entries(Pages).map(([path, Page]) => (
+          <Route
+            key={path}
+            path={`/${path}`}
+            element={
+              <LayoutWrapper currentPageName={path}>
+                <Page />
+              </LayoutWrapper>
+            }
+          />
+        ))}
+        <Route path="/KitInfo" element={<LayoutWrapper currentPageName="KitInfo"><KitInfo /></LayoutWrapper>} />
+        <Route path="/AdminBannerManager" element={<LayoutWrapper currentPageName="AdminBannerManager"><AdminBannerManager /></LayoutWrapper>} />
+        <Route path="/WishList" element={<LayoutWrapper currentPageName="WishList"><WishList /></LayoutWrapper>} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Suspense>
   );
 };
 
-
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>

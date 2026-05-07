@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDeferredValue } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
@@ -41,7 +41,10 @@ export default function Products() {
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
+    staleTime: 60 * 1000,
   });
+  // PASS 5: defer search input so filtering doesn't block typing
+  const deferredSearch = useDeferredValue(searchQuery);
 
   // Real-time stock updates
   useEffect(() => {
@@ -109,9 +112,9 @@ export default function Products() {
     const inStock = visibleSpecs.some(spec => isSpecInStock(spec));
     const stockMatch = hideOutOfStock ? inStock : true;
 
-    const searchMatch = searchQuery === '' ||
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    const searchMatch = deferredSearch === '' ||
+      p.name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+      (p.description && p.description.toLowerCase().includes(deferredSearch.toLowerCase()));
 
     return categoryMatch && stockMatch && searchMatch;
   });
@@ -119,9 +122,9 @@ export default function Products() {
   // Add kits product to filtered results if it matches criteria
   if (kitsProduct) {
     const matchesCategory = selectedCategory === 'all';
-    const matchesSearch = searchQuery === '' || 
-      'kits'.includes(searchQuery.toLowerCase()) ||
-      kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = deferredSearch === '' ||
+      'kits'.includes(deferredSearch.toLowerCase()) ||
+      kitsProduct.description.toLowerCase().includes(deferredSearch.toLowerCase());
     const hasInStockKits = kitsProduct.specifications.some(spec => isSpecInStock(spec));
     const stockMatch = hideOutOfStock ? hasInStockKits : true;
     
