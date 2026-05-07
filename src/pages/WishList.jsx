@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Sparkles, ChevronUp, Plus, Search, Star, Flame, Clock, ShieldCheck, X, Beaker, Brain, Zap, Heart, Leaf, Dna } from 'lucide-react';
+import { ArrowLeft, Sparkles, ChevronUp, Plus, Search, Star, Flame, Clock, ShieldCheck, X, Beaker, Brain, Zap, Heart, Leaf, Dna, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -36,7 +36,7 @@ const getFingerprint = () => {
   return 'fp_' + Math.abs(hash).toString(36);
 };
 
-const WishCard = ({ item, fingerprint, onVote }) => {
+const WishCard = ({ item, fingerprint, onVote, isAdmin, onDelete }) => {
   const cat = CATEGORY_CONFIG[item.category] || CATEGORY_CONFIG.other;
   const status = STATUS_CONFIG[item.status] || STATUS_CONFIG.requested;
   const CatIcon = cat.icon;
@@ -103,6 +103,15 @@ const WishCard = ({ item, fingerprint, onVote }) => {
             <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{item.username || 'Anonymous'}</span>
             <span className="text-slate-200">·</span>
             <span className="text-[11px] text-slate-400">{new Date(item.created_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+            {isAdmin && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onDelete(item.id); }}
+                className="ml-auto p-1.5 rounded-lg text-slate-300 hover:text-red-600 hover:bg-red-50 transition-colors"
+                title="Delete request"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -270,6 +279,11 @@ export default function WishList() {
   const [fingerprint] = useState(() => getFingerprint());
   const [savedUsername, setSavedUsername] = useState(() => localStorage.getItem('rhr_wishlist_username') || '');
   const [successMsg, setSuccessMsg] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(u => setIsAdmin(u?.role === 'admin')).catch(() => {});
+  }, []);
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ['wishlist'],
@@ -285,6 +299,11 @@ export default function WishList() {
         voter_fingerprints: [...(item.voter_fingerprints || []), fingerprint],
       });
     },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['wishlist'] }),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => base44.entities.WishListItem.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['wishlist'] }),
   });
 
@@ -508,7 +527,7 @@ export default function WishList() {
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {filtered.map(item => (
-                <WishCard key={item.id} item={item} fingerprint={fingerprint} onVote={voteMutation.mutate} />
+                <WishCard key={item.id} item={item} fingerprint={fingerprint} onVote={voteMutation.mutate} isAdmin={isAdmin} onDelete={deleteMutation.mutate} />
               ))}
             </AnimatePresence>
           </motion.div>
