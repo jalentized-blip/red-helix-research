@@ -65,33 +65,23 @@ export default function WelcomeDiscountPopup() {
     // If user dismissed permanently, never show again
     if (localStorage.getItem(NEVER_SHOW_KEY)) return;
 
+    // If already shown this session, skip
     const shown = sessionStorage.getItem(POPUP_SHOWN_KEY);
     if (shown) return;
 
-    const timer = setTimeout(async () => {
-      // If user already has a valid welcome code, don't show again
-      const existingCode = localStorage.getItem(WELCOME_CODE_KEY);
-      if (existingCode) {
-        sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
-        return;
-      }
-
-      // Check fingerprint — has this device already claimed?
-      const fp = getBrowserFingerprint();
-      try {
-        const existing = await base44.entities.WelcomeDiscount.filter({ fingerprint: fp });
-        if (existing.length > 0) {
-          // Already claimed on this device — don't show again
-          sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
-          return;
-        }
-      } catch {
-        // DB unavailable — still show
-      }
-
-      setShow(true);
+    // If user already has a welcome code stored locally, skip
+    const existingCode = localStorage.getItem(WELCOME_CODE_KEY);
+    if (existingCode) {
       sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
-    }, 4000);
+      return;
+    }
+
+    // Delay popup — give the ResearchDisclaimerGate time to resolve first
+    const timer = setTimeout(async () => {
+      // Mark as shown immediately so it doesn't fire again this session
+      sessionStorage.setItem(POPUP_SHOWN_KEY, '1');
+      setShow(true);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -111,6 +101,22 @@ export default function WelcomeDiscountPopup() {
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
     try {
+      // Check if this email already has a code — if so, restore it instead of creating a duplicate
+      try {
+        const byEmail = await base44.entities.WelcomeDiscount.filter({ email: trimmed });
+        if (byEmail.length > 0 && byEmail[0].code) {
+          const existing = byEmail[0];
+          localStorage.setItem(WELCOME_CODE_KEY, existing.code);
+          const dynPromos = JSON.parse(localStorage.getItem('rhr_dynamic_promos') || '{}');
+          dynPromos[existing.code] = { discount: 0.10, label: '10% off single vials', singleVialsOnly: true, isWelcome: true };
+          localStorage.setItem('rhr_dynamic_promos', JSON.stringify(dynPromos));
+          setCode(existing.code);
+          setStep('code');
+          setLoading(false);
+          return;
+        }
+      } catch { /* non-critical — proceed to create */ }
+
       // Save discount record with email
       await base44.entities.WelcomeDiscount.create({
         code: newCode,
