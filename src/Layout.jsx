@@ -391,13 +391,13 @@ const HeaderSearch = () => {
           Skip to main content
         </a>
         <Helmet>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926557903"></script>
+          <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18151901608"></script>
           <script>
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'AW-17926557903');
+              gtag('config', 'AW-18151901608');
             `}
           </script>
         </Helmet>
