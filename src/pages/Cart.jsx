@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, validatePromoCodeAsync, loadAffiliateCodes, validateCartStock } from '@/components/utils/cart';
+import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, validatePromoCodeAsync, loadAffiliateCodes, validateCartStock, hasMothersDay5AminoInCart } from '@/components/utils/cart';
 import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -23,6 +23,7 @@ export default function Cart() {
   const [removedItems, setRemovedItems] = useState([]);
   const [isValidatingStock, setIsValidatingStock] = useState(false);
   const [promoReady, setPromoReady] = useState(false);
+  const [mothersDayBundle, setMothersDayBundle] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -54,6 +55,28 @@ export default function Cart() {
     setCartItems(getCart());
     setAppliedPromo(getPromoCode());
 
+    // Auto-apply MOTHERSDAY bundle if 5 Amino 1 MQ 5mg is in cart and code not expired
+    const checkMothersDay = () => {
+      if (hasMothersDay5AminoInCart()) {
+        const existing = getPromoCode();
+        if (!existing) {
+          addPromoCode('MOTHERSDAY');
+          setAppliedPromo('MOTHERSDAY');
+          setMothersDayBundle(true);
+        } else if (existing === 'MOTHERSDAY') {
+          setMothersDayBundle(true);
+        }
+      } else {
+        // If they removed the qualifying item, remove the auto-applied MOTHERSDAY code
+        if (getPromoCode() === 'MOTHERSDAY') {
+          removePromoCode();
+          setAppliedPromo(null);
+        }
+        setMothersDayBundle(false);
+      }
+    };
+    checkMothersDay();
+
     // Validate cart stock — auto-remove out-of-stock items
     setIsValidatingStock(true);
     validateCartStock(base44).then(({ removed }) => {
@@ -62,7 +85,26 @@ export default function Cart() {
         setRemovedItems(removed);
       }
     }).finally(() => setIsValidatingStock(false));
-    const handleCartUpdate = () => setCartItems(getCart());
+    const handleCartUpdate = () => {
+      setCartItems(getCart());
+      // Re-check bundle eligibility when cart changes
+      if (hasMothersDay5AminoInCart()) {
+        const existing = getPromoCode();
+        if (!existing) {
+          addPromoCode('MOTHERSDAY');
+          setAppliedPromo('MOTHERSDAY');
+          setMothersDayBundle(true);
+        } else if (existing === 'MOTHERSDAY') {
+          setMothersDayBundle(true);
+        }
+      } else {
+        if (getPromoCode() === 'MOTHERSDAY') {
+          removePromoCode();
+          setAppliedPromo(null);
+        }
+        setMothersDayBundle(false);
+      }
+    };
     const handlePromoUpdate = () => setAppliedPromo(getPromoCode());
     window.addEventListener('cartUpdated', handleCartUpdate);
     window.addEventListener('promoUpdated', handlePromoUpdate);
@@ -226,6 +268,18 @@ export default function Cart() {
             <div className="lg:col-span-1">
               <div className="bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[40px] p-5 md:p-8 sticky top-24 lg:top-32 shadow-sm">
                 <h2 className="text-xl font-black text-black mb-6 uppercase tracking-tight">Summary</h2>
+
+                {/* Mother's Day Bundle Banner */}
+                {mothersDayBundle && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-4 p-4 bg-pink-50 border border-pink-200 rounded-2xl text-center"
+                  >
+                    <p className="text-sm font-black text-pink-700 mb-0.5">🌸 Mother's Day Bundle Applied!</p>
+                    <p className="text-xs text-pink-600 font-medium">10% off automatically applied for your 5 Amino 1 MQ 5mg order</p>
+                  </motion.div>
+                )}
 
                 {/* Promo Code Section */}
                 <div className="mb-8 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">

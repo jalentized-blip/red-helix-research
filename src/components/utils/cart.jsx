@@ -108,9 +108,19 @@ const STATIC_PROMO_CODES = {
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
   'INDO88': { discount: 0.10, label: '10% off' },
-  // Mother's Day 2026 — expires midnight CST May 11 2026 = 06:00 UTC May 12 2026
-  'MOTHERSDAY': { discount: 0.10, label: '10% off — Mother\'s Day', expiresAt: '2026-05-12T06:00:00Z' },
+  // Mother's Day 2026 — 10% off, auto-applied for 5 Amino 1 MQ 5mg bundles
+  // Expires midnight CST May 11 2026 = 06:00 UTC May 12 2026
+  'MOTHERSDAY': { discount: 0.10, label: '10% off — Mother\'s Day Bundle 🌸', expiresAt: '2026-05-12T06:00:00Z', autoApplyProduct: '5 amino 1 mq' },
   // Affiliate codes are loaded dynamically from the database — do NOT hardcode them here
+};
+
+// Check if the cart contains the qualifying MOTHERSDAY bundle product
+export const hasMothersDay5AminoInCart = () => {
+  const cart = getCart();
+  return cart.some(item =>
+    item.productName?.toLowerCase().includes('5 amino 1 mq') &&
+    item.specification?.toLowerCase().includes('5mg')
+  );
 };
 
 import { loadActiveAffiliateCodes, getAffiliateById } from '@/components/utils/affiliateStore';
