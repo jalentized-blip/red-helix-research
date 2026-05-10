@@ -101,12 +101,15 @@ export const getCartTotal = () => {
 };
 
 // Static promo codes - always available (non-affiliate discounts only)
+// For time-limited codes, include expiresAt (ISO string, midnight CST = UTC+6 = 06:00 UTC next day)
 const STATIC_PROMO_CODES = {
   'SAVE10': { discount: 0.10, label: '10% off' },
   'SAVE20': { discount: 0.20, label: '20% off' },
   'WELCOME': { discount: 0.15, label: '15% off first order' },
   'FIRSTDAY15': { discount: 0.15, label: '15% off' },
   'INDO88': { discount: 0.10, label: '10% off' },
+  // Mother's Day 2026 — expires midnight CST May 11 2026 = 06:00 UTC May 12 2026
+  'MOTHERSDAY': { discount: 0.10, label: '10% off — Mother\'s Day', expiresAt: '2026-05-12T06:00:00Z' },
   // Affiliate codes are loaded dynamically from the database — do NOT hardcode them here
 };
 
@@ -160,11 +163,20 @@ const getDynamicPromoCodes = () => {
   }
 };
 
+// Helper: check if a static promo is expired
+const isPromoExpired = (promo) => {
+  if (!promo?.expiresAt) return false;
+  return new Date(promo.expiresAt) < new Date();
+};
+
 // Synchronous validation against static codes only (for immediate UI)
 export const validatePromoCode = (code) => {
   const upper = code.toUpperCase();
-  // Check static codes first
-  if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
+  // Check static codes first (with expiry enforcement)
+  if (STATIC_PROMO_CODES[upper]) {
+    if (isPromoExpired(STATIC_PROMO_CODES[upper])) return null;
+    return STATIC_PROMO_CODES[upper];
+  }
   // Check cached affiliate codes
   if (affiliateCodesCache && affiliateCodesCache[upper]) return affiliateCodesCache[upper];
   // Check welcome discount cache (populated after async validation)
@@ -178,8 +190,11 @@ export const validatePromoCode = (code) => {
 // Async validation that checks both static and DB codes
 export const validatePromoCodeAsync = async (code, base44) => {
   const upper = code.toUpperCase();
-  // Check static codes first
-  if (STATIC_PROMO_CODES[upper]) return STATIC_PROMO_CODES[upper];
+  // Check static codes first (with expiry enforcement)
+  if (STATIC_PROMO_CODES[upper]) {
+    if (isPromoExpired(STATIC_PROMO_CODES[upper])) return null;
+    return STATIC_PROMO_CODES[upper];
+  }
   // Check welcome discount cache (populated after first async validation)
   if (welcomeDiscountCache[upper]) return welcomeDiscountCache[upper];
   // Load and check affiliate codes from DB

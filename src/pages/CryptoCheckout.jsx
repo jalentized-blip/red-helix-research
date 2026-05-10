@@ -33,6 +33,7 @@ import {
   getAffiliateInfo,
   resolveAffiliateInfo,
   validatePromoCode,
+  validatePromoCodeAsync,
   loadAffiliateCodes,
   validateCartStock
 } from '@/components/utils/cart';
@@ -279,6 +280,13 @@ export default function CryptoCheckout() {
 
       setCartItems(getCart());
       setCustomerInfo(customer);
+      // Hydrate the promo code cache so getDiscountAmount works synchronously
+      // (mirrors the same pattern in Cart.jsx to prevent discount = $0 after page refresh)
+      if (promo) {
+        await validatePromoCodeAsync(promo, base44);
+      }
+      // Also pre-load affiliate codes
+      loadAffiliateCodes(base44);
       setPromoCode(promo);
       if (customer?.email) setSquareEmail(customer.email);
     };
