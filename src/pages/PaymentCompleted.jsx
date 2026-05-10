@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { markPromoAsUsed } from '@/components/utils/cart';
 import { Button } from '@/components/ui/button';
 import { Check, Mail, Package } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -20,6 +21,15 @@ export default function PaymentCompleted() {
     
     setTransactionId(finalTxId);
     setOrderNumber(finalOrder);
+
+    // Mark one-time promos (e.g. MOTHERSDAY) as used for this customer's email
+    try {
+      const promo = localStorage.getItem('rdr_promo');
+      const customerInfo = JSON.parse(localStorage.getItem('customerInfo') || '{}');
+      if (promo && customerInfo.email) {
+        markPromoAsUsed(customerInfo.email, promo);
+      }
+    } catch (_) {}
 
     // Meta Pixel: Purchase event
     if (typeof window !== 'undefined' && window.fbq) {

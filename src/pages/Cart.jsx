@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, validatePromoCodeAsync, loadAffiliateCodes, validateCartStock, hasMothersDay5AminoInCart } from '@/components/utils/cart';
+import { getCart, removeFromCart, updateCartQuantity, getCartTotal, clearCart, addPromoCode, addPromoCodeAsync, getPromoCode, removePromoCode, getDiscountAmount, validatePromoCode, validatePromoCodeAsync, loadAffiliateCodes, validateCartStock, hasMothersDay5AminoInCart, hasCustomerUsedPromo } from '@/components/utils/cart';
 import { Trash2, ShoppingBag, ArrowLeft, X, Check, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -130,11 +130,21 @@ export default function Cart() {
   };
 
   const handleApplyPromo = async () => {
+    const upperCode = promoCode.toUpperCase();
+    // Check 1-per-customer limit for one-time promos like MOTHERSDAY
+    if (upperCode === 'MOTHERSDAY') {
+      const savedInfo = localStorage.getItem('customerInfo');
+      const email = savedInfo ? JSON.parse(savedInfo).email : null;
+      if (email && hasCustomerUsedPromo(email, upperCode)) {
+        setPromoError('This promo code has already been used on a previous order');
+        return;
+      }
+    }
     // Try async validation first (checks DB affiliate codes + WelcomeDiscount table)
     const promoDetails = await validatePromoCodeAsync(promoCode, base44);
     if (promoDetails) {
       await addPromoCodeAsync(promoCode, base44);
-      setAppliedPromo(promoCode.toUpperCase());
+      setAppliedPromo(upperCode);
       setPromoReady(true);
       setPromoCode('');
       setPromoError('');

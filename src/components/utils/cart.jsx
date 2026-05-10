@@ -114,13 +114,42 @@ const STATIC_PROMO_CODES = {
   // Affiliate codes are loaded dynamically from the database — do NOT hardcode them here
 };
 
-// Check if the cart contains the qualifying MOTHERSDAY bundle product
+// Check if the cart contains the qualifying MOTHERSDAY bundle product (5 Amino 1 MQ 5mg)
 export const hasMothersDay5AminoInCart = () => {
   const cart = getCart();
   return cart.some(item =>
     item.productName?.toLowerCase().includes('5 amino 1 mq') &&
     item.specification?.toLowerCase().includes('5mg')
   );
+};
+
+// Track which one-time promo codes a customer email has already used (localStorage)
+const USED_PROMOS_KEY = 'rhr_used_promos';
+const ONE_TIME_PROMOS = ['MOTHERSDAY'];
+
+export const hasCustomerUsedPromo = (email, code) => {
+  if (!email || !code) return false;
+  try {
+    const used = JSON.parse(localStorage.getItem(USED_PROMOS_KEY) || '{}');
+    const emailKey = email.toLowerCase().trim();
+    return !!(used[emailKey] && used[emailKey].includes(code.toUpperCase()));
+  } catch {
+    return false;
+  }
+};
+
+export const markPromoAsUsed = (email, code) => {
+  if (!email || !code) return;
+  if (!ONE_TIME_PROMOS.includes(code.toUpperCase())) return;
+  try {
+    const used = JSON.parse(localStorage.getItem(USED_PROMOS_KEY) || '{}');
+    const emailKey = email.toLowerCase().trim();
+    if (!used[emailKey]) used[emailKey] = [];
+    if (!used[emailKey].includes(code.toUpperCase())) {
+      used[emailKey].push(code.toUpperCase());
+    }
+    localStorage.setItem(USED_PROMOS_KEY, JSON.stringify(used));
+  } catch { /* non-critical */ }
 };
 
 import { loadActiveAffiliateCodes, getAffiliateById } from '@/components/utils/affiliateStore';
