@@ -123,30 +123,43 @@ export const hasMothersDay5AminoInCart = () => {
   );
 };
 
-// Track which one-time promo codes a customer email has already used (localStorage)
+// One-time promo tracking by IP address
 const USED_PROMOS_KEY = 'rhr_used_promos';
 const ONE_TIME_PROMOS = ['MOTHERSDAY'];
+let _cachedIP = null;
 
-export const hasCustomerUsedPromo = (email, code) => {
-  if (!email || !code) return false;
+const getClientIP = async () => {
+  if (_cachedIP) return _cachedIP;
   try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    _cachedIP = data.ip || 'unknown';
+  } catch {
+    _cachedIP = 'unknown';
+  }
+  return _cachedIP;
+};
+
+export const hasCustomerUsedPromo = async (code) => {
+  if (!code) return false;
+  try {
+    const ip = await getClientIP();
     const used = JSON.parse(localStorage.getItem(USED_PROMOS_KEY) || '{}');
-    const emailKey = email.toLowerCase().trim();
-    return !!(used[emailKey] && used[emailKey].includes(code.toUpperCase()));
+    return !!(used[ip] && used[ip].includes(code.toUpperCase()));
   } catch {
     return false;
   }
 };
 
-export const markPromoAsUsed = (email, code) => {
-  if (!email || !code) return;
+export const markPromoAsUsed = async (code) => {
+  if (!code) return;
   if (!ONE_TIME_PROMOS.includes(code.toUpperCase())) return;
   try {
+    const ip = await getClientIP();
     const used = JSON.parse(localStorage.getItem(USED_PROMOS_KEY) || '{}');
-    const emailKey = email.toLowerCase().trim();
-    if (!used[emailKey]) used[emailKey] = [];
-    if (!used[emailKey].includes(code.toUpperCase())) {
-      used[emailKey].push(code.toUpperCase());
+    if (!used[ip]) used[ip] = [];
+    if (!used[ip].includes(code.toUpperCase())) {
+      used[ip].push(code.toUpperCase());
     }
     localStorage.setItem(USED_PROMOS_KEY, JSON.stringify(used));
   } catch { /* non-critical */ }

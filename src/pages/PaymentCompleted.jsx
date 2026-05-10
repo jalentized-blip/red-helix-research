@@ -22,12 +22,11 @@ export default function PaymentCompleted() {
     setTransactionId(finalTxId);
     setOrderNumber(finalOrder);
 
-    // Mark one-time promos (e.g. MOTHERSDAY) as used for this customer's email
+    // Mark one-time promos (e.g. MOTHERSDAY) as used, tracked by IP
     try {
       const promo = localStorage.getItem('rdr_promo');
-      const customerInfo = JSON.parse(localStorage.getItem('customerInfo') || '{}');
-      if (promo && customerInfo.email) {
-        markPromoAsUsed(customerInfo.email, promo);
+      if (promo) {
+        markPromoAsUsed(promo);
       }
     } catch (_) {}
 

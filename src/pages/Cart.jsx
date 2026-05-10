@@ -131,11 +131,10 @@ export default function Cart() {
 
   const handleApplyPromo = async () => {
     const upperCode = promoCode.toUpperCase();
-    // Check 1-per-customer limit for one-time promos like MOTHERSDAY
+    // Check 1-per-IP limit for one-time promos like MOTHERSDAY
     if (upperCode === 'MOTHERSDAY') {
-      const savedInfo = localStorage.getItem('customerInfo');
-      const email = savedInfo ? JSON.parse(savedInfo).email : null;
-      if (email && hasCustomerUsedPromo(email, upperCode)) {
+      const alreadyUsed = await hasCustomerUsedPromo(upperCode);
+      if (alreadyUsed) {
         setPromoError('This promo code has already been used on a previous order');
         return;
       }
