@@ -11,19 +11,8 @@ export default function SecurityGateway({ children }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const hasLoaded = sessionStorage.getItem('app_loaded');
-    if (hasLoaded) {
-      setReady(true);
-      return;
-    }
-
-    // Brief initialization delay for app hydration
-    const timer = setTimeout(() => {
-      setReady(true);
-      sessionStorage.setItem('app_loaded', 'true');
-    }, 800);
-
-    return () => clearTimeout(timer);
+    setReady(true);
+    sessionStorage.setItem('app_loaded', 'true');
   }, []);
 
   if (ready) {
