@@ -237,30 +237,20 @@ Deno.serve(async (req) => {
       return true;
     };
 
-    // ── Helper: decrement stock ───────────────────────────────────────────────────
-    const decrementStock = async (items) => {
+    // ── Helper: decrement stock via the dedicated backend function ───────────────
+    const decrementStock = async (items, orderNumber) => {
       if (!items?.length) return;
-      const products = await base44.asServiceRole.entities.Product.list();
-      for (const item of items) {
-        const product = products.find(p =>
-          p.id === item.productId || p.id === item.product_id ||
-          p.name === (item.productName || item.product_name)
-        );
-        if (!product) { console.warn(`decrementStock: product not found for item: ${item.productName}`); continue; }
-        const updatedSpecs = (product.specifications || []).map(spec => {
-          if (spec.name === item.specification) {
-            const newQty = Math.max(0, (spec.stock_quantity || 0) - (item.quantity || 1));
-            return { ...spec, stock_quantity: newQty, in_stock: newQty > 0 };
-          }
-          return spec;
+      try {
+        const res = await base44.asServiceRole.functions.invoke('decrementStock', {
+          action: 'decrement',
+          items,
+          orderNumber,
         });
-        const allOut = updatedSpecs.every(s => !s.in_stock);
-        await base44.asServiceRole.entities.Product.update(product.id, {
-          specifications: updatedSpecs,
-          in_stock: !allOut,
-        });
+        console.log(`Stock decremented for order ${orderNumber}:`, res?.decremented);
+      } catch (err) {
+        console.error('decrementStock failed in webhook:', err.message);
+        // Non-fatal — order is still marked complete
       }
-      console.log(`Stock decremented for ${items.length} item(s)`);
     };
 
     // ── Helper: complete an order ────────────────────────────────────────────────
@@ -275,11 +265,11 @@ Deno.serve(async (req) => {
         admin_notes: (order.admin_notes ? order.admin_notes + ' | ' : '') + `Webhook confirmed payment at ${new Date().toISOString()}`,
       });
 
-      // Only decrement stock if not already done at checkout
+      // Only decrement stock if not already done at checkout (stock_reserved = true means already done)
       if (!order.stock_reserved && order.items?.length > 0) {
-        await decrementStock(order.items);
+        await decrementStock(order.items, order.order_number);
       } else {
-        console.log(`Order ${order.order_number}: stock already reserved — skipping decrement`);
+        console.log(`Order ${order.order_number}: stock already reserved at checkout — skipping webhook decrement`);
       }
 
       console.log(`✅ Order ${order.order_number} completed via webhook (tx: ${transactionId})`);

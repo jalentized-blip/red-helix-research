@@ -377,32 +377,24 @@ export default function CryptoCheckout() {
     }
   };
 
-  // ─── Reserve stock: decrement quantities for purchased items ───
-  const decrementStock = async (items) => {
+  // ─── Reserve stock: server-side atomic decrement ───
+  const decrementStock = async (items, orderNumber) => {
     try {
-      const products = await base44.entities.Product.list();
-      for (const item of items) {
-        const product = products.find(p => p.id === item.productId || p.name === item.productName);
-        if (product) {
-          const updatedSpecs = product.specifications.map(spec => {
-            if (spec.name === item.specification) {
-              return {
-                ...spec,
-                stock_quantity: Math.max(0, (spec.stock_quantity || 0) - item.quantity),
-                in_stock: (spec.stock_quantity || 0) - item.quantity > 0
-              };
-            }
-            return spec;
-          });
-          const allOutOfStock = updatedSpecs.every(spec => !spec.in_stock);
-          await base44.entities.Product.update(product.id, {
-            specifications: updatedSpecs,
-            in_stock: !allOutOfStock
-          });
-        }
+      const response = await base44.functions.invoke('decrementStock', {
+        action: 'decrement',
+        items: items.map(item => ({
+          productId: item.productId,
+          productName: item.productName,
+          specification: item.specification,
+          quantity: item.quantity,
+        })),
+        orderNumber: orderNumber || orderNumberRef.current,
+      });
+      if (!response?.data?.success) {
+        console.warn('[decrementStock] Server returned failure:', response?.data);
       }
     } catch (err) {
-      console.error('Failed to decrement stock:', err);
+      console.error('[decrementStock] Failed:', err);
     }
   };
 
@@ -739,10 +731,31 @@ export default function CryptoCheckout() {
     saveCheckoutSnapshot({ ...buildSnapshotPayload('cryptocurrency'), selectedCrypto: cryptoId }).catch(() => {});
   };
 
+  // Server-side stock check before any order creation
+  const serverStockCheck = async () => {
+    try {
+      const res = await base44.functions.invoke('validateOrder', {
+        action: 'check_stock',
+        items: cartItems.map(i => ({ productId: i.productId, productName: i.productName, specification: i.specification, quantity: i.quantity })),
+      });
+      if (!res?.data?.valid && res?.data?.outOfStock?.length > 0) {
+        alert(`The following items are no longer in stock and cannot be ordered:\n\n${res.data.outOfStock.join('\n')}\n\nPlease return to your cart and remove them.`);
+        return false;
+      }
+    } catch (err) {
+      console.warn('[serverStockCheck] Could not verify stock (non-blocking):', err);
+      // Non-blocking — don't prevent checkout if check fails
+    }
+    return true;
+  };
+
   const handleSubmitTx = async () => {
     const txId = transactionId.trim();
     if (!txId) return;
     if (pendingOrderCreated.current) return; // prevent double-submit
+    // Server-side stock check before creating order
+    const stockOk = await serverStockCheck();
+    if (!stockOk) return;
     setStep('confirm');
     // Save snapshot before any async work
     saveCheckoutSnapshot({ ...buildSnapshotPayload('cryptocurrency'), transactionId: txId }).catch(() => {});
@@ -1332,6 +1345,9 @@ export default function CryptoCheckout() {
                         disabled={!zelleAccountName.trim()}
                         onClick={async () => {
                         if (zelleOrderCreated) return; // prevent double-submit
+                        // Server-side stock check before creating order
+                        const stockOk = await serverStockCheck();
+                        if (!stockOk) return;
                         setZelleOrderCreated(true);
                         // Save snapshot before order creation (failsafe)
                         saveCheckoutSnapshot({ ...buildSnapshotPayload('zelle'), zelleAccountName, zelleConfirmationNumber }).catch(() => {});
@@ -1483,6 +1499,9 @@ export default function CryptoCheckout() {
                            }
                            setSquareError('');
                            setSquareSending(true);
+                           // Server-side stock check before creating order
+                           const squareStockOk = await serverStockCheck();
+                           if (!squareStockOk) { setSquareSending(false); return; }
                              // Save snapshot before attempting payment (failsafe)
                              saveCheckoutSnapshot({ ...buildSnapshotPayload('square_payment'), email: squareEmail.trim() }).catch(() => {});
                              try {

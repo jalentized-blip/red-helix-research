@@ -82,8 +82,18 @@ Deno.serve(async (req) => {
           if (!spec) {
             return Response.json({ error: `Specification not found: ${item.specification}` }, { status: 400 });
           }
-          if (spec.stock_quantity !== undefined && spec.stock_quantity < item.quantity) {
-            return Response.json({ error: `Insufficient stock for ${item.productName} - ${item.specification}` }, { status: 400 });
+          // Authoritative stock check — mirrors frontend isSpecInStock:
+          // out of stock if in_stock === false OR stock_quantity === 0
+          if (spec.in_stock === false || spec.stock_quantity === 0) {
+            return Response.json({ error: `Out of stock: ${item.productName} - ${item.specification}` }, { status: 409 });
+          }
+          // Quantity check: reject if tracked quantity is insufficient
+          if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {
+            return Response.json({ error: `Insufficient stock for ${item.productName} - ${item.specification} (${spec.stock_quantity} available)` }, { status: 409 });
+          }
+          // Hidden spec — reject
+          if (spec.hidden) {
+            return Response.json({ error: `Product not available: ${item.productName} - ${item.specification}` }, { status: 400 });
           }
           const serverPrice = spec.price;
           subtotal += serverPrice * item.quantity;
@@ -110,6 +120,28 @@ Deno.serve(async (req) => {
 
         const totalAmount = subtotal - discount + SHIPPING_COST;
         return Response.json({ valid: true, subtotal, discount, shipping: SHIPPING_COST, totalAmount, validatedItems, validatedPromo });
+      }
+
+      // Real-time stock check — called just before order submission
+      case 'check_stock': {
+        const { items: stockItems } = body;
+        if (!stockItems || !Array.isArray(stockItems) || stockItems.length === 0) {
+          return Response.json({ error: 'Missing items' }, { status: 400 });
+        }
+        const products = await base44.asServiceRole.entities.Product.list();
+        const outOfStock = [];
+        for (const item of stockItems) {
+          const product = products.find(p => p.name === item.productName || p.id === item.productId);
+          if (!product) continue; // give benefit of the doubt if product not found
+          const spec = product.specifications?.find(s => s.name === item.specification);
+          if (!spec) continue;
+          if (spec.in_stock === false || spec.stock_quantity === 0 || spec.hidden) {
+            outOfStock.push(`${item.productName} — ${item.specification}`);
+          } else if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {
+            outOfStock.push(`${item.productName} — ${item.specification} (only ${spec.stock_quantity} available)`);
+          }
+        }
+        return Response.json({ valid: outOfStock.length === 0, outOfStock });
       }
 
       default:

@@ -50,47 +50,21 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${expiredOrders.length} expired stock reservations`);
 
-    // Load products once
-    let products = [];
-    try {
-      products = await base44.asServiceRole.entities.Product.list();
-    } catch (err) {
-      return Response.json({ error: `Failed to load products: ${err.message}` }, { status: 500 });
-    }
-
     let released = 0;
     const results = [];
 
     for (const order of expiredOrders) {
       try {
-        // Restore stock for each item
-        if (order.items?.length > 0 && products.length > 0) {
-          for (const item of order.items) {
-            try {
-              const product = products.find(p =>
-                p.id === item.productId || p.id === item.product_id ||
-                p.name === (item.productName || item.product_name)
-              );
-              if (!product) continue;
-
-              const updatedSpecs = (product.specifications || []).map(spec => {
-                if (spec.name === item.specification) {
-                  const restored = (spec.stock_quantity || 0) + (item.quantity || 1);
-                  return { ...spec, stock_quantity: restored, in_stock: restored > 0 };
-                }
-                return spec;
-              });
-
-              // Update the in-memory product so subsequent items in this loop see updated qty
-              product.specifications = updatedSpecs;
-
-              await base44.asServiceRole.entities.Product.update(product.id, {
-                specifications: updatedSpecs,
-                in_stock: updatedSpecs.some(s => s.in_stock),
-              });
-            } catch (itemErr) {
-              console.warn(`Failed to restore stock for ${item.productName}:`, itemErr.message);
-            }
+        // Restore stock via dedicated backend function (keeps logic in one place)
+        if (order.items?.length > 0) {
+          try {
+            await base44.asServiceRole.functions.invoke('decrementStock', {
+              action: 'restore',
+              items: order.items,
+              orderNumber: order.order_number,
+            });
+          } catch (stockErr) {
+            console.warn(`Failed to restore stock for order ${order.order_number}:`, stockErr.message);
           }
         }
 
