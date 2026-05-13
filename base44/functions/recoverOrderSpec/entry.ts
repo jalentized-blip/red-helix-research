@@ -24,6 +24,33 @@ const isCorruptItems = (items) => {
   return items.some(it => !it || !it.productName || !it.specification);
 };
 
+// Defense against OrderSnapshot poisoning. saveCheckoutSnapshot accepts
+// unauthenticated calls, so an attacker can plant a snapshot row with any
+// order_number. We only trust a snapshot whose customer_email matches the
+// real Order's customer_email AND whose captured_at is at or before the
+// Order's created_date (with a 5-minute grace for clock skew). The newest
+// matching snapshot wins.
+const pickTrustedSnapshot = (snapshots, order) => {
+  if (!Array.isArray(snapshots) || snapshots.length === 0) return null;
+  if (!order) return null;
+  const orderEmail = (order.customer_email || '').toLowerCase().trim();
+  const orderCreated = order.created_date ? new Date(order.created_date).getTime() : null;
+  const trusted = snapshots.filter(s => {
+    const sEmail = (s.customer_email || '').toLowerCase().trim();
+    if (!sEmail || sEmail !== orderEmail) return false;
+    if (orderCreated && s.captured_at) {
+      const sTime = new Date(s.captured_at).getTime();
+      if (sTime > orderCreated + 5 * 60 * 1000) return false;
+    }
+    return true;
+  });
+  return trusted.sort((a, b) => {
+    const at = new Date(a.captured_at || a.created_date || 0).getTime();
+    const bt = new Date(b.captured_at || b.created_date || 0).getTime();
+    return bt - at;
+  })[0] || null;
+};
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -43,19 +70,17 @@ Deno.serve(async (req) => {
       const { order_number } = body;
       if (!order_number) return Response.json({ error: 'order_number required' }, { status: 400 });
 
-      const snapshots = await base44.asServiceRole.entities.OrderSnapshot.filter({ order_number });
-      const snapshot = (snapshots || []).sort((a, b) => {
-        const at = new Date(a.captured_at || a.created_date || 0).getTime();
-        const bt = new Date(b.captured_at || b.created_date || 0).getTime();
-        return bt - at;
-      })[0] || null;
-
-      const orders = await base44.asServiceRole.entities.Order.filter({ order_number });
+      const [snapshots, orders] = await Promise.all([
+        base44.asServiceRole.entities.OrderSnapshot.filter({ order_number }),
+        base44.asServiceRole.entities.Order.filter({ order_number }),
+      ]);
       const order = orders?.[0] || null;
+      const snapshot = pickTrustedSnapshot(snapshots, order);
 
       return Response.json({
         order_number,
         has_snapshot: !!snapshot,
+        untrusted_snapshot_count: (snapshots?.length || 0) - (snapshot ? 1 : 0),
         snapshot,
         order_items: order?.items || null,
         items_look_corrupt: order ? isCorruptItems(order.items) : null,
@@ -67,22 +92,24 @@ Deno.serve(async (req) => {
       if (!order_number) return Response.json({ error: 'order_number required' }, { status: 400 });
       if (confirm !== true) return Response.json({ error: 'Pass confirm: true to apply changes' }, { status: 400 });
 
-      const snapshots = await base44.asServiceRole.entities.OrderSnapshot.filter({ order_number });
-      const snapshot = (snapshots || []).sort((a, b) => {
-        const at = new Date(a.captured_at || a.created_date || 0).getTime();
-        const bt = new Date(b.captured_at || b.created_date || 0).getTime();
-        return bt - at;
-      })[0];
-      if (!snapshot) return Response.json({ error: 'No snapshot found for order' }, { status: 404 });
-
-      const orders = await base44.asServiceRole.entities.Order.filter({ order_number });
+      const [snapshots, orders] = await Promise.all([
+        base44.asServiceRole.entities.OrderSnapshot.filter({ order_number }),
+        base44.asServiceRole.entities.Order.filter({ order_number }),
+      ]);
       const order = orders?.[0];
       if (!order) return Response.json({ error: 'Order not found' }, { status: 404 });
+      const snapshot = pickTrustedSnapshot(snapshots, order);
+      if (!snapshot) {
+        return Response.json({
+          error: 'No trusted snapshot found for order — snapshot must match order customer_email and predate its creation',
+          untrusted_snapshot_count: snapshots?.length || 0,
+        }, { status: 404 });
+      }
 
       const before = order.items;
       await base44.asServiceRole.entities.Order.update(order.id, {
         items: snapshot.items,
-        admin_notes: (order.admin_notes ? order.admin_notes + ' | ' : '') + `Items repaired from OrderSnapshot at ${new Date().toISOString()} by ${user.email}`,
+        admin_notes: (order.admin_notes ? order.admin_notes + ' | ' : '') + `Items repaired from OrderSnapshot ${snapshot.id} at ${new Date().toISOString()} by ${user.email}`,
       });
 
       return Response.json({
@@ -90,6 +117,7 @@ Deno.serve(async (req) => {
         order_number,
         items_before: before,
         items_after: snapshot.items,
+        snapshot_id: snapshot.id,
       });
     }
 
@@ -100,25 +128,26 @@ Deno.serve(async (req) => {
         .filter(o => isCorruptItems(o.items))
         .slice(0, limit);
 
-      const orderNumbers = corrupted.map(o => o.order_number).filter(Boolean);
       const snapshots = await base44.asServiceRole.entities.OrderSnapshot.list();
-      const snapshotByOrder = new Map();
+      const snapshotsByOrder = new Map();
       for (const s of snapshots) {
         if (!s.order_number) continue;
-        const existing = snapshotByOrder.get(s.order_number);
-        const sTime = new Date(s.captured_at || s.created_date || 0).getTime();
-        const eTime = existing ? new Date(existing.captured_at || existing.created_date || 0).getTime() : -1;
-        if (sTime > eTime) snapshotByOrder.set(s.order_number, s);
+        if (!snapshotsByOrder.has(s.order_number)) snapshotsByOrder.set(s.order_number, []);
+        snapshotsByOrder.get(s.order_number).push(s);
       }
 
-      const report = corrupted.map(o => ({
-        order_number: o.order_number,
-        customer_email: o.customer_email,
-        total_amount: o.total_amount,
-        items_count: Array.isArray(o.items) ? o.items.length : 0,
-        has_snapshot: snapshotByOrder.has(o.order_number),
-        recoverable: snapshotByOrder.has(o.order_number),
-      }));
+      const report = corrupted.map(o => {
+        const orderSnapshots = snapshotsByOrder.get(o.order_number) || [];
+        const trusted = pickTrustedSnapshot(orderSnapshots, o);
+        return {
+          order_number: o.order_number,
+          customer_email: o.customer_email,
+          total_amount: o.total_amount,
+          items_count: Array.isArray(o.items) ? o.items.length : 0,
+          snapshot_count: orderSnapshots.length,
+          recoverable: !!trusted,
+        };
+      });
 
       return Response.json({
         scanned: allOrders.length,
