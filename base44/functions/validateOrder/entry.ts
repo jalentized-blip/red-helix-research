@@ -36,6 +36,17 @@ async function getAllPromoCodes(base44) {
   return codes;
 }
 
+async function lookupWelcomeDiscount(base44, codeUpper) {
+  try {
+    const records = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code: codeUpper });
+    if (!records || !Array.isArray(records)) return null;
+    const now = new Date();
+    return records.find(record => !record.used && (!record.expires_at || new Date(record.expires_at) > now)) || null;
+  } catch {
+    return null;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -55,6 +66,10 @@ Deno.serve(async (req) => {
         const allCodes = await getAllPromoCodes(base44);
         const promo = allCodes[code];
         if (!promo) {
+          const welcomeDiscount = await lookupWelcomeDiscount(base44, code);
+          if (welcomeDiscount) {
+            return Response.json({ valid: true, discount: 0.10, label: '10% off welcome discount', singleVialsOnly: true, isWelcome: true });
+          }
           return Response.json({ valid: false, error: 'Invalid promo code' });
         }
         return Response.json({ valid: true, discount: promo.discount, label: promo.label });
@@ -107,19 +122,53 @@ Deno.serve(async (req) => {
         }
 
         let discount = 0;
+        let discountNote = null;
         let validatedPromo = null;
+        let welcomeDiscountId = null;
         if (promoCode) {
           const code = promoCode.toUpperCase().trim();
           const allCodes = await getAllPromoCodes(base44);
-          const promo = allCodes[code];
+          let promo = allCodes[code];
+          if (!promo) {
+            const welcomeDiscount = await lookupWelcomeDiscount(base44, code);
+            if (welcomeDiscount) {
+              promo = { discount: 0.10, singleVialsOnly: true, isWelcome: true };
+              welcomeDiscountId = welcomeDiscount.id;
+            }
+          }
           if (promo) {
-            discount = subtotal * promo.discount;
+            if (promo.singleVialsOnly) {
+              const singleVialSubtotal = validatedItems.reduce((sum, item) => {
+                const specification = item.specification.toLowerCase();
+                const productName = item.product_name.toLowerCase();
+                if (specification.includes('10 vial') || specification.includes('kit') || productName.includes('kit') || productName.includes('bundle')) {
+                  return sum;
+                }
+                return sum + item.price * item.quantity;
+              }, 0);
+              discount = singleVialSubtotal * promo.discount;
+              if (singleVialSubtotal === 0) {
+                discountNote = 'Promo applies to single vials only — no qualifying items in cart';
+              }
+            } else {
+              discount = subtotal * promo.discount;
+            }
             validatedPromo = code;
           }
         }
 
         const totalAmount = subtotal - discount + SHIPPING_COST;
-        return Response.json({ valid: true, subtotal, discount, shipping: SHIPPING_COST, totalAmount, validatedItems, validatedPromo });
+        return Response.json({
+          valid: true,
+          subtotal,
+          discount,
+          shipping: SHIPPING_COST,
+          totalAmount,
+          validatedItems,
+          validatedPromo,
+          ...(discountNote ? { discountNote } : {}),
+          ...(welcomeDiscountId ? { welcomeDiscountId } : {}),
+        });
       }
 
       // Real-time stock check — called just before order submission
@@ -142,6 +191,22 @@ Deno.serve(async (req) => {
           }
         }
         return Response.json({ valid: outOfStock.length === 0, outOfStock });
+      }
+
+      case 'mark_promo_used': {
+        const code = (body.code || '').toUpperCase().trim();
+        const { orderNumber } = body;
+        if (!code || code.length > 30) {
+          return Response.json({ success: true, marked: false });
+        }
+        const records = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code });
+        const record = records && Array.isArray(records) ? records[0] : null;
+        let marked = false;
+        if (record && !record.used) {
+          await base44.asServiceRole.entities.WelcomeDiscount.update(record.id, { used: true, used_on_order: orderNumber });
+          marked = true;
+        }
+        return Response.json({ success: true, marked });
       }
 
       default:
