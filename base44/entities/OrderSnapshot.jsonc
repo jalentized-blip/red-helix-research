@@ -7,61 +7,94 @@
       "description": "Order number this snapshot belongs to"
     },
     "customer_email": {
-      "type": "string"
+      "type": "string",
+      "description": "Customer email address"
     },
     "customer_name": {
-      "type": "string"
+      "type": "string",
+      "description": "Customer full name"
     },
     "customer_phone": {
-      "type": "string"
+      "type": "string",
+      "description": "Customer phone number"
     },
     "items": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "productId": { "type": "string" },
-          "productName": { "type": "string" },
-          "specification": { "type": "string" },
-          "quantity": { "type": "number" },
-          "price": { "type": "number" }
+          "productId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "specification": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          }
         }
       },
-      "description": "Authoritative item list captured at checkout start — used to recover order specs if the live Order's items get corrupted later"
+      "description": "Ordered items at time of checkout capture"
     },
     "subtotal": {
-      "type": "number"
+      "type": "number",
+      "description": "Order subtotal before discounts and shipping"
     },
     "discount_amount": {
-      "type": "number"
+      "type": "number",
+      "description": "Discount amount applied at checkout"
     },
     "shipping_cost": {
-      "type": "number"
+      "type": "number",
+      "description": "Shipping cost at time of capture"
     },
     "total_amount": {
-      "type": "number"
+      "type": "number",
+      "description": "Total order amount including discounts and shipping"
     },
     "promo_code": {
-      "type": "string"
+      "type": "string",
+      "description": "Promo or affiliate code applied"
     },
     "shipping_address": {
       "type": "object",
       "properties": {
-        "address": { "type": "string" },
-        "city": { "type": "string" },
-        "state": { "type": "string" },
-        "zip": { "type": "string" },
-        "country": { "type": "string" }
-      }
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      },
+      "description": "Shipping address at time of capture"
     },
     "payment_method": {
-      "type": "string"
+      "type": "string",
+      "description": "Payment method selected (cryptocurrency, square_payment, zelle, etc.)"
     },
     "captured_at": {
       "type": "string",
       "format": "date-time",
-      "description": "When this snapshot was captured (checkout-start time)"
+      "description": "ISO timestamp when this snapshot was captured"
     }
   },
-  "required": ["order_number", "items"]
+  "required": [
+    "order_number",
+    "items"
+  ]
 }
