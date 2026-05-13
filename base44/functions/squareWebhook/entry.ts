@@ -175,7 +175,7 @@ Deno.serve(async (req) => {
         const res = await fetch(`https://connect.squareup.com/v2/orders/${squareOrderId}`, {
           headers: {
             'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
-            'Square-Version': '2024-01-18',
+            'Square-Version': '2026-01-22',
             'Content-Type': 'application/json',
           },
         });

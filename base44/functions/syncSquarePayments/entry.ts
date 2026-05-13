@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
     if (!locationId) {
       try {
         const locRes = await fetch('https://connect.squareup.com/v2/locations', {
-          headers: { 'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2024-01-18' },
+          headers: { 'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2026-01-22' },
         });
         const locData = await locRes.json();
         locationId = locData.locations?.[0]?.id;
@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
       if (!squareOrderId) return null;
       try {
         const res = await fetch(`https://connect.squareup.com/v2/orders/${squareOrderId}`, {
-          headers: { 'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2024-01-18' },
+          headers: { 'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2026-01-22' },
         });
         if (!res.ok) return null;
         const data = await res.json();
@@ -117,7 +117,7 @@ Deno.serve(async (req) => {
           headers: {
             'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
             'Content-Type': 'application/json',
-            'Square-Version': '2024-01-18',
+            'Square-Version': '2026-01-22',
           },
           body: JSON.stringify({
             location_ids: [locationId],
@@ -130,6 +130,12 @@ Deno.serve(async (req) => {
                   },
                 },
               },
+              // Required: sort_field MUST match the date_time_filter field, or
+              // Square returns an error (it defaults to CREATED_AT otherwise).
+              // Without this, the try/catch below was silently swallowing the
+              // error and returning null on every call — STEP 2 fallback in
+              // the order loop never actually matched anything.
+              sort: { sort_field: 'UPDATED_AT', sort_order: 'DESC' },
             },
             limit: 200,
           }),
