@@ -95,15 +95,34 @@ Deno.serve(async (req) => {
 
           // Re-fetch the FRESH product immediately before mutating so concurrent
           // admin price/spec edits aren't clobbered by the stale snapshot from
-          // the initial .list() call. Specifications is a single nested field —
-          // any field touched by admin between .list() and this write would be
-          // silently overwritten without a re-fetch.
+          // the initial .list() call. We MUST NOT fall back to cached on fetch
+          // failure — writing the full specifications array from stale data is
+          // exactly the clobber bug this commit prevents.
           let product;
           try {
             product = await base44.asServiceRole.entities.Product.get(cachedProduct.id);
           } catch (fetchErr) {
-            console.warn(`[decrementStock] Re-fetch failed for ${cachedProduct.name}, using cached snapshot:`, fetchErr.message);
-            product = cachedProduct;
+            console.error(`[decrementStock] Re-fetch failed for ${cachedProduct.name} — skipping write to avoid stale-data clobber:`, fetchErr.message);
+            errors.push(`${item.productName}: re-fetch failed, write skipped to protect price data`);
+            continue;
+          }
+
+          // Re-check stock against the FRESH product. Between the initial
+          // pre-flight and this re-fetch, another concurrent decrement may have
+          // depleted inventory below the requested quantity.
+          const freshSpec = (product.specifications || []).find(s => s.name === item.specification);
+          if (!freshSpec) {
+            skipped.push(`${item.productName} (${item.specification}) — spec disappeared between pre-flight and write`);
+            continue;
+          }
+          const freshIsTracked = freshSpec.stock_quantity !== undefined && freshSpec.stock_quantity !== null && freshSpec.stock_quantity !== -1;
+          if (freshSpec.in_stock === false) {
+            skipped.push(`${item.productName} (${item.specification}) — went out of stock between pre-flight and write`);
+            continue;
+          }
+          if (freshIsTracked && freshSpec.stock_quantity < (item.quantity || 1)) {
+            skipped.push(`${item.productName} (${item.specification}) — only ${freshSpec.stock_quantity} left at write time (requested ${item.quantity})`);
+            continue;
           }
 
           const updatedSpecs = (product.specifications || []).map(spec => {
@@ -159,8 +178,9 @@ Deno.serve(async (req) => {
           try {
             product = await base44.asServiceRole.entities.Product.get(cachedProduct.id);
           } catch (fetchErr) {
-            console.warn(`[decrementStock restore] Re-fetch failed for ${cachedProduct.name}, using cached snapshot:`, fetchErr.message);
-            product = cachedProduct;
+            console.error(`[decrementStock restore] Re-fetch failed for ${cachedProduct.name} — skipping write to avoid stale-data clobber:`, fetchErr.message);
+            errors.push(`${item.productName}: re-fetch failed during restore, write skipped`);
+            continue;
           }
 
           const updatedSpecs = (product.specifications || []).map(spec => {
