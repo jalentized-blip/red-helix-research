@@ -84,18 +84,30 @@ Deno.serve(async (req) => {
       // All items passed pre-flight — now decrement
       for (const item of items) {
         try {
-          const product = products.find(p =>
+          const cachedProduct = products.find(p =>
             p.id === item.productId || p.id === item.product_id ||
             p.name === (item.productName || item.product_name)
           );
-          if (!product) {
+          if (!cachedProduct) {
             skipped.push(`${item.productName || item.product_name} — not found`);
             continue;
           }
 
+          // Re-fetch the FRESH product immediately before mutating so concurrent
+          // admin price/spec edits aren't clobbered by the stale snapshot from
+          // the initial .list() call. Specifications is a single nested field —
+          // any field touched by admin between .list() and this write would be
+          // silently overwritten without a re-fetch.
+          let product;
+          try {
+            product = await base44.asServiceRole.entities.Product.get(cachedProduct.id);
+          } catch (fetchErr) {
+            console.warn(`[decrementStock] Re-fetch failed for ${cachedProduct.name}, using cached snapshot:`, fetchErr.message);
+            product = cachedProduct;
+          }
+
           const updatedSpecs = (product.specifications || []).map(spec => {
             if (spec.name === item.specification) {
-              // Only decrement if tracked (not unlimited / -1)
               const isTracked = spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1;
               const newQty = isTracked
                 ? Math.max(0, spec.stock_quantity - (item.quantity || 1))
@@ -115,8 +127,7 @@ Deno.serve(async (req) => {
             in_stock: !allOut,
           });
 
-          // Update in-memory product for subsequent items
-          product.specifications = updatedSpecs;
+          cachedProduct.specifications = updatedSpecs;
           decremented.push(`${item.productName} — ${item.specification}`);
           console.log(`[decrementStock] Decremented ${item.quantity}x ${item.productName} (${item.specification}) for order ${orderNumber || 'unknown'}`);
         } catch (err) {
@@ -135,13 +146,21 @@ Deno.serve(async (req) => {
 
       for (const item of items) {
         try {
-          const product = products.find(p =>
+          const cachedProduct = products.find(p =>
             p.id === item.productId || p.id === item.product_id ||
             p.name === (item.productName || item.product_name)
           );
-          if (!product) {
+          if (!cachedProduct) {
             console.warn(`[decrementStock restore] Product not found: ${item.productName}`);
             continue;
+          }
+
+          let product;
+          try {
+            product = await base44.asServiceRole.entities.Product.get(cachedProduct.id);
+          } catch (fetchErr) {
+            console.warn(`[decrementStock restore] Re-fetch failed for ${cachedProduct.name}, using cached snapshot:`, fetchErr.message);
+            product = cachedProduct;
           }
 
           const updatedSpecs = (product.specifications || []).map(spec => {
@@ -154,8 +173,7 @@ Deno.serve(async (req) => {
             return spec;
           });
 
-          // Update in-memory product
-          product.specifications = updatedSpecs;
+          cachedProduct.specifications = updatedSpecs;
           await base44.asServiceRole.entities.Product.update(product.id, {
             specifications: updatedSpecs,
             in_stock: updatedSpecs.some(s => s.in_stock),
