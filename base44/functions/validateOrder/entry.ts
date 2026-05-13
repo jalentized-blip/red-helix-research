@@ -89,7 +89,11 @@ Deno.serve(async (req) => {
           if (!item.productName || !item.specification || !item.quantity || item.quantity < 1) {
             return Response.json({ error: `Invalid item: ${item.productName}` }, { status: 400 });
           }
-          const product = products.find(p => p.name === item.productName);
+          // Look up by productId FIRST so a stale cart productName (after an
+          // admin rename) still resolves to the current product. Falls back to
+          // name match for older cart data without productId.
+          const product = (item.productId && products.find(p => p.id === item.productId))
+            || products.find(p => p.name === item.productName);
           if (!product) {
             return Response.json({ error: `Product not found: ${item.productName}` }, { status: 400 });
           }
