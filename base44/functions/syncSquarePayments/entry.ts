@@ -70,42 +70,20 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${awaitingOrders.length} awaiting Square orders`);
 
-    // ── Load products once for stock decrement ───────────────────
-    let products = [];
-    try {
-      products = await base44.asServiceRole.entities.Product.list();
-    } catch (err) {
-      console.warn('Failed to load products — stock decrement will be skipped:', err.message);
-    }
-
-    // ── Helper: decrement stock (idempotent per order) ───────────
-    const decrementStock = async (items) => {
-      if (!products.length || !items?.length) return;
-      for (const item of items) {
-        try {
-          const product = products.find(p =>
-            p.id === item.productId || p.id === item.product_id ||
-            p.name === (item.productName || item.product_name)
-          );
-          if (!product) {
-            console.warn(`Product not found for item: ${item.productName}`);
-            continue;
-          }
-          const updatedSpecs = (product.specifications || []).map(spec => {
-            if (spec.name === item.specification) {
-              const newQty = Math.max(0, (spec.stock_quantity || 0) - (item.quantity || 1));
-              return { ...spec, stock_quantity: newQty, in_stock: newQty > 0 };
-            }
-            return spec;
-          });
-          const allOut = updatedSpecs.length > 0 && updatedSpecs.every(s => !s.in_stock);
-          await base44.asServiceRole.entities.Product.update(product.id, {
-            specifications: updatedSpecs,
-            in_stock: !allOut,
-          });
-        } catch (err) {
-          console.warn(`Stock decrement failed for ${item.productName}:`, err.message);
-        }
+    // Route stock changes through the canonical decrementStock function. Two
+    // paths writing the specifications array let concurrent admin price edits
+    // get clobbered (read-modify-write race), and the inline copy had drifted
+    // from the canonical pre-flight check.
+    const decrementStock = async (items, orderNumber) => {
+      if (!items?.length) return;
+      try {
+        await base44.asServiceRole.functions.invoke('decrementStock', {
+          action: 'decrement',
+          items,
+          orderNumber,
+        });
+      } catch (err) {
+        console.warn(`Stock decrement failed for order ${orderNumber}:`, err.message);
       }
     };
 
@@ -229,7 +207,7 @@ Deno.serve(async (req) => {
 
           // ── Decrement stock only if not already reserved at checkout ──
           if (order.items?.length > 0 && !order.stock_reserved) {
-            await decrementStock(order.items);
+            await decrementStock(order.items, order.order_number);
           } else {
             console.log(`Order ${order.order_number} already had stock reserved at checkout — skipping decrement`);
           }
