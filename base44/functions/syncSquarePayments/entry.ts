@@ -160,10 +160,9 @@ Deno.serve(async (req) => {
       }
     };
 
-    // ── Helper: search Square Payments API by email or amount ───
-    const searchSquarePaymentsByEmailOrAmount = async (customerEmail, amountCents) => {
+    // ── Helper: search Square Payments API by name + amount + address ───
+    const searchSquarePaymentsByEmailOrAmount = async (customerEmail, amountCents, customerName, shippingAddress) => {
       try {
-        // Search recent payments (last 30 days)
         const beginTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
         const res = await fetch('https://connect.squareup.com/v2/payments?limit=100&begin_time=' + encodeURIComponent(beginTime), {
           headers: {
@@ -174,34 +173,72 @@ Deno.serve(async (req) => {
         if (!res.ok) return null;
         const data = await res.json();
         const payments = data.payments || [];
-
-        // Filter to COMPLETED payments only
         const completed = payments.filter(p => p.status === 'COMPLETED');
 
-        // 1. Match by customer email + exact amount (most reliable)
+        // Normalize helpers
+        const normName = (n) => (n || '').toLowerCase().trim();
+        const normZip = (z) => (z || '').replace(/\s/g, '').toLowerCase();
+        const normAddr = (a) => (a || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        const orderZip = normZip(shippingAddress?.zip);
+        const orderAddr = normAddr(shippingAddress?.address);
+        const orderNameParts = normName(customerName).split(' ').filter(Boolean);
+
+        const nameMatch = (p) => {
+          const sqName = normName(
+            p.shipping_address?.first_name + ' ' + p.shipping_address?.last_name ||
+            p.buyer_email_address || ''
+          );
+          return orderNameParts.length > 0 && orderNameParts.every(part => sqName.includes(part));
+        };
+
+        const addrMatch = (p) => {
+          if (!orderZip && !orderAddr) return false;
+          const sqZip = normZip(p.shipping_address?.postal_code);
+          const sqAddr = normAddr(p.shipping_address?.address_line_1);
+          const zipOk = orderZip ? sqZip === orderZip : true;
+          const addrOk = orderAddr ? sqAddr.includes(orderAddr.slice(0, 8)) : true;
+          return zipOk && addrOk;
+        };
+
+        // 1. Email + amount + name + address (strongest)
         if (customerEmail && amountCents) {
-          const byEmailAndAmount = completed.find(p =>
+          const match = completed.find(p =>
+            p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase() &&
+            p.amount_money?.amount === amountCents &&
+            nameMatch(p) &&
+            addrMatch(p)
+          );
+          if (match) {
+            console.log(`Payment API full match (email+amount+name+addr) for ${customerEmail}: payment ${match.id}`);
+            return match;
+          }
+        }
+
+        // 2. Email + amount (no address available)
+        if (customerEmail && amountCents) {
+          const match = completed.find(p =>
             p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase() &&
             p.amount_money?.amount === amountCents
           );
-          if (byEmailAndAmount) {
-            console.log(`Payment API email+amount match for ${customerEmail}: payment ${byEmailAndAmount.id}`);
-            return byEmailAndAmount;
+          if (match) {
+            console.log(`Payment API email+amount match for ${customerEmail}: payment ${match.id}`);
+            return match;
           }
         }
 
-        // 2. Email-only match — only if exactly one payment for this email exists
-        if (customerEmail) {
-          const byEmailOnly = completed.filter(p =>
-            p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase()
+        // 3. Name + amount + address (no email on Square side)
+        if (customerName && amountCents && (orderZip || orderAddr)) {
+          const match = completed.find(p =>
+            p.amount_money?.amount === amountCents &&
+            nameMatch(p) &&
+            addrMatch(p)
           );
-          if (byEmailOnly.length === 1) {
-            console.log(`Payment API email-only match for ${customerEmail}: payment ${byEmailOnly[0].id}`);
-            return byEmailOnly[0];
+          if (match) {
+            console.log(`Payment API name+amount+addr match for ${customerName}: payment ${match.id}`);
+            return match;
           }
         }
-
-        // NOTE: Amount-only matching removed — too risky (false positives)
 
         return null;
       } catch (err) {
@@ -248,7 +285,7 @@ Deno.serve(async (req) => {
         // ── STEP 4: Fallback — search Payments API by customer email/amount ──
         let matchedPayment = null;
         if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          matchedPayment = await searchSquarePaymentsByEmailOrAmount(order.customer_email, amountCents);
+          matchedPayment = await searchSquarePaymentsByEmailOrAmount(order.customer_email, amountCents, order.customer_name, order.shipping_address);
         }
 
         const isCompleted = (squareOrder && squareOrder.state === 'COMPLETED') || matchedPayment;
