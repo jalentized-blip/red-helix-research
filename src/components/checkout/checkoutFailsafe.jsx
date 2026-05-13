@@ -91,6 +91,15 @@ export const createOrderWithRetry = async (orderPayload) => {
     try {
       const order = await base44.entities.Order.create(orderPayload);
       markSnapshotComplete(orderPayload.order_number);
+      // Mark a single-use welcome promo as consumed. Server is idempotent and
+      // is a no-op for non-WelcomeDiscount codes, so safe to fire unconditionally.
+      if (orderPayload.promo_code) {
+        base44.functions.invoke('validateOrder', {
+          action: 'mark_promo_used',
+          code: orderPayload.promo_code,
+          orderNumber: orderPayload.order_number,
+        }).catch(e => console.warn('[FAILSAFE] mark_promo_used failed (non-blocking):', e));
+      }
       return order;
     } catch (err) {
       lastError = err;
