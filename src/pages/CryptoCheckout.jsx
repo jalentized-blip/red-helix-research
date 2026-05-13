@@ -1606,6 +1606,16 @@ export default function CryptoCheckout() {
                                }
                                const checkoutUrl = fnData.checkoutUrl;
 
+                              // Prefer server-validated amounts (createSquareCheckout/index.ts
+                              // returns serverSubtotal/serverDiscount/serverShipping/serverTotal).
+                              // Falls back to local computation if absent.
+                              const orderSubtotal = typeof fnData.serverSubtotal === 'number' ? fnData.serverSubtotal : subtotal;
+                              const orderDiscount = typeof fnData.serverDiscount === 'number' ? fnData.serverDiscount : discount;
+                              const orderShipping = typeof fnData.serverShipping === 'number' ? fnData.serverShipping : SHIPPING_COST;
+                              const orderTotalUSD = typeof fnData.serverTotal === 'number'
+                                ? fnData.serverTotal + squareProcessingFee
+                                : subtotalAfterDiscount + SHIPPING_COST + squareProcessingFee;
+
                               // 2. Create order record with Square payment link evidence
                               try {
                                 const squareAffiliateInfo = await resolveAffiliateInfo();
@@ -1621,10 +1631,10 @@ export default function CryptoCheckout() {
                                    quantity: item.quantity,
                                    price: item.price,
                                   })),
-                                  subtotal: subtotal,
-                                  discount_amount: discount,
-                                  shipping_cost: SHIPPING_COST,
-                                  total_amount: subtotalAfterDiscount + SHIPPING_COST + squareProcessingFee,
+                                  subtotal: orderSubtotal,
+                                  discount_amount: orderDiscount,
+                                  shipping_cost: orderShipping,
+                                  total_amount: orderTotalUSD,
                                   promo_code: promoCode || null,
                                   payment_method: 'square_payment',
                                   payment_status: 'pending',
