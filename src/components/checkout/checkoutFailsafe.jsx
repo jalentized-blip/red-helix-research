@@ -72,6 +72,45 @@ export const clearCheckoutSnapshot = () => {
  * Falls back to sending an emergency admin email with full order details
  * if all retries are exhausted.
  */
+// Re-fetch authoritative product names + specs from the Product DB so the
+// Order entity always reflects the *current* catalog at order time. This
+// fixes the "order shows wrong product info" class of bugs where a cart
+// item carried a stale productName/specification after an admin rename
+// (validateOrder looks up by productId now too, so renamed products resolve).
+const refreshOrderItems = async (orderPayload) => {
+  if (!Array.isArray(orderPayload.items) || orderPayload.items.length === 0) return null;
+  try {
+    const res = await base44.functions.invoke('validateOrder', {
+      action: 'validate_order',
+      items: orderPayload.items,
+      promoCode: orderPayload.promo_code,
+    });
+    const data = res?.data || res;
+    if (!data?.valid || !Array.isArray(data.validatedItems) || data.validatedItems.length !== orderPayload.items.length) {
+      return null;
+    }
+    const refreshed = data.validatedItems.map(it => ({
+      productId: it.product_id,
+      productName: it.product_name,
+      specification: it.specification,
+      quantity: it.quantity,
+      price: it.price,
+    }));
+    const drifted = [];
+    for (let i = 0; i < orderPayload.items.length; i++) {
+      const orig = orderPayload.items[i] || {};
+      const refr = refreshed[i] || {};
+      if (orig.productName !== refr.productName || orig.specification !== refr.specification) {
+        drifted.push(`${orig.productName} (${orig.specification}) -> ${refr.productName} (${refr.specification})`);
+      }
+    }
+    return { items: refreshed, drifted };
+  } catch (err) {
+    console.warn('[FAILSAFE] refreshOrderItems failed (using cart items as-is):', err);
+    return null;
+  }
+};
+
 // Fire mark_promo_used with a small retry so a transient blip doesn't leave
 // a single-use welcome code reusable. Server side is idempotent.
 const markPromoUsedWithRetry = async (promoCode, orderNumber) => {
@@ -97,6 +136,18 @@ const markPromoUsedWithRetry = async (promoCode, orderNumber) => {
 
 export const createOrderWithRetry = async (orderPayload) => {
   let lastError = null;
+
+  // Refresh items from current Product DB so admin views match the live
+  // catalog. If the cart had stale names from a pre-rename add, this
+  // overwrites them with current DB values. On any failure, keep cart items.
+  const refreshed = await refreshOrderItems(orderPayload);
+  if (refreshed) {
+    orderPayload.items = refreshed.items;
+    if (refreshed.drifted.length > 0) {
+      orderPayload.admin_notes = (orderPayload.admin_notes ? orderPayload.admin_notes + ' | ' : '') +
+        `Items refreshed from current Product DB at order time: ${refreshed.drifted.join('; ')}`;
+    }
+  }
 
   // Deduplication check: if an order with this number already exists, don't create another
   try {
