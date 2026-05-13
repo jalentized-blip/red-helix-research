@@ -13,7 +13,6 @@ Deno.serve(async (req) => {
 
     const now = new Date();
     const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
-    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
     // Never DELETE square_payment orders here — Square retries webhook delivery
     // for up to 24h and out-of-band confirmations can arrive even later. Deleting

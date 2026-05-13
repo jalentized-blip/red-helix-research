@@ -1,3 +1,7 @@
+// ⚠ DEPRECATED — this file is NOT the deployed entrypoint for createSquareCheckout.
+//   function.jsonc deploys index.ts. Any edits here are dead code.
+//   Make changes in index.ts instead. This file is retained only to avoid
+//   churning history during refactors; do not extend it.
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 
 const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');

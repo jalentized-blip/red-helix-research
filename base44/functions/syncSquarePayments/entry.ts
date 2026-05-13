@@ -75,15 +75,21 @@ Deno.serve(async (req) => {
     // get clobbered (read-modify-write race), and the inline copy had drifted
     // from the canonical pre-flight check.
     const decrementStock = async (items, orderNumber) => {
-      if (!items?.length) return;
+      if (!items?.length) return { ok: true };
       try {
-        await base44.asServiceRole.functions.invoke('decrementStock', {
+        const res = await base44.asServiceRole.functions.invoke('decrementStock', {
           action: 'decrement',
           items,
           orderNumber,
         });
+        const data = res?.data || res;
+        if (data && data.success === false) {
+          return { ok: false, reason: data.error || 'decrement failed', outOfStock: data.outOfStock || [] };
+        }
+        return { ok: true, skipped: data?.skipped || [], errors: data?.errors || [] };
       } catch (err) {
         console.warn(`Stock decrement failed for order ${orderNumber}:`, err.message);
+        return { ok: false, reason: err.message };
       }
     };
 
@@ -206,8 +212,30 @@ Deno.serve(async (req) => {
           }
 
           // ── Decrement stock only if not already reserved at checkout ──
+          // Payment is already confirmed; if decrement fails we can't reverse
+          // the completion, but we MUST annotate the order so admin knows to
+          // fulfill manually or refund.
           if (order.items?.length > 0 && !order.stock_reserved) {
-            await decrementStock(order.items, order.order_number);
+            const stockResult = await decrementStock(order.items, order.order_number);
+            if (!stockResult.ok || (stockResult.errors && stockResult.errors.length > 0)) {
+              const reason = stockResult.reason || (stockResult.errors || []).join('; ');
+              const oos = stockResult.outOfStock ? ` Out of stock: ${stockResult.outOfStock.join(', ')}.` : '';
+              try {
+                await base44.asServiceRole.entities.Order.update(order.id, {
+                  admin_notes: `${order.admin_notes ? order.admin_notes + ' | ' : ''}STOCK SYNC FAILED at ${new Date().toISOString()}: ${reason}.${oos} Admin must manually fulfill or refund.`,
+                });
+              } catch (noteErr) {
+                console.error(`Failed to annotate stock failure on order ${order.order_number}:`, noteErr.message);
+              }
+              try {
+                await base44.asServiceRole.integrations.Core.SendEmail({
+                  to: 'jake@redhelixresearch.com',
+                  from_name: 'Red Helix Research Orders',
+                  subject: `⚠ Stock decrement FAILED — Order #${order.order_number} — paid but inventory not updated`,
+                  body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;"><h2 style="color:#d97706;">Stock Sync Failed</h2><p>Order <strong>#${order.order_number}</strong> was paid via Square but stock could not be decremented:</p><pre style="background:#f8fafc;padding:10px;border-radius:6px;">${reason}${oos}</pre><p>Admin must fulfill manually or refund. <a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;">View order</a></p></div>`,
+                });
+              } catch {}
+            }
           } else {
             console.log(`Order ${order.order_number} already had stock reserved at checkout — skipping decrement`);
           }
