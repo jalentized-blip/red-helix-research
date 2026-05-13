@@ -244,6 +244,35 @@ Deno.serve(async (req) => {
       return true;
     };
 
+    // ── Helper: amount check with drift acceptance on exact-ID match ─────────────
+    // When the order's stored square_order_id or transaction_id is the SAME id
+    // Square is sending this event for, Square is unambiguously telling us this
+    // payment belongs to this order — an amount difference then means the
+    // customer paid an older Square checkout link that was generated before
+    // they modified their cart. Accept the payment but record the drift in
+    // admin_notes so the admin can verify the item set before fulfilling.
+    // Reject only when the match is fuzzy (reference_id / order_number) since
+    // those CAN collide across regenerated checkouts.
+    const validateAmountOrDrift = (order, squareOrderObj, eventSquareOrderId, eventPaymentId) => {
+      if (validateAmount(order, squareOrderObj)) return { status: 'ok' };
+      const exactMatch = (
+        (!!order.square_order_id && order.square_order_id === eventSquareOrderId)
+        || (!!order.transaction_id && (order.transaction_id === eventPaymentId || order.transaction_id === eventSquareOrderId))
+      );
+      const ourAmt = Number(order.total_amount || 0).toFixed(2);
+      const sqAmt = ((squareOrderObj.total_money?.amount || 0) / 100).toFixed(2);
+      if (exactMatch) {
+        return {
+          status: 'drift_accept',
+          note: `Amount drift accepted on exact Square ID match: our total $${ourAmt}, Square total $${sqAmt}. Customer likely paid an earlier Square checkout link before modifying cart — verify item set before fulfilling.`,
+        };
+      }
+      return {
+        status: 'reject',
+        note: `Amount mismatch on fuzzy match: our $${ourAmt}, Square $${sqAmt}`,
+      };
+    };
+
     // ── Helper: decrement stock via the dedicated backend function ───────────────
     const decrementStock = async (items, orderNumber) => {
       if (!items?.length) return;
@@ -429,17 +458,29 @@ Deno.serve(async (req) => {
 
       if (paymentStatus === 'COMPLETED') {
         if (ourOrder) {
-          if (squareOrder && !validateAmount(ourOrder, squareOrder)) {
-            await flagOrderForReview(ourOrder, `Amount mismatch: our total $${ourOrder.total_amount}, Square total ${squareOrder.total_money?.amount}¢`);
-            return Response.json({ received: true });
+          if (squareOrder) {
+            const v = validateAmountOrDrift(ourOrder, squareOrder, squareOrderId, paymentId);
+            if (v.status === 'reject') {
+              await flagOrderForReview(ourOrder, v.note);
+              return Response.json({ received: true });
+            }
+            if (v.status === 'drift_accept') {
+              await flagOrderForReview(ourOrder, v.note);
+            }
           }
           await completeOrder(ourOrder, paymentId, squareOrderId);
         } else {
           const rescuable = findOurOrder(abandoned, { squareOrderIds: [squareOrderId], paymentIds: [paymentId], referenceId });
           if (rescuable) {
-            if (squareOrder && !validateAmount(rescuable, squareOrder)) {
-              await flagOrderForReview(rescuable, `Amount mismatch on rescue: our $${rescuable.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
-              return Response.json({ received: true });
+            if (squareOrder) {
+              const v = validateAmountOrDrift(rescuable, squareOrder, squareOrderId, paymentId);
+              if (v.status === 'reject') {
+                await flagOrderForReview(rescuable, v.note);
+                return Response.json({ received: true });
+              }
+              if (v.status === 'drift_accept') {
+                await flagOrderForReview(rescuable, v.note);
+              }
             }
             await rescueOrder(rescuable, paymentId, squareOrderId);
           } else {
@@ -481,9 +522,15 @@ Deno.serve(async (req) => {
 
       const ourOrder = findOurOrder(pending, { squareOrderIds: [squareOrderId], referenceId });
       if (ourOrder) {
-        if (squareOrder && !validateAmount(ourOrder, squareOrder)) {
-          await flagOrderForReview(ourOrder, `order.updated amount mismatch: our $${ourOrder.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
-          return Response.json({ received: true });
+        if (squareOrder) {
+          const v = validateAmountOrDrift(ourOrder, squareOrder, squareOrderId, squareOrderId);
+          if (v.status === 'reject') {
+            await flagOrderForReview(ourOrder, `order.updated: ${v.note}`);
+            return Response.json({ received: true });
+          }
+          if (v.status === 'drift_accept') {
+            await flagOrderForReview(ourOrder, `order.updated: ${v.note}`);
+          }
         }
         await completeOrder(ourOrder, squareOrderId, squareOrderId);
         return Response.json({ received: true });
@@ -491,9 +538,15 @@ Deno.serve(async (req) => {
 
       const rescuable = findOurOrder(abandoned, { squareOrderIds: [squareOrderId], referenceId });
       if (rescuable) {
-        if (squareOrder && !validateAmount(rescuable, squareOrder)) {
-          await flagOrderForReview(rescuable, `order.updated rescue amount mismatch: our $${rescuable.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
-          return Response.json({ received: true });
+        if (squareOrder) {
+          const v = validateAmountOrDrift(rescuable, squareOrder, squareOrderId, squareOrderId);
+          if (v.status === 'reject') {
+            await flagOrderForReview(rescuable, `order.updated rescue: ${v.note}`);
+            return Response.json({ received: true });
+          }
+          if (v.status === 'drift_accept') {
+            await flagOrderForReview(rescuable, `order.updated rescue: ${v.note}`);
+          }
         }
         await rescueOrder(rescuable, squareOrderId, squareOrderId);
         return Response.json({ received: true });
