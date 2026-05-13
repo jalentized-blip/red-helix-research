@@ -160,6 +160,60 @@ Deno.serve(async (req) => {
       }
     };
 
+    // ── Helper: search Square Payments API by email or amount ───
+    const searchSquarePaymentsByEmailOrAmount = async (customerEmail, amountCents) => {
+      try {
+        // Search recent payments (last 30 days)
+        const beginTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const res = await fetch('https://connect.squareup.com/v2/payments?limit=100&begin_time=' + encodeURIComponent(beginTime), {
+          headers: {
+            'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
+            'Square-Version': '2024-01-18',
+          },
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        const payments = data.payments || [];
+
+        // Filter to COMPLETED payments only
+        const completed = payments.filter(p => p.status === 'COMPLETED');
+
+        // 1. Match by customer email
+        if (customerEmail) {
+          const byEmail = completed.find(p =>
+            p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase() &&
+            p.amount_money?.amount === amountCents
+          );
+          if (byEmail) {
+            console.log(`Payment API email+amount match for ${customerEmail}: payment ${byEmail.id}`);
+            return byEmail;
+          }
+          // Looser: just email match (in case amount differs slightly due to rounding)
+          const byEmailOnly = completed.filter(p =>
+            p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase()
+          );
+          if (byEmailOnly.length === 1) {
+            console.log(`Payment API email-only match for ${customerEmail}: payment ${byEmailOnly[0].id}`);
+            return byEmailOnly[0];
+          }
+        }
+
+        // 2. Match by exact amount (only if unique)
+        if (amountCents) {
+          const byAmount = completed.filter(p => p.amount_money?.amount === amountCents);
+          if (byAmount.length === 1) {
+            console.log(`Payment API amount-only match ($${(amountCents/100).toFixed(2)}): payment ${byAmount[0].id}`);
+            return byAmount[0];
+          }
+        }
+
+        return null;
+      } catch (err) {
+        console.warn('Payment API search failed:', err.message);
+        return null;
+      }
+    };
+
     // ── Helper: check if order is stale ─────────────────────────
     const isStale = (order) => {
       if (!order.created_date) return false;
@@ -190,19 +244,30 @@ Deno.serve(async (req) => {
         }
 
         // ── STEP 3: Fallback — search by reference_id or amount ──
+        const amountCents = order.total_amount ? Math.round(order.total_amount * 100) : null;
         if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          const amountCents = order.total_amount ? Math.round(order.total_amount * 100) : null;
           squareOrder = await searchSquareByReference(order.order_number, amountCents);
         }
 
-        if (squareOrder && squareOrder.state === 'COMPLETED') {
+        // ── STEP 4: Fallback — search Payments API by customer email/amount ──
+        let matchedPayment = null;
+        if (!squareOrder || squareOrder.state !== 'COMPLETED') {
+          matchedPayment = await searchSquarePaymentsByEmailOrAmount(order.customer_email, amountCents);
+        }
+
+        const isCompleted = (squareOrder && squareOrder.state === 'COMPLETED') || matchedPayment;
+
+        if (isCompleted) {
+          const squareIdToStore = squareOrder?.state === 'COMPLETED'
+            ? squareOrder.id
+            : (matchedPayment?.order_id || matchedPayment?.id || order.square_order_id);
           // ── Payment confirmed — update order ──
           try {
             await base44.asServiceRole.entities.Order.update(order.id, {
               status: 'processing',
               payment_status: 'completed',
-              square_order_id: squareOrder.id,
-              stock_reserved: false, // reservation fulfilled — no longer needs release
+              square_order_id: squareIdToStore,
+              stock_reserved: false,
               reserved_until: null,
             });
           } catch (dbErr) {
@@ -271,14 +336,15 @@ Deno.serve(async (req) => {
                 <p><strong>Customer:</strong> ${order.customer_name}</p>
                 <p><strong>Email:</strong> ${order.customer_email}</p>
                 <p><strong>Total:</strong> $${Number(order.total_amount).toFixed(2)}</p>
-                <p><strong>Square Order ID:</strong> ${squareOrder.id}</p>
+                <p><strong>Square Order ID:</strong> ${squareIdToStore}</p>
+                <p><strong>Match method:</strong> ${squareOrder?.state === 'COMPLETED' ? 'Order lookup' : 'Payments API'}</p>
                 <p><a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">View in Admin →</a></p>
               </div>`,
             });
           } catch {}
 
           synced++;
-          results.push({ order_number: order.order_number, status: 'synced', square_order_id: squareOrder.id });
+          results.push({ order_number: order.order_number, status: 'synced', square_order_id: squareIdToStore, match_method: squareOrder?.state === 'COMPLETED' ? 'order_lookup' : 'payments_api' });
           console.log(`Synced order ${order.order_number}`);
 
         } else if (isStale(order)) {
