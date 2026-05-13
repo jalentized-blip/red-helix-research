@@ -46,44 +46,27 @@ const STATUS_CONFIG = {
 
 // ─── Resolve product name from order item using multiple strategies ───
 const resolveProductName = (item, products = [], productMap = {}) => {
-  // 1. Already has name stored on the item
+  // 1. Already has name stored on the item — always trust this first
   if (item.productName) return item.productName;
   if (item.product_name) return item.product_name;
 
-  // 2. Lookup by product ID
+  // 2. Lookup by product ID — very reliable
   const byId = productMap[item.product_id] || productMap[item.productId];
   if (byId) return byId;
 
-  // 3. Exact spec name + price match
+  // 3. Exact spec name match on a single product (no price guessing)
   const specLower = item.specification?.toLowerCase().trim() || '';
-  const itemPrice = Number(item.price) || 0;
+  if (!specLower) return null;
 
+  const exactMatches = [];
   for (const p of products) {
     const match = p.specifications?.find(s =>
-      s.name?.toLowerCase().trim() === specLower &&
-      Math.abs(Number(s.price) - itemPrice) < 0.01
+      s.name?.toLowerCase().trim() === specLower
     );
-    if (match) return p.name;
+    if (match) exactMatches.push(p.name);
   }
-
-  // 4. Partial spec name match + price (e.g. "30mg single vial" contains "30mg")
-  for (const p of products) {
-    const match = p.specifications?.find(s => {
-      const sNameLower = s.name?.toLowerCase().trim() || '';
-      return (specLower.includes(sNameLower) || sNameLower.includes(specLower)) &&
-             sNameLower.length > 0 &&
-             Math.abs(Number(s.price) - itemPrice) < 0.01;
-    });
-    if (match) return p.name;
-  }
-
-  // 5. Price-only match (last resort — find the only product with this exact price)
-  const priceMatches = [];
-  for (const p of products) {
-    const match = p.specifications?.find(s => Math.abs(Number(s.price) - itemPrice) < 0.01);
-    if (match) priceMatches.push(p.name);
-  }
-  if (priceMatches.length === 1) return priceMatches[0];
+  // Only use if exactly one product has this spec name (avoids ambiguity)
+  if (exactMatches.length === 1) return exactMatches[0];
 
   return null;
 };
@@ -1048,8 +1031,10 @@ export default function AdminOrderManagement() {
 
         let needsUpdate = false;
         const updatedItems = order.items.map(item => {
+          // Never overwrite existing product names
           if (item.productName || item.product_name) return item;
 
+          // Only backfill if we can resolve via ID or exact unambiguous spec match
           const resolvedName = resolveProductName(item, products, productMap);
           if (resolvedName) {
             needsUpdate = true;
