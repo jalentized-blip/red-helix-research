@@ -52,7 +52,6 @@ import AffiliateDashboard from './pages/AffiliateDashboard';
 import Account from './pages/Account';
 import AdminAffiliateManager from './pages/AdminAffiliateManager';
 import AdminCustomerManagement from './pages/AdminCustomerManagement';
-import AdminInventoryManager from './pages/AdminInventoryManager';
 import AdminManualOrders from './pages/AdminManualOrders';
 import AdminOrderManagement from './pages/AdminOrderManagement';
 import AdminSentEmails from './pages/AdminSentEmails';
@@ -123,7 +122,6 @@ export const PAGES = {
     "Account": Account,
     "AdminAffiliateManager": AdminAffiliateManager,
     "AdminCustomerManagement": AdminCustomerManagement,
-    "AdminInventoryManager": AdminInventoryManager,
     "AdminManualOrders": AdminManualOrders,
     "AdminOrderManagement": AdminOrderManagement,
     "AdminSentEmails": AdminSentEmails,
