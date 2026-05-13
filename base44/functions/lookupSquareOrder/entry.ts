@@ -14,7 +14,7 @@ const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
 const sqHeaders = () => ({
   'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
   'Content-Type': 'application/json',
-  'Square-Version': '2024-01-18',
+  'Square-Version': '2026-01-22',
 });
 
 const formatLineItems = (lineItems) =>

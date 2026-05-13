@@ -8,7 +8,7 @@ Deno.serve(async (req) => {
 
     const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
     const headers = {
-      'Square-Version': '2024-02-22',
+      'Square-Version': '2026-01-22',
       'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
       'Content-Type': 'application/json',
     };

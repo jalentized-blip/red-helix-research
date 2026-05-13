@@ -520,7 +520,7 @@ Deno.serve(async (req) => {
     const squareRes = await fetch(SQUARE_API_URL, {
       method: 'POST',
       headers: {
-        'Square-Version': '2025-01-23',
+        'Square-Version': '2026-01-22',
         'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
       },
