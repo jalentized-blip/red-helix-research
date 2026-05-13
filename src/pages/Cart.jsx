@@ -140,9 +140,15 @@ export default function Cart() {
       }
     }
     // Try async validation first (checks DB affiliate codes + WelcomeDiscount table)
-    const promoDetails = await validatePromoCodeAsync(promoCode, base44);
+    let promoDetails = null;
+    try {
+      promoDetails = await validatePromoCodeAsync(upperCode, base44);
+    } catch {
+      // Async failed — fall back to sync check
+      promoDetails = validatePromoCode(upperCode);
+    }
     if (promoDetails) {
-      await addPromoCodeAsync(promoCode, base44);
+      await addPromoCodeAsync(upperCode, base44);
       setAppliedPromo(upperCode);
       setPromoReady(true);
       setPromoCode('');

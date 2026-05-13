@@ -174,6 +174,8 @@ export default function CryptoCheckout() {
   const [cartItems, setCartItems] = useState([]);
   const [customerInfo, setCustomerInfo] = useState(null);
   const [promoCode, setPromoCode] = useState(null);
+  // Tracks whether the promo cache has been hydrated so discount computes correctly
+  const [promoReady, setPromoReady] = useState(false);
 
   // Stable order number — generated once, persists across re-renders
   const orderNumberRef = useRef(null);
@@ -283,11 +285,15 @@ export default function CryptoCheckout() {
       // Hydrate the promo code cache so getDiscountAmount works synchronously
       // (mirrors the same pattern in Cart.jsx to prevent discount = $0 after page refresh)
       if (promo) {
-        await validatePromoCodeAsync(promo, base44);
+        // FAILSAFE: try async first, fall back to sync cache — always set promoReady after
+        try {
+          await validatePromoCodeAsync(promo, base44);
+        } catch { /* ignore — sync cache may already have it */ }
       }
       // Also pre-load affiliate codes
-      loadAffiliateCodes(base44);
+      try { await loadAffiliateCodes(base44); } catch { /* non-blocking */ }
       setPromoCode(promo);
+      setPromoReady(true);
       if (customer?.email) setSquareEmail(customer.email);
     };
     init();
@@ -339,7 +345,9 @@ export default function CryptoCheckout() {
 
   // Calculate totals
   const subtotal = getCartTotal();
-  const discount = promoCode ? getDiscountAmount(promoCode, subtotal) : 0;
+  // promoReady ensures we only compute discount AFTER the async cache is populated
+  // This prevents discount = $0 on the first render after page load
+  const discount = (promoCode && promoReady) ? getDiscountAmount(promoCode, subtotal) : 0;
   const subtotalAfterDiscount = subtotal - discount;
   // Always compute the processing fee — applied to subtotal+shipping for Square card payments
   const squareProcessingFee = Math.round((subtotalAfterDiscount + SHIPPING_COST) * SQUARE_PROCESSING_FEE_PERCENT * 100) / 100;

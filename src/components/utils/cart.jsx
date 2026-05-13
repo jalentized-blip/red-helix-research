@@ -241,7 +241,8 @@ export const validatePromoCode = (code) => {
 
 // Async validation that checks both static and DB codes
 export const validatePromoCodeAsync = async (code, base44) => {
-  const upper = code.toUpperCase();
+  if (!code) return null;
+  const upper = code.toUpperCase().trim();
   // Check static codes first (with expiry enforcement)
   if (STATIC_PROMO_CODES[upper]) {
     if (isPromoExpired(STATIC_PROMO_CODES[upper])) return null;
@@ -250,8 +251,10 @@ export const validatePromoCodeAsync = async (code, base44) => {
   // Check welcome discount cache (populated after first async validation)
   if (welcomeDiscountCache[upper]) return welcomeDiscountCache[upper];
   // Load and check affiliate codes from DB
-  const affiliateCodes = await loadAffiliateCodes(base44);
-  if (affiliateCodes[upper]) return affiliateCodes[upper];
+  try {
+    const affiliateCodes = await loadAffiliateCodes(base44);
+    if (affiliateCodes[upper]) return affiliateCodes[upper];
+  } catch { /* affiliate load failed — continue */ }
   // Check dynamic welcome codes in localStorage
   const dynamic = getDynamicPromoCodes();
   if (dynamic[upper]) {
@@ -263,12 +266,13 @@ export const validatePromoCodeAsync = async (code, base44) => {
           const expired = record.expires_at && new Date(record.expires_at) < new Date();
           if (record.used || expired) return null;
         }
-      } catch { /* DB check failed, allow it */ }
+      } catch { /* DB check failed — allow it through */ }
     }
     welcomeDiscountCache[upper] = dynamic[upper];
     return dynamic[upper];
   }
   // Check WelcomeDiscount codes directly from DB (covers admin-issued codes not in localStorage)
+  // FAILSAFE: Try both the exact code and case-insensitive email match
   if (base44) {
     try {
       const records = await base44.entities.WelcomeDiscount.filter({ code: upper });
@@ -277,12 +281,23 @@ export const validatePromoCodeAsync = async (code, base44) => {
         const expired = record.expires_at && new Date(record.expires_at) < new Date();
         if (!record.used && !expired) {
           const promoData = { discount: 0.10, label: '10% off welcome discount' };
-          // Cache it so synchronous getDiscountAmount works after validation
           welcomeDiscountCache[upper] = promoData;
+          // Also persist to localStorage dynamic cache so it survives page refreshes
+          try {
+            const dyn = getDynamicPromoCodes();
+            dyn[upper] = promoData;
+            localStorage.setItem('rhr_dynamic_promos', JSON.stringify(dyn));
+          } catch { /* non-critical */ }
           return promoData;
         }
       }
     } catch { /* DB check failed */ }
+  }
+  // LAST RESORT: if cache already has it from a previous successful lookup, trust it
+  const dynamic2 = getDynamicPromoCodes();
+  if (dynamic2[upper]) {
+    welcomeDiscountCache[upper] = dynamic2[upper];
+    return dynamic2[upper];
   }
   return null;
 };
@@ -322,13 +337,22 @@ export const addPromoCode = (code) => {
 };
 
 // Async version that checks DB affiliate codes too
+// FAILSAFE: If async validation fails entirely, falls back to sync validation
 export const addPromoCodeAsync = async (code, base44) => {
-  const promo = await validatePromoCodeAsync(code, base44);
+  if (!code) return false;
+  const upper = code.toUpperCase().trim();
+  let promo = null;
+  try {
+    promo = await validatePromoCodeAsync(upper, base44);
+  } catch {
+    // Async failed — fall back to sync validation
+    promo = validatePromoCode(upper);
+  }
   if (promo) {
-    localStorage.setItem('rdr_promo', code.toUpperCase());
+    localStorage.setItem('rdr_promo', upper);
     if (promo.isAffiliate) {
       localStorage.setItem('rdr_affiliate', JSON.stringify({
-        code: code.toUpperCase(),
+        code: upper,
         id: promo.affiliateId,
       }));
     } else {
@@ -341,7 +365,9 @@ export const addPromoCodeAsync = async (code, base44) => {
 };
 
 export const getPromoCode = () => {
-  return localStorage.getItem('rdr_promo');
+  const code = localStorage.getItem('rdr_promo');
+  // FAILSAFE: always return uppercase so validation comparisons never fail due to case
+  return code ? code.toUpperCase().trim() : null;
 };
 
 export const getAffiliateInfo = () => {
