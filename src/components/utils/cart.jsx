@@ -100,6 +100,12 @@ export const getCartTotal = () => {
   return getCart().reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
 
+export const isKitItem = (item) => {
+  const spec = (item.specification || '').toLowerCase();
+  const name = (item.productName || item.product_name || '').toLowerCase();
+  return spec.includes('10 vial') || spec.includes('kit') || name.includes('kit') || name.includes('bundle');
+};
+
 // Static promo codes - always available (non-affiliate discounts only)
 // For time-limited codes, include expiresAt (ISO string, midnight CST = UTC+6 = 06:00 UTC next day)
 const STATIC_PROMO_CODES = {
@@ -174,6 +180,14 @@ const CACHE_DURATION = 15000; // 15 second cache for faster pickup of new codes
 
 // Cache for DB-validated welcome discount codes (so getDiscountAmount can use them synchronously)
 let welcomeDiscountCache = {};
+const WELCOME_PROMO_PATTERN = /^NEWRHR-[A-Z0-9]{6}$/i;
+const WELCOME_PROMO_FALLBACK = {
+  discount: 0.10,
+  label: '10% off welcome discount',
+  singleVialsOnly: true,
+  isWelcome: true,
+  _pendingAsync: true,
+};
 
 // Load affiliate codes (uses affiliateStore which falls back to localStorage)
 export const loadAffiliateCodes = async (base44) => {
@@ -232,10 +246,21 @@ export const validatePromoCode = (code) => {
   // Check cached affiliate codes
   if (affiliateCodesCache && affiliateCodesCache[upper]) return affiliateCodesCache[upper];
   // Check welcome discount cache (populated after async validation)
-  if (welcomeDiscountCache[upper]) return welcomeDiscountCache[upper];
+  if (welcomeDiscountCache[upper]) {
+    if (WELCOME_PROMO_PATTERN.test(upper)) {
+      return { ...welcomeDiscountCache[upper], singleVialsOnly: true, isWelcome: true };
+    }
+    return welcomeDiscountCache[upper];
+  }
   // Check dynamic promo codes (welcome discount codes in localStorage)
   const dynamic = getDynamicPromoCodes();
-  if (dynamic[upper]) return dynamic[upper];
+  if (dynamic[upper]) {
+    if (WELCOME_PROMO_PATTERN.test(upper)) {
+      return { ...dynamic[upper], singleVialsOnly: true, isWelcome: true };
+    }
+    return dynamic[upper];
+  }
+  if (WELCOME_PROMO_PATTERN.test(upper)) return { ...WELCOME_PROMO_FALLBACK };
   return null;
 };
 
@@ -303,14 +328,16 @@ export const validatePromoCodeAsync = async (code, base44) => {
 };
 
 export const getDiscountAmount = (code, total) => {
-  const promo = validatePromoCode(code);
+  let promo = validatePromoCode(code);
+  if (!promo && WELCOME_PROMO_PATTERN.test(code)) {
+    promo = { ...WELCOME_PROMO_FALLBACK };
+  }
   if (!promo) return 0;
   if (promo.singleVialsOnly) {
     // Only discount items that are single vials (not 10-vial kits)
     const cart = getCart();
     const singleVialTotal = cart.reduce((sum, item) => {
-      const isKit = item.specification?.toLowerCase().includes('10 vial') || item.productId === 'kits-product';
-      return isKit ? sum : sum + item.price * item.quantity;
+      return isKitItem(item) ? sum : sum + item.price * item.quantity;
     }, 0);
     return singleVialTotal * promo.discount;
   }
