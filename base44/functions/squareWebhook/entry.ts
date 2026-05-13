@@ -188,14 +188,18 @@ Deno.serve(async (req) => {
       }
     };
 
-    // ── Helper: load our internal pending + processing Square orders ─────────────
-    // We search both 'pending' payment_status (awaiting payment) AND newly set to catch edge cases
+    // ── Helper: load our internal pending + completed + abandoned Square orders ──
+    // We also load 'abandoned' because syncSquarePayments and releaseExpiredReservations
+    // flip stale orders to that state — but Square can still deliver a late webhook
+    // (retries for 24h, plus out-of-band confirmations from the Square dashboard).
+    // Those late events get matched against 'abandoned' and routed to rescueOrder.
     const loadOurOrders = async () => {
-      const [pending, processing] = await Promise.all([
+      const [pending, processing, abandoned] = await Promise.all([
         base44.asServiceRole.entities.Order.filter({ payment_method: 'square_payment', payment_status: 'pending' }),
         base44.asServiceRole.entities.Order.filter({ payment_method: 'square_payment', payment_status: 'completed' }),
+        base44.asServiceRole.entities.Order.filter({ payment_method: 'square_payment', payment_status: 'abandoned' }),
       ]);
-      return { pending, completed: processing };
+      return { pending, completed: processing, abandoned };
     };
 
     // ── Helper: find our order by multiple matching strategies ───────────────────
@@ -292,6 +296,57 @@ Deno.serve(async (req) => {
       }).catch(e => console.warn('Admin email failed (non-blocking):', e.message));
     };
 
+    // ── Helper: rescue an order previously marked abandoned ──────────────────────
+    // Fires when Square confirms payment AFTER the abandoned-cart sweep or stale-order
+    // sweep already flipped the order to payment_status: 'abandoned'. Those sweeps
+    // restore stock to inventory at abandonment, so we must re-decrement here.
+    const rescueOrder = async (order, transactionId, squareOrderId) => {
+      await base44.asServiceRole.entities.Order.update(order.id, {
+        status: 'processing',
+        payment_status: 'completed',
+        transaction_id: transactionId || order.transaction_id,
+        square_order_id: squareOrderId || order.square_order_id,
+        stock_reserved: true,
+        reserved_until: null,
+        admin_notes: (order.admin_notes ? order.admin_notes + ' | ' : '') + `RESCUED: webhook confirmed payment after abandonment at ${new Date().toISOString()}`,
+      });
+
+      if (order.items?.length > 0) {
+        await decrementStock(order.items, order.order_number);
+      }
+
+      console.log(`Order ${order.order_number} RESCUED via webhook (tx: ${transactionId})`);
+
+      base44.asServiceRole.integrations.Core.SendEmail({
+        to: 'jake@redhelixresearch.com',
+        from_name: 'Red Helix Research Orders',
+        subject: `RESCUED Payment — Order #${order.order_number} — $${Number(order.total_amount).toFixed(2)}`,
+        body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;">
+          <h2 style="color:#d97706;margin:0 0 8px 0;">Late Payment Rescued</h2>
+          <p style="color:#64748b;">Square webhook confirmed payment for <strong>#${order.order_number}</strong> which had previously been marked abandoned. The order has been resurrected and stock re-decremented.</p>
+          <p><strong>Customer:</strong> ${order.customer_name} (${order.customer_email})</p>
+          <p><strong>Total:</strong> $${Number(order.total_amount).toFixed(2)}</p>
+          <p><strong>Payment ID:</strong> <code>${transactionId}</code></p>
+          <p><strong>Square Order ID:</strong> <code>${squareOrderId}</code></p>
+          <p><strong>Event ID:</strong> <code>${event.event_id}</code></p>
+          <p style="margin-top:20px;"><a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">View in Admin →</a></p>
+        </div>`,
+      }).catch(e => console.warn('Rescue admin email failed (non-blocking):', e.message));
+
+      if (order.customer_email) {
+        base44.asServiceRole.integrations.Core.SendEmail({
+          to: order.customer_email,
+          from_name: 'Red Helix Research',
+          subject: `Payment Confirmed — Order #${order.order_number}`,
+          body: `<div style="font-family:Arial,sans-serif;max-width:580px;margin:0 auto;padding:30px;background:#fff;">
+            <h2 style="color:#16a34a;">Payment Confirmed</h2>
+            <p>Hi ${order.customer_name || 'there'},</p>
+            <p>Your payment for order <strong>#${order.order_number}</strong> ($${Number(order.total_amount).toFixed(2)}) has been confirmed. We're processing your order now and will send a shipping notification once it ships.</p>
+          </div>`,
+        }).catch(e => console.warn('Rescue customer email failed (non-blocking):', e.message));
+      }
+    };
+
     // ── Helper: flag order for review ────────────────────────────────────────────
     const flagOrderForReview = async (order, reason) => {
       await base44.asServiceRole.entities.Order.update(order.id, {
@@ -358,7 +413,7 @@ Deno.serve(async (req) => {
       const squareOrder = await fetchSquareOrder(squareOrderId);
       const referenceId = paymentRefId || squareOrder?.reference_id || null;
 
-      const { pending, completed } = await loadOurOrders();
+      const { pending, completed, abandoned } = await loadOurOrders();
 
       // Idempotency: check if already completed
       const alreadyDone = findOurOrder(completed, { squareOrderIds: [squareOrderId], paymentIds: [paymentId], referenceId });
@@ -370,18 +425,24 @@ Deno.serve(async (req) => {
       const ourOrder = findOurOrder(pending, { squareOrderIds: [squareOrderId], paymentIds: [paymentId], referenceId });
 
       if (paymentStatus === 'COMPLETED') {
-        if (!ourOrder) {
-          console.warn(`payment.updated COMPLETED: no matching pending order found. squareOrderId: ${squareOrderId}, referenceId: ${referenceId}`);
-          return Response.json({ received: true });
+        if (ourOrder) {
+          if (squareOrder && !validateAmount(ourOrder, squareOrder)) {
+            await flagOrderForReview(ourOrder, `Amount mismatch: our total $${ourOrder.total_amount}, Square total ${squareOrder.total_money?.amount}¢`);
+            return Response.json({ received: true });
+          }
+          await completeOrder(ourOrder, paymentId, squareOrderId);
+        } else {
+          const rescuable = findOurOrder(abandoned, { squareOrderIds: [squareOrderId], paymentIds: [paymentId], referenceId });
+          if (rescuable) {
+            if (squareOrder && !validateAmount(rescuable, squareOrder)) {
+              await flagOrderForReview(rescuable, `Amount mismatch on rescue: our $${rescuable.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
+              return Response.json({ received: true });
+            }
+            await rescueOrder(rescuable, paymentId, squareOrderId);
+          } else {
+            console.warn(`payment.updated COMPLETED: no matching pending or abandoned order found. squareOrderId: ${squareOrderId}, referenceId: ${referenceId}`);
+          }
         }
-
-        // Amount validation — prevents completing the wrong order
-        if (squareOrder && !validateAmount(ourOrder, squareOrder)) {
-          await flagOrderForReview(ourOrder, `Amount mismatch: our total $${ourOrder.total_amount}, Square total ${squareOrder.total_money?.amount}¢`);
-          return Response.json({ received: true });
-        }
-
-        await completeOrder(ourOrder, paymentId, squareOrderId);
 
       } else if (paymentStatus === 'FAILED' || paymentStatus === 'CANCELED') {
         if (ourOrder) {
@@ -407,7 +468,7 @@ Deno.serve(async (req) => {
       const squareOrder = await fetchSquareOrder(squareOrderId);
       const referenceId = squareOrder?.reference_id || null;
 
-      const { pending, completed } = await loadOurOrders();
+      const { pending, completed, abandoned } = await loadOurOrders();
 
       const alreadyDone = findOurOrder(completed, { squareOrderIds: [squareOrderId], referenceId });
       if (alreadyDone) {
@@ -416,17 +477,26 @@ Deno.serve(async (req) => {
       }
 
       const ourOrder = findOurOrder(pending, { squareOrderIds: [squareOrderId], referenceId });
-      if (!ourOrder) {
-        console.warn(`order.updated COMPLETED: no matching pending order for squareOrderId: ${squareOrderId}, ref: ${referenceId}`);
+      if (ourOrder) {
+        if (squareOrder && !validateAmount(ourOrder, squareOrder)) {
+          await flagOrderForReview(ourOrder, `order.updated amount mismatch: our $${ourOrder.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
+          return Response.json({ received: true });
+        }
+        await completeOrder(ourOrder, squareOrderId, squareOrderId);
         return Response.json({ received: true });
       }
 
-      if (squareOrder && !validateAmount(ourOrder, squareOrder)) {
-        await flagOrderForReview(ourOrder, `order.updated amount mismatch: our $${ourOrder.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
+      const rescuable = findOurOrder(abandoned, { squareOrderIds: [squareOrderId], referenceId });
+      if (rescuable) {
+        if (squareOrder && !validateAmount(rescuable, squareOrder)) {
+          await flagOrderForReview(rescuable, `order.updated rescue amount mismatch: our $${rescuable.total_amount}, Square ${squareOrder.total_money?.amount}¢`);
+          return Response.json({ received: true });
+        }
+        await rescueOrder(rescuable, squareOrderId, squareOrderId);
         return Response.json({ received: true });
       }
 
-      await completeOrder(ourOrder, squareOrderId, squareOrderId);
+      console.warn(`order.updated COMPLETED: no matching pending or abandoned order for squareOrderId: ${squareOrderId}, ref: ${referenceId}`);
     }
 
     // ── order.fulfillment.updated ─────────────────────────────────────────────
@@ -445,7 +515,7 @@ Deno.serve(async (req) => {
       const squareOrder = await fetchSquareOrder(squareOrderId);
       const referenceId = squareOrder?.reference_id || null;
 
-      const { pending, completed } = await loadOurOrders();
+      const { pending, completed, abandoned } = await loadOurOrders();
 
       const alreadyDone = findOurOrder(completed, { squareOrderIds: [squareOrderId], referenceId });
       if (alreadyDone) {
@@ -455,6 +525,12 @@ Deno.serve(async (req) => {
       const ourOrder = findOurOrder(pending, { squareOrderIds: [squareOrderId], referenceId });
       if (ourOrder) {
         await completeOrder(ourOrder, squareOrderId, squareOrderId);
+        return Response.json({ received: true });
+      }
+
+      const rescuable = findOurOrder(abandoned, { squareOrderIds: [squareOrderId], referenceId });
+      if (rescuable) {
+        await rescueOrder(rescuable, squareOrderId, squareOrderId);
       }
     }
 
