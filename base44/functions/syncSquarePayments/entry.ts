@@ -108,6 +108,38 @@ Deno.serve(async (req) => {
       }
     };
 
+    // ── Helper: authoritative paid check ─────────────────────────
+    // Order.state only flips to COMPLETED after BOTH payment AND fulfillment,
+    // so it misses paid-but-not-fulfilled orders (very common for online
+    // checkout payment-link flows). The reliable signal is on the Payment
+    // object — if any tender on the order resolves to a Payment with
+    // status === 'COMPLETED', the customer has been charged.
+    const isOrderPaid = async (squareOrder) => {
+      if (!squareOrder) return { paid: false };
+      if (squareOrder.state === 'COMPLETED') {
+        return { paid: true, via: 'order_state_completed' };
+      }
+      const tenders = Array.isArray(squareOrder.tenders) ? squareOrder.tenders : [];
+      for (const t of tenders) {
+        const paymentId = t.payment_id || t.id;
+        if (!paymentId) continue;
+        try {
+          const res = await fetch(`https://connect.squareup.com/v2/payments/${paymentId}`, {
+            headers: { 'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2026-01-22' },
+          });
+          if (!res.ok) continue;
+          const data = await res.json();
+          const status = data.payment?.status;
+          if (status === 'COMPLETED') {
+            return { paid: true, via: 'payment_completed', payment_id: paymentId };
+          }
+        } catch {
+          // try next tender
+        }
+      }
+      return { paid: false, order_state: squareOrder.state, tender_count: tenders.length };
+    };
+
     // ── Helper: search Square orders by reference_id ONLY (strict) ──
     const searchSquareByReference = async (orderNumber) => {
       if (!orderNumber) return null;
@@ -123,7 +155,10 @@ Deno.serve(async (req) => {
             location_ids: [locationId],
             query: {
               filter: {
-                state_filter: { states: ['COMPLETED'] },
+                // Include OPEN as well as COMPLETED so we catch paid-but-not-
+                // yet-fulfilled orders. CANCELED is excluded since those are
+                // unambiguously not paid.
+                state_filter: { states: ['OPEN', 'COMPLETED'] },
                 date_time_filter: {
                   updated_at: {
                     start_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -132,9 +167,6 @@ Deno.serve(async (req) => {
               },
               // Required: sort_field MUST match the date_time_filter field, or
               // Square returns an error (it defaults to CREATED_AT otherwise).
-              // Without this, the try/catch below was silently swallowing the
-              // error and returning null on every call — STEP 2 fallback in
-              // the order loop never actually matched anything.
               sort: { sort_field: 'UPDATED_AT', sort_order: 'DESC' },
             },
             limit: 200,
@@ -172,15 +204,21 @@ Deno.serve(async (req) => {
 
         // ── STEP 1: Try direct lookup by square_order_id (most reliable) ──
         let squareOrder = await lookupSquareOrderById(order.square_order_id);
+        let paidResult = await isOrderPaid(squareOrder);
 
-        // ── STEP 2: Fallback — search by our order number as reference_id (strict, no fuzzy) ──
-        if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          squareOrder = await searchSquareByReference(order.order_number);
+        // ── STEP 2: Fallback — search by our order number as reference_id ──
+        // Only if STEP 1 didn't find a paid order. We accept OPEN+COMPLETED
+        // states now and verify payment via the Payments API, so paid-but-
+        // unfulfilled orders are caught.
+        if (!paidResult.paid) {
+          const refMatch = await searchSquareByReference(order.order_number);
+          if (refMatch) {
+            squareOrder = refMatch;
+            paidResult = await isOrderPaid(squareOrder);
+          }
         }
 
-        const isCompleted = squareOrder && squareOrder.state === 'COMPLETED';
-
-        if (isCompleted) {
+        if (paidResult.paid) {
           const squareIdToStore = squareOrder.id;
           // ── Payment confirmed — update order ──
           try {
@@ -259,13 +297,21 @@ Deno.serve(async (req) => {
                 <p><strong>Total:</strong> $${Number(order.total_amount).toFixed(2)}</p>
                 <p><strong>Square Order ID:</strong> ${squareIdToStore}</p>
                 <p><strong>Match method:</strong> ${order.square_order_id ? 'Direct order ID lookup' : 'Reference ID search'}</p>
+                <p><strong>Payment confirmed via:</strong> ${paidResult.via}${paidResult.payment_id ? ` (payment ${paidResult.payment_id})` : ''}</p>
                 <p><a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">View in Admin →</a></p>
               </div>`,
             });
           } catch {}
 
           synced++;
-          results.push({ order_number: order.order_number, status: 'synced', square_order_id: squareIdToStore, match_method: order.square_order_id ? 'order_id_lookup' : 'reference_id_search' });
+          results.push({
+            order_number: order.order_number,
+            status: 'synced',
+            square_order_id: squareIdToStore,
+            match_method: order.square_order_id ? 'order_id_lookup' : 'reference_id_search',
+            paid_via: paidResult.via,
+            payment_id: paidResult.payment_id,
+          });
           console.log(`Synced order ${order.order_number}`);
 
         } else if (isStale(order)) {
