@@ -1,14 +1,19 @@
 /**
  * recoverOrderSpec — Admin tool to reconstruct an order's items from its
- * OrderSnapshot capture-at-checkout-start record.
+ * OrderSnapshot capture-at-checkout-start record (going-forward orders) or
+ * from a pasted saveCheckoutSnapshot admin-email body (legacy orders).
  *
  * Actions:
- *   - lookup:          { order_number } → return the snapshot for one order
- *   - repair:          { order_number, confirm: true } → overwrite Order.items
- *                      with snapshot.items (requires confirm to avoid mistakes)
- *   - audit:           { limit? } → list Orders whose items array is empty or
- *                      where >=1 item is missing a specification, paired with
- *                      whether a snapshot exists for that order
+ *   - lookup:            { order_number } → return the snapshot for one order
+ *   - repair:            { order_number, confirm: true } → overwrite Order.items
+ *                        with snapshot.items (requires confirm to avoid mistakes)
+ *   - audit:             { limit? } → list Orders whose items array is empty or
+ *                        where >=1 item is missing a specification, paired with
+ *                        whether a snapshot exists for that order
+ *   - repair_from_email: { order_number, email_body, confirm } → parse the
+ *                        items-list block of a saveCheckoutSnapshot email and
+ *                        repair the Order with the parsed items (legacy path
+ *                        for orders predating the OrderSnapshot entity)
  *
  * All actions require admin role.
  */
@@ -123,7 +128,57 @@ Deno.serve(async (req) => {
       });
     }
 
-    return Response.json({ error: 'Invalid action — use lookup, repair, or audit' }, { status: 400 });
+    if (action === 'repair_from_email') {
+      const { order_number, email_body, confirm } = body;
+      if (!order_number) return Response.json({ error: 'order_number required' }, { status: 400 });
+      if (!email_body || typeof email_body !== 'string') return Response.json({ error: 'email_body required (paste the saveCheckoutSnapshot admin email)' }, { status: 400 });
+
+      // Email line format (from saveCheckoutSnapshot/entry.ts):
+      //   • PRODUCT NAME (SPEC) xQTY = $LINE_TOTAL
+      // Bullet may be • or - or *, dash variants for missing spec are allowed.
+      const lineRe = /[•\-*]\s*(.+?)\s*\(([^)]+)\)\s*x(\d+)\s*=\s*\$([\d.]+)/g;
+      const parsedItems = [];
+      let match;
+      while ((match = lineRe.exec(email_body)) !== null) {
+        const [, productName, specification, qtyStr, totalStr] = match;
+        const quantity = parseInt(qtyStr, 10);
+        const lineTotal = parseFloat(totalStr);
+        if (!Number.isFinite(quantity) || quantity < 1 || !Number.isFinite(lineTotal)) continue;
+        parsedItems.push({
+          productName: productName.trim(),
+          specification: specification.trim() === '—' ? '' : specification.trim(),
+          quantity,
+          price: Number((lineTotal / quantity).toFixed(2)),
+        });
+      }
+
+      if (parsedItems.length === 0) {
+        return Response.json({ error: 'No item lines parsed from email_body — check the format' }, { status: 400 });
+      }
+
+      if (confirm !== true) {
+        return Response.json({ parsed: parsedItems, hint: 'Pass confirm: true to apply' });
+      }
+
+      const orders = await base44.asServiceRole.entities.Order.filter({ order_number });
+      const order = orders?.[0];
+      if (!order) return Response.json({ error: 'Order not found' }, { status: 404 });
+
+      const before = order.items;
+      await base44.asServiceRole.entities.Order.update(order.id, {
+        items: parsedItems,
+        admin_notes: (order.admin_notes ? order.admin_notes + ' | ' : '') + `Items repaired from snapshot email at ${new Date().toISOString()} by ${user.email}`,
+      });
+
+      return Response.json({
+        success: true,
+        order_number,
+        items_before: before,
+        items_after: parsedItems,
+      });
+    }
+
+    return Response.json({ error: 'Invalid action — use lookup, repair, audit, or repair_from_email' }, { status: 400 });
 
   } catch (error) {
     console.error('recoverOrderSpec error:', error);
