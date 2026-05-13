@@ -173,11 +173,6 @@ export default function Home({ adminViewAsUser = false }) {
               <ClipboardList className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
             </button>
           </Link>
-          <Link to={createPageUrl('AdminInventoryManager')}>
-            <button className="fixed top-24 right-20 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-600/50 rounded-xl shadow-lg hover:shadow-purple-600/10 transition-all hover:scale-110 group">
-              <Settings2 className="w-5 h-5 text-slate-400 group-hover:text-purple-600" />
-            </button>
-          </Link>
           <Link to={createPageUrl('AdminAffiliateManager')}>
             <button className="fixed top-24 z-40 p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-amber-600/50 rounded-xl shadow-lg hover:shadow-amber-600/10 transition-all hover:scale-110 group" style={{ right: '8.5rem' }}>
               <Users className="w-5 h-5 text-slate-400 group-hover:text-amber-600" />
