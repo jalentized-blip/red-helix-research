@@ -30,8 +30,11 @@ const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
 // Optional merchant ID validation — set env var "SQUARE_MERCHANT_ID" to restrict to your account
 const OUR_MERCHANT_ID = (() => { try { return Deno.env.get('SQUARE' + '_MERCHANT_ID') || null; } catch { return null; } })();
 
-// Square retries for up to 24 hours — reject events older than this (replay protection)
-const REPLAY_WINDOW_SECONDS = 300; // 5 minutes — adjust to 3600 if you need wider tolerance
+// Square retries for up to 24 hours and out-of-band confirmations from the
+// dashboard can arrive even later. Real replay defense is the event_id dedup
+// cache below; this window just keeps very-stale events from being processed.
+// 24h matches Square's documented retry envelope so rescue stays reachable.
+const REPLAY_WINDOW_SECONDS = 24 * 60 * 60;
 
 // In-memory dedup cache for event_ids (survives across requests within same isolate lifetime)
 // Square sends event_id on every webhook — cache it to prevent double-processing on retries
