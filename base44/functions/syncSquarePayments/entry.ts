@@ -178,17 +178,20 @@ Deno.serve(async (req) => {
         // Filter to COMPLETED payments only
         const completed = payments.filter(p => p.status === 'COMPLETED');
 
-        // 1. Match by customer email
-        if (customerEmail) {
-          const byEmail = completed.find(p =>
+        // 1. Match by customer email + exact amount (most reliable)
+        if (customerEmail && amountCents) {
+          const byEmailAndAmount = completed.find(p =>
             p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase() &&
             p.amount_money?.amount === amountCents
           );
-          if (byEmail) {
-            console.log(`Payment API email+amount match for ${customerEmail}: payment ${byEmail.id}`);
-            return byEmail;
+          if (byEmailAndAmount) {
+            console.log(`Payment API email+amount match for ${customerEmail}: payment ${byEmailAndAmount.id}`);
+            return byEmailAndAmount;
           }
-          // Looser: just email match (in case amount differs slightly due to rounding)
+        }
+
+        // 2. Email-only match — only if exactly one payment for this email exists
+        if (customerEmail) {
           const byEmailOnly = completed.filter(p =>
             p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase()
           );
@@ -198,14 +201,7 @@ Deno.serve(async (req) => {
           }
         }
 
-        // 2. Match by exact amount (only if unique)
-        if (amountCents) {
-          const byAmount = completed.filter(p => p.amount_money?.amount === amountCents);
-          if (byAmount.length === 1) {
-            console.log(`Payment API amount-only match ($${(amountCents/100).toFixed(2)}): payment ${byAmount[0].id}`);
-            return byAmount[0];
-          }
-        }
+        // NOTE: Amount-only matching removed — too risky (false positives)
 
         return null;
       } catch (err) {
