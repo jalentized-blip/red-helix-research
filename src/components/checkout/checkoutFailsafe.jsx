@@ -72,6 +72,29 @@ export const clearCheckoutSnapshot = () => {
  * Falls back to sending an emergency admin email with full order details
  * if all retries are exhausted.
  */
+// Fire mark_promo_used with a small retry so a transient blip doesn't leave
+// a single-use welcome code reusable. Server side is idempotent.
+const markPromoUsedWithRetry = async (promoCode, orderNumber) => {
+  if (!promoCode) return;
+  const attempts = 3;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      await base44.functions.invoke('validateOrder', {
+        action: 'mark_promo_used',
+        code: promoCode,
+        orderNumber,
+      });
+      return;
+    } catch (err) {
+      if (i === attempts) {
+        console.warn(`[FAILSAFE] mark_promo_used gave up after ${attempts} tries for ${promoCode}:`, err);
+      } else {
+        await new Promise(r => setTimeout(r, 500 * i));
+      }
+    }
+  }
+};
+
 export const createOrderWithRetry = async (orderPayload) => {
   let lastError = null;
 
@@ -81,6 +104,9 @@ export const createOrderWithRetry = async (orderPayload) => {
     if (existing && existing.length > 0) {
       console.log(`[FAILSAFE] Order ${orderPayload.order_number} already exists — skipping duplicate create.`);
       markSnapshotComplete(orderPayload.order_number);
+      // Also mark promo used on the dedup path — if the first submit fired
+      // this and the retry didn't, we'd leak a single-use code.
+      markPromoUsedWithRetry(orderPayload.promo_code, orderPayload.order_number);
       return existing[0];
     }
   } catch (checkErr) {
@@ -91,6 +117,7 @@ export const createOrderWithRetry = async (orderPayload) => {
     try {
       const order = await base44.entities.Order.create(orderPayload);
       markSnapshotComplete(orderPayload.order_number);
+      markPromoUsedWithRetry(orderPayload.promo_code, orderPayload.order_number);
       return order;
     } catch (err) {
       lastError = err;

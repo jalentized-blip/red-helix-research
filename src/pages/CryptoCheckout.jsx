@@ -256,6 +256,29 @@ export default function CryptoCheckout() {
     }
   }, [step]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const promo = getPromoCode();
+    if (!promo) {
+      setPromoReady(true);
+      return undefined;
+    }
+
+    setPromoCode(promo);
+    const syncPromo = validatePromoCode(promo);
+    if (syncPromo && !syncPromo._pendingAsync) {
+      setPromoReady(true);
+    }
+
+    validatePromoCodeAsync(promo, base44)
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setPromoReady(true);
+      });
+
+    return () => { cancelled = true; };
+  }, []);
+
   // Init
   useEffect(() => {
     const init = async () => {
@@ -282,17 +305,9 @@ export default function CryptoCheckout() {
 
       setCartItems(getCart());
       setCustomerInfo(customer);
-      // Hydrate the promo code cache so getDiscountAmount works synchronously
-      // (mirrors the same pattern in Cart.jsx to prevent discount = $0 after page refresh)
-      if (promo) {
-        // FAILSAFE: try async first, fall back to sync cache — always set promoReady after
-        try {
-          await validatePromoCodeAsync(promo, base44);
-        } catch { /* ignore — sync cache may already have it */ }
-      }
+      setPromoCode(promo);
       // Also pre-load affiliate codes
       try { await loadAffiliateCodes(base44); } catch { /* non-blocking */ }
-      setPromoCode(promo);
       setPromoReady(true);
       if (customer?.email) setSquareEmail(customer.email);
     };
@@ -345,9 +360,8 @@ export default function CryptoCheckout() {
 
   // Calculate totals
   const subtotal = getCartTotal();
-  // promoReady ensures we only compute discount AFTER the async cache is populated
-  // This prevents discount = $0 on the first render after page load
-  const discount = (promoCode && promoReady) ? getDiscountAmount(promoCode, subtotal) : 0;
+  const syncPromo = promoCode ? validatePromoCode(promoCode) : null;
+  const discount = (promoCode && (promoReady || syncPromo?._pendingAsync)) ? getDiscountAmount(promoCode, subtotal) : 0;
   const subtotalAfterDiscount = subtotal - discount;
   // Always compute the processing fee — applied to subtotal+shipping for Square card payments
   const squareProcessingFee = Math.round((subtotalAfterDiscount + SHIPPING_COST) * SQUARE_PROCESSING_FEE_PERCENT * 100) / 100;
@@ -1592,6 +1606,16 @@ export default function CryptoCheckout() {
                                }
                                const checkoutUrl = fnData.checkoutUrl;
 
+                              // Prefer server-validated amounts (createSquareCheckout/index.ts
+                              // returns serverSubtotal/serverDiscount/serverShipping/serverTotal).
+                              // Falls back to local computation if absent.
+                              const orderSubtotal = typeof fnData.serverSubtotal === 'number' ? fnData.serverSubtotal : subtotal;
+                              const orderDiscount = typeof fnData.serverDiscount === 'number' ? fnData.serverDiscount : discount;
+                              const orderShipping = typeof fnData.serverShipping === 'number' ? fnData.serverShipping : SHIPPING_COST;
+                              const orderTotalUSD = typeof fnData.serverTotal === 'number'
+                                ? fnData.serverTotal + squareProcessingFee
+                                : subtotalAfterDiscount + SHIPPING_COST + squareProcessingFee;
+
                               // 2. Create order record with Square payment link evidence
                               try {
                                 const squareAffiliateInfo = await resolveAffiliateInfo();
@@ -1607,10 +1631,10 @@ export default function CryptoCheckout() {
                                    quantity: item.quantity,
                                    price: item.price,
                                   })),
-                                  subtotal: subtotal,
-                                  discount_amount: discount,
-                                  shipping_cost: SHIPPING_COST,
-                                  total_amount: subtotalAfterDiscount + SHIPPING_COST + squareProcessingFee,
+                                  subtotal: orderSubtotal,
+                                  discount_amount: orderDiscount,
+                                  shipping_cost: orderShipping,
+                                  total_amount: orderTotalUSD,
                                   promo_code: promoCode || null,
                                   payment_method: 'square_payment',
                                   payment_status: 'pending',

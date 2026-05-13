@@ -1,0 +1,67 @@
+{
+  "name": "OrderSnapshot",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "string",
+      "description": "Order number this snapshot belongs to"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_phone": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": { "type": "string" },
+          "productName": { "type": "string" },
+          "specification": { "type": "string" },
+          "quantity": { "type": "number" },
+          "price": { "type": "number" }
+        }
+      },
+      "description": "Authoritative item list captured at checkout start — used to recover order specs if the live Order's items get corrupted later"
+    },
+    "subtotal": {
+      "type": "number"
+    },
+    "discount_amount": {
+      "type": "number"
+    },
+    "shipping_cost": {
+      "type": "number"
+    },
+    "total_amount": {
+      "type": "number"
+    },
+    "promo_code": {
+      "type": "string"
+    },
+    "shipping_address": {
+      "type": "object",
+      "properties": {
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zip": { "type": "string" },
+        "country": { "type": "string" }
+      }
+    },
+    "payment_method": {
+      "type": "string"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this snapshot was captured (checkout-start time)"
+    }
+  },
+  "required": ["order_number", "items"]
+}

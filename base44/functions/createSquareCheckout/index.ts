@@ -11,13 +11,36 @@
 //   6. ZERO product metadata sent to Square — only generic codes + prices
 // ============================================================================
 
-const TURNSTILE_SECRET_KEY = '0x4AAAAAACfCmfXN08E0PuGUsBRffIvY_FE';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+
+const TURNSTILE_SECRET_KEY = Deno.env.get('TURNSTILE_SECRET_KEY');
 const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
-const SQUARE_ACCESS_TOKEN = 'EAAAl1jVckeTNXaK3mxKgcL_VzKUPtny1RzRoeMhHhyvFg5EkBYAw0Qz2DPwDjGK';
-const SQUARE_LOCATION_ID = 'L3WTCJAQGSP5G';
+const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
+const SQUARE_LOCATION_ID = Deno.env.get('SQUARE_LOCATION_ID');
 const SQUARE_API_URL = 'https://connect.squareup.com/v2/online-checkout/payment-links';
 const SHIPPING_COST = 15; // Fixed shipping in dollars
+
+// Welcome promo entity lookup — server-side acceptance of NEWRHR-XXXXXX codes
+// issued by WelcomeDiscountPopup. Filters out used and expired records.
+async function lookupWelcomeDiscount(base44: any, codeUpper: string) {
+  try {
+    const records = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code: codeUpper });
+    if (!records || !Array.isArray(records)) return null;
+    const now = new Date();
+    return records.find((r: any) => !r.used && (!r.expires_at || new Date(r.expires_at) > now)) || null;
+  } catch {
+    return null;
+  }
+}
+
+const WELCOME_PROMO_PATTERN = /^NEWRHR-[A-Z0-9]{6}$/;
+
+function isKitItem(name: string, spec: string): boolean {
+  const s = (spec || '').toLowerCase();
+  const n = (name || '').toLowerCase();
+  return s.includes('10 vial') || s.includes('kit') || n.includes('kit') || n.includes('bundle');
+}
 
 // ---------------------------------------------------------------------------
 // 1. SERVER-SIDE PRICE CATALOG
@@ -229,8 +252,15 @@ function generateGenericCode(): string {
 Deno.serve(async (req) => {
   const startTime = Date.now();
 
+  // Fail closed when required credentials are absent — better than a silent
+  // hardcoded fallback that leaks secrets into source control.
+  if (!SQUARE_ACCESS_TOKEN || !TURNSTILE_SECRET_KEY || !SQUARE_LOCATION_ID) {
+    console.error('[CONFIG] Missing required env vars: SQUARE_ACCESS_TOKEN/TURNSTILE_SECRET_KEY/SQUARE_LOCATION_ID');
+    return Response.json({ error: 'Checkout service misconfigured' }, { status: 500 });
+  }
+
   try {
-    // --- Parse request body ---
+    const base44 = createClientFromRequest(req);
     let body: any;
     try {
       body = await req.json();
@@ -365,9 +395,33 @@ Deno.serve(async (req) => {
     const subtotal = resolvedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
     // --- Server-side discount (CLIENT DISCOUNT IGNORED) ---
-    const discount = getServerDiscount(promoCode, subtotal);
+    let discount = getServerDiscount(promoCode, subtotal);
+    let welcomeDiscountId: string | null = null;
     if (promoCode && !discount.validCode) {
-      console.warn(`[SECURITY][INVALID_PROMO] Code "${promoCode}" not recognized — no discount applied`);
+      const codeUpper = String(promoCode).toUpperCase().trim();
+      if (WELCOME_PROMO_PATTERN.test(codeUpper)) {
+        const welcomeRecord = await lookupWelcomeDiscount(base44, codeUpper);
+        if (welcomeRecord) {
+          // Welcome promo applies to single-vial items only. Compute over
+          // resolvedItems (which already have name/spec) to match server prices.
+          const singleVialSubtotal = items.reduce((sum: number, it: any, idx: number) => {
+            const name = String(it.productName || '').trim();
+            const spec = String(it.specification || '').trim();
+            if (isKitItem(name, spec)) return sum;
+            const price = resolvedItems[idx]?.price || 0;
+            const qty = resolvedItems[idx]?.quantity || 0;
+            return sum + price * qty;
+          }, 0);
+          const amount = Math.round(singleVialSubtotal * 0.10 * 100) / 100;
+          discount = { discountRate: 0.10, discountAmount: amount, validCode: true };
+          welcomeDiscountId = welcomeRecord.id;
+          console.log(`[CHECKOUT][WELCOME_PROMO] code=${codeUpper} singleVialSubtotal=$${singleVialSubtotal} discount=$${amount}`);
+        } else {
+          console.warn(`[SECURITY][INVALID_WELCOME_PROMO] Code "${codeUpper}" not found or used/expired`);
+        }
+      } else {
+        console.warn(`[SECURITY][INVALID_PROMO] Code "${promoCode}" not recognized — no discount applied`);
+      }
     }
 
     // --- Calculate final total ---
@@ -506,6 +560,7 @@ Deno.serve(async (req) => {
       serverSubtotal: subtotal,
       serverDiscount: discount.discountAmount,
       serverShipping: serverShipping,
+      ...(welcomeDiscountId ? { welcomeDiscountId } : {}),
     });
 
   } catch (error) {

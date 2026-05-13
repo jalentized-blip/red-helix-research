@@ -13,15 +13,15 @@ Deno.serve(async (req) => {
 
     const now = new Date();
     const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
-    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
+    // Never DELETE square_payment orders here — Square retries webhook delivery
+    // for up to 24h and out-of-band confirmations can arrive even later. Deleting
+    // the row makes payment.updated/order.updated unmatchable and orders silently
+    // vanish. syncSquarePayments owns the square_payment lifecycle (mark cancelled
+    // after 7 days, keep the record). This admin button only cleans non-Square carts.
     const toDelete = orders.filter(order => {
+      if (order.payment_method === 'square_payment') return false;
       const createdAt = new Date(order.created_date);
-      // Give Square payment link orders 24 hours (customer needs time to check email & pay)
-      // Give crypto/other orders only 2 hours
-      if (order.payment_method === 'square_payment') {
-        return createdAt < twentyFourHoursAgo;
-      }
       return createdAt < twoHoursAgo;
     });
 

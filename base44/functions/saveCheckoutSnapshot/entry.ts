@@ -35,6 +35,25 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    // Persist a durable snapshot of the checkout state. The admin alert email
+    // below is a backup, but the entity record is the canonical recovery source
+    // for the new recoverOrderSpec function when an Order's items get corrupted.
+    base44.asServiceRole.entities.OrderSnapshot.create({
+      order_number: orderNumber,
+      customer_email: customerEmail,
+      customer_name: customerName,
+      customer_phone: customerPhone,
+      items,
+      subtotal,
+      discount_amount: discountAmount,
+      shipping_cost: shippingCost,
+      total_amount: totalAmount,
+      promo_code: promoCode,
+      shipping_address: shippingAddress,
+      payment_method: paymentMethod,
+      captured_at: new Date().toISOString(),
+    }).catch(e => console.warn('OrderSnapshot.create failed (non-blocking, email backup still sent):', e?.message || e));
+
     const itemsText = items.map(i => `  • ${i.productName} (${i.specification || '—'}) x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}`).join('\n');
     const addrText = shippingAddress
       ? `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}`

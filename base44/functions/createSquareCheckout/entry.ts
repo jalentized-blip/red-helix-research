@@ -1,3 +1,7 @@
+// ⚠ DEPRECATED — this file is NOT the deployed entrypoint for createSquareCheckout.
+//   function.jsonc deploys index.ts. Any edits here are dead code.
+//   Make changes in index.ts instead. This file is retained only to avoid
+//   churning history during refactors; do not extend it.
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 
 const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_ACCESS_TOKEN');
@@ -9,6 +13,7 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const base44 = createClientFromRequest(req);
     const body = await req.json();
     const {
       items,
@@ -16,7 +21,6 @@ Deno.serve(async (req) => {
       customerName,
       orderNumber,
       promoCode,
-      discountAmount,
       shippingCost,
       processingFeeAmount,
       turnstileToken,
@@ -32,12 +36,36 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Square not configured' }, { status: 500 });
     }
 
-    // Build Square line items — use order number instead of product names
-    const lineItems = items.map((item, idx) => ({
+    // Server-validate items + promo to defeat frontend price/promo tampering.
+    // validateOrder re-fetches authoritative prices from the Product DB and
+    // applies promo rules server-side (including welcome-promo singleVialsOnly).
+    // The request's discountAmount and item.price are NOT trusted; we use the
+    // server-validated values below.
+    let validation;
+    try {
+      const validationRes = await base44.asServiceRole.functions.invoke('validateOrder', {
+        action: 'validate_order',
+        items,
+        promoCode,
+      });
+      validation = validationRes?.data || validationRes;
+    } catch (err) {
+      console.error('createSquareCheckout: validateOrder invoke failed:', err.message);
+      return Response.json({ error: 'Order validation failed — please try again' }, { status: 502 });
+    }
+
+    if (!validation?.valid) {
+      return Response.json({ error: validation?.error || 'Order failed server-side validation' }, { status: 400 });
+    }
+
+    const validatedItems = validation.validatedItems || [];
+    const serverDiscount = validation.discount || 0;
+
+    const lineItems = validatedItems.map((item, idx) => ({
       name: `Order ${orderNumber} — Item ${idx + 1}`,
       quantity: String(item.quantity || 1),
       base_price_money: {
-        amount: Math.round(item.price * 100), // cents
+        amount: Math.round(item.price * 100),
         currency: 'USD',
       },
     }));
@@ -67,11 +95,11 @@ Deno.serve(async (req) => {
 
     // Build discounts array for Square (Square does not allow negative line item amounts)
     const discounts = [];
-    if (discountAmount && discountAmount > 0) {
+    if (serverDiscount > 0) {
       discounts.push({
         name: `Discount${promoCode ? ` (${promoCode})` : ''}`,
         amount_money: {
-          amount: Math.round(discountAmount * 100),
+          amount: Math.round(serverDiscount * 100),
           currency: 'USD',
         },
         scope: 'ORDER',
@@ -150,6 +178,18 @@ Deno.serve(async (req) => {
       checkoutUrl: squareData.payment_link.url,
       paymentLinkId: squareData.payment_link.id,
       orderId: squareData.payment_link.order_id,
+      // Server-validated amounts so the Order entity matches what Square charged.
+      // Frontend should prefer these over its locally-computed values.
+      validated: {
+        subtotal: validation.subtotal,
+        discount: serverDiscount,
+        shipping: finalShippingCost,
+        processingFee: processingFeeAmount || 0,
+        totalAmount: validation.subtotal - serverDiscount + finalShippingCost + (processingFeeAmount || 0),
+        validatedPromo: validation.validatedPromo || null,
+        welcomeDiscountId: validation.welcomeDiscountId || null,
+        discountNote: validation.discountNote || null,
+      },
     });
 
   } catch (error) {
