@@ -108,9 +108,9 @@ Deno.serve(async (req) => {
       }
     };
 
-    // ── Helper: search Square orders by reference_id or amount (fallback) ──
-    const searchSquareByReference = async (orderNumber, amountCents = null) => {
-      if (!orderNumber && !amountCents) return null;
+    // ── Helper: search Square orders by reference_id ONLY (strict) ──
+    const searchSquareByReference = async (orderNumber) => {
+      if (!orderNumber) return null;
       try {
         const res = await fetch('https://connect.squareup.com/v2/orders/search', {
           method: 'POST',
@@ -136,113 +136,9 @@ Deno.serve(async (req) => {
         });
         const data = await res.json();
         const orders = data.orders || [];
-
-        // 1. Match by reference_id (our order number set at Square order creation)
-        const byRef = orders.find(sq => sq.reference_id === orderNumber || sq.id === orderNumber);
-        if (byRef) return byRef;
-
-        // 2. Amount-based fuzzy match — find COMPLETED Square order with exact same total
-        // Only use this if we have an amount and it's unique among recent orders
-        if (amountCents) {
-          const amountMatches = orders.filter(sq => {
-            const sqTotal = sq.total_money?.amount;
-            return sqTotal === amountCents;
-          });
-          if (amountMatches.length === 1) {
-            console.log(`Amount-matched Square order ${amountMatches[0].id} for order ${orderNumber} ($${(amountCents/100).toFixed(2)})`);
-            return amountMatches[0];
-          }
-        }
-
-        return null;
+        // STRICT: only match by our exact order number as reference_id
+        return orders.find(sq => sq.reference_id === orderNumber) || null;
       } catch {
-        return null;
-      }
-    };
-
-    // ── Helper: search Square Payments API by name + amount + address ───
-    const searchSquarePaymentsByEmailOrAmount = async (customerEmail, amountCents, customerName, shippingAddress) => {
-      try {
-        const beginTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-        const res = await fetch('https://connect.squareup.com/v2/payments?limit=100&begin_time=' + encodeURIComponent(beginTime), {
-          headers: {
-            'Authorization': `Bearer ${SQUARE_ACCESS_TOKEN}`,
-            'Square-Version': '2024-01-18',
-          },
-        });
-        if (!res.ok) return null;
-        const data = await res.json();
-        const payments = data.payments || [];
-        const completed = payments.filter(p => p.status === 'COMPLETED');
-
-        // Normalize helpers
-        const normName = (n) => (n || '').toLowerCase().trim();
-        const normZip = (z) => (z || '').replace(/\s/g, '').toLowerCase();
-        const normAddr = (a) => (a || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-
-        const orderZip = normZip(shippingAddress?.zip);
-        const orderAddr = normAddr(shippingAddress?.address);
-        const orderNameParts = normName(customerName).split(' ').filter(Boolean);
-
-        const nameMatch = (p) => {
-          const sqName = normName(
-            p.shipping_address?.first_name + ' ' + p.shipping_address?.last_name ||
-            p.buyer_email_address || ''
-          );
-          return orderNameParts.length > 0 && orderNameParts.every(part => sqName.includes(part));
-        };
-
-        const addrMatch = (p) => {
-          if (!orderZip && !orderAddr) return false;
-          const sqZip = normZip(p.shipping_address?.postal_code);
-          const sqAddr = normAddr(p.shipping_address?.address_line_1);
-          const zipOk = orderZip ? sqZip === orderZip : true;
-          const addrOk = orderAddr ? sqAddr.includes(orderAddr.slice(0, 8)) : true;
-          return zipOk && addrOk;
-        };
-
-        // 1. Email + amount + name + address (strongest)
-        if (customerEmail && amountCents) {
-          const match = completed.find(p =>
-            p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase() &&
-            p.amount_money?.amount === amountCents &&
-            nameMatch(p) &&
-            addrMatch(p)
-          );
-          if (match) {
-            console.log(`Payment API full match (email+amount+name+addr) for ${customerEmail}: payment ${match.id}`);
-            return match;
-          }
-        }
-
-        // 2. Email + amount (no address available)
-        if (customerEmail && amountCents) {
-          const match = completed.find(p =>
-            p.buyer_email_address?.toLowerCase() === customerEmail.toLowerCase() &&
-            p.amount_money?.amount === amountCents
-          );
-          if (match) {
-            console.log(`Payment API email+amount match for ${customerEmail}: payment ${match.id}`);
-            return match;
-          }
-        }
-
-        // 3. Name + amount + address (no email on Square side)
-        if (customerName && amountCents && (orderZip || orderAddr)) {
-          const match = completed.find(p =>
-            p.amount_money?.amount === amountCents &&
-            nameMatch(p) &&
-            addrMatch(p)
-          );
-          if (match) {
-            console.log(`Payment API name+amount+addr match for ${customerName}: payment ${match.id}`);
-            return match;
-          }
-        }
-
-        return null;
-      } catch (err) {
-        console.warn('Payment API search failed:', err.message);
         return null;
       }
     };
@@ -271,29 +167,15 @@ Deno.serve(async (req) => {
         // ── STEP 1: Try direct lookup by square_order_id (most reliable) ──
         let squareOrder = await lookupSquareOrderById(order.square_order_id);
 
-        // ── STEP 2: Fallback — try direct lookup by transaction_id ──
+        // ── STEP 2: Fallback — search by our order number as reference_id (strict, no fuzzy) ──
         if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          squareOrder = await lookupSquareOrderById(order.transaction_id);
+          squareOrder = await searchSquareByReference(order.order_number);
         }
 
-        // ── STEP 3: Fallback — search by reference_id or amount ──
-        const amountCents = order.total_amount ? Math.round(order.total_amount * 100) : null;
-        if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          squareOrder = await searchSquareByReference(order.order_number, amountCents);
-        }
-
-        // ── STEP 4: Fallback — search Payments API by customer email/amount ──
-        let matchedPayment = null;
-        if (!squareOrder || squareOrder.state !== 'COMPLETED') {
-          matchedPayment = await searchSquarePaymentsByEmailOrAmount(order.customer_email, amountCents, order.customer_name, order.shipping_address);
-        }
-
-        const isCompleted = (squareOrder && squareOrder.state === 'COMPLETED') || matchedPayment;
+        const isCompleted = squareOrder && squareOrder.state === 'COMPLETED';
 
         if (isCompleted) {
-          const squareIdToStore = squareOrder?.state === 'COMPLETED'
-            ? squareOrder.id
-            : (matchedPayment?.order_id || matchedPayment?.id || order.square_order_id);
+          const squareIdToStore = squareOrder.id;
           // ── Payment confirmed — update order ──
           try {
             await base44.asServiceRole.entities.Order.update(order.id, {
@@ -370,14 +252,14 @@ Deno.serve(async (req) => {
                 <p><strong>Email:</strong> ${order.customer_email}</p>
                 <p><strong>Total:</strong> $${Number(order.total_amount).toFixed(2)}</p>
                 <p><strong>Square Order ID:</strong> ${squareIdToStore}</p>
-                <p><strong>Match method:</strong> ${squareOrder?.state === 'COMPLETED' ? 'Order lookup' : 'Payments API'}</p>
+                <p><strong>Match method:</strong> ${order.square_order_id ? 'Direct order ID lookup' : 'Reference ID search'}</p>
                 <p><a href="https://redhelixresearch.com/AdminOrderManagement" style="color:#dc2626;font-weight:700;">View in Admin →</a></p>
               </div>`,
             });
           } catch {}
 
           synced++;
-          results.push({ order_number: order.order_number, status: 'synced', square_order_id: squareIdToStore, match_method: squareOrder?.state === 'COMPLETED' ? 'order_lookup' : 'payments_api' });
+          results.push({ order_number: order.order_number, status: 'synced', square_order_id: squareIdToStore, match_method: order.square_order_id ? 'order_id_lookup' : 'reference_id_search' });
           console.log(`Synced order ${order.order_number}`);
 
         } else if (isStale(order)) {
