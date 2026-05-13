@@ -174,6 +174,18 @@ Deno.serve(async (req) => {
       checkoutUrl: squareData.payment_link.url,
       paymentLinkId: squareData.payment_link.id,
       orderId: squareData.payment_link.order_id,
+      // Server-validated amounts so the Order entity matches what Square charged.
+      // Frontend should prefer these over its locally-computed values.
+      validated: {
+        subtotal: validation.subtotal,
+        discount: serverDiscount,
+        shipping: finalShippingCost,
+        processingFee: processingFeeAmount || 0,
+        totalAmount: validation.subtotal - serverDiscount + finalShippingCost + (processingFeeAmount || 0),
+        validatedPromo: validation.validatedPromo || null,
+        welcomeDiscountId: validation.welcomeDiscountId || null,
+        discountNote: validation.discountNote || null,
+      },
     });
 
   } catch (error) {
