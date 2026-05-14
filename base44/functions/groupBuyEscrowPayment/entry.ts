@@ -15,6 +15,12 @@ Deno.serve(async (req) => {
 
     // --- ACTION: record_pending (payment link sent, awaiting completion) ---
     if (action === 'record_pending') {
+      // Require authentication to prevent unauthorized escrow record creation
+      const user = await base44.auth.me().catch(() => null);
+      if (!user) {
+        return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
       // square_payment_link_id and checkout_url already destructured from body above
       if (!amount_cents || !group_buy_id || !participant_email) {
         return Response.json({ error: 'Missing required fields' }, { status: 400 });

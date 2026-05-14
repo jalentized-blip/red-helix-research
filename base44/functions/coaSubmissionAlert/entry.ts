@@ -1,4 +1,6 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+
+const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL') || 'jake@redhelixresearch.com';
 
 Deno.serve(async (req) => {
   try {
@@ -20,8 +22,8 @@ Deno.serve(async (req) => {
     });
 
     // Send email to site admin
-    await base44.integrations.Core.SendEmail({
-      to: 'jake@redhelixresearch.com',
+    await base44.asServiceRole.integrations.Core.SendEmail({
+      to: ADMIN_EMAIL,
       subject: `New COA Submission Pending Approval: ${coa.peptide_name}`,
       body: `A new Certificate of Analysis has been submitted and is pending your approval.
 
