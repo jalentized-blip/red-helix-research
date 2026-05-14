@@ -1295,6 +1295,11 @@ export default function AdminOrderManagement() {
               <Truck className="w-4 h-4 mr-2" /> <span className="hidden sm:inline">Tracking Hub</span><span className="sm:hidden">Track</span>
             </Button>
           </Link>
+          <Link to={createPageUrl('SkuMismatchDashboard')} className="w-full sm:w-auto">
+            <Button className="bg-red-900 hover:bg-red-950 text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg w-full sm:w-auto">
+              <AlertCircle className="w-4 h-4 mr-2" /> <span className="hidden sm:inline">SKU Flags</span><span className="sm:hidden">SKU</span>
+            </Button>
+          </Link>
           <Button onClick={() => setShowPredictions(true)} className="bg-[#dc2626] hover:bg-[#b91c1c] text-white font-black uppercase tracking-widest text-xs px-3 sm:px-5 py-4 sm:py-5 rounded-full shadow-lg flex-1 sm:flex-none">
             <TrendingUp className="w-4 h-4 mr-1 sm:mr-2" /> <span className="hidden sm:inline">Predictions</span><span className="sm:hidden">Stats</span>
           </Button>
