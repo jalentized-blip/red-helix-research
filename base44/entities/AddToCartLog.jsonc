@@ -1,0 +1,82 @@
+{
+  "name": "AddToCartLog",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "The product ID submitted by the client"
+    },
+    "product_name": {
+      "type": "string",
+      "description": "Product name at time of add-to-cart"
+    },
+    "specification": {
+      "type": "string",
+      "description": "Specification/strength selected"
+    },
+    "price_submitted": {
+      "type": "number",
+      "description": "Price sent by the client"
+    },
+    "price_catalog": {
+      "type": "number",
+      "description": "Server-side catalog price at time of log"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 1,
+      "description": "Quantity added"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "ghost_product",
+        "ghost_spec",
+        "hidden_product",
+        "hidden_spec",
+        "product_out_of_stock",
+        "spec_out_of_stock",
+        "price_mismatch"
+      ],
+      "description": "Validation result"
+    },
+    "mismatch_reason": {
+      "type": "string",
+      "description": "Human-readable reason if status is not ok"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Browser session identifier for tracing"
+    },
+    "logged_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the add-to-cart event"
+    }
+  },
+  "required": [
+    "product_id",
+    "product_name",
+    "specification",
+    "status"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

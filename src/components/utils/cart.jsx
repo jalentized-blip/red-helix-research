@@ -23,6 +23,20 @@ export const getCart = () => {
   }
 };
 
+// Stable browser session ID for tracing add-to-cart events across the session
+const getSessionId = () => {
+  try {
+    let sid = sessionStorage.getItem('rhr_session_id');
+    if (!sid) {
+      sid = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      sessionStorage.setItem('rhr_session_id', sid);
+    }
+    return sid;
+  } catch {
+    return 'unknown';
+  }
+};
+
 export const addToCart = (product, specification) => {
   // FAILSAFE: Block adding any out-of-stock spec using the shared truth function
   if (!isSpecInStock(specification)) {
@@ -50,6 +64,19 @@ export const addToCart = (product, specification) => {
 
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   window.dispatchEvent(new Event('cartUpdated'));
+
+  // Fire-and-forget: log & validate this add-to-cart event against the live catalog
+  // Non-blocking — never delays or blocks the cart action
+  import('@/api/base44Client').then(({ base44 }) => {
+    base44.functions.invoke('logAddToCart', {
+      productId: product.id,
+      productName: product.name,
+      specification: specification.name,
+      price: specification.price,
+      quantity: 1,
+      sessionId: getSessionId(),
+    }).catch(err => console.warn('[CART] Add-to-cart log failed (non-blocking):', err));
+  }).catch(() => {});
 
   // Meta Pixel: AddToCart event
   if (typeof window !== 'undefined' && window.fbq) {
