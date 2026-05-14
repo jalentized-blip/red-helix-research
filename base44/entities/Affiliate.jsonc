@@ -1,0 +1,91 @@
+{
+  "name": "Affiliate",
+  "type": "object",
+  "properties": {
+    "affiliate_name": {
+      "type": "string",
+      "description": "Full name of the affiliate"
+    },
+    "affiliate_email": {
+      "type": "string",
+      "description": "Email address (linked to their account)"
+    },
+    "code": {
+      "type": "string",
+      "description": "Unique affiliate code"
+    },
+    "discount_percent": {
+      "type": "number",
+      "default": 15,
+      "description": "Discount percentage for customers"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the affiliate code is active"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Admin notes"
+    },
+    "total_points": {
+      "type": "number",
+      "default": 0,
+      "description": "Total reward points earned"
+    },
+    "total_commission": {
+      "type": "number",
+      "default": 0,
+      "description": "Total commission owed"
+    },
+    "total_orders": {
+      "type": "number",
+      "default": 0,
+      "description": "Total number of orders"
+    },
+    "total_revenue": {
+      "type": "number",
+      "default": 0,
+      "description": "Total revenue generated"
+    },
+    "total_clicks": {
+      "type": "number",
+      "default": 0,
+      "description": "Total clicks on affiliate link"
+    }
+  },
+  "required": [
+    "affiliate_name",
+    "affiliate_email",
+    "code"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.affiliate_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
