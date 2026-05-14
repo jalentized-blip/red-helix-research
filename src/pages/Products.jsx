@@ -15,6 +15,7 @@ import {
   generateItemListSchema
 } from '@/components/utils/advancedSchemaHelpers';
 import { isSpecInStock } from '@/components/utils/cart';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const CATEGORIES = [
   { id: 'all', label: 'All Products', icon: <Beaker className="w-6 h-6" /> },
@@ -162,6 +163,7 @@ export default function Products() {
   };
 
   return (
+    <ErrorBoundary>
     <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Cheap Research Peptides — GLP-1, Semaglutide, Tirzepatide, BPC-157 | Best Price USA"
@@ -360,5 +362,6 @@ export default function Products() {
         isAuthenticated={isAuthenticated}
       />
     </div>
+    </ErrorBoundary>
   );
 }
