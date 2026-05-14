@@ -515,10 +515,10 @@ export const validateCartStock = async (base44) => {
     const spec = product.specifications?.find(s => s.name === item.specification);
 
     if (!spec) {
-      // FAILSAFE: Spec not found could be a data mismatch — keep item, warn
-      console.warn(`[CART] Spec "${item.specification}" not found for "${item.productName}" — keeping in cart`);
-      warnings.push(`${item.productName} (${item.specification}) spec could not be verified (kept)`);
-      return true; // keep
+      // Spec doesn't exist on this product — it's phantom/corrupted data, remove it
+      console.warn(`[CART] Spec "${item.specification}" not found for "${item.productName}" — removing phantom item`);
+      removed.push(`${item.productName} (${item.specification})`);
+      return false;
     }
 
     // Spec is explicitly hidden — remove
