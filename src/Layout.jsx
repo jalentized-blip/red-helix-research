@@ -992,7 +992,7 @@ const HeaderSearch = () => {
       
       {/* Main Content */}
       <main id="main-content" role="main">
-        {React.cloneElement(children, { adminViewAsUser: viewAsUser })}
+        {children}
       </main>
 
 
