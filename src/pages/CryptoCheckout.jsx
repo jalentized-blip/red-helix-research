@@ -1521,6 +1521,8 @@ export default function CryptoCheckout() {
                            }
                            setSquareError('');
                            setSquareSending(true);
+                           // Open popup SYNCHRONOUSLY before any await — browsers block window.open after async gaps
+                           const payNowWindow = payNow ? window.open('', '_blank', 'noopener,noreferrer') : null;
                            // Server-side stock check before creating order
                            const squareStockOk = await serverStockCheck();
                            if (!squareStockOk) { setSquareSending(false); return; }
@@ -1817,14 +1819,15 @@ export default function CryptoCheckout() {
                               setSquareSent(true);
                               setTurnstileToken(null); // Reset — tokens are single-use
                               // Only auto-open tab for PAY NOW, not Send Payment Link
-                              if (payNow) {
-                                window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+                              if (payNow && payNowWindow) {
+                                payNowWindow.location.href = checkoutUrl;
                               }
                             } catch (err) {
                               console.error('Square checkout error:', err);
                               const errMsg = err?.response?.data?.error || err?.data?.error || err?.message || 'Failed to create checkout. Please try again.';
                               setSquareError(typeof errMsg === 'string' ? errMsg : JSON.stringify(errMsg));
                               setTurnstileToken(null); // Reset on error for re-verification
+                              if (payNowWindow) payNowWindow.close(); // Close blank tab on error
                             } finally {
                               setSquareSending(false);
                             }
