@@ -498,11 +498,10 @@ export const validateCartStock = async (base44) => {
       || products.find(p => p.name === item.productName);
 
     if (!product) {
-      // FAILSAFE: If product not found in DB, keep it — could be a DB load issue
-      // Only remove if we're very sure (product was explicitly deleted/hidden)
-      console.warn(`[CART] Product not found in DB for item: ${item.productName} — keeping in cart`);
-      warnings.push(`${item.productName} could not be verified (kept in cart)`);
-      return true; // keep
+      // Product not found in DB at all — it's phantom/deleted/renamed, remove it
+      console.warn(`[CART] Product not found in DB for item: ${item.productName} — removing phantom item`);
+      removed.push(`${item.productName} (${item.specification})`);
+      return false;
     }
 
     // Whole product is hidden or deleted — remove

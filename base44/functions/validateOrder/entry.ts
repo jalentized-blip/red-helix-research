@@ -185,9 +185,15 @@ Deno.serve(async (req) => {
         const outOfStock = [];
         for (const item of stockItems) {
           const product = products.find(p => p.name === item.productName || p.id === item.productId);
-          if (!product) continue; // give benefit of the doubt if product not found
+          if (!product) {
+            outOfStock.push(`${item.productName} — product not found`);
+            continue;
+          }
           const spec = product.specifications?.find(s => s.name === item.specification);
-          if (!spec) continue;
+          if (!spec) {
+            outOfStock.push(`${item.productName} — ${item.specification} (specification does not exist)`);
+            continue;
+          }
           if (spec.in_stock === false || spec.stock_quantity === 0 || spec.hidden) {
             outOfStock.push(`${item.productName} — ${item.specification}`);
           } else if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
+import { validateCartStock, getCart } from '@/components/utils/cart';
 
 export default function CustomerInfo() {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ export default function CustomerInfo() {
     return newErrors;
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const newErrors = validateForm();
     
     if (Object.keys(newErrors).length > 0) {
@@ -101,6 +102,20 @@ export default function CustomerInfo() {
       alert('Information updated successfully!');
       navigate(createPageUrl('Account'));
     } else {
+      // Re-validate cart against live DB before proceeding — catches phantom specs
+      const { removed } = await validateCartStock(base44);
+      if (removed.length > 0) {
+        const freshCart = getCart();
+        if (freshCart.length === 0) {
+          alert('All items in your cart are no longer available. Please return to the shop and add valid products.');
+          navigate(createPageUrl('Cart'));
+          return;
+        }
+        alert(`The following items were removed because they are no longer available:\n\n${removed.join('\n')}\n\nPlease review your cart before continuing.`);
+        navigate(createPageUrl('Cart'));
+        return;
+      }
+
       // Save a pre-checkout snapshot immediately — so we have name/email/address
       // even if they abandon at the payment step
       try {
