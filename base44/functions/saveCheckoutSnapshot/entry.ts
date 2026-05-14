@@ -55,7 +55,10 @@ Deno.serve(async (req) => {
     }).catch(e => console.warn('OrderSnapshot.create failed (non-blocking, email backup still sent):', e?.message || e));
 
     const BASE_URL = 'https://redhelixresearch.com';
-    const itemsText = items.map(i => `  • ${i.productName} (${i.specification || '—'}) x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}\n    🔗 ${BASE_URL}/Products?search=${encodeURIComponent(i.productName)}`).join('\n');
+    const itemsText = items.map(i => {
+      const productUrl = i.productId ? `${BASE_URL}/Products?productId=${i.productId}` : `${BASE_URL}/Products`;
+      return `  • ${i.productName} (${i.specification || '—'}) x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}\n    🔗 ${productUrl}`;
+    }).join('\n');
     const addrText = shippingAddress
       ? `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}`
       : 'Not provided';
@@ -84,8 +87,8 @@ Deno.serve(async (req) => {
   <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:16px;">
     <p style="margin:0 0 8px;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Items Ordered</p>
     <pre style="margin:0;font-size:13px;color:#334155;white-space:pre-wrap;font-family:monospace;">${items.map(i => {
-      const productUrl = `${BASE_URL}/Products?search=${encodeURIComponent(i.productName)}`;
-      return `• ${i.productName} (${i.specification || '—'}) x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}\n  <a href="${productUrl}" style="color:#dc2626;font-size:11px;">🔗 View Product →</a>`;
+      const productUrl = i.productId ? `${BASE_URL}/Products?productId=${i.productId}` : `${BASE_URL}/Products`;
+      return `• ${i.productName} (${i.specification || '—'}) x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}\n  <a href="${productUrl}" style="color:#dc2626;font-size:11px;">🔗 View Product (ID: ${i.productId || 'unknown'}) →</a>`;
     }).join('\n\n')}</pre>
   </div>
 

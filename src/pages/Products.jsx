@@ -38,6 +38,20 @@ export default function Products() {
     base44.auth.isAuthenticated().then(setIsAuthenticated).catch(() => setIsAuthenticated(false));
   }, []);
 
+  // Auto-open product modal when ?productId= is in the URL (e.g. from checkout snapshot email links)
+  useEffect(() => {
+    if (products.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('productId');
+    if (productId) {
+      const match = products.find(p => p.id === productId);
+      if (match) {
+        setSelectedProduct(match);
+        setIsModalOpen(true);
+      }
+    }
+  }, [products]);
+
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
