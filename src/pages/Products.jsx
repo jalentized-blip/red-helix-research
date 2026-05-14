@@ -105,26 +105,35 @@ export default function Products() {
   } : null;
 
   // Filter out kit specs from individual products (show single vials only)
+  // Also strip OOS and hidden specs so cards/modals only show purchasable options
   const productsWithSingleVials = products.map(product => ({
     ...product,
     specifications: product.specifications?.filter(spec => 
-      !isKitSpec(spec.name)
+      !isKitSpec(spec.name) && !spec.hidden && isSpecInStock(spec)
     ) || []
   })).filter(product => {
-    // Remove products that only had kit specs
-    const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
-    return visibleSpecs.length > 0;
+    // Remove products that have no purchasable specs remaining
+    return product.specifications.length > 0;
   });
 
   let filteredProducts = productsWithSingleVials.filter(p => {
     if (p.is_deleted || p.hidden) return false;
 
+    // Always enforce product-level in_stock flag — never show fully OOS products
+    if (p.in_stock === false) return false;
+
     const categoryMatch = selectedCategory === 'all' || p.category === selectedCategory;
 
     // Check if any visible specification is in stock (using shared truth function)
     const visibleSpecs = p.specifications?.filter(spec => !spec.hidden) || [];
-    const inStock = visibleSpecs.some(spec => isSpecInStock(spec));
-    const stockMatch = hideOutOfStock ? inStock : true;
+    const hasAnyInStock = visibleSpecs.some(spec => isSpecInStock(spec));
+
+    // Always hide products with zero in-stock specs (no valid purchasable option)
+    if (!hasAnyInStock) return false;
+
+    // hideOutOfStock toggle only affects whether products with SOME OOS specs are shown
+    // (since we already require hasAnyInStock, this toggle is now redundant but kept for UI)
+    const stockMatch = hideOutOfStock ? hasAnyInStock : true;
 
     const searchMatch = deferredSearch === '' ||
       p.name.toLowerCase().includes(deferredSearch.toLowerCase()) ||

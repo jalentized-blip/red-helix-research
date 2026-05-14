@@ -147,34 +147,26 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                     <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Select 10-Vial Kit</h3>
                   </div>
                   <div className="grid gap-3">
-                    {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
-                      const isOutOfStock = !isSpecInStock(spec);
+                    {product.specifications?.filter(spec => !spec.hidden && isSpecInStock(spec)).map((spec, index) => {
                       return (
                         <button
                           key={index}
-                          onClick={() => !isOutOfStock && setSelectedSpec(spec)}
-                          disabled={isOutOfStock}
+                          onClick={() => setSelectedSpec(spec)}
                           className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
                             selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName
                               ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
-                              : isOutOfStock
-                              ? 'border-slate-200 bg-slate-50 cursor-not-allowed'
                               : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-3">
                             <div className="flex-1 min-w-0">
-                              <div className={`font-black tracking-tight text-lg transition-colors ${isOutOfStock ? 'text-slate-400' : selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#8B2635]' : 'text-black'}`}>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#8B2635]' : 'text-black'}`}>
                                 {spec.productName} - {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">10-Vial Research Kit</div>
                             </div>
                             <div className="text-right flex-shrink-0">
-                              {isOutOfStock ? (
-                                <span className="inline-block px-2.5 py-1 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest">Out of Stock</span>
-                              ) : (
-                                <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
-                              )}
+                              <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
                             </div>
                           </div>
                         </button>
@@ -190,34 +182,26 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
                     <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Individual Unit Selection</h3>
                   </div>
                   <div className="grid gap-3">
-                    {product.specifications?.filter(spec => !spec.hidden).map((spec, index) => {
-                      const isOutOfStock = !isSpecInStock(spec);
+                    {product.specifications?.filter(spec => !spec.hidden && isSpecInStock(spec)).map((spec, index) => {
                       return (
                         <button
                           key={index}
-                          onClick={() => !isOutOfStock && setSelectedSpec(spec)}
-                          disabled={isOutOfStock}
+                          onClick={() => setSelectedSpec(spec)}
                           className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
                             selectedSpec?.name === spec.name
                               ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
-                              : isOutOfStock
-                              ? 'border-slate-200 bg-slate-50 cursor-not-allowed'
                               : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-3">
                             <div className="flex-1 min-w-0">
-                              <div className={`font-black tracking-tight text-lg transition-colors ${isOutOfStock ? 'text-slate-400' : selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
+                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
                                 {spec.name}
                               </div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
                             </div>
                             <div className="text-right flex-shrink-0">
-                              {isOutOfStock ? (
-                                <span className="inline-block px-2.5 py-1 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest">Out of Stock</span>
-                              ) : (
-                                <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
-                              )}
+                              <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
                             </div>
                           </div>
                         </button>
