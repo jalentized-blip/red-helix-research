@@ -1,0 +1,74 @@
+{
+  "name": "EncryptedFinancialData",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User's email (hashed for privacy)"
+    },
+    "data_type": {
+      "type": "string",
+      "enum": [
+        "plaid_account",
+        "payment_method",
+        "transaction",
+        "bank_details"
+      ],
+      "description": "Type of financial data"
+    },
+    "encrypted_data": {
+      "type": "string",
+      "description": "AES-256-GCM encrypted data (base64)"
+    },
+    "data_hash": {
+      "type": "string",
+      "description": "SHA-256 hash for verification"
+    },
+    "plaid_item_id": {
+      "type": "string",
+      "description": "Plaid item ID (if applicable)"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this data should be deleted per retention policy"
+    },
+    "last_accessed": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time this data was accessed"
+    }
+  },
+  "required": [
+    "user_email",
+    "data_type",
+    "encrypted_data"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
