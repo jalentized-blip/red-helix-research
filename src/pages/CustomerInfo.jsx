@@ -7,6 +7,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { validateCartStock, getCart } from '@/components/utils/cart';
+import AddressValidator from '@/components/AddressValidator';
 
 export default function CustomerInfo() {
   const navigate = useNavigate();
@@ -32,6 +33,8 @@ export default function CustomerInfo() {
   });
 
   const [errors, setErrors] = useState({});
+  const [billingAddressValid, setBillingAddressValid] = useState(false);
+  const [shippingAddressValid, setShippingAddressValid] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -72,6 +75,18 @@ export default function CustomerInfo() {
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      return;
+    }
+
+    // Check address validation — billing must be valid
+    if (!billingAddressValid) {
+      alert('Please verify your billing address before continuing.');
+      return;
+    }
+
+    // Check shipping address validation if different from billing
+    if (!formData.sameAsShipping && !shippingAddressValid) {
+      alert('Please verify your shipping address before continuing.');
       return;
     }
 
@@ -316,8 +331,15 @@ export default function CustomerInfo() {
                   {errors.billingZip && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.billingZip}</p>}
                 </div>
               </div>
-            </div>
-          </div>
+              <AddressValidator
+                address={formData.billingAddress}
+                city={formData.billingCity}
+                state={formData.billingState}
+                zip={formData.billingZip}
+                onValidationComplete={setBillingAddressValid}
+              />
+              </div>
+              </div>
 
           {/* Shipping Option */}
           <div className="border-t border-slate-100 pt-10 space-y-6">
@@ -394,9 +416,16 @@ export default function CustomerInfo() {
                     />
                     {errors.shippingZip && <p className="text-[#dc2626] text-[10px] font-bold uppercase tracking-widest mt-1">{errors.shippingZip}</p>}
                   </div>
-                </div>
-              </motion.div>
-            )}
+                  </div>
+                  <AddressValidator
+                  address={formData.shippingAddress}
+                  city={formData.shippingCity}
+                  state={formData.shippingState}
+                  zip={formData.shippingZip}
+                  onValidationComplete={setShippingAddressValid}
+                  />
+                  </motion.div>
+                  )}
           </div>
 
           {/* Research Compliance Acknowledgment */}
