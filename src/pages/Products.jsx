@@ -38,6 +38,14 @@ export default function Products() {
     base44.auth.isAuthenticated().then(setIsAuthenticated).catch(() => setIsAuthenticated(false));
   }, []);
 
+  const { data: products = [], isLoading, refetch } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => base44.entities.Product.list(),
+    staleTime: 60 * 1000,
+  });
+  // PASS 5: defer search input so filtering doesn't block typing
+  const deferredSearch = useDeferredValue(searchQuery);
+
   // Auto-open product modal when ?productId= is in the URL (e.g. from checkout snapshot email links)
   useEffect(() => {
     if (products.length === 0) return;
@@ -51,14 +59,6 @@ export default function Products() {
       }
     }
   }, [products]);
-
-  const { data: products = [], isLoading, refetch } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => base44.entities.Product.list(),
-    staleTime: 60 * 1000,
-  });
-  // PASS 5: defer search input so filtering doesn't block typing
-  const deferredSearch = useDeferredValue(searchQuery);
 
   // Real-time stock updates
   useEffect(() => {
