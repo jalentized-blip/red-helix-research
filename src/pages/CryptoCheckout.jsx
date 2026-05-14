@@ -1522,7 +1522,14 @@ export default function CryptoCheckout() {
                            setSquareError('');
                            setSquareSending(true);
                            // Open popup SYNCHRONOUSLY before any await — browsers block window.open after async gaps
-                           const payNowWindow = payNow ? window.open('', '_blank', 'noopener,noreferrer') : null;
+                           // Write a loading page so it doesn't sit blank while the API call runs
+                           let payNowWindow = null;
+                           if (payNow) {
+                             payNowWindow = window.open('', '_blank', 'noopener,noreferrer');
+                             if (payNowWindow) {
+                               payNowWindow.document.write('<html><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f8fafc;"><p style="color:#64748b;font-size:16px;font-weight:600;">Preparing your checkout...</p></body></html>');
+                             }
+                           }
                            // Server-side stock check before creating order
                            const squareStockOk = await serverStockCheck();
                            if (!squareStockOk) { setSquareSending(false); return; }
