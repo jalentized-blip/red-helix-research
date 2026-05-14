@@ -758,7 +758,7 @@ export default function CryptoCheckout() {
     try {
       const res = await base44.functions.invoke('validateOrder', {
         action: 'check_stock',
-        items: cartItems.map(i => ({ productId: i.productId, productName: i.productName, specification: i.specification, quantity: i.quantity })),
+        items: cartItems.map(i => ({ productId: i.productId, productName: i.productName, specification: i.specification, quantity: i.quantity, price: i.price })),
       });
       if (!res?.data?.valid && res?.data?.outOfStock?.length > 0) {
         alert(`The following items are no longer in stock and cannot be ordered:\n\n${res.data.outOfStock.join('\n')}\n\nPlease return to your cart and remove them.`);

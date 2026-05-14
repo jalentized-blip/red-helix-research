@@ -114,7 +114,30 @@ Deno.serve(async (req) => {
           if (spec.hidden) {
             return Response.json({ error: `Product not available: ${item.productName} - ${item.specification}` }, { status: 400 });
           }
+          // Product-level hidden or in_stock=false — reject
+          if (product.hidden) {
+            return Response.json({ error: `Product not available: ${item.productName}` }, { status: 400 });
+          }
+          if (product.in_stock === false) {
+            return Response.json({ error: `Product out of stock: ${item.productName}` }, { status: 409 });
+          }
           const serverPrice = spec.price;
+          // PRICE INTEGRITY CHECK: client-submitted price must match the live catalog price.
+          // A mismatch means the cart is stale or tampered — block the order.
+          if (item.price !== undefined && item.price !== null) {
+            const clientPrice = parseFloat(item.price);
+            if (isNaN(clientPrice) || Math.abs(clientPrice - serverPrice) > 0.01) {
+              console.warn(`[validateOrder] Price mismatch for ${item.productName} - ${item.specification}: client=$${clientPrice}, server=$${serverPrice}`);
+              return Response.json({
+                error: `Price mismatch for ${item.productName} (${item.specification}). Your cart price ($${clientPrice}) no longer matches the current catalog price ($${serverPrice}). Please refresh your cart and try again.`,
+                priceMismatch: true,
+                item: item.productName,
+                specification: item.specification,
+                clientPrice,
+                serverPrice,
+              }, { status: 409 });
+            }
+          }
           subtotal += serverPrice * item.quantity;
           validatedItems.push({
             product_id: product.id,
@@ -194,10 +217,21 @@ Deno.serve(async (req) => {
             outOfStock.push(`${item.productName} — ${item.specification} (specification does not exist)`);
             continue;
           }
+          if (product.hidden || product.in_stock === false) {
+            outOfStock.push(`${item.productName} — product no longer available`);
+            continue;
+          }
           if (spec.in_stock === false || spec.stock_quantity === 0 || spec.hidden) {
             outOfStock.push(`${item.productName} — ${item.specification}`);
           } else if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {
             outOfStock.push(`${item.productName} — ${item.specification} (only ${spec.stock_quantity} available)`);
+          }
+          // Price integrity check in stock check too
+          if (item.price !== undefined && item.price !== null) {
+            const clientPrice = parseFloat(item.price);
+            if (!isNaN(clientPrice) && Math.abs(clientPrice - spec.price) > 0.01) {
+              outOfStock.push(`${item.productName} — ${item.specification} (price changed: $${clientPrice} → $${spec.price})`);
+            }
           }
         }
         return Response.json({ valid: outOfStock.length === 0, outOfStock });
