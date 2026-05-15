@@ -78,17 +78,7 @@ export default function CustomerInfo() {
       return;
     }
 
-    // Check address validation — billing must be valid
-    if (!billingAddressValid) {
-      alert('Please verify your billing address before continuing.');
-      return;
-    }
-
-    // Check shipping address validation if different from billing
-    if (!formData.sameAsShipping && !shippingAddressValid) {
-      alert('Please verify your shipping address before continuing.');
-      return;
-    }
+    // Address validation is advisory only — orders are allowed even if unverified
 
     // Check if we came from Account page or Cart
     const isUpdatingFromAccount = document.referrer.includes('Account') || window.location.search.includes('source=account');

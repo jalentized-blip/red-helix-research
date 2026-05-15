@@ -38,16 +38,16 @@ export default function AddressValidator({ address, city, state, zip, onValidati
         setValidatedData(result.details);
         onValidationComplete(true, result.details);
       } else {
-        setValidationState('invalid');
-        setMessage(result.reason);
+        setValidationState('warning');
+        setMessage(result.reason || 'Address could not be verified — please double-check it is correct.');
         setValidatedData(null);
-        onValidationComplete(false, null);
+        onValidationComplete(true, null); // allow order to proceed
       }
     } catch (error) {
-      setValidationState('invalid');
-      setMessage('Address verification failed. Please check your connection.');
+      setValidationState('warning');
+      setMessage('Address verification unavailable — please ensure your address is correct.');
       setValidatedData(null);
-      onValidationComplete(false, null);
+      onValidationComplete(true, null); // allow order to proceed
     }
   }, [address, city, state, zip, onValidationComplete]);
 
@@ -72,7 +72,7 @@ export default function AddressValidator({ address, city, state, zip, onValidati
 
   return (
     <AnimatePresence>
-      {validationState !== 'idle' && (
+      {validationState !== 'idle' && validationState !== 'invalid' && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
@@ -83,7 +83,7 @@ export default function AddressValidator({ address, city, state, zip, onValidati
               ? 'bg-blue-50 border-blue-200 text-blue-700'
               : validationState === 'valid'
               ? 'bg-green-50 border-green-200 text-green-700'
-              : 'bg-red-50 border-red-200 text-red-700'
+              : 'bg-amber-50 border-amber-200 text-amber-700'
           }`}
         >
           <div className="flex-shrink-0 mt-0.5">
@@ -93,7 +93,7 @@ export default function AddressValidator({ address, city, state, zip, onValidati
             {validationState === 'valid' && (
               <CheckCircle2 className="w-4 h-4" />
             )}
-            {validationState === 'invalid' && (
+            {validationState === 'warning' && (
               <AlertCircle className="w-4 h-4" />
             )}
           </div>
