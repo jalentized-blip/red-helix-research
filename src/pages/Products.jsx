@@ -69,41 +69,10 @@ export default function Products() {
     return unsubscribe;
   }, [refetch]);
 
-  // Extract all 10 vial kit options from all products (excluding BPC-157)
   const isKitSpec = (name) => {
     const n = name?.toLowerCase() || '';
     return n.includes('10 vial') || n.includes('× 10') || n.includes('x 10');
   };
-
-  const allKitOptions = [];
-  products.forEach(product => {
-    const isBPC157 = product.name?.toLowerCase().includes('bpc');
-    const kitSpecs = product.specifications?.filter(spec => 
-      isKitSpec(spec.name) && !spec.hidden && isSpecInStock(spec) && !isBPC157
-    ) || [];
-    kitSpecs.forEach(spec => {
-      allKitOptions.push({
-        ...spec,
-        productName: product.name,
-        productId: product.id,
-        category: product.category
-      });
-    });
-  });
-
-  // Create synthetic Kits product if any kit options exist
-  const kitsProduct = allKitOptions.length > 0 ? {
-    id: 'kits-product',
-    name: 'Kits',
-    description: '10-vial research kits across our complete peptide catalog',
-    category: 'all',
-    specifications: allKitOptions,
-    price_from: Math.min(...allKitOptions.map(k => k.price)),
-    is_featured: true,
-    badge: 'bestseller',
-    hidden: false,
-    isKitsProduct: true
-  } : null;
 
   // Filter out kit specs from individual products (show single vials only)
   // Also strip OOS and hidden specs so cards/modals only show purchasable options
@@ -142,20 +111,6 @@ export default function Products() {
 
     return categoryMatch && stockMatch && searchMatch;
   });
-
-  // Add kits product to filtered results if it matches criteria
-  if (kitsProduct) {
-    const matchesCategory = selectedCategory === 'all';
-    const matchesSearch = deferredSearch === '' ||
-      'kits'.includes(deferredSearch.toLowerCase()) ||
-      kitsProduct.description.toLowerCase().includes(deferredSearch.toLowerCase());
-    const hasInStockKits = kitsProduct.specifications.some(spec => isSpecInStock(spec));
-    const stockMatch = hideOutOfStock ? hasInStockKits : true;
-    
-    if (matchesCategory && matchesSearch && stockMatch) {
-      filteredProducts = [kitsProduct, ...filteredProducts];
-    }
-  }
 
   const handleSelectStrength = (product) => {
     setSelectedProduct(product);
