@@ -43,8 +43,14 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Missing action or items' }, { status: 400 });
     }
 
-    // Load all products once
-    const products = await base44.asServiceRole.entities.Product.list();
+    // Load all products once — fallback to public read for guest users (no auth token)
+    let products;
+    try {
+      products = await base44.asServiceRole.entities.Product.list();
+    } catch (_) {
+      console.warn('[decrementStock] asServiceRole failed — falling back to public product read');
+      products = await base44.entities.Product.list();
+    }
 
     // ── DECREMENT ─────────────────────────────────────────────────────────────
     if (action === 'decrement') {
@@ -124,7 +130,8 @@ Deno.serve(async (req) => {
             continue;
           }
           const freshIsTracked = freshSpec.stock_quantity !== undefined && freshSpec.stock_quantity !== null && freshSpec.stock_quantity !== -1;
-          if (freshSpec.in_stock === false) {
+          // Use same isSpecInStock logic: stock_quantity > 0 always wins over in_stock flag
+          if (!isSpecInStock(freshSpec)) {
             skipped.push(`${item.productName} (${item.specification}) — went out of stock between pre-flight and write`);
             continue;
           }
@@ -148,7 +155,9 @@ Deno.serve(async (req) => {
             return spec;
           });
 
-          const allOut = updatedSpecs.every(s => !s.in_stock);
+          // allOut: a spec is considered out only if isSpecInStock returns false — avoids
+          // treating specs with in_stock:undefined (never explicitly set) as out of stock
+          const allOut = updatedSpecs.every(s => !isSpecInStock(s));
           await base44.asServiceRole.entities.Product.update(product.id, {
             specifications: updatedSpecs,
             in_stock: !allOut,
@@ -202,9 +211,10 @@ Deno.serve(async (req) => {
           });
 
           cachedProduct.specifications = updatedSpecs;
+          // Use isSpecInStock so that specs with in_stock:undefined aren't treated as out of stock
           await base44.asServiceRole.entities.Product.update(product.id, {
             specifications: updatedSpecs,
-            in_stock: updatedSpecs.some(s => s.in_stock),
+            in_stock: updatedSpecs.some(s => isSpecInStock(s)),
           });
 
           restored.push(`${item.productName} — ${item.specification}`);

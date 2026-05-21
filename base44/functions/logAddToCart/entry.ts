@@ -5,6 +5,15 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
  * the live product catalog. Blocks ghost items (deleted/hidden/out-of-stock)
  * and records a mismatch flag for admin review.
  */
+// stock_quantity > 0 always means in stock (even if in_stock flag is stale)
+const isSpecInStock = (spec) => {
+  if (!spec) return false;
+  if (spec.stock_quantity > 0) return true;
+  if (spec.stock_quantity === 0) return false;
+  if (spec.in_stock === false) return false;
+  return true;
+};
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -34,9 +43,6 @@ Deno.serve(async (req) => {
   } else if (product.hidden) {
     status = 'hidden_product';
     mismatch = `Product "${productName}" is hidden`;
-  } else if (product.in_stock === false) {
-    status = 'product_out_of_stock';
-    mismatch = `Product "${productName}" is marked out of stock`;
   } else {
     const spec = product.specifications?.find(s => s.name === specification);
     if (!spec) {
@@ -45,7 +51,7 @@ Deno.serve(async (req) => {
     } else if (spec.hidden) {
       status = 'hidden_spec';
       mismatch = `Specification "${specification}" is hidden on "${productName}"`;
-    } else if (spec.in_stock === false || spec.stock_quantity === 0) {
+    } else if (!isSpecInStock(spec)) {
       status = 'spec_out_of_stock';
       mismatch = `Specification "${specification}" is out of stock on "${productName}"`;
     } else if (price !== undefined && price !== null) {

@@ -53,6 +53,19 @@ function isSpecOutOfStock(spec) {
   return false;
 }
 
+/**
+ * Fetch all products — tries service role first, falls back to public read for guest users.
+ * This ensures guest checkout flows (no auth token) can still validate orders.
+ */
+async function fetchAllProducts(base44) {
+  try {
+    return await base44.asServiceRole.entities.Product.list();
+  } catch (_) {
+    console.warn('[validateOrder] asServiceRole failed — falling back to public product read');
+    return await base44.entities.Product.list();
+  }
+}
+
 async function lookupWelcomeDiscount(base44, codeUpper) {
   try {
     const records = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code: codeUpper });
@@ -98,7 +111,7 @@ Deno.serve(async (req) => {
           return Response.json({ error: 'Invalid order items' }, { status: 400 });
         }
 
-        const products = await base44.asServiceRole.entities.Product.list();
+        const products = await fetchAllProducts(base44);
         let subtotal = 0;
         const validatedItems = [];
 
@@ -218,7 +231,7 @@ Deno.serve(async (req) => {
         if (!stockItems || !Array.isArray(stockItems) || stockItems.length === 0) {
           return Response.json({ error: 'Missing items' }, { status: 400 });
         }
-        const products = await base44.asServiceRole.entities.Product.list();
+        const products = await fetchAllProducts(base44);
         const outOfStock = [];
         for (const item of stockItems) {
           const product = products.find(p => p.name === item.productName || p.id === item.productId);
