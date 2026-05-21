@@ -16,8 +16,11 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 // Mirrors the frontend isSpecInStock logic exactly
 const isSpecInStock = (spec) => {
   if (!spec) return false;
-  if (spec.in_stock === false) return false;
+  // Explicit tracked quantity > 0 always wins over a stale in_stock flag
+  if (spec.stock_quantity > 0) return true;
   if (spec.stock_quantity === 0) return false;
+  // Unlimited (null, undefined, -1) — defer to in_stock flag
+  if (spec.in_stock === false) return false;
   return true;
 };
 

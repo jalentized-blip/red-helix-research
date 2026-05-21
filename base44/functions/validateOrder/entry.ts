@@ -45,8 +45,11 @@ async function getAllPromoCodes(base44) {
  * - stock_quantity missing/null/undefined → treated as unlimited (in stock)
  */
 function isSpecOutOfStock(spec) {
-  if (spec.in_stock === false) return true;
+  // Explicit tracked quantity > 0 always wins over a stale in_stock flag
+  if (spec.stock_quantity > 0) return false;
   if (spec.stock_quantity === 0) return true;
+  // Unlimited (null, undefined, -1) — defer to in_stock flag
+  if (spec.in_stock === false) return true;
   return false;
 }
 
