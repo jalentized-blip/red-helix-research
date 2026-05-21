@@ -114,12 +114,9 @@ Deno.serve(async (req) => {
           if (spec.hidden) {
             return Response.json({ error: `Product not available: ${item.productName} - ${item.specification}` }, { status: 400 });
           }
-          // Product-level hidden or in_stock=false — reject
+          // Product-level hidden — reject (in_stock is a derived flag; spec-level is authoritative)
           if (product.hidden) {
             return Response.json({ error: `Product not available: ${item.productName}` }, { status: 400 });
-          }
-          if (product.in_stock === false) {
-            return Response.json({ error: `Product out of stock: ${item.productName}` }, { status: 409 });
           }
           const serverPrice = spec.price;
           // PRICE INTEGRITY CHECK: client-submitted price must match the live catalog price.
@@ -217,7 +214,7 @@ Deno.serve(async (req) => {
             outOfStock.push(`${item.productName} — ${item.specification} (specification does not exist)`);
             continue;
           }
-          if (product.hidden || product.in_stock === false) {
+          if (product.hidden) {
             outOfStock.push(`${item.productName} — product no longer available`);
             continue;
           }
