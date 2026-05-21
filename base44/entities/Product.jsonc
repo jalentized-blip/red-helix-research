@@ -1,0 +1,122 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Product name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short product description"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "weight_loss",
+        "recovery_healing",
+        "cognitive_focus",
+        "performance_longevity",
+        "sexual_health",
+        "general_health"
+      ],
+      "description": "Product category"
+    },
+    "price_from": {
+      "type": "number",
+      "description": "Starting price"
+    },
+    "cost_price": {
+      "type": "number",
+      "description": "Default cost per unit (used if no spec-level cost is set)"
+    },
+    "badge": {
+      "type": "string",
+      "enum": [
+        "bestseller",
+        "trending",
+        "top_rated",
+        "popular",
+        "classic",
+        "newcomer",
+        "essential"
+      ],
+      "description": "Product badge"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show in best sellers"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Product image URL"
+    },
+    "specifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "cost_price": {
+            "type": "number",
+            "description": "Your cost per unit for this specific strength"
+          },
+          "in_stock": {
+            "type": "boolean",
+            "default": true
+          },
+          "stock_quantity": {
+            "type": "number",
+            "default": 0,
+            "description": "Stock units available for this specific strength"
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false,
+            "description": "Hide this strength option from customers"
+          }
+        }
+      },
+      "description": "Available specifications/strengths \u2014 stock is managed here per-spec, not at the product level"
+    },
+    "in_stock": {
+      "type": "boolean",
+      "default": true,
+      "description": "Derived flag \u2014 true if any specification has stock. Do not edit manually; updated automatically by the system."
+    },
+    "hidden": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hide entire product from customers"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "price_from"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

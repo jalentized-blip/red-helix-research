@@ -1110,17 +1110,14 @@ export default function AdminOrderManagement() {
         if (product) {
           const updatedSpecs = product.specifications.map(spec => {
             if (spec.name === item.specification) {
-              return {
-                ...spec,
-                stock_quantity: (spec.stock_quantity || 0) + (item.quantity || 1),
-                in_stock: true
-              };
+              const newQty = (spec.stock_quantity || 0) + (item.quantity || 1);
+              return { ...spec, stock_quantity: newQty, in_stock: newQty > 0 };
             }
             return spec;
           });
           await base44.entities.Product.update(product.id, {
             specifications: updatedSpecs,
-            in_stock: true
+            in_stock: updatedSpecs.some(s => s.in_stock !== false && (s.stock_quantity === undefined || s.stock_quantity === null || s.stock_quantity > 0)),
           });
         }
       }
