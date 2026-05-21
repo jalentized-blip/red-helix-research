@@ -36,6 +36,20 @@ async function getAllPromoCodes(base44) {
   return codes;
 }
 
+/**
+ * Shared spec stock helper — single source of truth used in both validate_order and check_stock.
+ * Returns true if the spec is out of stock.
+ * - in_stock === false → out of stock
+ * - stock_quantity === 0 → out of stock (explicit zero means sold out)
+ * - stock_quantity === -1 → unlimited (in stock)
+ * - stock_quantity missing/null/undefined → treated as unlimited (in stock)
+ */
+function isSpecOutOfStock(spec) {
+  if (spec.in_stock === false) return true;
+  if (spec.stock_quantity === 0) return true;
+  return false;
+}
+
 async function lookupWelcomeDiscount(base44, codeUpper) {
   try {
     const records = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code: codeUpper });
@@ -101,22 +115,22 @@ Deno.serve(async (req) => {
           if (!spec) {
             return Response.json({ error: `Specification not found: ${item.specification}` }, { status: 400 });
           }
-          // Authoritative stock check — mirrors frontend isSpecInStock:
-          // out of stock if in_stock === false OR stock_quantity === 0
-          if (spec.in_stock === false || spec.stock_quantity === 0) {
-            return Response.json({ error: `Out of stock: ${item.productName} - ${item.specification}` }, { status: 409 });
-          }
-          // Quantity check: reject if tracked quantity is insufficient
-          if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {
-            return Response.json({ error: `Insufficient stock for ${item.productName} - ${item.specification} (${spec.stock_quantity} available)` }, { status: 409 });
+          // Availability checks first (hidden/discontinued) — before stock checks
+          // Product-level hidden — reject
+          if (product.hidden) {
+            return Response.json({ error: `Product not available: ${item.productName}` }, { status: 400 });
           }
           // Hidden spec — reject
           if (spec.hidden) {
             return Response.json({ error: `Product not available: ${item.productName} - ${item.specification}` }, { status: 400 });
           }
-          // Product-level hidden — reject (in_stock is a derived flag; spec-level is authoritative)
-          if (product.hidden) {
-            return Response.json({ error: `Product not available: ${item.productName}` }, { status: 400 });
+          // Stock check — uses shared helper so validate_order and check_stock never drift
+          if (isSpecOutOfStock(spec)) {
+            return Response.json({ error: `Out of stock: ${item.productName} - ${item.specification}` }, { status: 409 });
+          }
+          // Quantity check: reject if tracked quantity is insufficient (-1 = unlimited, skip)
+          if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {
+            return Response.json({ error: `Insufficient stock for ${item.productName} - ${item.specification} (${spec.stock_quantity} available)` }, { status: 409 });
           }
           const serverPrice = spec.price;
           // PRICE INTEGRITY CHECK: client-submitted price must match the live catalog price.
@@ -214,11 +228,16 @@ Deno.serve(async (req) => {
             outOfStock.push(`${item.productName} — ${item.specification} (specification does not exist)`);
             continue;
           }
+          // Availability checks first, then stock
           if (product.hidden) {
             outOfStock.push(`${item.productName} — product no longer available`);
             continue;
           }
-          if (spec.in_stock === false || spec.stock_quantity === 0 || spec.hidden) {
+          if (spec.hidden) {
+            outOfStock.push(`${item.productName} — ${item.specification} (not available)`);
+            continue;
+          }
+          if (isSpecOutOfStock(spec)) {
             outOfStock.push(`${item.productName} — ${item.specification}`);
           } else if (spec.stock_quantity !== undefined && spec.stock_quantity !== null && spec.stock_quantity !== -1 && spec.stock_quantity < item.quantity) {
             outOfStock.push(`${item.productName} — ${item.specification} (only ${spec.stock_quantity} available)`);
