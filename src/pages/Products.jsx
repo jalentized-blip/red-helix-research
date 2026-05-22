@@ -119,7 +119,7 @@ export default function Products() {
 
   return (
     <ErrorBoundary>
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <SEO
         title="Cheap Research Peptides — GLP-1, Semaglutide, Tirzepatide, BPC-157 | Best Price USA"
         description="Best prices on research peptides. Cheap GLP-1 peptides — Semaglutide, Tirzepatide from $89.99. BPC-157, TB-500 & 25+ more. HPLC-verified, COA certified. USA-based supplier."
@@ -139,52 +139,36 @@ export default function Products() {
         ]}
       />
 
-      {/* Hero Section with Video Background */}
-      <div className="relative overflow-hidden" style={{ minHeight: '380px' }}>
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ zIndex: 0 }}
-        >
-          <source src="https://media.base44.com/videos/public/6972f2b59e2787f045b7ae0d/9e4a0aab4_grok-video-a4149f2d-4100-46d9-b019-fa25b4585b36.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/65" style={{ zIndex: 1 }} />
-        <div className="relative max-w-7xl mx-auto px-4 pt-32 pb-20" style={{ zIndex: 2 }}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <Link to={createPageUrl('Home')}>
-                <Button variant="ghost" className="mb-4 hover:bg-white/10 text-white/70 hover:text-white font-bold uppercase tracking-widest text-xs border border-white/20">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Dashboard
-                </Button>
-              </Link>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <h1 className="text-5xl md:text-7xl font-black text-white mb-2 uppercase tracking-tighter leading-none">
-                  Quality Research <span className="text-[#e8929e]">Peptides</span>
-                </h1>
-                <p className="text-xl text-white/75 font-medium max-w-2xl">
-                  Premium laboratory reagents with verified third-party analysis.
-                </p>
-              </motion.div>
-            </div>
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+          <div>
+            <Link to={createPageUrl('Home')}>
+              <Button variant="ghost" className="mb-4 hover:bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-xs">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Dashboard
+              </Button>
+            </Link>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <h1 className="text-5xl md:text-7xl font-black text-black mb-2 uppercase tracking-tighter leading-none">
+                Research <span className="text-[#8B2635]">Catalog</span>
+              </h1>
+              <p className="text-xl text-slate-500 font-medium max-w-2xl">
+                Premium laboratory reagents with verified third-party analysis.
+              </p>
+            </motion.div>
+          </div>
 
-            <div className="flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-              <ShieldCheck className="w-5 h-5 text-white" />
-              <span className="text-xs font-black uppercase tracking-widest text-white">
-                Verified Purity Standards
-              </span>
-            </div>
+          <div className="flex items-center gap-3 px-6 py-3 bg-slate-50 rounded-full border border-slate-200">
+            <ShieldCheck className="w-5 h-5 text-[#8B2635]" />
+            <span className="text-xs font-black uppercase tracking-widest text-slate-600">
+              Verified Purity Standards
+            </span>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 pt-12">
         <div>
           <div>
             {/* Search and Filters Section */}
