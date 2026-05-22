@@ -20,7 +20,6 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
   const [showCOA, setShowCOA] = useState(false);
   const [currentCoaIndex, setCurrentCoaIndex] = useState(0);
   const [cartPopupItem, setCartPopupItem] = useState(null);
-  const [kitDisclaimerChecked, setKitDisclaimerChecked] = useState(false);
 
   const { data: coas = [] } = useQuery({
     queryKey: ['coas'],
@@ -34,11 +33,14 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
     coa.product_name?.toLowerCase() === product.name?.toLowerCase()
   );
 
+  const isKitSpec = (name) => {
+    const n = (name || '').toLowerCase();
+    return n.includes('10 vial') || n.includes('× 10') || n.includes('x 10');
+  };
+
   const handleAddToCart = () => {
     if (selectedSpec) {
-      const cartProduct = product.isKitsProduct 
-        ? { ...product, id: selectedSpec.productId, name: selectedSpec.productName }
-        : product;
+      const cartProduct = product;
       for (let i = 0; i < quantity; i++) {
         addToCart(cartProduct, selectedSpec);
       }
@@ -139,97 +141,40 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
 
             {/* Selection Grid */}
             <div className="space-y-8 flex-grow">
-              {product.isKitsProduct ? (
-                // Kits product displays all kit options in dropdown-style grid
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <Zap className="w-4 h-4 text-slate-300" />
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Select 10-Vial Kit</h3>
-                  </div>
-                  <div className="grid gap-3">
-                    {product.specifications?.filter(spec => !spec.hidden && isSpecInStock(spec)).map((spec, index) => {
-                      return (
-                        <button
-                          key={index}
-                          onClick={() => setSelectedSpec(spec)}
-                          className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
-                            selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName
-                              ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
-                              : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="flex-1 min-w-0">
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name && selectedSpec?.productName === spec.productName ? 'text-[#8B2635]' : 'text-black'}`}>
-                                {spec.productName} - {spec.name}
-                              </div>
-                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">10-Vial Research Kit</div>
-                            </div>
-                            <div className="text-right flex-shrink-0">
-                              <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <FlaskConical className="w-4 h-4 text-slate-300" />
+                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Individual Unit Selection</h3>
                 </div>
-              ) : (
-                // Regular products show single vials only
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <FlaskConical className="w-4 h-4 text-slate-300" />
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Individual Unit Selection</h3>
-                  </div>
-                  <div className="grid gap-3">
-                    {product.specifications?.filter(spec => !spec.hidden && isSpecInStock(spec)).map((spec, index) => {
-                      return (
-                        <button
-                          key={index}
-                          onClick={() => setSelectedSpec(spec)}
-                          className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
-                            selectedSpec?.name === spec.name
-                              ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
-                              : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="flex-1 min-w-0">
-                              <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
-                                {spec.name}
-                              </div>
-                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
-                            </div>
-                            <div className="text-right flex-shrink-0">
-                              <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
-                            </div>
+                <div className="grid gap-3">
+                  {product.specifications?.filter(spec => !spec.hidden && isSpecInStock(spec) && !isKitSpec(spec.name)).map((spec, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedSpec(spec)}
+                      className={`p-5 rounded-3xl border-2 transition-all duration-300 text-left relative group ${
+                        selectedSpec?.name === spec.name
+                          ? 'border-[#8B2635] bg-[#8B2635]/5 shadow-sm'
+                          : 'border-slate-100 bg-slate-50/30 hover:border-slate-200 hover:bg-slate-50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className={`font-black tracking-tight text-lg transition-colors ${selectedSpec?.name === spec.name ? 'text-[#8B2635]' : 'text-black'}`}>
+                            {spec.name}
                           </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+                          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Single Vial</div>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="text-2xl font-black text-black tracking-tighter">${spec.price}</div>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
 
-            {/* Kit Disclaimer Checkbox — only for kit products */}
-            {product.isKitsProduct && (
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl">
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={kitDisclaimerChecked}
-                    onChange={(e) => setKitDisclaimerChecked(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 accent-amber-600 flex-shrink-0 cursor-pointer"
-                  />
-                  <span className="text-xs text-amber-900 font-semibold leading-relaxed">
-                    <span className="font-black uppercase text-amber-700 block mb-1">📦 Kit Shipment Notice — Please Read</span>
-                    I understand that kit orders <strong>ship separately</strong> from single-vial orders and may arrive at a <strong>different time</strong> via a separate tracking number. Kit vials arrive <strong>unlabeled</strong> — I can identify my products by matching the <strong>batch number on the kit's box</strong> or the <strong>colored vial caps</strong> to the corresponding Certificate of Analysis at <a href="https://redhelixresearch.com/COAReports" target="_blank" rel="noopener noreferrer" className="underline text-amber-700">redhelixresearch.com/COAReports</a>. Kit fulfillment may take up to 36 hours before shipping.{' '}
-                    <Link to={createPageUrl('KitInfo')} target="_blank" className="underline font-black text-amber-800">Read the full kit guide →</Link>
-                  </span>
-                </label>
-              </div>
-            )}
+
 
             {/* Action Area */}
             <div className="mt-6 space-y-4">
@@ -252,9 +197,9 @@ export default function ProductModal({ product, isOpen, onClose, isAuthenticated
               )}
               <Button
                   onClick={handleAddToCart}
-                  disabled={!selectedSpec || addedToCart || (product.isKitsProduct && !kitDisclaimerChecked)}
+                  disabled={!selectedSpec || addedToCart}
                   className={`w-full py-8 rounded-[20px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
-                    !selectedSpec || (product.isKitsProduct && !kitDisclaimerChecked)
+                    !selectedSpec
                       ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                       : addedToCart
                       ? 'bg-green-600 text-white'

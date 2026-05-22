@@ -41,6 +41,12 @@ const getSessionId = () => {
 };
 
 export const addToCart = (product, specification) => {
+  // Block kit specs from being added to cart
+  const specName = (specification?.name || '').toLowerCase();
+  if (specName.includes('10 vial') || specName.includes('× 10') || specName.includes('x 10')) {
+    console.warn('[CART] Blocked attempt to add kit spec:', specification?.name);
+    return getCart();
+  }
   // FAILSAFE: Block adding any out-of-stock spec using the shared truth function
   if (!isSpecInStock(specification)) {
     console.warn('[CART] Blocked attempt to add out-of-stock spec:', specification?.name);
