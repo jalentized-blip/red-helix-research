@@ -68,8 +68,13 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
       setShowAll(prev => !prev);
     }, []);
 
+    const isKitSpec = (name) => {
+      const n = (name || '').toLowerCase();
+      return n.includes('10 vial') || n.includes('× 10') || n.includes('x 10');
+    };
+
     // Memoize expensive filtering and sorting
-    const { displayedProducts, hasMore, kitsProduct } = useMemo(() => {
+    const { displayedProducts, hasMore } = useMemo(() => {
       // Deduplicate products by name
       const deduped = Array.from(
         new Map(
@@ -77,44 +82,11 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         ).values()
       ).sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date));
 
-      // Extract all 10 vial kit options from all products
-      const allKitOptions = [];
-      deduped.forEach(product => {
-        const kitSpecs = product.specifications?.filter(spec => 
-          spec.name?.toLowerCase().includes('10 vial') && !spec.hidden
-        ) || [];
-        kitSpecs.forEach(spec => {
-          allKitOptions.push({
-            ...spec,
-            productName: product.name,
-            productId: product.id,
-            category: product.category
-          });
-        });
-      });
-
-      // Create synthetic Kits product if any kit options exist
-      const kitsProduct = allKitOptions.length > 0 ? {
-        id: 'kits-product',
-        name: 'Kits',
-        description: '10-vial research kits across our complete peptide catalog',
-        category: 'all',
-        specifications: allKitOptions,
-        price_from: Math.min(...allKitOptions.map(k => k.price)),
-        is_featured: true,
-        badge: 'bestseller',
-        hidden: false,
-        isKitsProduct: true
-      } : null;
-
-      // Filter out kit specs from individual products (show single vials only)
+      // Strip kit specs from all products
       const productsWithSingleVials = deduped.map(product => ({
         ...product,
-        specifications: product.specifications?.filter(spec => 
-          !spec.name?.toLowerCase().includes('10 vial')
-        ) || []
+        specifications: product.specifications?.filter(spec => !isKitSpec(spec.name)) || []
       })).filter(product => {
-        // Remove products that only had kit specs
         const visibleSpecs = product.specifications?.filter(spec => !spec.hidden) || [];
         return visibleSpecs.length > 0;
       });
@@ -139,21 +111,7 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         return matchesCategory && matchesSearch && !isBacResearch && isVisible && inStock;
       });
 
-      // Add kits product to filtered results if it matches criteria
-      let withKits = [...filtered];
-      if (kitsProduct) {
-        const matchesCategory = activeCategory === "all";
-        const matchesSearch = searchQuery === "" || 
-          'kits'.includes(searchQuery.toLowerCase()) ||
-          kitsProduct.description.toLowerCase().includes(searchQuery.toLowerCase());
-        const hasInStockKits = kitsProduct.specifications.some(spec => isSpecInStock(spec));
-        
-        if (matchesCategory && matchesSearch && (isAdmin || hasInStockKits)) {
-          withKits = [kitsProduct, ...filtered];
-        }
-      }
-
-      const sorted = [...withKits].sort((a, b) => {
+      const sorted = [...filtered].sort((a, b) => {
         switch(sortBy) {
           case "price-low":
             return a.price_from - b.price_from;
@@ -174,7 +132,6 @@ const AllProducts = React.memo(({ products, onSelectStrength, isAuthenticated = 
         displayedProducts: displayed, 
         hasMore: sorted.length > 9,
         totalFiltered: sorted.length,
-        kitsProduct
       };
     }, [products, activeCategory, searchQuery, isAdmin, sortBy, showAll]);
 
