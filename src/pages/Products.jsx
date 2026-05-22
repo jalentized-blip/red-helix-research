@@ -140,18 +140,19 @@ export default function Products() {
       />
 
       {/* Hero Section with Video Background */}
-      <div className="relative overflow-hidden pt-32 pb-20">
+      <div className="relative overflow-hidden" style={{ minHeight: '380px' }}>
         <video
           autoPlay
           loop
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ zIndex: 0 }}
         >
           <source src="https://media.base44.com/videos/public/6972f2b59e2787f045b7ae0d/9e4a0aab4_grok-video-a4149f2d-4100-46d9-b019-fa25b4585b36.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black/65" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
+        <div className="absolute inset-0 bg-black/65" style={{ zIndex: 1 }} />
+        <div className="relative max-w-7xl mx-auto px-4 pt-32 pb-20" style={{ zIndex: 2 }}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
               <Link to={createPageUrl('Home')}>
