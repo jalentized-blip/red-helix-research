@@ -46,19 +46,13 @@ const BestSellers = React.memo(({ products, onSelectStrength, isAuthenticated = 
         }
         return isFeatured && isVisible && inStock;
       })
-      .map(p => {
-        // Filter out 10-vial kit options from regular products
-        if (!p.isKitsProduct && p.specifications) {
-          return {
-            ...p,
-            specifications: p.specifications.filter(spec => {
-              const n = spec.name?.toLowerCase() || '';
-              return !n.includes('10 vial') && !n.includes('× 10') && !n.includes('x 10');
-            })
-          };
-        }
-        return p;
-      })
+      .map(p => ({
+        ...p,
+        specifications: p.specifications?.filter(spec => {
+          const n = spec.name?.toLowerCase() || '';
+          return !n.includes('10 vial') && !n.includes('× 10') && !n.includes('x 10');
+        }) || []
+      }))
       .slice(0, 7);
   }, [products, effectiveIsAdmin]);
 

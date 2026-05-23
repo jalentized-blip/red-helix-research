@@ -140,6 +140,11 @@ Deno.serve(async (req) => {
           if (spec.hidden) {
             return Response.json({ error: `Product not available: ${item.productName} - ${item.specification}` }, { status: 400 });
           }
+          // Kit spec — permanently blocked server-side regardless of how cart was populated
+          const specNameLower = spec.name.toLowerCase();
+          if (specNameLower.includes('10 vial') || specNameLower.includes('× 10') || specNameLower.includes('x 10')) {
+            return Response.json({ error: `Kit orders are not available: ${item.specification}` }, { status: 400 });
+          }
           // Stock check — uses shared helper so validate_order and check_stock never drift
           if (isSpecOutOfStock(spec)) {
             return Response.json({ error: `Out of stock: ${item.productName} - ${item.specification}` }, { status: 409 });
