@@ -17,10 +17,24 @@ export const isSpecInStock = (spec) => {
   return true;
 };
 
+const isKitSpecName = (name) => {
+  const n = (name || '').toLowerCase();
+  return n.includes('10 vial') || n.includes('× 10') || n.includes('x 10');
+};
+
 export const getCart = () => {
   try {
-    const cart = localStorage.getItem(CART_KEY);
-    return cart ? JSON.parse(cart) : [];
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return [];
+    const cart = JSON.parse(raw);
+    // Permanently strip any kit items that may have been added historically
+    const cleaned = cart.filter(item => !isKitSpecName(item.specification));
+    if (cleaned.length !== cart.length) {
+      // Persist the cleaned cart so kit items are gone for good
+      localStorage.setItem(CART_KEY, JSON.stringify(cleaned));
+      window.dispatchEvent(new Event('cartUpdated'));
+    }
+    return cleaned;
   } catch {
     return [];
   }
