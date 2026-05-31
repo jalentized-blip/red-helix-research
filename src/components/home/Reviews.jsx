@@ -90,7 +90,7 @@ export default function Reviews() {
               exit={{ opacity: 0, height: 0 }}
               className="mb-16 overflow-hidden"
             >
-              <Card className="max-w-2xl mx-auto bg-white border-slate-100 p-10 rounded-[40px] shadow-xl">
+              <Card className="max-w-2xl mx-auto border border-white/70 p-10 rounded-[40px]" style={{background: 'rgba(255,255,255,0.80)', backdropFilter: 'blur(24px) saturate(180%)', WebkitBackdropFilter: 'blur(24px) saturate(180%)', boxShadow: '0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.95)'}}>
                 {submitted ? (
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -188,7 +188,7 @@ export default function Reviews() {
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="h-full bg-white border-slate-100 p-8 relative rounded-[40px] shadow-sm hover:shadow-xl transition-all duration-500 group">
+                <Card className="h-full border border-white/70 p-8 relative rounded-[40px] hover:shadow-xl transition-all duration-500 group" style={{background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)', boxShadow: '0 4px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9)'}}>
                   <Quote className="absolute top-8 right-8 w-12 h-12 text-[#8B2635]/5 group-hover:text-[#8B2635]/10 transition-colors" />
                   
                   {review.badge && (
