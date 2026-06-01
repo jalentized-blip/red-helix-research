@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { markPromoAsUsed } from '@/components/utils/cart';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Check, Mail, Package } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -27,6 +28,9 @@ export default function PaymentCompleted() {
       const promo = localStorage.getItem('rdr_promo');
       if (promo) {
         markPromoAsUsed(promo);
+        // Also increment DB used_count — safety net in case checkout paths missed it
+        const orderNum = (order && order !== 'null') ? order : (localStorage.getItem('lastOrderNumber') || '');
+        base44.functions.invoke('validateOrder', { action: 'mark_promo_used', code: promo, orderNumber: orderNum }).catch(() => {});
       }
     } catch (_) {}
 

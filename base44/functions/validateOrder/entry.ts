@@ -317,10 +317,15 @@ Deno.serve(async (req) => {
 
         // Increment DB PromoCode used_count if applicable
         try {
-          const pcRecords = await base44.asServiceRole.entities.PromoCode.filter({ code });
-          const pc = pcRecords && Array.isArray(pcRecords) ? pcRecords[0] : null;
+          const allPcs = await base44.asServiceRole.entities.PromoCode.list();
+          const pc = Array.isArray(allPcs) ? allPcs.find(p => p.code?.toUpperCase() === code) : null;
           if (pc) {
-            await base44.asServiceRole.entities.PromoCode.update(pc.id, { used_count: (pc.used_count || 0) + 1 });
+            const newCount = (pc.used_count || 0) + 1;
+            await base44.asServiceRole.entities.PromoCode.update(pc.id, {
+              used_count: newCount,
+              // Auto-deactivate if max_uses reached
+              ...(pc.max_uses > 0 && newCount >= pc.max_uses ? { is_active: false } : {}),
+            });
             marked = true;
           }
         } catch (e) {
