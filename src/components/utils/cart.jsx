@@ -354,8 +354,8 @@ export const validatePromoCodeAsync = async (code, base44) => {
   if (dbPromoCodeCache[upper]) return dbPromoCodeCache[upper];
   if (base44) {
     try {
-      const pcRecords = await base44.entities.PromoCode.filter({ code: upper });
-      const pc = pcRecords && Array.isArray(pcRecords) ? pcRecords[0] : null;
+      const allPromoCodes = await base44.entities.PromoCode.list();
+      const pc = Array.isArray(allPromoCodes) ? allPromoCodes.find(p => p.code?.toUpperCase() === upper) : null;
       if (pc && pc.is_active) {
         const expired = pc.expires_at && new Date(pc.expires_at) < new Date();
         const maxedOut = pc.max_uses > 0 && pc.used_count >= pc.max_uses;
@@ -369,7 +369,7 @@ export const validatePromoCodeAsync = async (code, base44) => {
           return promoData;
         }
       }
-    } catch { /* non-critical */ }
+    } catch (e) { console.warn('[PROMO] DB promo check failed:', e); }
   }
 
   // Check WelcomeDiscount codes directly from DB (covers admin-issued codes not in localStorage)
