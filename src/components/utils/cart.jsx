@@ -230,6 +230,8 @@ const CACHE_DURATION = 15000; // 15 second cache for faster pickup of new codes
 
 // Cache for DB-validated welcome discount codes (so getDiscountAmount can use them synchronously)
 let welcomeDiscountCache = {};
+// Cache for DB-managed PromoCode records (so sync getDiscountAmount works after async lookup)
+let dbPromoCodeCache = {};
 const WELCOME_PROMO_PATTERN = /^NEWRHR-[A-Z0-9]{6}$/i;
 const WELCOME_PROMO_FALLBACK = {
   discount: 0.10,
@@ -293,6 +295,8 @@ export const validatePromoCode = (code) => {
     if (isPromoExpired(STATIC_PROMO_CODES[upper])) return null;
     return STATIC_PROMO_CODES[upper];
   }
+  // Check cached DB promo codes (populated after async lookup)
+  if (dbPromoCodeCache[upper]) return dbPromoCodeCache[upper];
   // Check cached affiliate codes
   if (affiliateCodesCache && affiliateCodesCache[upper]) return affiliateCodesCache[upper];
   // Check welcome discount cache (populated after async validation)
@@ -347,6 +351,7 @@ export const validatePromoCodeAsync = async (code, base44) => {
     return dynamic[upper];
   }
   // Check DB-managed PromoCode entity
+  if (dbPromoCodeCache[upper]) return dbPromoCodeCache[upper];
   if (base44) {
     try {
       const pcRecords = await base44.entities.PromoCode.filter({ code: upper });
@@ -355,11 +360,13 @@ export const validatePromoCodeAsync = async (code, base44) => {
         const expired = pc.expires_at && new Date(pc.expires_at) < new Date();
         const maxedOut = pc.max_uses > 0 && pc.used_count >= pc.max_uses;
         if (!expired && !maxedOut) {
-          return {
+          const promoData = {
             discount: (pc.discount_percent || 0) / 100,
             label: pc.label || `${pc.discount_percent}% off`,
             singleVialsOnly: pc.single_vials_only || false,
           };
+          dbPromoCodeCache[upper] = promoData; // cache for sync getDiscountAmount
+          return promoData;
         }
       }
     } catch { /* non-critical */ }
