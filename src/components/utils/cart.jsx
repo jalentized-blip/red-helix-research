@@ -346,6 +346,25 @@ export const validatePromoCodeAsync = async (code, base44) => {
     welcomeDiscountCache[upper] = dynamic[upper];
     return dynamic[upper];
   }
+  // Check DB-managed PromoCode entity
+  if (base44) {
+    try {
+      const pcRecords = await base44.entities.PromoCode.filter({ code: upper });
+      const pc = pcRecords && Array.isArray(pcRecords) ? pcRecords[0] : null;
+      if (pc && pc.is_active) {
+        const expired = pc.expires_at && new Date(pc.expires_at) < new Date();
+        const maxedOut = pc.max_uses > 0 && pc.used_count >= pc.max_uses;
+        if (!expired && !maxedOut) {
+          return {
+            discount: (pc.discount_percent || 0) / 100,
+            label: pc.label || `${pc.discount_percent}% off`,
+            singleVialsOnly: pc.single_vials_only || false,
+          };
+        }
+      }
+    } catch { /* non-critical */ }
+  }
+
   // Check WelcomeDiscount codes directly from DB (covers admin-issued codes not in localStorage)
   // FAILSAFE: Try both the exact code and case-insensitive email match
   if (base44) {
