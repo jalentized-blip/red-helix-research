@@ -1,0 +1,65 @@
+{
+  "name": "PromoCode",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Promo code (stored and matched as uppercase)"
+    },
+    "discount_percent": {
+      "type": "number",
+      "description": "Discount percentage (e.g. 10 for 10% off)"
+    },
+    "label": {
+      "type": "string",
+      "description": "Display label shown to customer (e.g. '10% off summer sale')"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the code is currently active"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiration date/time (leave blank for no expiry)"
+    },
+    "max_uses": {
+      "type": "number",
+      "default": 0,
+      "description": "Maximum number of uses allowed. 0 = unlimited."
+    },
+    "used_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of times this code has been used (auto-incremented)"
+    },
+    "single_vials_only": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, discount applies only to single vials (not bundles)"
+    }
+  },
+  "required": [
+    "code",
+    "discount_percent"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

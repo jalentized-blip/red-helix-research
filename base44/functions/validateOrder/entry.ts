@@ -18,6 +18,8 @@ const SHIPPING_COST = 15.00;
 
 async function getAllPromoCodes(base44) {
   const codes = { ...STATIC_PROMO_CODES };
+
+  // Load affiliate codes
   try {
     const affiliates = await base44.asServiceRole.entities.Affiliate.list();
     if (affiliates && Array.isArray(affiliates)) {
@@ -33,6 +35,29 @@ async function getAllPromoCodes(base44) {
   } catch (e) {
     console.warn('Could not load affiliate codes from DB:', e);
   }
+
+  // Load DB-managed promo codes
+  try {
+    const dbCodes = await base44.asServiceRole.entities.PromoCode.list();
+    const now = new Date();
+    if (dbCodes && Array.isArray(dbCodes)) {
+      for (const pc of dbCodes) {
+        if (!pc.is_active) continue;
+        if (pc.expires_at && new Date(pc.expires_at) < now) continue;
+        if (pc.max_uses > 0 && pc.used_count >= pc.max_uses) continue;
+        codes[pc.code.toUpperCase()] = {
+          discount: (pc.discount_percent || 0) / 100,
+          label: pc.label || `${pc.discount_percent}% off`,
+          singleVialsOnly: pc.single_vials_only || false,
+          isDbPromo: true,
+          promoId: pc.id,
+        };
+      }
+    }
+  } catch (e) {
+    console.warn('Could not load DB promo codes:', e);
+  }
+
   return codes;
 }
 
@@ -280,13 +305,28 @@ Deno.serve(async (req) => {
         if (!code || code.length > 30) {
           return Response.json({ success: true, marked: false });
         }
-        const records = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code });
-        const record = records && Array.isArray(records) ? records[0] : null;
         let marked = false;
-        if (record && !record.used) {
-          await base44.asServiceRole.entities.WelcomeDiscount.update(record.id, { used: true, used_on_order: orderNumber });
+
+        // Mark WelcomeDiscount if applicable
+        const wdRecords = await base44.asServiceRole.entities.WelcomeDiscount.filter({ code });
+        const wdRecord = wdRecords && Array.isArray(wdRecords) ? wdRecords[0] : null;
+        if (wdRecord && !wdRecord.used) {
+          await base44.asServiceRole.entities.WelcomeDiscount.update(wdRecord.id, { used: true, used_on_order: orderNumber });
           marked = true;
         }
+
+        // Increment DB PromoCode used_count if applicable
+        try {
+          const pcRecords = await base44.asServiceRole.entities.PromoCode.filter({ code });
+          const pc = pcRecords && Array.isArray(pcRecords) ? pcRecords[0] : null;
+          if (pc) {
+            await base44.asServiceRole.entities.PromoCode.update(pc.id, { used_count: (pc.used_count || 0) + 1 });
+            marked = true;
+          }
+        } catch (e) {
+          console.warn('Could not update PromoCode used_count:', e);
+        }
+
         return Response.json({ success: true, marked });
       }
 
