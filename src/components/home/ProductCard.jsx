@@ -102,9 +102,9 @@ const ProductCard = React.memo(({ product, index = 0, onSelectStrength, isAuthen
         className="relative z-50 h-full cursor-pointer"
       >
       
-      <Card className={`group relative border border-white/70 hover:border-[#8B2635]/30 transition-all duration-500 overflow-hidden h-full rounded-3xl md:rounded-[40px] flex flex-col ${
+      <Card className={`group relative bg-white border-slate-100 hover:border-[#8B2635]/30 transition-all duration-500 overflow-hidden h-full shadow-sm hover:shadow-xl rounded-3xl md:rounded-[40px] flex flex-col ${
         isAdmin && localHidden ? 'opacity-60 grayscale' : ''
-      }`} style={{background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)', boxShadow: '0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)'}}>
+      }`}>
         {/* Animated Glow Overlay - Subtle Medical Pulse */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#dc2626]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         

@@ -82,7 +82,7 @@ export default function WhyTrustUs() {
               transition={{ delay: index * 0.1, duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full border border-white/70 hover:border-[#dc2626]/20 transition-all duration-500 p-10 rounded-[40px] group relative overflow-hidden" style={{background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)', boxShadow: '0 4px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9)'}}>
+              <Card className="h-full bg-slate-50 border-slate-100 hover:border-[#dc2626]/30 transition-all duration-500 p-10 rounded-[40px] group relative overflow-hidden shadow-sm hover:shadow-xl">
                 <div className="absolute top-0 right-0 p-8 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity">
                   <point.icon size={120} />
                 </div>
@@ -118,8 +118,7 @@ export default function WhyTrustUs() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-8 md:mt-20 p-6 md:p-8 rounded-2xl md:rounded-[32px] flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 border border-white/70"
-          style={{background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)', boxShadow: '0 4px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9)'}}
+          className="mt-8 md:mt-20 p-6 md:p-8 bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[32px] flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 shadow-sm"
         >
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-white border border-slate-100 flex items-center justify-center shadow-sm">

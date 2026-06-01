@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* Compliance Column - Bright Clinical Box */}
           <div className="lg:col-span-6">
-          <div className="rounded-2xl md:rounded-[40px] p-5 md:p-10 relative overflow-hidden border border-white/70" style={{background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)', boxShadow: '0 4px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9)'}}>
+          <div className="bg-slate-50 border border-slate-100 rounded-2xl md:rounded-[40px] p-5 md:p-10 relative overflow-hidden shadow-sm">
               <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
                 <ShieldCheck className="w-32 h-32 text-[#8B2635]" />
               </div>
