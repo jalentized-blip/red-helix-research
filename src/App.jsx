@@ -13,6 +13,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 const KitInfo = React.lazy(() => import('./pages/KitInfo'));
 const SkuMismatchDashboard = React.lazy(() => import('./pages/SkuMismatchDashboard'));
 const AdminOrderReport = React.lazy(() => import('./pages/AdminOrderReport'));
+const AdminProductReport = React.lazy(() => import('./pages/AdminProductReport'));
 const AdminBannerManager = React.lazy(() => import('./pages/AdminBannerManager'));
 const WishList = React.lazy(() => import('./pages/WishList'));
 
@@ -74,6 +75,7 @@ const AuthenticatedApp = () => {
         <Route path="/WishList" element={<LayoutWrapper currentPageName="WishList"><WishList /></LayoutWrapper>} />
         <Route path="/SkuMismatchDashboard" element={<LayoutWrapper currentPageName="SkuMismatchDashboard"><SkuMismatchDashboard /></LayoutWrapper>} />
         <Route path="/AdminOrderReport" element={<LayoutWrapper currentPageName="AdminOrderReport"><AdminOrderReport /></LayoutWrapper>} />
+        <Route path="/AdminProductReport" element={<LayoutWrapper currentPageName="AdminProductReport"><AdminProductReport /></LayoutWrapper>} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>
