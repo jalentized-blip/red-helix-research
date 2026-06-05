@@ -1,0 +1,120 @@
+{
+  "name": "GroupBuyTest",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Display title for the group buy (e.g. 'Barn BPC-157 5mg Batch #XYZ')"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "funded",
+        "testing",
+        "completed",
+        "cancelled"
+      ],
+      "default": "open",
+      "description": "Current status of the group buy"
+    },
+    "vendor_name": {
+      "type": "string",
+      "description": "Vendor / manufacturer name"
+    },
+    "peptide_name": {
+      "type": "string",
+      "description": "Peptide compound name"
+    },
+    "peptide_strength": {
+      "type": "string",
+      "description": "Label claim / dosage (e.g. 5mg, 10mg)"
+    },
+    "batch_number": {
+      "type": "string",
+      "description": "Batch or lot number"
+    },
+    "test_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Types of tests requested: purity, sterility, heavy_metals, endotoxin, ph, vacuum"
+    },
+    "total_cost": {
+      "type": "number",
+      "description": "Total cost of the test in USD"
+    },
+    "cost_per_participant": {
+      "type": "number",
+      "description": "Cost per participant in USD"
+    },
+    "max_participants": {
+      "type": "number",
+      "description": "Maximum number of participants allowed"
+    },
+    "current_participants": {
+      "type": "number",
+      "default": 0,
+      "description": "Current number of confirmed participants"
+    },
+    "escrow_balance_cents": {
+      "type": "number",
+      "default": 0,
+      "description": "Total funds currently held in escrow (cents)"
+    },
+    "cutoff_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Deadline to join the group buy"
+    },
+    "payment_deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "Deadline to submit payment"
+    },
+    "results_public": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether results will be made public"
+    },
+    "organizer_name": {
+      "type": "string",
+      "description": "Name / alias to appear on COA"
+    },
+    "organizer_social": {
+      "type": "string",
+      "description": "Organizer social media handle"
+    },
+    "organizer_platform": {
+      "type": "string",
+      "enum": [
+        "Discord",
+        "Telegram",
+        "Reddit",
+        "Facebook",
+        "Other"
+      ],
+      "description": "Platform for the organizer social handle"
+    },
+    "organizer_email": {
+      "type": "string",
+      "description": "Organizer contact email (private)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Additional notes about this group buy"
+    },
+    "coa_url": {
+      "type": "string",
+      "description": "URL to results / COA once completed"
+    }
+  },
+  "required": [
+    "vendor_name",
+    "peptide_name",
+    "peptide_strength",
+    "test_types",
+    "cutoff_date"
+  ]
+}

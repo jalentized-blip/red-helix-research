@@ -1,0 +1,55 @@
+{
+  "name": "GroupBuyEscrow",
+  "type": "object",
+  "properties": {
+    "group_buy_id": {
+      "type": "string",
+      "description": "ID of the GroupBuyTest"
+    },
+    "participant_name": {
+      "type": "string",
+      "description": "Name/alias of the contributor"
+    },
+    "participant_email": {
+      "type": "string",
+      "description": "Email of the contributor"
+    },
+    "amount_cents": {
+      "type": "number",
+      "description": "Amount paid in cents"
+    },
+    "square_payment_id": {
+      "type": "string",
+      "description": "Square payment ID for reference"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "held",
+        "released_to_lab",
+        "refunded"
+      ],
+      "default": "held",
+      "description": "Current status of the escrow contribution"
+    },
+    "released_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When funds were released to lab"
+    },
+    "refunded_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When funds were refunded"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Admin notes"
+    }
+  },
+  "required": [
+    "group_buy_id",
+    "participant_email",
+    "amount_cents"
+  ]
+}

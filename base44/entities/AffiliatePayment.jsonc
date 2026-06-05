@@ -1,0 +1,61 @@
+{
+  "name": "AffiliatePayment",
+  "type": "object",
+  "properties": {
+    "affiliate_id": {
+      "type": "string",
+      "description": "Affiliate entity ID"
+    },
+    "affiliate_email": {
+      "type": "string",
+      "description": "Affiliate email"
+    },
+    "affiliate_name": {
+      "type": "string",
+      "description": "Affiliate name"
+    },
+    "affiliate_code": {
+      "type": "string",
+      "description": "Affiliate code"
+    },
+    "order_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Order IDs included in this payout"
+    },
+    "order_numbers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Order numbers included in this payout"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Total commission amount paid"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "paid"
+      ],
+      "default": "paid",
+      "description": "Payment status"
+    },
+    "paid_by": {
+      "type": "string",
+      "description": "Admin email who processed the payment"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Payment notes (e.g. PayPal transaction ID)"
+    }
+  },
+  "required": [
+    "affiliate_id",
+    "affiliate_email",
+    "amount"
+  ]
+}

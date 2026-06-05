@@ -1,0 +1,79 @@
+{
+  "name": "PlaidFraudAlert",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User associated with alert"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Order number"
+    },
+    "risk_score": {
+      "type": "number",
+      "description": "Risk score (0-100)"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Risk level"
+    },
+    "alert_type": {
+      "type": "string",
+      "enum": [
+        "multiple_failures",
+        "unusual_amount",
+        "velocity",
+        "ip_mismatch",
+        "account_takeover",
+        "synthetic_identity"
+      ],
+      "description": "Type of fraud alert"
+    },
+    "details": {
+      "type": "string",
+      "description": "Detailed alert information (JSON)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "investigating"
+      ],
+      "default": "pending",
+      "description": "Review status"
+    },
+    "reviewed_by": {
+      "type": "string",
+      "description": "Admin who reviewed"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When reviewed"
+    },
+    "action_taken": {
+      "type": "string",
+      "description": "Action taken on alert"
+    }
+  },
+  "required": [
+    "user_email",
+    "risk_score",
+    "risk_level",
+    "alert_type"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

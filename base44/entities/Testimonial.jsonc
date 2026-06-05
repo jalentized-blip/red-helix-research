@@ -1,0 +1,32 @@
+{
+  "name": "Testimonial",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Review content"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Customer's name"
+    },
+    "author_email": {
+      "type": "string",
+      "description": "Customer's email (for verification)"
+    },
+    "badge": {
+      "type": "string",
+      "description": "Badge text (e.g., 'Fast Shipping', 'Repeat Customer')"
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Admin approval status"
+    }
+  },
+  "required": [
+    "text",
+    "author_name",
+    "author_email"
+  ]
+}

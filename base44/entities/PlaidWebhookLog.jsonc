@@ -1,0 +1,48 @@
+{
+  "name": "PlaidWebhookLog",
+  "type": "object",
+  "properties": {
+    "webhook_type": {
+      "type": "string",
+      "description": "Type of webhook (TRANSFER, ITEM, AUTH)"
+    },
+    "webhook_code": {
+      "type": "string",
+      "description": "Specific webhook code"
+    },
+    "item_id": {
+      "type": "string",
+      "description": "Plaid item ID"
+    },
+    "transfer_id": {
+      "type": "string",
+      "description": "Transfer ID if applicable"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status from webhook"
+    },
+    "payload": {
+      "type": "string",
+      "description": "Full webhook payload (JSON string)"
+    },
+    "processed": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether webhook was successfully processed"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message if processing failed"
+    }
+  },
+  "required": [
+    "webhook_type",
+    "webhook_code"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

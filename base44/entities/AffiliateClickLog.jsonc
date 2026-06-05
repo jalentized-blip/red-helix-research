@@ -1,0 +1,29 @@
+{
+  "name": "AffiliateClickLog",
+  "type": "object",
+  "properties": {
+    "affiliate_code": {
+      "type": "string",
+      "description": "Affiliate code clicked"
+    },
+    "affiliate_id": {
+      "type": "string",
+      "description": "Affiliate entity ID"
+    },
+    "destination_page": {
+      "type": "string",
+      "description": "Page the link pointed to (e.g. Products, Home, ProductBPC157)"
+    },
+    "referrer": {
+      "type": "string",
+      "description": "HTTP referrer if available"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser user agent"
+    }
+  },
+  "required": [
+    "affiliate_code"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "FinancialConsent",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User's email address"
+    },
+    "consent_type": {
+      "type": "string",
+      "enum": [
+        "plaid_ach",
+        "payment_processing",
+        "financial_data_storage"
+      ],
+      "description": "Type of financial consent"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user has given consent"
+    },
+    "consent_text": {
+      "type": "string",
+      "description": "Full text of consent agreement"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "IP address at time of consent"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser user agent"
+    },
+    "consent_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When consent was given"
+    },
+    "withdrawal_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When consent was withdrawn (if applicable)"
+    }
+  },
+  "required": [
+    "user_email",
+    "consent_type",
+    "consent_given"
+  ]
+}

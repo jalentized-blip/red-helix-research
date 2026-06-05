@@ -1,0 +1,33 @@
+{
+  "name": "AdminStatus",
+  "type": "object",
+  "properties": {
+    "admin_email": {
+      "type": "string",
+      "description": "Email of the admin"
+    },
+    "admin_name": {
+      "type": "string",
+      "description": "Name of the admin"
+    },
+    "is_online": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the admin is currently online"
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the admin was seen"
+    }
+  },
+  "required": [
+    "admin_email",
+    "admin_name"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

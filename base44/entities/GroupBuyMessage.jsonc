@@ -1,0 +1,27 @@
+{
+  "name": "GroupBuyMessage",
+  "type": "object",
+  "properties": {
+    "group_buy_id": {
+      "type": "string",
+      "description": "ID of the GroupBuyTest"
+    },
+    "sender_email": {
+      "type": "string",
+      "description": "Email of sender"
+    },
+    "sender_name": {
+      "type": "string",
+      "description": "Display name of sender"
+    },
+    "message": {
+      "type": "string",
+      "description": "Chat message content"
+    }
+  },
+  "required": [
+    "group_buy_id",
+    "sender_email",
+    "message"
+  ]
+}

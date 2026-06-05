@@ -1,0 +1,52 @@
+{
+  "name": "GroupBuyParticipant",
+  "type": "object",
+  "properties": {
+    "group_buy_id": {
+      "type": "string",
+      "description": "ID of the GroupBuyTest"
+    },
+    "email": {
+      "type": "string",
+      "description": "Participant contact email"
+    },
+    "name": {
+      "type": "string",
+      "description": "Participant display name or alias"
+    },
+    "social_handle": {
+      "type": "string",
+      "description": "Participant social media handle (optional)"
+    },
+    "social_platform": {
+      "type": "string",
+      "enum": [
+        "Discord",
+        "Telegram",
+        "Reddit",
+        "Facebook",
+        "Other"
+      ],
+      "description": "Social platform"
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "refunded"
+      ],
+      "default": "pending",
+      "description": "Payment status"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Any notes from the participant"
+    }
+  },
+  "required": [
+    "group_buy_id",
+    "email",
+    "name"
+  ]
+}

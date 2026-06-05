@@ -1,0 +1,68 @@
+{
+  "name": "PlaidComplianceReport",
+  "type": "object",
+  "properties": {
+    "report_type": {
+      "type": "string",
+      "enum": [
+        "data_retention",
+        "encryption_audit",
+        "api_usage",
+        "consent_compliance",
+        "data_integrity"
+      ],
+      "description": "Type of compliance report"
+    },
+    "report_period_start": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Report period start"
+    },
+    "report_period_end": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Report period end"
+    },
+    "total_records_reviewed": {
+      "type": "number",
+      "description": "Number of records reviewed"
+    },
+    "issues_found": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of compliance issues"
+    },
+    "findings": {
+      "type": "string",
+      "description": "Detailed findings (JSON)"
+    },
+    "recommendations": {
+      "type": "string",
+      "description": "Recommended actions"
+    },
+    "compliance_score": {
+      "type": "number",
+      "description": "Overall compliance score (0-100)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generated",
+        "reviewed",
+        "action_required"
+      ],
+      "default": "generated",
+      "description": "Report status"
+    }
+  },
+  "required": [
+    "report_type",
+    "report_period_start",
+    "report_period_end"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

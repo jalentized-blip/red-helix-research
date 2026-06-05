@@ -1,0 +1,50 @@
+{
+  "name": "ForumThread",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Thread title"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "general",
+        "research",
+        "protocols",
+        "safety",
+        "results"
+      ],
+      "description": "Forum category"
+    },
+    "content": {
+      "type": "string",
+      "description": "Thread description/content"
+    },
+    "replies": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of replies"
+    },
+    "views": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of views"
+    },
+    "is_pinned": {
+      "type": "boolean",
+      "default": false,
+      "description": "Pin thread to top"
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "content"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

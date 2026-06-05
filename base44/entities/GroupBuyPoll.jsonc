@@ -1,0 +1,39 @@
+{
+  "name": "GroupBuyPoll",
+  "type": "object",
+  "properties": {
+    "group_buy_id": {
+      "type": "string",
+      "description": "ID of the GroupBuyTest"
+    },
+    "question": {
+      "type": "string",
+      "description": "Poll question"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Poll answer options"
+    },
+    "votes": {
+      "type": "object",
+      "description": "Map of option index to array of voter emails"
+    },
+    "is_closed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether voting is closed"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Email of the organizer who created the poll"
+    }
+  },
+  "required": [
+    "group_buy_id",
+    "question",
+    "options"
+  ]
+}

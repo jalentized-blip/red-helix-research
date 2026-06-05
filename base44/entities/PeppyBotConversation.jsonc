@@ -1,0 +1,32 @@
+{
+  "name": "PeppyBotConversation",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique session ID for the user's conversation"
+    },
+    "message": {
+      "type": "string",
+      "description": "The message content"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "user",
+        "assistant"
+      ],
+      "description": "Who sent the message"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the message was sent"
+    }
+  },
+  "required": [
+    "session_id",
+    "message",
+    "role"
+  ]
+}

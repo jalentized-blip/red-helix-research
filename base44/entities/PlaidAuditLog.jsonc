@@ -1,0 +1,60 @@
+{
+  "name": "PlaidAuditLog",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "token_exchange",
+        "payment_creation",
+        "token_revocation",
+        "webhook_received",
+        "data_deletion",
+        "access_token_refresh",
+        "manual_review"
+      ],
+      "description": "Action performed"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email (hashed if sensitive)"
+    },
+    "admin_email": {
+      "type": "string",
+      "description": "Admin who performed action (if applicable)"
+    },
+    "plaid_item_id": {
+      "type": "string",
+      "description": "Plaid item ID"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Order number if applicable"
+    },
+    "success": {
+      "type": "boolean",
+      "description": "Whether action succeeded"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Error if failed"
+    },
+    "metadata": {
+      "type": "string",
+      "description": "Additional metadata (JSON)"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "IP address of request"
+    }
+  },
+  "required": [
+    "action",
+    "success"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

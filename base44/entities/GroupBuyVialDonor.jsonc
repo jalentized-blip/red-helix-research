@@ -1,0 +1,41 @@
+{
+  "name": "GroupBuyVialDonor",
+  "type": "object",
+  "properties": {
+    "group_buy_id": {
+      "type": "string",
+      "description": "ID of the GroupBuyTest"
+    },
+    "donor_name": {
+      "type": "string",
+      "description": "Name of the vial donor"
+    },
+    "donor_email": {
+      "type": "string",
+      "description": "Email of the donor"
+    },
+    "vial_label": {
+      "type": "string",
+      "description": "Label or description of the vial (e.g. BPC-157 5mg, batch XYZ)"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 1,
+      "description": "Number of vials donated"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Any additional notes"
+    },
+    "confirmed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the organizer has confirmed receipt"
+    }
+  },
+  "required": [
+    "group_buy_id",
+    "donor_name",
+    "vial_label"
+  ]
+}

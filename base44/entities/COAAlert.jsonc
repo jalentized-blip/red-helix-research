@@ -1,0 +1,27 @@
+{
+  "name": "COAAlert",
+  "type": "object",
+  "properties": {
+    "coa_id": {
+      "type": "string",
+      "description": "ID of the COA that needs approval"
+    },
+    "peptide_name": {
+      "type": "string",
+      "description": "Name of the peptide for quick reference"
+    },
+    "uploaded_by": {
+      "type": "string",
+      "description": "Email of the user who uploaded"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the admin has read this alert"
+    }
+  },
+  "required": [
+    "coa_id",
+    "peptide_name"
+  ]
+}

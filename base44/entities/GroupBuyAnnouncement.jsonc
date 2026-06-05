@@ -1,0 +1,27 @@
+{
+  "name": "GroupBuyAnnouncement",
+  "type": "object",
+  "properties": {
+    "group_buy_id": {
+      "type": "string",
+      "description": "ID of the GroupBuyTest"
+    },
+    "title": {
+      "type": "string",
+      "description": "Announcement title"
+    },
+    "body": {
+      "type": "string",
+      "description": "Announcement body"
+    },
+    "posted_by": {
+      "type": "string",
+      "description": "Email of organizer who posted"
+    }
+  },
+  "required": [
+    "group_buy_id",
+    "title",
+    "body"
+  ]
+}

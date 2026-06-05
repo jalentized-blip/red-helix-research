@@ -1,0 +1,45 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "properties": {
+    "admin_email": {
+      "type": "string",
+      "description": "Email of the admin receiving the notification"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "new_session",
+        "new_message"
+      ],
+      "description": "Type of notification"
+    },
+    "conversation_id": {
+      "type": "string",
+      "description": "ID of the related conversation"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Name of the customer"
+    },
+    "customer_email": {
+      "type": "string",
+      "description": "Email of the customer"
+    },
+    "message_preview": {
+      "type": "string",
+      "description": "Preview of the message"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the notification has been read"
+    }
+  },
+  "required": [
+    "admin_email",
+    "type",
+    "conversation_id",
+    "customer_name"
+  ]
+}

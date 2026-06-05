@@ -1,0 +1,57 @@
+{
+  "name": "ConversationHistory",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "Unique identifier for the conversation session"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title/name of the conversation"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "Array of conversation messages"
+    },
+    "voice_id": {
+      "type": "string",
+      "description": "ElevenLabs voice ID used for this conversation",
+      "default": "21m00Tcm4TlvDq8ikWAM"
+    },
+    "last_message_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the last message"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "title",
+    "messages"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

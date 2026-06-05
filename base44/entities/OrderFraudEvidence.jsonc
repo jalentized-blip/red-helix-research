@@ -1,0 +1,136 @@
+{
+  "name": "OrderFraudEvidence",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "string",
+      "description": "Order number"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Order entity ID"
+    },
+    "customer_email": {
+      "type": "string",
+      "description": "Customer email"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "IP address at time of purchase"
+    },
+    "ip_country": {
+      "type": "string",
+      "description": "Country resolved from IP"
+    },
+    "ip_city": {
+      "type": "string",
+      "description": "City resolved from IP"
+    },
+    "ip_isp": {
+      "type": "string",
+      "description": "ISP from IP lookup"
+    },
+    "ip_is_vpn": {
+      "type": "boolean",
+      "description": "Whether IP is a known VPN/proxy"
+    },
+    "device_fingerprint": {
+      "type": "string",
+      "description": "Browser device fingerprint hash"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser user agent string"
+    },
+    "screen_resolution": {
+      "type": "string",
+      "description": "Screen resolution"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "Browser timezone"
+    },
+    "language": {
+      "type": "string",
+      "description": "Browser language"
+    },
+    "consent_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When user accepted no-refund policy"
+    },
+    "consent_version": {
+      "type": "string",
+      "description": "Version of consent agreement"
+    },
+    "no_refund_policy_accepted": {
+      "type": "boolean",
+      "description": "User accepted no-refund policy"
+    },
+    "research_use_accepted": {
+      "type": "boolean",
+      "description": "User accepted research use disclaimer"
+    },
+    "billing_shipping_match": {
+      "type": "boolean",
+      "description": "Billing and shipping addresses match"
+    },
+    "billing_ip_country_match": {
+      "type": "boolean",
+      "description": "Billing country matches IP country"
+    },
+    "risk_score": {
+      "type": "number",
+      "description": "Calculated fraud risk score 0-100"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Risk level"
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of triggered risk flags"
+    },
+    "payment_method": {
+      "type": "string",
+      "description": "Payment method used"
+    },
+    "order_amount": {
+      "type": "number",
+      "description": "Order total"
+    },
+    "session_duration_seconds": {
+      "type": "number",
+      "description": "How long user was on site before checkout"
+    },
+    "pages_visited": {
+      "type": "number",
+      "description": "Number of pages visited in session"
+    },
+    "prior_orders_count": {
+      "type": "number",
+      "description": "How many prior completed orders this email has"
+    },
+    "prior_chargebacks_count": {
+      "type": "number",
+      "description": "Prior chargeback flags for this email"
+    },
+    "raw_evidence_json": {
+      "type": "string",
+      "description": "Full JSON blob of all evidence for dispute submission"
+    }
+  },
+  "required": [
+    "order_number",
+    "customer_email"
+  ]
+}

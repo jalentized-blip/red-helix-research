@@ -1,0 +1,27 @@
+{
+  "name": "COA",
+  "type": "object",
+  "properties": {
+    "product_name": {
+      "type": "string",
+      "description": "Name of the product this COA is for"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL to the COA certificate image"
+    },
+    "batch_number": {
+      "type": "string",
+      "description": "Batch number for this COA"
+    },
+    "test_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the product was tested"
+    }
+  },
+  "required": [
+    "product_name",
+    "image_url"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "UserCOA",
+  "type": "object",
+  "properties": {
+    "peptide_name": {
+      "type": "string",
+      "description": "Name of the peptide"
+    },
+    "peptide_strength": {
+      "type": "string",
+      "description": "Strength/dosage of the peptide (e.g., 5mg, 10mg)"
+    },
+    "coa_image_url": {
+      "type": "string",
+      "description": "URL to the uploaded COA image or PDF"
+    },
+    "coa_link": {
+      "type": "string",
+      "description": "Direct link to the COA document"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the COA has been verified"
+    },
+    "uploaded_by": {
+      "type": "string",
+      "description": "Email of the user who uploaded"
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the COA has been approved by an admin to display publicly"
+    },
+    "is_from_barn": {
+      "type": "boolean",
+      "description": "Whether this COA is from Barn"
+    },
+    "batch_number": {
+      "type": "string",
+      "description": "Batch number for the COA (optional)"
+    }
+  },
+  "required": [
+    "peptide_name",
+    "peptide_strength",
+    "coa_image_url"
+  ]
+}

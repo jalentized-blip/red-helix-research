@@ -1,0 +1,31 @@
+{
+  "name": "SupportMessage",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "ID of the conversation"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message content"
+    },
+    "sender_role": {
+      "type": "string",
+      "enum": [
+        "customer",
+        "admin"
+      ],
+      "description": "Who sent the message"
+    },
+    "sender_name": {
+      "type": "string",
+      "description": "Name of the sender"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "message",
+    "sender_role"
+  ]
+}

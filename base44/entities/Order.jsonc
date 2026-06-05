@@ -197,21 +197,7 @@
     "total_amount"
   ],
   "rls": {
-    "create": {
-      "$or": [
-        {
-          "data.customer_email": "{{user.email}}"
-        },
-        {
-          "created_by": "{{user.email}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
-      ]
-    },
+    "create": null,
     "read": {
       "$or": [
         {

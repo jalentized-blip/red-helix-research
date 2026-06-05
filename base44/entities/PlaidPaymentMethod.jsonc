@@ -1,0 +1,65 @@
+{
+  "name": "PlaidPaymentMethod",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User's email address"
+    },
+    "plaid_item_id": {
+      "type": "string",
+      "description": "Plaid item ID"
+    },
+    "institution_name": {
+      "type": "string",
+      "description": "Bank name"
+    },
+    "account_name": {
+      "type": "string",
+      "description": "Account nickname"
+    },
+    "account_mask": {
+      "type": "string",
+      "description": "Last 4 digits of account number"
+    },
+    "account_type": {
+      "type": "string",
+      "enum": [
+        "checking",
+        "savings"
+      ],
+      "description": "Type of bank account"
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false,
+      "description": "Default payment method"
+    },
+    "is_verified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Account ownership verified"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "verification_pending",
+        "error"
+      ],
+      "default": "active",
+      "description": "Payment method status"
+    },
+    "last_used": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time this payment method was used"
+    }
+  },
+  "required": [
+    "user_email",
+    "plaid_item_id",
+    "institution_name"
+  ]
+}
