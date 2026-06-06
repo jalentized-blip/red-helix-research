@@ -15,6 +15,7 @@ const SkuMismatchDashboard = React.lazy(() => import('./pages/SkuMismatchDashboa
 const AdminOrderReport = React.lazy(() => import('./pages/AdminOrderReport'));
 const AdminProductReport = React.lazy(() => import('./pages/AdminProductReport'));
 const AdminDataExport = React.lazy(() => import('./pages/AdminDataExport'));
+const AdminMigrationKit = React.lazy(() => import('./pages/AdminMigrationKit'));
 const AdminBannerManager = React.lazy(() => import('./pages/AdminBannerManager'));
 const WishList = React.lazy(() => import('./pages/WishList'));
 
@@ -78,6 +79,7 @@ const AuthenticatedApp = () => {
         <Route path="/AdminOrderReport" element={<LayoutWrapper currentPageName="AdminOrderReport"><AdminOrderReport /></LayoutWrapper>} />
         <Route path="/AdminProductReport" element={<LayoutWrapper currentPageName="AdminProductReport"><AdminProductReport /></LayoutWrapper>} />
         <Route path="/AdminDataExport" element={<LayoutWrapper currentPageName="AdminDataExport"><AdminDataExport /></LayoutWrapper>} />
+        <Route path="/AdminMigrationKit" element={<LayoutWrapper currentPageName="AdminMigrationKit"><AdminMigrationKit /></LayoutWrapper>} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>
