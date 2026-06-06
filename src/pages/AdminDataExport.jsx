@@ -39,8 +39,10 @@ export default function AdminDataExport() {
     setStatus(null);
     setMessage('');
     try {
-      const response = await base44.functions.invoke('exportFullData', {}, { responseType: 'arraybuffer' });
-      const blob = new Blob([response.data], { type: 'application/json' });
+      const response = await base44.functions.invoke('exportFullData', {});
+      // response.data is already a parsed JS object from the SDK
+      const json = JSON.stringify(response.data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
