@@ -16,6 +16,7 @@ const AdminOrderReport = React.lazy(() => import('./pages/AdminOrderReport'));
 const AdminProductReport = React.lazy(() => import('./pages/AdminProductReport'));
 const AdminDataExport = React.lazy(() => import('./pages/AdminDataExport'));
 const AdminMigrationKit = React.lazy(() => import('./pages/AdminMigrationKit'));
+const AdminPaymentAssetsExport = React.lazy(() => import('./pages/AdminPaymentAssetsExport'));
 const AdminBannerManager = React.lazy(() => import('./pages/AdminBannerManager'));
 const WishList = React.lazy(() => import('./pages/WishList'));
 
@@ -80,6 +81,7 @@ const AuthenticatedApp = () => {
         <Route path="/AdminProductReport" element={<LayoutWrapper currentPageName="AdminProductReport"><AdminProductReport /></LayoutWrapper>} />
         <Route path="/AdminDataExport" element={<LayoutWrapper currentPageName="AdminDataExport"><AdminDataExport /></LayoutWrapper>} />
         <Route path="/AdminMigrationKit" element={<LayoutWrapper currentPageName="AdminMigrationKit"><AdminMigrationKit /></LayoutWrapper>} />
+        <Route path="/AdminPaymentAssetsExport" element={<LayoutWrapper currentPageName="AdminPaymentAssetsExport"><AdminPaymentAssetsExport /></LayoutWrapper>} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>
