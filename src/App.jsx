@@ -18,6 +18,7 @@ const AdminDataExport = React.lazy(() => import('./pages/AdminDataExport'));
 const AdminMigrationKit = React.lazy(() => import('./pages/AdminMigrationKit'));
 const AdminPaymentAssetsExport = React.lazy(() => import('./pages/AdminPaymentAssetsExport'));
 const AdminCOAExport = React.lazy(() => import('./pages/AdminCOAExport'));
+const AdminCustomerExport = React.lazy(() => import('./pages/AdminCustomerExport'));
 const AdminBannerManager = React.lazy(() => import('./pages/AdminBannerManager'));
 const WishList = React.lazy(() => import('./pages/WishList'));
 
@@ -84,6 +85,7 @@ const AuthenticatedApp = () => {
         <Route path="/AdminMigrationKit" element={<LayoutWrapper currentPageName="AdminMigrationKit"><AdminMigrationKit /></LayoutWrapper>} />
         <Route path="/AdminPaymentAssetsExport" element={<LayoutWrapper currentPageName="AdminPaymentAssetsExport"><AdminPaymentAssetsExport /></LayoutWrapper>} />
         <Route path="/AdminCOAExport" element={<LayoutWrapper currentPageName="AdminCOAExport"><AdminCOAExport /></LayoutWrapper>} />
+        <Route path="/AdminCustomerExport" element={<LayoutWrapper currentPageName="AdminCustomerExport"><AdminCustomerExport /></LayoutWrapper>} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>
